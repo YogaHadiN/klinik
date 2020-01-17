@@ -111,13 +111,13 @@ class HomeController extends Controller
 		$asuransi_id = $antrianperiksa->asuransi_id;
 		$pasien      = Pasien::find($antrianperiksa->pasien_id);
 		$aturans     = AturanMinum::orderBy('id', 'desc')->get()->take(10);
-		$aturanlist  = AturanMinum::lists('aturan_minum', 'id')->all();
-		$stafs       = Staf::lists('nama', 'id')->all();
-		$signa       = Signa::lists('signa', 'id')->all();
+		$aturanlist  = AturanMinum::pluck('aturan_minum', 'id')->all();
+		$stafs       = Staf::pluck('nama', 'id')->all();
+		$signa       = Signa::pluck('signa', 'id')->all();
 		$signas      = Signa::orderBy('id', 'desc')->get()->take(10);
-		$diagnosa    = Diagnosa::get()->lists('diagnosa_icd', 'id')->all();
+		$diagnosa    = Diagnosa::get()->pluck('diagnosa_icd', 'id')->all();
 		$icd10s      = Icd10::all()->take(10);
-		$tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
+		$tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->get()->pluck('jenis_tarif_list', 'tarif_jual')->all();
 		$keterangan  = json_decode(Asuransi::find(32)->umum, true);
    		// return $tindakans;
 		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
@@ -385,7 +385,7 @@ class HomeController extends Controller
 		$asuransi_id = $periksa->asuransi_id;
 		$tarif = Tarif::all();
 		$pasien = Pasien::find($periksa->pasien_id);
-   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
+   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->get()->pluck('jenis_tarif_list', 'tarif_jual')->all();
    		$transaksi = $periksa->transaksi;
 
    		$resepjson = json_encode($reseps);

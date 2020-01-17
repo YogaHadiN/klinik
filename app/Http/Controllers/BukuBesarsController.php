@@ -12,7 +12,7 @@ class BukuBesarsController extends Controller
 {
     public function index(){
 
-    	$coa_list = [ null => '-pilih-'] + Coa::lists('coa', 'id')->all();
+    	$coa_list = [ null => '-pilih-'] + Coa::pluck('coa', 'id')->all();
     	return view('buku_besars.index', compact('coa_list'));
     }
     public function show(){

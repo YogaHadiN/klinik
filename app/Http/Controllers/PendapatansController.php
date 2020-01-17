@@ -179,7 +179,7 @@ class PendapatansController extends Controller
 		return \Redirect::route('pendapatans.index');
 	}
     public function pembayaran_asuransi(){
-        $asuransi_list = [null => '-pilih-'] + Asuransi::lists('nama', 'id')->all();
+        $asuransi_list = [null => '-pilih-'] + Asuransi::pluck('nama', 'id')->all();
         $pembayarans   = PembayaranAsuransi::with('asuransi', 'coa')->latest()->paginate(10);
 		return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans'));
     }
@@ -247,7 +247,7 @@ class PendapatansController extends Controller
         $mulai       = Yoga::datePrep( Input::get('mulai') );
         $akhir       = Yoga::datePrep( Input::get('akhir') );
 
-        $kasList     = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->lists('coa', 'id')->all();
+        $kasList     = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->pluck('coa', 'id')->all();
         $pembayarans = $this->belumDibayar($mulai, $akhir, $asuransi_id);
 
 		/* return $pembayarans; */

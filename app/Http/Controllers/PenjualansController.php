@@ -30,8 +30,8 @@ class PenjualansController extends Controller
 	 */
 	public function index()
 	{
-		$mereks     = [null => '--pilih--'] + Merek::with('rak.formula')->get()->lists('merek', 'custid')->all();
-		$stafs      = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
+		$mereks     = [null => '--pilih--'] + Merek::with('rak.formula')->get()->pluck('merek', 'custid')->all();
+		$stafs      = [null => '- pilih -'] + Staf::pluck('nama', 'id')->all();
 		$nota_juals = NotaJual::with('penjualan.merek', 'staf', 'tipeJual')->latest()->paginate(10);
 
 		return view('penjualans.index', compact('mereks', 'stafs', 'suppliers', 'nota_juals'));
@@ -164,8 +164,8 @@ class PenjualansController extends Controller
     public function obat_buat_karyawan(){
 
 		$nota_juals = NotaJual::with('penjualan', 'tipeJual', 'staf')->where('tipe_jual_id', 1)->latest()->paginate(10);
-		$mereks = [null => '--pilih--'] + Merek::with('rak.formula')->get()->lists('merek', 'custid')->all();
-		$stafs = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
+		$mereks = [null => '--pilih--'] + Merek::with('rak.formula')->get()->pluck('merek', 'custid')->all();
+		$stafs = [null => '- pilih -'] + Staf::pluck('nama', 'id')->all();
         return view('penjualans.obat_buat_karyawan', compact('mereks', 'stafs', 'nota_juals'));
 
     }

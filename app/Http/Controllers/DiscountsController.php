@@ -25,7 +25,7 @@ class DiscountsController extends Controller
 		));
 	}
 	public function create(){
-		$jenisTarifList = [ null => '-Pilih-' ] + JenisTarif::lists('jenis_tarif', 'id')->all();
+		$jenisTarifList = [ null => '-Pilih-' ] + JenisTarif::pluck('jenis_tarif', 'id')->all();
 		return view('discounts.create', compact('jenisTarifList'));
 	}
 	public function delete($id){
@@ -42,7 +42,7 @@ class DiscountsController extends Controller
 	}
 
 	public function edit($id){
-		$jenisTarifList    = [ null => '-Pilih-' ] + JenisTarif::lists('jenis_tarif', 'id')->all();
+		$jenisTarifList    = [ null => '-Pilih-' ] + JenisTarif::pluck('jenis_tarif', 'id')->all();
 		$discount          = Discount::find($id);
 		$discAsuransis     = $discount->discountAsuransi;
 		$asuransis         = [];

@@ -40,7 +40,7 @@ class RumahSakitsController extends Controller
 			1 => 'Melayani'
 		];
 
-		$jenisRumahSakitOptions = array(null => '- Pilih Staf -') + JenisRumahSakit::lists('jenis_rumah_sakit', 'id')->all();
+		$jenisRumahSakitOptions = array(null => '- Pilih Staf -') + JenisRumahSakit::pluck('jenis_rumah_sakit', 'id')->all();
 		$tipeRumahSakitOptions = [
 			null => '- Pilih -',
 			'A' => 'A',
@@ -48,7 +48,7 @@ class RumahSakitsController extends Controller
 			'C' => 'C',
 			'D' => 'D'
 		];
-		$rayonOptions = array(null => '- Pilih Rayon -') + Rayon::lists('rayon', 'id')->all();
+		$rayonOptions = array(null => '- Pilih Rayon -') + Rayon::pluck('rayon', 'id')->all();
 
 		return view('rumahsakits.create', compact('jenisRumahSakitOptions','termasukBpjsOptions', 'tipeRumahSakitOptions', 'rayonOptions'));
 	}

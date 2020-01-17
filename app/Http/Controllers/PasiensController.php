@@ -189,7 +189,7 @@ class PasiensController extends Controller
 			'By' => 'By'
 			);
 
-		$asuransi = array('0' => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
+		$asuransi = array('0' => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
 
 		$jenis_peserta = array(
 
@@ -200,7 +200,7 @@ class PasiensController extends Controller
 			"A" => 'Anak'
 
 			);
-		$staf = array('0' => '- Pilih Staf -') + Staf::lists('nama', 'id')->all();
+		$staf = array('0' => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
 		$pasienSurvey = $this->pasienSurvey();
 		$poli = Yoga::poliList();
 		return view('pasiens.edit')

@@ -42,7 +42,7 @@ class SupplierBelanjasController extends Controller
 			'tube'  			=> 'tube'
 		];
 
-		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
+		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
 		$dijual_bebas = array(
                         null        => '- Pilih -',
@@ -50,7 +50,7 @@ class SupplierBelanjasController extends Controller
                         '1'         => 'Dijual Bebas'
                     );
 
-		$generik = array('0' => '- Pilih Generik -') + Generik::lists('generik', 'id')->all();
+		$generik = array('0' => '- Pilih Generik -') + Generik::pluck('generik', 'id')->all();
 
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
@@ -80,7 +80,7 @@ class SupplierBelanjasController extends Controller
 		$stafs        = Yoga::stafList();
 		$sumber_uang  = Yoga::sumberuang();
 		$pengeluarans = Pengeluaran::with('supplier', 'staf')->latest()->paginate(10);
-		$belanjaList  = [ null => '- Jenis Belanja -']  + Belanja::lists('belanja', 'id')->all();
+		$belanjaList  = [ null => '- Jenis Belanja -']  + Belanja::pluck('belanja', 'id')->all();
 		return view('suppliers.belanja_bukan_obat', compact('suppliers', 'stafs', 'belanjaList', 'pengeluarans', 'sumber_uang'));
     }
 }

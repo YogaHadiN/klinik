@@ -36,7 +36,7 @@ class SuppliersController extends Controller
 		$suppliers = Supplier::all();
 		$stafs = Yoga::stafList();
 
-		$belanjaList = [ null => '- Jenis Belanja -']  + Belanja::lists('belanja', 'id')->all();
+		$belanjaList = [ null => '- Jenis Belanja -']  + Belanja::pluck('belanja', 'id')->all();
 
 		return view('suppliers.index', compact('suppliers', 'stafs', 'belanjaList'));
 	}

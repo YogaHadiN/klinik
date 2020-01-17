@@ -151,7 +151,7 @@ class PengeluaransController extends Controller
 		}
 	}
 
-	public function lists() {
+	public function pluck() {
 		$mulai = Yoga::datePrep(Input::get('mulai'));
 		$akhir = Yoga::datePrep(Input::get('akhir'));
 
@@ -801,9 +801,9 @@ class PengeluaransController extends Controller
     }
     public function bayar_gaji_karyawan(){
 	
-        $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->where('id', 'not like', '110000')->lists('coa', 'id')->all();
+        $sumber_kas_pluck = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->where('id', 'not like', '110000')->pluck('coa', 'id')->all();
         $pembayarans = BayarGaji::latest()->paginate(10);
-        return view('pengeluarans.bayar_gaji_karyawan', compact(  'pembayarans' , 'sumber_kas_lists'));
+        return view('pengeluarans.bayar_gaji_karyawan', compact(  'pembayarans' , 'sumber_kas_pluck'));
     }
     
    public function bayar_gaji(){

@@ -87,9 +87,9 @@ class FormulasController extends Controller
 
 		} else {
 
-		$sediaan = [null=> '- pilih -'] + Sediaan::lists('sediaan', 'id')->all();
+		$sediaan = [null=> '- pilih -'] + Sediaan::pluck('sediaan', 'id')->all();
 
-		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
+		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
 		$dijual_bebas = array(
 	                    null        => '- Pilih -',
@@ -97,7 +97,7 @@ class FormulasController extends Controller
 	                    '1'         => 'Dijual Bebas'
 	                );
 
-		$generik = array(null => '- Pilih Generik -') + Generik::lists('generik', 'id')->all();
+		$generik = array(null => '- Pilih Generik -') + Generik::pluck('generik', 'id')->all();
 
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
@@ -485,7 +485,7 @@ class FormulasController extends Controller
                         '1'         => 'Dijual Bebas'
                     );
 
-		$generik = array( null => '- Pilih Generik -') + Generik::lists('generik', 'id')->all();
+		$generik = array( null => '- Pilih Generik -') + Generik::pluck('generik', 'id')->all();
 
 
 		$signas = Yoga::signa_list();

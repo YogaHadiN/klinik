@@ -26,8 +26,8 @@ class SopsController extends Controller
 	public function index($icd10, $diagnosa_id, $asuransi_id, $berat_badan_id)
 	{
    		$mereks = Merek::orderBy('id', 'desc')->get();
-   		$aturanlist = AturanMinum::lists('aturan_minum', 'id')->all();
-   		$signa = Signa::lists('signa', 'id')->all();
+   		$aturanlist = AturanMinum::pluck('aturan_minum', 'id')->all();
+   		$signa = Signa::pluck('signa', 'id')->all();
    		$asuransi = Asuransi::find($asuransi_id);
    		$berat_badan = BeratBadan::find($berat_badan_id);
    		$icd10 = Icd10::find($icd10);

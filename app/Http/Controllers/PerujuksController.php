@@ -129,7 +129,7 @@ class PerujuksController extends Controller
 
 		$confirm = Perujuk::create($data);
 		 if ($confirm) {
-			 $options =  Perujuk::lists('nama', 'id');
+			 $options =  Perujuk::pluck('nama', 'id');
 			 $temp = '<option value="">-pilih-</option>';
 			 foreach ($options as $k => $opt) {
 			 	$temp .= '<option value="' . $k . '">' . $opt . '</option>';

@@ -83,8 +83,8 @@ class DiagnosasController extends Controller
 	{
 		$diagnosa     = Diagnosa::find($id);
    		$mereks       = Merek::orderBy('id', 'desc')->get();
-   		$aturanlist   = AturanMinum::lists('aturan_minum', 'id')->all();
-   		$signa        = Signa::lists('signa', 'id')->all();
+   		$aturanlist   = AturanMinum::pluck('aturan_minum', 'id')->all();
+   		$signa        = Signa::pluck('signa', 'id')->all();
    		$asuransis    = Asuransi::all();
    		$berat_badans = BeratBadan::all();
    		$sops         = Sop::where('icd10_id', $diagnosa->icd10_id);

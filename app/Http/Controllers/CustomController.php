@@ -48,7 +48,7 @@ class CustomController extends Controller
 	{
 		$formula = Formula::find($id);
 		$fornas = Yoga::fornas();
-		$alternatif_fornas = array('0' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
+		$alternatif_fornas = array('0' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
 		return view('raks.create')
 			->withFormula($formula)
@@ -188,7 +188,7 @@ class CustomController extends Controller
 				break;				
 			}
 		}
-   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
+   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->all();
    		$reseps     = Yoga::masukLagi($periksa->terapii);
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
 

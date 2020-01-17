@@ -16,14 +16,14 @@ class PajaksController extends Controller
 		$query  = "select year(created_at) as tahun from penyusutans group by YEAR(created_at)";
 		$data = DB::select($query);
 
-		$lists = [];
+		$pluck = [];
 
 		foreach ($data as $d) {
 			$year = $d->tahun;
-			$lists[$d->tahun] = $d->tahun;
+			$pluck[$d->tahun] = $d->tahun;
 		}
 		return view('pajaks.amortisasi', compact(
-			'lists'
+			'pluck'
 		));
 		
 	}
@@ -111,14 +111,14 @@ class PajaksController extends Controller
 		$query  = "select year(created_at) as tahun from jurnal_umums group by YEAR(created_at)";
 		$data = DB::select($query);
 
-		$lists = [];
+		$pluck = [];
 
 		foreach ($data as $d) {
 			$year = $d->tahun;
-			$lists[$d->tahun] = $d->tahun;
+			$pluck[$d->tahun] = $d->tahun;
 		}
 		return view('pajaks.peredaranBruto', compact(
-			'lists'
+			'pluck'
 		));
 	}
 	

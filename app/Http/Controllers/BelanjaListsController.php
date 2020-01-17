@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class BelanjaListsController extends Controller
+class BelanjapluckController extends Controller
 {
 	public function index(){
 		return view('belanjalist.index');

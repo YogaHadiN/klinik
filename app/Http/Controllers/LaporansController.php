@@ -94,7 +94,7 @@ class LaporansController extends Controller
 
 
 
-		$pcare_submits =  PcareSubmit::lists('pcare_submit', 'id');
+		$pcare_submits =  PcareSubmit::pluck('pcare_submit', 'id');
 
 		return view('laporans.bpjs_tidak_terpakai', compact(
 			'pcare_submits',
@@ -157,7 +157,7 @@ class LaporansController extends Controller
 											->where('created_at', 'like', $tanggal .'%')
 											->get();
 
-		$pcare_submits =  PcareSubmit::lists('pcare_submit', 'id');
+		$pcare_submits =  PcareSubmit::pluck('pcare_submit', 'id');
 
 
 		$query = "SELECT ";
@@ -195,7 +195,7 @@ class LaporansController extends Controller
 
 	public function index()
 	{
-		$asuransis = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::lists('nama', 'id')->all();
+		$asuransis = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
 		$antriankasir = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
 		$antrianbelanja = FakturBelanja::where('submit', '0')->count();
@@ -1217,7 +1217,7 @@ class LaporansController extends Controller
 									->get();
 		$sms_gagal		= SmsGagal::where('created_at', 'like', $tanggal. '%')->get();
 		//return dd($sms_gagal->count());
-		$pcare_submits  = PcareSubmit::lists('pcare_submit', 'id');
+		$pcare_submits  = PcareSubmit::pluck('pcare_submit', 'id');
 		return view('laporans.sms_bpjs', compact(
 			'sms_kontak',
 			'sms_masuk',

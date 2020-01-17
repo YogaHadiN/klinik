@@ -119,9 +119,9 @@ class JurnalUmumsController extends Controller
 			['112001' => 'Persediaan Pulsa Go Pay'] +
 			['612345' => 'Biaya Operasional Gojek'] +
 			['120010' => 'Peralatan Bahan Bangunan'] +
-		Coa::whereIn('kelompok_coa_id', [5,6,8])->where('coa', 'not like', '%penyusutan%')->lists('coa', 'id')->all();
-		$pendapatanCoaList = [null => '-pilih-']+ Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
-        $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
+		Coa::whereIn('kelompok_coa_id', [5,6,8])->where('coa', 'not like', '%penyusutan%')->pluck('coa', 'id')->all();
+		$pendapatanCoaList = [null => '-pilih-']+ Coa::whereIn('kelompok_coa_id', [4,7])->pluck('coa', 'id')->all();
+        $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::pluck('kelompok_coa', 'id')->all();
 		return view('jurnal_umums.coa', compact(
 			'kelompokCoaList', 
 			'jurnalumums', 
@@ -369,7 +369,7 @@ class JurnalUmumsController extends Controller
          $c->coa             = $coa;
          $c->save();
 
-         return json_encode( [ null => '- pilih -' ] + Coa::lists('coa', 'id')->all() );
+         return json_encode( [ null => '- pilih -' ] + Coa::pluck('coa', 'id')->all() );
     }
     
     public function hapus_jurnals(){

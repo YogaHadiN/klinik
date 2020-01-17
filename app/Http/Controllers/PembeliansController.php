@@ -69,7 +69,7 @@ class PembeliansController extends Controller
 			'tube'  			=> 'tube'
 		];
 
-		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
+		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
 		$dijual_bebas = array(
                         null        => '- Pilih -',
@@ -77,7 +77,7 @@ class PembeliansController extends Controller
                         '1'         => 'Dijual Bebas'
                     );
 
-		$generik = array('0' => '- Pilih Generik -') + Generik::lists('generik', 'id')->all();
+		$generik = array('0' => '- Pilih Generik -') + Generik::pluck('generik', 'id')->all();
 
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
@@ -343,7 +343,7 @@ class PembeliansController extends Controller
 		$rak = Rak::first();
 		$formula = Formula::first();
 		$fornas = Yoga::fornas();
-		$alternatif_fornas = array('0' => '- Pilih Merek -') + $mereks->lists('merek', 'id')->all();
+		$alternatif_fornas = array('0' => '- Pilih Merek -') + $mereks->pluck('merek', 'id')->all();
 		$sediaan = [
 			null 				=> '- pilih -',
 			'tablet'  			=> 'tablet',
@@ -359,13 +359,13 @@ class PembeliansController extends Controller
 			'tube'  			=> 'tube'
 		];
 
-		$alternatif_fornas = array('' => '- Pilih Merek -') + $mereks->lists('merek', 'id')->all();
+		$alternatif_fornas = array('' => '- Pilih Merek -') + $mereks->pluck('merek', 'id')->all();
 		$dijual_bebas = array(
                         null        => '- Pilih -',
                         '0'         => 'Tidak Dijual Bebas',
                         '1'         => 'Dijual Bebas'
                     );
-		$generik = array('0' => '- Pilih Generik -') + Generik::lists('generik', 'id')->all();
+		$generik = array('0' => '- Pilih Generik -') + Generik::pluck('generik', 'id')->all();
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
 

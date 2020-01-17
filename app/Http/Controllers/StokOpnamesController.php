@@ -22,8 +22,8 @@ class StokOpnamesController extends Controller
 	 */
 	public function index()
 	{	
-		$lists = $this->soOption(date('Y-m'));
-		return view('stokopnames.index', compact('lists'));
+		$pluck = $this->soOption(date('Y-m'));
+		return view('stokopnames.index', compact('pluck'));
 	}
 
 	/**

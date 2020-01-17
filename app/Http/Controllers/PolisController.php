@@ -121,22 +121,22 @@ class PolisController extends Controller
 		});
 
 		$aturanlist =  \Cache::remember('aturanlist', 60, function(){
-            return AturanMinum::lists('aturan_minum', 'id')->all();
+            return AturanMinum::pluck('aturan_minum', 'id')->all();
 		});
 		
 		$stafs     = \Cache::remember('stafs', 60, function(){
-            return Staf::lists('nama', 'id')->all();
+            return Staf::pluck('nama', 'id')->all();
 		});
 
 		$signa     = \Cache::remember('signa', 60, function(){
-            return Signa::lists('signa', 'id')->all();
+            return Signa::pluck('signa', 'id')->all();
 		});
 		$signas     = \Cache::remember('signas', 60, function(){
             return Signa::orderBy('id', 'desc')->get()->take(10);
 		});
 
 		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
-            return Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all();
+            return Diagnosa::with('icd10')->get()->pluck('diagnosa_icd', 'id')->all();
 		});
 
 		$icd10s     = \Cache::remember('icd10s', 60, function(){
@@ -144,9 +144,9 @@ class PolisController extends Controller
 		});
 
         if($asuransi_id == '32'){
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenisbpjs', 'tarif_jual')->toArray();
+            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->pluck('jenisbpjs', 'tarif_jual')->toArray();
         }else{
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->toArray();
+            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->toArray();
         }
 
 		$periksaExist = Periksa::where('antrian_periksa_id', $antrianperiksa->id)->first();
@@ -462,7 +462,7 @@ class PolisController extends Controller
 		//return dd( $periksa->gambars );
 		//return dd($td);
 
-		$generik_lists = Generik::list();
+		$generik_pluck = Generik::list();
 		/* return $pasien->alergies[0]->generik; */
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
@@ -480,7 +480,7 @@ class PolisController extends Controller
 			->withTujuan_rujuk($tujuan_rujuk)
 			->withSigna($signa)
 			->withStafs($stafs)
-			->withGenerikLists($generik_lists)
+			->withGenerikpluck($generik_pluck)
 			->withAturans($aturans)
 			->withAturanlist($aturanlist)
 			->withTindakans($tindakans)

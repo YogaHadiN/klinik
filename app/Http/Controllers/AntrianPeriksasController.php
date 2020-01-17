@@ -35,7 +35,7 @@ class AntrianPeriksasController extends Controller
 	 */
 	public function index()
 	{
-		$asu = array('0' => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
+		$asu = array('0' => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
 
 		$jenis_peserta = array(
 
@@ -47,7 +47,7 @@ class AntrianPeriksasController extends Controller
 
 					);
 
-		$staf = array('0' => '- Pilih Staf -') + Staf::lists('nama', 'id')->all();
+		$staf = array('0' => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
 
 		$poli = Yoga::poliList();
 

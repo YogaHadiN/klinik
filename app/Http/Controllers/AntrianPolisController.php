@@ -26,7 +26,7 @@ class AntrianPolisController extends Controller
 	 */
 	public function index()
 	{
-		$asu = array(null => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
+		$asu = array(null => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
 		$jenis_peserta = array(
 			null => ' - pilih asuransi -',  
 			"P"  => 'Peserta',
@@ -41,7 +41,7 @@ class AntrianPolisController extends Controller
 		);
 
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
-		$perujuks_list = [null => ' - pilih perujuk -'] + Perujuk::lists('nama', 'id')->all();
+		$perujuks_list = [null => ' - pilih perujuk -'] + Perujuk::pluck('nama', 'id')->all();
 		$staf          = Yoga::stafList();
 		$antrianpolis  = AntrianPoli::with('pasien', 'asuransi', 'antars')
 								//->where('tanggal', '<=', date('Y-m-d'))
