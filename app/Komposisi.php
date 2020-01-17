@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KepalaTerhadapPap extends Model{
+class Komposisi extends Model{
 
 	// Add your validation rules here
 	public static $rules = [
@@ -13,5 +13,13 @@ class KepalaTerhadapPap extends Model{
 
 	// Don't forget to fill this array
 	protected $fillable = [];
+
+	public function formula(){
+		return $this->belongsTo('App\Formula');
+	}
+
+	public function generik(){
+		return $this->belongsTo('App\Generik');
+	}
 
 }

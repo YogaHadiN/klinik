@@ -6,10 +6,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use App\Classes\Yoga;
+
 class User extends Authenticatable
 {
-    use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -28,12 +28,29 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+
+    public function getPeranAttribute(){
+
+        if($this->role == '1'){
+           return 'Dokter';
+        }elseif($this->role == '2'){
+            return 'Kasir';
+        }elseif($this->role == '3'){
+            return 'Bidan';
+        }elseif($this->role == '4'){
+            return 'Admin';
+        }elseif($this->role == '5'){
+            return 'Dokter Gigi';
+        }elseif($this->role == '6'){
+            return 'Super Admin';
+        }
+    }
+
+    public function getKeaktifanAttribute(){
+        if($this->aktif == 1){
+            return Yoga::sukses('Aktif');
+        }else{
+            return Yoga::gagal('Tidak Aktif');
+        }
+    }
 }
