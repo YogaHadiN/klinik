@@ -11,39 +11,39 @@ const mix = require('laravel-mix');
  |
  */
     mix.styles([
-        'bootstrap.min.css',
-        'bootstrap-select.min.css',
-        'plugins/dataTables/dataTables.bootstrap.css',
-        'plugins/dataTables/dataTables.responsive.css',
-        'plugins/dataTables/dataTables.tableTools.min.css',
+        'resources/assets/css/bootstrap.min.css',
+        'resources/assets/css/bootstrap-select.min.css',
+        'resources/assets/css/plugins/dataTables/dataTables.bootstrap.css',
+        'resources/assets/css/plugins/dataTables/dataTables.responsive.css',
+        'resources/assets/css/plugins/dataTables/dataTables.tableTools.min.css',
 		//'animate.css',
-        'style.css',
-        'jquery-ui.min.css',
-        'plugins/datepicker/datepicker3.css',
+        'resources/assets/css/style.css',
+        'resources/assets/css/jquery-ui.min.css',
+        'resources/assets/css/plugins/datepicker/datepicker3.css',
     ], './public/css/all.css')
     .scripts([
-        'jquery-2.1.1.js',
-        'bootstrap.min.js',
-        'plugins/metisMenu/jquery.metisMenu.js',
-        'plugins/slimscroll/jquery.slimscroll.min.js',
-        'plugins/jeditable/jquery.jeditable.js',
-        'autoNumeric.min.js',
-        'bootstrap-select.min.js',
-        'plugins/datepicker/bootstrap-datepicker.js',
-        'plugins/dataTables/jquery.dataTables.min.js',
-        'plugins/dataTables/dataTables.bootstrap.min.js',
-        'plugins/dataTables/dataTables.responsive.min.js',
-        'inspinia.js',
-        'plugins/pace/pace.min.js',
+        'resources/assets/js/jquery-2.1.1.js',
+        'resources/assets/js/bootstrap.min.js',
+        'resources/assets/js/plugins/metisMenu/jquery.metisMenu.js',
+        'resources/assets/js/plugins/slimscroll/jquery.slimscroll.min.js',
+        'resources/assets/js/plugins/jeditable/jquery.jeditable.js',
+        'resources/assets/js/autoNumeric.min.js',
+        'resources/assets/js/bootstrap-select.min.js',
+        'resources/assets/js/plugins/datepicker/bootstrap-datepicker.js',
+        'resources/assets/js/plugins/dataTables/jquery.dataTables.min.js',
+        'resources/assets/js/plugins/dataTables/dataTables.bootstrap.min.js',
+        'resources/assets/js/plugins/dataTables/dataTables.responsive.min.js',
+        'resources/assets/js/inspinia.js',
+        'resources/assets/js/plugins/pace/pace.min.js',
     ], './public/js/all.js')
     .scripts([
-        'poli.js',
-        'fotozoom.js',
-        'togglepanel.js',
-        'resepjson.js',
-        'informasi_obat.js',
-        'riwobs.js',
-        'uk.js'
+        'resources/assets/js/poli.js',
+        'resources/assets/js/fotozoom.js',
+        'resources/assets/js/togglepanel.js',
+        'resources/assets/js/resepjson.js',
+        'resources/assets/js/informasi_obat.js',
+        'resources/assets/js/riwobs.js',
+        'resources/assets/js/uk.js'
     ], './public/js/allpoli.js');
 
 
