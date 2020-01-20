@@ -166,7 +166,7 @@ return [
 		Barryvdh\Debugbar\ServiceProvider::class,
 	    Laravel\Socialite\SocialiteServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
-		Barryvdh\Snappy\ServiceProvider::class,
+		/* Barryvdh\Snappy\ServiceProvider::class, */
         /*
          * Package Service Providers...
          */
