@@ -163,10 +163,10 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-		Barryvdh\Debugbar\ServiceProvider::class,
+		/* Barryvdh\Debugbar\ServiceProvider::class, */
 	    Laravel\Socialite\SocialiteServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
-		/* Barryvdh\Snappy\ServiceProvider::class, */
+		Barryvdh\Snappy\ServiceProvider::class,
         /*
          * Package Service Providers...
          */
