@@ -38,14 +38,6 @@ class TestController extends Controller
 {
 
 	public function index(){
-		$periksas = Terapi::where('created_at', '>', '2017-01-01')->get();
-		foreach ($periksas as $periksa) {
-			try {
-				$periksa->merek->merek;
-			} catch (\Exception $e) {
-				return $terapi;
-			}
-		}
-		return 'oke';
+		dd(env('DB_USERNAME'));
 	}
 }
