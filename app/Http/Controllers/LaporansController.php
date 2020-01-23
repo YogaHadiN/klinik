@@ -195,6 +195,7 @@ class LaporansController extends Controller
 
 	public function index()
 	{
+		is currently unable to handle this request;
 		$asuransis = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
 		$antriankasir = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
