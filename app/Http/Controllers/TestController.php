@@ -1,8 +1,9 @@
 <?php
 
+
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
 use App\Http\Requests;
@@ -38,21 +39,14 @@ class TestController extends Controller
 {
 
 	public function index(){
-		/* $data = []; */
-		/* $data[] = env('NAMA_KLINIK'); */
-		/* $data[] = env('ALAMAT_KLINIK'); */
-		/* $data[] = env('ALAMAT_KLINIK_LINE1'); */
-		/* $data[] = env('ALAMAT_KLINIK_LINE2'); */
-		/* $data[] = env('TELPON_KLINIK'); */
-
-		/* $data[] = env('NO_HP_OWNER'); */
-		/* $data[] = env('NO_HP_OWNER2'); */
-
-		/* $data[] = env('ZENZIVA_USERKEY'); */
-		/* $data[] = env('ZENZIVA_PASSKEY'); */
-
-		/* $data[] = env('NPWP'); */
-		/* $data[] = env('NAMA_BADAN_USAHA'); */
-		/* dd($data); */
+		$periksas = Terapi::where('created_at', '>', '2017-01-01')->get();
+		foreach ($periksas as $periksa) {
+			try {
+				$periksa->merek->merek;
+			} catch (\Exception $e) {
+				return $terapi;
+			}
+		}
+		return 'oke';
 	}
 }

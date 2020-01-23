@@ -22,6 +22,6 @@ class KelompokCoa extends Model{
 		return $this->id . ' - ' . $this->kelompok_coa;
 	}
 	public static function list(){
-		return [ null => ' - pilih - ' ] + KelompokCoa::orderBy('id')->get()->pluck('ccoa', 'id')->all();
+		return [ null => ' - pilih - ' ] + KelompokCoa::orderBy('id')->get()->lists('ccoa', 'id')->all();
 	}
 }

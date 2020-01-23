@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 use App\Classes\Yoga;
+
+use Illuminate\Database\Eloquent\Model;
 
 class Pendapatan extends Model{
 	// public $incrementing = false;  // hapus saja kalo mau increment

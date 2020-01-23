@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ResepLuarsController extends Controller
+class help extends Controller
 {
     //
 }

@@ -1,8 +1,8 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
 use App\Http\Requests;
@@ -31,7 +31,7 @@ class SignasController extends Controller
 	 */
 	public function create()
 	{
-		return view('signas.create');
+		return view('signas.create'
 	}
 
 	/**

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
+use App\Http\Requests;
 use App\Asuransi;
 use App\Staf;
 use App\Promo;

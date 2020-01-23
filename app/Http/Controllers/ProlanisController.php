@@ -26,7 +26,7 @@ class ProlanisController extends Controller
 	public function terdaftar(){
 		
 		$prolanis = Prolanis::all();
-		return view('prolanis.terdaftar', compact('prolanis'));
+		return view('prolanis.terdaftar', compact('prolanis')
 	}
 	public function create($id){
 		$pasien = Pasien::find($id);

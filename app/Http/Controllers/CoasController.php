@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use Input;
 use App\Http\Requests;
 use App\Coa;
@@ -142,7 +140,7 @@ class CoasController extends Controller
 		return '1';
 	}
 	public function kelompokCoaList(){
-		return [ null => ' - pilih - ' ] + KelompokCoa::orderBy('id')->get()->pluck('ccoa', 'id')->all();
+		return [ null => ' - pilih - ' ] + KelompokCoa::orderBy('id')->get()->lists('ccoa', 'id')->all();
 	}
 	public function cekCoaSamaEdit(){
 		$kode_coa_id = Input::get('kode_coa_id');

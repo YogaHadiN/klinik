@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
 use App\Classes\Yoga;
 
 class Penyusutan extends Model

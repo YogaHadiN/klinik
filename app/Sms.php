@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Twilio\Rest\Client;
 use Twilio\Exceptions\Twilioexception;
 use App\Classes\Yoga;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
 use App\Http\Requests;
@@ -22,8 +21,8 @@ class StokOpnamesController extends Controller
 	 */
 	public function index()
 	{	
-		$pluck = $this->soOption(date('Y-m'));
-		return view('stokopnames.index', compact('pluck'));
+		$lists = $this->soOption(date('Y-m'));
+		return view('stokopnames.index', compact('lists'));
 	}
 
 	/**

@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
 use App\Http\Requests;
@@ -151,7 +149,7 @@ class PengeluaransController extends Controller
 		}
 	}
 
-	public function pluck() {
+	public function lists() {
 		$mulai = Yoga::datePrep(Input::get('mulai'));
 		$akhir = Yoga::datePrep(Input::get('akhir'));
 
@@ -444,7 +442,7 @@ class PengeluaransController extends Controller
     }
     public function bayar(){
         $bayar_dokters = BayarDokter::with('staf', 'petugas')->latest()->paginate(30);
-        return view('formbayardokter', compact('bayar_dokters'));
+        return view('formbayardokter', compact('bayar_dokters')
     }
     
     public function nota_z(){
@@ -801,9 +799,9 @@ class PengeluaransController extends Controller
     }
     public function bayar_gaji_karyawan(){
 	
-        $sumber_kas_pluck = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->where('id', 'not like', '110000')->pluck('coa', 'id')->all();
+        $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->where('id', 'not like', '110000')->lists('coa', 'id')->all();
         $pembayarans = BayarGaji::latest()->paginate(10);
-        return view('pengeluarans.bayar_gaji_karyawan', compact(  'pembayarans' , 'sumber_kas_pluck'));
+        return view('pengeluarans.bayar_gaji_karyawan', compact(  'pembayarans' , 'sumber_kas_lists'));
     }
     
    public function bayar_gaji(){
@@ -1379,7 +1377,7 @@ class PengeluaransController extends Controller
 			->withPesan($pesan);
 	}
 	public function data(){
-		return view('pengeluarans.bukan_obat');
+		return view('pengeluarans.bukan_obat'
 	}
 
 	public function dataAjax(){

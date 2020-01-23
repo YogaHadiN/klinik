@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use Input; 
+use App\Http\Requests;
 use Auth;
 use App\User;
 use App\Classes\Yoga;

@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 
 use Input;
 
+use App\Http\Requests;
 use App\Asuransi;
 use App\Promo;
 use App\Perujuk;
@@ -54,14 +52,15 @@ class AntrianPolisController extends Controller
 		foreach ($app as $p) {
 			$perjanjian[$p->tanggal->format('d-m-Y')][] = $p;
 		}
-		return view('antrianpolis.index')
-			->withAntrianpolis($antrianpolis)
-			->withPerujuks_list($perujuks_list)
-			->withUsg($usg)
-			->withAsu($asu)
-			->withPeserta($peserta)
-			->withPerjanjian($perjanjian)
-			->withStaf($staf);
+		return view('antrianpolis.index', compact(
+			'antrianpolis',
+			'perujuks_list',
+			'usg',
+			'asu',
+			'peserta',
+			'perjanjian',
+			'staf'
+		));
 	}
 
 	/**
@@ -241,5 +240,4 @@ class AntrianPolisController extends Controller
         return $this->morphMany('App\Promo', 'jurnalable');
     }
 
-}
 }

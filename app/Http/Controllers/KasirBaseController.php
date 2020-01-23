@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use Input;
 use App\Http\Requests;
 use App\Classes\Yoga;
@@ -51,7 +49,7 @@ class KasirBaseController extends Controller
 		}
 		$asuransi_id = $periksa->asuransi_id;
 		$pasien      = $periksa->pasien;
-		$tindakans   = [ null => '- Pilih -' ] + Tarif::where('asuransi_id', $asuransi_id)->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->all();
+		$tindakans   = [ null => '- Pilih -' ] + Tarif::where('asuransi_id', $asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
 		$transaksi   = $periksa->transaksi;
 		$resepjson   = json_encode($reseps);
 		//	HITUNG DISPENSING BULAN INI KHUSUS UNTUK TIPE ASURANSI FLAT

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 use App\Saldo;
 use App\Classes\Yoga;

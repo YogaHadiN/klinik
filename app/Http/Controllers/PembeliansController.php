@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
 use App\Http\Requests;
@@ -311,10 +310,11 @@ class PembeliansController extends Controller
 		}
 		$bulanTahun = Input::get('bulanTahun');
 		
-		return view('pembelians.riwayat')
-		->withFaktur_beli($faktur_beli)
-		->withHarga($harga)
-		->withBth($bulanTahun);
+		return view('pembelians.riwayat', compact(
+			'faktur_beli',
+			'harga',
+			'bulanTahun'
+		));
 	}
 
 	public function show($faktur_belanja_id)
@@ -343,7 +343,7 @@ class PembeliansController extends Controller
 		$rak = Rak::first();
 		$formula = Formula::first();
 		$fornas = Yoga::fornas();
-		$alternatif_fornas = array('0' => '- Pilih Merek -') + $mereks->pluck('merek', 'id')->all();
+		$alternatif_fornas = array('0' => '- Pilih Merek -') + $mereks->lists('merek', 'id')->all();
 		$sediaan = [
 			null 				=> '- pilih -',
 			'tablet'  			=> 'tablet',
@@ -359,7 +359,7 @@ class PembeliansController extends Controller
 			'tube'  			=> 'tube'
 		];
 
-		$alternatif_fornas = array('' => '- Pilih Merek -') + $mereks->pluck('merek', 'id')->all();
+		$alternatif_fornas = array('' => '- Pilih Merek -') + $mereks->lists('merek', 'id')->all();
 		$dijual_bebas = array(
                         null        => '- Pilih -',
                         '0'         => 'Tidak Dijual Bebas',

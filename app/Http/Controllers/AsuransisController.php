@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
+use App\Http\Requests;
 use App\Asuransi;
 use App\Tarif;
 use App\PembayaranAsuransi;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
 use App\Http\Requests;
@@ -52,7 +51,7 @@ class ObatsController extends Controller
 		$raks = Rak::orderBy('stok_minimal', 'desc')->get();
 
 
-		return view('Dispensings.stokmin')->withRaks($raks);
+		return view('Dispensings.stokmin', compact('raks'));
 	}
 
 	/**

@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 use App\Classes\Yoga;
 use DB;
 use Image;
+
+use Illuminate\Database\Eloquent\Model;
 
 class Periksa extends Model{
     public $incrementing = false; 

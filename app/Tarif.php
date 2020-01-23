@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App;
+
 use DB;
 use App\BahanHabisPakai;
 
@@ -37,11 +39,11 @@ class Tarif extends Model{
 	}
 
 	public function getJenisbpjsAttribute(){
-		if($this->biaya > 0){
-			return $this->jenisTarif->jenis_tarif . ' (TIDAK DITANGGUNG BPJS)';
-		} else {
-			return $this->jenisTarif->jenis_tarif;
-		}
+        if($this->biaya > 0){
+		    return $this->jenisTarif->jenis_tarif . ' (TIDAK DITANGGUNG BPJS)';
+        } else {
+		    return $this->jenisTarif->jenis_tarif;
+        }
 	}
 
 	public function getTarifJualAttribute(){

@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+
+
 use App\Classes\Yoga;
 use App\Asuransi;
 use DB;

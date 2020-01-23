@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+namespace App\Http\Controllers;
 
 use Input;
 
@@ -174,14 +173,15 @@ class FormulasController extends Controller
 		$template['jumlah_puyer_kg50'] = '12';
 		$template['jumlah_kg50_bpjs'] = '6';
 
-		return view('formulas.create')
-				->withSediaan($sediaan)
-				->withGenerik($generik)
-				->withDijual_bebas($dijual_bebas)
-				->withSignas($signas)
-				->withAturan_minums($aturan_minums)
-				->withTemplate($template)
-				->withAlternatif_fornas($alternatif_fornas);
+		return view('formulas.create', compact(
+			'sediaan',
+			'generik',
+			'dijual_bebas',
+			'signas',
+			'aturan_minums',
+			'template',
+			'alternatif_fornas'
+		));
 			}
 	}
 

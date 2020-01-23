@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+namespace App\Http\Controllers;
 
 use Input;
 use App\Http\Requests;
@@ -50,17 +49,19 @@ class CustomController extends Controller
 		$fornas = Yoga::fornas();
 		$alternatif_fornas = array('0' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
-		return view('raks.create')
-			->withFormula($formula)
-			->withAlternatif_fornas($alternatif_fornas)
-			->withFornas($fornas);
+		return view('raks.create', compact(
+			'formula',
+			'alternatif_fornas',
+			'fornas'
+		))
 	}
 
 	public function create_merek($id){
 		$rak = Rak::find($id);
 
-		return view('mereks.create')
-				->withRak($rak);
+		return view('mereks.create', compact(
+					'rak'
+		));
 	}
 
 	public function updtrf(){
@@ -188,7 +189,7 @@ class CustomController extends Controller
 				break;				
 			}
 		}
-   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->all();
+   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
    		$reseps     = Yoga::masukLagi($periksa->terapii);
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
 

@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Session;
 use App\Classes\Yoga;
 use App\Terapi;

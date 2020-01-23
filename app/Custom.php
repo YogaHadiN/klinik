@@ -1397,7 +1397,7 @@ class Custom extends Model
 
 		public static function registerHamilList($pasien_id){
 
-			return [ null => '- pilih -'] + RegisterHamil::where('pasien_id', $pasien_id)->get()->pluck('namagpa', 'id')->toArray();
+			return [ null => '- pilih -'] + RegisterHamil::where('pasien_id', $pasien_id)->get()->lists('namagpa', 'id')->toArray();
 
 		}
 
@@ -1999,7 +1999,7 @@ class Custom extends Model
 	}
 	
 	public static function sumberCoaList(){
-		return [ null => '-pilih-' ] + Coa::whereRaw('id between 110000 and 110004')->pluck('coa', 'id')->all();
+		return [ null => '-pilih-' ] + Coa::whereRaw('id between 110000 and 110004')->lists('coa', 'id')->all();
 	}
 	public static function sumberuang(){
 		$sumber_uang[null] = '-Pilih-';

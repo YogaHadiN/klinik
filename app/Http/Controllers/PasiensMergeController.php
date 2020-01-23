@@ -33,14 +33,15 @@ class PasiensMergeController extends Controller
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
-		return view('pasiens.merge')
-			->withAsuransi($asuransi)
-			->with('statusPernikahan', $statusPernikahan)
-			->with('panggilan', $panggilan)
-			->with('peserta', $peserta)
-			->withJenis_peserta($jenis_peserta)
-			->withStaf($staf)
-			->withPoli($poli);
+		return view('pasiens.merge', compact(
+			'asuransi',
+			'statusPernikahan',
+			'panggilan',
+			'peserta',
+			'jenis_peserta',
+			'staf',
+			'poli'
+		));
 	}
 	public function searchPasien(){
 		$q = Input::get('q');

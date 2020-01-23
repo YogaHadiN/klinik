@@ -1,10 +1,9 @@
 <?php
 
 namespace App;
+use App\Coa;
 
 use Illuminate\Database\Eloquent\Model;
-
-use App\Coa;
 
 class PembayaranAsuransi extends Model
 {

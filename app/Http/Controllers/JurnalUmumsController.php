@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Input;
 
 use App\Http\Requests;
@@ -119,8 +118,8 @@ class JurnalUmumsController extends Controller
 			['112001' => 'Persediaan Pulsa Go Pay'] +
 			['612345' => 'Biaya Operasional Gojek'] +
 			['120010' => 'Peralatan Bahan Bangunan'] +
-		Coa::whereIn('kelompok_coa_id', [5,6,8])->where('coa', 'not like', '%penyusutan%')->pluck('coa', 'id')->all();
-		$pendapatanCoaList = [null => '-pilih-']+ Coa::whereIn('kelompok_coa_id', [4,7])->pluck('coa', 'id')->all();
+		Coa::whereIn('kelompok_coa_id', [5,6,8])->where('coa', 'not like', '%penyusutan%')->lists('coa', 'id')->all();
+		$pendapatanCoaList = [null => '-pilih-']+ Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::pluck('kelompok_coa', 'id')->all();
 		return view('jurnal_umums.coa', compact(
 			'kelompokCoaList', 
