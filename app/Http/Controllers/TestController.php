@@ -38,6 +38,7 @@ class TestController extends Controller
 {
 
 	public function index(){
+		test;
 		/* $data = []; */
 		/* $data[] = env('NAMA_KLINIK'); */
 		/* $data[] = env('ALAMAT_KLINIK'); */
