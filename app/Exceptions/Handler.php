@@ -43,26 +43,7 @@ class Handler extends ExceptionHandler
 		 Log::info('URL YANG error : ' . Input::fullUrl());
 		 Log::info('Method yang error : ' . Input::method());
 		 Log::info('Pada Jam : ' . date('Y-m-d H:i:s'));
-		 Log::info($exception);
-			 //Mail::send('email.error', [
-				 //'url'    => Input::url(),
-				 //'method' => Input::method(),
-				 //'error'  => $e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s')
-			 //], function($m){
-				  //$m->from('admin@mailgun.org', 'Yoga Hadi Nugroho');
-				  //$m->to('yoga_email@yahoo.com', 'Yoga Hadi Nugroho');
-				  //$m->subject('Error from KJE');
-			 //});
-			 //try {
-				 
-			 //} catch (\Exception $e) {
-				 //Log::info($e->getMessage();
-			 //}
-			 //$sv  = new dbBackup;
-			 //$sv->handle();
-			 //$lg = new sendMeLaravelLog;
-			 //$lg->sendLog();
-				 Sms::send(env("NO_HP_OWNER"),$exception->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
+		 Sms::send(env("NO_HP_OWNER"),$exception->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
 		}
 		return parent::report($exception);
 	}
