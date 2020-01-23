@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Exception $e)
     {
 
 		 if (!empty( trim( $e->getMessage() ) )) {
@@ -47,24 +47,6 @@ class Handler extends ExceptionHandler
 			 Log::info('Method yang error : ' . Input::method());
 			 Log::info('Pada Jam : ' . date('Y-m-d H:i:s'));
 			 if (gethostname() != 'yoga') {
-				 //Mail::send('email.error', [
-					 //'url'    => Input::url(),
-					 //'method' => Input::method(),
-					 //'error'  => $e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s')
-				 //], function($m){
-					  //$m->from('admin@mailgun.org', 'Yoga Hadi Nugroho');
-					  //$m->to('yoga_email@yahoo.com', 'Yoga Hadi Nugroho');
-					  //$m->subject('Error from KJE');
-				 //});
-				 //try {
-					 
-				 //} catch (\Exception $e) {
-					 //Log::info($e->getMessage();
-				 //}
-				 //$sv  = new dbBackup;
-				 //$sv->handle();
-				 //$lg = new sendMeLaravelLog;
-				 //$lg->sendLog();
 				 Sms::send(env("NO_HP_OWNER"),$e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
 			 }
 		}

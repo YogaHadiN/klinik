@@ -38,6 +38,21 @@ class TestController extends Controller
 {
 
 	public function index(){
-		dd(env('DB_USERNAME'));
+		/* $data = []; */
+		/* $data[] = env('NAMA_KLINIK'); */
+		/* $data[] = env('ALAMAT_KLINIK'); */
+		/* $data[] = env('ALAMAT_KLINIK_LINE1'); */
+		/* $data[] = env('ALAMAT_KLINIK_LINE2'); */
+		/* $data[] = env('TELPON_KLINIK'); */
+
+		/* $data[] = env('NO_HP_OWNER'); */
+		/* $data[] = env('NO_HP_OWNER2'); */
+
+		/* $data[] = env('ZENZIVA_USERKEY'); */
+		/* $data[] = env('ZENZIVA_PASSKEY'); */
+
+		/* $data[] = env('NPWP'); */
+		/* $data[] = env('NAMA_BADAN_USAHA'); */
+		/* dd($data); */
 	}
 }
