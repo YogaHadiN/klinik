@@ -13,41 +13,41 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-		 /* Commands\JadwalPenyusutan::class, */
-		 /* Commands\smsUndanganprolanis::class, */
-		 /* Commands\cronTest::class, */
-		 /* Commands\smsLaporanHarian::class, */
-		 /* Commands\smsDonnaruko::class, */
-		 /* Commands\smsIngatkanJanji::class, */
-		 /* Commands\smsIngatkanHariIni::class, */
-		 /* Commands\smsKontrol::class, */
-		 /* Commands\testcommand::class, */
-		 /* Commands\testConsole::class, */
-		 /* Commands\gammuSend::class, */
-		 /* Commands\smsCekInbox::class, */
-		 /* Commands\resetAntrian::class, */
-		 /* Commands\testJurnal::class, */
-		 /* Commands\dbBackup::class, */
-		 /* Commands\dbHapusdiskon::class, */
-		 /* Commands\sendMeLaravelLog::class, */
-		 /* Commands\imageResize::class, */
-		 /* Commands\imageAlat::class, */
-		 /* Commands\imageEstetika::class, */
-		 /* Commands\imageObat::class, */
-		 /* Commands\imageLain::class, */
-		 /* Commands\imageFit::class, */
-		 /* Commands\imagePasien::class, */
-		 /* Commands\imageStaf::class, */
-		 /* Commands\perbaikiJurnal::class, */
-		 /* Commands\smsPanggilTukanAc::class, */
-		 /* Commands\testNeraca::class, */
-		 /* Commands\smsPromoUlangTahun::class, */
-		 /* Commands\pphDokter::class, */
-		 /* Commands\scheduleBackup::class, */
-		 /* Commands\multiPenyusutan::class, */
-		 /* Commands\SyncImage::class, */
-		 /* Commands\susutDuaTahunLalu::class */
-		 /* /1* Commands\smsAngkakontak::class, *1/ */
+		 Commands\JadwalPenyusutan::class,
+		 Commands\smsUndanganprolanis::class,
+		 Commands\cronTest::class,
+		 Commands\smsLaporanHarian::class,
+		 Commands\smsDonnaruko::class,
+		 Commands\smsIngatkanJanji::class,
+		 Commands\smsIngatkanHariIni::class,
+		 Commands\smsKontrol::class,
+		 Commands\testcommand::class,
+		 Commands\testConsole::class,
+		 Commands\gammuSend::class,
+		 Commands\smsCekInbox::class,
+		 Commands\resetAntrian::class,
+		 Commands\testJurnal::class,
+		 Commands\dbBackup::class,
+		 Commands\dbHapusdiskon::class,
+		 Commands\sendMeLaravelLog::class,
+		 Commands\imageResize::class,
+		 Commands\imageAlat::class,
+		 Commands\imageEstetika::class,
+		 Commands\imageObat::class,
+		 Commands\imageLain::class,
+		 Commands\imageFit::class,
+		 Commands\imagePasien::class,
+		 Commands\imageStaf::class,
+		 Commands\perbaikiJurnal::class,
+		 Commands\smsPanggilTukanAc::class,
+		 Commands\testNeraca::class,
+		 Commands\smsPromoUlangTahun::class,
+		 Commands\pphDokter::class,
+		 Commands\scheduleBackup::class,
+		 Commands\multiPenyusutan::class,
+		 Commands\SyncImage::class,
+		 Commands\susutDuaTahunLalu::class
+		 /* Commands\smsAngkakontak::class, */
     ];
 
     /**
@@ -124,7 +124,6 @@ class Kernel extends ConsoleKernel
 				return count( $ids ) > 0;
 		 }); 
 
-		 $schedule->command('test:command')->everyMinute();
 		 $schedule->command('sms:ingatkanHariIni')
 			 ->dailyAt('12:30')
 			 ->when(function(){
