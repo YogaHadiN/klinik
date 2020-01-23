@@ -133,7 +133,7 @@ class PolisController extends Controller
 		});
 
 		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
-            return Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all();
+            return Diagnosa::with('icd10')->get()->pluck('diagnosa_icd', 'id')->all();
 		});
 
 		$icd10s     = \Cache::remember('icd10s', 60, function(){
@@ -141,9 +141,9 @@ class PolisController extends Controller
 		});
 
         if($asuransi_id == '32'){
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenisbpjs', 'tarif_jual')->toArray();
+            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->pluck('jenisbpjs', 'tarif_jual')->toArray();
         }else{
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->toArray();
+            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->toArray();
         }
 
 		$periksaExist = Periksa::where('antrian_periksa_id', $antrianperiksa->id)->first();

@@ -60,7 +60,7 @@ class RujukansController extends Controller
   		}
   		
 		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
-            return Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all();
+            return Diagnosa::with('icd10')->get()->pluck('diagnosa_icd', 'id')->all();
 		});
   		$tujuan_rujuks = json_encode($tujuan_rujuks);
 		return view('rujukans.create', compact('periksa', 'tujuan_rujuks', 'isHamil', 'g', 'p', 'a', 'hpht', 'diagnosa')
@@ -249,7 +249,7 @@ class RujukansController extends Controller
   		}
 
 		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
-            return Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all();
+            return Diagnosa::with('icd10')->get()->pluck('diagnosa_icd', 'id')->all();
 		});
 
   		// return $hamil;

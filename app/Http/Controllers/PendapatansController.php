@@ -246,7 +246,7 @@ class PendapatansController extends Controller
         $mulai       = Yoga::datePrep( Input::get('mulai') );
         $akhir       = Yoga::datePrep( Input::get('akhir') );
 
-        $kasList     = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->lists('coa', 'id')->all();
+        $kasList     = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->pluck('coa', 'id')->all();
         $pembayarans = $this->belumDibayar($mulai, $akhir, $asuransi_id);
 
 		/* return $pembayarans; */
