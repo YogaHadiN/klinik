@@ -65,7 +65,7 @@ class Rak extends Model{
 	protected $guarded = [];
 
 	public function formula(){
-		return $this->belongsTo(Formula::class);
+		return $this->belongsTo('App\Formula');
 	}
 
 	public function merek(){
