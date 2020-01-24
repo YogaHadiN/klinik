@@ -55,17 +55,18 @@ class KasirBaseController extends Controller
 		//	HITUNG DISPENSING BULAN INI KHUSUS UNTUK TIPE ASURANSI FLAT
 		$plafonFlat  = Yoga::dispensingObatBulanIni($periksa->asuransi, true);
 		$mereks      = Merek::with('rak.formula')->get();
-		return view('kasir')
-			->withPasien($pasien)
-			->withPlafon($plafon)
-			->withReseps($reseps)
-			->withTerapis($terapis)
-			->withResepjson($resepjson)
-			->withTindakans($tindakans)
-			->withMereks($mereks)
-			->withBiayatotal($biayatotal)
-			->withTransaksi($transaksi)
-			->withPeriksa($periksa);
+		return view('kasir', compact(
+			'pasien',
+			'plafon',
+			'reseps',
+			'terapis',
+			'resepjson',
+			'tindakans',
+			'mereks',
+			'biayatotal',
+			'transaksi',
+			'periksa'
+		));
 	}
 
 	public function onchange(){

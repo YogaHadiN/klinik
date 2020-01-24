@@ -31,7 +31,7 @@ class SignasController extends Controller
 	 */
 	public function create()
 	{
-		return view('signas.create'
+		return view('signas.create');
 	}
 
 	/**

@@ -442,7 +442,7 @@ class PengeluaransController extends Controller
     }
     public function bayar(){
         $bayar_dokters = BayarDokter::with('staf', 'petugas')->latest()->paginate(30);
-        return view('formbayardokter', compact('bayar_dokters')
+        return view('formbayardokter', compact('bayar_dokters'));
     }
     
     public function nota_z(){
@@ -1377,7 +1377,7 @@ class PengeluaransController extends Controller
 			->withPesan($pesan);
 	}
 	public function data(){
-		return view('pengeluarans.bukan_obat'
+		return view('pengeluarans.bukan_obat');
 	}
 
 	public function dataAjax(){
