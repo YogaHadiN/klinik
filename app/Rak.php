@@ -65,6 +65,8 @@ class Rak extends Model{
 	protected $guarded = [];
 
 	public function formula(){
+
+
 		return $this->belongsTo('App\Formula');
 	}
 
