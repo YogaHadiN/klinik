@@ -420,7 +420,7 @@
 													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
 													<td>Laporan STATUS</td>
 													<td>
-														{!! Form::select('staf_id', App\Staf::list(), '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+														{!! Form::select('staf_id', $staf, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
 													</td>
 													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
 														<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
@@ -509,7 +509,7 @@
 												{!! Form::open(['url'=>'laporans/bayardokter', 'method'=> 'get']) !!} 
 												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
 												<td>Laporan Gaji Dokter</td>
-												<td> {!! Form::select('id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
+												<td> {!! Form::select('id', $staf, null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
 												<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
 												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
 												{!! Form::close() !!}
@@ -518,7 +518,7 @@
 												{!! Form::open(['url'=>'laporans/dispensing/bpjs/dokter', 'method'=> 'post']) !!} 
 												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
 												<td>Laporan Dispensing BPJS Per Dokter</td>
-												<td> {!! Form::select('id', App\Staf::list(true), null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
+												<td> {!! Form::select('id', $staf, null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
 												<td> {!! Form::text('mulai', date('m-Y'), ['class' => 'form-control bulanTahun', 'placeholder' => 'mulai'])!!}</td>
 												<td></td>
 												{!! Form::close() !!}

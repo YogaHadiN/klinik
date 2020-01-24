@@ -193,13 +193,13 @@ class LaporansController extends Controller
 
 	public function index()
 	{
-		$asuransis = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
+		$asuransis      = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
-		$antriankasir = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
+		$antriankasir   = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
 		$antrianbelanja = FakturBelanja::where('submit', '0')->count();
-		$nursestation = AntrianPoli::all();
-		$auth = Auth::user();
-		$raklist = Yoga::rakList();
+		$nursestation   = AntrianPoli::all();
+		$auth           = Auth::user();
+		$raklist        = Yoga::rakList();
 		
 		$hariinis = $this->hariinis( date('Y-m-d') );
 
@@ -235,11 +235,13 @@ class LaporansController extends Controller
 				$darurat[] = $ap;	
 			}
 		}
-		$staf = Yoga::stafList();
-		$poliIni = $this->poliIni(date('Y-m-d'));
+		/* dd('this'); */
+		/* $staf          = Yoga::stafList(); */
+		$staf          = Yoga::stafList();
+		$poliIni       = $this->poliIni(date('Y-m-d'));
 		$periksa_polis = $this->periksaHarian(date('Y-m-d'));
-		$polis = $this->polisHarian($periksa_polis);
-		$periksas = $poliIni['periksas'];
+		$polis         = $this->polisHarian($periksa_polis);
+		$periksas      = $poliIni['periksas'];
 
 		$obat_minus = Rak::where('stok', '<' , -1)->count();
 		$obat_kadaluarsa = Rak::where('exp_date', '<' , date('Y-m-d'))->count();
@@ -357,19 +359,34 @@ class LaporansController extends Controller
 			$persen_lama = 0;
 		}
 		$pasien_lama = count($periksas) - $pasien_baru;
-		return view('laporans.harian')
-			->withPeriksas($periksas)
-			->withRincian($rincian)
-			->withPersenLama($persen_lama)
-			->withPersenBaru($persen_baru)
-			->withPasienLama($pasien_lama)
-			->withPasienBaru($pasien_baru)
-			->withTanggal($tanggal)
-			->withPolis($polis)
-			->withJenis_tarifs($jenis_tarifs)
-			->withPiutangjumlah($piutangJumlah)
-			->withHariinis($hariinis)
-			->withTunaijumlah($tunaiJumlah);
+
+		/* return view('laporans.harian') */
+		/* 	->withPeriksas($periksas) */
+		/* 	->withRincian($rincian) */
+		/* 	->withPersenLama($persen_lama) */
+		/* 	->withPersenBaru($persen_baru) */
+		/* 	->withPasienLama($pasien_lama) */
+		/* 	->withPasienBaru($pasien_baru) */
+		/* 	->withTanggal($tanggal) */
+		/* 	->withPolis($polis) */
+		/* 	->withJenis_tarifs($jenis_tarifs) */
+		/* 	->withPiutangjumlah($piutangJumlah) */
+		/* 	->withHariinis($hariinis) */
+		/* 	->withTunaijumlah($tunaiJumlah); */
+		return view('laporans.harian', compact(
+			'periksas',
+			'rincian',
+			'persen_lama',
+			'persen_baru',
+			'pasien_lama',
+			'pasien_baru',
+			'tanggal',
+			'polis',
+			'jenis_tarifs',
+			'piutangJumlah',
+			'hariinis',
+			'tunaiJumlah'
+		));
 	}
 
 	public function haridet()
