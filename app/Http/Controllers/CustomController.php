@@ -51,7 +51,7 @@ class CustomController extends Controller
 
 		return view('raks.create')
 			->withFormula($formula)
-			->withAlternatif_fornas($alternatif_fornas)
+			->with('alternatif_fornas', $alternatif_fornas)
 			->withFornas($fornas);
 	}
 

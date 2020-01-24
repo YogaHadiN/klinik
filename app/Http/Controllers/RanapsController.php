@@ -22,7 +22,7 @@ class RanapsController extends Controller
 			->withAsuransi($asuransi)
 			->with('statusPernikahan', $statusPernikahan)
 			->with('panggilan', $panggilan)
-			->withJenis_peserta($jenis_peserta)
+			->with('jenis_peserta', $jenis_peserta)
 			->withStaf($staf)
 			->withPoli($poli);
 	}

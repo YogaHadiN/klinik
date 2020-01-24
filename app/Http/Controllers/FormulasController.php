@@ -176,11 +176,11 @@ class FormulasController extends Controller
 		return view('formulas.create')
 				->withSediaan($sediaan)
 				->withGenerik($generik)
-				->withDijual_bebas($dijual_bebas)
+				->with('dijual_bebas', $dijual_bebas)
 				->withSignas($signas)
-				->withAturan_minums($aturan_minums)
+				->with('aturan_minums', $aturan_minums)
 				->withTemplate($template)
-				->withAlternatif_fornas($alternatif_fornas);
+				->with('alternatif_fornas', $alternatif_fornas);
 			}
 	}
 

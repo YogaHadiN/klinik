@@ -68,7 +68,7 @@ class PasiensController extends Controller
 			->with('statusPernikahan', $statusPernikahan)
 			->with('pasienSurvey', $pasienSurvey)
 			->with('panggilan', $panggilan)
-			->withJenis_peserta($jenis_peserta)
+			->with('jenis_peserta', $jenis_peserta)
 			->withStaf($staf)
 			->withPoli($poli);
 	}
@@ -207,7 +207,7 @@ class PasiensController extends Controller
 			->with('statusPernikahan', $statusPernikahan)
 			->with('pasienSurvey', $pasienSurvey)
 			->with('panggilan', $panggilan)
-			->withJenis_peserta($jenis_peserta)
+			->with('jenis_peserta', $jenis_peserta)
 			->withStaf($staf)
 			->withPoli($poli);
 	}

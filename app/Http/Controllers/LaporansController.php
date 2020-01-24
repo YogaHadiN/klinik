@@ -415,7 +415,7 @@ class LaporansController extends Controller
 			->withPeriksas($periksas)
 			->withRincian($rincian)
 			->withTanggal($tanggal)
-			->withJenis_tarifs($jenis_tarifs)
+			->with('jenis_tarifs', $jenis_tarifs)
 			->withAsuransi($asuransi)
 			->withPiutangjumlah($piutangJumlah)
 			->withHariinis($hariinis)
@@ -490,7 +490,7 @@ class LaporansController extends Controller
 			->withPeriksas($periksas)
 			->withRincian($rincian)
 			->withTanggal($tanggal)
-			->withJenis_tarifs($jenis_tarifs)
+			->with('jenis_tarifs', $jenis_tarifs)
 			->withAsuransi($asuransi)
 			->withPiutangjumlah($piutangJumlah)
 			->withHariinis($hariinis)
@@ -516,10 +516,10 @@ class LaporansController extends Controller
 			->withRak($rak)
 			->withPeriksa($periksa)
 			->withTanggal($tanggal)
-			->withAsuransi_id($asuransi_id)
+			->with('asuransi_id', $asuransi_id)
 			->withTanggall($tanggall)
-			->withAngkaKontak($angka_kontak)
-			->withAngkaKunjungan($angka_kunjungan)
+			->with('angka_kontak', $angka_kontak)
+			->with('angka_kunjungan', $angka_kunjungan)
 			->withBulan($bulan);
 
 	}
@@ -617,8 +617,8 @@ class LaporansController extends Controller
 		return view('laporans.detbulan')
 			->withTanggall($tanggall)
 			->withTanggal($tanggal)
-			->withAsuransi_id($asuransi_id)
-			->withNama_asuransi($nama_asuransi)
+			->with('asuransi_id', $asuransi_id)
+			->with('nama_asuransi', $nama_asuransi)
 			->withRincian($rincian);
 
 	}
@@ -1164,9 +1164,9 @@ class LaporansController extends Controller
 		return view('laporans.hariandanjam')
 			->withPeriksas($periksas)
 			->withRincian($rincian)
-			->withTanggal_awal($tanggal_awal)
-			->withTanggal_akhir($tanggal_akhir)
-			->withJenis_tarifs($jenis_tarifs)
+			->with('tanggal_awal', $tanggal_awal)
+			->with('tanggal_akhir', $tanggal_akhir)
+			->with('jenis_tarifs', $jenis_tarifs)
 			->withPiutangjumlah($piutangJumlah)
 			->withHariinis($hariinis)
 			->withTunaijumlah($tunaiJumlah);

@@ -38,7 +38,7 @@ class PasiensMergeController extends Controller
 			->with('statusPernikahan', $statusPernikahan)
 			->with('panggilan', $panggilan)
 			->with('peserta', $peserta)
-			->withJenis_peserta($jenis_peserta)
+			->with('jenis_peserta', $jenis_peserta)
 			->withStaf($staf)
 			->withPoli($poli);
 	}

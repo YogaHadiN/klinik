@@ -14,9 +14,10 @@ class QrCodeController extends Controller
     public function index(){
 		$text = Input::get('text');
 		$qr = new QrCode();
-       $qr->setText($text);
-       $qr->setPadding(10);
-       $qr->setSize(200);
-       $qr->render();
+		$qr->setText($text);
+		$qr->setMargin(10);
+		$qr->setSize(200);
+		header('Content-Type: '.$qr->getContentType());
+		return $qr->writeString();
     }
 }
