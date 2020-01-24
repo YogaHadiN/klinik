@@ -49,19 +49,17 @@ class CustomController extends Controller
 		$fornas = Yoga::fornas();
 		$alternatif_fornas = array('0' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
-		return view('raks.create', compact(
-			'formula',
-			'alternatif_fornas',
-			'fornas'
-		))
+		return view('raks.create')
+			->withFormula($formula)
+			->withAlternatif_fornas($alternatif_fornas)
+			->withFornas($fornas);
 	}
 
 	public function create_merek($id){
 		$rak = Rak::find($id);
 
-		return view('mereks.create', compact(
-					'rak'
-		));
+		return view('mereks.create')
+				->withRak($rak);
 	}
 
 	public function updtrf(){

@@ -233,75 +233,74 @@ class HomeController extends Controller
 				$saran			= null;
 			}
 
-			return view('poliedit', compact(
-				'antrianperiksa',
-				'diagnosa',
-				'icd10s',
-				'pasien',
-				'signas',
-				'bukus',
-				'confirms',
-				'refleks_patelas',
-				'kepala_terhadap_paps',
-				'presentasis',
-				'stafs',
-				'signa',
-				'aturans',
-				'tujuan_rujuk',
-				'terapiArray',
-				'aturanlist',
-				'tindakans',
-				'sudah',
-				'periksa',
-				'pemeriksaan_awal',
-				'transaksi',
-				'periksaExist',
-				'presentasi',
-				'bpdw',
-				'bpdd',
-				'ltp',
-				'djj',
-				'acw',
-				'acd',
-				'efwd',
-				'flw',
-				'fld',
-				'g',
-				'p',
-				'a',
-				'sex',
-				'plasenta',
-				'ica',
-				'plafonFlat',
-				'kesimpulan',
-				'uk',
-				'tb',
-				'jumlah_janin',
-				'nama_suami',
-				'bb_sebelum_hamil',
-				'golongan_darah',
-				'rencana_penolong',
-				'rencana_tempat',
-				'rencana_pendamping',
-				'rencana_transportasi',
-				'rencana_pendonor',
-				'td',
-				'bb',
-				'tfu',
-				'lila',
-				'djj',
-				'register_hamil_id',
-				'status_imunisasi_tt_id',
-				'buku_id',
-				'refleks_patela_id',
-				'kepala_terhadap_pap_id',
-				'presentasi_id',
-				'catat_di_kia',
-				'riwayat_persalinan_sebelumnya',
-				'hpht',
-				'tanggal_lahir_anak_terakhir',
-				'saran'
-			));
+			return view('poliedit')
+			->withAntrianperiksa($antrianperiksa)
+			->withDiagnosa($diagnosa)
+			->withIcd10s($icd10s)
+			->withPasien($pasien)
+			->withSignas($signas)
+			->withBukus($bukus)
+			->withConfirms($confirms)
+			->withRefleks_patelas($refleks_patelas)
+			->withKepala_terhadap_paps($kepala_terhadap_paps)
+			->withPresentasis($presentasis)
+			->withStafs($stafs)
+			->withSigna($signa)
+			->withAturans($aturans)
+			->withTujuan_rujuk($tujuan_rujuk)
+			->withTrp($terapiArray)
+			->withAturanlist($aturanlist)
+			->withTindakans($tindakans)
+			->withSudah($sudah)
+			->withPeriksa($periksa)
+			->withPemeriksaan_awal($pemeriksaan_awal)
+			->withTransaksi($transaksi)
+			->withPeriksaex($periksaExist)
+			->withPresentasi($presentasi)
+			->withBpdw($bpdw)
+			->withBpdd($bpdd)
+			->withLtp($ltp)
+			->withDjj($djj)
+			->withAcw($acw)
+			->withAcd($acd)
+			->withEfwd($efwd)
+			->withFlw($flw)
+			->withFld($fld)
+			->withG($g)
+			->withP($p)
+			->withA($a)
+			->withSex($sex)
+			->withPlasenta($plasenta)
+			->withIca($ica)
+			->withPlafon($plafonFlat)
+			->withKesimpulan($kesimpulan)
+			->withUk($uk)
+			->withTb($tb)
+			->withJumlah_janin($jumlah_janin)
+			->withNama_suami($nama_suami)
+			->withBb_sebelum_hamil($bb_sebelum_hamil)
+			->withGolongan_darah($golongan_darah)
+			->withRencana_penolong($rencana_penolong)
+			->withRencana_tempat($rencana_tempat)
+			->withRencana_pendamping($rencana_pendamping)
+			->withRencana_transportasi($rencana_transportasi)
+			->withRencana_pendonor($rencana_pendonor)
+			->withTd($td)
+			->withBb($bb)
+			->withTfu($tfu)
+			->withLila($lila)
+			->withDjj($djj)
+			->withRegister_hamil_id($register_hamil_id)
+			->withStatus_imunisasi_tt_id($status_imunisasi_tt_id)
+			->withBuku_id($buku_id)
+			->withRefleks_patela_id($refleks_patela_id)
+			->withKepala_terhadap_pap_id($kepala_terhadap_pap_id)
+			->withPresentasi_id($presentasi_id)
+			->withCatat_di_kia($catat_di_kia)
+			->withRiwayat_persalinan_sebelumnya($riwayat_persalinan_sebelumnya)
+			->withHpht($hpht)
+			->withTanggal_lahir_anak_terakhir($tanggal_lahir_anak_terakhir)
+			->withSaran($saran);
 
 
 		}
@@ -320,32 +319,31 @@ class HomeController extends Controller
 			}
 		}
 		$periksaExist = false;
-		return view('poli',compact(
-			'antrianperiksa',
-			'diagnosa',
-			'icd10s',
-			'pasien',
-			'kepala_terhadap_paps',
-			'presentasis',
-			'refleks_patelas',
-			'confirms',
-			'bukus',
-			'signas',
-			'tujuan_rujuk',
-			'signa',
-			'stafs',
-			'aturans',
-			'aturanlist',
-			'tindakans',
-			'plafonFlat',
-			'g',
-			'p',
-			'a',
-			'sudah',
-			'periksa',
-			'pemeriksaan_awal',
-			'periksaExist'
-		));
+		return view('poli')
+			->withAntrianperiksa($antrianperiksa)
+			->withDiagnosa($diagnosa)
+			->withIcd10s($icd10s)
+			->withPasien($pasien)
+			->withKepala_terhadap_paps($kepala_terhadap_paps)
+			->withPresentasis($presentasis)
+			->withRefleks_patelas($refleks_patelas)
+			->withConfirms($confirms)
+			->withBukus($bukus)
+			->withSignas($signas)
+			->withTujuan_rujuk($tujuan_rujuk)
+			->withSigna($signa)
+			->withStafs($stafs)
+			->withAturans($aturans)
+			->withAturanlist($aturanlist)
+			->withTindakans($tindakans)
+			->withPlafon($plafonFlat)
+			->withG($g)
+			->withP($p)
+			->withA($a)
+			->withSudah($sudah)
+			->withPeriksa($periksa)
+			->withPemeriksaan_awal($pemeriksaan_awal)
+			->withPeriksaex($periksaExist);
 
 	}
 	public function getKasir($id){
@@ -394,18 +392,17 @@ class HomeController extends Controller
    		//	HITUNG DISPENSING BULAN INI KHUSUS UNTUK TIPE ASURANSI FLAT
 		$plafonFlat = Yoga::dispensingObatBulanIni($periksa->asuransi, true);
 		// return $periksa->asuransi_id;
-		return view('kasir', compact(
-			'pasien',
-			'signas',
-			'sudah',
-			'reseps',
-			'resepjson',
-			'tindakans',
-			'biayatotal',
-			'transaksi',
-			'periksa',
-			'mereks'
-		));
+		return view('kasir')
+			->withPasien($pasien)
+			->withSignas($signas)
+			->withSudah($sudah)
+			->withReseps($reseps)
+			->withResepjson($resepjson)
+			->withTindakans($tindakans)
+			->withBiayatotal($biayatotal)
+			->withTransaksi($transaksi)
+			->withPeriksa($periksa)
+			->withMereks($mereks);
 	}
 
 	public function postAjaxformula(){

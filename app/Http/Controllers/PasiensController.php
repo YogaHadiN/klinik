@@ -37,15 +37,15 @@ class PasiensController extends Controller
 		$staf             = Yoga::stafList();
 		$poli             = Yoga::poliList();
 		$peserta          = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
-		return view('pasiens.index', compact(
-			'asuransi',
-			'statusPernikahan',
-			'panggilan',
-			'peserta',
-			'jenis_peserta',
-			'staf',
-			'poli'
-		));
+		return view('pasiens.index')
+			->withAsuransi($asuransi)
+			->with('statusPernikahan', $statusPernikahan)
+			->with('panggilan', $panggilan)
+			->with('peserta', $peserta)
+			->withJenis_peserta($jenis_peserta)
+			->withStaf($staf)
+			->withPoli($poli);
+		
 	}
 
 	/**
@@ -63,15 +63,14 @@ class PasiensController extends Controller
 		$poli = Yoga::poliList();
 		$pasienSurvey = $this->pasienSurvey();
 		
-		return view('pasiens.create', compact(
-			'asuransi',
-			'statusPernikahan',
-			'pasienSurvey',
-			'panggilan',
-			'jenis_peserta',
-			'staf',
-			'poli'
-		));
+		return view('pasiens.create')
+			->withAsuransi($asuransi)
+			->with('statusPernikahan', $statusPernikahan)
+			->with('pasienSurvey', $pasienSurvey)
+			->with('panggilan', $panggilan)
+			->withJenis_peserta($jenis_peserta)
+			->withStaf($staf)
+			->withPoli($poli);
 	}
 	
 	public function store(){
@@ -202,16 +201,15 @@ class PasiensController extends Controller
 		$staf = array('0' => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
 		$pasienSurvey = $this->pasienSurvey();
 		$poli = Yoga::poliList();
-		return view('pasiens.edit', compact(
-			'pasien',
-			'asuransi',
-			'statusPernikahan',
-			'pasienSurvey',
-			'panggilan',
-			'jenis_peserta',
-			'staf',
-			'poli'
-		));
+		return view('pasiens.edit')
+			->withPasien($pasien)
+			->withAsuransi($asuransi)
+			->with('statusPernikahan', $statusPernikahan)
+			->with('pasienSurvey', $pasienSurvey)
+			->with('panggilan', $panggilan)
+			->withJenis_peserta($jenis_peserta)
+			->withStaf($staf)
+			->withPoli($poli);
 	}
 
 	/**

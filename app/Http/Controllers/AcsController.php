@@ -54,7 +54,7 @@ class AcsController extends Controller
 			$pesan = Yoga::gagalFlash('Ac'  . $ac->id . ' - ' . $ac->merek . ' <strong>GAGAL</strong> Diubah');
 		}
 
-		return redirect('acs', compact('pesan'));
+		return redirect('acs')->withPesan($pesan);
 	}
 
 	public function destroy($id){

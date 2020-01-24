@@ -1,4 +1,6 @@
 <?php
+
+
 namespace App\Http\Controllers;
 
 use Input;
@@ -52,15 +54,14 @@ class AntrianPolisController extends Controller
 		foreach ($app as $p) {
 			$perjanjian[$p->tanggal->format('d-m-Y')][] = $p;
 		}
-		return view('antrianpolis.index', compact(
-			'antrianpolis',
-			'perujuks_list',
-			'usg',
-			'asu',
-			'peserta',
-			'perjanjian',
-			'staf'
-		));
+		return view('antrianpolis.index')
+			->withAntrianpolis($antrianpolis)
+			->with('perujuks_list', $perujuks_list)
+			->withUsg($usg)
+			->withAsu($asu)
+			->withPeserta($peserta)
+			->withPerjanjian($perjanjian)
+			->withStaf($staf);
 	}
 
 	/**

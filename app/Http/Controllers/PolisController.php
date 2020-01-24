@@ -287,94 +287,93 @@ class PolisController extends Controller
 			} else {
 				$before = $befores[1];
 			}
-
-			$adatindakan = 0;
 			 
 			//return $periksaExist->gambarPeriksa->count();
-			return view('poliedit', compact(
-				'antrianperiksa',
-				'diagnosa',
-				'url',
-				'text',
-				'icd10s',
-				'pasien',
-				'signas',
-				'bukus',
-				'confirms',
-				'refleks_patelas',
-				'kepala_terhadap_paps',
-				'presentasis',
-				'stafs',
-				'signa',
-				'aturans',
-				'tujuan_rujuk',
-				'terapiArray',
-				'aturanlist',
-				'tindakans',
-				'sudah',
-				'periksa',
-				'pemeriksaan_awal',
-				'transaksi',
-				'periksaExist',
-				'before',
-				'presentasi',
-				'periksaExist'->pemeriksaan_penunjang,
-				'bpdw',
-				'bpdd',
-				'bpd_mm',
-				'hcw',
-				'hcd',
-				'hc_mm',
-				'fl_mm',
-				'ac_mm',
-				'perujuk_id',
-				'ltp',
-				'adatindakan',
-				'pakai_bayar_pribadi',
-				'djj',
-				'acw',
-				'acd',
-				'efwd',
-				'flw',
-				'fld',
-				'g',
-				'p',
-				'a',
-				'sex',
-				'plasenta',
-				'ica',
-				'plafonFlat',
-				'kesimpulan',
-				'uk',
-				'tb',
-				'jumlah_janin',
-				'nama_suami',
-				'bb_sebelum_hamil',
-				'golongan_darah',
-				'rencana_penolong',
-				'rencana_tempat',
-				'rencana_pendamping',
-				'rencana_transportasi',
-				'rencana_pendonor',
-				'td',
-				'bb',
-				'tfu',
-				'cekGdsBulanIni',
-				'lila',
-				'djj',
-				'register_hamil_id',
-				'status_imunisasi_tt_id',
-				'buku_id',
-				'refleks_patela_id',
-				'kepala_terhadap_pap_id',
-				'presentasi_id',
-				'catat_di_kia',
-				'riwayat_persalinan_sebelumnya',
-				'hpht',
-				'tanggal_lahir_anak_terakhir',
-				'saran'
-			));
-		}
+			return view('poliedit')
+			->withAntrianperiksa($antrianperiksa)
+			->withDiagnosa($diagnosa)
+			->withUrl($url)
+			->withText($text)
+			->withIcd10s($icd10s)
+			->withPasien($pasien)
+			->withSignas($signas)
+			->withBukus($bukus)
+			->withConfirms($confirms)
+			->withRefleks_patelas($refleks_patelas)
+			->withKepala_terhadap_paps($kepala_terhadap_paps)
+			->withPresentasis($presentasis)
+			->withStafs($stafs)
+			->withSigna($signa)
+			->withAturans($aturans)
+			->withTujuan_rujuk($tujuan_rujuk)
+			->withTrp($terapiArray)
+			->withAturanlist($aturanlist)
+			->withTindakans($tindakans)
+			->withSudah($sudah)
+			->withPeriksa($periksa)
+			->withPemeriksaan_awal($pemeriksaan_awal)
+			->withTransaksi($transaksi)
+			->withPeriksaex($periksaExist)
+			->withBefore($before)
+			->withPresentasi($presentasi)
+			->withPenunjang($periksaExist->pemeriksaan_penunjang)
+			->withBpdw($bpdw)
+			->withBpdd($bpdd)
+			->withBpd_mm($bpd_mm)
+			->withHcw($hcw)
+			->withHcd($hcd)
+			->withHc_mm($hc_mm)
+			->withFl_mm($fl_mm)
+			->withAc_mm($ac_mm)
+			->withPerujuk_id($perujuk_id)
+			->withLtp($ltp)
+			->withAdatindakan('0')
+			->withPakai_bayar_pribadi($pakai_bayar_pribadi)
+			->withDjj($djj)
+			->withAcw($acw)
+			->withAcd($acd)
+			->withEfwd($efwd)
+			->withFlw($flw)
+			->withFld($fld)
+			->withG($g)
+			->withP($p)
+			->withA($a)
+			->withSex($sex)
+			->withPlasenta($plasenta)
+			->withIca($ica)
+			->withPlafon($plafonFlat)
+			->withKesimpulan($kesimpulan)
+			->withUk($uk)
+			->withTb($tb)
+			->withJumlah_janin($jumlah_janin)
+			->withNama_suami($nama_suami)
+			->withBb_sebelum_hamil($bb_sebelum_hamil)
+			->withGolongan_darah($golongan_darah)
+			->withRencana_penolong($rencana_penolong)
+			->withRencana_tempat($rencana_tempat)
+			->withRencana_pendamping($rencana_pendamping)
+			->withRencana_transportasi($rencana_transportasi)
+			->withRencana_pendonor($rencana_pendonor)
+			->withTd($td)
+			->withBb($bb)
+			->withTfu($tfu)
+			->with('cekGdsBulanIni', $cekGdsBulanIni)
+			->withLila($lila)
+			->withDjj($djj)
+			->withRegister_hamil_id($register_hamil_id)
+			->withStatus_imunisasi_tt_id($status_imunisasi_tt_id)
+			->withBuku_id($buku_id)
+			->withRefleks_patela_id($refleks_patela_id)
+			->withKepala_terhadap_pap_id($kepala_terhadap_pap_id)
+			->withPresentasi_id($presentasi_id)
+			->withCatat_di_kia($catat_di_kia)
+			->withRiwayat_persalinan_sebelumnya($riwayat_persalinan_sebelumnya)
+			->withHpht($hpht)
+			->withTanggal_lahir_anak_terakhir($tanggal_lahir_anak_terakhir)
+			->withSaran($saran);
+
+
+            }
         
 		$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi);
 		$sudah = false;
@@ -462,39 +461,37 @@ class PolisController extends Controller
 
 		$generik_lists = Generik::list();
 		/* return $pasien->alergies[0]->generik; */
-		return view('poli', compact(
-
-			'antrianperiksa',
-			'diagnosa',
-			'url',
-			'icd10s',
-			'pasien',
-			'pakai_bayar_pribadi',
-			'kepala_terhadap_paps',
-			'presentasis',
-			'refleks_patelas',
-			'confirms',
-			'bukus',
-			'signas',
-			'tujuan_rujuk',
-			'signa',
-			'stafs',
-			'generik_lists',
-			'aturans',
-			'aturanlist',
-			'tindakans',
-			'plafonFlat',
-			'adatindakan',
-			'g',
-			'p',
-			'a',
-			'penunjang',
-			'cekGdsBulanIni',
-			'sudah',
-			'transaksiusg',
-			'periksa',
-			'pemeriksaan_awal'
-		));
+		return view('poli')
+			->withAntrianperiksa($antrianperiksa)
+			->withDiagnosa($diagnosa)
+			->withUrl($url)
+			->withIcd10s($icd10s)
+			->withPasien($pasien)
+			->withPakai_bayar_pribadi($pakai_bayar_pribadi)
+			->withKepala_terhadap_paps($kepala_terhadap_paps)
+			->withPresentasis($presentasis)
+			->withRefleks_patelas($refleks_patelas)
+			->withConfirms($confirms)
+			->withBukus($bukus)
+			->withSignas($signas)
+			->withTujuan_rujuk($tujuan_rujuk)
+			->withSigna($signa)
+			->withStafs($stafs)
+			->withGenerikLists($generik_lists)
+			->withAturans($aturans)
+			->withAturanlist($aturanlist)
+			->withTindakans($tindakans)
+			->withPlafon($plafonFlat)
+			->withAdatindakan($adatindakan)
+			->withG($g)
+			->withP($p)
+			->withA($a)
+			->withPenunjang($penunjang)
+			->with('cekGdsBulanIni', $cekGdsBulanIni)
+			->withSudah($sudah)
+			->withTransaksiusg($transaksiusg)
+			->withPeriksa($periksa)
+			->withPemeriksaan_awal($pemeriksaan_awal);
 	}
 
 	public function jangan(){

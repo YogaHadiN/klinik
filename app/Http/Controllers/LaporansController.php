@@ -357,20 +357,19 @@ class LaporansController extends Controller
 			$persen_lama = 0;
 		}
 		$pasien_lama = count($periksas) - $pasien_baru;
-		return view('laporans.harian',compact(
-			'periksas',
-			'rincian',
-			'persen_lama',
-			'persen_baru',
-			'pasien_lama',
-			'pasien_baru',
-			'tanggal',
-			'polis',
-			'jenis_tarifs',
-			'piutangJumlah',
-			'hariinis',
-			'tunaiJumlah'
-		));
+		return view('laporans.harian')
+			->withPeriksas($periksas)
+			->withRincian($rincian)
+			->withPersenLama($persen_lama)
+			->withPersenBaru($persen_baru)
+			->withPasienLama($pasien_lama)
+			->withPasienBaru($pasien_baru)
+			->withTanggal($tanggal)
+			->withPolis($polis)
+			->withJenis_tarifs($jenis_tarifs)
+			->withPiutangjumlah($piutangJumlah)
+			->withHariinis($hariinis)
+			->withTunaijumlah($tunaiJumlah);
 	}
 
 	public function haridet()
@@ -395,16 +394,15 @@ class LaporansController extends Controller
 		}
 		// 
 
-		return view('laporans.haridet', compact(
-			'periksas',
-			'rincian',
-			'tanggal',
-			'jenis_tarifs',
-			'asuransi',
-			'piutangJumlah',
-			'hariinis',
-			'tunaiJumlah'
-		));
+		return view('laporans.haridet')
+			->withPeriksas($periksas)
+			->withRincian($rincian)
+			->withTanggal($tanggal)
+			->withJenis_tarifs($jenis_tarifs)
+			->withAsuransi($asuransi)
+			->withPiutangjumlah($piutangJumlah)
+			->withHariinis($hariinis)
+			->withTunaijumlah($tunaiJumlah);
 	}
 	public function harikas()
 	{
@@ -471,16 +469,15 @@ class LaporansController extends Controller
 		}
 		
 
-		return view('laporans.harikas',compact(
-			'periksas',
-			'rincian',
-			'tanggal',
-			'jenis_tarifs',
-			'asuransi',
-			'piutangJumlah',
-			'hariinis',
-			'tunaiJumlah'
-		));
+		return view('laporans.harikas')
+			->withPeriksas($periksas)
+			->withRincian($rincian)
+			->withTanggal($tanggal)
+			->withJenis_tarifs($jenis_tarifs)
+			->withAsuransi($asuransi)
+			->withPiutangjumlah($piutangJumlah)
+			->withHariinis($hariinis)
+			->withTunaijumlah($tunaiJumlah);
 	}
 
 	public function bulanan()
@@ -498,16 +495,15 @@ class LaporansController extends Controller
 
 		$periksa = Periksa::where('tanggal', 'like', $tanggal . '%')->get();
 		$rak = Rak::all();
-		return view('laporans.bulanan', compact(
-			'rak',
-			'periksa',
-			'tanggal',
-			'asuransi_id',
-			'tanggall',
-			'angka_kontak',
-			'angka_kunjungan',
-			'bulan'
-		));
+		return view('laporans.bulanan')
+			->withRak($rak)
+			->withPeriksa($periksa)
+			->withTanggal($tanggal)
+			->withAsuransi_id($asuransi_id)
+			->withTanggall($tanggall)
+			->withAngkaKontak($angka_kontak)
+			->withAngkaKunjungan($angka_kunjungan)
+			->withBulan($bulan);
 
 	}
 
@@ -601,13 +597,12 @@ class LaporansController extends Controller
 
 		$rincian = Yoga::rincian($tanggal);
 
-		return view('laporans.detbulan', compact(
-			'tanggall',
-			'tanggal',
-			'asuransi_id',
-			'nama_asuransi',
-			'rincian'
-		));
+		return view('laporans.detbulan')
+			->withTanggall($tanggall)
+			->withTanggal($tanggal)
+			->withAsuransi_id($asuransi_id)
+			->withNama_asuransi($nama_asuransi)
+			->withRincian($rincian);
 
 	}
 	public function payment($id)
@@ -676,11 +671,10 @@ class LaporansController extends Controller
 		$query = "SELECT i.id, i.diagnosaICD, count(p.id) as jumlah FROM periksas as p left outer join asuransis as s on s.id = p.asuransi_id left outer join pasiens as ps on ps.id = p.pasien_id left outer join diagnosas as dg on dg.id = p.diagnosa_id left outer join icd10s as i on i.id = dg.icd10_id where p.tanggal >= '{$mulai}' AND p.tanggal <= '{$akhir}' AND p.asuransi_id like '{$asuransi_id}' group by i.id order by jumlah desc";
 		$tanggal = DB::select($query);
 
-		return view('laporans.penyakit', compact(
-			'tanggal',
-			'mulai',
-			'akhir'
-		));
+		return view('laporans.penyakit')
+			->withTanggal($tanggal)
+			->withMulai($mulai)
+			->withAkhir($akhir);
 	}
 
 	public function status()
@@ -1150,16 +1144,15 @@ class LaporansController extends Controller
 			$tunaiJumlah = (int) $periksa->tunai;
 		}
 
-		return view('laporans.hariandanjam', compact(
-			'periksas',
-			'rincian',
-			'tanggal_awal',
-			'tanggal_akhir',
-			'jenis_tarifs',
-			'piutangJumlah',
-			'hariinis',
-			'tunaiJumlah'
-		));
+		return view('laporans.hariandanjam')
+			->withPeriksas($periksas)
+			->withRincian($rincian)
+			->withTanggal_awal($tanggal_awal)
+			->withTanggal_akhir($tanggal_akhir)
+			->withJenis_tarifs($jenis_tarifs)
+			->withPiutangjumlah($piutangJumlah)
+			->withHariinis($hariinis)
+			->withTunaijumlah($tunaiJumlah);
 	}
 	public function asuransi_detail($asuransi_id, $tanggal){
 		$periksas = Periksa::where("tanggal", $tanggal)->paginate(4);

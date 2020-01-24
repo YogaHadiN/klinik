@@ -51,7 +51,7 @@ class ObatsController extends Controller
 		$raks = Rak::orderBy('stok_minimal', 'desc')->get();
 
 
-		return view('Dispensings.stokmin', compact('raks'));
+		return view('Dispensings.stokmin')->withRaks($raks);
 	}
 
 	/**

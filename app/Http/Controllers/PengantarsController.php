@@ -120,15 +120,14 @@ class PengantarsController extends Controller
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
-		return view('antrianpolis.createPasien', compact(
-			'asuransi',
-			'statusPernikahan',
-			'panggilan',
-			'peserta',
-			'jenis_peserta',
-			'staf',
-			'poli'
-		));
+		return view('antrianpolis.createPasien')
+			->withAsuransi($asuransi)
+			->with('statusPernikahan', $statusPernikahan)
+			->with('panggilan', $panggilan)
+			->with('peserta', $peserta)
+			->withJenis_peserta($jenis_peserta)
+			->withStaf($staf)
+			->withPoli($poli);
 	}
 
 

@@ -63,7 +63,7 @@ class RujukansController extends Controller
             return Diagnosa::with('icd10')->get()->pluck('diagnosa_icd', 'id')->all();
 		});
   		$tujuan_rujuks = json_encode($tujuan_rujuks);
-		return view('rujukans.create', compact('periksa', 'tujuan_rujuks', 'isHamil', 'g', 'p', 'a', 'hpht', 'diagnosa')
+		return view('rujukans.create', compact('periksa', 'tujuan_rujuks', 'isHamil', 'g', 'p', 'a', 'hpht', 'diagnosa'));
 	}
 
 	/**

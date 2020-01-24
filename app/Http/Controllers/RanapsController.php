@@ -18,14 +18,13 @@ class RanapsController extends Controller
 		$jenis_peserta = $ps->jenisPeserta();
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
-		return view('ranaps.index', compact(
-			'asuransi',
-			'statusPernikahan',
-			'panggilan',
-			'jenis_peserta',
-			'staf',
-			'poli'
-		));
+		return view('ranaps.index')
+			->withAsuransi($asuransi)
+			->with('statusPernikahan', $statusPernikahan)
+			->with('panggilan', $panggilan)
+			->withJenis_peserta($jenis_peserta)
+			->withStaf($staf)
+			->withPoli($poli);
 	}
 	
 }

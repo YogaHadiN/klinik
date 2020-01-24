@@ -310,11 +310,10 @@ class PembeliansController extends Controller
 		}
 		$bulanTahun = Input::get('bulanTahun');
 		
-		return view('pembelians.riwayat', compact(
-			'faktur_beli',
-			'harga',
-			'bulanTahun'
-		));
+		return view('pembelians.riwayat')
+		->withFaktur_beli($faktur_beli)
+		->withHarga($harga)
+		->withBth($bulanTahun);
 	}
 
 	public function show($faktur_belanja_id)
