@@ -299,7 +299,7 @@ class PolisController extends Controller
 			->withSignas($signas)
 			->withBukus($bukus)
 			->withConfirms($confirms)
-			->withRefleks_patelas($refleks_patelas)
+			->with('refleks_patelas', $refleks_patelas)
 			->with('kepala_terhadap_paps', $kepala_terhadap_paps)
 			->withPresentasis($presentasis)
 			->withStafs($stafs)
