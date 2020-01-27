@@ -510,6 +510,7 @@
         //Kode untuk Automator
         var aturan_minum_id = getAturanMinumId();
         console.log(aturan_minum_id);
+
         $('#ddlAturanMinum').val(aturan_minum_id).selectpicker('refresh');
 
 
@@ -556,8 +557,9 @@
                 var tipe_resep = $('#tipeResep').val(); 
                 var merek      = $('#ddlNamaObat option:selected').text();
                 var fornas     = $('#ddlNamaObat option:selected').attr('data-fornas');
-
+				alert(fornas);
                 if (rak_id == 'D7' && tipe_resep == '1')  {
+					//
                 } else {
                     if (fornas == '0') {
                         $('#isi_pesan_fornas').remove();
