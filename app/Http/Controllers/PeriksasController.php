@@ -63,6 +63,7 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
+		/* return dd(Input::all()); */ 
 		$rules = [
 		  "kecelakaan_kerja"  => "required",
 		  "asuransi_id"       => "required",
@@ -144,6 +145,7 @@ class PeriksasController extends Controller
 		
 		$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
 		//sesuaikan Transaksi
+		//
 		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
 
 		//INPUT TRANSAKSI JAM MALAM
@@ -468,6 +470,7 @@ class PeriksasController extends Controller
 			// untuk asuransi admedika, obat akan dikonversi ke dalam merek paling mahal dalam formula yang sama
 			$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
 
+
 			//sesuaikan Transaksi
 			$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
 		
@@ -772,7 +775,11 @@ class PeriksasController extends Controller
 		$transaksis = $this->bhp($transaksi);
 		// INPUT TRANSAKSI OBAT
 		//Jika terapi tidak kosong, maka hitung biaya obat
-		$plafonFlat = Yoga::dispensingObatBulanIni($asuransi)['plafon'];
+		$ifflat = Yoga::dispensingObatBulanIni($asuransi);
+		$plafonFlat = null;
+		if ( !is_null( $plafonFlat ) ){
+			$plafonFlat = $ifflat['plafon'];
+		}
 		// return $plafonFlat;
 		// return $plafon;
 		$transaksis = Yoga::kaliObat($transaksis, $terapis, $asuransi, $plafonFlat, $poli);

@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
 use App\AntrianPeriksa;
+use App\Classes\Yoga;
 use App\Periksa;
 use Endroid\QrCode\QrCode;
 
 class RuangPeriksaController extends Controller
 {
+
+	protected $staf_list;
+
+	public function __construct(){
+		$this->staf_list = Yoga::stafList();
+	}
+	
 
 	public function index(){
 
@@ -24,10 +32,12 @@ class RuangPeriksaController extends Controller
 			->orderBy('antrian', 'asc')
 			->get();
 
+
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and ( poli='umum' or poli='sks' or poli='luka' )")->orderBy('tanggal')->orderBy('antrian')->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli('umum');
 	}
 	public function kandungan(){
@@ -37,6 +47,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli($poli);
 	}
 	public function suntikkb(){
@@ -45,6 +56,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli('Suntik KB');
 	}
 	public function anc(){
@@ -54,6 +66,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli($poli);
 	}
     public function usg(){
@@ -63,6 +76,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli($poli);
 	}
 	public function usgabdomen(){
@@ -72,6 +86,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli($poli);
 	}
 	public function gigi(){
@@ -81,6 +96,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli($poli);
 	}
 	public function darurat(){
@@ -90,6 +106,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli($poli);
 	}
 	public function estetika(){
@@ -100,6 +117,7 @@ class RuangPeriksaController extends Controller
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
+			->with('staf_list', $this->staf_list)
 			->withPoli($poli);
 	}
 	

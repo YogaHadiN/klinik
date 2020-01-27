@@ -47,13 +47,15 @@ class AntrianPeriksasController extends Controller
 
 					);
 
-		$staf = array('0' => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
-
-		$poli = Yoga::poliList();
-
-
+		$staf            = array('0' => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
+		$poli            = Yoga::poliList();
+		$staf_list       = Staf::list();
 		$antrianperiksas = AntrianPeriksa::all();
-		return view('antrianperiksas.index', compact('antrianperiksas', 'postperiksa'));
+		return view('antrianperiksas.index', compact(
+			'antrianperiksas',
+			'staf_list',
+		   	'postperiksa'
+		));
 	}
 
 
