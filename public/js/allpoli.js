@@ -559,6 +559,7 @@
                 var fornas     = $('#ddlNamaObat option:selected').attr('data-fornas');
 				alert(fornas);
                 if (rak_id == 'D7' && tipe_resep == '1')  {
+					//
                 } else {
                     if (fornas == '0') {
                         $('#isi_pesan_fornas').remove();
@@ -1184,9 +1185,73 @@ function optionSyrup(ID_MEREK){
         for (var i = 0; i < dataMerek.length; i++) {
 
             if(dataMerek[i].merek_id == id){
-                temp += '<option data-custom-value=\'{ "formula_id" : "' + dataMerek[i].formula_id +'", "rak_id" : "' + dataMerek[i].rak_id + '", "merek_id" : "'  + dataMerek[i].merek_id +  '", "harga_beli" : "'  + dataMerek[i].harga_beli +  '" , "aturan_minum_id" : "'  + dataMerek[i].aturan_minum_id +  '" , "harga_jual" : "'  + dataMerek[i].harga_jual +  '" , "sediaan" : "'  + dataMerek[i].sediaan +  '" , "tidak_dipuyer" : "'  + dataMerek[i].tidak_dipuyer +  '" }\' selected="selected" data-subtext=\'' + dataMerek[i].komposisi + '\' value=\'' + dataMerek[i].merek_id + '\' data-peringatan=\'' + dataMerek[i].peringatan + '\' data-fornas=\'' + dataMerek[i].fornas + '\' data-alternatif=\'' + dataMerek[i].alternatif + '\'>' + dataMerek[i].merek + '</option>';
+                temp += '<option data-custom-value=\'{ "formula_id" : "' ;
+				temp += dataMerek[i].formula_id ;
+				temp += '", "rak_id" : "' ;
+				temp += dataMerek[i].rak_id ;
+				temp += '", "merek_id" : "'  ;
+				temp += dataMerek[i].merek_id ;
+				temp += '", "harga_beli" : "'  ;
+				temp += dataMerek[i].harga_beli ;
+				temp += '" , "aturan_minum_id" : "'  ;
+				temp += dataMerek[i].aturan_minum_id ;
+				temp += '" , "harga_jual" : "'  ;
+				temp += dataMerek[i].harga_jual ;
+				temp += '" , "sediaan" : "'  ;
+				temp += dataMerek[i].sediaan ;
+				temp += '" , "tidak_dipuyer" : "'  ;
+				temp += dataMerek[i].tidak_dipuyer ;
+				temp += '" }\' selected="selected" data-subtext=\'' ;
+				for (var e = 0; e < dataMerek[i].komposisi.length; e++) {
+						temp += '<br/>';
+						temp += dataMerek[i].komposisi[e] ;
+				}
+				temp += '\' value=\'' ;
+				temp += dataMerek[i].merek_id ;
+				temp += '\' data-peringatan=\'' ;
+				temp += dataMerek[i].peringatan ;
+				temp += '\' data-fornas=\'' ;
+				temp += dataMerek[i].fornas ;
+				temp += '\' data-alternatif=\'' ;
+				temp += dataMerek[i].alternatif ;
+				temp += '\'>' ;
+				temp += dataMerek[i].merek ;
+				temp += '</option>';
             } else {
-                temp += '<option data-custom-value=\'{ "formula_id" : "' + dataMerek[i].formula_id +'", "rak_id" : "' + dataMerek[i].rak_id + '", "merek_id" : "'  + dataMerek[i].merek_id +  '", "harga_beli" : "'  + dataMerek[i].harga_beli +  '" , "aturan_minum_id" : "'  + dataMerek[i].aturan_minum_id +  '" , "harga_jual" : "'  + dataMerek[i].harga_jual +  '" , "sediaan" : "'  + dataMerek[i].sediaan +  '" , "tidak_dipuyer" : "'  + dataMerek[i].tidak_dipuyer +  '" }\' data-subtext=\'' + dataMerek[i].komposisi + '\' value=\'' + dataMerek[i].merek_id + '\' data-peringatan=\'' + dataMerek[i].peringatan + '\'  data-fornas=\'' + dataMerek[i].fornas + '\' data-alternatif=\'' + dataMerek[i].alternatif + '\'>' + dataMerek[i].merek + '</option>';
+                temp += '<option data-custom-value=\'{ "formula_id" : "' ;
+				temp += dataMerek[i].formula_id ;
+				temp += '", "rak_id" : "' ;
+				temp += dataMerek[i].rak_id ;
+				temp += '", "merek_id" : "'  ;
+				temp += dataMerek[i].merek_id ;
+				temp += '", "harga_beli" : "'  ;
+				temp += dataMerek[i].harga_beli ;
+				temp += '" , "aturan_minum_id" : "'  ;
+				temp += dataMerek[i].aturan_minum_id ;
+				temp += '" , "harga_jual" : "'  ;
+				temp += dataMerek[i].harga_jual ;
+				temp += '" , "sediaan" : "'  ;
+				temp += dataMerek[i].sediaan ;
+				temp += '" , "tidak_dipuyer" : "'  ;
+				temp += dataMerek[i].tidak_dipuyer ;
+				temp += '" }\' data-subtext=\'' ;
+
+				for (var e = 0; e < dataMerek[i].komposisi.length; e++) {
+						temp += '<br/>';
+						temp += dataMerek[i].komposisi[e] ;
+				}
+
+				temp += '\' value=\'' ;
+				temp += dataMerek[i].merek_id ;
+				temp += '\' data-peringatan=\'' ;
+				temp += dataMerek[i].peringatan ;
+				temp += '\'  data-fornas=\'' ;
+				temp += dataMerek[i].fornas ;
+				temp += '\' data-alternatif=\'' ;
+				temp += dataMerek[i].alternatif ;
+				temp += '\'>' ;
+				temp += dataMerek[i].merek ;
+				temp += '</option>';
             }
         };
 
@@ -1207,12 +1272,86 @@ function optionSyrup(ID_MEREK){
         dataMerek = JSON.parse(dataMerek);
         var temp = '';
         for (var i = 0; i < dataMerek.length; i++) {
-        var doses = JSON.stringify(dataMerek[i].doses);
+			var doses = JSON.stringify(dataMerek[i].doses);
 
             if(dataMerek[i].merek_id == id){
-                temp += '<option data-dose=\'' + doses + '\' data-custom-value=\'{ "formula_id" : "' + dataMerek[i].formula_id +'", "rak_id" : "' + dataMerek[i].rak_id + '", "merek_id" : "'  + dataMerek[i].merek_id +  '", "harga_beli" : "'  + dataMerek[i].harga_beli +  '" , "aturan_minum_id" : "'  + dataMerek[i].aturan_minum_id +  '" , "harga_jual" : "'  + dataMerek[i].harga_jual +  '" , "sediaan" : "'  + dataMerek[i].sediaan +  '" , "tidak_dipuyer" : "'  + dataMerek[i].tidak_dipuyer +  '" }\' selected="selected" data-subtext=\'' + dataMerek[i].komposisi + '\' value=\'' + dataMerek[i].merek_id + '\' data-peringatan=\'' + dataMerek[i].peringatan + '\' data-fornas=\'' + dataMerek[i].fornas + '\' data-alternatif=\'' + dataMerek[i].alternatif + '\'>' + dataMerek[i].merek + '</option>';
+                temp += '<option data-dose=\'' ;
+				temp += doses ;
+				temp += '\' data-custom-value=\'{ "formula_id" : "' ;
+				temp += dataMerek[i].formula_id ;
+				temp += '", "rak_id" : "' ;
+				temp += dataMerek[i].rak_id ;
+				temp += '", "merek_id" : "'  ;
+				temp += dataMerek[i].merek_id ;
+				temp += '", "harga_beli" : "'  ;
+				temp += dataMerek[i].harga_beli ;
+				temp += '" , "aturan_minum_id" : "'  ;
+				temp += dataMerek[i].aturan_minum_id ;
+				temp += '" , "harga_jual" : "'  ;
+				temp += dataMerek[i].harga_jual ;
+				temp += '" , "sediaan" : "'  ;
+				temp += dataMerek[i].sediaan ;
+				temp += '" , "tidak_dipuyer" : "'  ;
+				temp += dataMerek[i].tidak_dipuyer ;
+				temp += '" }\' selected="selected" data-subtext=\'' ;
+
+				for (var e = 0; e < dataMerek[i].komposisi.length; e++) {
+					if (e < 1) {
+						temp += dataMerek[i].komposisi[e] ;
+					} else {
+						temp += '////<br/>';
+						temp += dataMerek[i].komposisi[e] ;
+					}
+				}
+
+				temp += '\' value=\'' ;
+				temp += dataMerek[i].merek_id ;
+				temp += '\' data-peringatan=\'' ;
+				temp += dataMerek[i].peringatan ;
+				temp += '\' data-fornas=\'' ;
+				temp += dataMerek[i].fornas ;
+				temp += '\' data-alternatif=\'' ;
+				temp += dataMerek[i].alternatif ;
+				temp += '\'>' ;
+				temp += dataMerek[i].merek ;
+				temp += '</option>';
             } else {
-                temp += '<option data-dose=\'' + doses + '\' data-custom-value=\'{ "formula_id" : "' + dataMerek[i].formula_id +'", "rak_id" : "' + dataMerek[i].rak_id + '", "merek_id" : "'  + dataMerek[i].merek_id +  '", "harga_beli" : "'  + dataMerek[i].harga_beli +  '" , "aturan_minum_id" : "'  + dataMerek[i].aturan_minum_id +  '" , "harga_jual" : "'  + dataMerek[i].harga_jual +  '" , "sediaan" : "'  + dataMerek[i].sediaan +  '" , "tidak_dipuyer" : "'  + dataMerek[i].tidak_dipuyer +  '" }\' data-subtext=\'' + dataMerek[i].komposisi + '\' value=\'' + dataMerek[i].merek_id + '\' data-peringatan=\'' + dataMerek[i].peringatan + '\' data-fornas=\'' + dataMerek[i].fornas + '\' data-alternatif=\'' + dataMerek[i].alternatif + '\'>' + dataMerek[i].merek + '</option>';
+                temp += '<option data-dose=\'' ;
+				temp += doses ;
+				temp += '\' data-custom-value=\'{ "formula_id" : "' ;
+				temp += dataMerek[i].formula_id ;
+				temp += '", "rak_id" : "' ;
+				temp += dataMerek[i].rak_id ;
+				temp += '", "merek_id" : "'  ;
+				temp += dataMerek[i].merek_id ;
+				temp += '", "harga_beli" : "'  ;
+				temp += dataMerek[i].harga_beli ;
+				temp += '" , "aturan_minum_id" : "'  ;
+				temp += dataMerek[i].aturan_minum_id ;
+				temp += '" , "harga_jual" : "'  ;
+				temp += dataMerek[i].harga_jual ;
+				temp += '" , "sediaan" : "'  ;
+				temp += dataMerek[i].sediaan ;
+				temp += '" , "tidak_dipuyer" : "'  ;
+				temp += dataMerek[i].tidak_dipuyer ;
+				temp += '" }\' data-subtext=\'' ;
+
+				for (var e = 0; e < dataMerek[i].komposisi.length; e++) {
+						temp += '<br/>';
+						temp += dataMerek[i].komposisi[e] ;
+				}
+
+				temp += '\' value=\'' ;
+				temp += dataMerek[i].merek_id ;
+				temp += '\' data-peringatan=\'' ;
+				temp += dataMerek[i].peringatan ;
+				temp += '\' data-fornas=\'' ;
+				temp += dataMerek[i].fornas ;
+				temp += '\' data-alternatif=\'' ;
+				temp += dataMerek[i].alternatif ;
+				temp += '\'>' ;
+				temp += dataMerek[i].merek ;
+				temp += '</option>';
             }
         };
 
@@ -1240,14 +1379,85 @@ function optionSyrup(ID_MEREK){
         var doses = JSON.stringify(dataMerek[i].doses);
 
             if(dataMerek[i].merek_id == id){
-                temp += '<option data-dose=\'' + doses + '\' data-custom-value=\'{ "formula_id" : "' + dataMerek[i].formula_id +'", "rak_id" : "' + dataMerek[i].rak_id + '", "merek_id" : "'  + dataMerek[i].merek_id +  '", "harga_beli" : "'  + dataMerek[i].harga_beli +  '" , "aturan_minum_id" : "'  + dataMerek[i].aturan_minum_id +  '" , "harga_jual" : "'  + dataMerek[i].harga_jual +  '" , "sediaan" : "'  + dataMerek[i].sediaan +  '" , "tidak_dipuyer" : "'  + dataMerek[i].tidak_dipuyer +  '" }\' selected="selected" data-subtext=\'' + dataMerek[i].komposisi + '\' value=\'' + dataMerek[i].merek_id + '\' data-peringatan=\'' + dataMerek[i].peringatan + '\' data-fornas=\'' + dataMerek[i].fornas + '\' data-alternatif=\'' + dataMerek[i].alternatif + '\'>' + dataMerek[i].merek + '</option>';
+                temp += '<option data-dose=\'' ;
+				temp += doses ;
+				temp += '\' data-custom-value=\'{ "formula_id" : "' ;
+				temp += dataMerek[i].formula_id ;
+				temp += '", "rak_id" : "' ;
+				temp += dataMerek[i].rak_id ;
+				temp += '", "merek_id" : "'  ;
+				temp += dataMerek[i].merek_id ;
+				temp += '", "harga_beli" : "'  ;
+				temp += dataMerek[i].harga_beli ;
+				temp += '" , "aturan_minum_id" : "'  ;
+				temp += dataMerek[i].aturan_minum_id ;
+				temp += '" , "harga_jual" : "'  ;
+				temp += dataMerek[i].harga_jual ;
+				temp += '" , "sediaan" : "'  ;
+				temp += dataMerek[i].sediaan ;
+				temp += '" , "tidak_dipuyer" : "'  ;
+				temp += dataMerek[i].tidak_dipuyer ;
+				temp += '" }\' selected="selected" data-subtext=\'' ;
+
+				for (var e = 0; e < dataMerek[i].komposisi.length; e++) {
+						temp += '<br/>';
+						temp += dataMerek[i].komposisi[e] ;
+				}
+
+				temp += '\' value=\'' ;
+				temp += dataMerek[i].merek_id ;
+				temp += '\' data-peringatan=\'' ;
+
+				temp += '\' value=\'' ;
+				temp += dataMerek[i].merek_id ;
+				temp += '\' data-peringatan=\'' ;
+				temp += dataMerek[i].peringatan ;
+				temp += '\' data-fornas=\'' ;
+				temp += dataMerek[i].fornas ;
+				temp += '\' data-alternatif=\'' ;
+				temp += dataMerek[i].alternatif ;
+				temp += '\'>' ;
+				temp += dataMerek[i].merek ;
+				temp += '</option>';
             } else {
-                temp += '<option data-dose=\'' + doses + '\' data-custom-value=\'{ "formula_id" : "' + dataMerek[i].formula_id +'", "rak_id" : "' + dataMerek[i].rak_id + '", "merek_id" : "'  + dataMerek[i].merek_id +  '", "harga_beli" : "'  + dataMerek[i].harga_beli +  '" , "aturan_minum_id" : "'  + dataMerek[i].aturan_minum_id +  '" , "harga_jual" : "'  + dataMerek[i].harga_jual +  '" , "sediaan" : "'  + dataMerek[i].sediaan +  '" , "tidak_dipuyer" : "'  + dataMerek[i].tidak_dipuyer +  '" }\' data-subtext=\'' + dataMerek[i].komposisi + '\' value=\'' + dataMerek[i].merek_id + '\' data-peringatan=\'' + dataMerek[i].peringatan + '\' data-fornas=\'' + dataMerek[i].fornas + '\' data-alternatif=\'' + dataMerek[i].alternatif + '\'>' + dataMerek[i].merek + '</option>';
+                temp += '<option data-dose=\'' ;
+				temp += doses ;
+				temp += '\' data-custom-value=\'{ "formula_id" : "' ;
+				temp += dataMerek[i].formula_id ;
+				temp += '", "rak_id" : "' ;
+				temp += dataMerek[i].rak_id ;
+				temp += '", "merek_id" : "'  ;
+				temp += dataMerek[i].merek_id ;
+				temp += '", "harga_beli" : "'  ;
+				temp += dataMerek[i].harga_beli ;
+				temp += '" , "aturan_minum_id" : "'  ;
+				temp += dataMerek[i].aturan_minum_id ;
+				temp += '" , "harga_jual" : "'  ;
+				temp += dataMerek[i].harga_jual ;
+				temp += '" , "sediaan" : "'  ;
+				temp += dataMerek[i].sediaan ;
+				temp += '" , "tidak_dipuyer" : "'  ;
+				temp += dataMerek[i].tidak_dipuyer ;
+				temp += '" }\' data-subtext=\'' ;
+
+				for (var e = 0; e < dataMerek[i].komposisi.length; e++) {
+						temp += '<br/>';
+						temp += dataMerek[i].komposisi[e] ;
+				}
+				temp += '\' value=\'' ;
+				temp += dataMerek[i].merek_id ;
+				temp += '\' data-peringatan=\'' ;
+				temp += dataMerek[i].peringatan ;
+				temp += '\' data-fornas=\'' ;
+				temp += dataMerek[i].fornas ;
+				temp += '\' data-alternatif=\'' ;
+				temp += dataMerek[i].alternatif ;
+				temp += '\'>' ;
+				temp += dataMerek[i].merek ;
+				temp += '</option>';
             }
         };
-
         $('#ddlNamaObat').html(temp).selectpicker('refresh');
-
         $('#keterangan_auto').html(berat_badan);
         $('#keterangan_auto_keterangan').removeClass('hide').hide().slideDown(500);
         $('#ddlNamaObat').val('').selectpicker('refresh');
