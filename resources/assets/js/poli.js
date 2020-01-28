@@ -177,10 +177,10 @@
 
 
             $.get(base + '/DdlMerek/alloption2', {'bb': bb}, function(data) {
-                data = $.parseJSON(data);
+                data            = $.parseJSON(data);
                 var berat_badan = data.berat_badan;
-                data = data.temp;
-                data = JSON.stringify(data);
+                data            = data.temp;
+                data            = JSON.stringify(data);
                 customOption2a(data, berat_badan);
             });
         });
@@ -1376,7 +1376,7 @@ function optionSyrup(ID_MEREK){
         dataMerek = JSON.parse(dataMerek);
         var temp = '';
         for (var i = 0; i < dataMerek.length; i++) {
-        var doses = JSON.stringify(dataMerek[i].doses);
+			var doses = JSON.stringify(dataMerek[i].doses);
 
             if(dataMerek[i].merek_id == id){
                 temp += '<option data-dose=\'' ;
