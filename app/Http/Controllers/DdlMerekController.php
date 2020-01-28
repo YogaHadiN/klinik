@@ -21,11 +21,26 @@ class DdlMerekController extends Controller
 	
 	public function alloption(){
 
-		$data =  DB::select('SELECT f.tidak_dipuyer as tidak_dipuyer, m.id as merek_id, f.sediaan as sediaan, r.id as rak_id, f.id as formula_id, m.merek, r.harga_beli, f.aturan_minum_id as aturan_minum_id, f.peringatan as peringatan, r.fornas as fornas, r.harga_jual as harga_jual FROM mereks as m JOIN raks as r on r.id = m.rak_id join formulas as f on f.id = r.formula_id ORDER BY m.id ASC');
+		$query = 'SELECT f.tidak_dipuyer as tidak_dipuyer, ';
+		$query .= 'm.id as merek_id, ';
+		$query .= 'f.sediaan as sediaan, ';
+		$query .= 'r.id as rak_id, ';
+		$query .= 'f.id as formula_id, ';
+		$query .= 'm.merek, ';
+		$query .= 'r.harga_beli, ';
+		$query .= 'f.aturan_minum_id as aturan_minum_id, ';
+		$query .= 'f.peringatan as peringatan, ';
+		$query .= 'r.fornas as fornas, ';
+		$query .= 'r.harga_jual as harga_jual ';
+		$query .= 'FROM mereks as m ';
+		$query .= 'JOIN raks as r on r.id = m.rak_id ';
+		$query .= 'join formulas as f on f.id = r.formula_id ';
+		$query .= 'ORDER BY m.id ASC';
+		$data =  DB::select($query);
 		$i = 0;
-		
 		$asuransi_id = Input::get('asuransi_id');
 		$asuransi    = Asuransi::find($asuransi_id);
+		$non_fornas = [];
 
 		foreach ($data as $dt) {
 			$temp = '<br />';
@@ -41,7 +56,12 @@ class DdlMerekController extends Controller
 			$dt->ID_TERAPI = strval($i);
 			$dt->komposisi = $temp;
 			$i++;	
+			if ($dt->fornas == '1') {
+				$non_fornas[] = $dt->merek;
+			}
 		}
+
+		dd($non_fornas);
 
 		return json_encode($data);
 	}

@@ -71,7 +71,6 @@
                         <select name="ddlNamaObat" id="ddlNamaObat" class="form-control selectpick kosong" data-live-search="true" title="Nama Obat">
 
                         </select>
-
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         <input type="text" class="form-control" id="txtjumlah" placeholder="jumlah" />
