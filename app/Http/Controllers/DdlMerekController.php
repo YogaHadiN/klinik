@@ -56,12 +56,13 @@ class DdlMerekController extends Controller
 			$dt->ID_TERAPI = strval($i);
 			$dt->komposisi = $temp;
 			$i++;	
-			if ($dt->fornas == '1') {
+			$number = '1';
+			if ($dt->fornas == $number) {
 				$non_fornas[] = $dt->merek;
 			}
 		}
 
-		dd($non_fornas);
+		dd($number  . '  ===  ' . $non_fornas);
 
 		return json_encode($data);
 	}
