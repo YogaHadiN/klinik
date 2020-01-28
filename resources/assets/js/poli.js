@@ -407,10 +407,6 @@
 		}
   });
 
-  // $('a#inputResep').focus(function() {
-	  // alert('ngehe');
-  // });
-
       //perintah yang diberikan bila Select tipe resep diganti opsi nya
   $('#tipeResep').change(function() {
         var tipe = $(this).val();
@@ -557,7 +553,6 @@
                 var tipe_resep = $('#tipeResep').val(); 
                 var merek      = $('#ddlNamaObat option:selected').text();
                 var fornas     = $('#ddlNamaObat option:selected').attr('data-fornas');
-				alert(fornas);
                 if (rak_id == 'D7' && tipe_resep == '1')  {
 					//
                 } else {
@@ -656,10 +651,6 @@
      $('.afi_count').keyup(function(e) {
         afiCount();
      });
-
-
-
-
 }); //end document.ready
 
 function afiCount(){
