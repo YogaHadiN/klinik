@@ -39,8 +39,8 @@ class DdlMerekController extends Controller
 		$query .= 'FROM mereks as m ';
 		$query .= 'JOIN raks as r on r.id = m.rak_id ';
 		$query .= 'JOIN formulas as f on f.id = r.formula_id ';
-		$query .= 'JOIN komposisis as k on f.id = k.formula_id ';
-		$query .= 'JOIN generiks as g on g.id = k.generik_id ';
+		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
+		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= 'ORDER BY m.id ASC';
 		$data =  DB::select($query);
 		
@@ -69,9 +69,9 @@ class DdlMerekController extends Controller
 		$query .= "FROM mereks as m ";
 		$query .= "JOIN raks as r on r.id = m.rak_id ";
 		$query .= "join formulas as f on f.id = r.formula_id ";
-		$query .= "JOIN komposisis as k on f.id = k.formula_id ";
+		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
+		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "JOIN doses as d on f.id = d.formula_id ";
-		$query .= "JOIN generiks as g on g.id = k.generik_id ";
 		$query .= "WHERE d.berat_badan_id = '{$berat_badan_id}'";
 		$query .= "ORDER BY m.id ASC";
 		$data   = DB::select($query);
@@ -132,8 +132,8 @@ class DdlMerekController extends Controller
 		$query .= "FROM mereks as m ";
 		$query .= "JOIN raks as r on r.id = m.rak_id ";
 		$query .= "join formulas as f on f.id = r.formula_id ";
-		$query .= 'JOIN komposisis as k on f.id = k.formula_id ';
-		$query .= 'JOIN generiks as g on g.id = k.generik_id ';
+		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
+		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "WHERE f.sediaan = 'capsul' ";
 		$query .= "or f.sediaan = 'tablet' ";
 		$query .= "ORDER BY m.id ASC";
@@ -158,8 +158,8 @@ class DdlMerekController extends Controller
 		$query .= "FROM mereks as m ";
 		$query .= "JOIN raks as r on r.id = m.rak_id ";
 		$query .= "join formulas as f on f.id = r.formula_id ";
-		$query .= 'JOIN komposisis as k on f.id = k.formula_id ';
-		$query .= 'JOIN generiks as g on g.id = k.generik_id ';
+		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
+		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "WHERE f.sediaan like '%syrup%' ";
 		$query .= "ORDER BY m.id ASC";
 		$data =  DB::select($query);
