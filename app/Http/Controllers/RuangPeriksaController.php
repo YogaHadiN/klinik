@@ -25,7 +25,11 @@ class RuangPeriksaController extends Controller
 	}
 	public function umum(){
 
-		$antrianperiksa = AntrianPeriksa::with('pasien', 'staf', 'asuransi')
+		$antrianperiksa = AntrianPeriksa::with(
+			'pasien',
+		   	'staf',
+		   	'asuransi'
+		)
 			->where('poli', '=', 'umum')
 			->orWhere('poli', 'luka')
 			->orWhere('poli', 'sks')

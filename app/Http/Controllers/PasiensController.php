@@ -155,7 +155,18 @@ class PasiensController extends Controller
 	 */
 	public function show($id)
 	{
-		$periksas = Periksa::where('pasien_id', $id)->orderBy('tanggal', 'desc')->paginate(10);
+		$periksas = Periksa::with(
+			'pasien', 
+			'staf' ,
+			'asuransi', 
+			'suratSakit', 
+			'gambars', 
+			'usg', 
+			'registerAnc', 
+			'rujukan.tujuanRujuk', 
+			'terapii.merek', 
+			'diagnosa.icd10'
+	   	)->where('pasien_id', $id)->orderBy('tanggal', 'desc')->paginate(10);
 
 		if($periksas->count() > 0){
 			return view('pasiens.show', compact('periksas'));
