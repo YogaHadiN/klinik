@@ -1475,12 +1475,17 @@ function optionSyrup(ID_MEREK){
         var merek = $('#ddlNamaObat').val();
         if(merek != ''){
             var data_custom = $('#ddlNamaObat option:selected').attr("data-custom-value");
+			console.log('data_custom ==== ');
+			console.log('data_custom ==== ');
+			console.log('data_custom ==== ');
+			console.log('data_custom ==== ');
+			console.log('data_custom ==== ');
+			console.log(data_custom);
             merek = JSON.parse(data_custom);
             var id = merek.formula_id;
         } else {
             var id = '';
         }
-
         return id;
     }
     function getIdRak(){
