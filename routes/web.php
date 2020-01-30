@@ -448,7 +448,7 @@ Route::resource('users', 'UsersController');
 			Route::get('pendapatans/create', 'PendapatansController@create');
 			Route::post('pendapatans/index', 'PendapatansController@store');
 			Route::get('pendapatans/pembayaran/asuransi', 'PendapatansController@pembayaran_asuransi');
-			Route::get('pengeluarans/pembayaran_asuransi/show ', 'PendapatansController@lihat_pembayaran_asuransi');
+			Route::post('pengeluarans/pembayaran_asuransi/show ', 'PendapatansController@lihat_pembayaran_asuransi');
 			Route::get('pendapatans/pembayaran_bpjs ', 'PendapatansController@pembayaran_bpjs');
 			Route::post('pendapatans/pembayaran_bpjs', 'PendapatansController@pembayaran_bpjs_post');
 			Route::get('pendapatans/pembayaran/asuransi/show/{id}', 'PendapatansController@pembayaran_asuransi_show');

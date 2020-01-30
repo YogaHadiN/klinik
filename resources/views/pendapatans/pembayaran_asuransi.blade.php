@@ -20,7 +20,13 @@
     </div>
 @endif
 
-{!! Form::open(['url' => 'pengeluarans/pembayaran_asuransi/show', 'method' => 'get']) !!}
+{!! Form::open([
+	'url'    => 'pengeluarans/pembayaran_asuransi/show',
+	"class"  => "m-t",
+	"role"   => "form",
+	"files"  => "true",
+	"method" => "post"
+]) !!}
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-default">
@@ -45,6 +51,11 @@
 				  {!! Form::label('akhir', 'Akhir', ['class' => 'control-label']) !!}
                   {!! Form::text('akhir', null, ['class' => 'form-control rq tanggal']) !!}
 				  @if($errors->has('akhir'))<code>{{ $errors->first('akhir') }}</code>@endif
+				</div>
+				<div class="form-group{{ $errors->has('excel_pembayaran') ? ' has-error' : '' }}">
+					{!! Form::label('excel_pembayaran', 'Excel Pembayaran') !!}
+					{!! Form::file('excel_pembayaran') !!}
+					  @if($errors->has('excel_pembayaran'))<code>{{ $errors->first('excel_pembayaran') }}</code>@endif
 				</div>
                 <div class="form-group">
                   <div class="row">

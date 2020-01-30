@@ -12,6 +12,8 @@ use App\PembayaranAsuransi;
 use App\PiutangDibayar;
 use App\PiutangAsuransi;
 use App\NotaJual;
+use App\Imports\PembayaranImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Coa;
 use App\Asuransi;
 use App\JurnalUmum;
@@ -269,6 +271,13 @@ class PendapatansController extends Controller
 
         $sudah_dibayars = $this->sudahDibayar( $mulai, $akhir, $asuransi_id );
 
+		$excel_pembayaran = [];
+
+		if (Input::hasFile('excel_pembayaran')) {
+			$file =Input::file('excel_pembayaran'); //GET FILE
+			$excel_pembayaran = Excel::toArray(new PembayaranImport, $file);
+		}  
+
 
 		foreach ($sudah_dibayars as $sb) {
 			$total_sudah_dibayar += $sb->pembayaran;
@@ -279,6 +288,7 @@ class PendapatansController extends Controller
 		return view('pendapatans.pembayaran_show', compact(
 			'pembayarans', 
 			'total_sudah_dibayar', 
+			'excel_pembayaran', 
 			'total_belum_dibayar', 
 			'asuransi', 
 			'sudah_dibayars', 

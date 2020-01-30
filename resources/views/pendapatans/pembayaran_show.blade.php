@@ -73,11 +73,6 @@
                   {!! Form::text('dibayar' , null, ['class' => 'form-control rq uangInput', 'id'=>'piutang']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
 				</div>
-				<div class="form-group{{ $errors->has('excel_pembayaran') ? ' has-error' : '' }}">
-					{!! Form::label('excel_pembayaran', 'Excel Pembayaran') !!}
-					{!! Form::file('excel_pembayaran') !!}
-					  @if($errors->has('excel_pembayaran'))<code>{{ $errors->first('excel_pembayaran') }}</code>@endif
-				</div>
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}
