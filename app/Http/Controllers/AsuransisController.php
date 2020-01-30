@@ -323,6 +323,7 @@ class AsuransisController extends Controller
 		$query .="sum(bl.hutang) as hutang, ";
 		$query .="sum(bl.sudah_dibayar) as sudah_dibayar, ";
 		$query .="bl.jumlah_pembayaran, ";
+		$query .="asuransi_id, ";
 		$query .="bl.nama_asuransi as nama_asuransi, ";
 		$query .="month(bl.tanggal) as bulan, ";
 		$query .="year(bl.tanggal) as tahun, ";
@@ -332,6 +333,7 @@ class AsuransisController extends Controller
 		$query .="pias.created_at as tanggal, ";
 		$query .="pias.piutang as hutang, ";
 		$query .="asu.nama as nama_asuransi, ";
+		$query .="asu.id as asuransi_id, ";
 		$query .="sum( pd.pembayaran ) as sudah_dibayar, ";
 		$query .="count( pd.pembayaran ) as jumlah_pembayaran, ";
 		$query .="pias.id as id ";
@@ -441,6 +443,7 @@ class AsuransisController extends Controller
 			$arr[] = [
 				'bulan'         => Yoga::bulan($hutang->bulan),
 				'nama_asuransi' => $hutang->nama_asuransi,
+				'asuransi_id' => $hutang->asuransi_id,
 				'sudah_dibayar' => Yoga::buatrp($hutang->sudah_dibayar),
 				'hutang'        => Yoga::buatrp($hutang->hutang),
 				'tahun'         => $hutang->tahun

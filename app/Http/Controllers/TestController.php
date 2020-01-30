@@ -33,20 +33,16 @@ use App\Komposisi;
 use App\Classes\Yoga;
 use App\Http\Handler;
 use App\Console\Commands\sendMeLaravelLog;
+use App\Imports\PembayaranImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class TestController extends Controller
 {
 
 	public function index(){
-		$periksas = Terapi::where('created_at', '>', '2017-01-01')->get();
-		foreach ($periksas as $periksa) {
-			try {
-				$periksa->merek->merek;
-			} catch (\Exception $e) {
-				return $terapi;
-			}
-		}
-		return 'oke';
+
+		dd(Excel::toArray(new PembayaranImport, 'users.xlsx'));
+		/* return Excel::import(new PembayaranImport, 'users.xlsx'); */
 	}
 }

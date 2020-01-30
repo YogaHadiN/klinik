@@ -20,7 +20,16 @@
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
         <div class="panel panel-danger">
             <div class="panel-heading">
-                <div class="panel-title">Pembayaran</div>
+                <div class="panel-title">
+					<div class="panelLeft">
+						Pembayaran
+					</div>
+					<div class="panelRight">
+						<button class="btn btn-primary" onclick="importPembayaranExcel(this);return false;" type="button">
+							 Excel  <span class="glyphicon glyphicon-import" aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
             </div>
             <div class="panel-body">
                 {!! Form::open([
@@ -63,6 +72,11 @@
 				  {!! Form::label('dibayar', 'Dibayar Sebesar', ['class' => 'control-label']) !!}
                   {!! Form::text('dibayar' , null, ['class' => 'form-control rq uangInput', 'id'=>'piutang']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
+				</div>
+				<div class="form-group{{ $errors->has('excel_pembayaran') ? ' has-error' : '' }}">
+					{!! Form::label('excel_pembayaran', 'Excel Pembayaran') !!}
+					{!! Form::file('excel_pembayaran') !!}
+					  @if($errors->has('excel_pembayaran'))<code>{{ $errors->first('excel_pembayaran') }}</code>@endif
 				</div>
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
@@ -174,7 +188,7 @@
 	</div>
 	<div class="panel-body">
 		<div class-"table-responsive">
-			<table class="table table-hover table-condensed DT">
+			<table class="table table-hover table-condensed">
 				<thead>
 					<tr>
 						<th>ID PERIKSA</th>
@@ -378,8 +392,6 @@ function submitPage(){
 	} else {
 		alert('Harus ada pasien yang di ceklist');
 	}
-
-     
 }
 function akanDibayarKeyup(control){
 

@@ -71,7 +71,6 @@
   			</div>
   		</div>
   	</div>
-  	
   </div>
 </div>
 {!! Form::close() !!}
@@ -110,15 +109,10 @@
                     </table>
                     <?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
                 </div>
-                
-                
             </div>
         </div>
-        
     </div>
-    
 </div>
-
 @stop
 @section('footer') 
 <script>
@@ -158,7 +152,7 @@
 		  $('#riwayatHutang').html(temp);
 		  $('#riwayat_hutang_asuransi').dataTable();
 		  $('#namaAsuransi').html(
-			  '<a href="' +base + '/' + data[0].asuransi_id + '/hutang/pembayaran">Riwayat Hutang'+ data[0].nama_asuransi +'</a>'
+			  '<a href="' +base + '/asuransis/' + data[0].asuransi_id + '/hutang/pembayaran">Riwayat Hutang'+ data[0].nama_asuransi +'</a>'
 		  );
 	  });
   }

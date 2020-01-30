@@ -274,6 +274,7 @@ class PendapatansController extends Controller
 			$total_sudah_dibayar += $sb->pembayaran;
 		}
 
+		/* dd($pembayarans); */
 
 		return view('pendapatans.pembayaran_show', compact(
 			'pembayarans', 
