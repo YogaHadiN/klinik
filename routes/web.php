@@ -134,6 +134,7 @@ Route::resource('users', 'UsersController');
 
 			Route::get('backup', 'DatabaseController@index');
 			Route::get('copy_log_file', 'DatabaseController@copyLog');
+			Route::get('asuransis/catatan', 'AsuransisController@catatan');
 
 			// dari menu users
 			Route::post('mereks/ajax/obat', 'MereksController@ajaxObat');

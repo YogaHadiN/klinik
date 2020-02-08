@@ -442,7 +442,7 @@
 
             $('#usia').html(umur);
             $('#namaPasien1').val(namaPasien);
-            $('.nama').html(namaPasien);
+            {{-- $('.nama').html(namaPasien); --}}
             $('#jamDatang1').html(jam);
             $('#jamDatang').val(jam);
             $('#pembayaran1 ').val(ID_ASURANSI).selectpicker('refresh');

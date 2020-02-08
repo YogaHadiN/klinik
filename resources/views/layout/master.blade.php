@@ -343,7 +343,9 @@
     <script src="{!! url('js/inspinia.js') !!}"></script>
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
     WebCam -->
+
     <script>
+		var base = "{{ url('/') }}";
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

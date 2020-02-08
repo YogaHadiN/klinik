@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Coa;
 use App\Asuransi;
 use App\JurnalUmum;
+use App\CatatanAsuransi;
 use DB;
 
 class PendapatansController extends Controller
@@ -196,7 +197,7 @@ class PendapatansController extends Controller
         $asuransi_id = Input::get('asuransi_id');
         $asuransi = Asuransi::find($asuransi_id);
         $mulai = Yoga::nowIfEmptyMulai(Input::get('mulai'));
-        $akhir = Yoga::nowIfEmptyMulai(Input::get('akhir'));
+        $akhir = Yoga::nowIfEmptyAkhir(Input::get('akhir'));
         $query = "select px.id as id, ps.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, pa.piutang as piutang, px.piutang_dibayar as piutang_dibayar , px.piutang_dibayar as piutang_dibayar_awal from piutang_asuransis as pa join periksas as px on px.id = pa.periksa_id join pasiens as ps on ps.id = px.pasien_id join asuransis as asu on asu.id=px.asuransi_id where px.asuransi_id='{$asuransi_id}' and px.tanggal between '{$mulai}' and '{$akhir}';";
         $periksas = DB::select($query);
         
@@ -216,6 +217,7 @@ class PendapatansController extends Controller
 		
 		$query = "SELECT pu.id as piutang_id, ";
 		$query .= "px.id as periksa_id, ";
+		$query .= "px.pasien_id as pasien_id, ";
 		$query .= "ps.nama as nama_pasien, ";
 		$query .= "pu.tunai as tunai, ";
 		$query .= "pu.piutang as piutang, ";
@@ -223,22 +225,24 @@ class PendapatansController extends Controller
 		$query .= "pu.sudah_dibayar as pembayaran, ";
 		$query .= "sum(pd.pembayaran) as total_pembayaran, ";
 		$query .= "0 as akan_dibayar, ";
-		$query .= "pu.created_at as tanggal, ";
+		$query .= "px.tanggal as tanggal, ";
 		$query .= "sudah_dibayar ";
 		$query .= "FROM piutang_asuransis as pu ";
 		$query .= "join periksas as px on px.id=pu.periksa_id ";
 		$query .= "left join piutang_dibayars as pd on pd.periksa_id=px.id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
-		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
+		$query .= "where date(px.tanggal) between '{$mulai} 00:00:00' and '{$akhir} 23:59:59' ";
 		$query .= "and px.asuransi_id = '{$id}' ";
-		$query .= "and pu.sudah_dibayar < pu.piutang ";
-		$query .= "group by pu.id;";
+		/* $query .= "and pu.sudah_dibayar < pu.piutang "; */
+		$query .= "group by pu.id ";
+		$query .= "order by px.tanggal;";
 
         return DB::select($query);
 	}
 	
 
     public function lihat_pembayaran_asuransi(){
+
         $asuransi_id = Input::get('asuransi_id');
 
 
@@ -249,6 +253,7 @@ class PendapatansController extends Controller
         $akhir       = Yoga::datePrep( Input::get('akhir') );
 
         $kasList     = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->pluck('coa', 'id')->all();
+
         $pembayarans = $this->belumDibayar($mulai, $akhir, $asuransi_id);
 
 		/* return $pembayarans; */
@@ -275,9 +280,12 @@ class PendapatansController extends Controller
 
 		if (Input::hasFile('excel_pembayaran')) {
 			$file =Input::file('excel_pembayaran'); //GET FILE
-			$excel_pembayaran = Excel::toArray(new PembayaranImport, $file);
+			$excel_pembayaran = Excel::toArray(new PembayaranImport, $file)[0];
 		}  
 
+		$excel_pembayaran = json_encode($excel_pembayaran);
+
+		/* dd($excel_pembayaran); */
 
 		foreach ($sudah_dibayars as $sb) {
 			$total_sudah_dibayar += $sb->pembayaran;
@@ -306,25 +314,25 @@ class PendapatansController extends Controller
 		$query .= "pd.id as piutang_dibayar_id, ";
 		$query .= "px.id as periksa_id, ";
 		$query .= "ps.nama as nama_pasien, ";
+		$query .= "ps.id as pasien_id, ";
 		$query .= "pu.tunai as tunai, ";
 		$query .= "pu.piutang as piutang, ";
 		$query .= "pu.sudah_dibayar as pembayaran, ";
 		$query .= "pu.sudah_dibayar as sudah_dibayar, ";
 		$query .= "0 as akan_dibayar, ";
-		$query .= "px.created_at as tanggal ";
+		$query .= "px.tanggal as tanggal ";
 		$query .= "FROM piutang_asuransis as pu ";
 		$query .= "join periksas as px on px.id=pu.periksa_id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "join piutang_dibayars as pd on pd.periksa_id = px.id ";
-		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
+		$query .= "where date(px.tanggal) between '{$mulai} 00:00:00' and '{$akhir} 23:59:59' ";
 		$query .= "and px.asuransi_id = '{$asuransi_id}' ";
-		$query .= "and pu.sudah_dibayar >= pu.piutang;";
-
+		$query .= "and pu.sudah_dibayar >= pu.piutang ";
+		$query .= "order by px.tanggal;";
         return DB::select($query);
 	}
 	
     public function asuransi_bayar(){
-		/* return Input::all(); */ 
 		DB::beginTransaction();
 		try {
 			$rules = [
@@ -351,6 +359,8 @@ class PendapatansController extends Controller
 			$asuransi_id = Input::get('asuransi_id');
 			$temp        = Input::get('temp');
 			$coa_id      = Input::get('coa_id');
+			$catatan_container      = Input::get('catatan_container');
+			$catatan_container      = json_decode($catatan_container, true) ;
 			
 			
 			$temp = json_decode($temp, true);
@@ -369,18 +379,16 @@ class PendapatansController extends Controller
 			
 			$pb                  = new PembayaranAsuransi;
 			$pb->asuransi_id     = $asuransi_id;
-			$pb->mulai           = Yoga::datePrep( $mulai );
+			$pb->mulai           = $mulai;
 			$pb->staf_id         = $staf_id;
 			$pb->nota_jual_id    = $nota_jual_id;
-			$pb->akhir           = Yoga::datePrep($akhir);
+			$pb->akhir           = $akhir;
 			$pb->pembayaran      = $dibayar;
 			$pb->tanggal_dibayar = $tanggal;
 			$pb->kas_coa_id      = $coa_id;
 			$confirm             = $pb->save();
 
 			$coa_id_asuransi = Asuransi::find($asuransi_id)->coa_id;// Piutang Asuransi
-
-
 
 			// insert jurnal_umums
 			if ($confirm) {
@@ -408,7 +416,10 @@ class PendapatansController extends Controller
 			}
 			$bayars = [];
 			foreach ($temp as $tmp) {
-				if ($tmp['akan_dibayar'] > 0) {
+				if (
+					$tmp['akan_dibayar'] > 0 &&
+					$tmp['piutang'] > $tmp['pembayaran']
+				) {
 					//update piutang_asuransis
 					$pt                = PiutangAsuransi::find($tmp['piutang_id']);
 					$pt->sudah_dibayar = $pt->sudah_dibayar + $tmp['akan_dibayar'];
@@ -423,6 +434,17 @@ class PendapatansController extends Controller
 					}
 				}
 			}
+
+			$catatans= [];
+			foreach ($catatan_container as $catatan) {
+				$catatans[] = [
+					'asuransi_id'            => $asuransi_id,
+					'pembayaran_asuransi_id' => $pb->id,
+					'peserta'                => $catatan['nama_peserta'],
+					'tagihan'                => $catatan['tagihan']
+				];
+			}
+			CatatanAsuransi::insert($catatans);
 			//piutang_dibayars insert
 			PiutangDibayar::insert($bayars);
 			$pesan = Yoga::suksesFlash('Asuransi <strong>' . Asuransi::find($asuransi_id)->nama . '</strong> tanggal <strong>' . Yoga::updateDatePrep($mulai). '</strong> sampai dengan <strong>' . Yoga::updateDatePrep($akhir) . ' BERHASIL</strong> dibayarkan sebesar <strong><span class="uang">' . $dibayar . '</span></strong>');

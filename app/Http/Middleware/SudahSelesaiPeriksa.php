@@ -16,7 +16,8 @@ class SudahSelesaiPeriksa
     public function handle($request, Closure $next)
     {
 		$selesai = new SudahSelesai;
-		$kembali = $selesai->form($request, 'periksas');
+		$kembali = $selesai->form($request, 'periksa');
+
 		if ($kembali) {
 			return $kembali;
 		}

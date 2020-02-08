@@ -7,7 +7,9 @@ use App\Asuransi;
 use App\Tarif;
 use App\PembayaranAsuransi;
 use App\Coa;
+use App\CatatanAsuransi;
 use App\Classes\Yoga;
+
 use DB;
 
 
@@ -506,5 +508,10 @@ class AsuransisController extends Controller
 		));
 	}
 	
-
+	public function catatan(){
+		$catatans = CatatanAsuransi::all();
+		return view('asuransis.catatan', compact(
+			'catatans'
+		));
+	}
 }

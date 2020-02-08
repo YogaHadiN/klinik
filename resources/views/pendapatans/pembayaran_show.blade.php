@@ -15,6 +15,17 @@
       </li>
 </ol>
 @stop
+
+@section('head') 
+	<style type="text/css" media="all">
+		.barcode {
+			position: fixed;
+			bottom: 73px;
+			left: 0px;
+			z-index: 999;
+		}
+	</style>
+@stop
 @section('content') 
 <div class="row">
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
@@ -73,11 +84,13 @@
                   {!! Form::text('dibayar' , null, ['class' => 'form-control rq uangInput', 'id'=>'piutang']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
 				</div>
+				{!! Form::textarea('catatan_container', '[]', ['class' => 'form-control textareacustom hide', 'id' => 'catatan_container']) !!}
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}
                 </div>
                 {!! Form::close() !!}
+				<textarea name="" id="excel_pembayaran" class="textareacustom hide" rows="8" cols="40">{{ $excel_pembayaran }}</textarea>
             </div>
         </div>
     </div>
@@ -119,6 +132,30 @@
                 </table>
             </div>
         </div>
+		<div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Catatan</div>
+            </div>
+            <div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th>Nama Peserta</th>
+								<th>Tagihan</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody id="container_catatan">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+        </div>
+		<div class="barcode" id="panel_perbandingan">
+			
+		</div>
     </div>
 </div>
 <div>
@@ -128,6 +165,7 @@
 	  <ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#detail_pembayaran" aria-controls="detail_pembayaran" role="tab" data-toggle="tab">Detail Pembayaran</a></li>
 		<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile Pembayaran</a></li>
+		<li role="presentation"><a href="#excel_gak_cocok" aria-controls="excel_gak_cocok" role="tab" data-toggle="tab">Bandingkan Data</a></li>
 	  </ul>
 
   <!-- Tab panes -->
@@ -136,7 +174,7 @@
 			 <div class="panel panel-danger">
 				<div class="panel-heading">
 					<div class="panelLeft">
-						<div class="panel-title">Detail Pembayaran</div>
+						<div class="panel-title">Detail Pembayaran  <span id="jumlah_pasien"></span> Pasien </div>
 					</div>
 					<div class="panelRight">
 						<a class="btn btn-success" href="#" onclick="cekAll();return false;">Cek Semua</a>
@@ -168,6 +206,26 @@
 		<div role="tabpanel" class="tab-pane" id="profile">
 			@include('asuransis.templateHutangPembayaran', ['pembayarans' => $pembayarans_template])
 		</div>
+		<h3>Cocok = <span id="cocok"></span></h3>
+		<h3>Tiak Cocok = <span id="tidak_cocok"></span></h3>
+		<h3></h3>
+		<div role="tabpanel" class="tab-pane" id="excel_gak_cocok">
+			<div class="table-responsive">
+				<table class="table table-hover table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>Nama Peserta</th>
+							<th>Tagihan</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody id="bandingkan_data">
+
+					</tbody>
+				</table>
+			</div>
+			
+		</div>
 	  </div>
   	</div>
   </div>
@@ -198,7 +256,7 @@
 						@foreach($sudah_dibayars as $dibayar)
 							<tr>
 								<td>{{ $dibayar->periksa_id }}</td>
-								<td>{{ $dibayar->nama_pasien }}</td>
+								<td> {{ $dibayar->nama_pasien }} </td>
 								<td>{{ App\Classes\Yoga::buatrp( $dibayar->piutang )}}</td>
 								<td>{{ App\Classes\Yoga::buatrp( $dibayar->pembayaran )}}</td>
 								<td nowrap class="autofit">
@@ -222,24 +280,25 @@
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
     $(function () {
-        view();
+        view(true);
     });
 function cek(control){
-//    var uang = 'Rp. 25.000,-'
-//    console.log( cleanUang(uang) );
-    var sudah_dibayar = $(control).closest('tr').find('td:nth-child(4)').html();
-    var piutang = $(control).closest('tr').find('td:nth-child(3)').html();
-    sudah_dibayar = cleanUang(sudah_dibayar.trim());
-    piutang = cleanUang(piutang.trim());
-    var akan_dibayar = parseInt(piutang) - parseInt(sudah_dibayar);
-    var key = $(control).val();
-
-    var Array = $('#pembayarans').val();
-    Array = JSON.parse(Array);
-    console.log(Array);
+	var html_barcode = $('.barcode').html();
+	var x = $('.barcode').find('.i').html();
+    var sudah_dibayar       = $(control).closest('tr').find('td:nth-child(4)').html();
+    var piutang             = $(control).closest('tr').find('td:nth-child(3)').html();
+    sudah_dibayar           = cleanUang(sudah_dibayar.trim());
+    piutang                 = cleanUang(piutang.trim());
+    var akan_dibayar        = parseInt(piutang) - parseInt(sudah_dibayar);
+    var key                 = $(control).val();
+    var Array               = $('#pembayarans').val();
+    Array                   = JSON.parse(Array);
     Array[key].akan_dibayar = akan_dibayar;
     $('#pembayarans').val(JSON.stringify(Array));
     view();
+	if( html_barcode != '' ){
+		deleteCekPembayaran(x);
+	}
 }
 function reset(control){
     var key = $(control).val();
@@ -252,67 +311,58 @@ function reset(control){
 function cekAll(){
     var Array = $('#pembayarans').val();
     Array = $.parseJSON(Array);
-    console.log(Array);
-
-	console.log("-----------------------------------------------------------------");
     for (var i                = 0; i < Array.length; i++) {
         var piutang           = Array[i].piutang;
         var sudah_dibayar     = Array[i].pembayaran;
         var akan_dibayar      = parseInt(piutang) - parseInt(sudah_dibayar);
         Array[i].akan_dibayar = akan_dibayar;
-		if(akan_dibayar < 0){
-			console.log(Array[i]);
-		}
     };
 	
     $('#pembayarans').val(JSON.stringify(Array));
     view();
 }
-function view(){
+function view(pertama_kali = false){
     let MyArray             = $('#pembayarans').val();
     MyArray                 = $.parseJSON(MyArray);
     var temp                = '';
     var temp2               = '';
+    var temp_excel_pembayaran               = '';
     var akan_dibayar        = 0;
     var piutang_total       = 0;
     var sudah_dibayar_total = 0;
     var belum_dibayar_total = 0;
+    var excel_pembayaran = $.parseJSON($('#excel_pembayaran').val());
 
+	console.log('excel_pembayaran');
+	console.log(excel_pembayaran);
+
+	var cocok = 0;
+	var total  = excel_pembayaran.length;
     for (var i = 0; i < MyArray.length; i++) {
-        if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
+		if( pertama_kali ){
+			for (var r = 0; r < excel_pembayaran.length; r++) {
+				var excel_tagihan = excel_pembayaran[r].tagihan;
+				if (
+					excel_pembayaran[r].peserta == null &&
+					MyArray[i].piutang == excel_tagihan
+				) {
+					cocok = cocok + 1;
+					excel_pembayaran.splice(r, 1);
+					if(MyArray[i].piutang - MyArray[i].pembayaran > 0){
+						MyArray[i].akan_dibayar = excel_tagihan;
+					}
+					break;
+				}
+			};
+		}
 
-            piutang_total += MyArray[i].piutang;
-            sudah_dibayar_total += MyArray[i].pembayaran;
-            belum_dibayar_total += MyArray[i].piutang - MyArray[i].pembayaran;
-            temp += '<tr>';
-            temp += '<td>' + MyArray[i].periksa_id + '</td>';
-            temp += '<td>' + MyArray[i].nama_pasien + '</td>';
-            temp += '<td class="uang">' + MyArray[i].piutang + '</td>';
-            temp += '<td class="uang">' + MyArray[i].pembayaran + '</td>';
-            temp += '<td class="hide"><input class="form-control" value="' + MyArray[i].akan_dibayar + '" /></td>';
-            if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
-            var status = '<div class="alert-success">';
-            status += 'Sudah Lunas';
-            status += '</div>';
-            } else {
-            var status = '<div class="alert-danger">';
-            status += 'Belum Lunas';
-            status += '</div>';
-            }
-            temp += '<td>' + status + '</td>';
-            temp += '<td class="hide"><button class="btn btn-sm btn-primary" onclick="cek(this);return false;" type="button" value="' + i + '">Cek</button> ';
-            temp += '<button class="btn btn-sm btn-warning" onclick="reset(this);return false;" type="button" value="' + i + '">Reset</button></td>';
-            temp += '</tr>';
-            akan_dibayar += parseInt( MyArray[i].akan_dibayar );
-
-        } else {
-        
+        if(MyArray[i].piutang - MyArray[i].pembayaran > 0){
             piutang_total += MyArray[i].piutang;
             sudah_dibayar_total += MyArray[i].pembayaran;
             belum_dibayar_total += MyArray[i].piutang - MyArray[i].pembayaran;
             temp2 += '<tr>';
             temp2 += '<td>' + MyArray[i].periksa_id + '</td>';
-            temp2 += '<td>' + MyArray[i].nama_pasien + '</td>';
+			temp2 += '<td>' + MyArray[i].nama_pasien + '</td>';
             temp2 += '<td class="uang">' + MyArray[i].piutang + '</td>';
             temp2 += '<td class="uang">' + MyArray[i].pembayaran + '</td>';
             temp2 += '<td><input class="form-control angka2 akan_dibayar" value="' + MyArray[i].akan_dibayar + '" onkeyup="akanDibayarKeyup(this);return false;" /></td>';
@@ -330,13 +380,18 @@ function view(){
             temp2 += '<button class="btn btn-sm btn-warning" onclick="reset(this);return false;" type="button" value="' + i + '">Reset</button></td>';
             temp2 += '</tr>';
             akan_dibayar += parseInt( MyArray[i].akan_dibayar );
-
         }
-
     };
 	if( $.trim( temp2 ) == '' ){
 		temp2 = '<tr><td colspan="7" class="text-center">Tidak Ada Piutang Yang Belum Dibayar</td></tr>';
 	}
+
+	refreshExcelPembayaran(excel_pembayaran);
+
+	tidak_cocok = total - cocok;
+
+
+    $('#jumlah_pasien').html(i);
     $('#table_temp').html(temp);
     $('#table_temp2').html(temp2);
     $('#piutang').val(uang2( akan_dibayar ));
@@ -344,12 +399,14 @@ function view(){
     $('#belum_dibayar_total').html(belum_dibayar_total);
     $('#sudah_dibayar_total').html(sudah_dibayar_total);
     $('#dibayar_sebesar').html(akan_dibayar);
+    $('#tidak_cocok').html(tidak_cocok);
+    $('#cocok').html(cocok);
+    $('#pembayarans').val(JSON.stringify(MyArray));
     formatUang();
 }
 function resetAll(){
     var Array = $('#pembayarans').val();
     Array = $.parseJSON(Array);
-    console.log(Array);
     for (var i = 0; i < Array.length; i++) {
         Array[i].akan_dibayar = 0;
     };
@@ -363,11 +420,13 @@ function submitPage(){
 	var akanDibayar = 0;
 
     for (var i = 0; i < data.length; i++) {
-		akanDibayar += parseInt( data[i].akan_dibayar );
-
-		if( data[i].akan_dibayar > ( data[i].piutang - data[i].pembayaran ) ){
-			alert('Pembayaran ' + data[i].nama_pasien + ' lebih besar dari nilai piutangnya, harap diperbaiki');
-			return false;
+        if(data[i].piutang - data[i].pembayaran > 0){
+			akanDibayar += parseInt( data[i].akan_dibayar );
+			if( data[i].akan_dibayar > ( data[i].piutang - data[i].pembayaran ) ){
+				var baris = parseInt(i) + 1;
+				alert('Pembayaran ' + data[i].nama_pasien + ', baris ke ' + baris + ' lebih besar dari nilai piutangnya, harap diperbaiki');
+				return false;
+			}
 		}
     };
 
@@ -415,5 +474,179 @@ function akanDibayarKeyup(control){
 
 	$('#pembayarans').val( JSON.stringify(tempArray) );
 }
+function deleteCekPembayaran(i){
+	var excel_pembayaran = $.parseJSON($('#excel_pembayaran').val());
+
+	excel_pembayaran.splice(i, 1);
+
+	refreshExcelPembayaran(excel_pembayaran);
+
+	$('.nav-tabs a[href="#excel_gak_cocok"]').tab('show');
+
+	$("#excel_gak_cocok")[0].scrollIntoView()
+}
+
+function cekExcelPembayaran(control){
+	var nama_peserta = $(control).closest('tr').find('.nama_peserta').html();
+	var tagihan = $(control).closest('tr').find('.tagihan').html();
+	var i = $(control).closest('tr').find('.i').html();
+	var temp = '<p class="bg-padding bg-success">';
+	$('.nav-tabs a[href="#detail_pembayaran"]').tab('show');
+	temp += '<span class="nama_peserta">';
+	temp += nama_peserta
+	temp += '</span> ';
+	temp += '<span class="tagihan">';
+	temp += tagihan
+	temp += '</span> ';
+	temp += '<span class="i">';
+	temp += i
+	temp += '</span> ';
+	temp += '<br />';
+	temp += '<button class="btn btn-info" type="button" onclick="jadikanCatatan(this); return false;">Jadikan Catatan</button>'
+	temp += '<button class="btn btn-danger" type="button" onclick="deleteCek(' + i + ');">Selesai</button>'
+	temp += '<button class="btn btn-success" type="button" onclick="bersihkan();">Clear</button>'
+	temp += '<br />';
+	temp += '</p>';
+	$('#panel_perbandingan').html(temp);
+}
+
+function deleteCek(i){
+	deleteCekPembayaran(i);
+}
+
+function jadikanCatatan(control){
+	var nama_peserta = $(control).closest('.barcode').find('.nama_peserta').html();
+	var tagihan      = $(control).closest('.barcode').find('.tagihan').html();
+	var x            = $(control).closest('.barcode').find('.i').html();
+
+	catatan(nama_peserta, tagihan, x);
+}
+
+function catatan(nama_peserta, tagihan, x){
+	var array = {
+		'nama_peserta': nama_peserta,
+		'tagihan':      tagihan
+	};
+	if(confirm('Masukkan ke dalam catatan?')){
+		var catatanExisting = parseCatatanExisting();
+		catatanExisting.push(array);
+		viewCatatanExisting(catatanExisting);
+		deleteCekPembayaran(x);
+	}
+}
+
+
+
+function refreshExcelPembayaran(excel_pembayaran){
+	var temp_excel_pembayaran = '';
+	for (var r = 0; r < excel_pembayaran.length; r++) {
+		temp_excel_pembayaran += '<tr>';
+		temp_excel_pembayaran += '<td class="i hide">' + r + '</td>';
+		temp_excel_pembayaran += '<td class="nama_peserta">' + excel_pembayaran[r].peserta + '</td>';
+		temp_excel_pembayaran += '<td class="tagihan">' + excel_pembayaran[r].tagihan + '</td>';
+		temp_excel_pembayaran += '<td>';
+		temp_excel_pembayaran += ' <button type="button" class="btn btn-warning btn-sm" onclick="cekExcelPembayaran(this); return false;">Bandingkan</button>';
+		temp_excel_pembayaran += ' <button type="button" class="btn btn-info btn-sm" onclick="jadikanCatatanDisini(this); return false;">Catatan</button>';
+		temp_excel_pembayaran += ' <button type="button" class="btn btn-danger btn-sm" onclick="deleteCekPembayaran(' +r+ '); return false;">Delete</button>';
+		temp_excel_pembayaran += ' </td>';
+	}
+    $('#excel_pembayaran').val(JSON.stringify(excel_pembayaran));
+    $('#bandingkan_data').html(temp_excel_pembayaran);
+	$('#panel_perbandingan').html('');
+}
+function arr_diff (a1, a2) {
+
+    var a = [], diff = [];
+
+    for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+    }
+
+    for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+            delete a[a2[i]];
+        } else {
+            a[a2[i]] = true;
+        }
+    }
+
+    for (var k in a) {
+        diff.push(k);
+    }
+    return diff;
+}
+function delCatatan(control){
+	if(confirm("Anda akan menghapus catatan ini")){
+		var nama_peserta = $(control).closest('tr').find('.nama_peserta').html();
+		var tagihan      = $(control).closest('tr').find('.tagihan').html();
+		var i            = $(control).closest('tr').find('.i').html();
+
+		var array = {
+			'peserta' : nama_peserta,
+			'tagihan' : tagihan
+		};
+
+		var excel_pembayaran = $.parseJSON($('#excel_pembayaran').val());
+
+		excel_pembayaran.push(array);
+
+		refreshExcelPembayaran(excel_pembayaran);
+
+		var catatanExisting = parseCatatanExisting();
+		catatanExisting.splice( i, 1 );
+		viewCatatanExisting(catatanExisting);
+	}
+
+}
+function parseCatatanExisting(){
+	var catatanExisting = $('#catatan_container').html();
+	catatanExisting = JSON.parse(catatanExisting);
+
+	return catatanExisting;
+}
+
+function viewCatatanExisting(catatanExisting){
+	var temp = '';
+	for (var i = 0; i < catatanExisting.length; i++) {
+		temp += '<tr>';
+		temp += '<td class="i hide">';
+		temp += i
+		temp += '</td>';
+		temp += '<td class="nama_peserta">';
+		temp += catatanExisting[i].nama_peserta;
+		temp += '</td>';
+		temp += '<td class="tagihan">';
+		temp += catatanExisting[i].tagihan;
+		temp += '</td>';
+		temp += '<td>';
+		temp += '<button type="button" class="btn btn-danger btn-sm" onclick="delCatatan(this);return false;">del</button>';
+		temp += '</td>';
+		temp += '</tr>';
+	}
+	catatanExisting = JSON.stringify(catatanExisting);
+	$('#catatan_container').html(catatanExisting);
+	$('#container_catatan').html(temp);
+}
+
+function stripString(str){
+	str = $.trim(str);
+	str = str.toLowerCase();
+	str = str.replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
+	str = str.replace(/\s/g, '');
+	str = str.split(',')[0];
+	str = str.replace(/\s/g, '');
+	return str;
+}
+function bersihkan(){
+	 $('.barcode').html('');
+}
+function jadikanCatatanDisini(control){
+	var nama_peserta = $(control).closest('tr').find('.nama_peserta').html();
+	var tagihan      = $(control).closest('tr').find('.tagihan').html();
+	var x            = $(control).closest('tr').find('.i').html();
+	catatan(nama_peserta, tagihan, x);
+}
+
+
 </script>
 @stop
