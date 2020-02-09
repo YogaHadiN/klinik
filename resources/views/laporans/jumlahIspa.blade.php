@@ -29,21 +29,23 @@
                   Detail
               </div>
               <div class="panel-body">
-                    <table class="table table-condensed table-hover">
-                        <tbody>
-                            @foreach ($data as $dt)
-                                <tr>
-                                    <td>{{ $dt['keterangan'] }}</td>
-                                    <td>{{ $dt['jumlah'] }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2"><h3>Pasien yang lain tidak ada data tanggal lahir</h3></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+				  <div class="table-responsive">
+						<table class="table table-condensed table-hover">
+							<tbody>
+								@foreach ($data as $dt)
+									<tr>
+										<td>{{ $dt['keterangan'] }}</td>
+										<td>{{ $dt['jumlah'] }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="2"><h3>Pasien yang lain tidak ada data tanggal lahir</h3></td>
+								</tr>
+							</tfoot>
+						</table>
+				  </div>
               </div>
         </div>
     </div>

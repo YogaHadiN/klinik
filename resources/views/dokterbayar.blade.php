@@ -90,26 +90,28 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<table class="table table-striped table-bordered table-hover">
-					<tbody>
-						<tr>
-							<td>Nama</td>
-							<td>{{ $staf->nama }}</td>
-						</tr>
-						<tr>
-							<td>Npwp</td>
-							<td>{{ $staf->npwp }}</td>
-						</tr>
-						<tr>
-							<td>Menikah</td>
-							<td>{{ $staf->status_pernikahan }}</td>
-						</tr>
-						<tr>
-							<td>Jumlah Anak</td>
-							<td>{{ $staf->jumlah_anak }}</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered table-hover">
+						<tbody>
+							<tr>
+								<td>Nama</td>
+								<td>{{ $staf->nama }}</td>
+							</tr>
+							<tr>
+								<td>Npwp</td>
+								<td>{{ $staf->npwp }}</td>
+							</tr>
+							<tr>
+								<td>Menikah</td>
+								<td>{{ $staf->status_pernikahan }}</td>
+							</tr>
+							<tr>
+								<td>Jumlah Anak</td>
+								<td>{{ $staf->jumlah_anak }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	  </div>
@@ -148,22 +150,24 @@
         </div>
         <div>
             Diserahkan pada <span id="tanggal"></span> jam <span id="jam"></span>
-            <table class="table-center">
-                <tbody>
-                    <tr class="border-top">
-                        <td>Diserahkan Oleh</td>
-                        <td>Diterima Oleh</td>
-                    </tr>
-                    <tr class="tanda-tangan">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>( ............. )</td>
-						<td>{{ $staf->nama }}</td>
-                    </tr>
-                </tbody>
-            </table>
+			<div class="table-responsive">
+				<table class="table-center">
+					<tbody>
+						<tr class="border-top">
+							<td>Diserahkan Oleh</td>
+							<td>Diterima Oleh</td>
+						</tr>
+						<tr class="tanda-tangan">
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>( ............. )</td>
+							<td>{{ $staf->nama }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
         </div>
         <div class="small-padding">
 
@@ -185,54 +189,56 @@
             </div>
         </div>
         <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover " id="tableAsuransi">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>ID</th>
-                        <th>Tanggal</th>
-                        <th>Nama Pasien</th>
-                        <th>Asuransi</th>
-                        <th>Transaksi</th>
-                        <th>Jasa Dokter</th>
-                    </tr>
-                </thead>
-                <tbody>
-					@foreach ($hutangs as $k => $hutang)
-                        <tr>
-                            <td>{!! $k + 1 !!}</td>
-                            <td>
-								pasien_id : {!! $hutang->pasien_id !!} <br />
-								periksa_id : {!! $hutang->id !!} <br />
-							</td>
-                            <td>{!! App\Classes\Yoga::updateDatePrep( $hutang->tanggal  )!!}</td>
-							<td>{!! $hutang->pasien->nama !!}</td>
-							<td>{!! $hutang->asuransi->nama !!}</td>
-                            <td>
-                               <table class="table table-condensed">
-                                   <thead>
-                                       <tr>
-                                           <th class="text-center">Jenis Transaksi</th>
-                                           <th class="text-center"></th>
-                                           <th class="text-center">Biaya</th>
-                                       </tr>
-                                   </thead>
-                                   <tbody>
-                                       {!! $hutang->tindakan_html !!}
-                                   </tbody>
-                               </table> 
-                            </td>
-							<td class="uang">{!! $hutang->hutang_dokter !!}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" class="text-right"><h2>Total</h2></td>
-                        <td colspan="3" class="bold"><h2 class="uang">{{ $total }}</h2></td>
-                    </tr>
-                </tfoot> 
-            </table>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover " id="tableAsuransi">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>ID</th>
+							<th>Tanggal</th>
+							<th>Nama Pasien</th>
+							<th>Asuransi</th>
+							<th>Transaksi</th>
+							<th>Jasa Dokter</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach ($hutangs as $k => $hutang)
+							<tr>
+								<td>{!! $k + 1 !!}</td>
+								<td>
+									pasien_id : {!! $hutang->pasien_id !!} <br />
+									periksa_id : {!! $hutang->id !!} <br />
+								</td>
+								<td>{!! App\Classes\Yoga::updateDatePrep( $hutang->tanggal  )!!}</td>
+								<td>{!! $hutang->pasien->nama !!}</td>
+								<td>{!! $hutang->asuransi->nama !!}</td>
+								<td>
+								   <table class="table table-condensed">
+									   <thead>
+										   <tr>
+											   <th class="text-center">Jenis Transaksi</th>
+											   <th class="text-center"></th>
+											   <th class="text-center">Biaya</th>
+										   </tr>
+									   </thead>
+									   <tbody>
+										   {!! $hutang->tindakan_html !!}
+									   </tbody>
+								   </table> 
+								</td>
+								<td class="uang">{!! $hutang->hutang_dokter !!}</td>
+							</tr>
+						@endforeach
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="text-right"><h2>Total</h2></td>
+							<td colspan="3" class="bold"><h2 class="uang">{{ $total }}</h2></td>
+						</tr>
+					</tfoot> 
+				</table>
+			</div>
         </div>
     </div>
 @stop

@@ -80,62 +80,64 @@
             <h3 class="panel-title">Info Rak</h3>
           </div>
           <div class="panel-body">
-              <table class="table table-bordered table-hover text-left" id="tableAsuransi">
-                      <tbody>
-                      <tr>
-                        <th>Alternatif Fornas</th>
-                        <td> {!! $rak->alternatif_fornas !!} </td>
-                      </tr> 
-                <tr>
-                  <th>Expiry Date</th>
-                  <td> {!! App\Classes\Yoga::updateDatePrep($rak->exp_date) !!} </td>
-                </tr> 
-                <tr>
-                  <th>Fornas</th>
-                  <td> 
-                    @if ($rak->fornas == '1')
-                      Ya
-                    @else
-                      Tidak
-                    @endif
-                  </td>
-                </tr> 
-				<tr>
-                  <th>Rak</th>
-                  <td>{!! $rak->id !!}</td>
-                </tr>
-                <tr>
-                  <th>Harga Beli</th>
-                  <td>Rp. {!! $rak->harga_beli !!},- </td>
-                </tr> 
-                <tr>
-                  <th>Harga Jual</th>
-                  <td>Rp.  {!! $rak->harga_jual !!},- </td>
-                </tr> 
-                <tr>
-                  <th>ID FORMULA</th>
-                  <td> {!! $rak->formula_id !!} </td>
-                </tr> 
-                <tr>
-                  <th>Stok</th>
-                  <td> {!! $rak->stok !!} </td>
-                </tr> 
-                <tr>
-                  <th>Stok Minimal</th>
-                  <td> {!! $rak->stok_minimal !!} </td>
-                </tr>  
-                <tr>
-                  <th>Merek</th>
-                  <td> 
+			  <div class="table-responsive">
+					<table class="table table-bordered table-hover text-left" id="tableAsuransi">
+						  <tbody>
+						  <tr>
+							<th>Alternatif Fornas</th>
+							<td> {!! $rak->alternatif_fornas !!} </td>
+						  </tr> 
+					<tr>
+					  <th>Expiry Date</th>
+					  <td> {!! App\Classes\Yoga::updateDatePrep($rak->exp_date) !!} </td>
+					</tr> 
+					<tr>
+					  <th>Fornas</th>
+					  <td> 
+						@if ($rak->fornas == '1')
+						  Ya
+						@else
+						  Tidak
+						@endif
+					  </td>
+					</tr> 
+					<tr>
+					  <th>Rak</th>
+					  <td>{!! $rak->id !!}</td>
+					</tr>
+					<tr>
+					  <th>Harga Beli</th>
+					  <td>Rp. {!! $rak->harga_beli !!},- </td>
+					</tr> 
+					<tr>
+					  <th>Harga Jual</th>
+					  <td>Rp.  {!! $rak->harga_jual !!},- </td>
+					</tr> 
+					<tr>
+					  <th>ID FORMULA</th>
+					  <td> {!! $rak->formula_id !!} </td>
+					</tr> 
+					<tr>
+					  <th>Stok</th>
+					  <td> {!! $rak->stok !!} </td>
+					</tr> 
+					<tr>
+					  <th>Stok Minimal</th>
+					  <td> {!! $rak->stok_minimal !!} </td>
+					</tr>  
+					<tr>
+					  <th>Merek</th>
+					  <td> 
 
-                    @foreach ($rak->merek as $mrk)
-                      {!! $mrk->merek !!}, 
-                     @endforeach 
+						@foreach ($rak->merek as $mrk)
+						  {!! $mrk->merek !!}, 
+						 @endforeach 
 
-                  </td>
-                </tr> 
-                      </tbody>
-                  </table>
+					  </td>
+					</tr> 
+						  </tbody>
+					  </table>
+			  </div>
           </div>
       </div>
           </div>
@@ -147,59 +149,61 @@
                   <h3 class="panel-title">Formula</h3>
               </div>
             <div class="panel-body">
-                  <table class="table table-bordered table-hover" id="tableAsuransi">
-                      <tbody>
-                      <tr>
-                        <th>dijual_bebas</th>
-                          <td>
-                            @if($formula->dijual_bebas == '1')
-                              Ya
-                            @else
-                              Tidak
-                            @endif
-                          </td> 
-                        </tr>
-                <tr>
-                  <th>Efek Samping</th>
-                  <td>{!! $formula->efek_samping !!}</td> 
-                </tr>
-                <tr>
-                  <th>Golongan Obat</th>
-                  <td>{!! $formula->golongan_obat !!}</td> 
-                </tr>
-                <tr>
-                  <th>Sediaan</th>
-                  <td>{!! $formula->sediaan !!}</td> 
-                </tr>
-                <tr>
-                  <th>Indikasi</th>
-                  <td>{!! $formula->indikasi !!}</td> 
-                </tr>
-                <tr>
-                  <th>Kontraindikasi</th>
-                  <td>{!! $formula->kontraindikasi !!}</td> 
-                </tr>
-                <tr>
-                  <th>Komposisi</th>
-                  <td>
-                    @foreach($formula->komposisi as $komp)
-                      {!!$komp->generik->generik!!} {!!$komp->bobot!!}, 
-                    @endforeach
-                
-                  </td>
-                </tr>
-                <tr>
-                  <th>Merek</th>
-                  <td>
-                    @foreach ($formula->rak as $rak)
-                        @foreach ($rak->merek as $merek)
-                          {!! $merek->merek !!}, 
-                        @endforeach
-                    @endforeach
-                  </td> 
-                </tr>
-                      </tbody>
-                  </table>
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover" id="tableAsuransi">
+						  <tbody>
+						  <tr>
+							<th>dijual_bebas</th>
+							  <td>
+								@if($formula->dijual_bebas == '1')
+								  Ya
+								@else
+								  Tidak
+								@endif
+							  </td> 
+							</tr>
+					<tr>
+					  <th>Efek Samping</th>
+					  <td>{!! $formula->efek_samping !!}</td> 
+					</tr>
+					<tr>
+					  <th>Golongan Obat</th>
+					  <td>{!! $formula->golongan_obat !!}</td> 
+					</tr>
+					<tr>
+					  <th>Sediaan</th>
+					  <td>{!! $formula->sediaan !!}</td> 
+					</tr>
+					<tr>
+					  <th>Indikasi</th>
+					  <td>{!! $formula->indikasi !!}</td> 
+					</tr>
+					<tr>
+					  <th>Kontraindikasi</th>
+					  <td>{!! $formula->kontraindikasi !!}</td> 
+					</tr>
+					<tr>
+					  <th>Komposisi</th>
+					  <td>
+						@foreach($formula->komposisi as $komp)
+						  {!!$komp->generik->generik!!} {!!$komp->bobot!!}, 
+						@endforeach
+					
+					  </td>
+					</tr>
+					<tr>
+					  <th>Merek</th>
+					  <td>
+						@foreach ($formula->rak as $rak)
+							@foreach ($rak->merek as $merek)
+							  {!! $merek->merek !!}, 
+							@endforeach
+						@endforeach
+					  </td> 
+					</tr>
+						  </tbody>
+					  </table>
+				</div>
             </div>
         </div>
 

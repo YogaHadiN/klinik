@@ -188,30 +188,32 @@
 				</div>
 				<div class="panel-body">
 					  <div class="table-responsive">
-					  	<table class="table table-hover table-bordered table-condensed">
-					  		<thead>
-					  			<tr>
-									<th>Harta</th>
-									<th>Harga Beli</th>
-									<th>Penyusutan</th>
-									<th>Status Harta</th>
-									<th>Tax Amnesty</th>
-									<th>Action</th>
-								</tr>
-					  		</thead>
-					  		<tbody>
-					  			@foreach( $hartas as $harta )
-					  				<tr>
-										<td>{{ $harta->harta }}</td>
-										<td>{{ App\Classes\Yoga::buatrp( $harta->harga)}} </td>
-										<td>{{App\Classes\Yoga::buatrp ( $harta->penyusutan )}} </td>
-										<td>{{ $harta->statusHarta->status_harta}} </td>
-										<td>{{ App\Classes\Yoga::yesNo($harta->tax_amnesty) }} </td>
-										<td> <a class="btn btn-warning" href="{{ url('pengeluarans/input_harta/show/' . $harta->id) }}">Detail</a> </td>
-					  				</tr>
-					  			@endforeach
-					  		</tbody>
-					  	</table>
+						  <div class="table-responsive">
+							<table class="table table-hover table-bordered table-condensed">
+								<thead>
+									<tr>
+										<th>Harta</th>
+										<th>Harga Beli</th>
+										<th>Penyusutan</th>
+										<th>Status Harta</th>
+										<th>Tax Amnesty</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach( $hartas as $harta )
+										<tr>
+											<td>{{ $harta->harta }}</td>
+											<td>{{ App\Classes\Yoga::buatrp( $harta->harga)}} </td>
+											<td>{{App\Classes\Yoga::buatrp ( $harta->penyusutan )}} </td>
+											<td>{{ $harta->statusHarta->status_harta}} </td>
+											<td>{{ App\Classes\Yoga::yesNo($harta->tax_amnesty) }} </td>
+											<td> <a class="btn btn-warning" href="{{ url('pengeluarans/input_harta/show/' . $harta->id) }}">Detail</a> </td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						  </div>
 					  </div>
 			
 				</div>

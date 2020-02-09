@@ -27,33 +27,35 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                    	<th>Rak</th>
-                    	<th>Nama Merek</th>
-                    	<th>Stok Minimal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	 @foreach ($raks as $rak)
-                     <tr>
-                       <td>
-                         {!! $rak->id  !!}
-                       </td>
-                       <td>
-                         @foreach($rak->merek as $merek)
-                            {!! $merek->merek  !!} /
-                         @endforeach
-                       </td>
-                       <td>
-                         {!! $rak->stok_minimal  !!}
-                       </td>
-                     </tr>
-                     {{-- expr --}}
-                   @endforeach
-                </tbody>
-            </table>
+		  <div class="table-responsive">
+					<table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>Rak</th>
+							<th>Nama Merek</th>
+							<th>Stok Minimal</th>
+						</tr>
+					</thead>
+					<tbody>
+						 @foreach ($raks as $rak)
+						 <tr>
+						   <td>
+							 {!! $rak->id  !!}
+						   </td>
+						   <td>
+							 @foreach($rak->merek as $merek)
+								{!! $merek->merek  !!} /
+							 @endforeach
+						   </td>
+						   <td>
+							 {!! $rak->stok_minimal  !!}
+						   </td>
+						 </tr>
+						 {{-- expr --}}
+					   @endforeach
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 

@@ -293,154 +293,158 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<table class="table table-condensed">
-												<tbody>
-													<tr>
-														<td>Presentasi</td>
-														<td colspan="3">{!! Form::text('presentasi', $presentasi, ['class' => 'form-control hasil', 'id' =>'usg_presentasi'])!!}</td>
-													</tr>
-													<tr>
-														<td>Biparietal Diameter</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('BPD_w', $BPD_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'BPD_w'])!!}
-																<span class="input-group-addon" id="addonBPDw">W</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('BPD_d', $BPD_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'BPD_d' ])!!}
-																<span class="input-group-addon" id="addonBPDd">D</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('BPD_mm', $BPD_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'BPD_mm' ])!!}
-																<span class="input-group-addon" id="addonBPDmm">mm</span>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td>Head Circumference</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('HC_w', $HC_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_w'])!!}
-																<span class="input-group-addon" id="addonHCw">W</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('HC_d', $HC_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_d' ])!!}
-																<span class="input-group-addon" id="addonHCd">D</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('HC_mm', $HC_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_mm' ])!!}
-																<span class="input-group-addon" id="addonHCmm">mm</span>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td>LTP</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('LTP', $LTP, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_ltp'])!!}
-																<span class="input-group-addon" id="addonLTP">lilitan</span>
-															</div>
-														</td>
-														<td>FHR</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('FHR', $FHR, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_djj'])!!}
-																<span class="input-group-addon" id="addonFHR">bpm</span>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td>Abdominal Circumference</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('AC_w', $AC_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'AC_w'])!!}
-																<span class="input-group-addon" id="addonACw">W</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('AC_d', $AC_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'AC_d'])!!}
-																<span class="input-group-addon" id="addonACd">D</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('AC_mm', $AC_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'AC_mm'])!!}
-																<span class="input-group-addon" id="addonACmm">mm</span>
-															</div>
-														</td>
-													</tr>
-													
-												</tbody>
-											</table>
+											<div class="table-responsive">
+												<table class="table table-condensed">
+													<tbody>
+														<tr>
+															<td>Presentasi</td>
+															<td colspan="3">{!! Form::text('presentasi', $presentasi, ['class' => 'form-control hasil', 'id' =>'usg_presentasi'])!!}</td>
+														</tr>
+														<tr>
+															<td>Biparietal Diameter</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('BPD_w', $BPD_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'BPD_w'])!!}
+																	<span class="input-group-addon" id="addonBPDw">W</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('BPD_d', $BPD_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'BPD_d' ])!!}
+																	<span class="input-group-addon" id="addonBPDd">D</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('BPD_mm', $BPD_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'BPD_mm' ])!!}
+																	<span class="input-group-addon" id="addonBPDmm">mm</span>
+																</div>
+															</td>
+														</tr>
+														<tr>
+															<td>Head Circumference</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('HC_w', $HC_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_w'])!!}
+																	<span class="input-group-addon" id="addonHCw">W</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('HC_d', $HC_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_d' ])!!}
+																	<span class="input-group-addon" id="addonHCd">D</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('HC_mm', $HC_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_mm' ])!!}
+																	<span class="input-group-addon" id="addonHCmm">mm</span>
+																</div>
+															</td>
+														</tr>
+														<tr>
+															<td>LTP</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('LTP', $LTP, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_ltp'])!!}
+																	<span class="input-group-addon" id="addonLTP">lilitan</span>
+																</div>
+															</td>
+															<td>FHR</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('FHR', $FHR, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_djj'])!!}
+																	<span class="input-group-addon" id="addonFHR">bpm</span>
+																</div>
+															</td>
+														</tr>
+														<tr>
+															<td>Abdominal Circumference</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('AC_w', $AC_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'AC_w'])!!}
+																	<span class="input-group-addon" id="addonACw">W</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('AC_d', $AC_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'AC_d'])!!}
+																	<span class="input-group-addon" id="addonACd">D</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('AC_mm', $AC_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'AC_mm'])!!}
+																	<span class="input-group-addon" id="addonACmm">mm</span>
+																</div>
+															</td>
+														</tr>
+														
+													</tbody>
+												</table>
+											</div>
 										</div>
 										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<table class="table table-condensed">
-												<tbody>
-													<tr>
-														<td>Estimated Fetal Weight</td>
-														<td colspan="3">
-															<div class="input-group">
-																{!! Form::text('EFW', $EFW, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_efw'])!!}
-																<span class="input-group-addon" id="addonEFW">gram</span>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td>Femur Length</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('FL_w', $FL_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'FL_w'])!!}
-																<span class="input-group-addon" id="addonFLw">W</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('FL_d', $FL_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'FL_d'])!!}
-																<span class="input-group-addon" id="addonFLd">D</span>
-															</div>
-														</td>
-														<td>
-															<div class="input-group">
-																{!! Form::text('FL_mm', $FL_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'FL_mm'])!!}
-																<span class="input-group-addon" id="addonFLmm">mm</span>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td>Sex</td>
-														<td colspan="3">
-															{!! Form::select('Sex',
-															[
-																'tak dpt dinilai' => 'tak dpt dinilai',
-																'kemungkinan laki-laki' => 'Laki-Laki',
-																'kemungkinan perempuan' => 'Perempuan'
-															]
-															, $Sex, ['class' => 'form-control hasil', 'id' => 'usg_sex'])!!}
-														</td>
-													</tr>
-													<tr>
-														<td>Plasenta</td>
-														<td colspan="3">
-															{!! Form::text('Plasenta', $Plasenta, ['class' => 'form-control hasil', 'id' => 'usg_plasenta'])!!}
-														</td>
-													</tr>
-													<tr>
-														<td>Total</td>
-														<th>
-															{!! Form::text('total_afi', $total_afi, ['class' => 'form-control hasil', 'id' => 'total_afi'])!!}
-														</th>
-													</tr>
-												</tbody>
-											</table>
+											<div class="table-responsive">
+												<table class="table table-condensed">
+													<tbody>
+														<tr>
+															<td>Estimated Fetal Weight</td>
+															<td colspan="3">
+																<div class="input-group">
+																	{!! Form::text('EFW', $EFW, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_efw'])!!}
+																	<span class="input-group-addon" id="addonEFW">gram</span>
+																</div>
+															</td>
+														</tr>
+														<tr>
+															<td>Femur Length</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('FL_w', $FL_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'FL_w'])!!}
+																	<span class="input-group-addon" id="addonFLw">W</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('FL_d', $FL_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'FL_d'])!!}
+																	<span class="input-group-addon" id="addonFLd">D</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group">
+																	{!! Form::text('FL_mm', $FL_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'FL_mm'])!!}
+																	<span class="input-group-addon" id="addonFLmm">mm</span>
+																</div>
+															</td>
+														</tr>
+														<tr>
+															<td>Sex</td>
+															<td colspan="3">
+																{!! Form::select('Sex',
+																[
+																	'tak dpt dinilai' => 'tak dpt dinilai',
+																	'kemungkinan laki-laki' => 'Laki-Laki',
+																	'kemungkinan perempuan' => 'Perempuan'
+																]
+																, $Sex, ['class' => 'form-control hasil', 'id' => 'usg_sex'])!!}
+															</td>
+														</tr>
+														<tr>
+															<td>Plasenta</td>
+															<td colspan="3">
+																{!! Form::text('Plasenta', $Plasenta, ['class' => 'form-control hasil', 'id' => 'usg_plasenta'])!!}
+															</td>
+														</tr>
+														<tr>
+															<td>Total</td>
+															<th>
+																{!! Form::text('total_afi', $total_afi, ['class' => 'form-control hasil', 'id' => 'total_afi'])!!}
+															</th>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 									<div class="row">
@@ -505,23 +509,25 @@
 										<div class="panel panel-info">
 											<div class="panel-heading">Obat yang tidak ditanggung BPJS</div>
 											<div class="panel-body">
-												<table class="table table-condensed">
-													<thead>
-														<tr>
-															<th>Obat</th>
-															<th>Jumlah</th>
-														</tr>
-													</thead>
-													<tbody id='bilaTipeBPJS'>
+												<div class="table-responsive">
+													<table class="table table-condensed">
+														<thead>
+															<tr>
+																<th>Obat</th>
+																<th>Jumlah</th>
+															</tr>
+														</thead>
+														<tbody id='bilaTipeBPJS'>
 
-													</tbody>
-													<tfoot>
-														<tr>
-															<td>Total </td>
-															<td id="totalBilaTipeBPJS" class="uang"></td>
-														</tr>
-													</tfoot>
-												</table>
+														</tbody>
+														<tfoot>
+															<tr>
+																<td>Total </td>
+																<td id="totalBilaTipeBPJS" class="uang"></td>
+															</tr>
+														</tfoot>
+													</table>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -531,23 +537,25 @@
 										<div class="panel panel-primary">
 											<div class="panel-heading">Tindakan yang tidak ditanggung BPJS</div>
 											<div class="panel-body">
-												<table class="table table-condensed">
-													<thead>
-														<tr>
-															<th>Tindakan</th>
-															<th>Biaya</th>
-														</tr>
-													</thead>
-													<tbody id='dibayarTIndakanBpjs'>
+												<div class="table-responsive">
+													<table class="table table-condensed">
+														<thead>
+															<tr>
+																<th>Tindakan</th>
+																<th>Biaya</th>
+															</tr>
+														</thead>
+														<tbody id='dibayarTIndakanBpjs'>
 
-													</tbody>
-													<tfoot>
-														<tr>
-															<td>Total </td>
-															<td id="TotalDibayarTindakanBPJS" class="uang"></td>
-														</tr>
-													</tfoot>
-												</table>
+														</tbody>
+														<tfoot>
+															<tr>
+																<td>Total </td>
+																<td id="TotalDibayarTindakanBPJS" class="uang"></td>
+															</tr>
+														</tfoot>
+													</table>
+												</div>
 											</div>
 										</div>
 									</div>

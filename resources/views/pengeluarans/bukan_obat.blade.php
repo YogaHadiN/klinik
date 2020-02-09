@@ -73,40 +73,42 @@
 						]) !!}
 					</div>
 				</div>
-				<table class="table table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>Tanggal</th>
-							<th>Keterangan</th>
-							<th>Supplier</th>
-							<th>Nilai</th>
-							<th>Action</th>
-						</tr>
-						<tr>
-							<th>  {!! Form::text('tanggal', null, [
-										'class'   => 'form-control',
-										'onkeyup' => 'clearAndView();return false;',
-										'id'      => 'tanggal'
-									]) !!} 
-							</th>
-							<th>  {!! Form::text('keterangan', null, [
-										'class' => 'form-control',
-										'onkeyup' => 'clearAndView();return false;',
-										'id'    => 'keterangan'
-									]) !!} 
-							</th>
-							<th>  {!! Form::text('supplier', null, [
-										'class' => 'form-control', 
-										'onkeyup' => 'clearAndView();return false;',
-										'id' => 'supplier'
-									]) !!} 
-							</th>
-							<th></th>
-							<th> <button class="btn btn-danger btn-sm" type="button" onclick="clear();return false;">Clear</button> </th>
-						</tr>
-					</thead>
-					<tbody id="content"></tbody>
-				</table>
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal</th>
+								<th>Keterangan</th>
+								<th>Supplier</th>
+								<th>Nilai</th>
+								<th>Action</th>
+							</tr>
+							<tr>
+								<th>  {!! Form::text('tanggal', null, [
+											'class'   => 'form-control',
+											'onkeyup' => 'clearAndView();return false;',
+											'id'      => 'tanggal'
+										]) !!} 
+								</th>
+								<th>  {!! Form::text('keterangan', null, [
+											'class' => 'form-control',
+											'onkeyup' => 'clearAndView();return false;',
+											'id'    => 'keterangan'
+										]) !!} 
+								</th>
+								<th>  {!! Form::text('supplier', null, [
+											'class' => 'form-control', 
+											'onkeyup' => 'clearAndView();return false;',
+											'id' => 'supplier'
+										]) !!} 
+								</th>
+								<th></th>
+								<th> <button class="btn btn-danger btn-sm" type="button" onclick="clear();return false;">Clear</button> </th>
+							</tr>
+						</thead>
+						<tbody id="content"></tbody>
+					</table>
+				</div>
 				<div id="page-box">
 					<nav class="text-right" aria-label="Page navigation" id="paging">
 					

@@ -181,20 +181,22 @@
 									</div>
 									<div class="panel-body">
 										<!-- Table -->
-										<table class="table table-condensed table-bordered DT">
-											<thead>
-												<tr>
-													<th>Jenis Tarif</th>
-													<th>Biaya</th>
-													<th>Jasa Dokter</th>
-													<th>Tipe Tindakan</th>
-													<th>Action</th>
-													<th class="hide">id</th>
-												</tr>
-											</thead>
-											<tbody id="tblTarif">
-											</tbody>
-										</table>
+										<div class="table-responsive">
+											<table class="table table-condensed table-bordered DT">
+												<thead>
+													<tr>
+														<th>Jenis Tarif</th>
+														<th>Biaya</th>
+														<th>Jasa Dokter</th>
+														<th>Tipe Tindakan</th>
+														<th>Action</th>
+														<th class="hide">id</th>
+													</tr>
+												</thead>
+												<tbody id="tblTarif">
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 							</div>

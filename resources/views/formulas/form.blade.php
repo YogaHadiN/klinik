@@ -62,24 +62,26 @@
 							
                             <div class="form-group">
                                 {!!Form::label('kg6_7')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg6_7', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg6_7', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg6_7', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg6_7_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg6_7', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg6_7', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg6_7', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg6_7_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg6_7'))
                                     <code>{!! $errors->first('kg6_7') !!}</code>
                                 @endif
@@ -88,24 +90,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg7_9')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg7_9', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg7_9', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg7_9', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg7_9_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg7_9', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg7_9', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg7_9', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg7_9_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg7_9'))
                                     <code>{!! $errors->first('kg7_9') !!}</code>
                                 @endif
@@ -114,24 +118,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg9_13')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg9_13', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg9_13', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg9_13', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg9_13_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg9_13', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg9_13', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg9_13', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg9_13_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg9_13'))
                                     <code>{!! $errors->first('kg9_13') !!}</code>
                                 @endif
@@ -140,24 +146,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg13_15')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg13_15', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg13_15', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg13_15', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg13_15_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg13_15', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg13_15', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg13_15', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg13_15_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg13_15'))
                                     <code>{!! $errors->first('kg13_15') !!}</code>
                                 @endif
@@ -166,24 +174,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg15_19')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg15_19', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg15_19', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg15_19', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg15_19_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg15_19', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg15_19', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg15_19', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg15_19_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg15_19'))
                                     <code>{!! $errors->first('kg15_19') !!}</code>
                                 @endif
@@ -192,24 +202,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg19_23')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg19_23', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg19_23', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg19_23', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg19_23_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg19_23', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg19_23', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg19_23', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg19_23_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg19_23'))
                                     <code>{!! $errors->first('kg19_23') !!}</code>
                                 @endif
@@ -220,24 +232,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg23_26')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg23_26', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg23_26', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg23_26', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg23_26_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg23_26', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg23_26', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg23_26', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg23_26_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg23_26'))
                                     <code>{!! $errors->first('kg23_26') !!}</code>
                                 @endif
@@ -246,24 +260,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg26_30')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg26_30', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg26_30', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg26_30', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg26_30_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg26_30', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg26_30', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg26_30', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg26_30_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg26_30'))
                                     <code>{!! $errors->first('kg26_30') !!}</code>
                                 @endif
@@ -272,24 +288,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg30_37')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg30_37', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg30_37', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg30_37', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg30_37_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg30_37', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg30_37', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg30_37', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg30_37_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg30_37'))
                                     <code>{!! $errors->first('kg30_37') !!}</code>
                                 @endif
@@ -298,24 +316,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg37_45')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg37_45', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg37_45', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg37_45', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg37_45_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg37_45', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg37_45', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg37_45', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg37_45_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg37_45'))
                                     <code>{!! $errors->first('kg37_45') !!}</code>
                                 @endif
@@ -324,24 +344,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg45_50')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg45_50', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg45_50', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg45_50', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg45_50_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg45_50', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg45_50', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg45_50', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg45_50_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg45_50'))
                                     <code>{!! $errors->first('kg45_50') !!}</code>
                                 @endif
@@ -350,24 +372,26 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 {!!Form::label('kg50')!!}<br />
-                                <table class="table table-condensed dosis">
-                                    <thead>
-                                        <tr>
-                                            <th>Signa</th>
-                                            <th>Jumlah</th>
-                                            <th>Puyer Jumlah</th>
-                                            <th>Jumlah BPJS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{!! Form::select('signa_kg50', $signas, null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg50', null, ['class' => 'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_puyer_kg50', null, ['class' =>'form-control'])!!}</td>
-                                            <td>{!! Form::text('jumlah_kg50_bpjs', null, ['class' => 'form-control'])!!}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+								<div class="table-responsive">
+									<table class="table table-condensed dosis">
+										<thead>
+											<tr>
+												<th>Signa</th>
+												<th>Jumlah</th>
+												<th>Puyer Jumlah</th>
+												<th>Jumlah BPJS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{!! Form::select('signa_kg50', $signas, null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg50', null, ['class' => 'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_puyer_kg50', null, ['class' =>'form-control'])!!}</td>
+												<td>{!! Form::text('jumlah_kg50_bpjs', null, ['class' => 'form-control'])!!}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
                                 @if($errors->first('kg50'))
                                     <code>{!! $errors->first('kg50') !!}</code>
                                 @endif

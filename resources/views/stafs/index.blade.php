@@ -32,42 +32,44 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered DT">
-                <thead>
-                    <tr>
-                        <th class="hide">id</th>
-                        <th>nama</th>
-                        <th>email</th>
-                        <th>alamat</th>
-                        <th>telp</th>
-                        <th> Jasa Dokter </th>
-                        <th>action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($stafs as $user)
-                        <tr>
-                            <td class="hide">{!!$user->id!!}</td>
-                            <td>{!!$user->nama!!}</td>
-                            <td>{!!$user->email!!}</td>
-                            <td>{!!$user->alamat_domisili!!}</td>
-                            <td>{!!$user->no_telp!!}</td>
-                            <td>
-                                @if ($user->titel == 'dr' )
-                                    <a href="{{ url('pengeluarans/bayardoker/'. $user->id) }}" class="btn btn-primary block btn-sm">Jasa Dokter</a>
-                                @endif
-                            </td>
-                            <td nowrap>
-								@if( \Auth::id() == '28' )
-                                <a href="stafs/{!!$user->id!!}/gaji" class="btn btn-info btn-sm">Daftar Gaji</a>
-								@endif
-                                <a href="stafs/{!!$user->id!!}/edit" class="btn btn-success btn-sm">Edit</a>
-                            </td>
-                        </tr>
-                   @endforeach
-                    </tr>
-                </tbody>
-            </table>
+		  <div class="table-responsive">
+				<table class="table table-bordered DT">
+					<thead>
+						<tr>
+							<th class="hide">id</th>
+							<th>nama</th>
+							<th>email</th>
+							<th>alamat</th>
+							<th>telp</th>
+							<th> Jasa Dokter </th>
+							<th>action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($stafs as $user)
+							<tr>
+								<td class="hide">{!!$user->id!!}</td>
+								<td>{!!$user->nama!!}</td>
+								<td>{!!$user->email!!}</td>
+								<td>{!!$user->alamat_domisili!!}</td>
+								<td>{!!$user->no_telp!!}</td>
+								<td>
+									@if ($user->titel == 'dr' )
+										<a href="{{ url('pengeluarans/bayardoker/'. $user->id) }}" class="btn btn-primary block btn-sm">Jasa Dokter</a>
+									@endif
+								</td>
+								<td nowrap>
+									@if( \Auth::id() == '28' )
+									<a href="stafs/{!!$user->id!!}/gaji" class="btn btn-info btn-sm">Daftar Gaji</a>
+									@endif
+									<a href="stafs/{!!$user->id!!}/edit" class="btn btn-success btn-sm">Edit</a>
+								</td>
+							</tr>
+					   @endforeach
+						</tr>
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 @stop

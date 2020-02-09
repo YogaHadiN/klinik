@@ -55,33 +55,35 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover" id="tableEntriBeli" nowrap>
-                  <thead>
-                    <tr>
-                       <th>No</th>
-                       <th>Merek Obat</th>
-                       <th class="displayNone">Harga Beli</th>
-                       <th>Harga Jual</th>
-                       <th>Exp Date</th>
-                       <th>Jumlah</th>
-                       <th nowrap>Harga Item</th>
-                       <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colspan="2">{!! Form::select('merek_id', $mereks, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'ddl_merek_id', 'onchange' => 'ddlChange(this)'])!!}</td>
-                       <td class="displayNone"><input type="text" id="txt_harga_beli" class="form-control" placeholder="harga beli"/></td>
-                       <td><input type="text" id="txt_harga_jual" class="form-control" placeholder="harga jual" disabled/></td>
-                       <td><input type="text" id="txt_exp_date" class="form-control tanggal" placeholder="exp date" disabled/></td>
-                       <td><input type="text" id="txt_jumlah" class="form-control" placeholder="jumlah"/></td>
-                       <td colspan="2"><button type="button" id="btn_Action" class="btn btn-primary btn-sm btn-block" onclick="input(this);return false;">input</buttomn></td>
-                    </tr>
-                </tfoot>
-            </table>
+		  <div class="table-responsive">
+					<table class="table table-bordered table-hover" id="tableEntriBeli" nowrap>
+					  <thead>
+						<tr>
+						   <th>No</th>
+						   <th>Merek Obat</th>
+						   <th class="displayNone">Harga Beli</th>
+						   <th>Harga Jual</th>
+						   <th>Exp Date</th>
+						   <th>Jumlah</th>
+						   <th nowrap>Harga Item</th>
+						   <th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					  
+					</tbody>
+					  <tfoot>
+						<tr>
+						  <td colspan="2">{!! Form::select('merek_id', $mereks, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'ddl_merek_id', 'onchange' => 'ddlChange(this)'])!!}</td>
+						   <td class="displayNone"><input type="text" id="txt_harga_beli" class="form-control" placeholder="harga beli"/></td>
+						   <td><input type="text" id="txt_harga_jual" class="form-control" placeholder="harga jual" disabled/></td>
+						   <td><input type="text" id="txt_exp_date" class="form-control tanggal" placeholder="exp date" disabled/></td>
+						   <td><input type="text" id="txt_jumlah" class="form-control" placeholder="jumlah"/></td>
+						   <td colspan="2"><button type="button" id="btn_Action" class="btn btn-primary btn-sm btn-block" onclick="input(this);return false;">input</buttomn></td>
+						</tr>
+					</tfoot>
+				</table>
+		  </div>
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <button class="btn btn-primary btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>

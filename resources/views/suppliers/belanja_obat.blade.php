@@ -75,42 +75,44 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<table class="table table-bordered" id="tableEntriBeli" nowrap>
-					<thead>
-						<tr>
-							<th>No</th>
-							<th>Merek Obat</th>
-							<th>Harga Beli</th>
-							<th>Harga Jual</th>
-							<th>Exp Date</th>
-							<th>Jumlah</th>
-							<th>Harga Item</th>
-							<th>Action</th>
-							<th class='hide'>Class Rak</th>
-						</tr>
-					</thead>
-					<tbody>
+				<div class="table-responsive">
+					<table class="table table-bordered" id="tableEntriBeli" nowrap>
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Merek Obat</th>
+								<th>Harga Beli</th>
+								<th>Harga Jual</th>
+								<th>Exp Date</th>
+								<th>Jumlah</th>
+								<th>Harga Item</th>
+								<th>Action</th>
+								<th class='hide'>Class Rak</th>
+							</tr>
+						</thead>
+						<tbody>
 
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="2">
-								<select id="ddl_merek_id" class="form-control selectpick" data-live-search='true' onchange='ddlChange(this);'>
-									<option value=""> - Pilih Merek - </option>
-									@foreach($mereks as $merek)
-									<option value="{!! $merek->id !!}" data-value='{!! $merek->custid !!}'>{!! $merek->merek !!}</option>
-									@endforeach
-								</select>
-							</td>
-							<td><input type="text" id="txt_harga_beli" class="form-control" placeholder="harga beli"/></td>
-							<td><input type="text" id="txt_harga_jual" class="form-control" placeholder="harga jual"/></td>
-							<td><input type="text" id="txt_exp_date" class="form-control tanggal" placeholder="exp date"/></td>
-							<td><input type="text" id="txt_jumlah" class="form-control" placeholder="jumlah"/></td>
-							<td colspan="2"><button type="button" id="btn_Action" class="btn btn-primary btn-sm btn-block" onclick="input(this);return false;">input</buttomn></td>
-							<td>{!! Form::text('class_rak', null, ['class'=> 'hide', 'id' =>'class_rak'])!!}</td>
-						</tr>
-					</tfoot>
-				</table>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2">
+									<select id="ddl_merek_id" class="form-control selectpick" data-live-search='true' onchange='ddlChange(this);'>
+										<option value=""> - Pilih Merek - </option>
+										@foreach($mereks as $merek)
+										<option value="{!! $merek->id !!}" data-value='{!! $merek->custid !!}'>{!! $merek->merek !!}</option>
+										@endforeach
+									</select>
+								</td>
+								<td><input type="text" id="txt_harga_beli" class="form-control" placeholder="harga beli"/></td>
+								<td><input type="text" id="txt_harga_jual" class="form-control" placeholder="harga jual"/></td>
+								<td><input type="text" id="txt_exp_date" class="form-control tanggal" placeholder="exp date"/></td>
+								<td><input type="text" id="txt_jumlah" class="form-control" placeholder="jumlah"/></td>
+								<td colspan="2"><button type="button" id="btn_Action" class="btn btn-primary btn-sm btn-block" onclick="input(this);return false;">input</buttomn></td>
+								<td>{!! Form::text('class_rak', null, ['class'=> 'hide', 'id' =>'class_rak'])!!}</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
 				<div class="form-group hide" @if($errors->has('tempBeli')) class="has-error" @endif)>
 				  {!! Form::label('tempBeli', 'Daftar Belanja') !!}
 				  {!! Form::textarea('tempBeli' , null, ['class' => 'form-control hide rq', 'id' => 'tempBeli', 'autocomplete' => 'on']) !!}
@@ -214,36 +216,38 @@
         <h4 class="modal-title" id="myModalLabel">PETUNJUK : Pilih Obat Yang Memiliki Komposisi Yang Sama, tapi harga berbeda, jika ditemukan obat yang memiliki komposisi yang sama dan harga yang sama berarti Buat Merek baru, bukan buar rak baru</h4>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered table-hover DT">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Merek</th>
-              <th>Komposisi</th>
-              <th>Harga Beli</th>
-              <th>Harga Jual</th>
-              <th nowrap>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($mereks as $merek)
-              <tr>
-                <td>{!! $merek->rak->formula_id !!}</td>
-                <td>{!! $merek->merek !!}</td>
-                <td>
-                  @foreach($merek->rak->formula->komposisi as $komposisi)
-                    {!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
-                  @endforeach
-                </td>
-                <td class='uang'>{!! $merek->rak->harga_beli !!}</td>
-                <td class='uang'>{!! $merek->rak->harga_jual !!}</td>
-                <td>
-                  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatRak(this);return false;' >pilih</button>
-                </td>
-              </tr>
-              @endforeach
-          </tbody>
-        </table>
+		  <div class="table-responsive">
+			<table class="table table-bordered table-hover DT">
+			  <thead>
+				<tr>
+				  <th>ID</th>
+				  <th>Merek</th>
+				  <th>Komposisi</th>
+				  <th>Harga Beli</th>
+				  <th>Harga Jual</th>
+				  <th nowrap>Action</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				@foreach($mereks as $merek)
+				  <tr>
+					<td>{!! $merek->rak->formula_id !!}</td>
+					<td>{!! $merek->merek !!}</td>
+					<td>
+					  @foreach($merek->rak->formula->komposisi as $komposisi)
+						{!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
+					  @endforeach
+					</td>
+					<td class='uang'>{!! $merek->rak->harga_beli !!}</td>
+					<td class='uang'>{!! $merek->rak->harga_jual !!}</td>
+					<td>
+					  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatRak(this);return false;' >pilih</button>
+					</td>
+				  </tr>
+				  @endforeach
+			  </tbody>
+			</table>
+		  </div>
       </div> 
     </div>
   </div>
@@ -274,36 +278,38 @@
         <h4 class="modal-title" id="myModalLabel">PETUNJUK : Pilih Obat Yang Memiliki Komposisi Yang Sama, Dan Harganya Kurang Lebih Sama!!</h4>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered table-hover DT">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Merek</th>
-              <th>Komposisi</th>
-              <th>Harga Beli</th>
-              <th>Harga Jual</th>
-              <th nowrap>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($mereks as $merek)
-              <tr>
-                <td>{!! $merek->rak_id !!}</td>
-                <td>{!! $merek->merek !!}</td>
-                <td>
-                  @foreach($merek->rak->formula->komposisi as $komposisi)
-                    {!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
-                  @endforeach
-                </td>
-                <td class='uang'>{!! $merek->rak->harga_beli !!}</td>
-                <td class='uang'>{!! $merek->rak->harga_jual !!}</td>
-                <td>
-                  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatMerek(this);return false;'>pilih</button>
-                </td>
-              </tr>
-              @endforeach
-          </tbody>
-        </table>
+		  <div class="table-responsive">
+			<table class="table table-bordered table-hover DT">
+			  <thead>
+				<tr>
+				  <th>ID</th>
+				  <th>Merek</th>
+				  <th>Komposisi</th>
+				  <th>Harga Beli</th>
+				  <th>Harga Jual</th>
+				  <th nowrap>Action</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				@foreach($mereks as $merek)
+				  <tr>
+					<td>{!! $merek->rak_id !!}</td>
+					<td>{!! $merek->merek !!}</td>
+					<td>
+					  @foreach($merek->rak->formula->komposisi as $komposisi)
+						{!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
+					  @endforeach
+					</td>
+					<td class='uang'>{!! $merek->rak->harga_beli !!}</td>
+					<td class='uang'>{!! $merek->rak->harga_jual !!}</td>
+					<td>
+					  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatMerek(this);return false;'>pilih</button>
+					</td>
+				  </tr>
+				  @endforeach
+			  </tbody>
+			</table>
+		  </div>
       </div> 
     </div>
   </div>

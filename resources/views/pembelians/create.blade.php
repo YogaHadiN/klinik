@@ -193,36 +193,38 @@
         <h4 class="modal-title" id="myModalLabel">PETUNJUK : Pilih Obat Yang Memiliki Komposisi Yang Sama, tapi harga berbeda, jika ditemukan obat yang memiliki komposisi yang sama dan harga yang sama berarti Buat Merek baru, bukan buar rak baru</h4>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered table-hover DT">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Merek</th>
-              <th>Komposisi</th>
-              <th>Harga Beli</th>
-              <th>Harga Jual</th>
-              <th nowrap>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($mereks as $merek)
-              <tr>
-                <td>{!! $merek->rak->formula_id !!}</td>
-                <td>{!! $merek->merek !!}</td>
-                <td>
-                  @foreach($merek->rak->formula->komposisi as $komposisi)
-                    {!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
-                  @endforeach
-                </td>
-                <td class='uang'>{!! $merek->rak->harga_beli !!}</td>
-                <td class='uang'>{!! $merek->rak->harga_jual !!}</td>
-                <td>
-                  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatRak(this);return false;' >pilih</button>
-                </td>
-              </tr>
-              @endforeach
-          </tbody>
-        </table>
+		  <div class="table-responsive">
+			<table class="table table-bordered table-hover DT">
+			  <thead>
+				<tr>
+				  <th>ID</th>
+				  <th>Merek</th>
+				  <th>Komposisi</th>
+				  <th>Harga Beli</th>
+				  <th>Harga Jual</th>
+				  <th nowrap>Action</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				@foreach($mereks as $merek)
+				  <tr>
+					<td>{!! $merek->rak->formula_id !!}</td>
+					<td>{!! $merek->merek !!}</td>
+					<td>
+					  @foreach($merek->rak->formula->komposisi as $komposisi)
+						{!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
+					  @endforeach
+					</td>
+					<td class='uang'>{!! $merek->rak->harga_beli !!}</td>
+					<td class='uang'>{!! $merek->rak->harga_jual !!}</td>
+					<td>
+					  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatRak(this);return false;' >pilih</button>
+					</td>
+				  </tr>
+				  @endforeach
+			  </tbody>
+			</table>
+		  </div>
       </div> 
     </div>
   </div>
@@ -257,37 +259,39 @@
         <h4 class="modal-title" id="myModalLabel">PETUNJUK : Pilih Obat Yang Memiliki Komposisi Yang Sama, Dan Harganya Kurang Lebih Sama!!</h4>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered table-hover DT">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Merek</th>
-              <th>Komposisi</th>
-              <th>Harga Beli</th>
-              <th>Harga Jual</th>
-              <th nowrap>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($mereks as $merek)
-              <tr>
-                <td>{!! $merek->rak_id !!}</td>
-                <td>{!! $merek->merek !!}</td>
-                <td>
-                  @foreach($merek->rak->formula->komposisi as $komposisi)
-                    {!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
-                  @endforeach
+		  <div class="table-responsive">
+			<table class="table table-bordered table-hover DT">
+			  <thead>
+				<tr>
+				  <th>ID</th>
+				  <th>Merek</th>
+				  <th>Komposisi</th>
+				  <th>Harga Beli</th>
+				  <th>Harga Jual</th>
+				  <th nowrap>Action</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				@foreach($mereks as $merek)
+				  <tr>
+					<td>{!! $merek->rak_id !!}</td>
+					<td>{!! $merek->merek !!}</td>
+					<td>
+					  @foreach($merek->rak->formula->komposisi as $komposisi)
+						{!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
+					  @endforeach
 
-                </td>
-                <td class='uang'>{!! $merek->rak->harga_beli !!}</td>
-                <td class='uang'>{!! $merek->rak->harga_jual !!}</td>
-                <td>
-                  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatMerek(this);return false;'>pilih</button>
-                </td>
-              </tr>
-              @endforeach
-          </tbody>
-        </table>
+					</td>
+					<td class='uang'>{!! $merek->rak->harga_beli !!}</td>
+					<td class='uang'>{!! $merek->rak->harga_jual !!}</td>
+					<td>
+					  <button type='button' class='btn btn-primary btn-sm btn-block' onclick='buatMerek(this);return false;'>pilih</button>
+					</td>
+				  </tr>
+				  @endforeach
+			  </tbody>
+			</table>
+		  </div>
       </div> 
     </div>
   </div>
@@ -316,46 +320,50 @@
         </div>
        <hr> 
        <div class="box">
-           <table class="table table-condensed">
-               <tbody>
-                   <tr>
-                       <td>Supplier</td> 
-                        <td>:</td>
-                       <td>{{ $fakturbelanja->supplier->nama }}</td> 
-                   </tr>  
-                   <tr>
-                       <td>Tanggal</td>
-                        <td>:</td>
-                       <td>{{App\Classes\Yoga::updateDatePrep(  $fakturbelanja->tanggal  )}}</td>
-                   </tr>
-                   <tr>
-                       <td>Nomor Faktur</td>
-                        <td>:</td>
-                       <td>{{ $fakturbelanja->nomor_faktur }}</td>
-                   </tr>
-               </tbody>
-           </table>
+		   <div class="table-responsive">
+				<table class="table table-condensed">
+				   <tbody>
+					   <tr>
+						   <td>Supplier</td> 
+							<td>:</td>
+						   <td>{{ $fakturbelanja->supplier->nama }}</td> 
+					   </tr>  
+					   <tr>
+						   <td>Tanggal</td>
+							<td>:</td>
+						   <td>{{App\Classes\Yoga::updateDatePrep(  $fakturbelanja->tanggal  )}}</td>
+					   </tr>
+					   <tr>
+						   <td>Nomor Faktur</td>
+							<td>:</td>
+						   <td>{{ $fakturbelanja->nomor_faktur }}</td>
+					   </tr>
+				   </tbody>
+			   </table>
+		   </div>
           <hr> 
        </div>
         <div class="font-small">
-            <table class="table table-condensed bordered">
-                <thead>
-                    <tr>
-                        <th>Merek</th>
-                        <th>Rp</th>
-                        <th>Qty</th>
-                        <th>Harga</th>
-                    </tr>
-                </thead>
-                <tbody id="daftarBelanja">
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Total</td>
-                        <td id="totalBiaya" class="biaya-print" nowrap colspan="3"></td>
-                    </tr>    
-                </tfoot>
-            </table>
+			<div class="table-responsive">
+				<table class="table table-condensed bordered">
+					<thead>
+						<tr>
+							<th>Merek</th>
+							<th>Rp</th>
+							<th>Qty</th>
+							<th>Harga</th>
+						</tr>
+					</thead>
+					<tbody id="daftarBelanja">
+					</tbody>
+					<tfoot>
+						<tr>
+							<td>Total</td>
+							<td id="totalBiaya" class="biaya-print" nowrap colspan="3"></td>
+						</tr>    
+					</tfoot>
+				</table>
+			</div>
            <hr> 
         </div>
         </div>

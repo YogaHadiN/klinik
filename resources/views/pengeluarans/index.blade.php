@@ -40,29 +40,31 @@
     </div>
     <div class="panel-body">
 
-            <table class="table table-condensed table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>Petugas Kasir</th>
-                  <th>Nomor Faktur</th>
-                  <th>Supplier</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  </td>
-                  <td>
-                    {!! Form::text('nomor_faktur', $fakturbelanja->nomor_faktur, ['class' => 'form-control', 'id' => 'nomor_faktur'])!!}
-                  </td>
-                  <td>
-                    {!! Form::text('supplier_id', $fakturbelanja->supplier_id, ['class' => 'form-control', 'id' => 'supplier_id'])!!}
-                  </td>
-                  <td>
-                    {!! Form::text('faktur_belanja_id', $fakturbelanja->id, ['class' => 'form-control', 'id' => 'faktur_belanja_id'])!!}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+		<div class="table-responsive">
+				<table class="table table-condensed table-bordered table-hover">
+				  <thead>
+					<tr>
+					  <th>Petugas Kasir</th>
+					  <th>Nomor Faktur</th>
+					  <th>Supplier</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr>
+					  </td>
+					  <td>
+						{!! Form::text('nomor_faktur', $fakturbelanja->nomor_faktur, ['class' => 'form-control', 'id' => 'nomor_faktur'])!!}
+					  </td>
+					  <td>
+						{!! Form::text('supplier_id', $fakturbelanja->supplier_id, ['class' => 'form-control', 'id' => 'supplier_id'])!!}
+					  </td>
+					  <td>
+						{!! Form::text('faktur_belanja_id', $fakturbelanja->id, ['class' => 'form-control', 'id' => 'faktur_belanja_id'])!!}
+					  </td>
+					</tr>
+				  </tbody>
+				</table>
+		</div>
               {!! HTML::link('suppliers/create', 'Supplier Tidak Ada?', ['class' => ''])!!}
             
       </div>
@@ -80,31 +82,35 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover" id="tableEntriBeli" nowrap>
-                  <thead>
-                    <tr>
-                     <th>No</th>
-                       <th>Keterangan Pengeluaran</th>
-                       <th>Jenis Pengeluaran</th>
-                       <th>Harga Satuan</th>
-                       <th>Jumlah</th>
-                       <th nowrap>Total Item</th>
-                       <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colspan="2"><input type="text" class="form-control rq" name="keterangan" id="keterangan" onblur="textBlur();return false;" content="Keterangan" placeholder="Sebisa mungkin pilih yang sudah ada"></td>
-                       <td>{!! Form::select('jenis_pengeluaran', $jenis_pengeluarans, null, ['class' => 'form-control rq', 'id' => 'jenis_pengeluaran', 'content' => 'Jenis Pengeluaran'])!!}</td>
-                       <td><input type="text" id="harga_satuan" content="Harga Satuan" class="form-control rq" placeholder="harga satuan"/></td>
-                       <td><input type="text" id="jumlah" content="jumlah" class="form-control rq" placeholder="jumlah"/></td>
-                       <td colspan="2"><button type="button" id="btn_Action" class="btn btn-primary btn-sm btn-block" onclick="input(this);return false;">input</buttomn></td>
-                    </tr>
-                </tfoot>
-            </table>
+		  <div class="table-responsive">
+			  <div class="table-responsive">
+					<table class="table table-bordered table-hover" id="tableEntriBeli" nowrap>
+						  <thead>
+							<tr>
+							 <th>No</th>
+							   <th>Keterangan Pengeluaran</th>
+							   <th>Jenis Pengeluaran</th>
+							   <th>Harga Satuan</th>
+							   <th>Jumlah</th>
+							   <th nowrap>Total Item</th>
+							   <th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+						  
+						</tbody>
+						  <tfoot>
+							<tr>
+							  <td colspan="2"><input type="text" class="form-control rq" name="keterangan" id="keterangan" onblur="textBlur();return false;" content="Keterangan" placeholder="Sebisa mungkin pilih yang sudah ada"></td>
+							   <td>{!! Form::select('jenis_pengeluaran', $jenis_pengeluarans, null, ['class' => 'form-control rq', 'id' => 'jenis_pengeluaran', 'content' => 'Jenis Pengeluaran'])!!}</td>
+							   <td><input type="text" id="harga_satuan" content="Harga Satuan" class="form-control rq" placeholder="harga satuan"/></td>
+							   <td><input type="text" id="jumlah" content="jumlah" class="form-control rq" placeholder="jumlah"/></td>
+							   <td colspan="2"><button type="button" id="btn_Action" class="btn btn-primary btn-sm btn-block" onclick="input(this);return false;">input</buttomn></td>
+							</tr>
+						</tfoot>
+					</table>
+			  </div>
+		  </div>
 
             {!! Form::textarea('transaksi_beli', null, ['class' => 'form-control hide', 'id' => 'tempBeli'])!!}
             <button type="button" class="btn btn-primary" id="submitForm">Submit</button>
@@ -120,46 +126,50 @@
     </div>
     <hr> 
     <div class="box">
-        <table class="table table-condensed">
-            <tbody>
-                <tr>
-                    <td>Supplier</td> 
-                    <td>:</td>
-                    <td>{{ $fakturbelanja->supplier->nama }}</td> 
-                </tr>  
-                <tr>
-                    <td>Tanggal</td>
-                    <td>:</td>
-                    <td>{{App\Classes\Yoga::updateDatePrep(  $fakturbelanja->tanggal  )}}</td>
-                </tr>
-                <tr>
-                    <td>Nomor Faktur</td>
-                    <td>:</td>
-                    <td>{{ $fakturbelanja->nomor_faktur }}</td>
-                </tr>
-            </tbody>
-        </table>
+		<div class="table-responsive">
+			<table class="table table-condensed">
+				<tbody>
+					<tr>
+						<td>Supplier</td> 
+						<td>:</td>
+						<td>{{ $fakturbelanja->supplier->nama }}</td> 
+					</tr>  
+					<tr>
+						<td>Tanggal</td>
+						<td>:</td>
+						<td>{{App\Classes\Yoga::updateDatePrep(  $fakturbelanja->tanggal  )}}</td>
+					</tr>
+					<tr>
+						<td>Nomor Faktur</td>
+						<td>:</td>
+						<td>{{ $fakturbelanja->nomor_faktur }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
         <hr> 
     </div>
     <div class="font-small">
-        <table class="table table-condensed bordered">
-            <thead>
-                <tr>
-                    <th>Merek</th>
-                    <th>Rp</th>
-                    <th>Qty</th>
-                    <th>Harga</th>
-                </tr>
-            </thead>
-            <tbody id="daftarBelanja">
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>Total</td>
-                    <td id="totalBiaya" class="biaya-print" nowrap colspan="3"></td>
-                </tr>    
-            </tfoot>
-        </table>
+		<div class="table-responsive">
+			<table class="table table-condensed bordered">
+				<thead>
+					<tr>
+						<th>Merek</th>
+						<th>Rp</th>
+						<th>Qty</th>
+						<th>Harga</th>
+					</tr>
+				</thead>
+				<tbody id="daftarBelanja">
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>Total</td>
+						<td id="totalBiaya" class="biaya-print" nowrap colspan="3"></td>
+					</tr>    
+				</tfoot>
+			</table>
+		</div>
         <hr> 
     </div>
 

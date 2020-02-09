@@ -27,32 +27,34 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                    	<th>icd10</th>
-                    	<th>Diagnosa Awam</th>
-                    	<th>Diagnosa ICD</th>
+		  <div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>icd10</th>
+							<th>Diagnosa Awam</th>
+							<th>Diagnosa ICD</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                	 @foreach ($tidakdirujuks as $tidakdirujuk)
-                     <tr>
-                       <td>
-                         {!! $tidakdirujuk->icd10_id !!}
-                       </td>
-                       <td>
-                         {!! $tidakdirujuk->diagnosa !!}
-                       </td>
-                       <td>
-                         {!! $tidakdirujuk->icd10['diagnosaICD'] !!}
-                       </td>
-                     </tr>
-                     {{-- expr --}}
-                   @endforeach
-                </tbody>
-            </table>
+						</tr>
+					</thead>
+					<tbody>
+						 @foreach ($tidakdirujuks as $tidakdirujuk)
+						 <tr>
+						   <td>
+							 {!! $tidakdirujuk->icd10_id !!}
+						   </td>
+						   <td>
+							 {!! $tidakdirujuk->diagnosa !!}
+						   </td>
+						   <td>
+							 {!! $tidakdirujuk->icd10['diagnosaICD'] !!}
+						   </td>
+						 </tr>
+						 {{-- expr --}}
+					   @endforeach
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 

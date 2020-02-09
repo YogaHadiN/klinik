@@ -45,38 +45,40 @@
                         @if($pasien->periksa->count() == 0)
                             <p class="text-center">Tidak ada Riwayat untuk ditampilkan / Pasien adalah pasien baru</p>
                         @else
-                            <table class="table table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>Status</th>
-                                        <th>Terapi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            {!! $periksa->tanggal !!} <br><br>
-                                            <strong>Pemeriksa :</strong><br>
-                                            {!! $periksa->staf->nama !!} <br>
-                                            <strong>ID Periksa : </strong>
-                                            <span id="periksa_id">{!!$periksa->id!!}</span><br>
-                                            <strong>Pembayaran : </strong>
-                                            <span id="periksa_id">{!!$periksa->asuransi->nama !!}</span>
-                                        </td>
-                                        <td>
-                                            <strong>Anamnesa :</strong> <br>
-                                            {!! $periksa->anamnesa !!} <br>
-                                            <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
-                                            {!! $periksa->pemeriksaan_fisik !!} <br>
-                                            {!! $periksa->pemeriksaan_penunjang !!}<br>
-                                            <strong>Diagnosa :</strong> <br>
-                                            {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
-                                        </td>
-                                        <td>{!! $periksa->terapi_html !!}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+							<div class="table-responsive">
+								<table class="table table-condensed">
+									<thead>
+										<tr>
+											<th>Tanggal</th>
+											<th>Status</th>
+											<th>Terapi</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												{!! $periksa->tanggal !!} <br><br>
+												<strong>Pemeriksa :</strong><br>
+												{!! $periksa->staf->nama !!} <br>
+												<strong>ID Periksa : </strong>
+												<span id="periksa_id">{!!$periksa->id!!}</span><br>
+												<strong>Pembayaran : </strong>
+												<span id="periksa_id">{!!$periksa->asuransi->nama !!}</span>
+											</td>
+											<td>
+												<strong>Anamnesa :</strong> <br>
+												{!! $periksa->anamnesa !!} <br>
+												<strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
+												{!! $periksa->pemeriksaan_fisik !!} <br>
+												{!! $periksa->pemeriksaan_penunjang !!}<br>
+												<strong>Diagnosa :</strong> <br>
+												{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
+											</td>
+											<td>{!! $periksa->terapi_html !!}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
                         @endif
 
                     </div>
@@ -98,71 +100,73 @@
                           </div>
                       </div>
                           <div class="panel-body">
-                            <table class="table table-condensed table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="hide">key/th>
-                                        <th>Merek Obat</th>
-                                        <th>Signa</th>
-                                        <th>Jumlah</th>
-                                        <th>Satuan</th>
-                                        <th>Biaya</th>
-                                        <th class="hide">id</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblResep">
-                                    @foreach ($terapis as $key => $terapi)
-                                        <tr>
-                                            <td class="hide">{!! $key !!}</td>
-                                            <td>
-                                                <select name="" id="ddlMerekChange" class="form-control" onchange="ddlOnChange(this);return false;">
-                                                    @foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
-                                                        @if ($mrk_id == $terapi['merek_id'])
-                                                            <option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
-                                                        @else
-                                                            <option value='{!! $mereks->find($mrk_id)->merek_jual !!}'>{!!$mereks->find($mrk_id)->merek !!}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                               {!! $terapi->signa !!} 
-                                            </td>
-                                            <td>
-                                                <div class="input-group spinner"><label class="form-control">{!! $terapi->jumlah !!}</label><div class="input-group-btn-vertical"><button class="btn btn-white" onclick="tambah(this);" type="button"><i class="fa fa-caret-up"></i></button><button class="btn btn-white" onclick="kurang(this);" type="button"><i class="fa fa-caret-down"></i></button></div></div>
-                                            </td>
-                                            <td class='uang'>
-                                                @if($periksa->asuransi->tipe_asuransi == 5)
-                                                    @if($terapi->merek->rak->fornas == '0')
-                                                        {!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
-                                                    @else
-                                                        0     
-                                                    @endif      
-                                                @else
-                                                    {!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
-                                                @endif
-                                            </td>
-                                            <td class='uang'>
-                                                @if($periksa->asuransi->tipe_asuransi == 5)
-                                                    @if($terapi->merek->rak->fornas == '0')
-                                                    {!! App\Classes\Yoga::kasirHargaJualItem($terapi->merek->rak->harga_jual, $periksa)!!}
-                                                    @else
-                                                        0    
-                                                    @endif      
-                                                @else
-                                                    {!! App\Classes\Yoga::kasirHargaJualItem($terapi->merek->rak->harga_jual, $periksa)!!}
-                                                @endif      
-                                            </td>
-                                            <td class="hide">{!! $terapi->id !!}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+							  <div class="table-responsive">
+								<table class="table table-condensed table-hover">
+									<thead>
+										<tr>
+											<th class="hide">key/th>
+											<th>Merek Obat</th>
+											<th>Signa</th>
+											<th>Jumlah</th>
+											<th>Satuan</th>
+											<th>Biaya</th>
+											<th class="hide">id</th>
+										</tr>
+									</thead>
+									<tbody id="tblResep">
+										@foreach ($terapis as $key => $terapi)
+											<tr>
+												<td class="hide">{!! $key !!}</td>
+												<td>
+													<select name="" id="ddlMerekChange" class="form-control" onchange="ddlOnChange(this);return false;">
+														@foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
+															@if ($mrk_id == $terapi['merek_id'])
+																<option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
+															@else
+																<option value='{!! $mereks->find($mrk_id)->merek_jual !!}'>{!!$mereks->find($mrk_id)->merek !!}</option>
+															@endif
+														@endforeach
+													</select>
+												</td>
+												<td>
+												   {!! $terapi->signa !!} 
+												</td>
+												<td>
+													<div class="input-group spinner"><label class="form-control">{!! $terapi->jumlah !!}</label><div class="input-group-btn-vertical"><button class="btn btn-white" onclick="tambah(this);" type="button"><i class="fa fa-caret-up"></i></button><button class="btn btn-white" onclick="kurang(this);" type="button"><i class="fa fa-caret-down"></i></button></div></div>
+												</td>
+												<td class='uang'>
+													@if($periksa->asuransi->tipe_asuransi == 5)
+														@if($terapi->merek->rak->fornas == '0')
+															{!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
+														@else
+															0     
+														@endif      
+													@else
+														{!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
+													@endif
+												</td>
+												<td class='uang'>
+													@if($periksa->asuransi->tipe_asuransi == 5)
+														@if($terapi->merek->rak->fornas == '0')
+														{!! App\Classes\Yoga::kasirHargaJualItem($terapi->merek->rak->harga_jual, $periksa)!!}
+														@else
+															0    
+														@endif      
+													@else
+														{!! App\Classes\Yoga::kasirHargaJualItem($terapi->merek->rak->harga_jual, $periksa)!!}
+													@endif      
+												</td>
+												<td class="hide">{!! $terapi->id !!}</td>
+											</tr>
+										@endforeach
+									</tbody>
+									<tfoot>
+										<tr>
+											<td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
+										</tr>
+									</tfoot>
+								</table>
+							  </div>
                             {!! Form::textarea('resep', $resepjson, ['class' => 'form-control', 'id' => 'txtTerapiTemp'])!!}
                           </div>
                     </div>
@@ -198,36 +202,38 @@
                             <h3 class="panel-title">Tarif</h3>
                       </div>
                       <div class="panel-body">
-                        <table class="table table-condensed table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Jenis Tarif</th>
-                                    <th>Biaya</th>
-                                    <th>Action</th>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">{!! Form::select('slcTindakan', $tindakans, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'slcTindakan'])!!}</th>
-                                    <th><button type="button" class="btn btn-success btn-sm" onclick="insertTindakan(this)">input</button></th>
-                                </tr>
-                            </thead>
-                            <tbody id="tarif">
+						  <div class="table-responsive">
+							<table class="table table-condensed table-hover">
+								<thead>
+									<tr>
+										<th>Jenis Tarif</th>
+										<th>Biaya</th>
+										<th>Action</th>
+									</tr>
+									<tr>
+										<th colspan="2">{!! Form::select('slcTindakan', $tindakans, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'slcTindakan'])!!}</th>
+										<th><button type="button" class="btn btn-success btn-sm" onclick="insertTindakan(this)">input</button></th>
+									</tr>
+								</thead>
+								<tbody id="tarif">
 
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td>Total</td>
-                                    <td><label for="" class="form-control" id="txtTotal"></label></td>
-                                </tr>
-                                <tr>
-                                    <td>Dibayar Asuransi</td>
-                                    <td><input type="text" class="form-control" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(this)" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td>Dibayar Pasien</td>
-                                    <td><input class="form-control" id="dibayar_pasien" name="dibayar_pasien" disable>
-                                </tr>
-                            </tfoot>
-                        </table>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td>Total</td>
+										<td><label for="" class="form-control" id="txtTotal"></label></td>
+									</tr>
+									<tr>
+										<td>Dibayar Asuransi</td>
+										<td><input type="text" class="form-control" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(this)" value="0"></td>
+									</tr>
+									<tr>
+										<td>Dibayar Pasien</td>
+										<td><input class="form-control" id="dibayar_pasien" name="dibayar_pasien" disable>
+									</tr>
+								</tfoot>
+							</table>
+						  </div>
                         {!! Form::textarea('tarif', $transaksi, ['class' => 'displayNone', 'id' => 'txtTarif'])!!}
                       </div>
                 </div>

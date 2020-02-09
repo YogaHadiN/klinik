@@ -37,38 +37,40 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover " id="tableAsuransi">
-                  <thead>
-                    <tr>
-                    	<th>ID</th>
-                    	<th>Tanggal</th>
-                    	<th>Nama Pasien</th>
-                    	<th>Asuransi</th>
-                    	<th>Tunai</th>
-                        <th>Piutang</th>
-                        <th>Jasa Dokter</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($hutangs as $hutang)
-                        <tr>
-                            <td>{!! $hutang->pasien_id !!}</td>
-                            <td>{!! App\Classes\Yoga::updateDatePrep( $hutang->tanggal  )!!}</td>
-                            <td>{!! $hutang->nama !!}</td>
-                            <td>{!! $hutang->nama_asuransi !!}</td>
-                            <td class="uang">{!! $hutang->tunai !!}</td>
-                            <td class="uang">{!! $hutang->piutang !!}</td>
-                            <td class="uang">{!! $hutang->nilai !!}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-               <tfoot>
-                   <tr>
-                       <td colspan="4" class="text-right"><h2>Total</h2></td>
-                       <td colspan="3" class="bold"><h2 class="uang">{{ $total }}</h2></td>
-                   </tr>
-               </tfoot> 
-            </table>
+		  <div class="table-responsive">
+					<table class="table table-striped table-bordered table-hover " id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>ID</th>
+							<th>Tanggal</th>
+							<th>Nama Pasien</th>
+							<th>Asuransi</th>
+							<th>Tunai</th>
+							<th>Piutang</th>
+							<th>Jasa Dokter</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach ($hutangs as $hutang)
+							<tr>
+								<td>{!! $hutang->pasien_id !!}</td>
+								<td>{!! App\Classes\Yoga::updateDatePrep( $hutang->tanggal  )!!}</td>
+								<td>{!! $hutang->nama !!}</td>
+								<td>{!! $hutang->nama_asuransi !!}</td>
+								<td class="uang">{!! $hutang->tunai !!}</td>
+								<td class="uang">{!! $hutang->piutang !!}</td>
+								<td class="uang">{!! $hutang->nilai !!}</td>
+							</tr>
+						@endforeach
+					</tbody>
+				   <tfoot>
+					   <tr>
+						   <td colspan="4" class="text-right"><h2>Total</h2></td>
+						   <td colspan="3" class="bold"><h2 class="uang">{{ $total }}</h2></td>
+					   </tr>
+				   </tfoot> 
+				</table>
+		  </div>
       </div>
 </div>
 

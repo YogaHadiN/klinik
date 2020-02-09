@@ -30,38 +30,40 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover" id="tabel_faktur_beli">
-                  <thead>
-                    <tr>
-                      <th class="hide">id</th>
-                      <th>tanggal</th>
-                      <th>Nama Supplier</th>
-                      <th>Nomor Faktur</th>
-                      <th>Biaya</th>
-                      <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  @foreach ($faktur_beli as $fb)
-                  <tr>
-                      <td class="hide"><div>{!!$fb->id!!}</div></td>
-                      <td><div>{!!App\Classes\Yoga::updateDatePrep($fb->tanggal)!!}</div></td>
-                      <td><div>{!!$fb->supplier->nama!!}</div></td>
-                      <td><div>{!!$fb->nomor_faktur!!}</div></td>
-                      <td><div class="uang">{!! $fb->harga !!}</div></td>
-                      <td><div><a href="{{ url('pembelians/show/' . $fb->id) }}}" class="btn-sm btn btn-primary btn-xs">Detail</a>
-                      </div></td>
-                  </tr>
-                  @endforeach
-                  
-                </tbody>
-                <tfoot>
-                  <tr>
-                      <td colspan="3" class="text-right bold">Total Pembelian : </td>
-                      <td class="bold uang" id="totalHargaObat" colspan="2">{!! $harga !!}</td>
-                  </tr>
-                </tfoot>
-            </table>
+		  <div class="table-responsive">
+				<table class="table table-bordered table-hover" id="tabel_faktur_beli">
+					  <thead>
+						<tr>
+						  <th class="hide">id</th>
+						  <th>tanggal</th>
+						  <th>Nama Supplier</th>
+						  <th>Nomor Faktur</th>
+						  <th>Biaya</th>
+						  <th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					  @foreach ($faktur_beli as $fb)
+					  <tr>
+						  <td class="hide"><div>{!!$fb->id!!}</div></td>
+						  <td><div>{!!App\Classes\Yoga::updateDatePrep($fb->tanggal)!!}</div></td>
+						  <td><div>{!!$fb->supplier->nama!!}</div></td>
+						  <td><div>{!!$fb->nomor_faktur!!}</div></td>
+						  <td><div class="uang">{!! $fb->harga !!}</div></td>
+						  <td><div><a href="{{ url('pembelians/show/' . $fb->id) }}}" class="btn-sm btn btn-primary btn-xs">Detail</a>
+						  </div></td>
+					  </tr>
+					  @endforeach
+					  
+					</tbody>
+					<tfoot>
+					  <tr>
+						  <td colspan="3" class="text-right bold">Total Pembelian : </td>
+						  <td class="bold uang" id="totalHargaObat" colspan="2">{!! $harga !!}</td>
+					  </tr>
+					</tfoot>
+				</table>
+		  </div>
       </div>
 </div>
 

@@ -30,31 +30,33 @@
             </div>
     </div>
     <div class="panel-body">
-        <table class="table table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th>Tanggal</th>
-                    <th>Jam</th>
-                    <th>Nama Pasien</th>
-                    <th>Poli</th>
-                    <th>Pemeriksaan Fisik</th>
-                    <th>Terapi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($periksas as $periksa)
-                    <tr>
-                        <td>{!! App\Classes\Yoga::updateDatePrep( $periksa->tanggal ) !!}</td>
-                        <td>{!! $periksa->jam !!}</td>
-                        <td>{!! $periksa->pasien->nama !!}</td>
-                        <td>{!! $periksa->poli !!}</td>
-                        <td>{!! $periksa->pemeriksaan_fisik !!}</td>
-                        <td>{!! $periksa->terapi_html !!}</td>
-                    </tr>
-                @endforeach
-                
-            </tbody>
-        </table>
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>Tanggal</th>
+						<th>Jam</th>
+						<th>Nama Pasien</th>
+						<th>Poli</th>
+						<th>Pemeriksaan Fisik</th>
+						<th>Terapi</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($periksas as $periksa)
+						<tr>
+							<td>{!! App\Classes\Yoga::updateDatePrep( $periksa->tanggal ) !!}</td>
+							<td>{!! $periksa->jam !!}</td>
+							<td>{!! $periksa->pasien->nama !!}</td>
+							<td>{!! $periksa->poli !!}</td>
+							<td>{!! $periksa->pemeriksaan_fisik !!}</td>
+							<td>{!! $periksa->terapi_html !!}</td>
+						</tr>
+					@endforeach
+					
+				</tbody>
+			</table>
+		</div>
         
     </div>
 </div>

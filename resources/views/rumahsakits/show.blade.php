@@ -30,23 +30,25 @@
         <div class="panel-title">Detail Rumah Sakit</div>
     </div>
     <div class="panel-body">
-        <table class="table table-bordered table-hover table-condensed">
-            <tbody>
-                <tr>
-                    <td>Nama Rumah Sakit</td>
-                    <td> {!! Form::text('nama', $rumahsakit->nama, ['class' => 'form-control']) !!} </td>
-                </tr>
-                <tr>
-                    <td>Alamat</td>
-                    <td> {!! Form::textarea('alamat', $rumahsakit->alamat, ['class' => 'form-control textareacustom']) !!} </td>
+		<div class="table-responsive">
+				<table class="table table-bordered table-hover table-condensed">
+					<tbody>
+						<tr>
+							<td>Nama Rumah Sakit</td>
+							<td> {!! Form::text('nama', $rumahsakit->nama, ['class' => 'form-control']) !!} </td>
+						</tr>
+						<tr>
+							<td>Alamat</td>
+							<td> {!! Form::textarea('alamat', $rumahsakit->alamat, ['class' => 'form-control textareacustom']) !!} </td>
 
-                </tr>
-                <tr>
-                    <td>Telp</td>
-                    <td> {!! Form::text('telepon', $rumahsakit->telepon, ['class' => 'form-control']) !!} </td>
-                </tr>
-            </tbody>
-        </table>
+						</tr>
+						<tr>
+							<td>Telp</td>
+							<td> {!! Form::text('telepon', $rumahsakit->telepon, ['class' => 'form-control']) !!} </td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
     </div>
 </div>
 <div class="row">
@@ -56,25 +58,27 @@
                 <div class="panel-title">List Spesialis</div>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered table-hover table-condensed">
-                    <thead>
-                        <th>Nama Spesialis</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                       <tr>
-                           <td id="tdSpec">
-                               {!! Form::select('tujuan_rujuks', App\Classes\Yoga::TujuanRujukList(), null, ['class' => 'selectpick form-control', 'data-live-search' => 'true', 'id' => 'selectSpesialis']) !!} 
-                           </td>
-                           <td>
-                                <button class="btn btn-info btn-sm btn-block" type="button" onclick="tambahTJ(this);return false;">Tambah</button> 
-                           </td>
-                       </tr> 
-                    </tbody>
-                      <tbody id="spesialiss">
-                          
-                      </tbody> 
-                </table>
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover table-condensed">
+						<thead>
+							<th>Nama Spesialis</th>
+							<th>Action</th>
+						</thead>
+						<tbody>
+						   <tr>
+							   <td id="tdSpec">
+								   {!! Form::select('tujuan_rujuks', App\Classes\Yoga::TujuanRujukList(), null, ['class' => 'selectpick form-control', 'data-live-search' => 'true', 'id' => 'selectSpesialis']) !!} 
+							   </td>
+							   <td>
+									<button class="btn btn-info btn-sm btn-block" type="button" onclick="tambahTJ(this);return false;">Tambah</button> 
+							   </td>
+						   </tr> 
+						</tbody>
+						  <tbody id="spesialiss">
+							  
+						  </tbody> 
+					</table>
+				</div>
             </div>
             {!! Form::textarea('spesialis', $rumahsakit->tujuanRujuk, ['class' => 'form-control hide', 'id' => 'spesialis']) !!}
         </div>
@@ -85,27 +89,29 @@
                 <div class="panel-title">Daftar PIC</div>
             </div>
             <div class="panel-body">
-                <table class="table  table-bordered table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Telp</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+				<div class="table-responsive">
+					<table class="table  table-bordered table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Nama</th>
+								<th>Telp</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
 
-                        <tr>
-                            <td> {!! Form::text('nama_pic', null, ['class' => 'form-control', 'id'=> 'nama']) !!} </td>
-                            <td> {!! Form::text('telp', null, ['class' => 'form-control', 'id'=> 'telp']) !!} </td>
-                            <td> <button class="btn btn-primary btn-sm btn-block" type="button" onclick="tambahBJ(this);return false;" id="tambahPIC">Tambah</button> </td>
-                        </tr>
+							<tr>
+								<td> {!! Form::text('nama_pic', null, ['class' => 'form-control', 'id'=> 'nama']) !!} </td>
+								<td> {!! Form::text('telp', null, ['class' => 'form-control', 'id'=> 'telp']) !!} </td>
+								<td> <button class="btn btn-primary btn-sm btn-block" type="button" onclick="tambahBJ(this);return false;" id="tambahPIC">Tambah</button> </td>
+							</tr>
 
 
-                    </tbody>
-                    <tbody id="bpjscenters">
-                    </tbody>
-                </table>
+						</tbody>
+						<tbody id="bpjscenters">
+						</tbody>
+					</table>
+				</div>
                 {!! Form::textarea('bpjscenter', $rumahsakit->bpjsCenter, ['class' => 'form-control hide', 'id' => 'bpjscenter']) !!}
                 
             </div>

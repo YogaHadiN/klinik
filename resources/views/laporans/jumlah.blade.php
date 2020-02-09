@@ -30,35 +30,37 @@
                   </div>
               </div>
               <div class="panel-body">
-                    <table class="table table-condensed table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nama Asuransi</th>
-                                <th>Jumlah</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @if (count($jumlah) > 0)
-                        @foreach ($jumlah as $jm)
-                            <tr>
-                                <td>{!! $jm->nama_asuransi !!}</td>
-                                <td>{!! $jm->jumlah !!}</td>
-                            </tr>
-                        @endforeach
-                        @else
-                            <tr>
-                                <td colspan="2" class="text-center">Tidak ada data untuk ditampilkan :p</td>
-                            </tr>
-                        @endif
+				  <div class="table-responsive">
+						<table class="table table-condensed table-hover">
+							<thead>
+								<tr>
+									<th>Nama Asuransi</th>
+									<th>Jumlah</th>
+								</tr>
+							</thead>
+							<tbody>
+							@if (count($jumlah) > 0)
+							@foreach ($jumlah as $jm)
+								<tr>
+									<td>{!! $jm->nama_asuransi !!}</td>
+									<td>{!! $jm->jumlah !!}</td>
+								</tr>
+							@endforeach
+							@else
+								<tr>
+									<td colspan="2" class="text-center">Tidak ada data untuk ditampilkan :p</td>
+								</tr>
+							@endif
 
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Total</th>
-                                <th>{{ $total }}</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+							</tbody>
+							<tfoot>
+								<tr>
+									<th>Total</th>
+									<th>{{ $total }}</th>
+								</tr>
+							</tfoot>
+						</table>
+				  </div>
               </div>
         </div>
     </div>

@@ -29,46 +29,48 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-striped table-bordered DT" id="table_tarif" >
-                <thead>
-                    <tr>
-                        <th>jenis tarif id</th>
-						<th>Jenis Tarif</th>
-						<th>Tipe Tindakan</th>
-                        <th >Biaya</th>
-                        <th>Jasa Dokter</th>
-                        <th class="displayNone">tipe_tindakan_id</th>
-                        <th class="displayNone">tipe_laporan_admedika_id</th>
-                        <th class="displayNone">bhp_items</th>
-                        <th class="displayNone">Murni Jasa Dokter</th>
-                        <th class="displayNone">asuransi_id</th>
-						<th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($tarifs as $tarif)
-                        <tr>
-                            <td class="jenis_tarif_id"><div>{!!$tarif->jenis_tarif_id!!}</div></td>
-                            <td class="jenis_tarif"><div>{!!$tarif->jenisTarif->jenis_tarif!!}</div></td>
-							<td class="tipe_tindakan"> <div>{!! $tarif->tipeTindakan->tipe_tindakan !!}</div> </td>
-                            <td class="biaya"><div class="uang">{!!$tarif->biaya!!}</div></td>
-                            <td class="jasa_dokter"><div class="uang">{!!$tarif->jasa_dokter!!}</div></td>
-                            <td class="hide tipe_tindakan_id"><div>{!!$tarif->tipe_tindakan_id!!}</div></td>
-							<td class="hide tipe_laporan_admedika_id"><div>{!!$tarif->jenisTarif->tipe_laporan_admedika_id!!}</div></td>
-							<td class="hide bhp_items"><div>{!!$tarif->jenisTarif->bhp!!}</div></td>
-							<td class="hide murni_jasa_dokter"><div>{!!$tarif->jenisTarif->murni_jasa_dokter!!}</div></td>
-                            <td class="hide"><div>0</div></td>
-                              {!! Form::open(['url' => 'tarifs/' .$tarif->id, 'method' => 'delete'])!!}
-                              <td nowrap>
-                                  <div>
-                                      <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalUpadteJenisTarif" onclick="editRow(this)">edit</a>
-                                {!! Form::submit('hapus', ['class' => 'btn btn-danger btn-sm', 'onclick' => 'return confirm("Anda yakin mau menghapus ' .$tarif->jenis_tarif_id. ' - ' .$tarif->jenisTarif->jenis_tarif . ' dari Tarif?")'])!!}
-                              {!! Form::close()!!}
-                            </div></td>
-                        </tr>
-                   @endforeach
-                </tbody>
-            </table>
+		  <div class="table-responsive">
+				<table class="table table-striped table-bordered DT" id="table_tarif" >
+					<thead>
+						<tr>
+							<th>jenis tarif id</th>
+							<th>Jenis Tarif</th>
+							<th>Tipe Tindakan</th>
+							<th >Biaya</th>
+							<th>Jasa Dokter</th>
+							<th class="displayNone">tipe_tindakan_id</th>
+							<th class="displayNone">tipe_laporan_admedika_id</th>
+							<th class="displayNone">bhp_items</th>
+							<th class="displayNone">Murni Jasa Dokter</th>
+							<th class="displayNone">asuransi_id</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($tarifs as $tarif)
+							<tr>
+								<td class="jenis_tarif_id"><div>{!!$tarif->jenis_tarif_id!!}</div></td>
+								<td class="jenis_tarif"><div>{!!$tarif->jenisTarif->jenis_tarif!!}</div></td>
+								<td class="tipe_tindakan"> <div>{!! $tarif->tipeTindakan->tipe_tindakan !!}</div> </td>
+								<td class="biaya"><div class="uang">{!!$tarif->biaya!!}</div></td>
+								<td class="jasa_dokter"><div class="uang">{!!$tarif->jasa_dokter!!}</div></td>
+								<td class="hide tipe_tindakan_id"><div>{!!$tarif->tipe_tindakan_id!!}</div></td>
+								<td class="hide tipe_laporan_admedika_id"><div>{!!$tarif->jenisTarif->tipe_laporan_admedika_id!!}</div></td>
+								<td class="hide bhp_items"><div>{!!$tarif->jenisTarif->bhp!!}</div></td>
+								<td class="hide murni_jasa_dokter"><div>{!!$tarif->jenisTarif->murni_jasa_dokter!!}</div></td>
+								<td class="hide"><div>0</div></td>
+								  {!! Form::open(['url' => 'tarifs/' .$tarif->id, 'method' => 'delete'])!!}
+								  <td nowrap>
+									  <div>
+										  <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalUpadteJenisTarif" onclick="editRow(this)">edit</a>
+									{!! Form::submit('hapus', ['class' => 'btn btn-danger btn-sm', 'onclick' => 'return confirm("Anda yakin mau menghapus ' .$tarif->jenis_tarif_id. ' - ' .$tarif->jenisTarif->jenis_tarif . ' dari Tarif?")'])!!}
+								  {!! Form::close()!!}
+								</div></td>
+							</tr>
+					   @endforeach
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 <div class="modal fade bs-example-modal-md" id="modalInsertJenisTarif" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -147,35 +149,37 @@
                                   <h3 class="panel-title">Input Bahan Habis Pakai</h3>
                             </div>
                             <div class="panel-body">
-                                  <table class="table table-condensed tfoot" id="tbl_bhp_insert">
-                                      <thead>
-                                          <tr>
-                                              <th class="displayNone">id</th>
-                                              <th>Merek Obat</th>
-                                              <th>Jumlah</th>
-                                              <th>Action</th>
-                                          </tr>
-                                      </thead>
-                                      <tbody id="ajax1">
-                                          
-                                      </tbody>
-                                      <tfoot>
-                                          <tr>
-                                            <td class="displayNone"></td>
-                                              <td style="width:65%;">
-                                                <select name="merek_id" id="merek_id" class="form-control selectpick kosong" data-live-search="true" title="Nama Obat">
+								<div class="table-responsive">
+									<table class="table table-condensed tfoot" id="tbl_bhp_insert">
+										  <thead>
+											  <tr>
+												  <th class="displayNone">id</th>
+												  <th>Merek Obat</th>
+												  <th>Jumlah</th>
+												  <th>Action</th>
+											  </tr>
+										  </thead>
+										  <tbody id="ajax1">
+											  
+										  </tbody>
+										  <tfoot>
+											  <tr>
+												<td class="displayNone"></td>
+												  <td style="width:65%;">
+													<select name="merek_id" id="merek_id" class="form-control selectpick kosong" data-live-search="true" title="Nama Obat">
 
-                                                    @foreach ($mereks as $merek)
-                                                        <option value='{!! $merek->id !!}' data-subtext="{!!$merek->komposisi_bymerek!!}"><strong>{!!$merek->merek!!}</strong></option>
-                                                    @endforeach
-                                                </select>
-                                              </td>
-                                              <td><input type="text" class="form-control" id="jumlah"></td>
-                                              <td><button onclick="insert_bhp(this); return false;" class="btn btn-success" id="submit_bhp">submit</button>
-                                              <a href="#" onclick="submitID_MEREK($('#ID_JENIS_TARIF').val()); return false;" class="btn btn-success displayNone" id="inputID_MEREK">submit</a></td>
-                                          </tr>
-                                      </tfoot>
-                                  </table>
+														@foreach ($mereks as $merek)
+															<option value='{!! $merek->id !!}' data-subtext="{!!$merek->komposisi_bymerek!!}"><strong>{!!$merek->merek!!}</strong></option>
+														@endforeach
+													</select>
+												  </td>
+												  <td><input type="text" class="form-control" id="jumlah"></td>
+												  <td><button onclick="insert_bhp(this); return false;" class="btn btn-success" id="submit_bhp">submit</button>
+												  <a href="#" onclick="submitID_MEREK($('#ID_JENIS_TARIF').val()); return false;" class="btn btn-success displayNone" id="inputID_MEREK">submit</a></td>
+											  </tr>
+										  </tfoot>
+									  </table>
+								</div>
                                     {!! Form::textarea('bhp_items', null, ['class' => 'form-control hide', 'id' => 'bahan_habis_pakai'])!!}
                             </div>
                           </div>                      
@@ -274,34 +278,36 @@
                                   <h3 class="panel-title">Input Bahan Habis Pakai</h3>
                             </div>
                             <div class="panel-body">
-                                  <table class="table table-condensed" id="tbl_bhp_update">
-                                      <thead>
-                                          <tr>
-                                              <th class="displayNone">id</th>
-                                              <th>Merek Obat</th>
-                                              <th>Jumlah</th>
-                                              <th>Action</th>
-                                          </tr>
-                                      </thead>
-                                      <tbody>
-                                          
-                                      </tbody>
-                                      <tfoot>
-                                          <tr>
-                                            <td class="displayNone"></td>
-                                              <td style="width:65%;">
-                                                <select name="" id="ID_MEREK_UPDATE" class="form-control selectpick" data-live-search="true" title="Nama Obat" >
-                                                    @foreach ($mereks as $merek)
-                                                        <option value='{!! $merek->id !!}' data-subtext="{!!$merek->komposisi_bymerek!!}"><strong>{!!$merek->merek!!}</strong></option>
-                                                    @endforeach
-                                                </select>
-                                              </td>
-                                              <td><input type="text" class="form-control" id="jumlah_UPDATE"></td>
-                                              <td><a href="#" onclick="insert_bhp_update(); return false;" class="btn btn-success" id="inputID_MEREK_UPDATE_DUMMY">submit</a>
-                                              <a href="#" onclick="submitID_MEREK_UPDATE(); return false;" class="btn btn-success displayNone" id="inputID_MEREK_UPDATE">submit</a></td>
-                                          </tr>
-                                      </tfoot>
-                                  </table>
+								<div class="table-responsive">
+									<table class="table table-condensed" id="tbl_bhp_update">
+										  <thead>
+											  <tr>
+												  <th class="displayNone">id</th>
+												  <th>Merek Obat</th>
+												  <th>Jumlah</th>
+												  <th>Action</th>
+											  </tr>
+										  </thead>
+										  <tbody>
+											  
+										  </tbody>
+										  <tfoot>
+											  <tr>
+												<td class="displayNone"></td>
+												  <td style="width:65%;">
+													<select name="" id="ID_MEREK_UPDATE" class="form-control selectpick" data-live-search="true" title="Nama Obat" >
+														@foreach ($mereks as $merek)
+															<option value='{!! $merek->id !!}' data-subtext="{!!$merek->komposisi_bymerek!!}"><strong>{!!$merek->merek!!}</strong></option>
+														@endforeach
+													</select>
+												  </td>
+												  <td><input type="text" class="form-control" id="jumlah_UPDATE"></td>
+												  <td><a href="#" onclick="insert_bhp_update(); return false;" class="btn btn-success" id="inputID_MEREK_UPDATE_DUMMY">submit</a>
+												  <a href="#" onclick="submitID_MEREK_UPDATE(); return false;" class="btn btn-success displayNone" id="inputID_MEREK_UPDATE">submit</a></td>
+											  </tr>
+										  </tfoot>
+									  </table>
+								</div>
                                   {!! Form::textarea('bhp_items', null, ['class' => 'form-control hide', 'id' => 'bhp_items_update'])!!}
                             </div>
                           </div>                      

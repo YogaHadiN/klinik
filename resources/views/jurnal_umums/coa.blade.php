@@ -91,16 +91,18 @@
           </div>
       </div>
       <div class="modal-footer">
-         <table class="table table-bordered table-condensed">
-             <thead>
-                 <tr>
-                     <th>Coa</th>
-                     <th>Keterangan Coa</th>
-                 </tr>
-             </thead>
-             <tbody id="coa_list">
-             </tbody>
-         </table>
+		  <div class="table-responsive">
+				<table class="table table-bordered table-condensed">
+				 <thead>
+					 <tr>
+						 <th>Coa</th>
+						 <th>Keterangan Coa</th>
+					 </tr>
+				 </thead>
+				 <tbody id="coa_list">
+				 </tbody>
+			 </table>
+		  </div>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

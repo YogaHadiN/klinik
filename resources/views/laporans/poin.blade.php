@@ -29,40 +29,42 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover">
-                  <thead>
-                    <tr>
-                    	<th>Nama Staf</th>
-                    	<th>Jumlah Tensi</th>
-                    	<th>Jumlah BB</th>
-                    	<th>Jumlah Suhu</th>
-                      <th>Jumlah TB</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	 @foreach ($points as $p)
-                     <tr>
-                       <td>
-                         {!! $p->nama !!}
-                       </td>
-                       <td>
-                         {!! $p->tekanan_darah !!}
-                       </td>
-                       <td>
-                         {!! $p->berat_badan !!}
-                       </td>
-                       <td>
-                         {!! $p->suhu !!}
-                       </td>
-                       <td>
-                         {!! $p->tinggi_badan !!}
-                       </td>
+		  <div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover">
+					  <thead>
+						<tr>
+							<th>Nama Staf</th>
+							<th>Jumlah Tensi</th>
+							<th>Jumlah BB</th>
+							<th>Jumlah Suhu</th>
+						  <th>Jumlah TB</th>
+						</tr>
+					</thead>
+					<tbody>
+						 @foreach ($points as $p)
+						 <tr>
+						   <td>
+							 {!! $p->nama !!}
+						   </td>
+						   <td>
+							 {!! $p->tekanan_darah !!}
+						   </td>
+						   <td>
+							 {!! $p->berat_badan !!}
+						   </td>
+						   <td>
+							 {!! $p->suhu !!}
+						   </td>
+						   <td>
+							 {!! $p->tinggi_badan !!}
+						   </td>
 
-                     </tr>
-                     {{-- expr --}}
-                   @endforeach
-                </tbody>
-            </table>
+						 </tr>
+						 {{-- expr --}}
+					   @endforeach
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 

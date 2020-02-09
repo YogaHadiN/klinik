@@ -31,35 +31,37 @@
       <div class="panel-body">
             <?php echo $perbaikans->appends(Input::except('page'))->links(); ?>
 
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Informasi</th>
-                        <th>sebelum</th>
-                        <th>sesudah</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($perbaikans as $perbaikan)
-                        <tr>
-                            <td>{!!App\Classes\Yoga::updateDatePrep($perbaikan->periksa->tanggal)!!}
-                                <br><br>
-                                {!!$perbaikan->periksa->pasien->nama!!}
-                                <br><br>
-                                {!!$perbaikan->periksa->asuransi->nama!!} <br>
-                                {!! $perbaikan->periksa->staf->nama!!}
-                                {!! $perbaikan->created_at !!}
-                            </td>
-                            <td>
-                                {!! $perbaikan->terapihtml1 !!}
-                            </td>
-                            <td>
-                                {!! $perbaikan->terapihtml2 !!}
-                            </td>
-                   @endforeach
-                    </tr>
-                </tbody>
-            </table>
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Informasi</th>
+							<th>sebelum</th>
+							<th>sesudah</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($perbaikans as $perbaikan)
+							<tr>
+								<td>{!!App\Classes\Yoga::updateDatePrep($perbaikan->periksa->tanggal)!!}
+									<br><br>
+									{!!$perbaikan->periksa->pasien->nama!!}
+									<br><br>
+									{!!$perbaikan->periksa->asuransi->nama!!} <br>
+									{!! $perbaikan->periksa->staf->nama!!}
+									{!! $perbaikan->created_at !!}
+								</td>
+								<td>
+									{!! $perbaikan->terapihtml1 !!}
+								</td>
+								<td>
+									{!! $perbaikan->terapihtml2 !!}
+								</td>
+					   @endforeach
+						</tr>
+					</tbody>
+				</table>
+			</div>
             <?php echo $perbaikans->appends(Input::except('page'))->links(); ?>
 
       </div>

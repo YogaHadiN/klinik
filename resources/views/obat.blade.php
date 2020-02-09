@@ -21,17 +21,19 @@
                             </div></a>
                             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                               <div class="panel-body">
-                                <table class="table table-condensed table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Komposisi</th>
-                                            <th>Preg Safety</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tabel_komposisi">
+								  <div class="table-responsive">
+									<table class="table table-condensed table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>Komposisi</th>
+												<th>Preg Safety</th>
+											</tr>
+										</thead>
+										<tbody id="tabel_komposisi">
 
-                                    </tbody>
-                                </table>
+										</tbody>
+									</table>
+								  </div>
                               </div>
                             </div>
                           </div>

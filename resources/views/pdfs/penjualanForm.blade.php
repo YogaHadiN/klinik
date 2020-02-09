@@ -15,74 +15,80 @@
 			</h2>
 		</div>
 	   <div class="box border-bottom">
-		   <table class="table table-condensed">
-			   <tbody>
-				   <tr>
-					   <td>Nomor Faktur</td>
-						<td>:</td>
-					   <td>{{ $nota_jual->id }}</td>
-				   </tr>
-				   <tr>
-					   <td>Nama Kasir</td>
-						<td>:</td>
-						<td>{{ $nota_jual->staf->nama }}</td>
-				   </tr>
-					<tr>
-					   <td>Tanggal</td>
-						<td>:</td>
-						<td>{{ $nota_jual->created_at->format('d-m-Y')}}</td>
-				   </tr>
-					<tr>
-					   <td>Jam</td>
-						<td>:</td>
-						<td>{{ $nota_jual->created_at->format('H:i:s')}}</td>
-				   </tr>
-			   </tbody>
-		   </table>
+		   <div class="table-responsive">
+				<table class="table table-condensed">
+				   <tbody>
+					   <tr>
+						   <td>Nomor Faktur</td>
+							<td>:</td>
+						   <td>{{ $nota_jual->id }}</td>
+					   </tr>
+					   <tr>
+						   <td>Nama Kasir</td>
+							<td>:</td>
+							<td>{{ $nota_jual->staf->nama }}</td>
+					   </tr>
+						<tr>
+						   <td>Tanggal</td>
+							<td>:</td>
+							<td>{{ $nota_jual->created_at->format('d-m-Y')}}</td>
+					   </tr>
+						<tr>
+						   <td>Jam</td>
+							<td>:</td>
+							<td>{{ $nota_jual->created_at->format('H:i:s')}}</td>
+					   </tr>
+				   </tbody>
+			   </table>
+		   </div>
 	   </div>
 		<div class="font-small border-bottom">
 			@if ($nota_jual->tipe_jual_id == 1)
 				<h2>
-				<table class="table table-condensed bordered">
-					<thead>
-						<tr>
-							<th>Jenis Transaksi</th>
-							<th>Rp</th>
-						</tr>
-					</thead>
-					<tbody id="daftarBelanja">
-						<tr>
-							<td>Biaya Obat</td>
-							<td id="totalBiaya" class="text-right" nowrap colspan="3">{{ App\Classes\Yoga::buatrp( $nota_jual->nilai ) }}</td>
-						</tr>
-					</tbody>
-				</table>
+					<div class="table-responsive">
+					<table class="table table-condensed bordered">
+						<thead>
+							<tr>
+								<th>Jenis Transaksi</th>
+								<th>Rp</th>
+							</tr>
+						</thead>
+						<tbody id="daftarBelanja">
+							<tr>
+								<td>Biaya Obat</td>
+								<td id="totalBiaya" class="text-right" nowrap colspan="3">{{ App\Classes\Yoga::buatrp( $nota_jual->nilai ) }}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
 				</h2>
 			@elseif($nota_jual->tipe_jual_id == 2)
-				<table class="table table-condensed bordered">
-					<thead>
-						<tr>
-							<th>Pendapatan Lain</th>
-							<th>Rp</th>
-							<th>Ket</th>
-						</tr>
-					</thead>
-					<tbody id="daftarBelanja" class="font-small">
-						@foreach ($nota_jual->pendapatan as $pemb)
+				<div class="table-responsive">
+					<table class="table table-condensed bordered">
+						<thead>
 							<tr>
-								<td>{{ $pemb->pendapatan }}</td>
-								<td class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->biaya ) }}</td>
-								<td>{{ $pemb->keterangan }}</td>
+								<th>Pendapatan Lain</th>
+								<th>Rp</th>
+								<th>Ket</th>
 							</tr>
-						@endforeach
-					</tbody>
-					<tfoot class="big">
-						<tr>
-							<td>Total</td>
-							<td id="totalBiaya" colspan="2" class="text-right">{{ App\Classes\Yoga::buatrp( $nota_jual->total ) }}</td>
-						</tr>    
-					</tfoot>
-				</table>
+						</thead>
+						<tbody id="daftarBelanja" class="font-small">
+							@foreach ($nota_jual->pendapatan as $pemb)
+								<tr>
+									<td>{{ $pemb->pendapatan }}</td>
+									<td class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->biaya ) }}</td>
+									<td>{{ $pemb->keterangan }}</td>
+								</tr>
+							@endforeach
+						</tbody>
+						<tfoot class="big">
+							<tr>
+								<td>Total</td>
+								<td id="totalBiaya" colspan="2" class="text-right">{{ App\Classes\Yoga::buatrp( $nota_jual->total ) }}</td>
+							</tr>    
+						</tfoot>
+					</table>
+				</div>
 			@endif
 		</div>
 		</div>

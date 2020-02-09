@@ -30,32 +30,34 @@
             </div>
     </div>
     <div class="panel-body">
-        <table class="table table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th>Tanggal</th>
-                    <th>Jam</th>
-                    <th>Nama Pasien</th>
-                    <th>Nama Asuransi</th>
-                    <th>Nama Staf</th>
-                    <th>Poli</th>
-                    <th>Pemeriksaan Fisik</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($periksas_diagnosa_kb as $periksa)
-                    <tr>
-                        <td>{!! App\Classes\Yoga::updateDatePrep( $periksa->tanggal ) !!}</td>
-                        <td>{!! $periksa->jam !!}</td>
-                        <td>{!! $periksa->nama_pasien !!}</td>
-                        <td>{!! $periksa->nama_asuransi !!}</td>
-                        <td>{!! $periksa->nama_staf !!}</td>
-                        <td>{!! $periksa->poli !!}</td>
-                        <td>{!! $periksa->pf !!}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>Tanggal</th>
+						<th>Jam</th>
+						<th>Nama Pasien</th>
+						<th>Nama Asuransi</th>
+						<th>Nama Staf</th>
+						<th>Poli</th>
+						<th>Pemeriksaan Fisik</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($periksas_diagnosa_kb as $periksa)
+						<tr>
+							<td>{!! App\Classes\Yoga::updateDatePrep( $periksa->tanggal ) !!}</td>
+							<td>{!! $periksa->jam !!}</td>
+							<td>{!! $periksa->nama_pasien !!}</td>
+							<td>{!! $periksa->nama_asuransi !!}</td>
+							<td>{!! $periksa->nama_staf !!}</td>
+							<td>{!! $periksa->poli !!}</td>
+							<td>{!! $periksa->pf !!}</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+		</div>
         
     </div>
 </div>
@@ -71,22 +73,24 @@
             </div>
     </div>
     <div class="panel-body">
-        <table class="table table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th>Nama Staf</th>
-                    <th>Jumlah</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($group_by_stafs as $periksa)
-                    <tr>
-                        <td>{!! $periksa->nama_staf !!}</td>
-                        <td>{!! $periksa->jumlah !!}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>Nama Staf</th>
+						<th>Jumlah</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($group_by_stafs as $periksa)
+						<tr>
+							<td>{!! $periksa->nama_staf !!}</td>
+							<td>{!! $periksa->jumlah !!}</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+		</div>
         
     </div>
 </div>

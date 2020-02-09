@@ -57,45 +57,47 @@
                 <h3 class="panel-title">Informasi</h3>
           </div>
           <div class="panel-body">
-                <table class="table table-bordered table-hover" id="tableAsuransi">
-                    <tbody>
-                  <tr>
-                    <th>Merek</th>
-                    <td> 
+			  <div class="table-responsive">
+					<table class="table table-bordered table-hover" id="tableAsuransi">
+						<tbody>
+					  <tr>
+						<th>Merek</th>
+						<td> 
 
-                      @foreach ($rak->merek as $mrk)
-                       -  {!! $mrk->merek !!} <br>
-                       @endforeach 
+						  @foreach ($rak->merek as $mrk)
+						   -  {!! $mrk->merek !!} <br>
+						   @endforeach 
 
-                    </td>
-                  </tr> 
-                    <tr>
-                      <th>Komposisi</th>
-                        <td>
-                          @foreach($rak->formula->komposisi as $komp)
-                            {!!$komp->generik->generik!!} {!!$komp->bobot!!} <br>
-                          @endforeach
-                        </td>
-                    </tr>
-                <tr>
-                  <th>Harga Beli</th>
-                  <td class="uang">Rp. {!! $rak->harga_beli !!},- </td>
-                </tr> 
-                <tr>
-                  <th>Harga Jual</th>
-                  <td class="uang">Rp.  {!! $rak->harga_jual !!},- </td>
-                </tr> 
-                <tr>
-                  <th>ID FORMULA</th>
-                  <td> {!! $rak->formula_id !!} </td>
-                </tr> 
-                <tr>
-                  <th>ID RAK</th>
-                  <td> {!! $rak->id !!} </td>
-                </tr> 
-                     
-                  </tbody>
-                </table>
+						</td>
+					  </tr> 
+						<tr>
+						  <th>Komposisi</th>
+							<td>
+							  @foreach($rak->formula->komposisi as $komp)
+								{!!$komp->generik->generik!!} {!!$komp->bobot!!} <br>
+							  @endforeach
+							</td>
+						</tr>
+					<tr>
+					  <th>Harga Beli</th>
+					  <td class="uang">Rp. {!! $rak->harga_beli !!},- </td>
+					</tr> 
+					<tr>
+					  <th>Harga Jual</th>
+					  <td class="uang">Rp.  {!! $rak->harga_jual !!},- </td>
+					</tr> 
+					<tr>
+					  <th>ID FORMULA</th>
+					  <td> {!! $rak->formula_id !!} </td>
+					</tr> 
+					<tr>
+					  <th>ID RAK</th>
+					  <td> {!! $rak->id !!} </td>
+					</tr> 
+						 
+					  </tbody>
+					</table>
+			  </div>
           </div>
       </div>
   </div>

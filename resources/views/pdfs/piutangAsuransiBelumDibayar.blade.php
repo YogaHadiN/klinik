@@ -234,7 +234,7 @@ tr { page-break-inside: avoid }
 	<h3> Piutang Belum Dibayar {{ date('d M y', strtotime( $mulai )) }} sampai {{ date('d M y', strtotime( $akhir )) }} <br />{{  
 	count( $belum_dibayars ) }} pasien ( updated {{ date('d M Y H:i:s') }} )</h3>
 
-	<table class="table text3">
+<table class="table text3">
 		<thead>
 			<tr>
 				<th>Tanggal</th>

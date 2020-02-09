@@ -30,58 +30,60 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover" id="tableAsuransi">
-                  <thead>
-                    <tr>
-						<th>id</th>
-						<th>Nama Pasien</th>
-						<th>Jam Terima Resep</th>
-						<th>Tanggal</th>
-						<th>Pembayaran</th>
-						<th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  @if (count($antriankasirs) > 0)
-                    {{-- true expr --}}
-                        	@foreach ($antriankasirs as $antriankasir)
+		  <div class="table-responsive">
+				<table class="table table-bordered table-hover" id="tableAsuransi">
+					  <thead>
 						<tr>
-        						<td>{!! $antriankasir->id !!}</td>
-        						<td>{!! $antriankasir->pasien->nama!!}</td>
-        						<td>{!! $antriankasir->jam!!}</td>
-								<td>{!! $antriankasir->tanggal!!}</td>
-        						<td>{!! $antriankasir->asuransi->nama!!}</td>
-	                	<td>
-                      @if ($antriankasir->lewat_kasir == '0')
-                          {!! Form::open(['url' => 'update/kembali/' . $antriankasir->id, 'method' => 'post'])!!}
-                            <a href="{{ url('kasir/' . $antriankasir->id) }}" class="btn btn-primary btn-xs">Proses</a>
-						  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
-                            {!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke ruang periksa?")']) !!}
-
-                          {!! Form::close() !!}
-                      @else 
-                          {!! Form::open(['url' => 'update/kembali3/' . $antriankasir->id, 'method' => 'post'])!!}
-                            <a href="#" class="btn btn-warning btn-xs"  onclick="monitor_available(this); return false;">Lanjut</a>
-                             <a href="{{ url('update/surveys/' . $antriankasir->id) }}" class="btn btn-warning btn-xs displayNone">Lanjutlah</a>
-                             <a href="{{ url('pdfs/status/' . $antriankasir->id) }}" target="_blank" class="btn btn-info btn-xs">Print Status</a>
-
+							<th>id</th>
+							<th>Nama Pasien</th>
+							<th>Jam Terima Resep</th>
+							<th>Tanggal</th>
+							<th>Pembayaran</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					  @if (count($antriankasirs) > 0)
+						{{-- true expr --}}
+								@foreach ($antriankasirs as $antriankasir)
+							<tr>
+									<td>{!! $antriankasir->id !!}</td>
+									<td>{!! $antriankasir->pasien->nama!!}</td>
+									<td>{!! $antriankasir->jam!!}</td>
+									<td>{!! $antriankasir->tanggal!!}</td>
+									<td>{!! $antriankasir->asuransi->nama!!}</td>
+							<td>
+						  @if ($antriankasir->lewat_kasir == '0')
+							  {!! Form::open(['url' => 'update/kembali/' . $antriankasir->id, 'method' => 'post'])!!}
+								<a href="{{ url('kasir/' . $antriankasir->id) }}" class="btn btn-primary btn-xs">Proses</a>
 							  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
-                            {!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke Apotek?")']) !!}
-                          {!! Form::close() !!}
-                      @endif
-                  	</td>
-                	</tr>
-                        	@endforeach
-                  @else
-                  <tr>
-                    <td colspan="5" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
-                  </tr>
-                    {{-- false expr --}}
-                  @endif
+								{!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke ruang periksa?")']) !!}
 
-                	
-                </tbody>
-            </table>
+							  {!! Form::close() !!}
+						  @else 
+							  {!! Form::open(['url' => 'update/kembali3/' . $antriankasir->id, 'method' => 'post'])!!}
+								<a href="#" class="btn btn-warning btn-xs"  onclick="monitor_available(this); return false;">Lanjut</a>
+								 <a href="{{ url('update/surveys/' . $antriankasir->id) }}" class="btn btn-warning btn-xs displayNone">Lanjutlah</a>
+								 <a href="{{ url('pdfs/status/' . $antriankasir->id) }}" target="_blank" class="btn btn-info btn-xs">Print Status</a>
+
+								  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
+								{!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke Apotek?")']) !!}
+							  {!! Form::close() !!}
+						  @endif
+						</td>
+						</tr>
+								@endforeach
+					  @else
+					  <tr>
+						<td colspan="5" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
+					  </tr>
+						{{-- false expr --}}
+					  @endif
+
+						
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 @include('tunggu')

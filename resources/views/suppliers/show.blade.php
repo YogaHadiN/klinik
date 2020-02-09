@@ -29,34 +29,36 @@
 			</div> 
 	  </div>
         <div class="panel-body">
-              <table class="table table-condensed table-hover">
-          <tbody>
-            <tr>
-              <td class="text-bold">Nama</td>
-              <td>{!!$supplier->nama!!}</td>
-            </tr>
-            <tr>
-              <td class="text-bold">Alamat</td>
-              <td>{!!$supplier->alamat!!}</td>
-            </tr>
-            <tr>
-              <td class="text-bold">No Telp</td>
-              <td>{!!$supplier->no_telp!!}</td>
-            </tr>
-            <tr>
-              <td class="text-bold">PC </td>
-              <td>{!!$supplier->pic!!}</td>
-            </tr>
-            <tr>
-              <td class="text-bold">HP PIC</td>
-              <td>{!!$supplier->hp_pic!!}</td>
-            </tr>
-			<tr>
-              <td class="text-bold">Created At</td>
-			  <td>{!!$supplier->created_at->format('d-m-Y')!!}</td>
-            </tr>
-          </tbody>
-        </table>
+			<div class="table-responsive">
+			<table class="table table-condensed table-hover">
+			  <tbody>
+				<tr>
+				  <td class="text-bold">Nama</td>
+				  <td>{!!$supplier->nama!!}</td>
+				</tr>
+				<tr>
+				  <td class="text-bold">Alamat</td>
+				  <td>{!!$supplier->alamat!!}</td>
+				</tr>
+				<tr>
+				  <td class="text-bold">No Telp</td>
+				  <td>{!!$supplier->no_telp!!}</td>
+				</tr>
+				<tr>
+				  <td class="text-bold">PC </td>
+				  <td>{!!$supplier->pic!!}</td>
+				</tr>
+				<tr>
+				  <td class="text-bold">HP PIC</td>
+				  <td>{!!$supplier->hp_pic!!}</td>
+				</tr>
+				<tr>
+				  <td class="text-bold">Created At</td>
+				  <td>{!!$supplier->created_at->format('d-m-Y')!!}</td>
+				</tr>
+			  </tbody>
+			</table>
+			</div>
       </div>
     </div>
   </div>

@@ -33,49 +33,51 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover DT" id="tableRumahSakit">
-                  <thead>
-                    <tr>
-                    	<th>ID</th>
-                    	<th>Nama Detail</th>
-                    	<th>Alamat</th>
-                    	<th>PIC</th>
-                        <th>HP PIC</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	 @foreach ($rumahsakits as $rumahsakit)
-                     <tr>
-                       <td>
-                         {!! $rumahsakit->id !!}
-                       </td>
-                       <td>
-                         {!! $rumahsakit->nama !!}
-                       </td>
-                       <td>
-                         {!! $rumahsakit->alamat !!}
-                       </td>
-                       <td>
-                         {!! $rumahsakit->telepon !!}
-                       </td>
-                       <td nowrap>
-                       	<ul>
-                       		@foreach($rumahsakit->bpjsCenter as $pic)
-								<li>{{ $pic->telp }} ({{ $pic->nama }})</li>
-                       		@endforeach
-                       	</ul>
-                         {!! $rumahsakit->hp_pic !!}
-                       </td>
-                      <td>
-                        
-                      </td> 
-                 
-                     </tr>
-                     {{-- expr --}}
-                   @endforeach
-                </tbody>
-            </table>
+		  <div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover DT" id="tableRumahSakit">
+					  <thead>
+						<tr>
+							<th>ID</th>
+							<th>Nama Detail</th>
+							<th>Alamat</th>
+							<th>PIC</th>
+							<th>HP PIC</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						 @foreach ($rumahsakits as $rumahsakit)
+						 <tr>
+						   <td>
+							 {!! $rumahsakit->id !!}
+						   </td>
+						   <td>
+							 {!! $rumahsakit->nama !!}
+						   </td>
+						   <td>
+							 {!! $rumahsakit->alamat !!}
+						   </td>
+						   <td>
+							 {!! $rumahsakit->telepon !!}
+						   </td>
+						   <td nowrap>
+							<ul>
+								@foreach($rumahsakit->bpjsCenter as $pic)
+									<li>{{ $pic->telp }} ({{ $pic->nama }})</li>
+								@endforeach
+							</ul>
+							 {!! $rumahsakit->hp_pic !!}
+						   </td>
+						  <td>
+							
+						  </td> 
+					 
+						 </tr>
+						 {{-- expr --}}
+					   @endforeach
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 @stop

@@ -114,7 +114,8 @@ th{
 						</div>
 				  </div>
 				  <div class="panel-body">
-						<table class="table table-bordered table-hover" id="tablePasien">
+					  <div class="table-responsive">
+							<table class="table table-bordered table-hover" id="tablePasien">
 							  <thead>
 								<tr>
 								{!! Form::open(['url' => 'pasiens/ajax/ajaxpasiens', 'method' => 'get', 'id' => 'ajaxkeyup', 'autocomplete' => 'off'])!!}
@@ -169,6 +170,7 @@ th{
 							  
 							</tbody>
 						</table>
+					  </div>
 				  </div>
 			</div>
 		</div>

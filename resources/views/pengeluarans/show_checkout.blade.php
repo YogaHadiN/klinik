@@ -64,48 +64,50 @@
 
             <div>
                 <h4>Uang Keluar Dari Kasir</h4>
-                <table class="table table-condensed table-bordered">
-                    <thead>
-                        <tr>
-                            <td>Tgl</td>
-                            <td>Penerima</td>
-                            <td>Biaya</td>
-							<td>Jurnalable Type</td>
-                            <td>Detail</td>
-                        </tr>
-                    </thead>
-                    <tbody id="transaksi-print" class="font-small">
-                      @foreach($pengeluarans as $plr)
-                          <tr>
-						  <td nowrap class="text-left">{{$plr->created_at->format('d-M')}}</td>
-                              <td>
-									  @if ($plr->jurnalable_type == 'App\FakturBelanja')
-										  @if (isset($plr->jurnalable->supplier['nama']))
-										  {{ $plr->jurnalable->supplier['nama'] }}
-										 @endif
-									  @elseif ($plr->jurnalable_type == 'App\BayarDokter')
-										  {{ $plr->jurnalable->staf->nama }}
-									  @elseif ($plr->jurnalable_type == 'App\Pengeluaran')
-										  {{ $plr->jurnalable->supplier['nama'] }}
-									  @elseif ($plr->jurnalable_type == 'App\BayarGaji')
-										  {{ $plr->jurnalable->staf->nama }}
-									  @endif
-                                      
-                                  </td>
+				<div class="table-responsive">
+					<table class="table table-condensed table-bordered">
+						<thead>
+							<tr>
+								<td>Tgl</td>
+								<td>Penerima</td>
+								<td>Biaya</td>
+								<td>Jurnalable Type</td>
+								<td>Detail</td>
+							</tr>
+						</thead>
+						<tbody id="transaksi-print" class="font-small">
+						  @foreach($pengeluarans as $plr)
+							  <tr>
+							  <td nowrap class="text-left">{{$plr->created_at->format('d-M')}}</td>
+								  <td>
+										  @if ($plr->jurnalable_type == 'App\FakturBelanja')
+											  @if (isset($plr->jurnalable->supplier['nama']))
+											  {{ $plr->jurnalable->supplier['nama'] }}
+											 @endif
+										  @elseif ($plr->jurnalable_type == 'App\BayarDokter')
+											  {{ $plr->jurnalable->staf->nama }}
+										  @elseif ($plr->jurnalable_type == 'App\Pengeluaran')
+											  {{ $plr->jurnalable->supplier['nama'] }}
+										  @elseif ($plr->jurnalable_type == 'App\BayarGaji')
+											  {{ $plr->jurnalable->staf->nama }}
+										  @endif
+										  
+									  </td>
 
-							  <td>{{ $plr->jurnalable_type }}</td>
-                              <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
-                              <td> <button class="btn btn-info btn-xs" type="button">detail</button> </td>
-                          </tr>
-                      @endforeach
-                    </tbody>
-					<tfoot>
-						<tr>
-							<td colspan="2"><h3>Total Pengeluaran</h3></td>
-							<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_pengeluaran) }}</h3></td>
-						</tr>
-					</tfoot>
-                </table>
+								  <td>{{ $plr->jurnalable_type }}</td>
+								  <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
+								  <td> <button class="btn btn-info btn-xs" type="button">detail</button> </td>
+							  </tr>
+						  @endforeach
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2"><h3>Total Pengeluaran</h3></td>
+								<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_pengeluaran) }}</h3></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
 
                 <h4>Uang Keluar Dari Tangan</h4>
 				<div class="table-responsive">

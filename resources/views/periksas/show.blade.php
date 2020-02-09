@@ -35,95 +35,97 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                    	<th>Tanggal</th>
-                    	<th>Status</th>
-                    	<th>Terapi</th>
-                    </tr>
-                </thead>
-                <tbody>
-            		 <tr>
-                            <td rowspan="2">
-                                {!! $periksa->tanggal !!} <br><br>
-                                <strong>Pemeriksa :</strong><br> 
-                                {!! $periksa->staf->nama !!} <br><br>
-                                <strong>Pembayaran</strong> <br>
-                                {!! $periksa->asuransi->nama !!} <br><br>
-                                <strong>Jam Datang</strong> <br>
-                                {!! $periksa->jam !!} <br><br>
-                                <strong>Periksa id</strong> <br>
-                                {!! $periksa->id !!}
-                            </td>
-                            <td>
-                                <strong>Anamnesa :</strong> <br>
-                                {!! $periksa->anamnesa !!} <br>
-                                <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
-                                {!! $periksa->pemeriksaan_fisik !!} <br>
-                                {!! $periksa->pemeriksaan_penunjang !!}<br>
-								@if( !empty($periksa->sistolik) || !empty($periksa->sistolik))
-									<strong>Tekanan Darah</strong> <br>
-									{!! $periksa->sistolik !!}/{!! $periksa->diastolik !!} mmHg  <br>
-								@endif
-                                <strong>Diagnosa :</strong> <br>
-                                {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
-                                <br> <br>
-                                <div class="row">
-                                    @if($periksa->usg)
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <a href="{{ url('usgs/' . $periksa->id) }}" class="btn btn-primary btn-block">Hasil USG</a>
-                                        </div>
-                                    @endif
-                                    @if($periksa->registerAnc)
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <a href="{{ url('ancs/' . $periksa->id) }}" class="btn btn-info btn-block">Hasil ANC</a>
-                                        </div>
-                                    @endif
-                                </div>
-                            </td>
-                            <td>{!! $periksa->terapi_html !!}</td>
-                        </tr>
-                        <tr>
-                            <td>
-								<div class="row">
-									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										  <h2>Transaksi : </h2>
+		  <div class="table-responsive">
+				<table class="table table-bordered table-hover" id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>Tanggal</th>
+							<th>Status</th>
+							<th>Terapi</th>
+						</tr>
+					</thead>
+					<tbody>
+						 <tr>
+								<td rowspan="2">
+									{!! $periksa->tanggal !!} <br><br>
+									<strong>Pemeriksa :</strong><br> 
+									{!! $periksa->staf->nama !!} <br><br>
+									<strong>Pembayaran</strong> <br>
+									{!! $periksa->asuransi->nama !!} <br><br>
+									<strong>Jam Datang</strong> <br>
+									{!! $periksa->jam !!} <br><br>
+									<strong>Periksa id</strong> <br>
+									{!! $periksa->id !!}
+								</td>
+								<td>
+									<strong>Anamnesa :</strong> <br>
+									{!! $periksa->anamnesa !!} <br>
+									<strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
+									{!! $periksa->pemeriksaan_fisik !!} <br>
+									{!! $periksa->pemeriksaan_penunjang !!}<br>
+									@if( !empty($periksa->sistolik) || !empty($periksa->sistolik))
+										<strong>Tekanan Darah</strong> <br>
+										{!! $periksa->sistolik !!}/{!! $periksa->diastolik !!} mmHg  <br>
+									@endif
+									<strong>Diagnosa :</strong> <br>
+									{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
+									<br> <br>
+									<div class="row">
+										@if($periksa->usg)
+											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<a href="{{ url('usgs/' . $periksa->id) }}" class="btn btn-primary btn-block">Hasil USG</a>
+											</div>
+										@endif
+										@if($periksa->registerAnc)
+											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<a href="{{ url('ancs/' . $periksa->id) }}" class="btn btn-info btn-block">Hasil ANC</a>
+											</div>
+										@endif
 									</div>
-									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								</td>
+								<td>{!! $periksa->terapi_html !!}</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="row">
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											  <h2>Transaksi : </h2>
+										</div>
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+										</div>
 									</div>
-								</div>
-                              <table class="table table-condensed">
-                                <tbody>
-                                  {!! $periksa->tindakan_html !!}
-                                </tbody>
-                                <tfoot>
-                                  <tr class="b-top-bold-big">
-                                    <td>Total Biaya Transaksi </td>
-                                    <td>:</td>
-                                    <td  class="text-right">{!! $periksa->total_transaksi !!}</td>
-                                  </tr>
-                                </tfoot>
-                              </table>
-                            </td>
-                            <td>
-                                <h2>Transaksi</h2>
-                                 <table class="table table-condensed">
-                                  <tbody>
-                                    <tr>
-                                      <td>Pembayaran tunai</td>
-                                      <td class="uang">{!! $periksa->tunai !!}</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Pembayaran Piutang</td>
-                                      <td class="uang">{!! $periksa->piutang !!}</td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
+								  <table class="table table-condensed">
+									<tbody>
+									  {!! $periksa->tindakan_html !!}
+									</tbody>
+									<tfoot>
+									  <tr class="b-top-bold-big">
+										<td>Total Biaya Transaksi </td>
+										<td>:</td>
+										<td  class="text-right">{!! $periksa->total_transaksi !!}</td>
+									  </tr>
+									</tfoot>
+								  </table>
+								</td>
+								<td>
+									<h2>Transaksi</h2>
+									 <table class="table table-condensed">
+									  <tbody>
+										<tr>
+										  <td>Pembayaran tunai</td>
+										  <td class="uang">{!! $periksa->tunai !!}</td>
+										</tr>
+										<tr>
+										  <td>Pembayaran Piutang</td>
+										  <td class="uang">{!! $periksa->piutang !!}</td>
+										</tr>
+									  </tbody>
+									</table>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 
@@ -132,58 +134,60 @@
     <h3 class="panel-title">Rincian obat</h3>
   </div>
   <div class="panel-body">
-     <table class="table table-striped table-bordered table-hover" id="tableAsuransi">
-		  <thead>
-			<tr>
-			  <th>ID</th>
-			  <th>Merek Obat</th>
-			  <th>harga beli</th>
-			  <th>harga jual</th>
-			  <th>jumlah</th>
-			  <th>Modal</th>
-			  <th>Bruto</th>
-			  <th>Untung</th>
-			</tr>
-		</thead>
-		<tbody>
-		   @foreach ($periksa->terapii as $terapi)
-			 <tr>
-				<td>
-				  {!! $terapi->id !!}
-				</td>
-				<td>
-				 {!! $terapi->merek_id !!} - {!! $terapi->merek->merek !!}
-				</td>
-				<td class="uang">
-				  {!! $terapi->harga_beli_satuan !!}
-				</td>
-				<td class="uang">
-				  {!! $terapi->harga_jual_satuan !!}
-				</td>
-				<td>
-				  {!! $terapi->jumlah !!}
-				</td>
-				<td class="uang">
-				  {!! $terapi->jumlah * $terapi->harga_beli_satuan !!}
-				</td>
-				<td class="uang">
-				  {!! $terapi->jumlah * $terapi->harga_jual_satuan !!}
-				</td>
-				<td class="uang">
-				  {!! $terapi->jumlah * $terapi->harga_jual_satuan - $terapi->jumlah * $terapi->harga_beli_satuan !!}
-				</td>
-			 </tr>
-		   @endforeach
-		</tbody>
-		<tfoot>
-		  <tr>
-			<th colspan="5">Total :</th>
-			<td class="uang">{!! $periksa->terapi_modal !!}</td>
-			<td class="uang">{!! $periksa->terapi_bruto !!}</td>
-			<td class="uang">{!! $periksa->terapi_untung !!}</td>
-		  </tr>
-		</tfoot>
-	</table>
+	  <div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover" id="tableAsuransi">
+			  <thead>
+				<tr>
+				  <th>ID</th>
+				  <th>Merek Obat</th>
+				  <th>harga beli</th>
+				  <th>harga jual</th>
+				  <th>jumlah</th>
+				  <th>Modal</th>
+				  <th>Bruto</th>
+				  <th>Untung</th>
+				</tr>
+			</thead>
+			<tbody>
+			   @foreach ($periksa->terapii as $terapi)
+				 <tr>
+					<td>
+					  {!! $terapi->id !!}
+					</td>
+					<td>
+					 {!! $terapi->merek_id !!} - {!! $terapi->merek->merek !!}
+					</td>
+					<td class="uang">
+					  {!! $terapi->harga_beli_satuan !!}
+					</td>
+					<td class="uang">
+					  {!! $terapi->harga_jual_satuan !!}
+					</td>
+					<td>
+					  {!! $terapi->jumlah !!}
+					</td>
+					<td class="uang">
+					  {!! $terapi->jumlah * $terapi->harga_beli_satuan !!}
+					</td>
+					<td class="uang">
+					  {!! $terapi->jumlah * $terapi->harga_jual_satuan !!}
+					</td>
+					<td class="uang">
+					  {!! $terapi->jumlah * $terapi->harga_jual_satuan - $terapi->jumlah * $terapi->harga_beli_satuan !!}
+					</td>
+				 </tr>
+			   @endforeach
+			</tbody>
+			<tfoot>
+			  <tr>
+				<th colspan="5">Total :</th>
+				<td class="uang">{!! $periksa->terapi_modal !!}</td>
+				<td class="uang">{!! $periksa->terapi_bruto !!}</td>
+				<td class="uang">{!! $periksa->terapi_untung !!}</td>
+			  </tr>
+			</tfoot>
+		</table>
+	  </div>
   </div>
 </div>
 <div class="row">

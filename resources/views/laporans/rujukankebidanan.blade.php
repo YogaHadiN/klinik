@@ -29,47 +29,49 @@
                     </div>
               </div>
               <div class="panel-body">
-                    <table class="table table-condensed table-hover">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Pasien</th>
-                                <th>Umur Ibu</th>
-                                <th>Umur Kehamilan</th>
-                                <th>G P A</th>
-                                <th>Diagnosa Merujuk</th>
-                                <th>Tempat Rujukan</th>
-                                <th>Tanggal Merujuk</th>
-                                <th>Alasan Rujuk</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @if (count($rujukans) > 0)
-                            @foreach ($rujukans as $key => $rujukan)
-                                <tr>
-                                    <td>{!! $key + 1 !!}</td>
-                                    <td>{!! $rujukan->nama_pasien !!}</td>
-                                    <td>{!! App\Classes\Yoga::datediff($rujukan->tanggal_lahir, $rujukan->tanggal) !!}</td>
-                                    <td> tidak tau </td>
-                                    <td> tidak tau </td>
-                                    <td>{!! $rujukan->icd10_id!!} - {!! $rujukan->diagnosa !!}</td>
-                                    <td> tidak tau </td>
-                                    <td>{!! App\Classes\Yoga::updateDatePrep($rujukan->tanggal) !!}</td>
-                                    <td>{!! $rujukan->complication !!}</td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="2" class="text-center">Tidak ada data untuk ditampilkan :p</td>
-                            </tr>
-                        @endif
+				  <div class="table-responsive">
+						<table class="table table-condensed table-hover">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>Nama Pasien</th>
+									<th>Umur Ibu</th>
+									<th>Umur Kehamilan</th>
+									<th>G P A</th>
+									<th>Diagnosa Merujuk</th>
+									<th>Tempat Rujukan</th>
+									<th>Tanggal Merujuk</th>
+									<th>Alasan Rujuk</th>
+								</tr>
+							</thead>
+							<tbody>
+							@if (count($rujukans) > 0)
+								@foreach ($rujukans as $key => $rujukan)
+									<tr>
+										<td>{!! $key + 1 !!}</td>
+										<td>{!! $rujukan->nama_pasien !!}</td>
+										<td>{!! App\Classes\Yoga::datediff($rujukan->tanggal_lahir, $rujukan->tanggal) !!}</td>
+										<td> tidak tau </td>
+										<td> tidak tau </td>
+										<td>{!! $rujukan->icd10_id!!} - {!! $rujukan->diagnosa !!}</td>
+										<td> tidak tau </td>
+										<td>{!! App\Classes\Yoga::updateDatePrep($rujukan->tanggal) !!}</td>
+										<td>{!! $rujukan->complication !!}</td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td colspan="2" class="text-center">Tidak ada data untuk ditampilkan :p</td>
+								</tr>
+							@endif
 
-                        </tbody>
-                        <tfoot>
-                            <th> Jumlah </th>
-                            <td></td>
-                        </tfoot>
-                    </table>
+							</tbody>
+							<tfoot>
+								<th> Jumlah </th>
+								<td></td>
+							</tfoot>
+						</table>
+				  </div>
               </div>
         </div>
     </div>

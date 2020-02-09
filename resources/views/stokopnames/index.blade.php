@@ -61,32 +61,34 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <table class="table table-bordered table-hover" id="" nowrap>
-                  <thead>
-                    <tr>
-                      <th>Nama Merek / Rak</th>
-                      <th>Stok Fisik</th>
-                      <th>Kadaluarsa</th>
-                      <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="StokBody">
-                  
-                </tbody>
-                  <tfoot>
-                    <tr>
-                      <td>
-                      	<select name="rak_id" id="rak_id" class="selectpick input" data-live-search="true" onchange="ddlChange();">
-                      	</select>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover" id="" nowrap>
+					  <thead>
+						<tr>
+						  <th>Nama Merek / Rak</th>
+						  <th>Stok Fisik</th>
+						  <th>Kadaluarsa</th>
+						  <th>Action</th>
+						</tr>
+					</thead>
+					<tbody id="StokBody">
+					  
+					</tbody>
+					  <tfoot>
+						<tr>
+						  <td>
+							<select name="rak_id" id="rak_id" class="selectpick input" data-live-search="true" onchange="ddlChange();">
+							</select>
 
-                      </td>
-                      <td>{!! Form::text('stok_fisik', null, ['class' => 'form-control input req', 'id' => 'stok_fisik'])!!}</td>
-                      <td>{!! Form::text('exp_date', null, ['class' => 'form-control input req tanggal', 'id' => 'exp_date'])!!}</td>
-                      <td><a href="#" onclick="input(this);return false;" class="btn btn-primary btn-sm" id="input">input</a></td>
-                      {!! Form::close()!!}
-                    </tr>
-                </tfoot>
-            </table>
+						  </td>
+						  <td>{!! Form::text('stok_fisik', null, ['class' => 'form-control input req', 'id' => 'stok_fisik'])!!}</td>
+						  <td>{!! Form::text('exp_date', null, ['class' => 'form-control input req tanggal', 'id' => 'exp_date'])!!}</td>
+						  <td><a href="#" onclick="input(this);return false;" class="btn btn-primary btn-sm" id="input">input</a></td>
+						  {!! Form::close()!!}
+						</tr>
+					</tfoot>
+				</table>
+			</div>
             <div class="alert alert-success">
               Pada Stok Opname setiap bulan, harus dilakukan serentak, penginputan pelayanan pasien dll dilakukan secara manual sementara masih diisi, stok obat dipertahankan tetap saat input, setelah penginputan selesai, bisa dilanjutkan penginputan pelayanan pasien dengan aplikasi kembali
             </div>
@@ -102,6 +104,7 @@
           <tbody id='sisa'>
 
           </tbody>
+		   </table>
         </div>
       </div>
     </div>

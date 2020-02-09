@@ -92,28 +92,30 @@ th.rotate > div > span {
       <h3 class="panel-title">SOP TERAPI by ICD</h3>
     </div>
     <div class="panel-body">
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Asuransi</th>
-            @foreach($berat_badans as $bb)
-              <th class="rotate"><div><span>{!! $bb->berat_badan !!} {!!$bb->id!!}</span></div></th>
-            @endforeach
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($asuransis as $asuransi)
-          <tr>
-            <td>{!! $asuransi->nama !!} {!!$asuransi->id!!}</td>
-            @foreach($berat_badans as $bb)
-            <td> 
-               {!! $bb->id!!}
-            </td>
-           @endforeach
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered">
+			<thead>
+			  <tr>
+				<th>Asuransi</th>
+				@foreach($berat_badans as $bb)
+				  <th class="rotate"><div><span>{!! $bb->berat_badan !!} {!!$bb->id!!}</span></div></th>
+				@endforeach
+			  </tr>
+			</thead>
+			<tbody>
+			  @foreach($asuransis as $asuransi)
+			  <tr>
+				<td>{!! $asuransi->nama !!} {!!$asuransi->id!!}</td>
+				@foreach($berat_badans as $bb)
+				<td> 
+				   {!! $bb->id!!}
+				</td>
+			   @endforeach
+			  </tr>
+			  @endforeach
+			</tbody>
+		  </table>
+		</div>
 
     </div>
 </div>

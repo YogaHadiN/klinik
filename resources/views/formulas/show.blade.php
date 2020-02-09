@@ -23,54 +23,56 @@ Formula
 			        </div>
 		      </div>
 		      <div class="panel-body">
-		            <table class="table table-bordered table-hover" id="tableAsuransi">
-		                <tbody>
-			            	<tr>
-			            		<th nowrap>Dijual Bebas</th>
-			                	<td>
+				  <div class="table-responsive">
+						<table class="table table-bordered table-hover" id="tableAsuransi">
+							<tbody>
+								<tr>
+									<th nowrap>Dijual Bebas</th>
+									<td>
 
-			                		@if($formula->dijual_bebas == '1')
-										Ya
-									@else
-										Tidak
-			                		@endif
+										@if($formula->dijual_bebas == '1')
+											Ya
+										@else
+											Tidak
+										@endif
 
-			                	</td> 
-			                </tr>
-							<tr>
-								<th nowrap>Efek Samping</th>
-								<td>{!! $formula->efek_samping !!}</td> 
-							</tr>
-							<tr>
-								<th nowrap>Golongan Obat</th>
-								<td>{!! $formula->golongan_obat !!}</td> 
-							</tr>
-							<tr>
-								<th nowrap>Sediaan</th>
-								<td>{!! $formula->sediaan !!}</td> 
-							</tr>
-							<tr>
-								<th nowrap>Indikasi</th>
-								<td>{!! $formula->indikasi !!}</td> 
-							</tr>
-							<tr>
-								<th nowrap>Kontraindikasi</th>
-								<td>{!! $formula->kontraindikasi !!}</td> 
-							</tr>
-								<th nowrap>Aturan Minum</th>
-								<td>{!! $formula->aturanMinum->aturan_minum !!}</td> 
-							</tr>
-							<tr>
-								<th nowrap>Komposisi</th>
-								<td>
-									@foreach($formula->komposisi as $komp)
-										{!!$komp->generik->generik!!} {!!$komp->bobot!!}, <br>
-									@endforeach
+									</td> 
+								</tr>
+								<tr>
+									<th nowrap>Efek Samping</th>
+									<td>{!! $formula->efek_samping !!}</td> 
+								</tr>
+								<tr>
+									<th nowrap>Golongan Obat</th>
+									<td>{!! $formula->golongan_obat !!}</td> 
+								</tr>
+								<tr>
+									<th nowrap>Sediaan</th>
+									<td>{!! $formula->sediaan !!}</td> 
+								</tr>
+								<tr>
+									<th nowrap>Indikasi</th>
+									<td>{!! $formula->indikasi !!}</td> 
+								</tr>
+								<tr>
+									<th nowrap>Kontraindikasi</th>
+									<td>{!! $formula->kontraindikasi !!}</td> 
+								</tr>
+									<th nowrap>Aturan Minum</th>
+									<td>{!! $formula->aturanMinum->aturan_minum !!}</td> 
+								</tr>
+								<tr>
+									<th nowrap>Komposisi</th>
+									<td>
+										@foreach($formula->komposisi as $komp)
+											{!!$komp->generik->generik!!} {!!$komp->bobot!!}, <br>
+										@endforeach
 
-								</td>
-							</tr>
-		                </tbody>
-		            </table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+				  </div>
 		            <div class="row">
 		            	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		            		{!! HTML::link("formulas/". $formula->id ."/edit", 'Edit', ['class' => 'btn btn-info btn-block'])!!}
@@ -95,38 +97,40 @@ Formula
 	  			  	</div>
 	  			  </div>
 	  			  <div class="panel-body">
-	  					<table class="table table-bordered table-hover">
-	  						<thead>
-	  							<tr>
-	  								<th>Rak</th>
-	  								<th>Merek</th>
-									<th>harga_beli</th>
-									<th>harga_jual</th>
-									<th>stok</th>
-									<th>exp_date</th>
-									<th>Action</th>
-	  							</tr>
-	  						</thead>
-	  						<tbody>
-	  							@foreach ($raks as $rk)
-  									@foreach ($rk->merek as $merek)
-		  								<tr>
-		  									<td>
-	  										{!! HTML::link("raks/" . $rk->id, $rk->id, ['class' => 'btn btn-primary btn-xs'])!!} 
-		  									</td>
-		  									<td>{!! $merek->merek !!}</td>
-		  									<td>{!! $rk->harga_beli !!}</td>
-		  									<td>{!! $rk->harga_jual !!}</td>
-		  									<td>{!! $rk->stok !!}</td>
-		  									<td>{!! App\Classes\Yoga::updateDatePrep($rk->exp_date) !!}</td>
-		  									<td>
-		  										{!! HTML::link("mereks/" . $rk->id, 'Merek Baru di ' . $rk->id, ['class' => 'btn btn-success btn-xs'])!!} 
-		  									</td>
-		  								</tr>
-  									@endforeach
-	  							@endforeach
-	  						</tbody>
-	  					</table>
+					  <div class="table-responsive">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>Rak</th>
+										<th>Merek</th>
+										<th>harga_beli</th>
+										<th>harga_jual</th>
+										<th>stok</th>
+										<th>exp_date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach ($raks as $rk)
+										@foreach ($rk->merek as $merek)
+											<tr>
+												<td>
+												{!! HTML::link("raks/" . $rk->id, $rk->id, ['class' => 'btn btn-primary btn-xs'])!!} 
+												</td>
+												<td>{!! $merek->merek !!}</td>
+												<td>{!! $rk->harga_beli !!}</td>
+												<td>{!! $rk->harga_jual !!}</td>
+												<td>{!! $rk->stok !!}</td>
+												<td>{!! App\Classes\Yoga::updateDatePrep($rk->exp_date) !!}</td>
+												<td>
+													{!! HTML::link("mereks/" . $rk->id, 'Merek Baru di ' . $rk->id, ['class' => 'btn btn-success btn-xs'])!!} 
+												</td>
+											</tr>
+										@endforeach
+									@endforeach
+								</tbody>
+							</table>
+					  </div>
 	  			  </div>
 	  		</div>
   		</div>
@@ -140,28 +144,30 @@ Formula
 	  			  	</div>
 	  			  </div>
 	  			  <div class="panel-body">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<th>Berat-Badan</th>
-								<th>Signa</th>
-								<th>Jumlah</th>
-								<th>Jumlah BPJS</th>
-								<th>Jumlah Puyer Add</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach($formula->dose as $dose)
+					  <div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
 								<tr>
-									<th>{!!$dose->beratBadan->berat_badan!!}</th>
-									<td>{!!$dose->signa['signa']!!}</td>
-									<td>{!!$dose->jumlah!!}</td>
-									<td>{!!$dose->jumlah_bpjs!!}</td>
-									<td>{!!$dose->jumlah_puyer_add!!}</td>
+									<th>Berat-Badan</th>
+									<th>Signa</th>
+									<th>Jumlah</th>
+									<th>Jumlah BPJS</th>
+									<th>Jumlah Puyer Add</th>
 								</tr>
-							@endforeach
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								@foreach($formula->dose as $dose)
+									<tr>
+										<th>{!!$dose->beratBadan->berat_badan!!}</th>
+										<td>{!!$dose->signa['signa']!!}</td>
+										<td>{!!$dose->jumlah!!}</td>
+										<td>{!!$dose->jumlah_bpjs!!}</td>
+										<td>{!!$dose->jumlah_puyer_add!!}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					  </div>
 	  			  </div>
 	  		</div>
   		</div>

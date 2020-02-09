@@ -33,35 +33,37 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered" id="tableEntriBeli">
-                  <thead>
-                    <tr>
-                       <th>No</th>
-                       <th>Merek Obat</th>
-                       <th>Harga Jual</th>
-                       <th>Jumlah</th>
-                       <th>Harga Item</th>
-                    </tr>
-                </thead>
-                <tbody>
-                
-                    @foreach ($nota_jual->penjualan as $k => $penj)
-                        <tr>
-                            <td>{{ $k + 1 }}</td>
-                            <td>{{ $penj->merek->merek }}</td>
-                            <td class="uang">{{ $penj->harga_jual }}</td>
-                            <td class="text-right">{{ $penj->jumlah }}</td>
-                            <td class="uang">{{ $penj->harga_jual * $penj->jumlah }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                      <td colspan="2" class="text-right bold"> Total Biaya : </td>
-                      <td class="bold uang" id="totalHargaObat" colspan="3">{!! $nota_jual->nilai !!}</td>
-                    </tr>
-                </tfoot>
-            </table>
+		  <div class="table-responsive">
+				<table class="table table-bordered" id="tableEntriBeli">
+					  <thead>
+						<tr>
+						   <th>No</th>
+						   <th>Merek Obat</th>
+						   <th>Harga Jual</th>
+						   <th>Jumlah</th>
+						   <th>Harga Item</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						@foreach ($nota_jual->penjualan as $k => $penj)
+							<tr>
+								<td>{{ $k + 1 }}</td>
+								<td>{{ $penj->merek->merek }}</td>
+								<td class="uang">{{ $penj->harga_jual }}</td>
+								<td class="text-right">{{ $penj->jumlah }}</td>
+								<td class="uang">{{ $penj->harga_jual * $penj->jumlah }}</td>
+							</tr>
+						@endforeach
+					</tbody>
+					<tfoot>
+						<tr>
+						  <td colspan="2" class="text-right bold"> Total Biaya : </td>
+						  <td class="bold uang" id="totalHargaObat" colspan="3">{!! $nota_jual->nilai !!}</td>
+						</tr>
+					</tfoot>
+				</table>
+		  </div>
             <div class="row">
 				@if( \Auth::user()->role == '6' )
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

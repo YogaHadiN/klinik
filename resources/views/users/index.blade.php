@@ -29,33 +29,35 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover DT">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>email</th>
-                        <th>role</th>
-                        <th>aktif</th>
-                        <th>action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($users as $user)
-                        <tr>
-                            <td>{!!$user->id!!}</td>
-                            <td>{!!$user->username!!}</td>
-                            <td>{!!$user->email!!}</td>
-                            <td>{!!$user->peran!!}</td>
-                            <td>{!!$user->keaktifan!!}</td>
-                        <td><a href="users/{!!$user->id!!}/edit" class="btn btn-info btn-block ">EDIT</a>
-                        </td>
+		  <div class="table-responsive">
+				<table class="table table-bordered table-hover DT">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Username</th>
+							<th>email</th>
+							<th>role</th>
+							<th>aktif</th>
+							<th>action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($users as $user)
+							<tr>
+								<td>{!!$user->id!!}</td>
+								<td>{!!$user->username!!}</td>
+								<td>{!!$user->email!!}</td>
+								<td>{!!$user->peran!!}</td>
+								<td>{!!$user->keaktifan!!}</td>
+							<td><a href="users/{!!$user->id!!}/edit" class="btn btn-info btn-block ">EDIT</a>
+							</td>
 
-                        </tr>
-                   @endforeach
-                    </tr>
-                </tbody>
-            </table>
+							</tr>
+					   @endforeach
+						</tr>
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 @stop

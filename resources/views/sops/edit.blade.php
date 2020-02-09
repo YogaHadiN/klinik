@@ -34,32 +34,34 @@
         <h3>Informasi</h3>
       </div>
       <div class="panel-body">
-        <table class="table table-bordered table-stripped">
-          <tbody>
-            <tr>
-              <th>Diagnosa ICD</th>
-              <td>{!! $icd10->id!!} - {!! $icd10->diagnosaICD!!}</td>
-            </tr>
-            <tr>
-              <th>Diagnosa Umum</th>
-              <td>
-                <ul>
-                  @foreach($icd10->diagnosa as $diagnosa)
-                  <li>{!! $diagnosa->diagnosa !!}</li>
-                  @endforeach
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <th>Nama Asuransi</th>
-              <td>{!! $asuransi->nama !!}</td>
-            </tr>
-            <tr>
-              <th>Berat Badan</th>
-              <td>{!! $berat_badan->berat_badan !!}</td>
-            </tr>
-          </tbody>
-        </table>
+		  <div class="table-responsive">
+			<table class="table table-bordered table-stripped">
+			  <tbody>
+				<tr>
+				  <th>Diagnosa ICD</th>
+				  <td>{!! $icd10->id!!} - {!! $icd10->diagnosaICD!!}</td>
+				</tr>
+				<tr>
+				  <th>Diagnosa Umum</th>
+				  <td>
+					<ul>
+					  @foreach($icd10->diagnosa as $diagnosa)
+					  <li>{!! $diagnosa->diagnosa !!}</li>
+					  @endforeach
+					</ul>
+				  </td>
+				</tr>
+				<tr>
+				  <th>Nama Asuransi</th>
+				  <td>{!! $asuransi->nama !!}</td>
+				</tr>
+				<tr>
+				  <th>Berat Badan</th>
+				  <td>{!! $berat_badan->berat_badan !!}</td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
       </div>
     </div>
   </div>

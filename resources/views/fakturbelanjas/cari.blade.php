@@ -59,33 +59,35 @@
 				]) !!} 
 			  	</div>
 			  </div>
-            <table class="table table-bordered table-hover full-width" id="tabel_faktur_beli">
-                  <thead>
-					<tr>
-						<th> Tanggal <br /> {!! Form::text('tanggal',  null, [
-								'class' => 'form-control',
-								'onkeyup' => 'clearAndView();return false',
-								'id'    => 'tanggal'
-							]) !!} </th>
-						<th>Nama Supplier <br /> {!! Form::text('nama_supplier',  null, [
-								'class' => 'form-control',
-								'onkeyup' => 'clearAndView();return false',
-								'id'    => 'nama_supplier'
-							]) !!} 
-						</th>
-						<th> Nomor Faktur <br />{!! Form::text('nomor_faktur',  null, [
-								'class' => 'form-control',
-								'onkeyup' => 'clearAndView();return false',
-								'id'    => 'nomor_faktur'
-							]) !!} </th>
-						<th>Total Biaya</th>
-						<th>
-							<button class="btn btn-danger btn-sm" type="button">Clear</button>
-						</th>
-                    </tr>
-                </thead>
-                <tbody id="content"></tbody>
-            </table>
+			  <div class="table-responsive">
+					<table class="table table-bordered table-hover full-width" id="tabel_faktur_beli">
+					  <thead>
+						<tr>
+							<th> Tanggal <br /> {!! Form::text('tanggal',  null, [
+									'class' => 'form-control',
+									'onkeyup' => 'clearAndView();return false',
+									'id'    => 'tanggal'
+								]) !!} </th>
+							<th>Nama Supplier <br /> {!! Form::text('nama_supplier',  null, [
+									'class' => 'form-control',
+									'onkeyup' => 'clearAndView();return false',
+									'id'    => 'nama_supplier'
+								]) !!} 
+							</th>
+							<th> Nomor Faktur <br />{!! Form::text('nomor_faktur',  null, [
+									'class' => 'form-control',
+									'onkeyup' => 'clearAndView();return false',
+									'id'    => 'nomor_faktur'
+								]) !!} </th>
+							<th>Total Biaya</th>
+							<th>
+								<button class="btn btn-danger btn-sm" type="button">Clear</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="content"></tbody>
+				</table>
+			  </div>
 			<div id="page-box">
 				<nav class="text-right" aria-label="Page navigation" id="paging">
 				

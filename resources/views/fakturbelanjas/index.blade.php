@@ -29,43 +29,45 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover" id="tabel_faktur_beli">
-                  <thead>
-                    <tr>
-                    	<th>id</th>
-          						<th>tanggal</th>
-                      <th>Nama Supplier</th>
-                      <th>Nomor Faktur</th>
-          						<th>Jenis</th>
-                    	<th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  @if($fakturbelanjas->count())
-                  	@foreach ($fakturbelanjas as $faktur_beli)
-                		<tr>
-                        <td><div>{!!$faktur_beli->id!!}</div></td>
-                        <td><div>{!!$faktur_beli->tanggal!!}</div></td>
-                        <td><div>
-                          {!! $faktur_beli->supplier->nama!!}
-                        </div></td>
-                        <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
-                        <td><div>{!!$faktur_beli->items!!} jenis</div></td>
-                        <td>
-                        @if($faktur_beli->belanja_id == '1')
-                          <a href="{{ url('pembelians/' . $faktur_beli->id ) }}" class="btn-sm btn btn-primary btn-xs"><i class="fa fa-shopping-cart fa-lg"></i> Obat</a>
-                        @else
-                        <a href="{{ url('pengeluarans/' . $faktur_beli->id ) }}" class="btn-sm btn btn-success btn-xs"><i class="fa fa-shopping-cart fa-lg"></i> Bukan Obat</a>
-                        @endif
-                        {!! HTML::link('fakturbelanjas/' . $faktur_beli->id, 'delete', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda akan menghapus faktur belanja di ' . $faktur_beli->supplier->nama . ', Lanjutkan?");'])!!}
-                        </td>
-                  	</tr>
-                  	@endforeach
-                  @else 
-                    <td colspan="6" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
-                  @endif
-                </tbody>
-            </table>
+		  <div class="table-responsive">
+					<table class="table table-bordered table-hover" id="tabel_faktur_beli">
+					  <thead>
+						<tr>
+							<th>id</th>
+									<th>tanggal</th>
+						  <th>Nama Supplier</th>
+						  <th>Nomor Faktur</th>
+									<th>Jenis</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					  @if($fakturbelanjas->count())
+						@foreach ($fakturbelanjas as $faktur_beli)
+							<tr>
+							<td><div>{!!$faktur_beli->id!!}</div></td>
+							<td><div>{!!$faktur_beli->tanggal!!}</div></td>
+							<td><div>
+							  {!! $faktur_beli->supplier->nama!!}
+							</div></td>
+							<td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
+							<td><div>{!!$faktur_beli->items!!} jenis</div></td>
+							<td>
+							@if($faktur_beli->belanja_id == '1')
+							  <a href="{{ url('pembelians/' . $faktur_beli->id ) }}" class="btn-sm btn btn-primary btn-xs"><i class="fa fa-shopping-cart fa-lg"></i> Obat</a>
+							@else
+							<a href="{{ url('pengeluarans/' . $faktur_beli->id ) }}" class="btn-sm btn btn-success btn-xs"><i class="fa fa-shopping-cart fa-lg"></i> Bukan Obat</a>
+							@endif
+							{!! HTML::link('fakturbelanjas/' . $faktur_beli->id, 'delete', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda akan menghapus faktur belanja di ' . $faktur_beli->supplier->nama . ', Lanjutkan?");'])!!}
+							</td>
+						</tr>
+						@endforeach
+					  @else 
+						<td colspan="6" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
+					  @endif
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 <div class="modal fade bs-example-modal-md" id="faktur_insert" tabindex="-1" role="dialog" aria-labelledby="kriteriaLabel" aria-hidden="true">

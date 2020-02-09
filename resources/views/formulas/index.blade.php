@@ -34,43 +34,45 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover DT" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                    	<th>ID</th>
-                    	<th>Contoh Merek</th>
-                    	<th>Komposisi</th>
-                    	<th>Sediaan</th>
-                        <th>Kontraindikasi</th>
-                    	<th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	@foreach ($formulas as $formula)
-            		<tr>
+		  <div class="table-responsive">
+					<table class="table table-bordered table-hover DT" id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>ID</th>
+							<th>Contoh Merek</th>
+							<th>Komposisi</th>
+							<th>Sediaan</th>
+							<th>Kontraindikasi</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach ($formulas as $formula)
+						<tr>
 
-                        <td>{!! $formula->id !!}</td>
-						<td>
-							@foreach($formula->rak as $r)
-								{!! $r->mereks!!}
-							@endforeach
-						</td>
-                        <td>
-                          @foreach($formula->komposisi as $komp)
-                          {!! $komp->generik->generik !!} {!!$komp->bobot!!}, <br>
-                          @endforeach
-                        </td>
-                        <td>{!! $formula->sediaan !!}</td>
-                        <td>{!! $formula->kontraindikasi !!}</td>
-	                	<td>
-                            {!! HTML::link('formulas/'. $formula->id , "Show", ['class' => 'btn-sm btn btn-info btn-block'])!!}
-                            {!! HTML::link('formulas/'. $formula->id . '/edit', "Edit", ['class' => 'btn-sm btn btn-default btn-block'])!!}
-                        </td>
-                	</tr>
-                	@endforeach
-                	
-                </tbody>
-            </table>
+							<td>{!! $formula->id !!}</td>
+							<td>
+								@foreach($formula->rak as $r)
+									{!! $r->mereks!!}
+								@endforeach
+							</td>
+							<td>
+							  @foreach($formula->komposisi as $komp)
+							  {!! $komp->generik->generik !!} {!!$komp->bobot!!}, <br>
+							  @endforeach
+							</td>
+							<td>{!! $formula->sediaan !!}</td>
+							<td>{!! $formula->kontraindikasi !!}</td>
+							<td>
+								{!! HTML::link('formulas/'. $formula->id , "Show", ['class' => 'btn-sm btn btn-info btn-block'])!!}
+								{!! HTML::link('formulas/'. $formula->id . '/edit', "Edit", ['class' => 'btn-sm btn btn-default btn-block'])!!}
+							</td>
+						</tr>
+						@endforeach
+						
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 @stop

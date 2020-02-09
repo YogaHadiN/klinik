@@ -55,22 +55,24 @@
             </div>
             <div>
                 <div class="text-center">
-                    <table class="table-center">
-                        <tbody class="text-center">
-                            <tr class="border-top">
-                                <td></td>
-                                <td>Diterima Oleh</td>
-                            </tr>
-                            <tr class="tanda-tangan">
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>{{ $nosale->staf->nama }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+					<div class="table-responsive">
+						<table class="table-center">
+							<tbody class="text-center">
+								<tr class="border-top">
+									<td></td>
+									<td>Diterima Oleh</td>
+								</tr>
+								<tr class="tanda-tangan">
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>{{ $nosale->staf->nama }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
                 </div>
                 .
             </div>

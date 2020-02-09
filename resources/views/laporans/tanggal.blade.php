@@ -25,45 +25,47 @@
                             <h3 class="panel-title">Pembarayan : {{ $nama_asuransi }}</h3>
                       </div>
                       <div class="panel-body">
-                            <table class="table table-bordered table-hover" id="tableAsuransi">
-                                  <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Jumlah</th>
-                                        <th>Tunai</th>
-                                        <th>Piutang</th>
-                                        <th>Total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (count($tanggal) > 0)
-                                        @foreach ($tanggal as $key => $tgl)
-                                        <tr>
-                                            <td>{!! App\Classes\Yoga::updateDatePrep($tgl->tanggal) !!}</td>
-                                            <td>{!! $tgl->jumlah !!}</td>
-                                            <td class="text-right">{!! App\Classes\Yoga::buatrp( $tgl->tunai ) !!}</td>
-                                            <td class="text-right">{!! App\Classes\Yoga::buatrp( $tgl->piutang ) !!}</td>
-                                            <td class="text-right">{!! App\Classes\Yoga::buatrp(  $tgl->tunai + $tgl->piutang ) !!}</td>
-                                            <td><a href="#" class="btn btn-primary btn-xs">detail</a></td>
-                                        </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="6" class="text-center">Tidak / Belum ada transaksi</td>
-                                        </tr>
-                                    @endif
-                                </tbody>
-                                <tfoot>
-                                  <tr>
-                                    <th>Total</th>
-                                      <td>{{$totalJumlahTanggal}}</td>
-                                      <td class="uang">{{$totalTunaiTanggal}}</td>
-                                      <td class="uang">{{$totalPiutangTanggal}}</td>
-                                      <td class="uang">{{$totalTanggal}}</td>
-                                  </tr>
-                                </tfoot>
-                            </table>
+						  <div class="table-responsive">
+								<table class="table table-bordered table-hover" id="tableAsuransi">
+									  <thead>
+										<tr>
+											<th>No</th>
+											<th>Jumlah</th>
+											<th>Tunai</th>
+											<th>Piutang</th>
+											<th>Total</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@if (count($tanggal) > 0)
+											@foreach ($tanggal as $key => $tgl)
+											<tr>
+												<td>{!! App\Classes\Yoga::updateDatePrep($tgl->tanggal) !!}</td>
+												<td>{!! $tgl->jumlah !!}</td>
+												<td class="text-right">{!! App\Classes\Yoga::buatrp( $tgl->tunai ) !!}</td>
+												<td class="text-right">{!! App\Classes\Yoga::buatrp( $tgl->piutang ) !!}</td>
+												<td class="text-right">{!! App\Classes\Yoga::buatrp(  $tgl->tunai + $tgl->piutang ) !!}</td>
+												<td><a href="#" class="btn btn-primary btn-xs">detail</a></td>
+											</tr>
+											@endforeach
+										@else
+											<tr>
+												<td colspan="6" class="text-center">Tidak / Belum ada transaksi</td>
+											</tr>
+										@endif
+									</tbody>
+									<tfoot>
+									  <tr>
+										<th>Total</th>
+										  <td>{{$totalJumlahTanggal}}</td>
+										  <td class="uang">{{$totalTunaiTanggal}}</td>
+										  <td class="uang">{{$totalPiutangTanggal}}</td>
+										  <td class="uang">{{$totalTanggal}}</td>
+									  </tr>
+									</tfoot>
+								</table>
+						  </div>
                       </div>
                 </div>
           </div>

@@ -6,26 +6,28 @@
                     <h4 class="modal-title" id="exampleModalLabel">Pilih Diagnosa ICD 10</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table icd notResponsive" id="GridView4">
-                        <thead>
-                            <tr>
-                                <th>ICD 10</th>
-                                <th>Diagnosa</th>
-                            </tr>
-                            <tr>
-                                <th><input type="text" class="form-control search" id="byICD"></th>
-                                <th><input type="text" class="form-control search" id="byDiagnosa"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="temp">
-                            @foreach ($icd10s as $icd10)
-                                <tr>
-                                    <td>{!! $icd10->id !!}</td>
-                                    <td>{!! $icd10->diagnosaICD !!}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+					<div class="table-responsive">
+						<table class="table icd notResponsive" id="GridView4">
+							<thead>
+								<tr>
+									<th>ICD 10</th>
+									<th>Diagnosa</th>
+								</tr>
+								<tr>
+									<th><input type="text" class="form-control search" id="byICD"></th>
+									<th><input type="text" class="form-control search" id="byDiagnosa"></th>
+								</tr>
+							</thead>
+							<tbody id="temp">
+								@foreach ($icd10s as $icd10)
+									<tr>
+										<td>{!! $icd10->id !!}</td>
+										<td>{!! $icd10->diagnosaICD !!}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" id="showModal2" class="displayNone" data-toggle="modal" data-target="#exampleModal1">Close</button>
@@ -51,20 +53,22 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <table class="table">
-                                <tr>
-                                    <td>Kode ICD 10</td>
-                                    <td>
-                                        <label id="lblICD"></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Diagnosa ICD</td>
-                                    <td>
-                                        <label id="lblDiagnosaICD"></label>
-                                    </td>
-                                </tr>
-                            </table>
+							<div class="table-responsive">
+								<table class="table">
+									<tr>
+										<td>Kode ICD 10</td>
+										<td>
+											<label id="lblICD"></label>
+										</td>
+									</tr>
+									<tr>
+										<td>Diagnosa ICD</td>
+										<td>
+											<label id="lblDiagnosaICD"></label>
+										</td>
+									</tr>
+								</table>
+							</div>
                         </div>
                     </div>
                     <div class="row">
@@ -81,17 +85,19 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <table class="table" id="GridView2">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Diagnosa</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="ajax4">
-                                            
-                                        </tbody>
-                                    </table>
+									<div class="table-responsive">
+										<table class="table" id="GridView2">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Diagnosa</th>
+												</tr>
+											</thead>
+											<tbody id="ajax4">
+												
+											</tbody>
+										</table>
+									</div>
                                 </div>
                             </div>
                         </div>
@@ -173,37 +179,39 @@
                                 
                             </div>
                         </div>
-                        <table class="table table-condensed icd tfoot" id="tblSigna">
-                            <thead>
-                                <tr>
-                                    <th colspan="2"><input type="text" class="form-control" id="inputSigna"></th>
-                                    <th><a href="#" class="btn btn-primary" id="btnInsertSigna" onclick="insertSigna(this);return false;">Input</a></th>
-                                </tr>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Signa</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if ($signas->count() > 0)
-                                    {{-- expr --}}
-                                    @foreach ($signas as $signa)
+						<div class="table-responsive">
+							<table class="table table-condensed icd tfoot" id="tblSigna">
+								<thead>
+									<tr>
+										<th colspan="2"><input type="text" class="form-control" id="inputSigna"></th>
+										<th><a href="#" class="btn btn-primary" id="btnInsertSigna" onclick="insertSigna(this);return false;">Input</a></th>
+									</tr>
+									<tr>
+										<th>ID</th>
+										<th>Signa</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if ($signas->count() > 0)
+										{{-- expr --}}
+										@foreach ($signas as $signa)
 
-                                        <tr>
-                                            <td>{!!$signa->id!!}</td>
-                                            <td>{!!$signa->signa!!}</td>
-                                            <td><button class="btn btn-success btn-xs" value="{!!$signa->id!!}" onclick="pilihSigna(this)">pilih</button></td>
-                                        </tr>
+											<tr>
+												<td>{!!$signa->id!!}</td>
+												<td>{!!$signa->signa!!}</td>
+												<td><button class="btn btn-success btn-xs" value="{!!$signa->id!!}" onclick="pilihSigna(this)">pilih</button></td>
+											</tr>
 
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="3" class="text-center">Tidak ada data untuk ditampilkan :p</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+										@endforeach
+									@else
+										<tr>
+											<td colspan="3" class="text-center">Tidak ada data untuk ditampilkan :p</td>
+										</tr>
+									@endif
+								</tbody>
+							</table>
+						</div>
                     </div>
                 </div>
             </div>
@@ -251,35 +259,37 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <table class="table table-condensed icd tfoot" id="tblAturanMinum">
-                                <thead>
-                                     <tr>
-                                        <td colspan="2"><input type="text" class="form-control" id="inputAturanMinum"></td>
-                                        <td><a href="#" class="btn btn-primary btn-sm" id="btnAturanMinum"  onclick="insertAturanMinum();">Input</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Aturan Minum</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if ($aturans->count() > 0)
-                                        {{-- expr --}}
-                                       @foreach ($aturans as $aturan)
-                                           <tr>
-                                               <td> {!! $aturan->id !!} </td>
-                                               <td> {!! $aturan->aturan_minum !!} </td>
-                                               <td> <button class="btn btn-success btn-xs" onclick="pilihAturanMinum(this)" value="{!! $aturan->id !!}">Pilih</button>  </td>
-                                           </tr>
-                                       @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="3" class="text-center">Tidak ada data untuk ditampilkan :p</td>
-                                        </tr>
-                                    @endif
-                                </tbody>
-                            </table>
+							<div class="table-responsive">
+								<table class="table table-condensed icd tfoot" id="tblAturanMinum">
+									<thead>
+										 <tr>
+											<td colspan="2"><input type="text" class="form-control" id="inputAturanMinum"></td>
+											<td><a href="#" class="btn btn-primary btn-sm" id="btnAturanMinum"  onclick="insertAturanMinum();">Input</a></td>
+										</tr>
+										<tr>
+											<th>ID</th>
+											<th>Aturan Minum</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@if ($aturans->count() > 0)
+											{{-- expr --}}
+										   @foreach ($aturans as $aturan)
+											   <tr>
+												   <td> {!! $aturan->id !!} </td>
+												   <td> {!! $aturan->aturan_minum !!} </td>
+												   <td> <button class="btn btn-success btn-xs" onclick="pilihAturanMinum(this)" value="{!! $aturan->id !!}">Pilih</button>  </td>
+											   </tr>
+										   @endforeach
+										@else
+											<tr>
+												<td colspan="3" class="text-center">Tidak ada data untuk ditampilkan :p</td>
+											</tr>
+										@endif
+									</tbody>
+								</table>
+							</div>
                         </div>
                     </div>
                 </div>

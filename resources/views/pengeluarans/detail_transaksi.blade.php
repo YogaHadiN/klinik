@@ -31,82 +31,84 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                    	<th>Informasi</th>
-                      <th>Jurnal Umum</th>
-                        <!--<th>Action</th>-->
-                    </tr>
-                </thead>
-                <tbody>
+		  <div class="table-responsive">
+				<table class="table table-bordered" id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>Informasi</th>
+						  <th>Jurnal Umum</th>
+							<!--<th>Action</th>-->
+						</tr>
+					</thead>
+					<tbody>
 
-                  @if($periksas->count() > 0)
+					  @if($periksas->count() > 0)
 
-                	 @foreach ($periksas as $key => $periksa)
-                    
-                    <tr>
-                      <td>
-                          <div class="row">
-                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} <br>
-                        <br>Umur :
-                        {!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir, date('Y-m-d'))!!}
-                        <br>Pembayaran : 
-                        {!! $periksa->asuransi->nama !!}
-                        <br>Staf :
-                        {!! $periksa->staf->nama !!} <br>
-                        <strong>{!! $periksa->id !!}</strong> <br>
-                          </div>
-                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                          <strong>Diagnosa :</strong> <br>
-                              @if($periksa->diagnosa_id)
+						 @foreach ($periksas as $key => $periksa)
+						
+						<tr>
+						  <td>
+							  <div class="row">
+								  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} <br>
+							<br>Umur :
+							{!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir, date('Y-m-d'))!!}
+							<br>Pembayaran : 
+							{!! $periksa->asuransi->nama !!}
+							<br>Staf :
+							{!! $periksa->staf->nama !!} <br>
+							<strong>{!! $periksa->id !!}</strong> <br>
+							  </div>
+							  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							  <strong>Diagnosa :</strong> <br>
+								  @if($periksa->diagnosa_id)
 
-                                {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!} <br>
-                                {!! $periksa->keterangan_diagnosa !!}
+									{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!} <br>
+									{!! $periksa->keterangan_diagnosa !!}
 
-                              @else
-                                {!! $periksa->keterangan_diagnosa !!}
-                              @endif
-                              <br>
-                            <strong>Pembayaran :</strong> <br>
-                            {!! $periksa->asuransi->nama !!} <br>
-                            <br>
-                          </div>
-                        </div>
-                          <table class="table table-bordered table-hover table-condensed ">
-                              <thead>
-                                  <tr>
-                                      <th colspan="2">Jenis Tarif</th>
-                                      <th>Biaya</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  {!! $periksa->tindakan_html !!}
-                              </tbody>
-                              <tfoot>
-                                  <tr>
-                                      <th colspan="2">Total</th>
-                                      <th>{!! $periksa->total_transaksi !!}</th>
-                                  </tr>
-                              </tfoot>
-                              
-                          </table>
-                      </td>
-                      <td>
-                        <div>
-							@include('periksas.jurnals')
-                        </div>
-                      </td>
-                    </tr>
-                   @endforeach
-                   @else
-                    <tr>
-                      <td colspan='4' class="text-center"> Tidak ada data untuk ditampilkan :P </td>
-                    </tr>
-                   @endif
-                </tbody>
-            </table>
+								  @else
+									{!! $periksa->keterangan_diagnosa !!}
+								  @endif
+								  <br>
+								<strong>Pembayaran :</strong> <br>
+								{!! $periksa->asuransi->nama !!} <br>
+								<br>
+							  </div>
+							</div>
+							  <table class="table table-bordered table-hover table-condensed ">
+								  <thead>
+									  <tr>
+										  <th colspan="2">Jenis Tarif</th>
+										  <th>Biaya</th>
+									  </tr>
+								  </thead>
+								  <tbody>
+									  {!! $periksa->tindakan_html !!}
+								  </tbody>
+								  <tfoot>
+									  <tr>
+										  <th colspan="2">Total</th>
+										  <th>{!! $periksa->total_transaksi !!}</th>
+									  </tr>
+								  </tfoot>
+								  
+							  </table>
+						  </td>
+						  <td>
+							<div>
+								@include('periksas.jurnals')
+							</div>
+						  </td>
+						</tr>
+					   @endforeach
+					   @else
+						<tr>
+						  <td colspan='4' class="text-center"> Tidak ada data untuk ditampilkan :P </td>
+						</tr>
+					   @endif
+					</tbody>
+				</table>
+		  </div>
             <?php echo $periksas->appends(Input::except('page'))->links(); ?>
       </div>
 </div>

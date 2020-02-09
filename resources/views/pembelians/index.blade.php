@@ -53,51 +53,53 @@
 					]) !!}
 				</div>
 			  </div>
-				<table class="table table-bordered" id="tableEntriBeli" nowrap>
-					  <thead>
-						<tr>
-						   <th>
-							   Tanggal <br />
-							   {!! Form::text('tanggal',  null, [
-								   'class' => 'form-control', 
-								   'onkeyup' => 'clearAndView();return false;', 
-								   'id' => 'tanggal'
-							   ]) !!}
-						   </th>
-						   <th>
-							   Nomor Faktur <br />
-							   {!! Form::text('nomor_faktur',  null, [
-								   'class' => 'form-control', 
-								   'onkeyup' => 'clearAndView();return false;', 
-								   'id' => 'nomor_faktur'
-							   ]) !!}
-						   </th>
-						   <th>Nama Supplier <br />
-							   {!! Form::text('nama_supplier',  null, [
-								   'class' => 'form-control', 
-								   'onkeyup' => 'clearAndView();return false;',
-								   'id' => 'nama_supplier'
-							   ]) !!}
-						   </th>
-						   <th>Merek Obat <br />
-							   {!! Form::text('merek',  null, [
-								   'class'   => 'form-control',
-								   'onkeyup' => 'clearAndView();return false;',
-								   'id'      => 'merek'
-							   ]) !!}
-						   </th>
-						   <th>Harga Beli
-						   </th>
-						   <th>Harga Jual
-						   </th>
-						   
-						   </th>
-						   <th>Jumlah</th>
-						</tr>
-					</thead>
-					<tbody id="content">
-					</tbody>
-				</table>
+			  <div class="table-responsive">
+					<table class="table table-bordered" id="tableEntriBeli" nowrap>
+						  <thead>
+							<tr>
+							   <th>
+								   Tanggal <br />
+								   {!! Form::text('tanggal',  null, [
+									   'class' => 'form-control', 
+									   'onkeyup' => 'clearAndView();return false;', 
+									   'id' => 'tanggal'
+								   ]) !!}
+							   </th>
+							   <th>
+								   Nomor Faktur <br />
+								   {!! Form::text('nomor_faktur',  null, [
+									   'class' => 'form-control', 
+									   'onkeyup' => 'clearAndView();return false;', 
+									   'id' => 'nomor_faktur'
+								   ]) !!}
+							   </th>
+							   <th>Nama Supplier <br />
+								   {!! Form::text('nama_supplier',  null, [
+									   'class' => 'form-control', 
+									   'onkeyup' => 'clearAndView();return false;',
+									   'id' => 'nama_supplier'
+								   ]) !!}
+							   </th>
+							   <th>Merek Obat <br />
+								   {!! Form::text('merek',  null, [
+									   'class'   => 'form-control',
+									   'onkeyup' => 'clearAndView();return false;',
+									   'id'      => 'merek'
+								   ]) !!}
+							   </th>
+							   <th>Harga Beli
+							   </th>
+							   <th>Harga Jual
+							   </th>
+							   
+							   </th>
+							   <th>Jumlah</th>
+							</tr>
+						</thead>
+						<tbody id="content">
+						</tbody>
+					</table>
+			  </div>
 				<div id="page-box">
 					<nav class="text-right" aria-label="Page navigation" id="paging">
 					

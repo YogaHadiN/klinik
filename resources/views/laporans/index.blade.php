@@ -189,58 +189,64 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="alert alert-info">
-					<table class="table table-condensed text-center">
-						<tbody>
-							<tr>
-								<td><h3>Angka Kontak Saat ini</h3></td>
-								<td><h3>Pengantar belum disubmit</h3></td>
-								<td><h3>SMS belum disubmit</h3></td>
-								<td><h3>Kunjungan sakit belum disubmit</h3></td>
-							</tr>
-							<tr>
-								<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>
-								<td><h1> <a class="" href="{{ url('laporans/pengantar?bulanTahun='. date('m-Y')) }}">{{ $pengantar_belum_disubmit }}</a> </h1></td>
-								<td><h1> <a class="" href="{{ url('laporans/sms/bpjs?bulanTahun='. date('m-Y')) }}">{{ $sms_belum_di_submit }}</a> </h1></td>
-								<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
-								<td><h1></h1></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
+									<td><h3>Angka Kontak Saat ini</h3></td>
+									<td><h3>Pengantar belum disubmit</h3></td>
+									<td><h3>SMS belum disubmit</h3></td>
+									<td><h3>Kunjungan sakit belum disubmit</h3></td>
+								</tr>
+								<tr>
+									<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/pengantar?bulanTahun='. date('m-Y')) }}">{{ $pengantar_belum_disubmit }}</a> </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/sms/bpjs?bulanTahun='. date('m-Y')) }}">{{ $sms_belum_di_submit }}</a> </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
+									<td><h1></h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="alert alert-success">
-					<table class="table table-condensed text-center">
-						<tbody>
-							<tr>
-								<td><h3>Jumlah Pasien Lama</h3></td>
-								<td><h3>Persen Pasien Lama</h3></td>
-							</tr>
-							<tr>
-								<td><h1> {{ $jumlah_pasien_lama }}</h1></td>
-								<td><h1> {{ $persen_pasien_lama }} % </h1></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
+									<td><h3>Jumlah Pasien Lama</h3></td>
+									<td><h3>Persen Pasien Lama</h3></td>
+								</tr>
+								<tr>
+									<td><h1> {{ $jumlah_pasien_lama }}</h1></td>
+									<td><h1> {{ $persen_pasien_lama }} % </h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					
 				</div>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="alert alert-success">
-					<table class="table table-condensed text-center">
-						<tbody>
-							<tr>
-								<td><h3>Jumlah Pasien Baru</h3></td>
-								<td><h3>Persen Pasien Baru</h3></td>
-							</tr>
-							<tr>
-								<td><h1> {{ $jumlah_pasien_baru }}</h1></td>
-								<td><h1> {{ $persen_pasien_baru }} % </h1></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
+									<td><h3>Jumlah Pasien Baru</h3></td>
+									<td><h3>Persen Pasien Baru</h3></td>
+								</tr>
+								<tr>
+									<td><h1> {{ $jumlah_pasien_baru }}</h1></td>
+									<td><h1> {{ $persen_pasien_baru }} % </h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					
 				</div>
 			</div>
@@ -248,23 +254,25 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="alert alert-danger">
-					<table class="table table-condensed text-center">
-						<tbody>
-							<tr>
-								<td><h3>Obat Stok Minus</h3></td>
-								<td><h3>Stok Obat Kritis</h3></td>
-								<td><h3>Obat Hampir Kadaluarsa</h3></td>
-								<td><h3>Obat Kadaluarsa</h3></td>
-							</tr>
-							<tr>
-								<td><h1> {{ $obat_minus }} </h1></td>
-								<td><h1> <a class="" href="{{ url('laporans/pengantar?bulanTahun='. date('m-Y')) }}">{{ $obat_stok_kritis }}</a> </h1></td>
-								<td><h1> <a class="" href="{{ url('laporans/sms/bpjs?bulanTahun='. date('m-Y')) }}">{{ $obat_hampir_kadaluarsa }}</a> </h1></td>
-								<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $obat_kadaluarsa }}</a> </h1></td>
-								<td><h1></h1></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
+									<td><h3>Obat Stok Minus</h3></td>
+									<td><h3>Stok Obat Kritis</h3></td>
+									<td><h3>Obat Hampir Kadaluarsa</h3></td>
+									<td><h3>Obat Kadaluarsa</h3></td>
+								</tr>
+								<tr>
+									<td><h1> {{ $obat_minus }} </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/pengantar?bulanTahun='. date('m-Y')) }}">{{ $obat_stok_kritis }}</a> </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/sms/bpjs?bulanTahun='. date('m-Y')) }}">{{ $obat_hampir_kadaluarsa }}</a> </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $obat_kadaluarsa }}</a> </h1></td>
+									<td><h1></h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					
 				</div>
 			</div>

@@ -64,39 +64,41 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<table class="table table-bordered table-condensed" id='formInput'>
-							<thead>
-								<th>Peralatan</th>
-								<th>Harga Satuan</th>
-								<th>Jumlah</th>
-								<th>Kategori Peralatan</th>
-								<th>Action</th>
-							</thead>
-							<tbody id="tbody_table"></tbody>
-							<tfoot>
-									<tr>
-										<td>
-											<input class="form-control" type="text" name="" id="peralatan" value="" />	
-										</td>
-										<td>
-											<input type="text" class="form-control uangInput" id="nilai" placeholder="" autocomplete='off' value=""/>
-										</td>
-										<td>
-											<input type="text" class="form-control " id="jumlah" placeholder="" autocomplete='off' value=""/>
-										</td>
-										<td>
-										{!! Form::select('masa_pakai', $masa_pakai, null, [
-											'onchange' => 'masaPakaiChange(this);return false;', 
-											'class' => 'form-control', 
-											'id' => 'masa_pakai'
-										]) !!}
-										</td>
-										<td class="action">
-											<button class="btn btn-primary btn-sm btn-block" type="button" onclick="dummyInsert(this); return false" id="dInsert">insert</button>
-										</td>
-									</tr>
-							</tfoot>
-						</table>
+						<div class="table-responsive">
+							<table class="table table-bordered table-condensed" id='formInput'>
+								<thead>
+									<th>Peralatan</th>
+									<th>Harga Satuan</th>
+									<th>Jumlah</th>
+									<th>Kategori Peralatan</th>
+									<th>Action</th>
+								</thead>
+								<tbody id="tbody_table"></tbody>
+								<tfoot>
+										<tr>
+											<td>
+												<input class="form-control" type="text" name="" id="peralatan" value="" />	
+											</td>
+											<td>
+												<input type="text" class="form-control uangInput" id="nilai" placeholder="" autocomplete='off' value=""/>
+											</td>
+											<td>
+												<input type="text" class="form-control " id="jumlah" placeholder="" autocomplete='off' value=""/>
+											</td>
+											<td>
+											{!! Form::select('masa_pakai', $masa_pakai, null, [
+												'onchange' => 'masaPakaiChange(this);return false;', 
+												'class' => 'form-control', 
+												'id' => 'masa_pakai'
+											]) !!}
+											</td>
+											<td class="action">
+												<button class="btn btn-primary btn-sm btn-block" type="button" onclick="dummyInsert(this); return false" id="dInsert">insert</button>
+											</td>
+										</tr>
+								</tfoot>
+							</table>
+						</div>
 						<div class="alert alert-danger" style="display:none;" id="peringatan_barang_kosong">
 							Mungkin belum menekan tombol <strong>Insert</strong> jadi barang belanjaan masih kosong. 
 						</div>

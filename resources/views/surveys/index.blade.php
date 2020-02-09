@@ -39,18 +39,20 @@
 			<div class="panel panel-default">
 				  <div class="panel-body">
 						@include('fotoPasien', ['pasien' => $periksa->pasien])
-						<table class="table table-bordered table-hover">
-							<tbody>
-								<tr>
-									<td>Periksa ID : </td>
-									<td>{!! $periksa->id !!}</td>
-								</tr>
-								<tr>
-									<td>Pembayaran</td>
-									<td>{!! $periksa->asuransi->nama !!}</td>
-								</tr>
-							</tbody>
-						</table>
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover">
+								<tbody>
+									<tr>
+										<td>Periksa ID : </td>
+										<td>{!! $periksa->id !!}</td>
+									</tr>
+									<tr>
+										<td>Pembayaran</td>
+										<td>{!! $periksa->asuransi->nama !!}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 				  </div>
 			</div>
 		</div>
@@ -149,56 +151,58 @@
                           </div>
                           <div class="panel-body">
 
-                            <table class="table table-condensed table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Merek Obat</th>
-                                        <th>Jumlah</th>
-                                        <th>Satuan</th>
-                                        <th>Biaya</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblResep">
-                                    @foreach ($reseps as $resep)
-                                        <tr>
-                                            <td nowrap>
-                                                {!!$resep['merek_obat']!!}
-                                            </td>
-                                            <td nowrap>
-                                               {!! $resep['jumlah'] !!} 
-                                            </td>
-                                            <td nowrap class="uang">
-                                                @if($periksa->asuransi->tipe_asuransi == 5)
-                                                    @if($resep['fornas'] == '0')
-                                                        {!! $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
-                                                    @else 
-                                                        0            
-                                                    @endif                
-                                                @else
-                                                    {!! $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
-                                                @endif                
-                                            </td>
-                                            <td nowrap class="uang">
-                                                @if($periksa->asuransi->tipe_asuransi == 5)
-                                                    @if($resep['fornas'] == '0')
-                                                        {!! $resep['jumlah'] * $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
-                                                    @else
-                                                        0
-                                                    @endif
-                                                @else
-                                                    {!! $resep['jumlah'] * $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td nowrap class="displayNone"></td>
-                                        <td nowrap colspan="4" class="text-right"><h2>Total Biaya Obat : <span class="uang">{!!$biayatotal!!}</span></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+							  <div class="table-responsive">
+								<table class="table table-condensed table-hover">
+									<thead>
+										<tr>
+											<th>Merek Obat</th>
+											<th>Jumlah</th>
+											<th>Satuan</th>
+											<th>Biaya</th>
+										</tr>
+									</thead>
+									<tbody id="tblResep">
+										@foreach ($reseps as $resep)
+											<tr>
+												<td nowrap>
+													{!!$resep['merek_obat']!!}
+												</td>
+												<td nowrap>
+												   {!! $resep['jumlah'] !!} 
+												</td>
+												<td nowrap class="uang">
+													@if($periksa->asuransi->tipe_asuransi == 5)
+														@if($resep['fornas'] == '0')
+															{!! $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
+														@else 
+															0            
+														@endif                
+													@else
+														{!! $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
+													@endif                
+												</td>
+												<td nowrap class="uang">
+													@if($periksa->asuransi->tipe_asuransi == 5)
+														@if($resep['fornas'] == '0')
+															{!! $resep['jumlah'] * $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
+														@else
+															0
+														@endif
+													@else
+														{!! $resep['jumlah'] * $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
+													@endif
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+									<tfoot>
+										<tr>
+											<td nowrap class="displayNone"></td>
+											<td nowrap colspan="4" class="text-right"><h2>Total Biaya Obat : <span class="uang">{!!$biayatotal!!}</span></td>
+										</tr>
+									</tfoot>
+								</table>
+							  </div>
 
                           </div>
                     </div>
@@ -284,47 +288,49 @@
           <hr> 
        </div>
         <div>
-            <table class="table table-condensed">
-                <tbody id="transaksi-print">
-                </tbody>
-                <tfoot>
-                    <tr class="border-top">
-                        <td class="">Total:</td>
-                        <td>:</td>
-                        <td class="uang text-right" id="biaya-print"></td>
-                    </tr>
-                    @if($periksa->asuransi_id != 0)
-                    <tr>
-                        <td nowrap>
-                            Dibayar Asuransi
-                        </td>
-                        <td>:</td>
-                        <td class="uang text-right" id="dibayarAsuransi-print">
+			<div class="table-responsive">
+				<table class="table table-condensed">
+					<tbody id="transaksi-print">
+					</tbody>
+					<tfoot>
+						<tr class="border-top">
+							<td class="">Total:</td>
+							<td>:</td>
+							<td class="uang text-right" id="biaya-print"></td>
+						</tr>
+						@if($periksa->asuransi_id != 0)
+						<tr>
+							<td nowrap>
+								Dibayar Asuransi
+							</td>
+							<td>:</td>
+							<td class="uang text-right" id="dibayarAsuransi-print">
 
-                        </td>
-                    </tr>
-                    @endif
-                    <tr>
-                        <td>
-                            Pembayaran
-                        </td>
-                        <td>:</td>
-                        <td class="uang text-right" id="pembayaran-print">
+							</td>
+						</tr>
+						@endif
+						<tr>
+							<td>
+								Pembayaran
+							</td>
+							<td>:</td>
+							<td class="uang text-right" id="pembayaran-print">
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Kembalian
-                        </td>
-                        <td>:</td>
-                        <td class="uang text-right" id="kembalian-print">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Kembalian
+							</td>
+							<td>:</td>
+							<td class="uang text-right" id="kembalian-print">
 
-                        </td>
-                    </tr>
+							</td>
+						</tr>
 
-                </tfoot>
-            </table>
+					</tfoot>
+				</table>
+			</div>
            <hr> 
 <div class="text-center footer box">
     Semoga Lekas Sembuh

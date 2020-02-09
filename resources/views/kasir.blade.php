@@ -44,45 +44,47 @@
                         @if($pasien->periksa->count() == 0)
                             <p class="text-center">Tidak ada Riwayat untuk ditampilkan / Pasien adalah pasien baru</p>
                         @else
-                            <table class="table table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>Status</th>
-                                        <th>Terapi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            {!! $periksa->tanggal !!} <br><br>
-                                            <strong>Pemeriksa :</strong><br>
-                                            {!! $periksa->staf->nama !!} <br>
-                                            <strong>ID Periksa : </strong>
-                                            <span id="periksa_id">{!!$periksa->id!!}</span><br>
-                                            <strong>Pembayaran : </strong>
-                                            <span id="periksa_id">{!!$periksa->asuransi->nama !!}</span>
-                                        </td>
-                                        <td>
-                                            <strong>Anamnesa :</strong> <br>
-                                            {!! $periksa->anamnesa !!} <br>
-                                            <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
-                                            {!! $periksa->pemeriksaan_fisik !!} <br>
-                                            {!! $periksa->pemeriksaan_penunjang !!}<br>
-                                            <strong>Diagnosa :</strong> <br>
-                                            {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
-                                        </td>
-                                        <td id='terapih'>{!! $periksa->terapi_html !!}
-                                           @if (!empty($periksa->resepluar))
-                                               <hr>
-                                               <p>Resep ditebut di apotek di Luar :</p>
-                                               {!! $periksa->resepluar !!}
-                                           @endif
-                                           
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+							<div class="table-responsive">
+								<table class="table table-condensed">
+									<thead>
+										<tr>
+											<th>Tanggal</th>
+											<th>Status</th>
+											<th>Terapi</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												{!! $periksa->tanggal !!} <br><br>
+												<strong>Pemeriksa :</strong><br>
+												{!! $periksa->staf->nama !!} <br>
+												<strong>ID Periksa : </strong>
+												<span id="periksa_id">{!!$periksa->id!!}</span><br>
+												<strong>Pembayaran : </strong>
+												<span id="periksa_id">{!!$periksa->asuransi->nama !!}</span>
+											</td>
+											<td>
+												<strong>Anamnesa :</strong> <br>
+												{!! $periksa->anamnesa !!} <br>
+												<strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
+												{!! $periksa->pemeriksaan_fisik !!} <br>
+												{!! $periksa->pemeriksaan_penunjang !!}<br>
+												<strong>Diagnosa :</strong> <br>
+												{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
+											</td>
+											<td id='terapih'>{!! $periksa->terapi_html !!}
+											   @if (!empty($periksa->resepluar))
+												   <hr>
+												   <p>Resep ditebut di apotek di Luar :</p>
+												   {!! $periksa->resepluar !!}
+											   @endif
+											   
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
                         @endif
 
                     </div>
@@ -116,82 +118,84 @@
                           </div>
                       </div>
                           <div class="panel-body">
-                            <table class="table table-condensed table-hover" id="antrian_apotek">
-                                <thead>
-                                    <tr>
-                                        <th class="hide">key/th>
-                                        <th>Merek Obat</th>
-                                        <th>Signa</th>
-                                        <th>Jumlah</th>
-                                        <th>Satuan</th>
-                                        <th>Biaya</th>
-                                        <th class="hide">jumlah</th>
-                                        <th class="hide">id</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblResep">
-                                    @foreach ($terapis as $key => $terapi)
-                                        <tr>
-                                            <td class="hide key">{!! $key !!}</td>
-                                            <td>
-                                                <select name="" id="ddlMerekChange" class="form-control" onchange="ddlOnChange(this);return false;">
-                                                    @foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
-                                                        @if ($mrk_id == $terapi['merek_id'])
-                                                            <option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
-                                                        @else
-                                                            <option value='{!! $mereks->find($mrk_id)->merek_jual !!}'>{!!$mereks->find($mrk_id)->merek !!}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                               {!! $terapi->signa !!} 
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control angka" onkeyup="jumalhEdit(this);return false;" value="{!! $terapi->jumlah !!}">
-                                            </td>
-                                            <td class='uang harga_satuan'>
-                                                @if($periksa->asuransi_id == '32')
-                                                    @if($terapi->merek->rak->fornas == '0')
-                                                        {!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
-                                                    @else
-                                                        0     
-                                                    @endif      
-                                                @else
-                                                    {!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
-                                                @endif
-                                            </td>
-                                            <td class='uang totalItem total_satuan'>
-                                                @if($periksa->asuransi->tipe_asuransi == 5)
-                                                    @if($terapi->merek->rak->fornas == '0')
-                                                    {!! App\Classes\Yoga::kasirHargaJualItem($terapi, $periksa)!!}
-                                                    @else
-                                                        0    
-                                                    @endif      
-                                                @else
-                                                    {!! App\Classes\Yoga::kasirHargaJualItem($terapi, $periksa)!!}
-                                                @endif      
-                                            </td>
-                                            <td class="hide jumlah">{!! $terapi->jumlah !!}</td>
-                                            <td class="hide terapi_id">{!! $terapi->id !!}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        @if($periksa->asuransi->tipe_asuransi == 4)
-                                            @if($plafon < 0)
-                                                <td class="red"> Plafon kurang <br> : {{ $plafon }}</td>
-                                                <td class="text-right" colspan='4'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
-                                            @else
-                                                  <td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
-                                            @endif
-                                        @else 
-                                            <td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
-                                        @endif
-                                    </tr>
-                                </tfoot>
-                            </table>
+							  <div class="table-responsive">
+								<table class="table table-condensed table-hover" id="antrian_apotek">
+									<thead>
+										<tr>
+											<th class="hide">key/th>
+											<th>Merek Obat</th>
+											<th>Signa</th>
+											<th>Jumlah</th>
+											<th>Satuan</th>
+											<th>Biaya</th>
+											<th class="hide">jumlah</th>
+											<th class="hide">id</th>
+										</tr>
+									</thead>
+									<tbody id="tblResep">
+										@foreach ($terapis as $key => $terapi)
+											<tr>
+												<td class="hide key">{!! $key !!}</td>
+												<td>
+													<select name="" id="ddlMerekChange" class="form-control" onchange="ddlOnChange(this);return false;">
+														@foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
+															@if ($mrk_id == $terapi['merek_id'])
+																<option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
+															@else
+																<option value='{!! $mereks->find($mrk_id)->merek_jual !!}'>{!!$mereks->find($mrk_id)->merek !!}</option>
+															@endif
+														@endforeach
+													</select>
+												</td>
+												<td>
+												   {!! $terapi->signa !!} 
+												</td>
+												<td>
+													<input type="text" class="form-control angka" onkeyup="jumalhEdit(this);return false;" value="{!! $terapi->jumlah !!}">
+												</td>
+												<td class='uang harga_satuan'>
+													@if($periksa->asuransi_id == '32')
+														@if($terapi->merek->rak->fornas == '0')
+															{!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
+														@else
+															0     
+														@endif      
+													@else
+														{!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
+													@endif
+												</td>
+												<td class='uang totalItem total_satuan'>
+													@if($periksa->asuransi->tipe_asuransi == 5)
+														@if($terapi->merek->rak->fornas == '0')
+														{!! App\Classes\Yoga::kasirHargaJualItem($terapi, $periksa)!!}
+														@else
+															0    
+														@endif      
+													@else
+														{!! App\Classes\Yoga::kasirHargaJualItem($terapi, $periksa)!!}
+													@endif      
+												</td>
+												<td class="hide jumlah">{!! $terapi->jumlah !!}</td>
+												<td class="hide terapi_id">{!! $terapi->id !!}</td>
+											</tr>
+										@endforeach
+									</tbody>
+									<tfoot>
+										<tr>
+											@if($periksa->asuransi->tipe_asuransi == 4)
+												@if($plafon < 0)
+													<td class="red"> Plafon kurang <br> : {{ $plafon }}</td>
+													<td class="text-right" colspan='4'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
+												@else
+													  <td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
+												@endif
+											@else 
+												<td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
+											@endif
+										</tr>
+									</tfoot>
+								</table>
+							  </div>
                                 @if (!empty($periksa->resepluar))
                                 <hr>
                                 <p>Resep ditebut di apotek di Luar :</p>

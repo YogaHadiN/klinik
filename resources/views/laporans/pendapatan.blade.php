@@ -32,34 +32,36 @@
                 </div>
           </div>
           <div class="panel-body responsive">
-                <table class="table table-bordered table-hover" id="tableAsuransi">
-                      <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Pendapatan</th>
-                            <th>Jumlah</th>
-                            <th>Yang Menerima</th>
-                            <th>Yang Menyerahkan Uang</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (count($pendapatans) > 0)
-                            @foreach ($pendapatans as $key => $pendapatan)
-                            <tr>
-                                <td>{!! $key + 1 !!}</td>
-                                <td>{!! $pendapatan->pendapatan !!}</td>
-                                <td class='uang'>{!! $pendapatan->biaya !!}</td>
-                                <td>{!! $pendapatan->staf->nama !!}</td>
-                                <td>{!! $pendapatan->keterangan !!}</td>
-                            </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="6" class="text-center">Tidak / Belum ada transaksi tanggal {!! App\Classes\Yoga::updateDatePrep($mulai) !!} s/d {!! App\Classes\Yoga::updateDatePrep($akhir) !!}</td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
+			  <div class="table-responsive">
+					<table class="table table-bordered table-hover" id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>No</th>
+							<th>Pendapatan</th>
+							<th>Jumlah</th>
+							<th>Yang Menerima</th>
+							<th>Yang Menyerahkan Uang</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (count($pendapatans) > 0)
+							@foreach ($pendapatans as $key => $pendapatan)
+							<tr>
+								<td>{!! $key + 1 !!}</td>
+								<td>{!! $pendapatan->pendapatan !!}</td>
+								<td class='uang'>{!! $pendapatan->biaya !!}</td>
+								<td>{!! $pendapatan->staf->nama !!}</td>
+								<td>{!! $pendapatan->keterangan !!}</td>
+							</tr>
+							@endforeach
+						@else
+							<tr>
+								<td colspan="6" class="text-center">Tidak / Belum ada transaksi tanggal {!! App\Classes\Yoga::updateDatePrep($mulai) !!} s/d {!! App\Classes\Yoga::updateDatePrep($akhir) !!}</td>
+							</tr>
+						@endif
+					</tbody>
+				</table>
+			  </div>
           </div>
     </div>
     </div>

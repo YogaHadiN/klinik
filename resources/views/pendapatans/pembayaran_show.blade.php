@@ -100,36 +100,38 @@
                 <div class="panel-title">Informasi</div>
             </div>
             <div class="panel-body">
-                <table class="table table-condensed">
-                    <tbody>
-                        <tr>
-                            <tr>
-                                <td>Nama Asuransi</td>
-								<td class="text-right"> {{ $asuransi->nama }}</td>
-                            </tr>
-                            <tr>
-                                <td>Mulai</td>
-                                <td class="text-right"> {{ $mulai }}</td>
-                            </tr>
-                            <tr>
-                                <td>Akhir</td>
-                                <td class="text-right"> {{ $akhir }}</td>
-                            </tr>
-                            <tr>
-                                <td> Total Piutang </td>
-                                <td class="text-right">{{  App\Classes\Yoga::buatrp( $total_belum_dibayar + $total_sudah_dibayar) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Sudah Dibayar Total</td>
-                                <td class="text-right">{{  App\Classes\Yoga::buatrp( $total_sudah_dibayar )}}</td>
-                            </tr>
-                            <tr>
-                                <td>Belum Dibayar Total</td>
-                                <td class="text-right">{{  App\Classes\Yoga::buatrp( $total_belum_dibayar )}}</td>
-                            </tr>
-                        </tr>
-                    </tbody>
-                </table>
+				<div class="table-responsive">
+					<table class="table table-condensed">
+						<tbody>
+							<tr>
+								<tr>
+									<td>Nama Asuransi</td>
+									<td class="text-right"> {{ $asuransi->nama }}</td>
+								</tr>
+								<tr>
+									<td>Mulai</td>
+									<td class="text-right"> {{ $mulai }}</td>
+								</tr>
+								<tr>
+									<td>Akhir</td>
+									<td class="text-right"> {{ $akhir }}</td>
+								</tr>
+								<tr>
+									<td> Total Piutang </td>
+									<td class="text-right">{{  App\Classes\Yoga::buatrp( $total_belum_dibayar + $total_sudah_dibayar) }}</td>
+								</tr>
+								<tr>
+									<td>Sudah Dibayar Total</td>
+									<td class="text-right">{{  App\Classes\Yoga::buatrp( $total_sudah_dibayar )}}</td>
+								</tr>
+								<tr>
+									<td>Belum Dibayar Total</td>
+									<td class="text-right">{{  App\Classes\Yoga::buatrp( $total_belum_dibayar )}}</td>
+								</tr>
+							</tr>
+						</tbody>
+					</table>
+				</div>
             </div>
         </div>
 		<div class="panel panel-primary">

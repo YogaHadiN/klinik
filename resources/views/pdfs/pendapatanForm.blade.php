@@ -10,30 +10,32 @@
 
 	</div>
 	<div class="box border-bottom">
-		<table class="table table-condensed">
-			<tbody>
-				<tr>
-					<td>Sumber Uang</td> 
-					<td>:</td>
-					<td>{{ $pendapatan->sumber_uang }}</td> 
-				</tr>  
-				<tr>
-					<td>Tanggal</td>
-					<td>:</td>
-					<td>{{ $pendapatan->created_at->format('d-m-Y') }}</td>
-				</tr>
-				<tr>
-					<td>Petugas</td>
-					<td>:</td>
-					<td>{{ App\Classes\Yoga::buatrp( $pendapatan->nilai ) }}</td>
-				</tr>
-				<tr>
-					<td>Keterangan</td>
-					<td>:</td>
-					<td>{{ $pendapatan->keterangan }}</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="table-responsive">
+			<table class="table table-condensed">
+				<tbody>
+					<tr>
+						<td>Sumber Uang</td> 
+						<td>:</td>
+						<td>{{ $pendapatan->sumber_uang }}</td> 
+					</tr>  
+					<tr>
+						<td>Tanggal</td>
+						<td>:</td>
+						<td>{{ $pendapatan->created_at->format('d-m-Y') }}</td>
+					</tr>
+					<tr>
+						<td>Petugas</td>
+						<td>:</td>
+						<td>{{ App\Classes\Yoga::buatrp( $pendapatan->nilai ) }}</td>
+					</tr>
+					<tr>
+						<td>Keterangan</td>
+						<td>:</td>
+						<td>{{ $pendapatan->keterangan }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 	   <div class="only-padding">

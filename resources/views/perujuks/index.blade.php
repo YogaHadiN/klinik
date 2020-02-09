@@ -28,40 +28,42 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>nama</th>
-						<th>alamat</th>
-                        <th>telp</th>
-                        <th>action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  @if (count($perujuks) > 0)
-                    {{-- expr --}}
-                    @foreach($perujuks as $user)
-                        <tr>
-                            <td>{!!$user->id!!}</td>
-                            <td>{!!$user->nama!!}</td>
-                            <td>{!!$user->alamat!!}</td>
-                            <td>{!!$user->no_telp!!}</td>
-                            <td>
-                              <a href="perujuks/{!!$user->id!!}/edit" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i> Edit</a>
-                            </td>
+		  <div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>nama</th>
+							<th>alamat</th>
+							<th>telp</th>
+							<th>action</th>
+						</tr>
+					</thead>
+					<tbody>
+					  @if (count($perujuks) > 0)
+						{{-- expr --}}
+						@foreach($perujuks as $user)
+							<tr>
+								<td>{!!$user->id!!}</td>
+								<td>{!!$user->nama!!}</td>
+								<td>{!!$user->alamat!!}</td>
+								<td>{!!$user->no_telp!!}</td>
+								<td>
+								  <a href="perujuks/{!!$user->id!!}/edit" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i> Edit</a>
+								</td>
 
-                        </tr>
-                   @endforeach
-                  @else
-                    <tr>
-                      
-                      <td colspan="7" class="text-center">Tidak ada Data Untuk Ditampilkan :p</td>
-                    </tr>
-                  @endif
-                    </tr>
-                </tbody>
-            </table>
+							</tr>
+					   @endforeach
+					  @else
+						<tr>
+						  
+						  <td colspan="7" class="text-center">Tidak ada Data Untuk Ditampilkan :p</td>
+						</tr>
+					  @endif
+						</tr>
+					</tbody>
+				</table>
+		  </div>
       </div>
 </div>
 

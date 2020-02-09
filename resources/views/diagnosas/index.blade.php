@@ -40,71 +40,75 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="GroupByDiagnosa">
       <br>
-         <table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Diagnosa</th>
-                        <th>Kode ICD</th>
-                        <th>Diagnosa ICD</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                     @foreach ($diagnosas as $diagnosa)
-                     <tr>
-                       <td>
-                         {!! $diagnosa->id !!}
-                       </td>
-                       <td>
-                         {!! $diagnosa->diagnosa !!}
-                       </td>
-                       <td>
-                         {!! $diagnosa->icd10_id !!}
-                       </td>
-                       <td>
-                         {!! $diagnosa->icd10->diagnosaICD !!}
-                       </td>
-                       <td>
-                          {!! HTML::link('diagnosas/' . $diagnosa->id . '/edit', 'Edit', ['class' => 'btn btn-sm btn-info'])!!}
-                       </td>
-                     </tr>
-                   @endforeach
-                </tbody>
-            </table>
+	  <div class="table-responsive">
+		<table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
+			  <thead>
+				<tr>
+					<th>ID</th>
+					<th>Diagnosa</th>
+					<th>Kode ICD</th>
+					<th>Diagnosa ICD</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				 @foreach ($diagnosas as $diagnosa)
+				 <tr>
+				   <td>
+					 {!! $diagnosa->id !!}
+				   </td>
+				   <td>
+					 {!! $diagnosa->diagnosa !!}
+				   </td>
+				   <td>
+					 {!! $diagnosa->icd10_id !!}
+				   </td>
+				   <td>
+					 {!! $diagnosa->icd10->diagnosaICD !!}
+				   </td>
+				   <td>
+					  {!! HTML::link('diagnosas/' . $diagnosa->id . '/edit', 'Edit', ['class' => 'btn btn-sm btn-info'])!!}
+				   </td>
+				 </tr>
+			   @endforeach
+			</tbody>
+		</table>
+	  </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="GroupByICD">
       <br>
-         <table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Diagnosa</th>
-                        <th>Kode ICD</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+	  <div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover DT" id="tableAsuransi">
+				  <thead>
+					<tr>
+						<th>ID</th>
+						<th>Diagnosa</th>
+						<th>Kode ICD</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
 					@foreach ($icds as $k => $icd)
-                     <tr>
-                       <td>
-                         {!! $k !!}
-                       </td>
-                       <td>
-                        @foreach($icd['diagnosa'] as $diag)
-                         {!! $diag !!} <br>
-                         @endforeach
-                       </td>
-                       <td>
-                         {!! $icd['diagnosa_icd'] !!}
-                       </td>
-                       <td>
-                          {!! HTML::link('diagnosas/' . $icd['diagnosa_id'] . '/edit', 'Edit', ['class' => 'btn btn-sm btn-info'])!!}
-                       </td>
-                     </tr>
-                   @endforeach
-                </tbody>
-            </table>
+					 <tr>
+					   <td>
+						 {!! $k !!}
+					   </td>
+					   <td>
+						@foreach($icd['diagnosa'] as $diag)
+						 {!! $diag !!} <br>
+						 @endforeach
+					   </td>
+					   <td>
+						 {!! $icd['diagnosa_icd'] !!}
+					   </td>
+					   <td>
+						  {!! HTML::link('diagnosas/' . $icd['diagnosa_id'] . '/edit', 'Edit', ['class' => 'btn btn-sm btn-info'])!!}
+					   </td>
+					 </tr>
+				   @endforeach
+				</tbody>
+			</table>
+	  </div>
     </div>
   </div>
 

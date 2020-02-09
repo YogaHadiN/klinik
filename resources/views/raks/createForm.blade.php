@@ -21,55 +21,57 @@
                 <h3 class="panel-title">Formula</h3>
           </div>
           <div class="panel-body">
-                <table class="table table-bordered table-hover" id="tableAsuransi">
-                    <tbody>
-                    <tr>
-                      <th>dijual_bebas</th>
-                        <td>
-                          @if($formula->dijual_bebas == '1')
-                            Ya
-                          @else
-                            Tidak
-                          @endif
-                        </td> 
-                      </tr>
-              <tr>
-                <th>efek_samping</th>
-                <td>{{ $formula->efek_samping }}</td> 
-              </tr>
-              <tr>
-                <th>sediaan</th>
-                <td>{{ $formula->sediaan }}</td> 
-              </tr>
-              <tr>
-                <th>indikasi</th>
-                <td>{{ $formula->indikasi }}</td> 
-              </tr>
-              <tr>
-                <th>kontraindikasi</th>
-                <td>{{ $formula->kontraindikasi }}</td> 
-              </tr>
-              <tr>
-                <th>Komposisi</th>
-                <td>
-                  @foreach($formula->komposisi as $komp)
-                    {{$komp->generik->generik}} {{$komp->bobot}}, 
-                  @endforeach
-              
-                </td>
-              </tr>
-              <tr>
-                <th>Merek</th>
-                <td>
-                  @foreach ($formula->rak as $rak)
-                      @foreach ($rak->merek as $merek)
-                        {{ $merek->merek }}, 
-                      @endforeach
-                  @endforeach
-                </td> 
-              </tr>
-                    </tbody>
-                </table>
+			  <div class="table-responsive">
+					<table class="table table-bordered table-hover" id="tableAsuransi">
+						<tbody>
+						<tr>
+						  <th>dijual_bebas</th>
+							<td>
+							  @if($formula->dijual_bebas == '1')
+								Ya
+							  @else
+								Tidak
+							  @endif
+							</td> 
+						  </tr>
+				  <tr>
+					<th>efek_samping</th>
+					<td>{{ $formula->efek_samping }}</td> 
+				  </tr>
+				  <tr>
+					<th>sediaan</th>
+					<td>{{ $formula->sediaan }}</td> 
+				  </tr>
+				  <tr>
+					<th>indikasi</th>
+					<td>{{ $formula->indikasi }}</td> 
+				  </tr>
+				  <tr>
+					<th>kontraindikasi</th>
+					<td>{{ $formula->kontraindikasi }}</td> 
+				  </tr>
+				  <tr>
+					<th>Komposisi</th>
+					<td>
+					  @foreach($formula->komposisi as $komp)
+						{{$komp->generik->generik}} {{$komp->bobot}}, 
+					  @endforeach
+				  
+					</td>
+				  </tr>
+				  <tr>
+					<th>Merek</th>
+					<td>
+					  @foreach ($formula->rak as $rak)
+						  @foreach ($rak->merek as $merek)
+							{{ $merek->merek }}, 
+						  @endforeach
+					  @endforeach
+					</td> 
+				  </tr>
+						</tbody>
+					</table>
+			  </div>
           </div>
       </div>
   </div>

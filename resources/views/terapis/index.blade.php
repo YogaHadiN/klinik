@@ -32,30 +32,32 @@
 
       </div>
       <div class="panel-body">
-        <table class="table table-condensed">
-          <tbody>
-            <tr>
-              <td>Nama</td>
-              <td>{!! $terapis->first()->periksa->pasien->nama !!}</td>
-            </tr>
-            <tr>
-              <td>Pembayaran</td>
-              <td>{!! $terapis->first()->periksa->asuransi->nama !!}</td>
-            </tr>
-            <tr>
-              <td>Pembayaran tunai</td>
-              <td class="uang">{!! $terapis->first()->periksa->tunai !!}</td>
-            </tr>
-            <tr>
-              <td>Pembayaran Piutang</td>
-              <td class="uang">{!! $terapis->first()->periksa->piutang !!}</td>
-            </tr>
-            <tr>
-              <td>Dokter</td>
-              <td>{!! $terapis->first()->periksa->staf->nama !!}</td>
-            </tr>
-          </tbody>
-        </table>
+		  <div class="table-responsive">
+			<table class="table table-condensed">
+			  <tbody>
+				<tr>
+				  <td>Nama</td>
+				  <td>{!! $terapis->first()->periksa->pasien->nama !!}</td>
+				</tr>
+				<tr>
+				  <td>Pembayaran</td>
+				  <td>{!! $terapis->first()->periksa->asuransi->nama !!}</td>
+				</tr>
+				<tr>
+				  <td>Pembayaran tunai</td>
+				  <td class="uang">{!! $terapis->first()->periksa->tunai !!}</td>
+				</tr>
+				<tr>
+				  <td>Pembayaran Piutang</td>
+				  <td class="uang">{!! $terapis->first()->periksa->piutang !!}</td>
+				</tr>
+				<tr>
+				  <td>Dokter</td>
+				  <td>{!! $terapis->first()->periksa->staf->nama !!}</td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
       </div>
     </div>
   </div>
@@ -65,20 +67,22 @@
         <h4>Transaksi</h4>
       </div>
       <div class="panel-body">
-        <table class="table table-condensed">
-          <thead>
-              <th>Jenis Tarif</th>
-              <th>Biaya</th>
-          </thead>
-          <tbody>
-              @foreach($terapis->first()->periksa->transaksii as $tr)
-              <tr>
-                <td> {!! $tr->jenisTarif->jenis_tarif !!} </td>
-                <td class="uang">{!! $tr->biaya!!}</td>
-              </tr>
-              @endforeach
-          </tbody>
-        </table>
+		  <div class="table-responsive">
+			<table class="table table-condensed">
+			  <thead>
+				  <th>Jenis Tarif</th>
+				  <th>Biaya</th>
+			  </thead>
+			  <tbody>
+				  @foreach($terapis->first()->periksa->transaksii as $tr)
+				  <tr>
+					<td> {!! $tr->jenisTarif->jenis_tarif !!} </td>
+					<td class="uang">{!! $tr->biaya!!}</td>
+				  </tr>
+				  @endforeach
+			  </tbody>
+			</table>
+		  </div>
       </div>
     </div>
   </div>
@@ -92,44 +96,46 @@
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover DTi" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                    	<th>ID</th>
-                    	<th>Merek Obat</th>
-                    	<th>harga beli</th>
-                      <th>jumlah</th>
-                    	<th>Biaya Item</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	 @foreach ($terapis as $terapi)
-                     <tr>
-                        <td>
-                          {!! $terapi->id !!}
-                        </td>
-                        <td>
-                         {!! $terapi->merek_id !!} - {!! $terapi->merek->merek !!}
-                        </td>
-                        <td class="uang">
-                          {!! $terapi->harga_beli_satuan !!}
-                        </td>
-                        <td>
-                          {!! $terapi->jumlah !!}
-                        </td>
-                        <td class="uang">
-                          {!! $terapi->jumlah * $terapi->harga_beli_satuan !!}
-                        </td>
-                     </tr>
-                   @endforeach
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="4">Total :</th>
-                    <td class="uang">{!! App\Classes\Yoga::totalBiayaTerapi($terapis) !!}</td>
-                  </tr>
-                </tfoot>
-            </table>
+		  <div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover DTi" id="tableAsuransi">
+					  <thead>
+						<tr>
+							<th>ID</th>
+							<th>Merek Obat</th>
+							<th>harga beli</th>
+						  <th>jumlah</th>
+							<th>Biaya Item</th>
+						</tr>
+					</thead>
+					<tbody>
+						 @foreach ($terapis as $terapi)
+						 <tr>
+							<td>
+							  {!! $terapi->id !!}
+							</td>
+							<td>
+							 {!! $terapi->merek_id !!} - {!! $terapi->merek->merek !!}
+							</td>
+							<td class="uang">
+							  {!! $terapi->harga_beli_satuan !!}
+							</td>
+							<td>
+							  {!! $terapi->jumlah !!}
+							</td>
+							<td class="uang">
+							  {!! $terapi->jumlah * $terapi->harga_beli_satuan !!}
+							</td>
+						 </tr>
+					   @endforeach
+					</tbody>
+					<tfoot>
+					  <tr>
+						<th colspan="4">Total :</th>
+						<td class="uang">{!! App\Classes\Yoga::totalBiayaTerapi($terapis) !!}</td>
+					  </tr>
+					</tfoot>
+				</table>
+		  </div>
       </div>
 </div>
 
