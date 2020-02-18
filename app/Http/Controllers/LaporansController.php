@@ -360,19 +360,6 @@ class LaporansController extends Controller
 		}
 		$pasien_lama = count($periksas) - $pasien_baru;
 
-		/* return view('laporans.harian') */
-		/* 	->withPeriksas($periksas) */
-		/* 	->withRincian($rincian) */
-		/* 	->withPersenLama($persen_lama) */
-		/* 	->withPersenBaru($persen_baru) */
-		/* 	->withPasienLama($pasien_lama) */
-		/* 	->withPasienBaru($pasien_baru) */
-		/* 	->withTanggal($tanggal) */
-		/* 	->withPolis($polis) */
-		/* 	->withJenis_tarifs($jenis_tarifs) */
-		/* 	->withPiutangjumlah($piutangJumlah) */
-		/* 	->withHariinis($hariinis) */
-		/* 	->withTunaijumlah($tunaiJumlah); */
 		return view('laporans.harian', compact(
 			'periksas',
 			'rincian',

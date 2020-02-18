@@ -3,6 +3,7 @@
 	<meta charset="UTF-8">
 	<title>{{ env("NAMA_KLINIK") }} | Status</title>
 <style>
+	@import url('https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap');
 	@page 
 	{
         margin: 2em;
@@ -10,7 +11,7 @@
     }
 
 .font-smaller {
-  font-size: 9px;
+  font-size: 12px;
 }
 .border-all {
 	border:0.5px solid black;
@@ -19,7 +20,7 @@
 	.status
 	{
 		text-align:center;
-		font-size:15px;
+		font-size:18px;
 		font-weight:bold;
 		border-bottom: 2px solid black;
 	}

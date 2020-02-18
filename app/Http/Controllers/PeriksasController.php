@@ -803,6 +803,26 @@ class PeriksasController extends Controller
 			]);
 		AntrianPeriksa::destroy( $antrian_periksa_id );
 	}
+	public function uploadBerkas($id){
+		if(Input::hasFile('file')) {
 
+			$upload_cover = Input::file('file');
+			$extension = $upload_cover->getClientOriginalExtension();
 
+			//membuat nama file random + extension
+			$filename =	 $id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'berkas/pemeriksaan';
+			// Mengambil file yang di upload
+			//
+			//
+			/* return [$filename, $destination_path]; */
+
+			$upload_cover->move($destination_path , $filename);
+			
+		} else {
+			return null;
+		}
+	}
 }

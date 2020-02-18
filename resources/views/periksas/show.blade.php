@@ -16,6 +16,7 @@
 </ol>
 @stop
 @section('content') 
+	<input type="input" name="" class="hide" id="periksa_id" value="{{ $periksa->id }}" />
 
 <div class="panel panel-primary">
       <div class="panel-heading">
@@ -125,10 +126,67 @@
 							</tr>
 					</tbody>
 				</table>
+				<div class="row">
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+						  <a href="{{ url('pdfs/kuitansi/' . $periksa->id ) }}" class="btn btn-success btn-block" target="_blank">Cetak Kuitansi</a>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+						  <a href="{{ url('pdfs/status/' . $periksa->id ) }}" class="btn btn-primary btn-block" target="_blank">Cetak Resep</a>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+						  <a href="{{ url('pdfs/struk/' . $periksa->id ) }}" class="btn btn-warning btn-block" target="_blank">Cetak Struk</a>  
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+
+					</div>
+				</div>
 		  </div>
       </div>
 </div>
 
+<div class="row">
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<div class="panelLeft">
+						Jurnal Umum
+					</div>	
+					<div class="panelRight">
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				@include('periksas.jurnals')
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">
+					Upload Berkas Pemeriksaan
+				</div>
+			</div>
+			<div class="panel-body">
+				<form enctype="multipart/form-data">
+					<input name="file" type="file" />
+				</form>
+				<div class="progress">
+				  <div class="progress-bar" id="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+						0%
+				  </div>
+				</div>
+				<div id="download_container">
+					@if( file_exists("berkas/pemeriksaan/" . $periksa->id . ".pdf") )
+						<a class="btn btn-success btn-block" href="{{ url('berkas/pemeriksaan/' . $periksa->id  . '.pdf') }}" target="_blank">Download Berkas</a>;
+					@endif
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="panel panel-info">
   <div class="panel-heading">
     <h3 class="panel-title">Rincian obat</h3>
@@ -192,24 +250,6 @@
 </div>
 <div class="row">
 	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-		<div class="panel panel-danger">
-			<div class="panel-heading">
-				<div class="panel-title">
-					<div class="panelLeft">
-						Jurnal Umum
-					</div>	
-					<div class="panelRight">
-					</div>
-				</div>
-			</div>
-			<div class="panel-body">
-				@include('periksas.jurnals')
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<div class="panel-title">
@@ -270,7 +310,60 @@
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
-var base = '{{ url("/") }}';
+	var base = '{{ url("/") }}';
+	var periksa_id = $('#periksa_id').val();
+	$(':file').on('change', function () {
+		  var file = this.files[0];
+		  if (file.size > 10485760) {
+			alert('File paling besar untuk di upload adalah 10 MB');
+			$(this).val('');
+		  } else if(file.name.split('.').pop() != 'pdf'  ) {
+			alert('Hanya file dalam bentuk PDF yang bisa diupload');
+			$(this).val('');
+		  } else {
+			$.ajax({
+				// Your server script to process the upload
+				url: base + '/periksas/' + periksa_id + '/upload',
+				type: 'POST',
+
+				// Form data
+				data: new FormData($('form')[0]),
+
+				// Tell jQuery not to process data or worry about content-type
+				// You *must* include these options!
+				cache: false,
+				contentType: false,
+				processData: false,
+
+				// Custom XMLHttpRequest
+				xhr: function () {
+				  var myXhr = $.ajaxSettings.xhr();
+				  if (myXhr.upload) {
+					// For handling the progress of the upload
+					myXhr.upload.addEventListener('progress', function (e) {
+					  if (e.lengthComputable) {
+						  var persen= e.loaded / e.total *100;
+						$('#progress').attr({
+						  'aria-valuenow': persen,
+						  'style': 'width:' + persen + '%'
+						});
+						$('#progress').html(persen + ' %');
+						if( persen == 100 ){
+							var html = '<a class="btn btn-success btn-block" href="' + base + '/berkas/pemeriksaan/' + periksa_id+ '.pdf" target="_blank">Download Berkas</a>';
+							$('#download_container').html(html);
+						} else {
+							$('#download_container').html('');
+						} 
+					  }
+
+					
+					}, false);
+				  }
+				  return myXhr;
+				}
+			  });
+		  }
+	});
 </script>
 	{!! HTML::script('js/informasi_obat.js') !!}
 @stop

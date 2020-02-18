@@ -101,11 +101,7 @@
 										  <td class='uang'>{!! $periksa->tunai !!}</td>
 										  <td class='uang'>{!! $periksa->piutang !!}</td>
 										  <td>
-											  <a href="{{ url('pdfs/kuitansi/' . $periksa->periksa_id ) }}" target="_blank">Kuitansi</a> | 
-											  <a href="{{ url('pdfs/status/' . $periksa->periksa_id ) }}" target="_blank">Resep</a> | 
 											  <a href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank">Detail</a> | 
-											  <a href="{{ url('pdfs/struk/' . $periksa->periksa_id ) }}" target="_blank">Struk</a>  @if($periksa->asuransi_id == '32') |
-											  <a href="{{ url('laporans/periksa/pengantar/' . $periksa->periksa_id . '/edit') }}" target="_blank">Pengantar</a> @endif  
 										  </td>
 									  </tr>
 								  @endforeach

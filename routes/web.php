@@ -131,6 +131,8 @@ Route::resource('users', 'UsersController');
 			Route::post('periksas/{id}/update/transaksiPeriksa', 'PeriksaCustomController@updateTransaksiPeriksa');
 			Route::post('periksas/{id}/update/tunai', 'PeriksaCustomController@updateTunai');
 			Route::post('periksas/{id}/update/piutang', 'PeriksaCustomController@updatePiutang');
+			Route::post('/periksas/{id}/upload', 'PeriksasController@uploadBerkas');
+
 
 			Route::get('backup', 'DatabaseController@index');
 			Route::get('copy_log_file', 'DatabaseController@copyLog');

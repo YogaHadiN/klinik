@@ -1,4 +1,5 @@
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en");
+@import url('https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap');
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
 }
