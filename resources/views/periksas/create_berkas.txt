@@ -1,0 +1,9 @@
+create table berkas
+(
+  id Bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  periksa_id VARCHAR(30) NOT NULL,
+  nama_file VARCHAR(30) NOT NULL,
+  created_at timestamp default current_timestamp, 
+  updated_at timestamp,
+  PRIMARY KEY (id)
+);

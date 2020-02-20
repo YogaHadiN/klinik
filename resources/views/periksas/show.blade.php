@@ -170,6 +170,11 @@
 			</div>
 			<div class="panel-body">
 				<form enctype="multipart/form-data">
+					{!! Form::text('nama_file', null, [
+						'class'       => 'form-control',
+						'placeholder' => 'Berkas ini tentang apa? (Format PDF)',
+						'id'          => 'nama_file'
+					]) !!}
 					<input name="file" type="file" />
 				</form>
 				<div class="progress">
@@ -178,10 +183,11 @@
 				  </div>
 				</div>
 				<div id="download_container">
-					@if( file_exists("berkas/pemeriksaan/" . $periksa->id . ".pdf") )
-						<a class="btn btn-success btn-block" href="{{ url('berkas/pemeriksaan/' . $periksa->id  . '.pdf') }}" target="_blank">Download Berkas</a>;
+					@if( $berkas_count > 0 )
+						@foreach($periksa->berkas as $berkas)	
+							<a class="btn btn-{{ $warna[ rand(0, $berkas_count -1) ] }} btn-block" href="{{ url('berkas/pemeriksaan/' . $berkas->nama_file  . '.pdf') }}" target="_blank">Download {{ $berkas->nama_file }}</a>
+						@endforeach
 					@endif
-					
 				</div>
 			</div>
 		</div>
@@ -317,6 +323,9 @@
 		  if (file.size > 10485760) {
 			alert('File paling besar untuk di upload adalah 10 MB');
 			$(this).val('');
+		  } else if( $('#nama_file').val() == '' ) {
+			alert('Peruntukan berkas harus diisi!');
+			$(this).val('');
 		  } else if(file.name.split('.').pop() != 'pdf'  ) {
 			alert('Hanya file dalam bentuk PDF yang bisa diupload');
 			$(this).val('');
@@ -349,8 +358,18 @@
 						});
 						$('#progress').html(persen + ' %');
 						if( persen == 100 ){
-							var html = '<a class="btn btn-success btn-block" href="' + base + '/berkas/pemeriksaan/' + periksa_id+ '.pdf" target="_blank">Download Berkas</a>';
-							$('#download_container').html(html);
+							var color = [
+								'primary',
+								'info',
+								'warning',
+								'danger'
+							];
+							var random_number = Math.floor(Math.random() * 4);
+							console.log(random_number);
+							var html = '<a class="btn btn-' + color[random_number]  + ' btn-block" href="' + base + '/berkas/pemeriksaan/' + $('#nama_file').val() + '.pdf" target="_blank">Download ' + $('#nama_file').val() + '</a>';
+							$('#download_container').append(html);
+							$('#nama_file').val('');
+							$(this).val('');
 						} else {
 							$('#download_container').html('');
 						} 

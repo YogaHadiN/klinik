@@ -8,6 +8,7 @@ use Input;
 use App\Http\Requests;
 
 use App\Promo;
+use App\Berkas;
 use DB;
 use App\Periksa;
 use App\Http\Controllers\CustomController;
@@ -429,10 +430,23 @@ class PeriksasController extends Controller
 	public function show($id)
 	{	
 
-		$periksa = Periksa::with('terapii.merek', 'jurnals.coa', 'transaksii.jenisTarif')->where('id',$id)->first();
-
+		$periksa = Periksa::with('terapii.merek', 'jurnals.coa', 'transaksii.jenisTarif', 'berkas')->where('id',$id)->first();
+		$berkas_count = $periksa->berkas->count();
 		/* return $periksa->pembayarans; */
-		return view('periksas.show', compact('periksa'));
+
+
+		$warna = [
+			'primary',
+			'info',
+			'warning',
+			'danger'
+		];
+
+		return view('periksas.show', compact(
+			'warna',
+			'periksa',
+			'berkas_count',
+		));
 	}
 
 	/**
@@ -804,22 +818,34 @@ class PeriksasController extends Controller
 		AntrianPeriksa::destroy( $antrian_periksa_id );
 	}
 	public function uploadBerkas($id){
+
 		if(Input::hasFile('file')) {
 
+			$nama_file = Input::get('nama_file');
 			$upload_cover = Input::file('file');
 			$extension = $upload_cover->getClientOriginalExtension();
 
 			//membuat nama file random + extension
-			$filename =	 $id . '.' . $extension;
+			$filename =	 $nama_file . '.' . $extension;
 
 			//menyimpan bpjs_image ke folder public/img
+			//
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'berkas/pemeriksaan';
+
 			// Mengambil file yang di upload
 			//
 			//
 			/* return [$filename, $destination_path]; */
 
 			$upload_cover->move($destination_path , $filename);
+
+
+			$berkas             = new Berkas;
+			$berkas->periksa_id = $id;
+			$berkas->nama_file  = $nama_file;
+			$berkas->save();
+
+
 			
 		} else {
 			return null;

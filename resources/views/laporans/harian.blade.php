@@ -101,7 +101,8 @@
 										  <td class='uang'>{!! $periksa->tunai !!}</td>
 										  <td class='uang'>{!! $periksa->piutang !!}</td>
 										  <td>
-											  <a href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank">Detail</a> | 
+											  
+											  <a class="btn btn-block btn-info" href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Detail</a>
 										  </td>
 									  </tr>
 								  @endforeach
