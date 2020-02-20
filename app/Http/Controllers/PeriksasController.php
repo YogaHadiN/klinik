@@ -848,4 +848,12 @@ class PeriksasController extends Controller
 			return null;
 		}
 	}
+	public function hapusBerkas(){
+		$berkas_id = Input::get('berkas_id');
+		if ( Berkas::destroy( $berkas_id ) ) {
+			return '1';
+		} else {
+			return '0';
+		}
+	}
 }

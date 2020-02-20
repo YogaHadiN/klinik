@@ -132,6 +132,7 @@ Route::resource('users', 'UsersController');
 			Route::post('periksas/{id}/update/tunai', 'PeriksaCustomController@updateTunai');
 			Route::post('periksas/{id}/update/piutang', 'PeriksaCustomController@updatePiutang');
 			Route::post('/periksas/{id}/upload', 'PeriksasController@uploadBerkas');
+			Route::post('/periksas/berkas/hapus', 'PeriksasController@hapusBerkas');
 
 
 			Route::get('backup', 'DatabaseController@index');

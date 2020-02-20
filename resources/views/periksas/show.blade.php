@@ -182,12 +182,22 @@
 						0%
 				  </div>
 				</div>
-				<div id="download_container">
-					@if( $periksa->berkas->count() > 0 )
-						@foreach($periksa->berkas as $berkas)	
-							<a class="btn btn-{{ $warna[ rand(0, count($warna) -1) ] }} btn-block" href="{{ url('berkas/pemeriksaan/' . $periksa->id .'/' . $berkas->id  . '.pdf') }}" target="_blank">Download {{ $berkas->nama_file }}</a>
-						@endforeach
-					@endif
+				<div>
+					<div class="table-responsive">
+						<table class="table table-hover table-condensed table-bordered">
+							<tbody id="download_container">
+								@if( $periksa->berkas->count() > 0 )
+									@foreach($periksa->berkas as $berkas)
+										<tr>
+											<td><a class="btn btn-block btn-{{ $warna[ rand(0, count($warna) -1) ] }}" href="{{ url('berkas/pemeriksaan/' . $periksa->id .'/' . $berkas->id  . '.pdf') }}" target="_blank">Download {{ $berkas->nama_file }}</a></td>
+											<td nowrap class="autofit"><button type="button" onclick="deleteBerkas({{ $berkas->id }}, this); return false;" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> </button></td>
+										</tr>
+									@endforeach
+								@else
+								@endif
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -326,9 +336,6 @@
 		  } else if( $('#nama_file').val() == '' ) {
 			alert('Peruntukan berkas harus diisi!');
 			$(this).val('');
-		  } else if(file.name.split('.').pop() != 'pdf'  ) {
-			alert('Hanya file dalam bentuk PDF yang bisa diupload');
-			$(this).val('');
 		  } else {
 			$.ajax({
 				// Your server script to process the upload
@@ -371,7 +378,13 @@
 					];
 					var random_number = Math.floor(Math.random() * 4);
 					console.log(random_number);
-					var html = '<a class="btn btn-' + color[random_number]  + ' btn-block" href="' + base + '/berkas/pemeriksaan/' + periksa_id + '/' + data + '.pdf" target="_blank">Download ' + $('#nama_file').val() + '</a>';
+					var html = '<tr>';
+					html += '<td>';
+					html += '<a class="btn btn-' + color[random_number]  + ' btn-block" href="' + base + '/berkas/pemeriksaan/' + periksa_id + '/' + data + '.pdf" target="_blank">Download ' + $('#nama_file').val() + '</a>';
+					html += '</td><td nowrap class="autofit">';
+					html += '<button type="button" onclick="deleteBerkas(' + data + ', this); return false;" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> </button>'
+					html += '</td>';
+					html += '</tr>';
 					$('#download_container').append(html);
 					$('#nama_file').val('');
 					$(this).val('');
@@ -379,6 +392,20 @@
 			  });
 		  }
 	});
+	function deleteBerkas(id, control){
+		if( confirm( "Anda yakin mau menghapus berkas ini?" ) ){
+			$.post( base + '/periksas/berkas/hapus',
+				{ berkas_id: id },
+				function (data, textStatus, jqXHR) {
+					if( parseInt(data) > 0 ){
+						$(control).closest('tr').remove();
+					} else {
+						alert('menghapus gagal');
+					}
+				}
+			);
+		}
+	}
 </script>
 	{!! HTML::script('js/informasi_obat.js') !!}
 @stop
