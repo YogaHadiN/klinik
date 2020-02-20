@@ -3,7 +3,6 @@
 	<meta charset="UTF-8">
 	<title>{{ env("NAMA_KLINIK") }} | Status</title>
 <style>
-	@import url('https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap');
 	@page 
 	{
         margin: 2em;
