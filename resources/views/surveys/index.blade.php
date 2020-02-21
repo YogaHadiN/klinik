@@ -55,6 +55,9 @@
 						</div>
 				  </div>
 			</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		@include('periksas.showForm')
+	</div>
 		</div>
 		<div class="col-lg-8">
 			<div class="panel panel-default full-height">
@@ -349,6 +352,7 @@
 @if($periksa->rujukan)
     {!! HTML::script('js/plugins/webcam/photo.js')!!}
 @endif
+	{!! HTML::script('js/show_periksa.js') !!}
 	<script>
     var totalBiaya = 0;
     var totalAwal = 0;

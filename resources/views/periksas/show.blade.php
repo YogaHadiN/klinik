@@ -16,7 +16,6 @@
 </ol>
 @stop
 @section('content') 
-	<input type="input" name="" class="hide" id="periksa_id" value="{{ $periksa->id }}" />
 
 <div class="panel panel-primary">
       <div class="panel-heading">
@@ -162,45 +161,7 @@
 		</div>
 	</div>
 	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<div class="panel-title">
-					Upload Berkas Pemeriksaan
-				</div>
-			</div>
-			<div class="panel-body">
-				<form enctype="multipart/form-data">
-					{!! Form::text('nama_file', null, [
-						'class'       => 'form-control',
-						'placeholder' => 'Berkas ini tentang apa? (Format PDF)',
-						'id'          => 'nama_file'
-					]) !!}
-					<input name="file" type="file" />
-				</form>
-				<div class="progress">
-				  <div class="progress-bar" id="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
-						0%
-				  </div>
-				</div>
-				<div>
-					<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered">
-							<tbody id="download_container">
-								@if( $periksa->berkas->count() > 0 )
-									@foreach($periksa->berkas as $berkas)
-										<tr>
-											<td><a class="btn btn-block btn-{{ $warna[ rand(0, count($warna) -1) ] }}" href="{{ url('berkas/pemeriksaan/' . $periksa->id .'/' . $berkas->id  . '.pdf') }}" target="_blank">Download {{ $berkas->nama_file }}</a></td>
-											<td nowrap class="autofit"><button type="button" onclick="deleteBerkas({{ $berkas->id }}, this); return false;" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> </button></td>
-										</tr>
-									@endforeach
-								@else
-								@endif
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
+		@include('periksas.showForm')
 	</div>
 </div>
 <div class="panel panel-info">
@@ -327,85 +288,7 @@
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
 	var base = '{{ url("/") }}';
-	var periksa_id = $('#periksa_id').val();
-	$(':file').on('change', function () {
-		  var file = this.files[0];
-		  if (file.size > 10485760) {
-			alert('File paling besar untuk di upload adalah 10 MB');
-			$(this).val('');
-		  } else if( $('#nama_file').val() == '' ) {
-			alert('Peruntukan berkas harus diisi!');
-			$(this).val('');
-		  } else {
-			$.ajax({
-				// Your server script to process the upload
-				url: base + '/periksas/' + periksa_id + '/upload',
-				type: 'POST',
-
-				// Form data
-				data: new FormData($('form')[0]),
-
-				// Tell jQuery not to process data or worry about content-type
-				// You *must* include these options!
-				cache: false,
-				contentType: false,
-				processData: false,
-
-				// Custom XMLHttpRequest
-				xhr: function () {
-				  var myXhr = $.ajaxSettings.xhr();
-				  if (myXhr.upload) {
-					// For handling the progress of the upload
-					myXhr.upload.addEventListener('progress', function (e) {
-					  if (e.lengthComputable) {
-						  var persen= e.loaded / e.total *100;
-						$('#progress').attr({
-						  'aria-valuenow': persen,
-						  'style': 'width:' + persen + '%'
-						});
-						$('#progress').html(persen + ' %');
-					  }
-					}, false);
-				  }
-				  return myXhr;
-				},
-				success: function (data, textStatus, jqXHR) {
-					var color = [
-						'primary',
-						'info',
-						'warning',
-						'danger'
-					];
-					var random_number = Math.floor(Math.random() * 4);
-					console.log(random_number);
-					var html = '<tr>';
-					html += '<td>';
-					html += '<a class="btn btn-' + color[random_number]  + ' btn-block" href="' + base + '/berkas/pemeriksaan/' + periksa_id + '/' + data + '.pdf" target="_blank">Download ' + $('#nama_file').val() + '</a>';
-					html += '</td><td nowrap class="autofit">';
-					html += '<button type="button" onclick="deleteBerkas(' + data + ', this); return false;" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> </button>'
-					html += '</td>';
-					html += '</tr>';
-					$('#download_container').append(html);
-					$('#nama_file').val('');
-					$(this).val('');
-				}
-			  });
-		  }
-	});
-	function deleteBerkas(id, control){
-		if( confirm( "Anda yakin mau menghapus berkas ini?" ) ){
-			$.post( base + '/periksas/berkas/hapus',
-				{ berkas_id: id },
-				function (data, textStatus, jqXHR) {
-					if( parseInt(data) > 0 ){
-						$(control).closest('tr').remove();
-					} else {
-						alert('menghapus gagal');
-					}
-				}
-			);
-		}
-	}
 </script>
+	{!! HTML::script('js/show_periksa.js') !!}
 	{!! HTML::script('js/informasi_obat.js') !!}
 @stop
