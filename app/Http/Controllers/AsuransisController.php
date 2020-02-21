@@ -272,7 +272,6 @@ class AsuransisController extends Controller
 		
 		return view('asuransis.hutangPerBulan', compact(
 			'data',
-			'data_piutang',
 			'total_hutang',
 			'total_sudah_dibayar',
 			'tahun',
@@ -283,13 +282,13 @@ class AsuransisController extends Controller
 	public function hutang(){
 
 
-		$query  ="SELECT ";
-		$query .="bl.tanggal, ";
-		$query .="bl.bulan, ";
-		$query .="bl.tahun, ";
-		$query .="sum(bl.hutang) as piutang, ";
-		$query .="sum(bl.sudah_dibayar) as sudah_dibayar ";
-		$query .="FROM ( ";
+		$query  = "SELECT ";
+		$query .= "bl.tanggal, ";
+		$query .= "bl.bulan, ";
+		$query .= "bl.tahun, ";
+		$query .= "sum(bl.hutang) as piutang, ";
+		$query .= "sum(bl.sudah_dibayar) as sudah_dibayar ";
+		$query .= "FROM ( ";
 		$query .= "SELECT ";
 		$query .= "year(ju.created_at) as tahun,";
 		$query .= " month(ju.created_at) as bulan,";
@@ -310,13 +309,17 @@ class AsuransisController extends Controller
 
 		$data_piutang = DB::select($query);
 
+		/* return view('asuransis.hutang', compact( */
+		/* 	'data', */
+		/* 	'data_piutang', */
+		/* 	'total_hutang', */
+		/* 	'total_sudah_dibayar', */
+		/* 	'tahun', */
+		/* 	'bulan' */
+		/* )); */
+
 		return view('asuransis.hutang', compact(
-			'data',
-			'data_piutang',
-			'total_hutang',
-			'total_sudah_dibayar',
-			'tahun',
-			'bulan'
+			'data_piutang'
 		));
 	}
 	public function hutangs_template($id){

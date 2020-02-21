@@ -58,8 +58,7 @@ class SupplierBelanjasController extends Controller
 
 
 		return view('suppliers.belanja_obat', compact(
-			 'fakturbelanja'
-			, 'sediaan'
+			 'sediaan'
 			, 'generik'
 			, 'pembelians'
 			, 'exist'
