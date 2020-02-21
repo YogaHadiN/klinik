@@ -34,7 +34,7 @@ $(':file').on('change', function () {
 					  'aria-valuenow': persen,
 					  'style': 'width:' + persen + '%'
 					});
-					$('#progress').html(persen + ' %');
+					$('#progress').html(String(Math.floor(persen)) + ' %');
 				  }
 				}, false);
 			  }
