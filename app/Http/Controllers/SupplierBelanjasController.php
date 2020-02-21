@@ -61,7 +61,6 @@ class SupplierBelanjasController extends Controller
 			 'sediaan'
 			, 'generik'
 			, 'pembelians'
-			, 'exist'
 			, 'mereks'
 			, 'dijual_bebas'
 			, 'signas'
