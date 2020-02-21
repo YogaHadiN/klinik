@@ -243,8 +243,15 @@ class CustomController extends Controller
         	$obat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;
         	$dibayar = $jasa_dokter + $obat;
         }
+		$warna = [
+			'primary',
+			'info',
+			'warning',
+			'danger'
+		];
 		return view('surveys.index', compact(
 			'reseps',
+			'warna',
 			'periksa',
 			'tindakanPeriksa',
 			'sudah',

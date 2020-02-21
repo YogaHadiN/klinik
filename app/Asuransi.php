@@ -105,6 +105,11 @@ class Asuransi extends Model{
 	public static function list(){
 		return  Asuransi::pluck('nama', 'id')->all();
 	}
+	public function tipe_asuransi(){
+		return $this->belongsTo('App\TipeAsuransi', 'tipe_asuransi');
+	}
+	
+	
 	
 
 }

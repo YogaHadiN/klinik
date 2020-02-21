@@ -28,6 +28,7 @@
 </ol>
 @stop
 @section('content') 
+	<input class="hide" type="text" id="tipe_asuransi" value="{{ $periksa->asuransi->tipe_asuransi }}" />
 	{!! Form::open([
 		'url' => 'update/surveys', 
 		'method' => 'post', 
@@ -55,9 +56,7 @@
 						</div>
 				  </div>
 			</div>
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		@include('periksas.showForm')
-	</div>
 		</div>
 		<div class="col-lg-8">
 			<div class="panel panel-default full-height">
@@ -356,6 +355,8 @@
 	<script>
     var totalBiaya = 0;
     var totalAwal = 0;
+	var tipe_asuransi = $('#tipe_asuransi').val();
+
 
     var data = $('#txtTarif').val();
     data = JSON.parse(data);
@@ -615,23 +616,35 @@
                 return false;
             }
         });
-        if(submit){
-            if($('#dibayar_asuransi').val() == ''){
-                alert('Asuransi harus diisi walaupun dengan angka 0 ..');
-                validasi('#dibayar_asuransi', 'harus diisi walau dengan 0');
-            }else if(dibayar_pasien > 0 && pembayaran_pasien == '' ){
-                alert('Pembayaran harus diisi walaupun dengan angka 0 ..');
-                validasi('#pembayaran_pasien', 'harus diisi walau dengan 0');
-            }else if( parseInt( dibayar_pasien ) > parseInt( pembayaran_pasien_clean ) ) {
-                alert('Pembayaran Pasien tidak benar');
-                validasi('#pembayaran_pasien', 'Pembayaran Pasien tidak benar');
-            }else { 
-                $('#print').click();
-                $('.btn').attr('disabled','disabled');
-            }
-        } else {
-           alert('Mohon Periksa / Cek ulang apakah obat yang akan diberikan sesuai dengan resep!');
-        }
+
+		$.get(base + '/periksas/' + periksa_id + '/cek/jumlah/berkas',
+			{ periksa_id: periksa_id },
+			function (data, textStatus, jqXHR) {
+				var jumlah_berkas = $.trim(data)
+				if(submit){
+					if($('#dibayar_asuransi').val() == ''){
+						alert('Asuransi harus diisi walaupun dengan angka 0 ..');
+						validasi('#dibayar_asuransi', 'harus diisi walau dengan 0');
+					}else if(dibayar_pasien > 0 && pembayaran_pasien == '' ){
+						alert('Pembayaran harus diisi walaupun dengan angka 0 ..');
+						validasi('#pembayaran_pasien', 'harus diisi walau dengan 0');
+					}else if( parseInt( dibayar_pasien ) > parseInt( pembayaran_pasien_clean ) ) {
+						alert('Pembayaran Pasien tidak benar');
+						validasi('#pembayaran_pasien', 'Pembayaran Pasien tidak benar');
+					}else if( tipe_asuransi == '3' && parseInt(jumlah_berkas) <1 ) {
+						alert('Asuransi Admedika harus diupload Bukti Pemeriksaan Asuransi Yang sudah ditandatangani');
+						validasi(':file', 'Harus diupload Bukti Pemeriksaan Asuransi');
+					}else { 
+						$('#print').click();
+						$('.btn').attr('disabled','disabled');
+					}
+				} else {
+				   alert('Mohon Periksa / Cek ulang apakah obat yang akan diberikan sesuai dengan resep!');
+				}
+			}
+		);
+
+
     }
 
     function inputTarif(control) {

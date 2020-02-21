@@ -856,4 +856,8 @@ class PeriksasController extends Controller
 			return '0';
 		}
 	}
+	public function jumlahBerkas($id){
+		return Periksa::find($id)->berkas->count();
+	}
+	
 }
