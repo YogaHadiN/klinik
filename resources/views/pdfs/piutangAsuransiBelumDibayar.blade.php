@@ -231,7 +231,7 @@ tr { page-break-inside: avoid }
 	</table>
 <hr />
 	<h1>Asuransi {{ $asuransi->nama }}</h1>
-	{{-- <h3> Piutang Belum Dibayar {{ date('d M y', strtotime( $mulai )) }} sampai {{ date('d M y', strtotime( $akhir )) }} <br /> --}}
+	<h3> Piutang Belum Dibayar {{ date('d M y', strtotime( $mulai )) }} sampai {{ date('d M y', strtotime( $akhir )) }} <br />
 		{{ count( $belum_dibayars ) }} pasien ( updated {{ date('d M Y H:i:s') }} )</h3>
 
 <table class="table text3">
@@ -241,8 +241,8 @@ tr { page-break-inside: avoid }
 				<th>ID Pemeriksaan</th>
 				<th>Nama</th>
 				<th>Piutang</th>
-				{{-- <th>Sudah dibayar</th> --}}
-				{{-- <th>Sisa Piutang</th> --}}
+				<th>Sudah dibayar</th>
+				<th>Sisa Piutang</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -253,8 +253,8 @@ tr { page-break-inside: avoid }
 						<td>{{ $belum->periksa_id }}</td>
 						<td>{{ $belum->nama_pasien }}</td>
 						<td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->piutang) }}</td>
-						{{-- <td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->total_pembayaran) }} </td> --}}
-						{{-- <td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->piutang  - $belum->total_pembayaran) }}</td> --}}
+						<td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->total_pembayaran) }} </td>
+						<td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->piutang  - $belum->total_pembayaran) }}</td>
 					</tr>
 				@endforeach
 			@else
