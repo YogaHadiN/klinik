@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'normalisasi' => \App\Http\Middleware\normalisasi::class,
         'selesai' => \App\Http\Middleware\SudahSelesai::class,
         'selesaiPeriksa' => \App\Http\Middleware\SudahSelesaiPeriksa::class,
+        'super' => \App\Http\Middleware\SuperAdminOnly::class,
         'belum_masuk_kasir' => \App\Http\Middleware\BelumMasukKasir::class,
     ];
 

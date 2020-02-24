@@ -232,11 +232,12 @@
 			<thead>
 				<tr>
 					<th>Tanggal Periksa</th>
+					<th>ID PERIKSA</th>
 					<th>Nama</th>
 					<th>Tunai</th>
 					<th>Piutang</th>
-					<th>Sudah Dibayar</th>
-					<th>Sisa Piutang</th>
+					{{-- <th>Sudah Dibayar</th> --}}
+					{{-- <th>Sisa Piutang</th> --}}
 				</tr>
 			</thead>
 			<tbody>
@@ -244,11 +245,12 @@
 					@foreach($piutangs as $p)
 						<tr>
 							<td>{{ date('d M y', strtotime( $p->tanggal_periksa )) }}</td>
+							<td> {{ $p->periksa_id }}</td>
 							<td> {{ $p->nama_pasien }}</td>
 							<td class="text-right"> {{ App\Classes\Yoga::buatrp($p->tunai) }}</td>
 							<td class="text-right"> {{ App\Classes\Yoga::buatrp($p->piutang) }}</td>
-							<td class="text-right"> {{ App\Classes\Yoga::buatrp($p->sudah_dibayar) }}</td>
-							<td class="text-right"> {{ App\Classes\Yoga::buatrp($p->piutang  - $p->sudah_dibayar) }}</td>
+							{{-- <td class="text-right"> {{ App\Classes\Yoga::buatrp($p->sudah_dibayar) }}</td> --}}
+							{{-- <td class="text-right"> {{ App\Classes\Yoga::buatrp($p->piutang  - $p->sudah_dibayar) }}</td> --}}
 						</tr>
 					@endforeach
 				@else
@@ -257,19 +259,19 @@
 					</tr>
 				@endif
 				<tr>
-					<td colspan="2"></td>
+					<td colspan="3"></td>
 					<td class="text-right">
 						<h2> {{ App\Classes\Yoga::buatrp( $total_tunai ) }}</h2>
 					</td>
 					<td class="text-right">
 						<h2> {{ App\Classes\Yoga::buatrp( $total_piutang ) }}</h2>
 					</td>
-					<td class="text-right">
-						<h2> {{ App\Classes\Yoga::buatrp( $total_sudah_dibayar ) }}</h2>
-					</td>
-					<td class="text-right">
-						<h2> {{ App\Classes\Yoga::buatrp( $total_piutang - $total_sudah_dibayar ) }}</h2>
-					</td>
+					{{-- <td class="text-right"> --}}
+					{{-- 	<h2> {{ App\Classes\Yoga::buatrp( $total_sudah_dibayar ) }}</h2> --}}
+					{{-- </td> --}}
+					{{-- <td class="text-right"> --}}
+					{{-- 	<h2> {{ App\Classes\Yoga::buatrp( $total_piutang - $total_sudah_dibayar ) }}</h2> --}}
+					{{-- </td> --}}
 				</tr>
 			</tbody>
 

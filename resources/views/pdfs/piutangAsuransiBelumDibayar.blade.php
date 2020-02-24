@@ -218,30 +218,31 @@ tr { page-break-inside: avoid }
 </style>
 </head>
 <body>
-					<table id="header">
-						<tr>
-							<td class="text-center">
-								<div class="klinik">KLINIK JATI ELOK </div>
-								<div class="title">
-									Jl. Raya Legok - Parung Panjang km. 3, <br>
-									Malangnengah, Pagedangan, Tangerang, Banten 021 5977529
-								</div>
-							</td>
-						</tr>
-					</table>
+	<table id="header">
+		<tr>
+			<td class="text-center">
+				<div class="klinik">KLINIK JATI ELOK </div>
+				<div class="title">
+					Jl. Raya Legok - Parung Panjang km. 3, <br>
+					Malangnengah, Pagedangan, Tangerang, Banten 021 5977529
+				</div>
+			</td>
+		</tr>
+	</table>
 <hr />
 	<h1>Asuransi {{ $asuransi->nama }}</h1>
-	<h3> Piutang Belum Dibayar {{ date('d M y', strtotime( $mulai )) }} sampai {{ date('d M y', strtotime( $akhir )) }} <br />{{  
-	count( $belum_dibayars ) }} pasien ( updated {{ date('d M Y H:i:s') }} )</h3>
+	{{-- <h3> Piutang Belum Dibayar {{ date('d M y', strtotime( $mulai )) }} sampai {{ date('d M y', strtotime( $akhir )) }} <br /> --}}
+		{{ count( $belum_dibayars ) }} pasien ( updated {{ date('d M Y H:i:s') }} )</h3>
 
 <table class="table text3">
 		<thead>
 			<tr>
 				<th>Tanggal</th>
+				<th>ID Pemeriksaan</th>
 				<th>Nama</th>
 				<th>Piutang</th>
-				<th>Sudah dibayar</th>
-				<th>Sisa Piutang</th>
+				{{-- <th>Sudah dibayar</th> --}}
+				{{-- <th>Sisa Piutang</th> --}}
 			</tr>
 		</thead>
 		<tbody>
@@ -249,10 +250,11 @@ tr { page-break-inside: avoid }
 				@foreach($belum_dibayars as $belum)
 					<tr>
 						<td>{{ date('d M y', strtotime( $belum->tanggal )) }}</td>
+						<td>{{ $belum->periksa_id }}</td>
 						<td>{{ $belum->nama_pasien }}</td>
 						<td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->piutang) }}</td>
-						<td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->total_pembayaran) }} </td>
-						<td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->piutang  - $belum->total_pembayaran) }}</td>
+						{{-- <td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->total_pembayaran) }} </td> --}}
+						{{-- <td class="text-right"> {{ App\Classes\Yoga::buatrp($belum->piutang  - $belum->total_pembayaran) }}</td> --}}
 					</tr>
 				@endforeach
 			@else
@@ -261,16 +263,16 @@ tr { page-break-inside: avoid }
 				</tr>
 			@endif
 			<tr>
-				<td colspan="2"></td>
+				<td colspan="3"></td>
 				<td class="text-right">
 					<h2> {{ App\Classes\Yoga::buatrp( $total_piutang ) }}</h2>
 				</td>
-				<td class="text-right">
-					<h2> {{ App\Classes\Yoga::buatrp( $total_sudah_dibayar ) }}</h2>
-				</td>
-				<td class="text-right">
-					<h2> {{ App\Classes\Yoga::buatrp( $total_sisa_piutang ) }}</h2>
-				</td>
+				{{-- <td class="text-right"> --}}
+				{{-- 	<h2> {{ App\Classes\Yoga::buatrp( $total_sudah_dibayar ) }}</h2> --}}
+				{{-- </td> --}}
+				{{-- <td class="text-right"> --}}
+				{{-- 	<h2> {{ App\Classes\Yoga::buatrp( $total_sisa_piutang ) }}</h2> --}}
+				{{-- </td> --}}
 			</tr>
 		
 		</tbody>

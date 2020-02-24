@@ -18,6 +18,7 @@ Route::get('login', 'AuthController@index')->name('login');
 Route::get('logout', 'AuthController@logout');
 Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
+Route::get('rekening/mandiri', 'MutasiBankController@info');
 
 
 Route::get('antrians', 'AntriansController@create');
