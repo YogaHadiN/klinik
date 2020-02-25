@@ -150,8 +150,8 @@ class RujukansController extends Controller
 		$rujuk->rumah_sakit_id = $id;
 
 		if (Input::get('hamil_id') == '1'){
-			$cek = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', $periksa->pasien_id)->first();
-			if (count($cek) > 0) {
+			try {
+				$cek = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', $periksa->pasien_id)->firstOrFail();
 				$regUpdate            = RegisterHamil::find($cek->id);
 				$regUpdate->hpht      = Yoga::datePrep(Input::get('hpht'));
 				$regUpdate->g         = Input::get('G');
@@ -161,8 +161,8 @@ class RujukansController extends Controller
 				$regUpdate->save();
 
 				$id = $cek->id;
-			// return $id;
-			}  else {
+				
+			} catch (\Exception $e) {
 				$hamil            = new RegisterHamil;
 				$hamil->hpht      = Yoga::datePrep(Input::get('hpht'));
 				$hamil->g         = Input::get('G');
@@ -173,6 +173,7 @@ class RujukansController extends Controller
 
 				$id = $hamil->id;
 			}
+
 			$rujuk->register_hamil_id = $id;
 		}
 
