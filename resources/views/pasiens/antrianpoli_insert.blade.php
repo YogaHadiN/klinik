@@ -46,11 +46,11 @@
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">Pembayarans</label>
+							<input type=text id="dummy_asuransi_id" name="asuransi_id" class="hide"/>
 							<select id="ddlPembayaran" class="form-control" name="asuransi_id" required>
 								<option value="">- Pilih Pembayaran -</option>
 								<option value="0">Biaya Pribadi</option>
 							</select>
-						<input type=text id="TextBox2" class="displayNone"/>
 					</div>
 				</div>
 			</div>

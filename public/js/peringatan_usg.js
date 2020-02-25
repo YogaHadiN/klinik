@@ -1,12 +1,15 @@
   function pilihPoli(control){
 	  if ( $(control).val() == 'estetika' ) {
+		  $('#dummy_asuransi_id').val('0')
 		   $('#ddlPembayaran')
 			   .attr('readonly', 'readonly')
+			   .attr('disabled', 'disabled')
 			   .val('0');
 		   return false;
 	  } else {
 		   $('#ddlPembayaran')
 			   .removeAttr('readonly')
+			   .removeAttr('disabled')
 			   .val('');
 	  }
 	   if( $(control).val() == 'usg' ||  $(control).val() == 'usgabdomen'  ){

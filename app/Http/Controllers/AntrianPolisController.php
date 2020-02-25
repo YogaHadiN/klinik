@@ -81,6 +81,7 @@ class AntrianPolisController extends Controller
 	 */
 	public function store()
 	{
+		/* return Input::all(); */ 
 		//DB::beginTransaction();
 		//try {
 			if (empty(Pasien::find(Input::get('pasien_id'))->image) && Input::get('asuransi_id') == '32') {
