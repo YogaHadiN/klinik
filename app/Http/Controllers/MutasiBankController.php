@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helper;
+use Log;
 
 class MutasiBankController extends Controller
 {
@@ -26,5 +27,19 @@ class MutasiBankController extends Controller
 				'data1', 'data2', 'date_to', 'date_from'
 		));
 	}
+	public function mootaCallback(){
+		$notifications = json_decode( file_get_contents("php://input") );
+		Log::info($notification);
+		if(!is_array($notifications)) {
+			$notifications = json_decode( $notifications );
+		}
+
+		if( count($notifications) > 0 ) {
+			foreach( $notifications as $notification) {
+				// Your code here
+			}
+		}
+	}
+	
 	
 }
