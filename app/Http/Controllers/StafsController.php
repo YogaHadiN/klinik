@@ -17,7 +17,8 @@ class StafsController extends Controller
 
 	  public function __construct()
     {
-        $this->middleware('super', ['only' => ['delete','update']]);
+        $this->middleware('super', ['only' => ['delete']]);
+        /* $this->middleware('super', ['only' => ['delete','update']]); */
     }
 
 	/**
