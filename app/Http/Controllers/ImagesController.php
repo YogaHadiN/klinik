@@ -102,7 +102,7 @@ class ImagesController extends Controller
 		return redirect('images/result')->withPesan($pesan);
 	}
 	public function result(){
-		return view('images.result', compact(''));
+		return view('images.result');
 	}
 	
 }

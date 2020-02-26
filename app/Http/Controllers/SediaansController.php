@@ -16,7 +16,7 @@ class SediaansController extends Controller
 		return view('sediaans.index', compact('sediaans'));
 	}
 	public function create(){
-		return view('sediaans.create', compact(''));
+		return view('sediaans.create');
 	}
 	
 	public function store(){

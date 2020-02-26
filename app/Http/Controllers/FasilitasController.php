@@ -39,7 +39,7 @@ class FasilitasController extends Controller
 		return view('surveys.survey');
     }
 	public function input_telp(){
-		return view('fasilitas.input_telp', compact(''));
+		return view('fasilitas.input_telp');
 	}
 	public function input_tgl_lahir($poli){
 		return view('fasilitas.input_tgl_lahir', compact(

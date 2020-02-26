@@ -78,6 +78,12 @@ class SupplierBelanjasController extends Controller
 		$sumber_uang  = Yoga::sumberuang();
 		$pengeluarans = Pengeluaran::with('supplier', 'staf')->latest()->paginate(10);
 		$belanjaList  = [ null => '- Jenis Belanja -']  + Belanja::pluck('belanja', 'id')->all();
-		return view('suppliers.belanja_bukan_obat', compact('suppliers', 'stafs', 'belanjaList', 'pengeluarans', 'sumber_uang'));
+		return view('suppliers.belanja_bukan_obat', compact(
+			'suppliers', 
+			'stafs', 
+			'belanjaList', 
+			'pengeluarans', 
+			'sumber_uang'
+		));
     }
 }

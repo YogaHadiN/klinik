@@ -17,7 +17,7 @@ class AcsController extends Controller
 		return view('acs.index', compact('acs'));
 	}
 	public function create(){
-		return view('acs.create', compact(''));
+		return view('acs.create');
 	}
 	public function store(){
 		//return dd( Input::all() );

@@ -22,7 +22,7 @@ class PelamarsController extends Controller
 	}
 	
 	public function create(){
-		return view('pelamars.create', compact(''));
+		return view('pelamars.create');
 	}
 	public function store(){
 		$rules = [

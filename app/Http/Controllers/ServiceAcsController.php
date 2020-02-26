@@ -15,7 +15,7 @@ class ServiceAcsController extends Controller
 {
 
 	public function create(){
-		return view('service_acs.create', compact(''));
+		return view('service_acs.create');
 	}
 	public function store(){
 

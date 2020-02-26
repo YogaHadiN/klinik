@@ -23,7 +23,7 @@ class SmsController extends Controller
 
 	public function sms(){
 		//return env('TWILLIO_NUMBER');
-		return view('sms.index', compact(''));
+		return view('sms.index');
 	}
 	public function smsPost(){
 		$rules = [
