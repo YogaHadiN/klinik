@@ -247,7 +247,7 @@ Klinik Jati Elok | Kirim Berkas
 			}
 			if( catat ){
 				var grouped = _.groupBy(data, 'nama_asuransi');
-				var temp = '';
+				var htmlTemp = '';
 				var keseluruhan_tagihan = 0;
 				var keseluruhan_total_tagihan = 0;
 				for (var key in grouped) {
@@ -257,33 +257,32 @@ Klinik Jati Elok | Kirim Berkas
 					for (var i = 0; i < grouped[key].length; i++) {
 						total_tagihan += parseInt(grouped[key][i].piutang) - parseInt(grouped[key][i].sudah_dibayar);
 					}
-					temp += '<tr>';
-					temp += '<td>';
-					temp += key;
-					temp += '</td>';
-					temp += '<td class="text-right">';
-					temp +=  jumlah_tagihan + ' tagihan';
-					temp += '</td>';
-					temp += '<td class="text-right">';
-					temp +=  uang(total_tagihan);
-					temp += '</td>';
-					temp += '</tr>';
+					htmlTemp += '<tr>';
+					htmlTemp += '<td>';
+					htmlTemp += key;
+					htmlTemp += '</td>';
+					htmlTemp += '<td class="text-right">';
+					htmlTemp +=  jumlah_tagihan + ' tagihan';
+					htmlTemp += '</td>';
+					htmlTemp += '<td class="text-right">';
+					htmlTemp +=  uang(total_tagihan);
+					htmlTemp += '</td>';
+					htmlTemp += '</tr>';
 
 					keseluruhan_tagihan += jumlah_tagihan;
 					keseluruhan_total_tagihan += total_tagihan;
 				}
-				temp += '<tr>';
-				temp += '<td>';
-				temp += '</td>';
-				temp += '<td class="text-right"><strong>';
-				temp +=  keseluruhan_tagihan + ' tagihan';
-				temp += '</strong></td>';
-				temp += '<td class="text-right"><strong>';
-				temp +=  uang(keseluruhan_total_tagihan);
-				temp += '</strong></td>';
-				temp += '</tr>';
-
-				$('#rekap_pengecekan').html(temp);
+				htmlTemp += '<tr>';
+				htmlTemp += '<td>';
+				htmlTemp += '</td>';
+				htmlTemp += '<td class="text-right"><strong>';
+				htmlTemp +=  keseluruhan_tagihan + ' tagihan';
+				htmlTemp += '</strong></td>';
+				htmlTemp += '<td class="text-right"><strong>';
+				htmlTemp +=  uang(keseluruhan_total_tagihan);
+				htmlTemp += '</strong></td>';
+				htmlTemp += '</tr>';
+				$('#rekap_pengecekan').html(htmlTemp);
 			}
 			return temp;
 		}
