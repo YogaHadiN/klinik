@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Supplier;
+use App\Belanja;
 use App\KirimBerkas;
+use App\Staf;
+use App\RolePengiriman;
 use App\PetugasKirim;
 use App\PiutangAsuransi;
 use App\Classes\Yoga;
@@ -21,7 +25,9 @@ class KirimBerkasController extends Controller
 	}
 	
 	public function create(){
-		return view('kirim_berkas.create');
+		$staf_list = Staf::pluck('nama', 'id')->all();
+		$role_pengiriman_list = RolePengiriman::list();
+		return view('kirim_berkas.create', compact('staf_list', 'role_pengiriman_list'));
 	}
 	public function cariPiutang(){
 		$date_to     = Yoga::datePrep(Input::get('date_to'));
@@ -84,7 +90,32 @@ class KirimBerkasController extends Controller
 		return redirect('kirim_berkas')->withPesan($pesan);
 	}
 	public function edit($id){
-		$kirim_berkas = KirimBerkas::find( $id );
-		return view('kirim_berkas.edit', compact('kirim_berkas'));
+		$kirim_berkas = KirimBerkas::with('piutang_asuransi.periksa.asuransi', 'piutang_asuransi.periksa.pasien')->where('id', $id )->first();
+		$staf_list = Staf::pluck('nama', 'id')->all();
+		$role_pengiriman_list = RolePengiriman::list();
+		return view('kirim_berkas.edit', compact('staf_list', 'role_pengiriman_list','kirim_berkas'));
 	}
+	public function update($id){
+		dd(Input::all()); 
+	}
+	public function inputNota($id){
+
+		$kirim_berkas = KirimBerkas::find( $id );
+		$suppliers    = Supplier::all();
+		$stafs        = Yoga::stafList();
+		$sumber_uang  = Yoga::sumberuang();
+		$belanjaList  = [ null => '- Jenis Belanja -']  + Belanja::pluck('belanja', 'id')->all();
+
+		return view('suppliers.belanja_bukan_obat', compact(
+			'suppliers', 
+			'kirim_berkas', 
+			'stafs', 
+			'belanjaList', 
+			'sumber_uang'
+		));
+	}
+	public function inputNotaPost($id){
+		dd(Input::all()); 	
+	}
+	
 }

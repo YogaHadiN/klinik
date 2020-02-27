@@ -37,15 +37,15 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-	public function report(Exception $exception)
+	public function report(Exception $e)
 	{
-	  if ($this->shouldReport($exception)) {
-		 Log::info('URL YANG error : ' . Input::fullUrl());
-		 Log::info('Method yang error : ' . Input::method());
-		 Log::info('Pada Jam : ' . date('Y-m-d H:i:s'));
-		 Sms::send(env("NO_HP_OWNER"),$exception->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
+		 if (!empty( trim( $e->getMessage() ) )) {
+			 Log::info('URL YANG error : ' . Input::fullUrl());
+			 Log::info('Method yang error : ' . Input::method());
+			 Log::info('Pada Jam : ' . date('Y-m-d H:i:s'));
+			 Sms::send(env("NO_HP_OWNER"),$e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
 		}
-		return parent::report($exception);
+		return parent::report($e);
 	}
 
     /**

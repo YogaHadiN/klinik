@@ -33,4 +33,19 @@ class KirimBerkas extends Model
 		}
 		return $data2;
 	}
+	public function getPiutangTercatatAttribute(){
+		$piutang_asuransis = $this->piutang_asuransi;
+		$data = [];
+		foreach ($piutang_asuransis as $piutang) {
+			$data[] = [
+				'piutang_id'    => $piutang->id,
+				'piutang'       => $piutang->piutang,
+				'sudah_dibayar' => $piutang->sudah_dibayar,
+				'periksa_id'    => $piutang->periksa_id,
+				'nama_pasien'   => $piutang->periksa->pasien->nama,
+				'nama_asuransi' => $piutang->periksa->asuransi->nama
+			];
+		}
+		return json_encode($data);
+	}
 }

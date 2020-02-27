@@ -702,5 +702,8 @@ Route::resource('users', 'UsersController');
 			Route::post('kirim_berkas', 'KirimBerkasController@store');
 			Route::get('kirim_berkas/cari/piutang', 'KirimBerkasController@cariPiutang');
 			Route::get('kirim_berkas/{id}/edit', 'KirimBerkasController@edit');
+			Route::get('kirim_berkas/{id}/inputNota', 'KirimBerkasController@inputNota');
+			Route::post('kirim_berkas/{id}/inputNota', 'KirimBerkasController@inputNotaPost');
+			Route::put('kirim_berkas/{id}', 'KirimBerkasController@update');
 
   	});

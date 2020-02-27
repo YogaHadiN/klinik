@@ -18,7 +18,11 @@
 <div id="print-struk" class="hide">
 </div>
 @endif
-{!! Form::open(['url'=>'pengeluarans', 'method'=> 'post', 'files' => 'true']) !!} 
+@if( !isset( $kirim_berkas ) )
+	{!! Form::open(['url'=>'pengeluarans', 'method'=> 'post', 'files' => 'true']) !!} 
+@else
+	{!! Form::open(['url'=>'kirim_berkas/' . $kirim_berkas->id. '/inputNota', 'method'=> 'post', 'files' => 'true']) !!} 
+@endif
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-success">
@@ -33,42 +37,8 @@
                 </div>
             </div>
             <div class="panel-body">
-                    {!! Form::text('belanja_id', 3, ['class' => 'hide']) !!} 
-					<div class="form-group @if($errors->has('supplier_id'))has-error @endif">
-					  {!! Form::label('supplier_id', 'Supplier', ['class' => 'control-label']) !!}
-                      {!! Form::select('supplier_id', App\Classes\Yoga::supplierList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
-					  @if($errors->has('supplier_id'))<code>{{ $errors->first('supplier_id') }}</code>@endif
-					</div>
-					<div class="form-group @if($errors->has('staf_id'))has-error @endif">
-					  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
-                      {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
-					  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
-					</div>
-
-					<div class="form-group @if($errors->has('sumber_uang'))has-error @endif">
-						{!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
-					  {!! Form::select('sumber_uang' , $sumber_uang, null, ['class' => 'form-control']) !!}
-					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
-					</div>
-					<div class="form-group @if($errors->has('nilai'))has-error @endif">
-						{!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
-                        {!! Form::text('nilai' , null, ['class' => 'form-control rq uangInput']) !!}
-					  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
-					</div>
-					<div class="form-group @if($errors->has('tanggal'))has-error @endif">
-						{!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
-					    {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
-					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
-					</div>
-					<div class="form-group @if($errors->has('keterangan'))has-error @endif">
-					  {!! Form::label('keterangan', 'Uangnya Dipakai Buat apa', ['class' => 'control-label']) !!}
-                      {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom']) !!}
-					  @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
-					</div>
-                    <div class="form-group">
-                      {!! Form::submit('Belanja Bukan Obat', ['class' => 'btn btn-success btn-block btn-lg']) !!}
-                    </div>
-            </div>
+				@include('suppliers.belanja_bukan_obat_form')
+			</div>
         </div>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -83,7 +53,11 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			@if(!isset($kirim_berkas))
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			@else
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			@endif
 				<div class="panel panel-info">
 					<div class="panel-body">
 						<div class="form-group{{ $errors->has('faktur_image') ? ' has-error' : '' }}">
@@ -98,53 +72,72 @@
 						</div>
 					</div>
 				</div>
-							
 			</div>
+			@if(isset($kirim_berkas))
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="panel panel-info">
+					<div class="panel-body">
+						<div class="form-group{{ $errors->has('faktur_image') ? ' has-error' : '' }}">
+							{!! Form::label('faktur_image', 'Upload Gambar Faktur') !!}
+							{!! Form::file('faktur_image') !!}
+								@if (isset($pengeluaran) && $pengeluaran->faktur_image)
+									<p> {!! HTML::image(asset('img/belanja/lain/'.$pengeluaran->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
+								@else
+									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+								@endif
+							{!! $errors->first('faktur_image', '<p class="help-block">:message</p>') !!}
+						</div>
+					</div>
+				</div>
+			</div>
+			@endif
 		</div>
     </div>
 </div>
 
 {!! Form::close() !!}
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <div class="panel-title">Daftar Belanja Obat</div>
-            </div>
-			<div class="panel-body">
-				<?php echo $pengeluarans->appends(Input::except('page'))->links(); ?>
-				<div class="table-responsive">
-					<table class="table table-hover table-condensed">
-						<thead>
-							<tr>
-								<th>Tanggal</th>
-								<th>Supplier</th>
-								<th>Staf</th>
-								<th>Nilai</th>
-								<th>Keterangan</th>
-								<th colspan="2">Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach($pengeluarans as $peng)
-								<tr>
-									<td>{{ $peng->tanggal->format('d-m-Y') }}</td>
-									<td>{{ $peng->supplier->nama }}</td>
-									<td>{{ $peng->staf->nama }}</td>
-									<td class="uang">{{ $peng->nilai }}</td>
-									<td>{{ $peng->keterangan }}</td>
-									<td> <a class="btn btn-primary btn-xs" href="{{ url("pengeluarans/show/" . $peng->id) }}" target="_blank">Detail</a> </td>
-									<td> <a class="btn btn-info btn-xs" href="{{ url("pdfs/pengeluaran/" . $peng->id) }}" target="_blank">Print Struk</a> </td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
+@if( !isset( $kirim_berkas ) )
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div class="panel-title">Daftar Belanja Obat</div>
 				</div>
-				<?php echo $pengeluarans->appends(Input::except('page'))->links(); ?>
+				<div class="panel-body">
+					<?php echo $pengeluarans->appends(Input::except('page'))->links(); ?>
+					<div class="table-responsive">
+						<table class="table table-hover table-condensed">
+							<thead>
+								<tr>
+									<th>Tanggal</th>
+									<th>Supplier</th>
+									<th>Staf</th>
+									<th>Nilai</th>
+									<th>Keterangan</th>
+									<th colspan="2">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach($pengeluarans as $peng)
+									<tr>
+										<td>{{ $peng->tanggal->format('d-m-Y') }}</td>
+										<td>{{ $peng->supplier->nama }}</td>
+										<td>{{ $peng->staf->nama }}</td>
+										<td class="uang">{{ $peng->nilai }}</td>
+										<td>{{ $peng->keterangan }}</td>
+										<td> <a class="btn btn-primary btn-xs" href="{{ url("pengeluarans/show/" . $peng->id) }}" target="_blank">Detail</a> </td>
+										<td> <a class="btn btn-info btn-xs" href="{{ url("pdfs/pengeluaran/" . $peng->id) }}" target="_blank">Print Struk</a> </td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+					<?php echo $pengeluarans->appends(Input::except('page'))->links(); ?>
+				</div>
 			</div>
-        </div>
-    </div>
-</div>
+		</div>
+	</div>
+@endif
 <div class="modal fade" tabindex="-1" role="dialog" id="create_supplier">
   <div class="modal-dialog">
     <div class="modal-content">

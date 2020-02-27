@@ -41,8 +41,6 @@ class TestController extends Controller
 {
 
 	public function index(){
-
-		dd(Excel::toArray(new PembayaranImport, 'users.xlsx'));
-		/* return Excel::import(new PembayaranImport, 'users.xlsx'); */
+		jlfjasljdf;
 	}
 }

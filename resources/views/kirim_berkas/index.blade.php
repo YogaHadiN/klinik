@@ -36,7 +36,6 @@ Klinik Jati Elok | Kirim Berkas
 							<th>Tanggal Kirim</th>
 							<th>Staf</th>
 							<th>Rekap Tagihan</th>
-							<th>Belanja_id</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -73,16 +72,16 @@ Klinik Jati Elok | Kirim Berkas
 												</tbody>
 											</table>
 										</div>
-										
 									</td>
-									<td>{{ $kirim->pengeluaran_id }}</td>
 									<td nowrap class="autofit">
-
 										<a class="btn btn-info btn-sm" href="{{ url('kirim_berkas/' . $kirim->id . '/edit') }}">
 											<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 											Edit
 										</a>
-
+										<a class="btn btn-warning btn-sm" href="{{ url('kirim_berkas/' . $kirim->id . '/inputNota') }}">
+											<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+											Input Nota
+										</a>
 									</td>
 								</tr>
 							@endforeach

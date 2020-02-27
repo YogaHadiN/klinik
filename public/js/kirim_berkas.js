@@ -1,4 +1,3 @@
-alert('yuhuuu');
 	function dummySubmit(control){
 		if(
 		 $('#piutang_tercatat').val() != '[]' ||
