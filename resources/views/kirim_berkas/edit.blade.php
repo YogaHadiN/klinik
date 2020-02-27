@@ -1,17 +1,17 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Kirim Berkas
+Klinik Jati Elok | Edit Form Kirim Berkas
 
 @stop
 @section('page-title') 
-<h2>Kirim Berkas</h2>
+<h2>Edit Form Kirim Berkas</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Kirim Berkas</strong>
+		  <strong>Edit Form Kirim Berkas</strong>
 	  </li>
 </ol>
 
@@ -22,7 +22,7 @@ Klinik Jati Elok | Kirim Berkas
 		<textarea name="piutang_asuransi" class="hide" id="piutang_asuransi" rows="8" cols="40">[]</textarea>
 	</div>
 	<h1>Form Kirim Berkas</h1>
-	{!! Form::open([
+	{!! Form::model( $kirim_berkas, [
 		'url' => 'kirim_berkas', 
 		'method' => 'post',
 		'id' => 'postKirimBerkas'
@@ -123,6 +123,15 @@ Klinik Jati Elok | Kirim Berkas
 	</div>
 @stop
 @section('footer') 
+	<script type="text/javascript" charset="utf-8">
+		$('.staf_id').selectpicker({
+				style: 'btn-default',
+				size: 10,
+				selectOnTab : true,
+				style : 'btn-white'
+			});
+		});
+	</script>
     <script src="{!! url('js/kirim_berkas.js') !!}"></script>
 @stop
 

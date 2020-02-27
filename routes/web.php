@@ -697,17 +697,10 @@ Route::resource('users', 'UsersController');
 			Route::get('pajaks/peredaran_bruto', 'PajaksController@peredaranBruto');
 			Route::post('pajaks/peredaran_bruto', 'PajaksController@peredaranBrutoPost');
 
-			Route::get('kirim_berkas_admedika', 'KirimBerkasController@create');
+			Route::get('kirim_berkas', 'KirimBerkasController@index');
+			Route::get('kirim_berkas/create', 'KirimBerkasController@create');
+			Route::post('kirim_berkas', 'KirimBerkasController@store');
 			Route::get('kirim_berkas/cari/piutang', 'KirimBerkasController@cariPiutang');
+			Route::get('kirim_berkas/{id}/edit', 'KirimBerkasController@edit');
 
   	});
-
-
-
-
-	
-
-
-
-
-		

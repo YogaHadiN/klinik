@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Console;
+namespace App\AntrianPoli;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

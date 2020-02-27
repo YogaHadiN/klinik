@@ -205,7 +205,7 @@
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('no_sales', 'No Sales')!!}</li>
                             <li>{!! HTML::link('belanjalist', 'Belanja')!!}</li>
-                            <li>{!! HTML::link('kirim_berkas_admedika', 'Kirim Berkas Admedika')!!}</li>
+                            <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
                             <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
                             <li>{!! HTML::link('penjualans/obat_buat_karyawan', 'Obat Untuk Karyawan')!!}</li>
                             <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
