@@ -47,7 +47,11 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="form-group @if($errors->has('name'))has-error @endif">
 			  {!! Form::label('name', 'Nama', ['class' => 'control-label']) !!}
+			  @if( isset( $kirim_berkas ) )
+				  <textarea name="piutang_tercatat" id="piutang_tercatat" rows="8" cols="40">{{ $kirim_berkas->piutang_asuransi }}</textarea>
+			  @else
 				<textarea name="piutang_tercatat" id="piutang_tercatat" rows="8" cols="40">[]</textarea>
+			  @endif
 			  @if($errors->has('name'))<code>{{ $errors->first('name') }}</code>@endif
 			</div>
 		</div>

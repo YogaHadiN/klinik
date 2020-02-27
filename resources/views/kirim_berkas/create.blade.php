@@ -123,6 +123,7 @@ Klinik Jati Elok | Kirim Berkas
 	</div>
 @stop
 @section('footer') 
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
     <script src="{!! url('js/kirim_berkas.js') !!}"></script>
 @stop
 

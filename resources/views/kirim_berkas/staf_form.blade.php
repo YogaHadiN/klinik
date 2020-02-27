@@ -1,5 +1,5 @@
 @if( isset( $kirim_berkas ) )
-	@foreach($kirim_berkas->petugas_kirim as $staf)	
+	@foreach($kirim_berkas->petugas_kirim as $k => $staf)	
 		<div class="row">
 			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
@@ -23,7 +23,11 @@
 			</div>
 			<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 				{!! Form::label('', '', ['class' => 'control-label']) !!}
-				<button type="button" onclick="tambahStaf(this);return false;" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+				@if( $k == $kirim_berkas->petugas_kirim->count() -1 )
+					<button type="button" onclick="tambahStaf(this);return false;" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+				@else
+					<button type="button" onclick="kurangStaf(this);return false;" class="btn btn-danger btn-block"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+				@endif
 			</div>
 		</div>
 	@endforeach

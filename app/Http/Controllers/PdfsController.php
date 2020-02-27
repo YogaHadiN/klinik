@@ -75,8 +75,8 @@ class PdfsController extends Controller
         return $pdf->stream();
 	}
     public function jasa_dokter($bayar_dokter_id){
-        $bayar = BayarDokter::find($bayar_dokter_id);
-		$bulanPembayaran = $bayar->created_at->format('Y-m');
+        $bayar                = BayarDokter::find($bayar_dokter_id);
+		$bulanPembayaran      = $bayar->created_at->format('Y-m');
 		$pembayaran_bulan_ini = BayarDokter::where('staf_id', $bayar->staf_id)
 											->where('created_at', 'like', $bulanPembayaran . '%')
 											->get();
@@ -84,9 +84,11 @@ class PdfsController extends Controller
 		$errors = [];
 		$perhitunganPphs = $bayar->perhitungan_pph;
 		$perhitunganPphs = json_decode($perhitunganPphs, true);
-		if (count( $perhitunganPphs ) > 0) {
-			foreach (json_decode( $bayar->perhitungan_pph, true ) as $b) {
-				$total_pph_sudah_dibayar += $b['pph'];
+		if ( !is_null( $perhitunganPphs ) ) {
+			if ( count( $perhitunganPphs ) > 0) {
+				foreach (json_decode( $bayar->perhitungan_pph, true ) as $b) {
+					$total_pph_sudah_dibayar += $b['pph'];
+				}
 			}
 		}
 		$total_pembayaran_bulan_ini = 0;

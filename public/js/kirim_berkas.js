@@ -1,4 +1,4 @@
-<script type="text/javascript" charset="utf-8">
+alert('yuhuuu');
 	function dummySubmit(control){
 		if(
 		 $('#piutang_tercatat').val() != '[]' ||
@@ -12,10 +12,6 @@
 			return false;
 		}
 	}
-</script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
-<script type="text/javascript" charset="utf-8">
-
 	$('#postKirimBerkas').find('.staf_id')
 	.selectpicker({
 		style: 'btn-default',
@@ -283,4 +279,3 @@
 		  });
 	   })   
 	}
-</script>
