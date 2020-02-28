@@ -74,27 +74,7 @@ class LaporansController extends Controller
 				$k->delete();
 			}
 		}
-
-		/* foreach ($ks as $k) { */
-		/* 	try { */
-		/* 		$k->periksa->terapi_html; */
-		/* 	} catch (\Exception $e) { */
-		/* 		$terapis = $k->periksa->terapii; */
-		/* 		foreach ($terapis as $terapi) { */
-		/* 			return $terapi; */
-		/* 			try { */
-		/* 				$terapi->merek; */
-		/* 			} catch (\Exception $e) { */
-		/* 				return $terapi; */
-		/* 			} */
-		/* 		} */
-		/* 	} */
-		/* } */
-
-
-
 		$pcare_submits =  PcareSubmit::pluck('pcare_submit', 'id');
-
 		return view('laporans.bpjs_tidak_terpakai', compact(
 			'pcare_submits',
 			'ksSubmit',
@@ -109,20 +89,20 @@ class LaporansController extends Controller
 		$tanggal  = Yoga::blnPrep($tanggall);
 
 
-		$pp = PengantarPasien::with('pengantar')->where('created_at', 'like', $tanggal . '%')->latest()->get();
+		$pp = PengantarPasien::where('created_at', 'like', $tanggal . '%')->where('pcare_submit', 0)->latest()->get();
 
-		// Ini Untuk memastikan bahwa pasien tidak diinput 2 kali bulan ini
-		//
-		$jumlah = 0;
-		foreach ($pp as $p) {
-			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
-			if ( $this->count($p->pengantar_id) > 0 && $p->kunjungan_sehat == '1') {
-				/* $p->kunjungan_sehat = '0'; */
-				/* $p->save(); */
-				$jumlah++;
-			}
-		}
-		dd($jumlah);
+		$periksa_id_bulan_ini   = $this->extractId(Periksa::where('tanggal', 'like', $tanggal . '%')->get(['pasien_id']), 'pasien_id');
+		$pengantar_id_bulan_ini = $this->extractId(PengantarPasien::where('created_at', 'like', $tanggal . '%')->where('pcare_submit', '1')->get(['pengantar_id']), 'pengantar_id');
+
+		$arrays = array_merge($periksa_id_bulan_ini, $pengantar_id_bulan_ini);
+
+		$adf = PengantarPasien::whereIn('pengantar_id', $arrays) // hapus pengantar id yang memiliki id ini
+			->where('created_at', 'like', $tanggal.'%') // dan diinput bulan ini
+			->where('pcare_submit', '0') // dan belum dimasukkan dalam pcare
+			->update([
+				'kunjungan_sehat' => 0 // update kunjungan sehat menjadi 0
+			]);
+
 		$query = "SELECT ";
 		$query .= "pp.created_at as created_at, ";
 		$query .= "pp.id as pengantar_id, ";
@@ -146,22 +126,12 @@ class LaporansController extends Controller
 		$query .= "ORDER BY pp.pcare_submit asc, ";
 		$query .= "pp.created_at DESC; ";
 
-		dd($query);
+		$pp_harus_diinput       = DB::select($query);
 
-		$pp_harus_diinput = DB::select($query);
-
-
-
-		//foreach ($pp_harus_diinput as $value) {
-			//if ($value->pcare_submit == '2') {
-				//return dd( $value );
-			//}
-		//}
-		
-		$pp_tidak_harus_diinput = PengantarPasien::with('pengantar')
-											->where('kunjungan_sehat', '0')
-											->where('created_at', 'like', $tanggal .'%')
-											->get();
+		/* $pp_tidak_harus_diinput = PengantarPasien::with('pengantar') */
+		/* 								->where('kunjungan_sehat', '0') */
+		/* 								->where('created_at', 'like', $tanggal .'%') */
+		/* 								->get(); */
 
 		$pcare_submits =  PcareSubmit::pluck('pcare_submit', 'id');
 
@@ -191,7 +161,7 @@ class LaporansController extends Controller
 
 		return view('laporans.pengantar', compact(
 			'pp_harus_diinput',
-			'pp_tidak_harus_diinput',
+			/* 'pp_tidak_harus_diinput', */
 			'pp_sudah_diinput',
 			'pcare_submits',
 			'tanggal'
@@ -1241,7 +1211,7 @@ class LaporansController extends Controller
 
 			// cek Berapa Kali Pengantar ini berobat
 			$berapaKaliPeriksa = Periksa::where('pasien_id', $id)
-			->where('created_at', 'like', date('Y-m') . '%') 
+			->where('tanggal', 'like', date('Y-m') . '%') 
 			->count() ;
 
 			// cek Berapa Kali Pengantar ini mengantar
@@ -1452,5 +1422,11 @@ class LaporansController extends Controller
 			'periksas'
 		));
 	}
-		
+	public function extractId($data, $attr_id){
+		$ids = [];
+		foreach ($data as $d) {
+			$ids[] = $d->$attr_id;
+		}
+		return $ids;
+	}
 }
