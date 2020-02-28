@@ -19,9 +19,11 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-		'https://app.moota.co'
-		/* "https://app.moota.co/*", */
-		/*  'http://45.77.253.188/moota/callback/*' */
+		'https://app.moota.co',
+		'moota/*',
+		"https://app.moota.co/*",
+		'http://45.77.253.188/moota/callback/*'
+		'http://45.77.253.188/moota/callback'
     ];
 
 	
