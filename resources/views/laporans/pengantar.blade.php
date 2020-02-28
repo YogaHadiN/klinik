@@ -63,8 +63,8 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 		<div>
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
-		  <li role="presentation" class="active"><a href="#harus_diinput" aria-controls="harus_diinput" role="tab" data-toggle="tab">Harus Diinput ( {{count(  $pp_harus_diinput  )}} )</a></li>
-		  <li role="presentation"><a href="#sudah_diinput" aria-controls="sudah_diinput" role="tab" data-toggle="tab">Sudah Diinput ( {{ count($pp_sudah_diinput) }} )</a></li>
+		  <li role="presentation" class="active"><a href="#harus_diinput" aria-controls="harus_diinput" role="tab" data-toggle="tab">Harus Diinput</a></li>
+		  <li role="presentation"><a href="#sudah_diinput" aria-controls="sudah_diinput" role="tab" data-toggle="tab">Sudah Diinput</a></li>
 		  </ul>
 		  <!-- Tab panes -->
 		  <div class="tab-content">

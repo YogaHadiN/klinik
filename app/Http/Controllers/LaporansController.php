@@ -107,6 +107,12 @@ class LaporansController extends Controller
 											->orderBy('created_at', 'desc')
 											->paginate(10);
 
+		/* foreach ($pp_harus_diinput as $p) { */
+		/* 	if ( !is_null( $p->pengantar->nomor_ktp ) ) { */
+		/* 		dd($p->pengantar->nomor_ktp); */
+		/* 	} */
+		/* } */
+
 		$pp_sudah_diinput = PengantarPasien::with('pengantar')
 											->where('antarable_type', 'App\\Periksa')
 											->where('pcare_submit',1)
