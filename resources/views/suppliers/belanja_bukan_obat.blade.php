@@ -23,6 +23,9 @@
 @else
 	{!! Form::open(['url'=>'kirim_berkas/' . $kirim_berkas->id. '/inputNota', 'method'=> 'post', 'files' => 'true']) !!} 
 @endif
+@if( isset($kirim_berkas) )
+	{!! Form::text('kirim_berkas_id', $kirim_berkas->id, ['class' => 'form-control hide']) !!}
+@endif
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-success">
@@ -32,7 +35,7 @@
                         Belanja Bukan Obat
                     </div>
                     <div class="panelRight">
-                        <button class="btn btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create_supplier">Supplier tidak ditemukan</button>
+                        <button class="btn btn-primary btn-block" type="button" data-toggle="modal" data-target="#create_supplier">Supplier tidak ditemukan</button>
                     </div>
                 </div>
             </div>
@@ -77,15 +80,15 @@
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="panel panel-info">
 					<div class="panel-body">
-						<div class="form-group{{ $errors->has('faktur_image') ? ' has-error' : '' }}">
-							{!! Form::label('faktur_image', 'Upload Gambar Faktur') !!}
-							{!! Form::file('faktur_image') !!}
-								@if (isset($pengeluaran) && $pengeluaran->faktur_image)
-									<p> {!! HTML::image(asset('img/belanja/lain/'.$pengeluaran->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
+						<div class="form-group{{ $errors->has('foro_berkas_dan_bukti') ? ' has-error' : '' }}">
+							{!! Form::label('foro_berkas_dan_bukti', 'Foto Berkas Dan Bukti') !!}
+							{!! Form::file('foro_berkas_dan_bukti') !!}
+								@if (isset($pengeluaran) && $pengeluaran->foro_berkas_dan_bukti)
+									<p> {!! HTML::image(asset('img/belanja/lain/'.$pengeluaran->foro_berkas_dan_bukti), null, ['class'=>'img-rounded upload']) !!} </p>
 								@else
 									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 								@endif
-							{!! $errors->first('faktur_image', '<p class="help-block">:message</p>') !!}
+							{!! $errors->first('foro_berkas_dan_bukti', '<p class="help-block">:message</p>') !!}
 						</div>
 					</div>
 				</div>
@@ -257,7 +260,6 @@
             }
           });
         }
-
   }
 </script>
 

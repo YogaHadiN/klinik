@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\AntrianPoli;
+use App\DateTime;
 use App\Kontrol;
 use App\AntrianPeriksa;
 use App\Ac;
@@ -85,11 +86,6 @@ class Kernel extends ConsoleKernel
 					->dailyAt('01:00'); 
 		 $schedule->command('db:scheduleBackup')
 					->dailyAt('02:15'); 
-		 /* $schedule->command('sms:donnaruko') */
-			 /* ->dailyAt('13:00') */
-			 /* ->when(function(){ */
-				/* return date('Y-m-d')  == '2017-09-30'; */
-			 /* }); */ 
 		 $schedule->command('pph:dokter')
 			 ->dailyAt('01:15')
 			 ->when(function(){
@@ -128,7 +124,6 @@ class Kernel extends ConsoleKernel
 				}
 				return count( $ids ) > 0;
 		 }); 
-
 		 $schedule->command('sms:ingatkanHariIni')
 			 ->dailyAt('12:30')
 			 ->when(function(){
@@ -150,7 +145,6 @@ class Kernel extends ConsoleKernel
 				return $count > 0;
 		 }); 
     }
-
     /**
      * Register the commands for the application.
      *

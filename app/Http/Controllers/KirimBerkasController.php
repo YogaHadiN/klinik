@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Supplier;
+use App\Http\Controllers\PengeluaransController;
 use App\Belanja;
 use App\KirimBerkas;
 use App\Staf;
@@ -99,7 +100,6 @@ class KirimBerkasController extends Controller
 		dd(Input::all()); 
 	}
 	public function inputNota($id){
-
 		$kirim_berkas = KirimBerkas::find( $id );
 		$suppliers    = Supplier::all();
 		$stafs        = Yoga::stafList();
@@ -116,6 +116,8 @@ class KirimBerkasController extends Controller
 	}
 	public function inputNotaPost($id){
 		dd(Input::all()); 	
+		$PengeluaransController = new PengeluaransController;
+
 	}
 	
 }

@@ -38,7 +38,8 @@ class LaporansController extends Controller
 {
 	Public function __construct()
 	 {
-		 $this->middleware('super', ['except' => ['pengantar',
+		 $this->middleware('super', ['except' => [
+			 'pengantar',
 			 'index',
 			 'harian',
 			 'penyakit',
@@ -107,19 +108,21 @@ class LaporansController extends Controller
 		$tanggall = Input::get('bulanTahun');
 		$tanggal  = Yoga::blnPrep($tanggall);
 
-		$pp = PengantarPasien::where('created_at', 'like', $tanggal . '%')->latest()->get();
+
+		$pp = PengantarPasien::with('pengantar')->where('created_at', 'like', $tanggal . '%')->latest()->get();
 
 		// Ini Untuk memastikan bahwa pasien tidak diinput 2 kali bulan ini
 		//
-		//
-		
+		$jumlah = 0;
 		foreach ($pp as $p) {
 			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
-			if ( $this->count($p->pengantar_id, $tanggal) > 0 && $p->kunjungan_sehat == '1') {
-				$p->kunjungan_sehat = '0';
-				$p->save();
+			if ( $this->count($p->pengantar_id) > 0 && $p->kunjungan_sehat == '1') {
+				/* $p->kunjungan_sehat = '0'; */
+				/* $p->save(); */
+				$jumlah++;
 			}
 		}
+		dd($jumlah);
 		$query = "SELECT ";
 		$query .= "pp.created_at as created_at, ";
 		$query .= "pp.id as pengantar_id, ";
@@ -142,7 +145,12 @@ class LaporansController extends Controller
 		$query .= "GROUP BY pp.pengantar_id ";
 		$query .= "ORDER BY pp.pcare_submit asc, ";
 		$query .= "pp.created_at DESC; ";
+
+		dd($query);
+
 		$pp_harus_diinput = DB::select($query);
+
+
 
 		//foreach ($pp_harus_diinput as $value) {
 			//if ($value->pcare_submit == '2') {
