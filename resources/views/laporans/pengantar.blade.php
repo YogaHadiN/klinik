@@ -106,12 +106,12 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 									</td>
 									<td>
 									{!! Form::open(['url' => 'laporans/pengantar', 'method' => 'post', 'autocomplete' => 'off']) !!}
-										{!! Form::text('id', $p->pengantar_id, ['class' => 'form-control ']) !!}
-										{!! Form::text('nama', $p->pengantar->nama, ['class' => ' nama']) !!}
-										{!! Form::text('previous', null, ['class' => ' previous']) !!}
-										{!! Form::text('kunjungan_sehat', '1', ['class' => 'form-control  kunjungan_sehat']) !!}
+										{!! Form::text('id', $p->pengantar_id, ['class' => 'form-control hide']) !!}
+										{!! Form::text('nama', $p->pengantar->nama, ['class' => 'hide nama']) !!}
+										{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
+										{!! Form::text('kunjungan_sehat', '1', ['class' => 'form-control hide kunjungan_sehat']) !!}
 										{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
-										{!! Form::submit('Terdaftar di PCare', ['class' => ' submit']) !!}
+										{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
 										{!! Form::close() !!}
 									</td>
 								</tr>
