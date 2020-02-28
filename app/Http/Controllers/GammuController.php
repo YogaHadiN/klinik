@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Inbox;
+use App\Sms;
 use Input;
 use App\Outbox;
 use App\PesanMasuk;
@@ -81,7 +82,7 @@ class GammuController extends Controller
 		$text   = Input::get('text');
 		$noTelp = Input::get('no_telp');
 
-		$result = Yoga::smsCenter($noTelp, $text);
+		$result = Sms::send($noTelp, $text);
 
 
 		$pesan = Yoga::suksesFlash('Pengiriman Pesan <strong>BERHASIL</strong> dilakukan');
