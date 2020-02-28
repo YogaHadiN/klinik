@@ -19,7 +19,7 @@ Route::get('logout', 'AuthController@logout');
 Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
 Route::get('rekening/mandiri', 'MutasiBankController@info');
-Route::get('moota/callback', 'MutasiBankController@mootaCallback');
+Route::post('moota/callback', 'MutasiBankController@mootaCallback');
 
 
 Route::get('antrians', 'AntriansController@create');

@@ -28,11 +28,11 @@ class MutasiBankController extends Controller
 		));
 	}
 	public function mootaCallback(){
+		dd('moota');
 		$notifications = json_decode( file_get_contents("php://input") );
 		if(!is_array($notifications)) {
 			$notifications = json_decode( $notifications );
 		}
-
 		if( count($notifications) > 0 ) {
 			foreach( $notifications as $notification) {
 				Log::info($notification);
