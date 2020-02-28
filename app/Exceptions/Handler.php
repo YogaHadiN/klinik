@@ -46,6 +46,9 @@ class Handler extends ExceptionHandler
 			 Log::info('Memory Usage ' . memory_get_usage());
 			 Log::info('Pada Jam : ' . date('Y-m-d H:i:s'));
 			 Log::info($exception->getMessage());
+			 Log::info('=====================================================================================================');
+			 Log::info($exception->getTraceAsString());
+			 Log::info('=====================================================================================================');
 			 Sms::send(env("NO_HP_OWNER"),$exception->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
 		 }
 		return parent::report($exception);
