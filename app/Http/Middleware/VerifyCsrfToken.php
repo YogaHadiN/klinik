@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
+		"incoming/api/*",
 		 'http://45.77.253.188/moota/callback'
     ];
 
