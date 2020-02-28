@@ -85,15 +85,10 @@ class LaporansController extends Controller
 
 	public function pengantar(){
 
-		$tanggall = Input::get('bulanTahun');
-		$tanggal  = Yoga::blnPrep($tanggall);
-
-
-		$pp = PengantarPasien::where('created_at', 'like', $tanggal . '%')->where('pcare_submit', 0)->latest()->get();
-
+		$tanggal                = date('Y-m');
+		$pp                     = PengantarPasien::where('created_at', 'like', $tanggal . '%')->where('pcare_submit', 0)->latest()->get();
 		$periksa_id_bulan_ini   = $this->extractId(Periksa::where('tanggal', 'like', $tanggal . '%')->get(['pasien_id']), 'pasien_id');
 		$pengantar_id_bulan_ini = $this->extractId(PengantarPasien::where('created_at', 'like', $tanggal . '%')->where('pcare_submit', '1')->get(['pengantar_id']), 'pengantar_id');
-
 		$arrays = array_merge($periksa_id_bulan_ini, $pengantar_id_bulan_ini);
 
 		$adf = PengantarPasien::whereIn('pengantar_id', $arrays) // hapus pengantar id yang memiliki id ini
@@ -102,66 +97,29 @@ class LaporansController extends Controller
 			->update([
 				'kunjungan_sehat' => 0 // update kunjungan sehat menjadi 0
 			]);
+		$pp_harus_diinput = PengantarPasien::with('pengantar')
+											->where('antarable_type', 'App\\Periksa')
+											->whereIn('pcare_submit',[0,2])
+											->where('created_at', 'like', $tanggal. '%')
+											->where('kunjungan_sehat', '1')
+											->groupBy('pengantar_id')
+											->orderBy('pcare_submit', 'asc')
+											->orderBy('created_at', 'desc')
+											->paginate(10);
 
-		$query = "SELECT ";
-		$query .= "pp.created_at as created_at, ";
-		$query .= "pp.id as pengantar_id, ";
-		$query .= "pp.pengantar_id as pasien_id, ";
-		$query .= "pp.antarable_id as periksa_id, ";
-		$query .= "ps.nama as nama_pengantar, ";
-		$query .= "ps.bpjs_image as bpjs, ";
-		$query .= "ps.ktp_image as ktp, ";
-		$query .= "pp.pcare_submit as pcare_submit, ";
-		$query .= "ps.nomor_asuransi as nomor_asuransi, ";
-		$query .= "ps.nomor_asuransi_bpjs as nomor_asuransi_bpjs, ";
-		$query .= "ps.nomor_ktp as no_ktp, ";
-		$query .= "pp.kunjungan_sehat as kunjungan_sehat, ";
-		$query .= "ps.asuransi_id as asuransi_id ";
-		$query .= "FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id ";
-		$query .= "WHERE pp.antarable_type='App\\\Periksa' ";
-		$query .= "AND ( pp.pcare_submit = 0 OR pp.pcare_submit = 2 ) ";
-		$query .= "AND pp.created_at like '" . $tanggal . "%' ";
-		$query .= "AND pp.kunjungan_sehat = 1 ";
-		$query .= "GROUP BY pp.pengantar_id ";
-		$query .= "ORDER BY pp.pcare_submit asc, ";
-		$query .= "pp.created_at DESC; ";
-
-		$pp_harus_diinput       = DB::select($query);
-
-		/* $pp_tidak_harus_diinput = PengantarPasien::with('pengantar') */
-		/* 								->where('kunjungan_sehat', '0') */
-		/* 								->where('created_at', 'like', $tanggal .'%') */
-		/* 								->get(); */
+		$pp_sudah_diinput = PengantarPasien::with('pengantar')
+											->where('antarable_type', 'App\\Periksa')
+											->where('pcare_submit',1)
+											->where('created_at', 'like', $tanggal. '%')
+											->groupBy('pengantar_id')
+											->orderBy('pcare_submit', 'asc')
+											->orderBy('created_at', 'desc')
+											->paginate(10);
 
 		$pcare_submits =  PcareSubmit::pluck('pcare_submit', 'id');
 
-
-		$query = "SELECT ";
-		$query .= "pp.created_at as created_at, ";
-		$query .= "pp.id as pengantar_id, ";
-		$query .= "pp.pengantar_id as pasien_id, ";
-		$query .= "pp.antarable_id as periksa_id, ";
-		$query .= "ps.nama as nama_pengantar, ";
-		$query .= "ps.bpjs_image as bpjs, ";
-		$query .= "ps.ktp_image as ktp, ";
-		$query .= "pp.pcare_submit as pcare_submit, ";
-		$query .= "ps.nomor_asuransi as nomor_asuransi, ";
-		$query .= "ps.nomor_asuransi_bpjs as nomor_asuransi_bpjs, ";
-		$query .= "ps.nomor_ktp as no_ktp, ";
-		$query .= "pp.kunjungan_sehat as kunjungan_sehat, ";
-		$query .= "ps.asuransi_id as asuransi_id ";
-		$query .= "FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id ";
-		$query .= "WHERE pp.antarable_type='App\\\Periksa' ";
-		$query .= "AND pp.pcare_submit = 1 ";
-		$query .= "AND pp.created_at like '" . $tanggal . "%' ";
-		$query .= "GROUP BY pp.pengantar_id ";
-		$query .= "ORDER BY pp.pcare_submit asc, ";
-		$query .= "pp.created_at DESC; ";
-		$pp_sudah_diinput = DB::select($query);
-
 		return view('laporans.pengantar', compact(
 			'pp_harus_diinput',
-			/* 'pp_tidak_harus_diinput', */
 			'pp_sudah_diinput',
 			'pcare_submits',
 			'tanggal'

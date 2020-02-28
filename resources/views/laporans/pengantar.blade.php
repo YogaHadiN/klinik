@@ -64,14 +64,14 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
 		  <li role="presentation" class="active"><a href="#harus_diinput" aria-controls="harus_diinput" role="tab" data-toggle="tab">Harus Diinput ( {{count(  $pp_harus_diinput  )}} )</a></li>
-		  {{-- <li role="presentation"><a href="#tidak_harus_diinput" aria-controls="tidak_harus_diinput" role="tab" data-toggle="tab">Tidak Harus Diinput ( {{$pp_tidak_harus_diinput->count()}} )</a></li> --}}
 		  <li role="presentation"><a href="#sudah_diinput" aria-controls="sudah_diinput" role="tab" data-toggle="tab">Sudah Diinput ( {{ count($pp_sudah_diinput) }} )</a></li>
 		  </ul>
 		  <!-- Tab panes -->
 		  <div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="harus_diinput">
 				<div class="table-responsive">
-					<table class="table table-hover table-condensed DT">
+					{{ $pp_harus_diinput->links() }}
+					<table class="table table-hover table-condensed">
 						<thead>
 							<tr>
 								<th>Nama Pengantar</th>
@@ -83,96 +83,50 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 						<tbody>
 							@foreach($pp_harus_diinput as $p)
 								<tr @if( $p->pcare_submit == '2' ) class="danger" @endif >
-									<td>{{ $p->nama_pengantar }} <br />
+									<td>{{ $p->pengantar->nama }} <br />
 										<strong>Tanggal</strong> <br />
-										{{App\Classes\Yoga::updateDatePrep(  explode( " ", $p->created_at )[0]  )}} <br />
+										{{ $p->created_at->format('d M Y') }} <br />
 										<a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $p->pasien_id . '/edit') }}">Detail</a>	
 									</td>
 									<td>
-										<img src="{{ url('/'). '/' . $p->ktp }}" alt="" class="img-rounded upload" />
-										@if(!empty( $p->no_ktp ))
-										<br />  {{ $p->no_ktp }}
+										<img src="{{ url('/'). '/' . $p->pengantar->ktp_image }}" alt="" class="img-rounded upload" />
+										@if(!empty( $p->pengantar->nomor_ktp ))
+										<br />  {{ $p->pengantar->nomor_ktp }}
 										@else
 										<br />  Nomor KTP tidak terdaftar
 										@endif
 									</td>
 									<td>
-										<img src="{{ url('/'). '/' . $p->bpjs }}" alt="" class="img-rounded upload" />
-										@if(!empty( $p->nomor_asuransi_bpjs ))
-										<br />  {{ $p->nomor_asuransi_bpjs }}
+										<img src="{{ url('/'). '/' . $p->pengantar->bpjs_image }}" alt="" class="img-rounded upload" />
+										@if(!empty( $p->pengantar->nomor_asuransi_bpjs ))
+											<br />  {{ $p->pengantar->nomor_asuransi_bpjs }}
 										@else
 										<br />  Nomor BPJS tidak terdaftar
 										@endif
 									</td>
 									<td>
 									{!! Form::open(['url' => 'laporans/pengantar', 'method' => 'post', 'autocomplete' => 'off']) !!}
-										{!! Form::text('id', $p->pasien_id, ['class' => 'form-control hide']) !!}
-										{!! Form::text('nama', $p->nama_pengantar, ['class' => 'hide nama']) !!}
-										{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
-										{!! Form::text('kunjungan_sehat', '1', ['class' => 'form-control hide kunjungan_sehat']) !!}
+										{!! Form::text('id', $p->pengantar_id, ['class' => 'form-control ']) !!}
+										{!! Form::text('nama', $p->pengantar->nama, ['class' => ' nama']) !!}
+										{!! Form::text('previous', null, ['class' => ' previous']) !!}
+										{!! Form::text('kunjungan_sehat', '1', ['class' => 'form-control  kunjungan_sehat']) !!}
 										{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
-										{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
+										{!! Form::submit('Terdaftar di PCare', ['class' => ' submit']) !!}
 										{!! Form::close() !!}
 									</td>
 								</tr>
 							@endforeach
 						</tbody>
 					</table>
+					{{ $pp_harus_diinput->links() }}
 				</div>
 
 
 			</div>
-			{{-- <div role="tabpanel" class="tab-pane" id="tidak_harus_diinput"> --}}
-			{{-- 	<div class="table-responsive"> --}}
-			{{-- 		<table class="table table-hover table-condensed DT table-bordered" id="table_tidak_harus_diinput"> --}}
-			{{-- 			<thead> --}}
-			{{-- 				<tr> --}}
-			{{-- 					<th>Nama Pengantar</th> --}}
-			{{-- 					<th>Pasien Sudah <br /> Berobat Tanggal </th> --}}
-			{{-- 					<th>Pasien Sudah <br /> Mengantar Tanggal</th> --}}
-			{{-- 					<th>Pasien Sudah <br /> Sakit Tanggal</th> --}}
-			{{-- 				</tr> --}}
-			{{-- 			</thead> --}}
-			{{-- 			<tbody> --}}
-			{{-- 				@foreach($pp_tidak_harus_diinput as $p) --}}
-			{{-- 				<tr> --}}
-			{{-- 					<td>{{ $p->pengantar->nama }} <br /> --}}
-			{{-- 						<strong>Tanggal</strong> <br /> --}}
-			{{-- 						{{App\Classes\Yoga::updateDatePrep(  explode( " ", $p->created_at )[0]  )}} <br /> --}}
-
-			{{-- 						{{ $p->pengantar->id }} --}}
-			{{-- 						<a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $p->pengantar_id . '/edit') }}">Detail</a> --}}	
-			{{-- 					</td> --}}
-			{{-- 					<td> --}}
-			{{-- 						<ul> --}}
-			{{-- 							@foreach( App\Classes\Yoga::pengantarBerobat( $p->pengantar->id, $tanggal ) as $px ) --}}
-			{{-- 							<li>{{ $px->created_at }}</li> --}}
-			{{-- 							@endforeach --}}
-			{{-- 						</ul> --}}
-			{{-- 					</td> --}}
-			{{-- 					<td> --}}
-			{{-- 						<ul> --}}
-			{{-- 							@foreach( App\Classes\Yoga::pengantarMengantar( $p->pengantar->id, $tanggal ) as $py ) --}}
-			{{-- 								<li>{{ App\Classes\Yoga::updateDatePrep(  explode(" ", $py->created_at )[0] ) }}</li> --}}
-			{{-- 							@endforeach --}}
-			{{-- 						</ul> --}}
-			{{-- 					</td> --}}
-			{{-- 					<td> --}}
-			{{-- 						<ul> --}}
-			{{-- 						@foreach( App\Classes\Yoga::pengantarKunjunganSakit( $p->pengantar->id, $tanggal ) as $pz ) --}}
-			{{-- 							<li>{{ App\Classes\Yoga::updateDatePrep(  explode(" ", $pz->created_at )[0] ) }}</li> --}}
-			{{-- 							@endforeach --}}
-			{{-- 						</ul> --}}
-			{{-- 					</td> --}}
-			{{-- 				</tr> --}}
-			{{-- 				@endforeach --}}
-			{{-- 			</tbody> --}}
-			{{-- 		</table> --}}
-			{{-- 	</div> --}}
-			{{-- </div> --}}
 			<div role="tabpanel" class="tab-pane" id="sudah_diinput">
 				<div class="table-responsive">
-					<table class="table table-hover table-condensed DT">
+					{{ $pp_sudah_diinput->links() }}
+					<table class="table table-hover table-condensed">
 						<thead>
 							<tr>
 								<th>Nama Pengantar</th>
@@ -219,6 +173,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 							@endforeach
 						</tbody>
 					</table>
+					{{ $pp_sudah_diinput->links() }}
 				</div>
 			</div>
 		  </div>
