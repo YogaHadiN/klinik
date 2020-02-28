@@ -25,13 +25,11 @@
 	{!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
   @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 </div>
-@if( !isset( $kirim_berkas ) )
-	<div class="form-group @if($errors->has('keterangan'))has-error @endif">
-	  {!! Form::label('keterangan', 'Uangnya Dipakai Buat apa', ['class' => 'control-label']) !!}
-	  {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom']) !!}
-	  @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
-	</div>
-@endif
+<div class="form-group @if($errors->has('keterangan'))has-error @endif">
+  {!! Form::label('keterangan', 'Uangnya Dipakai Buat apa', ['class' => 'control-label']) !!}
+  {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom']) !!}
+  @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
+</div>
 <div class="form-group">
   {!! Form::submit('Belanja Bukan Obat', ['class' => 'btn btn-success btn-block btn-lg']) !!}
 </div>

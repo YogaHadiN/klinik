@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Supplier;
+use Image;
+use App\Pengeluaran;
+use App\JurnalUmum;
 use App\Http\Controllers\PengeluaransController;
 use App\Belanja;
 use App\KirimBerkas;
@@ -115,9 +118,103 @@ class KirimBerkasController extends Controller
 		));
 	}
 	public function inputNotaPost($id){
-		dd(Input::all()); 	
-		$PengeluaransController = new PengeluaransController;
+		$messages          = array(
+			'required'    => ':attribute harus diisi terlebih dahulu',
+		);
+		$rules             = [
+			'staf_id'      => 'required',
+			'supplier_id'  => 'required',
+			'nilai'        => 'required',
+			'faktur_image' => 'required',
+			'tanggal'      => 'required|date_format:d-m-Y',
+			'sumber_uang'  => 'required',
+			'keterangan'   => 'required'
+		];
+		$validator         = \Validator::make($data = Input::all(), $rules, $messages);
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator->messages())->withInput();
+		}
+		$staf_id           = Input::get('staf_id');
+		$supplier_id       = Input::get('supplier_id');
+		$nilai             = Yoga::clean( Input::get('nilai') );
+		$tanggal           = Input::get('tanggal');
+		$keterangan        = Input::get('keterangan');
+
+		$peng                 = new Pengeluaran;
+		$peng->staf_id        = $staf_id;
+		$peng->supplier_id    = $supplier_id;
+		$peng->nilai          = $nilai;
+		$peng->tanggal        = Yoga::datePrep( $tanggal );
+		$peng->sumber_uang_id = Input::get('sumber_uang');
+		$peng->keterangan     = $keterangan;
+		$peng->save();
+		$peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id,'img/belanja/lain');
+		$confirm              = $peng->save();
+
+
+		$kirim_berkas                        = KirimBerkas::find($id);
+		$kirim_berkas->foto_berkas_dan_bukti = $this->imageUpload('faktur', 'faktur_image', $id, 'img/foto_berkas_dan_bukti');;
+		$kirim_berkas->save();
+
+
+
+		if ($confirm) {
+			$jurnals = [];
+			$timestamp = $peng->created_at;
+			$jurnals[] = [
+				'jurnalable_id'   => $peng->id,
+				'jurnalable_type' => 'App\Pengeluaran',
+				'debit'           => 1,
+				'coa_id'           => null,
+				'nilai'           => $peng->nilai,
+				'created_at'      => $timestamp,
+				'updated_at'      => $timestamp
+			];
+
+			$jurnals[] = [
+				'jurnalable_id'   => $peng->id,
+				'jurnalable_type' => 'App\Pengeluaran',
+				'coa_id'          => Input::get('sumber_uang'),
+				'debit'           => 0,
+				'nilai'           => $peng->nilai,
+				'created_at'      => $timestamp,
+				'updated_at'      => $timestamp
+			];
+			JurnalUmum::insert($jurnals);
+		}
+		$nama_supplier = Supplier::find($supplier_id)->nama;
+		return redirect('kirim_berkas')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'))->withPrint($peng->id);
 
 	}
-	
+
+	private function imageUpload($pre, $fieldName, $id, $path){
+		if(Input::hasFile($fieldName)) {
+
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+			//
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR .$path;
+
+			// Mengambil file yang di upload
+			$upload_cover->save($destination_path . '/' . $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return $filename;
+			
+		} else {
+			return null;
+		}
+	}
 }

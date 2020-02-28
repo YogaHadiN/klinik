@@ -1,6 +1,7 @@
 	function dummySubmit(control){
+
 		if(
-		 $('#piutang_tercatat').val() != '[]' ||
+		 $('#piutang_tercatat').val() != '[]' &&
 		 $('#piutang_tercatat').val() != ''
 		){
 			if(validatePass2(control)){

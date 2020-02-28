@@ -28,16 +28,16 @@ class MutasiBankController extends Controller
 		));
 	}
 	public function mootaCallback(){
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, 'https://app.moota.co/api/v1/balance');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, [
-			'Accept: application/json',
-			'Authorization: Bearer ' . env('MOOTA_TOKEN')
-		]);
-		$response = curl_exec($curl);
+		$notifications = json_decode( file_get_contents("php://input") );
+		if(!is_array($notifications)) {
+			$notifications = json_decode( $notifications );
+		}
 
-		dd($response);
+		if( count($notifications) > 0 ) {
+			foreach( $notifications as $notification) {
+				Log::info($notification);
+			}
+		}
 	}
 	
 	
