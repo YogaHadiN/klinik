@@ -39,9 +39,19 @@ class Handler extends ExceptionHandler
      */
 	public function report(Exception $e)
 	{
+		if( (int) memory_get_usage() > 50000000 ){
+			 Log::info('GEDE');
+			 Log::info('URL : ' . Input::fullUrl());
+			 Log::info('Method : ' . Input::method());
+			 Log::info('Memory Usage: ' . memory_get_usage());
+			 Log::info('Pada Jam : ' . date('Y-m-d H:i:s'));
+			 Sms::send(env("NO_HP_OWNER"),'KEGEDEAN ' . Input::fullUrl() . ' ' . memory_get_usage() . ' Byte');
+		}
 		 if (!empty( trim( $e->getMessage() ) )) {
 			 Log::info('URL YANG error : ' . Input::fullUrl());
+			 Log::info('ERRRROORRRR');
 			 Log::info('Method yang error : ' . Input::method());
+			 Log::info('Memory Usage ' . memory_get_usage());
 			 Log::info('Pada Jam : ' . date('Y-m-d H:i:s'));
 			 Sms::send(env("NO_HP_OWNER"),$e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
 		}

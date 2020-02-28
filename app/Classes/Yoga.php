@@ -2122,7 +2122,6 @@ class Yoga {
 				$diastolik += $p->diastolik;
 			}
 		}
-
 		if ( $pasien->periksa->count() ) {
 			if(
 				( ($sistolik / $pasien->periksa->count()) > 139 ||  //  jika rata2 sistolik 140 atau lebih
