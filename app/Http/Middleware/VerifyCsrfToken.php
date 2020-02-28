@@ -19,17 +19,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+		 'http://45.77.253.188/moota/callback'
     ];
-	public function handle($request, Closure $next)
-	{
-		if ($request->is('api/*'))
-		{
-			return $next($request);
-		}
-	 
-		return parent::handle($request, $next);
-	}
 
 	
 }
