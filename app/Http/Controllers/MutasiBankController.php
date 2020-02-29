@@ -27,7 +27,10 @@ class MutasiBankController extends Controller
 	public function mootaCallback(){
 		Log::info('ini dipanggil');
 		$notifications = json_decode( file_get_contents("php://input") );
+		Log::info('=========================================================================');
+		Log::info('notification yang ada:');
 		Log::info($notifications);
+		Log::info('=========================================================================');
 		if(!is_array($notifications)) {
 			$notifications = json_decode( $notifications );
 		}
