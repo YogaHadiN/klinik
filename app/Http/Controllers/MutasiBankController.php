@@ -8,9 +8,6 @@ use Log;
 
 class MutasiBankController extends Controller
 {
-    //
-	//
-
 	public function info(){
 		// Get Account information
 		$result = Helper::GetAccount();
@@ -28,13 +25,15 @@ class MutasiBankController extends Controller
 		));
 	}
 	public function mootaCallback(){
+		Log::info('ini dipanggil');
 		$notifications = json_decode( file_get_contents("php://input") );
+		Log::info($notification);
 		if(!is_array($notifications)) {
 			$notifications = json_decode( $notifications );
 		}
-		if( count($notifications) > 0 ) {
+		if(count($notifications) > 0 ) {
 			foreach( $notifications as $notification) {
-				Log::info($notification);
+				Log::info(json_encode($notification));
 			}
 		}
 	}
