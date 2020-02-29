@@ -22,6 +22,7 @@ class VerifyCsrfToken extends Middleware
 		'https://app.moota.co',
 		'moota/*',
 		"https://app.moota.co/*",
+		'http://45.77.253.188/moota/*',
 		'http://45.77.253.188/moota/callback/*',
 		'http://45.77.253.188/moota/callback'
     ];
