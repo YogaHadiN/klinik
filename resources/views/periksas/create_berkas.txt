@@ -1,8 +1,1 @@
-ALTER TABLE rekenings DROP COLUMN transaksi_id;
-ALTER TABLE rekenings MODIFY akun_bank_id varchar(255) NOT NULL;
-ALTER TABLE rekenings MODIFY deskripsi text NOT NULL;
-ALTER TABLE rekenings MODIFY id varchar(255) NOT NULL;
-ALTER TABLE rekenings MODIFY tanggal timestamp NOT NULL;
-ALTER TABLE akun_banks MODIFY id varchar(255) NOT NULL;
-ALTER TABLE akun_banks MODIFY akun varchar(255) NOT NULL;
-ALTER TABLE akun_banks MODIFY nomor_rekening varchar(255) NOT NULL;
+ALTER TABLE kirim_berkas ADD COLUMN foto_pengesahan VARCHAR(255) NULL;

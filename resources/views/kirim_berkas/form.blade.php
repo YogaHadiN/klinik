@@ -15,26 +15,24 @@
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<div class="form-group{{ $errors->has('foto_berkas_dan_bukti') ? ' has-error' : '' }}">
-							@if (isset($kirim_berkas) && $kirim_berkas->foto_berkas_dan_bukti)
-								<p> {!! HTML::image(asset('public/img/pengesahan_berkas/'.$kirim_berkas->id. '.png'), null, ['class'=>'img-rounded upload']) !!} </p>
-							@else
-								<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
-							@endif
-						</div>
+					  {!! Form::label('foto_berkas_dan_bukti', 'Foto bukti pengesahan', ['class' => 'control-label']) !!}
+						@if (isset($kirim_berkas) && $kirim_berkas->foto_berkas_dan_bukti)
+							<p> {!! HTML::image(asset('img/foto_berkas_dan_bukti/'.$kirim_berkas->foto_berkas_dan_bukti), null, ['class'=>'img-rounded upload']) !!} </p>
+						@else
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+						@endif
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<div class="form-group{{ $errors->has('foto_berkas_dan_bukti') ? ' has-error' : '' }}">
-							@if (isset($kirim_berkas) && $kirim_berkas->foto_berkas_dan_bukti)
-								<p> {!! HTML::image(asset('public/img/pengesahan_berkas/'.$kirim_berkas->id. '.png'), null, ['class'=>'img-rounded upload']) !!} </p>
-							@else
-								<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
-							@endif
-						</div>
+					  {!! Form::label('pengeluaran', 'Bukti Faktur', ['class' => 'control-label']) !!}
+						  @if (isset($kirim_berkas) && $kirim_berkas->pengeluaran->faktur_image)
+							  <p> {!! HTML::image(asset('img/belanja/lain/'.$kirim_berkas->pengeluaran->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
+						@else
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+						@endif
 					</div>
 				</div>
 			</div>

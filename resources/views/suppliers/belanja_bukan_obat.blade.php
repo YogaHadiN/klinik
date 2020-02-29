@@ -81,14 +81,14 @@
 				<div class="panel panel-info">
 					<div class="panel-body">
 						<div class="form-group{{ $errors->has('foro_berkas_dan_bukti') ? ' has-error' : '' }}">
-							{!! Form::label('foro_berkas_dan_bukti', 'Foto Berkas Dan Bukti') !!}
-							{!! Form::file('foro_berkas_dan_bukti') !!}
-								@if (isset($pengeluaran) && $pengeluaran->foro_berkas_dan_bukti)
-									<p> {!! HTML::image(asset('img/belanja/lain/'.$pengeluaran->foro_berkas_dan_bukti), null, ['class'=>'img-rounded upload']) !!} </p>
+							{!! Form::label('foto_berkas_dan_bukti', 'Foto Berkas Dan Bukti') !!}
+							{!! Form::file('foto_berkas_dan_bukti') !!}
+								@if (isset($pengeluaran) && $pengeluaran->foto_berkas_dan_bukti)
+									<p> {!! HTML::image(asset('img/belanja/lain/'.$pengeluaran->foto_berkas_dan_bukti), null, ['class'=>'img-rounded upload']) !!} </p>
 								@else
 									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 								@endif
-							{!! $errors->first('foro_berkas_dan_bukti', '<p class="help-block">:message</p>') !!}
+							{!! $errors->first('foto_berkas_dan_bukti', '<p class="help-block">:message</p>') !!}
 						</div>
 					</div>
 				</div>

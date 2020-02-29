@@ -111,6 +111,7 @@
                             <li>{!! HTML::link('asuransis', 'Asuransi')!!}</li>
                             <li>{!! HTML::link('suppliers', 'Supplier')!!}</li>
                             <li>{!! HTML::link('rumahsakits', 'Rumah Sakit')!!}</li>
+                            <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
                             <li>{!! HTML::link('tarifs', 'Tarif')!!}</li>
                             <li>{!! HTML::link('perujuks', 'Perujuk')!!}</li>
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
@@ -213,7 +214,6 @@
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('no_sales', 'No Sales')!!}</li>
                             <li>{!! HTML::link('belanjalist', 'Belanja')!!}</li>
-                            <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
                             <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
                             <li>{!! HTML::link('penjualans/obat_buat_karyawan', 'Obat Untuk Karyawan')!!}</li>
                             <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>

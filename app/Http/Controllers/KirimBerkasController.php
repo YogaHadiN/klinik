@@ -20,6 +20,15 @@ use DB;
 
 class KirimBerkasController extends Controller
 {
+	public function __construct()
+	 {
+		 $this->middleware('protect', ['only' => [
+			 'destroy',
+			 'inputNota',
+			 'inputNotaPost',
+			 'update'
+		 ]]);
+	 }
 	public function index(){
 		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'piutang_asuransi.periksa.asuransi')->get();
 
@@ -100,7 +109,47 @@ class KirimBerkasController extends Controller
 		return view('kirim_berkas.edit', compact('staf_list', 'role_pengiriman_list','kirim_berkas'));
 	}
 	public function update($id){
-		dd(Input::all()); 
+		DB::beginTransaction();
+		try {
+			$kirim_berkas          = KirimBerkas::find($id);
+			$kirim_berkas->tanggal = Yoga::datePrep(Input::get('tanggal'));
+			$kirim_berkas->save();
+
+			$staf_ids            = Input::get('staf_id');
+			$role_pengiriman_ids = Input::get('role_pengiriman_id');
+
+			PetugasKirim::where('kirim_berkas_id', $id)->delete();
+
+			foreach ($staf_ids as $k => $staf_id) {
+				$petugas_kirim                     = new PetugasKirim;
+				$petugas_kirim->staf_id            = $staf_id;
+				$petugas_kirim->role_pengiriman_id = $role_pengiriman_ids[$k];
+				$petugas_kirim->kirim_berkas_id    = $kirim_berkas->id;
+				$petugas_kirim->save();
+			}
+
+			PiutangAsuransi::where('kirim_berkas_id', $id)->update([
+				'kirim_berkas_id' => null
+			]);
+
+			$piutang_tercatat = Input::get('piutang_tercatat');
+			$piutang_tercatat = json_decode($piutang_tercatat, true);
+
+			$piutang_ids = [];
+			foreach ($piutang_tercatat as $piutang) {
+				$piutang_ids[] = $piutang['piutang_id'];
+			}
+			PiutangAsuransi::whereIn('id', $piutang_ids)->update([
+				'kirim_berkas_id' => $kirim_berkas->id
+			]);
+			
+			DB::commit();
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
+		$pesan = Yoga::suksesFlash('Form Kirim Berkas Berhasil Diupdate');
+		return redirect('kirim_berkas')->withPesan($pesan);
 	}
 	public function inputNota($id){
 		$kirim_berkas = KirimBerkas::find( $id );
@@ -126,6 +175,7 @@ class KirimBerkasController extends Controller
 			'supplier_id'  => 'required',
 			'nilai'        => 'required',
 			'faktur_image' => 'required',
+			'foto_berkas_dan_bukti' => 'required',
 			'tanggal'      => 'required|date_format:d-m-Y',
 			'sumber_uang'  => 'required',
 			'keterangan'   => 'required'
@@ -154,7 +204,8 @@ class KirimBerkasController extends Controller
 
 
 		$kirim_berkas                        = KirimBerkas::find($id);
-		$kirim_berkas->foto_berkas_dan_bukti = $this->imageUpload('faktur', 'faktur_image', $id, 'img/foto_berkas_dan_bukti');;
+		$kirim_berkas->foto_berkas_dan_bukti = $this->imageUpload('faktur', 'foto_berkas_dan_bukti', $id, 'img/foto_berkas_dan_bukti');
+		$kirim_berkas->pengeluaran_id        = $peng->id;
 		$kirim_berkas->save();
 
 
@@ -216,5 +267,16 @@ class KirimBerkasController extends Controller
 		} else {
 			return null;
 		}
+	}
+	public function destroy($id){
+		PiutangAsuransi::where('kirim_berkas_id', $id)->update([
+			'kirim_berkas_id' => null
+		]);
+		PetugasKirim::where('kirim_berkas_id', $id)->delete();
+		KirimBerkas::destroy($id);
+		$pesan = Yoga::suksesFlash('Berkas Berhasil dihapus');
+		return redirect(
+			'kirim_berkas'
+		)->withPesan($pesan);
 	}
 }

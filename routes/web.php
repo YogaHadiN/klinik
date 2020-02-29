@@ -621,6 +621,7 @@ Route::resource('users', 'UsersController');
 			Route::get('pdfs/piutang/belum_dibayar/{id}/{mulai}/{akhir}', 'PdfsController@piutangAsuransiBelumDibayar');
 			Route::get('pdfs/piutang/sudah_dibayar/{id}/{mulai}/{akhir}', 'PdfsController@piutangAsuransiSudahDibayar');
 			Route::get('pdfs/piutang/semua/{id}/{mulai}/{akhir}', 'PdfsController@piutangAsuransi');
+			Route::get('pdfs/kirim_berkas/{id}', 'PdfsController@kirim_berkas');
 
 
 

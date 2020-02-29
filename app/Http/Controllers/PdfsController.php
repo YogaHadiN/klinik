@@ -11,6 +11,7 @@ use App\Http\Controllers\AsuransisController;
 use App\Http\Controllers\PendapatansController;
 use App\Classes\Yoga;
 use App\Periksa;
+use App\KirimBerkas;
 use App\Pph21Dokter;
 use App\BagiGigi;
 use App\Modal;
@@ -388,14 +389,6 @@ class PdfsController extends Controller
 				$biayaObat = $transaksi['biaya'];
 			}
 		}
-		// return $periksa->asuransi->tipe_asuransi;
-		// return $biayaObat;
-		// return $tarifObatFlat;
-
-		// return dd($transaksis);
-
-		// return $periksa->registerAnc->presentasi_id;
-
         $pdf = PDF::loadView('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS', 'biaya', 'biayaObat', 'tarifObatFlat'))->setPaper($a)->setOrientation('landscape')->setWarnings(false);
         // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
         return $pdf->stream();
@@ -734,5 +727,25 @@ class PdfsController extends Controller
 			'total_tunai'
 		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
 		return $pdf->stream();
+	}
+	public function kirim_berkas($id){
+		header ('Content-type: text/html; charset=utf-8');
+		$kirim_berkas    = KirimBerkas::with(
+			'petugas_kirim.staf', 
+			'petugas_kirim.role_pengiriman', 
+			'piutang_asuransi.periksa.asuransi')->where('id', $id)->first();
+
+		$jumlah_tagihan = 0;
+		$total_tagihan = 0;
+		foreach ($kirim_berkas->rekap_tagihan as $tagihan) {
+			$jumlah_tagihan += $tagihan['jumlah_tagihan'];
+			$total_tagihan += $tagihan['total_tagihan'];
+			
+		}
+
+
+        $pdf = PDF::loadView('pdfs.kirim_berkas', compact('kirim_berkas', 'jumlah_tagihan', 'total_tagihan'))->setPaper('A5')->setOrientation('landscape')->setWarnings(false);
+        return $pdf->stream();
+
 	}
 }

@@ -5,10 +5,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class KirimBerkas extends Model
 {
+	protected $dates = [
+		'tanggal'
+	];
 	public function petugas_kirim(){
 		return $this->hasMany('App\PetugasKirim');
 	}
 
+	public function pengeluaran(){
+		return $this->belongsTo('App\Pengeluaran');
+	}
 	public function piutang_asuransi(){
 		return $this->hasMany('App\PiutangAsuransi');
 	}

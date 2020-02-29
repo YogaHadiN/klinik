@@ -74,28 +74,38 @@ Klinik Jati Elok | Kirim Berkas
 										</div>
 									</td>
 									<td nowrap class="autofit">
-										<a class="btn btn-info btn-sm" href="{{ url('kirim_berkas/' . $kirim->id . '/edit') }}">
+
+										{!! Form::open(['url' => 'kirim_berkas/' .$kirim->id, 'method' => 'delete']) !!}
+										<a class="btn btn-info btn-xs" href="{{ url('kirim_berkas/' . $kirim->id . '/edit') }}">
 											<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 											Edit
 										</a>
-										<a class="btn btn-warning btn-sm" href="{{ url('kirim_berkas/' . $kirim->id . '/inputNota') }}">
+										@if(!is_null($kirim->foto_berkas_dan_bukti))
+											<a target="_blank" class="btn btn-primary btn-xs" href="{{ url('img/foto_berkas_dan_bukti/' . $kirim->foto_berkas_dan_bukti) }}">
+											<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+											Lihat Pengesahan
+										</a>
+										@else
+										<a class="btn btn-warning btn-xs" href="{{ url('kirim_berkas/' . $kirim->id . '/inputNota') }}">
 											<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
 											Input Nota
 										</a>
+										@endif
+										<br />
+										<br />
+										<a target="_blank" class="btn btn-success btn-xs" href="{{ url('pdfs/kirim_berkas/' . $kirim->id) }}">
+											<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+											Cetak Form
+										</a>
+										<button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('Anda yakin mau menghapus form berkas ini?');return false;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+										{!! Form::close() !!}
+
 									</td>
 								</tr>
 							@endforeach
 						@else
 							<tr>
-								<td colspan="">
-									{!! Form::open(['url' => 'kirim_berkas/imports', 'method' => 'post', 'files' => 'true']) !!}
-										<div class="form-group">
-											{!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
-											{!! Form::file('file') !!}
-											{!! Form::submit('Upload', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
-										</div>
-									{!! Form::close() !!}
-								</td>
+								<td colspan="4" class="text-center">Tidak ada data untuk ditampilkan</td>
 							</tr>
 						@endif
 					</tbody>
