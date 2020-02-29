@@ -1,37 +1,26 @@
-create table kirim_berkas
+create table rekenings
 (
-  id Bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  tanggal date NOT NULL,
-  foto_berkas_dan_bukti VARCHAR(30),
-  pengeluaran_id VARCHAR(30),
+  id VARCHAR(30) not null,
+  akun_bank_id VARCHAR(30) not null,
+  transaksi_id VARCHAR(30) not null,
+  tanggal date NOT NULL not null,
+  deskripsi VARCHAR(30) not null,
+  nilai int not null,
+  saldo_akhir int not null,
+  debet tinyint default(0) not null,
   created_at timestamp default current_timestamp, 
   updated_at timestamp,
   PRIMARY KEY (id)
 );
 
-
-create table petugas_kirims
+create table akun_banks
 (
-  id Bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  staf_id VARCHAR(30) NOT NULL,
-  role_pengiriman_id VARCHAR(30) NOT NULL,
-  kirim_berkas_id VARCHAR(30) NOT NULL,
+  id VARCHAR(30) not null,
+  akun VARCHAR(30) not null,
+  nomor_rekening VARCHAR(30) not null,
   created_at timestamp default current_timestamp, 
   updated_at timestamp,
   PRIMARY KEY (id)
 );
 
-ALTER TABLE piutang_asuransis
-ADD COLUMN kirim_berkas_id VARCHAR(30);
-
-create table role_pengirimans
-(
-  id Bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  role_pengiriman VARCHAR(30) NOT NULL,
-  created_at timestamp default current_timestamp, 
-  updated_at timestamp,
-  PRIMARY KEY (id)
-);
-
-insert into role_pengirimans ( role_pengiriman, created_at, updated_at) Values ( 'petugas pengiriman', NOW(), NOW() );
-insert into role_pengirimans ( role_pengiriman, created_at, updated_at) Values ( 'supervisi', NOW(), NOW() );
+INSERT INTO akun_banks (akun, nomor_rekening, created_at, updated_at) values ('Mandiri', '0060006265940', now(), now() );

@@ -9,6 +9,7 @@ use Input;
 use App\Http\Requests;
 
 use DB;
+use Moota;
 use App\Asuransi;
 use App\CheckoutKasir;
 use App\BayarGaji;
@@ -41,6 +42,26 @@ class TestController extends Controller
 {
 
 	public function index(){
-		jlfjasljdf;
+
+		$json = Moota::mutation('wnazGyxGWGA')->month();
+
+		$json = json_decode($json, true);
+
+		$data = [];
+		foreach ($json as $j) {
+			$data[] = [
+				'akun_bank_id' => $j['akun_bank_id'],
+				'transaksi_id' => $j['transaksi_id'],
+				'tanggal'      => $j['tanggal'],
+				'deskripsi'    => $j['deskripsi'],
+				'nilai'        => $j['nilai'],
+				'saldo_akhir'  => $j['saldo_akhir'],
+				'debet'        => $j['debet'],
+				'created_at'   => $j['created_at']
+			];
+		}
+
+
+
 	}
 }

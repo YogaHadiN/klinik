@@ -705,5 +705,6 @@ Route::resource('users', 'UsersController');
 			Route::get('kirim_berkas/{id}/inputNota', 'KirimBerkasController@inputNota');
 			Route::post('kirim_berkas/{id}/inputNota', 'KirimBerkasController@inputNotaPost');
 			Route::put('kirim_berkas/{id}', 'KirimBerkasController@update');
+			Route::delete('kirim_berkas/{id}', 'KirimBerkasController@destroy');
 
   	});

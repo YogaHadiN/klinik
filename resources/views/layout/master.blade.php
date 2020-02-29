@@ -142,6 +142,14 @@
                         </ul>
                     </li>
 					<li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rekening</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+							@foreach($akun_banks as $akun)	
+								<li>{!! HTML::link('rekening_bank/' . $akun->id, 'Akun Bank ' . $akun->akun)!!}</li>
+							@endforeach
+                        </ul>
+                    </li>
+					<li>
                         <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
                     </li>
                     <li>

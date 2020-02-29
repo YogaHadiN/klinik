@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5d85fb12b8c685a6ac6d3a36ae35bd6",
+    "content-hash": "2d7f94078104d02b5a82cb82d0ed5ce1",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5003,6 +5003,56 @@
                 "remember"
             ],
             "time": "2019-10-04T00:29:10+00:00"
+        },
+        {
+            "name": "yugo/moota",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arvernester/moota.git",
+                "reference": "30c197e24f4b853726ebeb3c6041e4248f7ac598"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arvernester/moota/zipball/30c197e24f4b853726ebeb3c6041e4248f7ac598",
+                "reference": "30c197e24f4b853726ebeb3c6041e4248f7ac598",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3@dev",
+                "laravel/framework": ">=5.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yugo\\Moota\\Providers\\MootaServiceProvider"
+                    ],
+                    "aliases": {
+                        "Moota": "Yugo\\Moota\\Facades\\Moota"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yugo\\Moota\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yugo",
+                    "email": "dedy.yugo.purwanto@gmail.com"
+                }
+            ],
+            "description": "Unofficial Moota.co package for Laravel framework",
+            "time": "2019-02-07T15:59:46+00:00"
         }
     ],
     "packages-dev": [

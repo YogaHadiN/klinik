@@ -5,11 +5,12 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\AntrianPoli;
-use App\DateTime;
+use DateTime;
 use App\Kontrol;
 use App\AntrianPeriksa;
 use App\Ac;
 use DB;
+use Log;
 
 class Kernel extends ConsoleKernel
 {

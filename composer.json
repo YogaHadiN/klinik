@@ -25,7 +25,8 @@
         "pda/pheanstalk": "^4.0.0",
         "predis/predis": "^1.1.1",
         "twilio/sdk": "^5.42",
-        "watson/rememberable": "^3.2.1"
+        "watson/rememberable": "^3.2.1",
+        "yugo/moota": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

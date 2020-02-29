@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
+use App\AkunBank;
 use App\Asuransi;
 use App\AntrianPeriksa;
 use App\Periksa;
@@ -128,6 +129,7 @@ class LaporansController extends Controller
 
 	public function index()
 	{
+		$akun_banks = AkunBank::all();
 		$asuransis      = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
 		$antriankasir   = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
@@ -224,6 +226,7 @@ class LaporansController extends Controller
 			'tanggal',
 			'periksas',
 			'darurat',
+			'akun_banks',
 			'angka_kontak_saat_ini',
 			'pengantar_belum_disubmit',
 			'sms_belum_di_submit',

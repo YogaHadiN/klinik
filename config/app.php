@@ -168,6 +168,7 @@ return [
 		Intervention\Image\ImageServiceProvider::class,
 		Barryvdh\Snappy\ServiceProvider::class,
 		Maatwebsite\Excel\ExcelServiceProvider::class,
+		Yugo\Moota\Providers\MootaServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -195,7 +196,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -240,7 +240,8 @@ return [
 		'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 		'Image' => Intervention\Image\Facades\Image::class,
 		'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-		'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class
+		'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+		'Moota' => Yugo\Moota\Facades\Moota::class,
     ],
 
 ];
