@@ -53,6 +53,8 @@ class Kernel extends ConsoleKernel
 		 Commands\scheduleBackup::class,
 		 Commands\multiPenyusutan::class,
 		 Commands\SyncImage::class,
+		 Commands\cekMutasi::class,
+		 Commands\cekMutasi19Terakhir::class,
 		 Commands\susutDuaTahunLalu::class
 		 /* Commands\smsAngkakontak::class, */
     ];
@@ -65,6 +67,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+		 $schedule->command('cek:mutasi20terakhir')
+				  ->dailyAt('00:01');
+		 $schedule->command('cek:mutasi')
+				  ->dailyAt('23:50');
 		 $schedule->command('send:image')
 				  ->everyMinute();
 		 $schedule->command('task:penyusutan')

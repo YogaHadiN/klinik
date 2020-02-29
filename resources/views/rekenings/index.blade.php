@@ -18,31 +18,38 @@
 @stop
 @section('content') 
 	<div class="table-responsive">
+		{{ $rekenings->links() }}
 		<table class="table table-hover table-condensed table-bordered">
 			<thead>
 				<tr>
-					<th>Deskripsi</th>
-					<th>Debet</th>
-					<th>Kredit</th>
-					<th>Saldo Akhir</th>
+					<th>
+						Tanggal
+                        {!! Form::text('tanggal', null, ['class' => 'form-control-inline tgl form-control ajaxsearchrekening', 'id' => 'tanggal'])!!}
+					</th>
+					<th>
+						Deskripsi
+                        {!! Form::text('deskripsi', null, ['class' => 'form-control-inline deskripsi form-control ajaxsearchrekening', 'id' => 'deskripsi'])!!}
+					</th>
+					<th>
+						Kredit
+					</th>
+					<th>
+						Saldo
+					</th>
 				</tr>
 			</thead>
 			<tbody>
 				@if($rekenings->count() > 0)
 					@foreach($rekenings as $rekening)
 						<tr>
+							<td nowrap>{{ $rekening->tanggal->format('Y-m-d') }}</td>
 							<td>{{ $rekening->deskripsi }}</td>
-							@if( $rekening->debet )
-								<td class="text-right">{{ App\Classes\Yoga::( $rekening->nilai ) }}</td>
-							@else
-								<td class="text-right">{{ App\Classes\Yoga::('0') }}</td>
-							@endif
 							@if( !$rekening->debet )
-								<td class="text-right">{{ App\Classes\Yoga::( $rekening->nilai ) }}</td>
+								<td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $rekening->nilai ) }}</td>
 							@else
-								<td class="text-right">{{ App\Classes\Yoga::('0') }}</td>
+								<td nowrap class="text-right">{{ App\Classes\Yoga::buatrp('0') }}</td>
 							@endif
-							<td>{{ $rekening->saldo_akhir }}</td>
+							<td nowrap>{{ App\Classes\Yoga::buatrp( $rekening->saldo_akhir ) }}</td>
 						</tr>
 					@endforeach
 				@else
@@ -52,6 +59,7 @@
 				@endif
 			</tbody>
 		</table>
+		{{ $rekenings->links() }}
 	</div>
 @stop
 @section('footer') 

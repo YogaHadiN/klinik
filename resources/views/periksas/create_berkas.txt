@@ -1,24 +1,8 @@
-create table rekenings
-(
-  id VARCHAR(30) not null,
-  akun_bank_id VARCHAR(30) not null,
-  transaksi_id VARCHAR(30) not null,
-  tanggal date NOT NULL not null,
-  deskripsi VARCHAR(30) not null,
-  nilai int not null,
-  saldo_akhir int not null,
-  debet tinyint default(0) not null,
-  created_at timestamp default current_timestamp, 
-  updated_at timestamp,
-  PRIMARY KEY (id)
-);
-
-create table akun_banks
-(
-  id VARCHAR(30) not null,
-  akun VARCHAR(30) not null,
-  nomor_rekening VARCHAR(30) not null,
-  created_at timestamp default current_timestamp, 
-  updated_at timestamp,
-  PRIMARY KEY (id)
-);
+ALTER TABLE rekenings DROP COLUMN transaksi_id;
+ALTER TABLE rekenings MODIFY akun_bank_id varchar(255) NOT NULL;
+ALTER TABLE rekenings MODIFY deskripsi text NOT NULL;
+ALTER TABLE rekenings MODIFY id varchar(255) NOT NULL;
+ALTER TABLE rekenings MODIFY tanggal timestamp NOT NULL;
+ALTER TABLE akun_banks MODIFY id varchar(255) NOT NULL;
+ALTER TABLE akun_banks MODIFY akun varchar(255) NOT NULL;
+ALTER TABLE akun_banks MODIFY nomor_rekening varchar(255) NOT NULL;

@@ -32,6 +32,8 @@ use App\BukanPeserta;
 use App\Formula;
 use App\Komposisi;
 use App\Classes\Yoga;
+use App\AkunBank;
+use App\Rekening;
 use App\Http\Handler;
 use App\Console\Commands\sendMeLaravelLog;
 use App\Imports\PembayaranImport;
@@ -42,26 +44,40 @@ class TestController extends Controller
 {
 
 	public function index(){
+		//define semua bank yang ada
 
-		$json = Moota::mutation('wnazGyxGWGA')->month();
-
-		$json = json_decode($json, true);
-
-		$data = [];
-		foreach ($json as $j) {
-			$data[] = [
-				'akun_bank_id' => $j['akun_bank_id'],
-				'transaksi_id' => $j['transaksi_id'],
-				'tanggal'      => $j['tanggal'],
-				'deskripsi'    => $j['deskripsi'],
-				'nilai'        => $j['nilai'],
-				'saldo_akhir'  => $j['saldo_akhir'],
-				'debet'        => $j['debet'],
-				'created_at'   => $j['created_at']
-			];
+		$banks = Moota::banks();
+		foreach ($banks['data'] as $bank) {
+			$bank_id = $bank->bank_id;
+			$newBank = AkunBank::findOrNew($bank_id);
+			if ( !$newBank->id ) {
+				$newBank->id             = $bank_id;
+				$newBank->nomor_rekening = $bank->account_number;
+				$newBank->akun           = $bank->bank_type;
+				$newBank->save();
+			}
+			$mutasis = Moota::mutation( $newBank->id )->month()->toArray();
+			$insertMutasi = [];
+			foreach ($mutasis['data'] as $mutasi) {
+				if ( $mutasi->type == 'CR' ) {
+					$debet = 0;
+				} else {
+					$debet = 1;
+				}
+				$newRekening = Rekening::findOrNew($mutasi->mutation_id);
+				if ( !$newRekening->id ) {
+					$insertMutasi[] = [
+						'id'           => $mutasi->mutation_id,
+						'akun_bank_id' => $newBank->id,
+						'tanggal'      => $mutasi->created_at,
+						'deskripsi'    => $mutasi->description,
+						'nilai'        => $mutasi->amount,
+						'saldo_akhir'  => $mutasi->balance,
+						'debet'        => $debet
+					];
+				}
+			}
+			Rekening::insert($insertMutasi);
 		}
-
-
-
 	}
 }
