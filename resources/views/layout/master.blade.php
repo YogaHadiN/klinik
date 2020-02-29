@@ -144,7 +144,7 @@
 					<li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rekening</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-							@foreach($akun_banks as $akun)	
+							@foreach(App\AkunBank::all() as $akun)	
 								<li>{!! HTML::link('rekening_bank/' . $akun->id, 'Akun Bank ' . $akun->akun)!!}</li>
 							@endforeach
                         </ul>

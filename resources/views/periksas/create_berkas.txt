@@ -22,5 +22,3 @@ create table akun_banks
   updated_at timestamp,
   PRIMARY KEY (id)
 );
-
-INSERT INTO akun_banks (akun, nomor_rekening, created_at, updated_at) values ('Mandiri', '0060006265940', now(), now() );
