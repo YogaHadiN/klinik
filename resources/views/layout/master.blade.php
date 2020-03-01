@@ -117,6 +117,7 @@
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
                             <li>{!! HTML::link('pengeluarans/peralatans', 'Peralatan')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
+                            <li>{!! HTML::link('surats', 'Surat Masuk dan Keluar')!!}</li>
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
                             <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
                             <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>

@@ -1,1 +1,8 @@
-ALTER TABLE kirim_berkas ADD COLUMN foto_pengesahan VARCHAR(255) NULL;
+CREATE TABLE surats (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nomor_surat VARCHAR(50),
+    surat_masuk tinyint(1) NOT NULL,
+    deskripsi VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP ,
+    updated_at TIMESTAMP
+)

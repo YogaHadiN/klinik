@@ -28,7 +28,7 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 					  {!! Form::label('pengeluaran', 'Bukti Faktur', ['class' => 'control-label']) !!}
-						  @if (isset($kirim_berkas) && $kirim_berkas->pengeluaran->faktur_image)
+					  @if (isset($kirim_berkas->pengeluaran_id) && $kirim_berkas->pengeluaran->faktur_image)
 							  <p> {!! HTML::image(asset('img/belanja/lain/'.$kirim_berkas->pengeluaran->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
 						@else
 							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
