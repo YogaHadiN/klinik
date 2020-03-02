@@ -1,6 +1,7 @@
 CREATE TABLE surats (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nomor_surat VARCHAR(50),
+    tanggal date,
     surat_masuk tinyint(1) NOT NULL,
     deskripsi VARCHAR(255) NOT NULL,
     created_at TIMESTAMP ,

@@ -147,6 +147,7 @@ Route::resource('users', 'UsersController');
 			// dari menu users
 			Route::post('mereks/ajax/obat', 'MereksController@ajaxObat');
 			Route::resource('pasiens', 'PasiensController');
+			Route::resource('surats', 'SuratController');
 			Route::resource('pelamars', 'PelamarsController');
 			Route::resource('asuransis', 'AsuransisController');
 			Route::resource('diagnosas', 'DiagnosasController');

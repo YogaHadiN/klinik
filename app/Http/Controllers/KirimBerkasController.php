@@ -52,11 +52,13 @@ class KirimBerkasController extends Controller
 		$query .= "pa.sudah_dibayar as sudah_dibayar, ";
 		$query .= "px.id as periksa_id, ";
 		$query .= "ps.nama as nama_pasien, ";
+		$query .= "ks.tanggal as tanggal_kirim, ";
 		$query .= "asu.nama as nama_asuransi ";
 		$query .= "FROM piutang_asuransis as pa ";
 		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
 		$query .= "JOIN pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
+		$query .= "LEFT JOIN kirim_berkas as ks on ks.id = pa.kirim_berkas_id ";
 		$query .= "WHERE px.tanggal between '$date_from' and '$date_to' ";
 		$query .= "AND px.asuransi_id = '$asuransi_id';";
 		$data = DB::select($query);

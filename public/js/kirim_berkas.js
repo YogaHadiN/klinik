@@ -54,7 +54,11 @@
 		var temp = ''; 
 		var data_piutang_tercatat = parsePiutangTercatat();
 		for (var i = 0; i < data.length; i++) {
-			temp += '<tr>';
+			if( data[i].tanggal_kirim != null ){
+				temp += '<tr class="table-warning">';
+			} else {
+				temp += '<tr>';
+			}
 			temp += '<td><a target="_blank" href="' + base + '/periksas/' +data[i].periksa_id+ '">';
 			temp += data[i].periksa_id;
 			temp += '</a></td>';
@@ -81,15 +85,21 @@
 				temp += buttonCek(i, false);
 				temp += '</td>';
 			} else {
-				var tercatat = cekTercatat( data_piutang_tercatat, data[i].piutang_id );
-				if (typeof tercatat !== "boolean"){
-					temp += '<td>';
-					temp += buttonCek(tercatat, false);
-					temp += '</td>';
+				if( data[i].tanggal_kirim != null ){
+						temp += '<td>';
+						temp += 'Terkirim ' + data[i].tanggal_kirim;
+						temp += '</td>';
 				} else {
-					temp += '<td>';
-					temp += buttonCek(i);
-					temp += '</td>';
+					var tercatat = cekTercatat( data_piutang_tercatat, data[i].piutang_id );
+					if (typeof tercatat !== "boolean"){
+						temp += '<td>';
+						temp += buttonCek(tercatat, false);
+						temp += '</td>';
+					} else {
+						temp += '<td>';
+						temp += buttonCek(i);
+						temp += '</td>';
+					}
 				}
 			}
 			temp += '</tr>';
@@ -177,7 +187,11 @@
 		var piutang_tercatat = parsePiutangTercatat();
 
 		for (var i = 0; i < piutang_asuransi.length; i++) {
-			if( typeof cekTercatat( piutang_tercatat, piutang_asuransi[i].piutang_id ) === 'boolean' ){
+			if( 
+				typeof cekTercatat( piutang_tercatat, piutang_asuransi[i].piutang_id ) === 'boolean' &&
+				piutang_asuransi[i].tanggal_kirim == null
+
+			){
 				piutang_tercatat.push( piutang_asuransi[i]  );
 			}
 		}
