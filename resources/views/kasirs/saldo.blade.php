@@ -43,10 +43,12 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							@if( $status != 'danger' )
 							<div class="form-group">
 								<button class="btn btn-success btn-block btn-lg" type="button" onclick="dummySubmit();return false;">Submit</button>
 								{!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit']) !!}
 							</div> 
+							@endif
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<a class="btn btn-danger btn-block btn-lg" href="{{ url('generiks') }}">Cancel</a>
@@ -54,55 +56,50 @@
 					</div>
 				</div>
 			</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<div class="panel-title">Riwayat Saldo</div>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<?php echo $saldos->appends(Input::except('page'))->links(); ?>
+				<table class="table table-hover table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>Waktu</th>
+							<th>Saldo</th>
+							<th>Staf</th>
+							<th>Saldo Saat Ini</th>
+							<th>Selisih</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if($saldos->count() > 0)
+							@foreach($saldos as $s)
+								<tr>
+									<td>{{ $s->created_at->format('d M Y H:i:s') }}</td>
+									<td class='uang'>{{ $s->saldo }}</td>
+									<td>{{ $s->staf->nama }}</td>
+									<td class='uang'>{{ $s->saldo_saat_ini }}</td>
+									<td class='uang'>{{ $s->selisih }}</td>
+								</tr>
+							@endforeach
+						@else
+							<tr>
+								<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
+							</tr>
+						@endif
+					</tbody>
+				</table>
+				<?php echo $saldos->appends(Input::except('page'))->links(); ?>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<div class="panel-title">Riwayat Saldo</div>
-					</div>
-					<div class="panel-body">
-						<div class="table-responsive">
-							<?php echo $saldos->appends(Input::except('page'))->links(); ?>
-							<table class="table table-hover table-condensed table-bordered">
-								<thead>
-									<tr>
-										<th>Waktu</th>
-										<th>Saldo</th>
-										<th>Staf</th>
-										<th>Saldo Saat Ini</th>
-										<th>Selisih</th>
-									</tr>
-								</thead>
-								<tbody>
-									@if($saldos->count() > 0)
-										@foreach($saldos as $s)
-											<tr>
-												<td>{{ $s->created_at->format('d M Y H:i:s') }}</td>
-												<td class='uang'>{{ $s->saldo }}</td>
-												<td>{{ $s->staf->nama }}</td>
-												<td class='uang'>{{ $s->saldo_saat_ini }}</td>
-												<td class='uang'>{{ $s->selisih }}</td>
-											</tr>
-										@endforeach
-									@else
-										<tr>
-											<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
-										</tr>
-									@endif
-								</tbody>
-							</table>
-							<?php echo $saldos->appends(Input::except('page'))->links(); ?>
-						</div>
-						
-					</div>
-				</div>
-				
-			</div>
-			
-		{!! Form::close() !!}
-	</div>
+</div>
+@include('kasirs.warning')
+</div>
+{!! Form::close() !!}
+
 	
 @stop
 @section('footer') 

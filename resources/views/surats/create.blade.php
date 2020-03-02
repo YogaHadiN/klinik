@@ -17,9 +17,9 @@ Online Electronic Medical Record | Pendaftaran
 </ol>
 @stop
 @section('content') 
-	<h1>{{ $pasien->nama }}</h1>
-	{!! Form::open(['url' => 'home/daftars', 'method' => 'post']) !!}
-		@include('daftars.form')
+	<h1>Create Surat</h1>
+	{!! Form::open(['url' => 'surats', 'method' => 'post', 'files' => 'true']) !!}
+		@include('surats.form')
 	{!! Form::close() !!}
 @stop
 @section('footer') 

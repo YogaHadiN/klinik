@@ -19,9 +19,9 @@ Online Electronic Medical Record | Edit Pendaftaran
 </ol>
 @stop
 @section('content') 
-	<h1>{{ $daftar->pasien->nama }}</h1>
-	{!! Form::model($daftar,['url' => 'home/daftars/' .  $daftar->id, 'method' => 'put']) !!}
-		@include('daftars.form', ['update' => true])
+	<h1>Edit Surat</h1>
+	{!! Form::model($surat,['url' => 'surats/' .  $surat->id, 'method' => 'put', 'files' => 'true']) !!}
+		@include('surats.form')
 	{!! Form::close() !!}
 @stop
 @section('footer') 

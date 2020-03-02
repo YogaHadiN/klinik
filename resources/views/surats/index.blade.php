@@ -17,32 +17,39 @@ Online Electronic Medical Record | Nurse Station
 
 @stop
 @section('content') 
+
+            <a href="{{ url( 'surats/create' ) }}" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
+			<br />
+			<br />
 			<div class="table-responsive">
 				<table class="table table-hover table-condensed table-bordered">
 					<thead>
 						<tr>
-							<th>Nama Pasien</th>
-							<th>Poli</th>
-							<th>Pembayaran</th>
-							<th>Pemeriksa</th>
-							<th>Waktu Terdaftar</th>
+							<th>Tanggal</th>
+							<th>Nomor Surat</th>
+							<th>Jenis Surat</th>
+							<th>Alamat Tujuan / Dari</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						@if($daftars->count() > 0)
-							@foreach($daftars as $daftar)
+						@if($surats->count() > 0)
+							@foreach($surats as $surat)
 								<tr>
-									<td>{{ $daftar->pasien->nama }}</td>
-									<td>{{ $daftar->poli->poli }}</td>
-									<td>{{ $daftar->asuransi->nama_asuransi }}</td>
-									<td>{{ $daftar->staf->nama }}</td>
-									<td>{{ $daftar->waktu }}</td>
+									<td>{{ $surat->tanggal->format('d M Y') }}</td>
+									<td>{{ $surat->nomor_surat }}</td>
+									<td>
+										@if( $surat->surat_masuk)
+											Surat Masuk
+										@else
+											Surat Keluar
+										@endif
+									</td>
+									<td>{{ $surat->alamat }}</td>
 									<td nowrap class="autofit">
-										{!! Form::open(['url' => 'home/daftars/' . $daftar->id, 'method' => 'delete']) !!}
-											<a class="btn btn-success btn-sm" href="{{ url('home/nursestation/' . $daftar->id . '/create') }}"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
-											<a class="btn btn-warning btn-sm" href="{{ url('home/daftars/' . $daftar->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $daftar->pasien->nama }} dari daftar antrian ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										{!! Form::open(['url' => 'surats/' . $surat->id, 'method' => 'delete']) !!}
+											<a class="btn btn-warning btn-sm" href="{{ url('surats/' . $surat->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus surat?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 										{!! Form::close() !!}
 									</td>
 								</tr>

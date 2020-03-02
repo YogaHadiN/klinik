@@ -3,7 +3,7 @@ CREATE TABLE surats (
     nomor_surat VARCHAR(50),
     tanggal date,
     surat_masuk tinyint(1) NOT NULL,
-    deskripsi VARCHAR(255) NOT NULL,
+    alamat VARCHAR(255) NOT NULL,
     created_at TIMESTAMP ,
     updated_at TIMESTAMP
-)
+);

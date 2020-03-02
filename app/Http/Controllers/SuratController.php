@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Surat;
 use Input;
-use App\Yoga;
+use App\Classes\Yoga;
 use DB;
 class SuratController extends Controller
 {
@@ -26,8 +26,13 @@ class SuratController extends Controller
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$surat       = new Surat;
-		// Edit disini untuk simpan data
+		$surat              = new Surat;
+		$surat->nomor_surat = Input::get('nomor_surat');
+		$surat->tanggal     = Yoga::datePrep(Input::get('tanggal'));
+		$surat->surat_masuk = Input::get('surat_masuk');
+		$surat->alamat      = Input::get('alamat');
+		$surat->save();
+		$surat->foto_surat  = $this->imageUpload('surat', 'surat', $surat->id, 'img/surat');
 		$surat->save();
 		$pesan = Yoga::suksesFlash('Surat baru berhasil dibuat');
 		return redirect('surats')->withPesan($pesan);
@@ -36,8 +41,12 @@ class SuratController extends Controller
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$surat     = Surat::find($id);
-		// Edit disini untuk simpan data
+		$surat              = Surat::find($id);
+		$surat->nomor_surat = Input::get('nomor_surat');
+		$surat->tanggal     = Yoga::datePrep(Input::get('tanggal'));
+		$surat->surat_masuk = Input::get('surat_masuk');
+		$surat->foto_surat  = $this->imageUpload('surat', 'surat', $surat->id, 'img/surat');
+		$surat->alamat      = Input::get('alamat');
 		$surat->save();
 		$pesan = Yoga::suksesFlash('Surat berhasil diupdate');
 		return redirect('surats')->withPesan($pesan);
@@ -59,9 +68,6 @@ class SuratController extends Controller
 		$timestamp = date('Y-m-d H:i:s');
 		foreach ($results as $result) {
 			$surats[] = [
-	
-				// Do insert here
-	
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			];
@@ -75,13 +81,46 @@ class SuratController extends Controller
 			'required' => ':attribute Harus Diisi',
 		];
 		$rules = [
-			'data'           => 'required',
+			'nomor_surat' => 'required',
+			'tanggal'     => 'required',
+			'surat_masuk' => 'required',
+			'alamat'      => 'required'
 		];
 		$validator = \Validator::make($data, $rules, $messages);
 		
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+	}
+
+	private function imageUpload($pre, $fieldName, $id, $path){
+		if(Input::hasFile($fieldName)) {
+
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+			//
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR .$path;
+
+			// Mengambil file yang di upload
+			$upload_cover->save($destination_path . '/' . $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return $filename;
+			
+		} else {
+			return null;
 		}
 	}
 }

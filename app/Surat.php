@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Surat extends Model
 {
-    //
+	protected $dates = [
+		'tanggal'
+	];
 }
