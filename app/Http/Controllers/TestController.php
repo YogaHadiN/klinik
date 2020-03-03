@@ -48,10 +48,18 @@ class TestController extends Controller
 {
 
 	public function index(){
-		$client = new VultrClient(
-			new GuzzleHttpAdapter(env('VULTR_KEY'))
-		);
-		$result = $client->metaData()->getAccountInfo();
-		dd($result);
+		$data = "testtesttest";
+		$secretKey = "secretkey";
+		 
+		// Computes the signature by hashing the salt with the secret key as the key
+		$signature = hash_hmac('sha256', $data, $secretKey, true);
+		 
+		// base64 encode…
+		$encodedSignature = base64_encode($signature);
+		// urlencode…
+		// $encodedSignature = urlencode($encodedSignature);
+		 
+		return "Voila! A signature: " . $encodedSignature;
+
 	}
 }

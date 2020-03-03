@@ -33,7 +33,8 @@ class PenjualansController extends Controller
 		$stafs      = [null => '- pilih -'] + Staf::pluck('nama', 'id')->all();
 		$nota_juals = NotaJual::with('penjualan.merek', 'staf', 'tipeJual')->latest()->paginate(10);
 
-		return view('penjualans.index', compact('mereks', 'stafs', 'suppliers', 'nota_juals'));
+		return view('penjualans.index', compact('mereks', 'stafs', 'nota_juals'));
+		/* return view('penjualans.index', compact('mereks', 'stafs', 'suppliers', 'nota_juals')); */
 	}
 	public function indexPost()
 	{
