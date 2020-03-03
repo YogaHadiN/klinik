@@ -117,7 +117,7 @@ class KasirsController extends Controller
 		$zenziva_expired = Carbon::parse($zenziva_expired);
 		$time_left       = strtotime($zenziva_expired) - strtotime('now');
 		$time_left       = $this->secondsToTime($time_left);
-		$saldos          = Saldo::latest()->paginate(20);
+		$saldos          = Saldo::with('staf')->latest()->paginate(20);
 
 
 

@@ -11,12 +11,12 @@
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Rekening Bank {{ $rekenings->first()->akun }}</strong>
+		  <strong>Rekening Bank {{ $rekenings->first()->akun_bank->akun }}</strong>
 	  </li>
 </ol>
-
 @stop
 @section('content') 
+	{!! Form::text('akun_bank_id', $rekenings->first()->akun_bank_id, ['class' => 'form-control hide', 'id' => 'akun_bank_id']) !!}
 	<div class="table-responsive">
 		{{ $rekenings->links() }}
 		<table class="table table-hover table-condensed table-bordered">
@@ -24,11 +24,19 @@
 				<tr>
 					<th>
 						Tanggal
-                        {!! Form::text('tanggal', null, ['class' => 'form-control-inline tgl form-control ajaxsearchrekening', 'id' => 'tanggal'])!!}
+                        {!! Form::text('tanggal', null, [
+							'class' => 'form-control-inline tgl form-control ajaxsearchrekening',
+							'onkeyup' => 'search(this);return false;',
+							'id'    => 'tanggal'
+						])!!}
 					</th>
 					<th>
 						Deskripsi
-                        {!! Form::text('deskripsi', null, ['class' => 'form-control-inline deskripsi form-control ajaxsearchrekening', 'id' => 'deskripsi'])!!}
+                        {!! Form::text('deskripsi', null, [
+							'class' => 'form-control-inline deskripsi form-control ajaxsearchrekening',
+							'onkeyup' => 'search(this);return false;',
+							'id' => 'deskripsi'
+						])!!}
 					</th>
 					<th>
 						Kredit
@@ -38,7 +46,7 @@
 					</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="rek_container">
 				@if($rekenings->count() > 0)
 					@foreach($rekenings as $rekening)
 						<tr>
@@ -63,6 +71,37 @@
 	</div>
 @stop
 @section('footer') 
+	<script type="text/javascript" charset="utf-8">
+		function search(control){
+			 $.get(base + '/rekening_bank/search',
+			 	{ 
+					'tanggal':      $('#tanggal').val(),
+					'akun_bank_id': $('#akun_bank_id').val(),
+					'deskripsi':    $('#deskripsi').val()
+				},
+			 	function (data, textStatus, jqXHR) {
+					var temp = '';
+					for (var i = 0; i < data.length; i++) {
+						temp += '<tr>';
+						temp += '<td>';
+						temp += data[i].tanggal;
+						temp += '</td>';
+						temp += '<td>';
+						temp += data[i].deskripsi;
+						temp += '</td>';
+						temp += '<td class="text-right">';
+						temp += uang(data[i].nilai);
+						temp += '</td>';
+						temp += '<td class="text-right">';
+						temp += uang(data[i].saldo_akhir);
+						temp += '</td>';
+						temp += '</tr>';
+					}
+					 $('#rek_container').html(temp);
+			 	}
+			 );
+		}
+</script>
 	
 @stop
 

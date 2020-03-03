@@ -11,4 +11,7 @@ class Rekening extends Model
 	protected $dates = [
 		'tanggal'
 	];
+	public function akun_bank(){
+		return $this->belongsTo('App\AkunBank');
+	}
 }
