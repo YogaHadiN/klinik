@@ -24,6 +24,7 @@
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.0.3",
         "maatwebsite/excel": "^3.1",
+        "malc0mn/vultr-api-client": "^1.1",
         "pda/pheanstalk": "^4.0.0",
         "predis/predis": "^1.1.1",
         "twilio/sdk": "^5.42",

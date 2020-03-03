@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+		/* Awageeks\Bpjs\BpjsServiceProvider::class, */
         Barryvdh\DomPDF\ServiceProvider::class,
 		/* Barryvdh\Debugbar\ServiceProvider::class, */
 	    Laravel\Socialite\SocialiteServiceProvider::class,

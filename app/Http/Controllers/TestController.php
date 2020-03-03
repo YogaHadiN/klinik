@@ -38,12 +38,20 @@ use App\Http\Handler;
 use App\Console\Commands\sendMeLaravelLog;
 use App\Imports\PembayaranImport;
 use Maatwebsite\Excel\Facades\Excel;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+use Vultr\VultrClient;
+use Vultr\Adapter\GuzzleHttpAdapter;
 
 
 class TestController extends Controller
 {
 
 	public function index(){
-		kdfjs;
+		$client = new VultrClient(
+			new GuzzleHttpAdapter(env('VULTR_KEY'))
+		);
+		$result = $client->metaData()->getAccountInfo();
+		dd($result);
 	}
 }

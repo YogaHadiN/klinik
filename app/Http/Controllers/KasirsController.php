@@ -14,6 +14,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use App\Http\Requests;
 use App\Periksa;
+use Vultr\VultrClient;
+use Vultr\Adapter\GuzzleHttpAdapter;
 
 class KasirsController extends Controller
 {
@@ -76,7 +78,7 @@ class KasirsController extends Controller
 		}
 		$zenziva_expired      = $tahun . '-' . $bulan . '-' . $hari;
 		$zenziva_expired_safe = false;
-
+		$vultr                = $this->vultr();
 
 		$status = 'success';
 
@@ -84,12 +86,14 @@ class KasirsController extends Controller
 			$status = 'warning';
 		} 
 
-		$zenziva_credit_safe = false;
 		if( $zenziva_credit < 500 ){
 			$status = 'warning';
 		}
 
-		$moota_balance_safe = false;
+		if( ($vultr['balance'] + $vultr['pending_charges']) > -20 ){
+			$status = 'warning';
+		}
+
 		if( $moota_balance < 20000 ){
 			$status = 'warning';
 		}
@@ -98,25 +102,31 @@ class KasirsController extends Controller
 			$status = 'danger';
 		} 
 
-		$zenziva_credit_safe = false;
 		if( $zenziva_credit < 100 ){
 			$status = 'danger';
 		}
 
-		$moota_balance_safe = false;
 		if( $moota_balance < 10000 ){
 			$status = 'danger';
 		}
+		if( ($vultr['balance'] + $vultr['pending_charges']) > -15 ){
+			$status = 'danger';
+		}
+
 
 		$zenziva_expired = Carbon::parse($zenziva_expired);
-		$time_left = strtotime($zenziva_expired) - strtotime('now');
-		$time_left = $this->secondsToTime($time_left);
+		$time_left       = strtotime($zenziva_expired) - strtotime('now');
+		$time_left       = $this->secondsToTime($time_left);
 		$saldos          = Saldo::latest()->paginate(20);
+
+
+
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'status',
 			'time_left',
 			'zenziva_expired',
+			'vultr',
 			'zenziva_credit',
 			'moota_balance'
 		));
@@ -175,6 +185,13 @@ class KasirsController extends Controller
 		$dtF = new \DateTime('@0');
 		$dtT = new \DateTime("@$seconds");
 		return $dtF->diff($dtT)->format('%a hari lagi');
+	}
+	private	function vultr(){
+		$client = new VultrClient(
+			new GuzzleHttpAdapter(env('VULTR_KEY'))
+		);
+		$result = $client->metaData()->getAccountInfo();
+		return $result;
 	}
 
 
