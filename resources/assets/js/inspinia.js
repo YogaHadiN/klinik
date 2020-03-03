@@ -523,5 +523,43 @@ function daysInMonth(month, year) {
 	int_d = new Date( year, parseInt(month),1);
 	d = new Date(int_d - 1);
 	return d;
-	//return d.getDate() + '-' + d.getMonth() + '-' + d.getYear();
+}
+function tambahInput(control){
+	var getThru = true
+	$(control).closest('tr').find('input').each(function(){
+		if($(this).val() == ''){
+			getThru = false;
+		}
+	});
+	if( getThru ){
+		var many_row = $(control).closest('table').find('tr').length;
+		var row      = $(control).closest('tr')[0].outerHTML;
+		$(control).closest('tbody').append(row);
+		$(control).closest('tr').next().find('input').first().focus();
+		if( many_row == '1' ){
+			$(control).closest('tr').next().find('.btn-primary').closest('td').append('&nbsp<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>')
+		}
+		$(control).closest('td').html('<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>');
+	} else {
+		$(control).closest('tr').find('input').each(function(){
+			if( $(this).val() == '' ){
+				validasi(this, 'harus diisi');
+			}
+		});
+		$(control).closest('tr').find('input').first().focus();
+	}
+}
+function kurangInput(control){ 
+	var table = $(control).closest('table');
+	$(control).closest('tr').remove();
+	var many_row = table.find('tr').length;
+	if( many_row == '1' ){
+		table.find('td').last().html(
+			'<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>'
+		);
+	} else {
+		table.find('tr').last().find('td').last().html(
+			'<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>&nbsp<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>'
+		);
+	}
 }

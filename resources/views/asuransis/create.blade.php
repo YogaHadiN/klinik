@@ -45,8 +45,6 @@
 'rujukanstring' => null,
 'hapus' => false,
 'penagihanstring' => null
-
-
 ])
     {!! Form::close() !!}
     @stop

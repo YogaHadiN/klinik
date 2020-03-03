@@ -1,9 +1,19 @@
-CREATE TABLE surats (
+CREATE TABLE pics (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nomor_surat VARCHAR(50),
-    tanggal date,
-    surat_masuk tinyint(1) NOT NULL,
-    alamat VARCHAR(255) NOT NULL,
+    nama VARCHAR(50) NOT NULL,
+    nomor_telepon VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP ,
+    updated_at TIMESTAMP
+);
+
+ALTER TABLE asuransis
+ADD COLUMN kata_kunci VARCHAR(255);
+
+CREATE TABLE emails (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    emailable_type VARCHAR(50) NOT NULL,
+    emailable_id VARCHAR(50) NOT NULL,
     created_at TIMESTAMP ,
     updated_at TIMESTAMP
 );
