@@ -5636,6 +5636,10 @@ img:not(.img-circle) {
     white-space: nowrap;
     width: 1%;
 }
+.column-fit{
+	width: 1%;
+	white-space: nowrap;
+}
 
 /*! jQuery UI - v1.11.4 - 2016-01-02
 * http://jqueryui.com

@@ -19,6 +19,13 @@ class Asuransi extends Model{
 		'email' => 'email'
 	];
 
+	public function pic(){
+		return $this->hasMany('App\Pic');
+	}
+	public function email(){
+		return $this->hasMany('App\Email');
+	}
+
 	// Don't forget to fill this array
 	protected $guarded = [];
 

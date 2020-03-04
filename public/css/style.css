@@ -5111,3 +5111,7 @@ table.tabelTerapi tr td {
 .font-super-big {
 	font-size:100px !important;
 }
+.column-fit{
+	width: 1%;
+	white-space: nowrap;
+}

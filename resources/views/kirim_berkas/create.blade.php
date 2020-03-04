@@ -59,7 +59,7 @@ Klinik Jati Elok | Kirim Berkas
 								<td>
 									{!! Form::text('date_frrm', null, ['class' => 'form-control tanggal', 'id' => 'date_to', 'placeholder' => 'Tanggal Akhir']) !!}
 								</td>
-								<td>
+								<td class="column-fit">
 									<button type="button" class="btn btn-success btn-block" onclick="cariPiutangAsuransi();return false;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 								</td>
 							</tr>
@@ -92,7 +92,7 @@ Klinik Jati Elok | Kirim Berkas
 									<th>Piutang</th>
 									<th>Sudah Dibayar</th>
 									<th>Sisa Piutang</th>
-									<th>Action</th>
+									<th class="column-fit">Action</th>
 								</tr>
 							</thead>
 							<tbody id="body_pencarian_piutang">

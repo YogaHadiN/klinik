@@ -81,7 +81,7 @@
 			temp += uang(data[i].piutang - data[i].sudah_dibayar);
 			temp += '</td>';
 			if(catat){
-				temp += '<td>';
+				temp += '<td class="column-fit">';
 				temp += buttonCek(i, false);
 				temp += '</td>';
 			} else {
@@ -92,11 +92,11 @@
 				} else {
 					var tercatat = cekTercatat( data_piutang_tercatat, data[i].piutang_id );
 					if (typeof tercatat !== "boolean"){
-						temp += '<td>';
+						temp += '<td class="column-fit">';
 						temp += buttonCek(tercatat, false);
 						temp += '</td>';
 					} else {
-						temp += '<td>';
+						temp += '<td class="column-fit">';
 						temp += buttonCek(i);
 						temp += '</td>';
 					}

@@ -2,10 +2,10 @@ CREATE TABLE pics (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(50) NOT NULL,
     nomor_telepon VARCHAR(50) NOT NULL,
+    asuransi_id VARCHAR(255) NOT NULL,
     created_at TIMESTAMP ,
     updated_at TIMESTAMP
 );
-
 ALTER TABLE asuransis
 ADD COLUMN kata_kunci VARCHAR(255);
 

@@ -5296,3 +5296,7 @@ img:not(.img-circle) {
     white-space: nowrap;
     width: 1%;
 }
+.column-fit{
+	width: 1%;
+	white-space: nowrap;
+}

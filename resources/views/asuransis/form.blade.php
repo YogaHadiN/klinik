@@ -126,16 +126,6 @@
 												  @if($errors->has('tanggal_berakhir'))<code>{{ $errors->first('tanggal_berakhir') }}</code>@endif
 												</div>
 											</div>
-											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-												<div class="form-group @if($errors->has('email'))has-error @endif">
-												  {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
-													{!! Form::email('email', null, array(
-														'class'         => 'form-control',
-														'placeholder'   => 'Email'
-														))!!}
-												  @if($errors->has('email'))<code>{{ $errors->first('email') }}</code>@endif
-												</div>
-											</div>
 										</div>
 										<div class="row">
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -167,29 +157,71 @@
 												<div class="table-responsive">
 													<table class="table table-hover table-condensed table-bordered" id="table_pic">
 														<tbody>
-															<tr>
-																<td>
-																	<div class="form-group">
-																		{!! Form::text('pic[]',null, array(
-																			'class'         => 'form-control pic',
-																			'placeholder'   => 'nama'
-																		))!!}
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																		{!! Form::text('hp_pic[]', null, array(
-																			'class'         => 'form-control hp',
-																			'placeholder'   => 'nomor handphone'
-																		))!!}
-																	</div>
-																</td>
-																<td>
-																	<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
-																		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-																	</button>
-																</td>
-															</tr>
+															@if( isset($asuransi) )
+																@foreach($asuransi->pic as $k => $pic)	
+																	<tr>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('pic[]', $pic->nama, array(
+																					'class'         => 'form-control pic',
+																					'placeholder'   => 'nama'
+																				))!!}
+																			</div>
+																		</td>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('hp_pic[]', $pic->nomor_telepon, array(
+																					'class'         => 'form-control hp',
+																					'placeholder'   => 'nomor handphone'
+																				))!!}
+																			</div>
+																		</td>
+																		<td class="column-fit">
+																			@if( $k == $asuransi->pic->count() - 1 && $asuransi->pic->count() > 1 )
+																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																				</button>
+																				&nbsp
+																				<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;">
+																					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+																				</button>
+																			@elseif( $k == $asuransi->pic->count() - 1 && $asuransi->pic->count() == 1   )
+																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																				</button>
+																			@else
+																				<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;">
+																					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+																				</button>
+																			@endif
+																		</td>
+																	</tr>
+																@endforeach
+																@else
+																	<tr>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('pic[]',null, array(
+																					'class'         => 'form-control pic',
+																					'placeholder'   => 'nama'
+																				))!!}
+																			</div>
+																		</td>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('hp_pic[]', null, array(
+																					'class'         => 'form-control hp',
+																					'placeholder'   => 'nomor handphone'
+																				))!!}
+																			</div>
+																		</td>
+																		<td class="column-fit">
+																			<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																			</button>
+																		</td>
+																	</tr>
+																@endif
 														</tbody>
 													</table>
 												</div>
@@ -199,26 +231,76 @@
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 											  {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
 												<div class="table-responsive">
-													<table class="table table-hover table-condensed table-bordered" id="table_pic">
+													<table class="table table-hover table-condensed table-bordered" id="table_email">
 														<tbody>
-															<tr>
-																<td>
-																	<div class="form-group">
-																		{!! Form::text('email[]', null, array(
-																			'id'         => 'email',
-																			'class'         => 'form-control hp',
-																			'placeholder'   => 'email'
-																		))!!}
-																	</div>
-																</td>
-																<td>
-																	<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
-																		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-																	</button>
-																</td>
-															</tr>
+															@if( isset($asuransi) )
+																@foreach($asuransi->email as $k => $email)	
+																	<tr>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('email[]', null, array(
+																					'class'         => 'form-control hp',
+																					'placeholder'   => 'email'
+																				))!!}
+																			</div>
+																		</td>
+																		<td class="column-fit">
+																			<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																			</button>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('email[]', $email->email, array(
+																					'class'       => 'form-control hp',
+																					'placeholder' => 'email'
+																				))!!}
+																			</div>
+																		</td>
+																		<td class="column-fit">
+																			@if( $k == $asuransi->email->count() - 1 && $asuransi->email->count() > 1 )
+																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																				</button>
+																				&nbsp
+																				<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;">
+																					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+																				</button>
+																			@elseif( $k == $asuransi->email->count() - 1 && $asuransi->email->count() == 1   )
+																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																				</button>
+																			@else
+																				<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;">
+																					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+																				</button>
+																			@endif
+																		</td>
+																	</tr>
+																@endforeach
+																@else
+																	<tr>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('email[]', null, array(
+																					'id'         => 'email',
+																					'class'         => 'form-control hp',
+																					'placeholder'   => 'email'
+																				))!!}
+																			</div>
+																		</td>
+																		<td class="column-fit">
+																			<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																			</button>
+																		</td>
+																	</tr>
+																@endif
 														</tbody>
 													</table>
+												</div>
 												</div>
 											</div>
 										</div>
