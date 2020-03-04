@@ -137,7 +137,7 @@ class AsuransisController extends Controller
 	 */
 	public function edit($id)
 	{
-		$asuransi = Asuransi::find($id);
+		$asuransi = Asuransi::with('pic', 'email')->where('id',$id)->first();
 		$tarifs = Tarif::where('asuransi_id', $id)->get();
 		return view('asuransis.edit', compact(
 			'asuransi', 

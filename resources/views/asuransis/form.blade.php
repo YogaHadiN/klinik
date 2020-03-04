@@ -1,4 +1,3 @@
-
 <div class="panel panel-default">
     <div class="panel-body">
         <div role="tabpanel">
@@ -87,7 +86,6 @@
 												</div>
 											</div>
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
 												<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 												  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
 													{!! Form::text('no_telp', null, array(
@@ -157,7 +155,7 @@
 												<div class="table-responsive">
 													<table class="table table-hover table-condensed table-bordered" id="table_pic">
 														<tbody>
-															@if( isset($asuransi) )
+															@if( isset($asuransi) && isset($asuransi->pic) )
 																@foreach($asuransi->pic as $k => $pic)	
 																	<tr>
 																		<td>
@@ -233,7 +231,7 @@
 												<div class="table-responsive">
 													<table class="table table-hover table-condensed table-bordered" id="table_email">
 														<tbody>
-															@if( isset($asuransi) )
+															@if( isset($asuransi) && isset($asuransi->email) )
 																@foreach($asuransi->email as $k => $email)	
 																	<tr>
 																		<td>
@@ -304,7 +302,6 @@
 												</div>
 											</div>
 										</div>
-									</div>
 									</div>
 								</div>
 							<div role="tabpanel" class="tab-pane" id="Tarif">
