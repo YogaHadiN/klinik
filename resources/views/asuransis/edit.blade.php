@@ -29,7 +29,7 @@
 @include('asuransis/form', [
   'tanggal' => App\Classes\Yoga::updateDatePrep($asuransi->tanggal_berakhir), 
   'submit' => 'Update', 
-  'tarifs' => $asuransi->tarif, 
+  'tarifs' => json_encode($tarifs), 
   'umumstring' => $asuransi->umumstring,
   'gigistring' => $asuransi->gigistring,
   'rujukanstring' => $asuransi->rujukanstring,
@@ -49,7 +49,7 @@
     </div>
 </div>
 @endif
-    @stop
-    @section('footer') 
-      @include('asuransis/footer', ['tarifs' => $tarifs])
-    @stop
+@stop
+@section('footer') 
+	@include('asuransis/footer', ['tarifs' => $tarifs])
+@stop

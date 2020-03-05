@@ -30,6 +30,7 @@ class KirimBerkasController extends Controller
 		 ]]);
 	 }
 	public function index(){
+
 		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'piutang_asuransi.periksa.asuransi')->get();
 
 		return view('kirim_berkas.index', compact(
@@ -69,6 +70,7 @@ class KirimBerkasController extends Controller
 		DB::beginTransaction();
 		try {
 			$kirim_berkas          = new KirimBerkas;
+			$kirim_berkas->id      = $this->nomorSurat();
 			$kirim_berkas->tanggal = Yoga::datePrep(Input::get('tanggal'));
 			$kirim_berkas->save();
 
@@ -280,5 +282,22 @@ class KirimBerkasController extends Controller
 		return redirect(
 			'kirim_berkas'
 		)->withPesan($pesan);
+	}
+	private function nomorSurat(){
+		/* INV/12/KJE/III/2019/1 */
+		$inv = 'INV/';
+		$bulan = Yoga::bulanKeRomawi(date('m'));
+		$tahun = date('Y');
+		try {
+			$kirim_berkas = KirimBerkas::where('id', 'like', 'INV/%/KJE/' . $bulan . '/' . $tahun. '%')->latest()->firstOrFail();
+
+			$kirim_berkas_id = $kirim_berkas->id;
+			$nomor_saat_ini = explode('/', $kirim_berkas_id)[1];
+			$nomor_selanjutnya = (int) $nomor_saat_ini + 1;
+
+			return 'INV/' . $nomor_selanjutnya . '/KJE/'. $bulan.'/'. $tahun;
+		} catch (\Exception $e) {
+			return 'INV/1/KJE/'. $bulan.'/'. $tahun;
+		}
 	}
 }

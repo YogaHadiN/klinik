@@ -10,6 +10,7 @@
                     <a href="#Tarif" aria-controls="Tarif" role="tab" data-toggle="tab">Tarif</a>
                 </li>
             </ul>
+
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="Asuransi">
@@ -65,8 +66,8 @@
                                             </div>
 										<div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-												<div class="form-group @if($errors->has('gigi'))has-error @endif">
-												  {!! Form::label('kata_kunci', 'Kata Kunci Transfer', ['class' => 'control-label']) !!}
+												<div class="form-group @if($errors->has('kata_kunci'))has-error @endif">
+												  {!! Form::label('kata_kunci', 'Kata Kunci', ['class' => 'control-label']) !!}
                                                     {!! Form::text('kata_kunci', null, array(
                                                         'class'         => 'form-control',
                                                         'placeholder'   => 'Kata Kunci Transfer Bank'
@@ -81,7 +82,11 @@
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 												<div class="form-group @if($errors->has('kali_obat'))has-error @endif">
 												  {!! Form::label('kali_obat', 'Pengali Obat', ['class' => 'control-label']) !!}
-												  {!! Form::text('kali_obat' , '1.25', ['class' => 'form-control']) !!}
+												  @if(isset($asuransi))
+													  {!! Form::text('kali_obat' ,null, ['class' => 'form-control']) !!}
+												  @else
+													  {!! Form::text('kali_obat' ,'1.25', ['class' => 'form-control']) !!}
+												  @endif
 												  @if($errors->has('kali_obat'))<code>{{ $errors->first('kali_obat') }}</code>@endif
 												</div>
 											</div>
@@ -155,7 +160,7 @@
 												<div class="table-responsive">
 													<table class="table table-hover table-condensed table-bordered" id="table_pic">
 														<tbody>
-															@if( isset($asuransi) && isset($asuransi->pic) )
+															@if( isset($asuransi) && $asuransi->pic->count() > 0)
 																@foreach($asuransi->pic as $k => $pic)	
 																	<tr>
 																		<td>
@@ -199,8 +204,8 @@
 																	<tr>
 																		<td>
 																			<div class="form-group">
-																				{!! Form::text('pic[]',null, array(
-																					'class'         => 'form-control pic',
+																				{!! Form::text('pic[]','', array(
+																					'class'         => 'form-control',
 																					'placeholder'   => 'nama'
 																				))!!}
 																			</div>
@@ -208,7 +213,7 @@
 																		<td>
 																			<div class="form-group">
 																				{!! Form::text('hp_pic[]', null, array(
-																					'class'         => 'form-control hp',
+																					'class'         => 'form-control',
 																					'placeholder'   => 'nomor handphone'
 																				))!!}
 																			</div>
@@ -231,34 +236,19 @@
 												<div class="table-responsive">
 													<table class="table table-hover table-condensed table-bordered" id="table_email">
 														<tbody>
-															@if( isset($asuransi) && isset($asuransi->email) )
-																@foreach($asuransi->email as $k => $email)	
+															@if( isset($asuransi) && $asuransi->emails->count() > 0) 
+																@foreach($asuransi->emails as $k => $email)	
 																	<tr>
 																		<td>
 																			<div class="form-group">
-																				{!! Form::text('email[]', null, array(
+																				{!! Form::text('email[]', $email->email, array(
 																					'class'         => 'form-control hp',
 																					'placeholder'   => 'email'
 																				))!!}
 																			</div>
 																		</td>
 																		<td class="column-fit">
-																			<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
-																				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-																			</button>
-																		</td>
-																	</tr>
-																	<tr>
-																		<td>
-																			<div class="form-group">
-																				{!! Form::text('email[]', $email->email, array(
-																					'class'       => 'form-control hp',
-																					'placeholder' => 'email'
-																				))!!}
-																			</div>
-																		</td>
-																		<td class="column-fit">
-																			@if( $k == $asuransi->email->count() - 1 && $asuransi->email->count() > 1 )
+																			@if( $k == $asuransi->emails->count() - 1 && $asuransi->emails->count() > 1 )
 																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
 																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 																				</button>
@@ -266,7 +256,7 @@
 																				<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;">
 																					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
 																				</button>
-																			@elseif( $k == $asuransi->email->count() - 1 && $asuransi->email->count() == 1   )
+																			@elseif( $k == $asuransi->emails->count() - 1 && $asuransi->emails->count() == 1   )
 																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
 																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 																				</button>
@@ -278,24 +268,24 @@
 																		</td>
 																	</tr>
 																@endforeach
-																@else
-																	<tr>
-																		<td>
-																			<div class="form-group">
-																				{!! Form::text('email[]', null, array(
-																					'id'         => 'email',
-																					'class'         => 'form-control hp',
-																					'placeholder'   => 'email'
-																				))!!}
-																			</div>
-																		</td>
-																		<td class="column-fit">
-																			<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
-																				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-																			</button>
-																		</td>
-																	</tr>
-																@endif
+															@else
+																<tr>
+																	<td>
+																		<div class="form-group">
+																			{!! Form::text('email[]', null, array(
+																				'id'         => 'email',
+																				'class'         => 'form-control hp',
+																				'placeholder'   => 'email'
+																			))!!}
+																		</div>
+																	</td>
+																	<td class="column-fit">
+																		<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																		</button>
+																	</td>
+																</tr>
+															@endif
 														</tbody>
 													</table>
 												</div>
@@ -346,7 +336,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				{!! Form::textarea('tarifs', $tarifs, ['class' => 'form-control hide', 'id' => 'tarifs'])!!}
+				{!! Form::textarea('tarifs', $tarifs, ['class' => 'form-control', 'id' => 'tarifs'])!!}
 			</div>
 		</div>
 <script type="text/javascript" charset="utf-8">

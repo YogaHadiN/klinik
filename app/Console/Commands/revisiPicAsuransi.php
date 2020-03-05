@@ -67,6 +67,6 @@ class revisiPicAsuransi extends Command
 		}
 		Email::insert($emails);
 		Pic::insert($pics);
-		DB::statement('ALTER table asuransis drop column pic, drop column hp_pic;');
+		DB::statement('ALTER table asuransis drop column pic, drop column hp_pic, drop column email;');
     }
 }

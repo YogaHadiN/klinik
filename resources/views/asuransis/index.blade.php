@@ -39,7 +39,7 @@
 							<th>Nama Asuransi</th>
 							<th>Alamat</th>
 							<th>PIC</th>
-						  <th>HP PIC</th>
+							<th>Email</th>
 						  <th>Riwayat Hutan / Pembayaran</th>
 						  <th>Edit</th>
 							<th>Pembayaran</th>
@@ -58,10 +58,14 @@
 							   {!! $asuransi->alamat !!}
 						   </td>
 						   <td>
-							   {!! $asuransi->pic !!}
+							   @foreach($asuransi->pic as $pic)	
+								   {!! $pic->nama !!} ({{ $pic->nomor_telepon }}) <br />
+							   @endforeach
 						   </td>
-						   <td>
-							   {!! $asuransi->hp_pic !!}
+							<td>
+							   @foreach($asuransi->emails as $email)	
+								   {!! $email->email !!} <br />
+							   @endforeach
 						   </td>
 						   <td>
 							   {!! HTML::link('asuransis/' . $asuransi->id . '/hutang/pembayaran', 'Riwayat', ['class' => 'btn btn-sm btn-success'])!!}

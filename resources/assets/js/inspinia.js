@@ -536,6 +536,9 @@ function tambahInput(control){
 		var row      = $(control).closest('tr')[0].outerHTML;
 		$(control).closest('tbody').append(row);
 		$(control).closest('tr').next().find('input').first().focus();
+		$(control).closest('tr').next().find('input').each(function(){
+			$(this).val('');
+		});
 		if( many_row == '1' ){
 			$(control).closest('tr').next().find('.btn-primary').closest('td').append('&nbsp<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>')
 		}

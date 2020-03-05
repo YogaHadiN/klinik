@@ -5,10 +5,13 @@ use Input;
 use App\Http\Requests;
 use App\Asuransi;
 use App\Tarif;
+use App\Email;
+use App\Pic;
 use App\PembayaranAsuransi;
 use App\Coa;
 use App\CatatanAsuransi;
 use App\Classes\Yoga;
+use App\Http\Requests\AsuransiValidation;
 
 use DB;
 
@@ -16,9 +19,39 @@ use DB;
 class AsuransisController extends Controller
 {
 
+	private $input_nama             = '';
+	private $input_pic             = '';
+	private $input_alamat           = '';
+	private $input_no_telp          = '';
+	private $input_tanggal_berakhir = '';
+	private $input_penagihan        = '';
+	private $input_gigi             = '';
+	private $input_rujukan          = '';
+	private $input_tipe_asuransi    = '';
+	private $input_email            = '';
+	private $input_umum             = '';
+	private $input_kali_obat        = '';
+	private $input_coa_id           = '';
+	private $input_kata_kunci       = '';
+
    public function __construct()
     {
         $this->middleware('super', ['only' => 'delete']);
+		$this->input_nama             = ucwords(strtolower(Input::get('nama')));
+		$this->input_alamat           = Input::get('alamat');
+		$this->input_pic           = Input::get('pic');
+		$this->input_hp_pic           = Input::get('hp_pic');
+		$this->input_no_telp          = Input::get('no_telp');
+		$this->input_email          = Input::get('email');
+		$this->input_tanggal_berakhir = Yoga::datePrep(Input::get('tanggal_berakhir'));
+		$this->input_penagihan        = Yoga::cleanArrayJson(Input::get('penagihan'));
+		$this->input_gigi             = Yoga::cleanArrayJson(Input::get('gigi'));
+		$this->input_rujukan          = Yoga::cleanArrayJson(Input::get('rujukan'));
+		$this->input_tipe_asuransi    = Input::get('tipe_asuransi');
+		$this->input_umum             = Yoga::cleanArrayJson(Input::get('umum'));
+		$this->input_kali_obat        = Input::get('kali_obat');
+		$this->input_coa_id           = Input::get('coa_id');
+		$this->input_kata_kunci       = Input::get('kata_kunci');
     }
 	/**
 	 * Display a listing of asuransis
@@ -64,24 +97,10 @@ class AsuransisController extends Controller
 	 */
 	public function store()
 	{
-
-
-		$asuransi_id = Yoga::customId('App\Asuransi');
-		$asuransi = new Asuransi;
+		$asuransi_id  = Yoga::customId('App\Asuransi');
+		$asuransi     = new Asuransi;
 		$asuransi->id = $asuransi_id;
-		$asuransi->alamat = Input::get('alamat');
-		$asuransi->tipe_asuransi = Input::get('tipe_asuransi');
-		$asuransi->nama = ucwords(strtolower(Input::get('nama')));
-		$asuransi->hp_pic = Input::get('hp_pic');
-		$asuransi->no_telp = Input::get('no_telp');
-		$asuransi->email = Input::get('email');
-		$asuransi->pic = Input::get('pic');
-		$asuransi->kali_obat = 1.25;
-		$asuransi->tanggal_berakhir = Yoga::datePrep(Input::get('tanggal_berakhir'));
-		$asuransi->umum = Yoga::cleanArrayJson(Input::get('umum'));
-		$asuransi->gigi = Yoga::cleanArrayJson(Input::get('gigi'));
-		$asuransi->rujukan = Yoga::cleanArrayJson(Input::get('rujukan'));
-		$asuransi->penagihan = Yoga::cleanArrayJson(Input::get('penagihan'));
+		$asuransi     = $this->inputData($asuransi);
 
 		$coa_id               = (int)Coa::where('id', 'like', '111%')->orderBy('id', 'desc')->first()->id + 1;
 		$coa                  = new Coa;
@@ -100,18 +119,15 @@ class AsuransisController extends Controller
 
 		foreach ($tarifs as $tarif_pribadi) {
 			$data [] = [
-				'biaya' => $tarif_pribadi['biaya'], 
-				'asuransi_id' => $asuransi_id,
-				'jenis_tarif_id' => $tarif_pribadi['jenis_tarif_id'],
-				'tipe_tindakan_id' => $tarif_pribadi['tipe_tindakan_id'],
-				'bhp_items' => $tarif_pribadi['bhp_items'],
-				'jasa_dokter' => $tarif_pribadi['jasa_dokter'],
+				'biaya'                 => $tarif_pribadi['biaya'],
+				'asuransi_id'           => $asuransi_id,
+				'jenis_tarif_id'        => $tarif_pribadi['jenis_tarif_id'],
+				'tipe_tindakan_id'      => $tarif_pribadi['tipe_tindakan_id'],
+				'bhp_items'             => $tarif_pribadi['bhp_items'],
+				'jasa_dokter'           => $tarif_pribadi['jasa_dokter'],
 				'jasa_dokter_tanpa_sip' => $tarif_pribadi['jasa_dokter']
 			];
 		}
-
-
-
 		Tarif::insert($data);
 		return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . ucwords(strtolower(Input::get('nama')))  .'</strong> berhasil dibuat'));
 	}
@@ -137,8 +153,19 @@ class AsuransisController extends Controller
 	 */
 	public function edit($id)
 	{
-		$asuransi = Asuransi::with('pic', 'email')->where('id',$id)->first();
-		$tarifs = Tarif::where('asuransi_id', $id)->get();
+		$asuransi   = Asuransi::with('pic', 'emails', 'tarif')->where('id',$id)->first();
+		$tarifs = [];
+		foreach ($asuransi->tarif as $tarif) {
+			$tarifs[] = [
+				'id'                    => $tarif->id,
+				'jenis_tarif'           => $tarif->jenisTarif->jenis_tarif,
+				'biaya'                 => $tarif->biaya,
+				'jasa_dokter'           => $tarif->jasa_dokter,
+				'tipe_tindakan_id'      => $tarif->tipe_tindakan_id,
+				'jasa_dokter_tanpa_sip' => $tarif->jasa_dokter_tanpa_sip
+			];
+		}
+		/* dd($tarifs); */
 		return view('asuransis.edit', compact(
 			'asuransi', 
 			'tarifs'
@@ -151,44 +178,21 @@ class AsuransisController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(AsuransiValidation $request, $id)
 	{
+		dd(Input::all()); 
 		$asuransi = Asuransi::findOrFail($id);
+		Pic::where('asuransi_id', $id)->delete();
+		Email::where('emailable_id', $id)->where('emailable_type', 'App\\Asuransi')->delete();
+		$asuransi = $this->inputData($asuransi);
 
-
-		Yoga::cleanArrayJson(Input::get('umum'));
-
-		$asuransi = Asuransi::find($id);
-		$asuransi->alamat = Input::get('alamat');
-		$asuransi->tipe_asuransi = Input::get('tipe_asuransi');
-		$asuransi->nama = Input::get('nama');
-		$asuransi->hp_pic = Input::get('hp_pic');
-		$asuransi->no_telp = Input::get('no_telp');
-		$asuransi->kali_obat = Input::get('kali_obat');
-		$asuransi->email = Input::get('email');
-		$asuransi->pic = Input::get('pic');
-		$asuransi->gigi = Yoga::cleanArrayJson(Input::get('gigi'));
-		$asuransi->umum = Yoga::cleanArrayJson(Input::get('umum'));
-		$asuransi->penagihan = Yoga::cleanArrayJson(Input::get('penagihan'));
-		$asuransi->rujukan = Yoga::cleanArrayJson(Input::get('rujukan'));
-		$asuransi->tanggal_berakhir = Yoga::datePrep(Input::get('tanggal_berakhir'));
-		$asuransi->save();
-
-
-		if ( $id == '32' ) {
-			$query = "update stafs set notified=0;";
-			DB::statement($query);
-
-		}
-
-		$tarifs = Input::get('tarifs');
-
-		$tarifs = json_decode($tarifs, true);
+		$tarifs   = Input::get('tarifs');
+		$tarifs   = json_decode($tarifs, true);
 
 		foreach ($tarifs as $tarif) {
-			$tf = Tarif::find($tarif['id']);
-			$tf->biaya = $tarif['biaya'];
-			$tf->jasa_dokter = $tarif['jasa_dokter'];
+			$tf                   = Tarif::find($tarif['id']);
+			$tf->biaya            = $tarif['biaya'];
+			$tf->jasa_dokter      = $tarif['jasa_dokter'];
 			$tf->tipe_tindakan_id = $tarif['tipe_tindakan_id'];
 			$confirm = $tf->save();
 
@@ -207,9 +211,13 @@ class AsuransisController extends Controller
 	 */
 	public function destroy($id)
 	{	
-		$nama = Asuransi::find($id)->nama;
-		Asuransi::find($id)->delete();
+		$asuransi = Asuransi::find($id);
+		$nama     = $asuransi->nama;
 		Tarif::where('asuransi_id', $id)->delete();
+		Coa::destroy($asuransi->coa_id);
+		Email::where('emailable_id', $asuransi->id)->where('emailable_type', 'App\\Asuransi')->delete();
+		Pic::where('asuransi_id', $asuransi->id)->delete();
+		$asuransi->delete();
 
 
 		return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . $nama . '</strong> berhasil dihapus'));
@@ -516,5 +524,50 @@ class AsuransisController extends Controller
 		return view('asuransis.catatan', compact(
 			'catatans'
 		));
+	}
+	private function inputData($asuransi){
+		$asuransi->nama             = $this->input_nama;
+		$asuransi->alamat           = $this->input_alamat;
+		$asuransi->no_telp          = $this->input_no_telp;
+		$asuransi->tanggal_berakhir = $this->input_tanggal_berakhir;
+		$asuransi->penagihan        = $this->input_penagihan;
+		$asuransi->gigi             = $this->input_gigi;
+		$asuransi->rujukan          = $this->input_rujukan;
+		$asuransi->tipe_asuransi    = $this->input_tipe_asuransi;
+		$asuransi->umum             = $this->input_umum;
+		$asuransi->kali_obat        = $this->input_kali_obat;
+		$asuransi->coa_id           = $this->input_coa_id;
+		$asuransi->kata_kunci       = $this->input_kata_kunci;
+		$asuransi->save();
+
+		$timestamp = date('Y-m-d H:i:s');
+		
+		$emails = [];
+		foreach ( $this->input_email as $email) {
+			if ( !empty($email) ) {
+				$emails[] = [
+					'email' => $email,
+					'emailable_id' => $asuransi->id,
+					'emailable_type' => 'App\\Asuransi',
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp
+				];
+			}
+		}
+		$pics = [];
+		foreach ($this->input_pic as $k =>$pic) {
+			if ( !empty( $pic ) ) {
+				$pics[] = [
+					'nama' => $pic,
+					'nomor_telepon' => $this->input_hp_pic[$k],
+					'asuransi_id' => $asuransi->id,
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp
+				];
+			}
+		}
+		Email::insert($emails);
+		Pic::insert($pics);
+		return $asuransi;
 	}
 }

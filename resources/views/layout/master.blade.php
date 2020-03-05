@@ -143,8 +143,6 @@
                             <li>{!! HTML::link('gopays', 'Go Pay')!!}</li>
                         </ul>
                     </li>
-
-					@if(\Auth::id() == 28)
 					<li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rekening</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -154,7 +152,6 @@
                         </ul>
                     </li>
 					<li>
-					@endif
                         <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
                     </li>
                     <li>
