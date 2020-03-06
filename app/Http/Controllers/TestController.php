@@ -1,16 +1,13 @@
 <?php
-
-
-
 namespace App\Http\Controllers;
 
-use Input;
 
 use App\Http\Requests;
-
+use Input;
 use DB;
 use Moota;
 use App\Asuransi;
+use App\Telpon;
 use App\CheckoutKasir;
 use App\BayarGaji;
 use App\Pasien;
@@ -74,5 +71,44 @@ class TestController extends Controller
 			Rekening::insert($data);
 		}  
 	}
-	
+	public function test(){
+		$asuransis = Asuransi::all();
+		$data = [];
+		$timestamp = date('Y-m-d H:i:s');
+		foreach ($asuransis as $asu) {
+			if (!empty($asu->no_telp)) {
+				$data[] = [
+					'nomor'           => $asu->no_telp,
+					'telponable_id'   => $asu->id,
+					'telponable_type' => 'App\\Asuransi',
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp
+				];
+			}
+		}
+		Telpon::insert($data);
+		DB::statement('ALTER table asuransis drop column no_telp');
+		DB::statement('ALTER TABLE asuransis ADD id2 bigint;');
+		$asuransis = Asuransi::all();
+		foreach ($asuransis as $k => $asu) {
+			$asu->id2 = $k +1;
+			$asu->save();
+			DB::statement("update antrian_polis set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			DB::statement("update periksas set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			DB::statement("update pics set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			DB::statement("update pembayaran_asuransis set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			DB::statement("update pasiens set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			DB::statement("update sops set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			DB::statement("update tarifs set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			db::statement("update antrian_periksas set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			db::statement("update discount_asuransis set asuransi_id='{$asu->id2}' where asuransi_id='{$asu->id}';");
+			db::statement("update emails set emailable_id='{$asu->id2}' where emailable_id='{$asu->id}' and emailable_type='App\\\Asuransi';");
+			db::statement("update telpons set telponable_id='{$asu->id2}' where telponable_id='{$asu->id}' and telponable_type='App\\\Asuransi';");
+		}
+		DB::statement('ALTER TABLE asuransis DROP PRIMARY KEY;');
+		DB::statement('ALTER TABLE asuransis DROP PRIMARY KEY;');
+		DB::statement('ALTER TABLE asuransis DROP id;');
+		DB::statement('ALTER TABLE asuransis RENAME COLUMN "id2" TO "id" bigint not null auto_increment primary key;');
+		
+	}
 }

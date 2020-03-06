@@ -89,6 +89,7 @@ Route::resource('users', 'UsersController');
 			Route::post('test', 'TestController@post');
 			Route::get('test', 'TestController@index');
 			Route::post('test/ajax', 'TestController@ajax');
+			Route::get('test/test', 'TestController@test');
 			Route::get('testaja',function(){
 				return date('t');
 			});

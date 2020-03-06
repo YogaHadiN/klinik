@@ -11,7 +11,6 @@ use DB;
 
 
 class Asuransi extends Model{
-	public $incrementing = false; 
 
 	// Add your validation rules here
 	public static $rules = [
@@ -121,7 +120,7 @@ class Asuransi extends Model{
 		return $this->belongsTo('App\TipeAsuransi', 'tipe_asuransi');
 	}
 	
-	
-	
-
+    public function telpons(){
+		return $this->morphMany('App\Telpon', 'telponable');
+    }
 }

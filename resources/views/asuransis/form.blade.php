@@ -91,13 +91,64 @@
 												</div>
 											</div>
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-												<div class="form-group @if($errors->has('no_telp'))has-error @endif">
-												  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
-													{!! Form::text('no_telp', null, array(
-														'class'         => 'form-control phone',
-														'placeholder'   => 'No Telp'
-														))!!}
-												  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
+												<div class="form-group @if($errors->has('telpon'))has-error @endif">
+												  {!! Form::label('telpon', 'Nomor Telepon', ['class' => 'control-label']) !!}
+													<div class="table-responsive">
+													<table class="table table-hover table-condensed table-bordered" id="table_pic">
+														<tbody>
+															@if( isset($asuransi) && $asuransi->telpons->count() > 0)
+																@foreach($asuransi->telpons as $k => $telpon)	
+																	<tr>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('telpon', $telpon->nomor, array(
+																					'class'         => 'form-control phone',
+																					'placeholder'   => 'No Telp'
+																					))!!}
+																			</div>
+																		</td>
+																		<td class="column-fit">
+																			@if( $k == $asuransi->telpons->count() - 1 && $asuransi->telpons->count() > 1 )
+																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																				</button>
+																				&nbsp
+																				<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;">
+																					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+																				</button>
+																			@elseif( $k == $asuransi->telpons->count() - 1 && $asuransi->telpons->count() == 1   )
+																				<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																				</button>
+																			@else
+																				<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;">
+																					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+																				</button>
+																			@endif
+																		</td>
+																	</tr>
+																@endforeach
+																@else
+																	<tr>
+																		<td>
+																			<div class="form-group">
+																				{!! Form::text('telpon', null, array(
+																					'class'         => 'form-control phone',
+																					'placeholder'   => 'No Telp'
+																					))!!}
+																			</div>
+																		</td>
+																		<td class="column-fit">
+																			<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+																				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+																			</button>
+																		</td>
+																	</tr>
+																@endif
+														</tbody>
+													</table>
+												</div>
+												  @if($errors->has('telpon'))<code>{{ $errors->first('telpon') }}</code>@endif
 												</div>
 											</div>
 										</div>

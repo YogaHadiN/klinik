@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Asuransi;
 use App\Tarif;
 use App\Email;
+use App\Telpon;
 use App\Pic;
 use App\PembayaranAsuransi;
 use App\Coa;
@@ -22,7 +23,7 @@ class AsuransisController extends Controller
 	private $input_nama             = '';
 	private $input_pic             = '';
 	private $input_alamat           = '';
-	private $input_no_telp          = '';
+	private $input_telpon          = '';
 	private $input_tanggal_berakhir = '';
 	private $input_penagihan        = '';
 	private $input_gigi             = '';
@@ -41,7 +42,7 @@ class AsuransisController extends Controller
 		$this->input_alamat           = Input::get('alamat');
 		$this->input_pic           = Input::get('pic');
 		$this->input_hp_pic           = Input::get('hp_pic');
-		$this->input_no_telp          = Input::get('no_telp');
+		$this->input_telpon          = Input::get('telpon');
 		$this->input_email          = Input::get('email');
 		$this->input_tanggal_berakhir = Yoga::datePrep(Input::get('tanggal_berakhir'));
 		$this->input_penagihan        = Yoga::cleanArrayJson(Input::get('penagihan'));
@@ -97,9 +98,7 @@ class AsuransisController extends Controller
 	 */
 	public function store()
 	{
-		$asuransi_id  = Yoga::customId('App\Asuransi');
 		$asuransi     = new Asuransi;
-		$asuransi->id = $asuransi_id;
 		$asuransi     = $this->inputData($asuransi);
 
 		$coa_id               = (int)Coa::where('id', 'like', '111%')->orderBy('id', 'desc')->first()->id + 1;
@@ -183,6 +182,7 @@ class AsuransisController extends Controller
 		$asuransi = Asuransi::findOrFail($id);
 		Pic::where('asuransi_id', $id)->delete();
 		Email::where('emailable_id', $id)->where('emailable_type', 'App\\Asuransi')->delete();
+		Telpon::where('telponable_id', $id)->where('telponable_type', 'App\\Asuransi')->delete();
 		$asuransi = $this->inputData($asuransi);
 
 		$tarifs   = Input::get('tarifs');
@@ -527,7 +527,6 @@ class AsuransisController extends Controller
 	private function inputData($asuransi){
 		$asuransi->nama             = $this->input_nama;
 		$asuransi->alamat           = $this->input_alamat;
-		$asuransi->no_telp          = $this->input_no_telp;
 		$asuransi->tanggal_berakhir = $this->input_tanggal_berakhir;
 		$asuransi->penagihan        = $this->input_penagihan;
 		$asuransi->gigi             = $this->input_gigi;
@@ -540,7 +539,6 @@ class AsuransisController extends Controller
 		$asuransi->save();
 
 		$timestamp = date('Y-m-d H:i:s');
-		
 		$emails = [];
 		foreach ( $this->input_email as $email) {
 			if ( !empty($email) ) {
@@ -565,8 +563,21 @@ class AsuransisController extends Controller
 				];
 			}
 		}
+		$telpons = [];
+		foreach ( $this->input_telpon as $telpon) {
+			if ( !empty($telpon) ) {
+				$telpons[] = [
+					'nomor'          => $telpon,
+					'emailable_id'   => $asuransi->id,
+					'emailable_type' => 'App\\Asuransi',
+					'created_at'     => $timestamp,
+					'updated_at'     => $timestamp
+				];
+			}
+		}
 		Email::insert($emails);
 		Pic::insert($pics);
+		Telpon::insert($telpons);
 		return $asuransi;
 	}
 }
