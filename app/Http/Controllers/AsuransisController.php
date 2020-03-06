@@ -180,7 +180,6 @@ class AsuransisController extends Controller
 	 */
 	public function update(AsuransiValidation $request, $id)
 	{
-		dd(Input::all()); 
 		$asuransi = Asuransi::findOrFail($id);
 		Pic::where('asuransi_id', $id)->delete();
 		Email::where('emailable_id', $id)->where('emailable_type', 'App\\Asuransi')->delete();

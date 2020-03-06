@@ -21,7 +21,7 @@
 									<div class="form-group @if($errors->has('nama'))has-error @endif">
 									  {!! Form::label('nama', 'Nama Asuransi', ['class' => 'control-label', 'style' => 'text-align:left']) !!}
                                         {!! Form::text('nama', null, array(
-                                            'class'         => 'form-control',
+                                            'class'         => 'form-control rq',
                                             'placeholder'   => 'Nama Asuransi'
                                             ))!!}
 									  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
@@ -83,9 +83,9 @@
 												<div class="form-group @if($errors->has('kali_obat'))has-error @endif">
 												  {!! Form::label('kali_obat', 'Pengali Obat', ['class' => 'control-label']) !!}
 												  @if(isset($asuransi))
-													  {!! Form::text('kali_obat' ,null, ['class' => 'form-control']) !!}
+													  {!! Form::text('kali_obat' ,null, ['class' => 'form-control numeric rq']) !!}
 												  @else
-													  {!! Form::text('kali_obat' ,'1.25', ['class' => 'form-control']) !!}
+													  {!! Form::text('kali_obat' ,'1.25', ['class' => 'form-control numeric rq']) !!}
 												  @endif
 												  @if($errors->has('kali_obat'))<code>{{ $errors->first('kali_obat') }}</code>@endif
 												</div>
@@ -94,7 +94,7 @@
 												<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 												  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
 													{!! Form::text('no_telp', null, array(
-														'class'         => 'form-control',
+														'class'         => 'form-control phone',
 														'placeholder'   => 'No Telp'
 														))!!}
 												  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
@@ -113,7 +113,7 @@
 														'4' => 'Flat',
 														'5' => 'BPJS',
 														), null, array(
-														'class'         => 'form-control',
+														'class'         => 'form-control rq',
 														'placeholder'   => 'tipe_asuransi'
 														))!!}
 												  @if($errors->has('tipe_asuransi'))<code>{{ $errors->first('tipe_asuransi') }}</code>@endif
@@ -175,7 +175,7 @@
 																			<div class="form-group">
 																				{!! Form::text('hp_pic[]', $pic->nomor_telepon, array(
 																					'class'         => 'form-control hp',
-																					'placeholder'   => 'nomor handphone'
+																					'placeholder'   => 'phone'
 																				))!!}
 																			</div>
 																		</td>
@@ -214,7 +214,7 @@
 																			<div class="form-group">
 																				{!! Form::text('hp_pic[]', null, array(
 																					'class'         => 'form-control',
-																					'placeholder'   => 'nomor handphone'
+																					'placeholder'   => 'nomor phone'
 																				))!!}
 																			</div>
 																		</td>
@@ -326,18 +326,22 @@
 			</div>
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				{!! Form::submit($submit, array(
-					'class' => 'btn btn-primary block full-width m-b'
-					))!!}
+					<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>
+				@if(isset($asuransi))
+					Update
+				@else
+					Submit
+				@endif
+					</button>
+				{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				{!! HTML::link('asuransis', 'Cancel', ['class' => 'btn btn-danger btn-block'])!!}
+				<a class="btn btn-danger btn-block" href="{{ url('asuransis') }}">Cancel</a>
 			</div>
 		</div>
+
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				{!! Form::textarea('tarifs', $tarifs, ['class' => 'form-control', 'id' => 'tarifs'])!!}
 			</div>
 		</div>
-<script type="text/javascript" charset="utf-8">
-</script>

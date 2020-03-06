@@ -1,4 +1,11 @@
 <script type='text/javascript'>
+
+function dummySubmit(control){
+	if(validatePass2(control)){
+		$('#submit').click();
+	}
+}
+		
 	var biaya = '';
 	var dibayar_asuransi = '';
 	var jasa_dokter = '';
