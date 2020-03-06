@@ -36,36 +36,43 @@ use App\AkunBank;
 use App\Rekening;
 use App\Http\Handler;
 use App\Console\Commands\sendMeLaravelLog;
-use App\Imports\PembayaranImport;
-use Maatwebsite\Excel\Facades\Excel;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Vultr\VultrClient;
 use Vultr\Adapter\GuzzleHttpAdapter;
+use App\Imports\PembayaranImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class TestController extends Controller
 {
 
 	public function index(){
-		$url = 'https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/peserta';
-		$data = "1000";
-		$secretKey = "7789";
-		// Computes the signature by hashing the salt with the secret key as the key
-		$signature = hash_hmac('sha256', $data, $secretKey, true);
-		// base64 encode…
-		$encodedSignature = base64_encode($signature);
-		// urlencode…
-		// $encodedSignature = urlencode($encodedSignature);
 
-		$client          = new Client(); //GuzzleHttp\Client
-		$res             = $client->request('GET', $url . '/peserta/0001302050722' , [
-			'X-cons-id' => $data,
-			'X-Timestamp' => strval(time()-strtotime('1970-01-01 00:00:00')),
-			'X-Signature' => $encodedSignature
-		]);
-		$result         = $res->getBody();
-		return $result;
+		return view('test.index');
 
 	}
+	public function post(){
+		if (Input::hasFile('rekening')) {
+			$file =Input::file('rekening'); //GET FILE
+			$excel_pembayaran = Excel::toArray(new PembayaranImport, $file)[0];
+			$data = [];
+			$timestamp = date('Y-m-d H:i:s');
+			foreach ($excel_pembayaran as $k => $e) {
+				$data[] = [
+					'id' => $k +1,
+					'akun_bank_id' => 'wnazGyxGWGA',
+					'tanggal'      => $e['tanggal'],
+					'deskripsi'    => $e['deskripsi'],
+					'nilai'        => $e['nilai'],
+					'saldo_akhir'  => 0,
+					'debet'        => 0,
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp
+				];
+			}
+			Rekening::insert($data);
+		}  
+	}
+	
 }

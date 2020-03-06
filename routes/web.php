@@ -86,7 +86,8 @@ Route::resource('users', 'UsersController');
 			Route::post('cek_list_harian/pulsa', 'CekListHariansController@pulsaPost');
 			Route::get('cek_list_harian/listrik', 'CekListHariansController@listrik');
 			Route::post('cek_list_harian/listrik', 'CekListHariansController@listrikPost');
-			Route::get('test/test', 'TestController@index');
+			Route::post('test', 'TestController@post');
+			Route::get('test', 'TestController@index');
 			Route::post('test/ajax', 'TestController@ajax');
 			Route::get('testaja',function(){
 				return date('t');

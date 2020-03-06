@@ -22,7 +22,7 @@
 		<table class="table table-hover table-condensed table-bordered">
 			<thead>
 				<tr>
-					<th>
+					<th nowrap>
 						Tanggal
                         {!! Form::text('tanggal', null, [
 							'class' => 'form-control-inline tgl form-control ajaxsearchrekening',
@@ -38,10 +38,10 @@
 							'id' => 'deskripsi'
 						])!!}
 					</th>
-					<th>
+					<th nowrap>
 						Kredit
 					</th>
-					<th>
+					<th nowrap>
 						Saldo
 					</th>
 				</tr>
@@ -83,16 +83,16 @@
 					var temp = '';
 					for (var i = 0; i < data.length; i++) {
 						temp += '<tr>';
-						temp += '<td>';
+						temp += '<td nowrap>';
 						temp += data[i].tanggal;
 						temp += '</td>';
 						temp += '<td>';
 						temp += data[i].deskripsi;
 						temp += '</td>';
-						temp += '<td class="text-right">';
+						temp += '<td class="text-right" nowrap>';
 						temp += uang(data[i].nilai);
 						temp += '</td>';
-						temp += '<td class="text-right">';
+						temp += '<td class="text-right" nowrap>';
 						temp += uang(data[i].saldo_akhir);
 						temp += '</td>';
 						temp += '</tr>';

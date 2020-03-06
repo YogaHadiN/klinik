@@ -22,18 +22,9 @@ class RekeningController extends Controller
 		$deskripsi = Input::get('deskripsi');
 		$akun_bank_id = Input::get('akun_bank_id');
 
-		$tanggal   = str_split($tanggal);
 		$deskripsi = str_split($deskripsi);
 
-		$str_tanggal ='%';
-		foreach ($tanggal as $k => $t) {
-			if ($k != 0) {
-				$str_tanggal = $str_tanggal . '%' . $t;
-			} else {
-				$str_tanggal = $str_tanggal . $t;
-			}
-		}
-		$str_tanggal = $str_tanggal . '%';
+		$str_tanggal = $tanggal . '%';
 				
 		$str_deskripsi ='%';
 		foreach ($deskripsi as $k => $t) {
@@ -54,7 +45,8 @@ class RekeningController extends Controller
 		$query .= "WHERE akun_bank_id = '{$akun_bank_id}' ";
 		$query .= "AND debet = 0 ";
 		$query .= "AND ";
-		$query .= "(deskripsi like '{$str_deskripsi}' and tanggal like '{$str_tanggal}')";
+		$query .= "(deskripsi like '{$str_deskripsi}' and tanggal like '{$str_tanggal}') ";
+		$query .= "ORDER BY tanggal desc, created_at desc;";
 
 		$data = DB::select($query);
 		/* return $query; */
