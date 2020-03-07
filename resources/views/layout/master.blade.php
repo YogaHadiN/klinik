@@ -338,7 +338,7 @@
             {{--{!! HTML::script("js/all.js")!!}--}}
     <script src="{!! asset('js/all.js') !!}"></script>
     <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script>
-    <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js') !!}"></script>
+    <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js') !!}"></script>
     <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
     <script src="{!! url('js/bootstrap.min.js') !!}"></script>

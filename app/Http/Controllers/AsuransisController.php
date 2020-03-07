@@ -87,7 +87,17 @@ class AsuransisController extends Controller
 	 */
 	public function create()
 	{	
-		$tarifs = Tarif::where('asuransi_id', '0')->get()	;
+		$trf = Tarif::with('jenisTarif')->where('asuransi_id', '1')->get()	;
+		$tarifs = [];
+		foreach ($trf as $t) {
+			$tarifs[] = [
+				'jenis_tarif'      => $t->jenisTarif->jenis_tarif,
+				'id'               => $t->id,
+				'jasa_dokter'      => $t->jasa_dokter,
+				'tipe_tindakan_id' => $t->tipe_tindakan_id,
+				'biaya'            => $t->biaya
+			];
+		}
 		return view('asuransis.create', compact('tarifs'));
 	}
 
@@ -97,8 +107,10 @@ class AsuransisController extends Controller
 	 * @return Response
 	 */
 	public function store()
+
 	{
 		$asuransi     = new Asuransi;
+		$asuransi->id = Yoga::customId('App\Asuransi');
 		$asuransi     = $this->inputData($asuransi);
 
 		$coa_id               = (int)Coa::where('id', 'like', '111%')->orderBy('id', 'desc')->first()->id + 1;
@@ -579,5 +591,27 @@ class AsuransisController extends Controller
 		Pic::insert($pics);
 		Telpon::insert($telpons);
 		return $asuransi;
+	}
+	public function kataKunciUnique(){
+		$kata_kunci  = strtolower(trim(Input::get('kata_kunci')));
+		$asuransi_id = Input::get('asuransi_id');
+		if (empty( $kata_kunci)) {
+			return '1';
+		}
+		if (isset( $asuransi_id )) {
+			try {
+				Asuransi::where('kata_kunci', $kata_kunci)->whereNot('id', $asuransi_id)->firstOrFail();
+				return '0';
+			} catch (\Exception $e) {
+				return '1';
+			}
+		} else {
+			try {
+				Asuransi::where('kata_kunci', $kata_kunci)->firstOrFail();
+				return '0';
+			} catch (\Exception $e) {
+				return '1';
+			}
+		}
 	}
 }

@@ -10,7 +10,6 @@
                     <a href="#Tarif" aria-controls="Tarif" role="tab" data-toggle="tab">Tarif</a>
                 </li>
             </ul>
-
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="Asuransi">
@@ -28,6 +27,14 @@
 									</div>
                                     </div>
                                 </div>
+								@if( isset($asuransi) )
+									<div class="row hide">
+										  {!! Form::text('asuransi_id', $asuransi->id, array(
+												'class' => 'form-control',
+												'id'    => 'asuransi_id'
+											))!!}
+									</div>
+								@endif
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 										<div class="form-group @if($errors->has('alamat'))has-error @endif">
@@ -69,7 +76,8 @@
 												<div class="form-group @if($errors->has('kata_kunci'))has-error @endif">
 												  {!! Form::label('kata_kunci', 'Kata Kunci', ['class' => 'control-label']) !!}
                                                     {!! Form::text('kata_kunci', null, array(
-                                                        'class'         => 'form-control',
+                                                        'class'         => 'form-control kata_kunci',
+                                                        'id'         => 'kata_kunci',
                                                         'placeholder'   => 'Kata Kunci Transfer Bank'
                                                         ))!!}
 												  @if($errors->has('kata_kunci'))<code>{{ $errors->first('kata_kunci') }}</code>@endif
@@ -101,7 +109,7 @@
 																	<tr>
 																		<td>
 																			<div class="form-group">
-																				{!! Form::text('telpon', $telpon->nomor, array(
+																				{!! Form::text('telpon[]', $telpon->nomor, array(
 																					'class'         => 'form-control phone',
 																					'placeholder'   => 'No Telp'
 																					))!!}
@@ -132,7 +140,7 @@
 																	<tr>
 																		<td>
 																			<div class="form-group">
-																				{!! Form::text('telpon', null, array(
+																				{!! Form::text('telpon[]', null, array(
 																					'class'         => 'form-control phone',
 																					'placeholder'   => 'No Telp'
 																					))!!}
@@ -225,7 +233,7 @@
 																		<td>
 																			<div class="form-group">
 																				{!! Form::text('hp_pic[]', $pic->nomor_telepon, array(
-																					'class'         => 'form-control hp',
+																					'class'         => 'form-control phone',
 																					'placeholder'   => 'phone'
 																				))!!}
 																			</div>
@@ -264,8 +272,8 @@
 																		<td>
 																			<div class="form-group">
 																				{!! Form::text('hp_pic[]', null, array(
-																					'class'         => 'form-control',
-																					'placeholder'   => 'nomor phone'
+																					'class'         => 'form-control phone',
+																					'placeholder'   => 'nomor'
 																				))!!}
 																			</div>
 																		</td>
@@ -293,7 +301,7 @@
 																		<td>
 																			<div class="form-group">
 																				{!! Form::text('email[]', $email->email, array(
-																					'class'         => 'form-control hp',
+																					'class'         => 'form-control email',
 																					'placeholder'   => 'email'
 																				))!!}
 																			</div>
@@ -325,7 +333,7 @@
 																		<div class="form-group">
 																			{!! Form::text('email[]', null, array(
 																				'id'         => 'email',
-																				'class'         => 'form-control hp',
+																				'class'         => 'form-control email',
 																				'placeholder'   => 'email'
 																			))!!}
 																		</div>
@@ -390,9 +398,8 @@
 				<a class="btn btn-danger btn-block" href="{{ url('asuransis') }}">Cancel</a>
 			</div>
 		</div>
-
-		<div class="row">
+		<div class="row hide">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				{!! Form::textarea('tarifs', $tarifs, ['class' => 'form-control', 'id' => 'tarifs'])!!}
+				{!! Form::textarea('tarifs', json_encode($tarifs), ['class' => 'form-control', 'id' => 'tarifs'])!!}
 			</div>
 		</div>

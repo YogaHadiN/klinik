@@ -1,11 +1,34 @@
 <script type='text/javascript'>
 
 function dummySubmit(control){
-	if(validatePass2(control)){
+	if(validatePass2(control, [
+		{
+			'className' : 'kata_kunci',
+			'testFunction' : kataKunciValid,
+			'message' : 'Kata Kunci sudah dipakai'
+		}
+	])){
 		$('#submit').click();
 	}
 }
-		
+
+function kataKunciValid(control){
+	if(control == ''){
+		return true;
+	}
+	var result = true;
+	$.get(base + '/asuransis/kata_kunci/unique_test',
+		{ 
+			kata_kunci: control,
+			asuransi_id: $('#asuransi_id').val()
+		},
+		function (data, textStatus, jqXHR) {
+			data = $.trim(data);
+			result = data == '1'; 
+		}
+	);
+	return result;
+}
 	var biaya = '';
 	var dibayar_asuransi = '';
 	var jasa_dokter = '';
@@ -164,5 +187,11 @@ function dummySubmit(control){
 			}
 
 			return val
+		}
+		function functionName(fun) {
+		  var ret = fun.toString();
+		  ret = ret.substr('function '.length);
+		  ret = ret.substr(0, ret.indexOf('('));
+		  return ret;
 		}
 	</script>
