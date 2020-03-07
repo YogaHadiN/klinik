@@ -16,15 +16,17 @@ class KirimBerkas extends Model
 	public function pengeluaran(){
 		return $this->belongsTo('App\Pengeluaran');
 	}
-	public function piutang_asuransi(){
-		return $this->hasMany('App\PiutangAsuransi');
+	public function invoice(){
+		return $this->hasMany('App\Invoice');
 	}
 
 	public function getRekapTagihanAttribute(){
-		$piutang_asuransis = $this->piutang_asuransi;
+		$invoices = $this->invoice;
 		$data              = [];
-		foreach ($piutang_asuransis as $piutang) {
-			$data[ $piutang->periksa->asuransi->nama ][] = $piutang;
+		foreach ($invoices as $invoice) {
+			foreach ($invoice->piutang_asuransi as $piutang) {
+				$data[ $piutang->periksa->asuransi->nama ][] = $piutang;
+			}
 		}
 		$data2 = [];
 		foreach ($data as $k => $dt) {
@@ -34,7 +36,7 @@ class KirimBerkas extends Model
 				$total_tagihan += $d->piutang - $d->sudah_dibayar;
 			}
 			$data2[ $k ] = [
-				'nomor_invoice' => $d->kirim_berkas_id . '/' . $d->periksa->asuransi_id,
+				'nomor_invoice' => $d->invoice_id,
 				'jumlah_tagihan' => $jumlah_tagihan,
 				'total_tagihan' => $total_tagihan,
 			];

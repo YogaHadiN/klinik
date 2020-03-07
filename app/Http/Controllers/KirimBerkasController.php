@@ -31,8 +31,7 @@ class KirimBerkasController extends Controller
 	 }
 	public function index(){
 
-		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'piutang_asuransi.periksa.asuransi')->get();
-
+		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'invoice.piutang_asuransi.periksa.asuransi')->get();
 		return view('kirim_berkas.index', compact(
 			'kirim_berkas'
 		));
