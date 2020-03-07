@@ -118,7 +118,7 @@ class testcommand extends Command
 			$result = $ids[0] . '/'; //inv
 			$result .= $ids[1] . '/'; //12
 			$result .= $ids[2] . '/'; // kje
-			$result .= 'Payor-' .$payor .'/';
+			$result .= 'PYR-' .$payor .'/';
 			$result .= $ids[3] . '/'; //12
 			$result .= $ids[4];
 		} else {
