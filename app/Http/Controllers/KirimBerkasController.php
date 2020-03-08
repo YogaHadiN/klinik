@@ -20,6 +20,12 @@ use DB;
 
 class KirimBerkasController extends Controller
 {
+	private $input_tanggal;
+	private $input_alamat;
+	private $input_staf_id;
+	private $role_pengiriman_id;
+	private $input_piutang_tercatat;
+
 	public function __construct()
 	 {
 		 $this->middleware('protect', ['only' => [
@@ -28,17 +34,23 @@ class KirimBerkasController extends Controller
 			 'inputNotaPost',
 			 'update'
 		 ]]);
+		$this->input_tanggal          = Input::get('tanggal');
+		$this->input_alamat           = Input::get('alamat');
+		$this->input_staf_id          = Input::get('staf_id');
+		$this->role_pengiriman_id     = Input::get('role_pengiriman_id');;
+		$this->input_piutang_tercatat = Input::get('piutang_tercatat');
 	 }
 	public function index(){
 
 		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'invoice.piutang_asuransi.periksa.asuransi')->get();
+		/* dd($kirim_berkas->first()->rekap_tagihan); */
 		return view('kirim_berkas.index', compact(
 			'kirim_berkas'
 		));
 	}
 	
 	public function create(){
-		$staf_list = Staf::pluck('nama', 'id')->all();
+		$staf_list            = Staf::pluck('nama', 'id')->all();
 		$role_pengiriman_list = RolePengiriman::list();
 		return view('kirim_berkas.create', compact('staf_list', 'role_pengiriman_list'));
 	}
@@ -58,7 +70,8 @@ class KirimBerkasController extends Controller
 		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
 		$query .= "JOIN pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
-		$query .= "LEFT JOIN kirim_berkas as ks on ks.id = pa.kirim_berkas_id ";
+		$query .= "LEFT JOIN invoices as inv on inv.id = pa.invoice_id ";
+		$query .= "LEFT JOIN kirim_berkas as ks on ks.id = inv.kirim_berkas_id ";
 		$query .= "WHERE px.tanggal between '$date_from' and '$date_to' ";
 		$query .= "AND px.asuransi_id = '$asuransi_id';";
 		$data = DB::select($query);
@@ -66,36 +79,12 @@ class KirimBerkasController extends Controller
 		return $data;
 	}
 	public function store(){
+		dd(Input::all()); 
 		DB::beginTransaction();
 		try {
 			$kirim_berkas          = new KirimBerkas;
 			$kirim_berkas->id      = $this->nomorSurat();
-			$kirim_berkas->tanggal = Yoga::datePrep(Input::get('tanggal'));
-			$kirim_berkas->save();
-
-			$staf_ids            = Input::get('staf_id');
-			$role_pengiriman_ids = Input::get('role_pengiriman_id');
-
-			foreach ($staf_ids as $k => $staf_id) {
-				$petugas_kirim                     = new PetugasKirim;
-				$petugas_kirim->staf_id            = $staf_id;
-				$petugas_kirim->role_pengiriman_id = $role_pengiriman_ids[$k];
-				$petugas_kirim->kirim_berkas_id    = $kirim_berkas->id;
-				$petugas_kirim->save();
-			}
-
-			$piutang_tercatat = Input::get('piutang_tercatat');
-			$piutang_tercatat = json_decode($piutang_tercatat, true);
-
-			$piutang_ids = [];
-
-			foreach ($piutang_tercatat as $piutang) {
-				$piutang_ids[] = $piutang['piutang_id'];
-			}
-
-			PiutangAsuransi::whereIn('id', $piutang_ids)->update([
-				'kirim_berkas_id' => $kirim_berkas->id
-			]);
+			$kirim_berkas = $this->inputData($kirim_berkas);
 			
 			DB::commit();
 		} catch (\Exception $e) {
@@ -114,37 +103,13 @@ class KirimBerkasController extends Controller
 	public function update($id){
 		DB::beginTransaction();
 		try {
-			$kirim_berkas          = KirimBerkas::find($id);
-			$kirim_berkas->tanggal = Yoga::datePrep(Input::get('tanggal'));
-			$kirim_berkas->save();
-
-			$staf_ids            = Input::get('staf_id');
-			$role_pengiriman_ids = Input::get('role_pengiriman_id');
-
-			PetugasKirim::where('kirim_berkas_id', $id)->delete();
-
-			foreach ($staf_ids as $k => $staf_id) {
-				$petugas_kirim                     = new PetugasKirim;
-				$petugas_kirim->staf_id            = $staf_id;
-				$petugas_kirim->role_pengiriman_id = $role_pengiriman_ids[$k];
-				$petugas_kirim->kirim_berkas_id    = $kirim_berkas->id;
-				$petugas_kirim->save();
-			}
 
 			PiutangAsuransi::where('kirim_berkas_id', $id)->update([
 				'kirim_berkas_id' => null
 			]);
-
-			$piutang_tercatat = Input::get('piutang_tercatat');
-			$piutang_tercatat = json_decode($piutang_tercatat, true);
-
-			$piutang_ids = [];
-			foreach ($piutang_tercatat as $piutang) {
-				$piutang_ids[] = $piutang['piutang_id'];
-			}
-			PiutangAsuransi::whereIn('id', $piutang_ids)->update([
-				'kirim_berkas_id' => $kirim_berkas->id
-			]);
+			PetugasKirim::where('kirim_berkas_id', $id)->delete();
+			$kirim_berkas = KirimBerkas::find($id);
+			$kirim_berkas = $this->inputData($kirim_berkas);
 			
 			DB::commit();
 		} catch (\Exception $e) {
@@ -298,5 +263,34 @@ class KirimBerkasController extends Controller
 		} catch (\Exception $e) {
 			return 'INV/1/KJE/'. $bulan.'/'. $tahun;
 		}
+	}
+	private function inputData($kirim_berkas){
+		$kirim_berkas->tanggal = Yoga::datePrep($this->input_tanggal));
+		$kirim_berkas->alamat = Yoga::datePrep($this->input_alamat));
+		$kirim_berkas->save();
+
+		$staf_ids            = $this->input_staf_id);
+		$role_pengiriman_ids = $this->input_role_pengiriman_id);
+
+		foreach ($staf_ids as $k => $staf_id) {
+			$petugas_kirim                     = new PetugasKirim;
+			$petugas_kirim->staf_id            = $staf_id;
+			$petugas_kirim->role_pengiriman_id = $role_pengiriman_ids[$k];
+			$petugas_kirim->kirim_berkas_id    = $kirim_berkas->id;
+			$petugas_kirim->save();
+		}
+
+		$piutang_tercatat = $this->input_piutang_tercatat);
+		$piutang_tercatat = json_decode($piutang_tercatat, true);
+
+		$piutang_ids = [];
+
+		foreach ($piutang_tercatat as $piutang) {
+			$piutang_ids[] = $piutang['piutang_id'];
+		}
+
+		PiutangAsuransi::whereIn('id', $piutang_ids)->update([
+			'kirim_berkas_id' => $kirim_berkas->id
+		]);
 	}
 }

@@ -22,12 +22,16 @@ class KirimBerkas extends Model
 
 	public function getRekapTagihanAttribute(){
 		$invoices = $this->invoice;
+		/* return $invoices->first()->id; */
+		/* return $invoices->first()->id; */
+		/* return $invoices->first()->piutang_asuransi; */
 		$data              = [];
 		foreach ($invoices as $invoice) {
 			foreach ($invoice->piutang_asuransi as $piutang) {
 				$data[ $piutang->periksa->asuransi->nama ][] = $piutang;
 			}
 		}
+		/* return $data; */
 		$data2 = [];
 		foreach ($data as $k => $dt) {
 			$total_tagihan = 0;
@@ -38,7 +42,7 @@ class KirimBerkas extends Model
 			$data2[ $k ] = [
 				'nomor_invoice' => $d->invoice_id,
 				'jumlah_tagihan' => $jumlah_tagihan,
-				'total_tagihan' => $total_tagihan,
+				'total_tagihan' => $total_tagihan
 			];
 		}
 		return $data2;

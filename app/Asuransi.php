@@ -12,6 +12,7 @@ use DB;
 
 class Asuransi extends Model{
 
+    public $incrementing = false; 
 	// Add your validation rules here
 	public static $rules = [
 		'nama' => 'required',

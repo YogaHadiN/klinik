@@ -20,6 +20,7 @@
 		style : 'btn-white'
 	});
 	function cariPiutangAsuransi(){
+		 $("#body_pencarian_piutang").html("<tr><td colspan='2'></td><td colspan='2' class='text-center'><img src='" + base + "/img/loader.gif'></td><td colspan='3'></td></tr>");
 		$.get(base + '/kirim_berkas/cari/piutang',
 			{ 
 				asuransi_id: $('#asuransi_id').val(),
@@ -34,6 +35,7 @@
 					$('#piutang_asuransi').val(string);
 				} else {
 					$('#piutang_asuransi').val('[]');
+					$("#body_pencarian_piutang").html("<tr><td colspan='7' class='text-center'>Tidak ada data yang dapat ditampilkan</td></tr>");
 				}
 			}
 		);
@@ -71,22 +73,22 @@
 			temp += '<td>';
 			temp += data[i].nama_asuransi;
 			temp += '</td>';
-			temp += '<td class="text-right">';
+			temp += '<td nowrap class="text-right">';
 			temp += uang(data[i].piutang);
 			temp += '</td>';
-			temp += '<td class="text-right">';
+			temp += '<td nowrap class="text-right">';
 			temp += uang(data[i].sudah_dibayar);
 			temp += '</td>';
-			temp += '<td class="text-right">';
+			temp += '<td nowrap class="text-right">';
 			temp += uang(data[i].piutang - data[i].sudah_dibayar);
 			temp += '</td>';
 			if(catat){
-				temp += '<td class="column-fit">';
+				temp += '<td nowrap class="column-fit">';
 				temp += buttonCek(i, false);
 				temp += '</td>';
 			} else {
 				if( data[i].tanggal_kirim != null ){
-						temp += '<td>';
+						temp += '<td nowrap>';
 						temp += 'Terkirim ' + data[i].tanggal_kirim;
 						temp += '</td>';
 				} else {

@@ -10,6 +10,17 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="form-group @if($errors->has('alamat'))has-error @endif">
+			  {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
+				{!! Form::textarea('alamat', null, array(
+					'class'         => 'form-control rq textareacustom'
+				))!!}
+			  @if($errors->has('alamat'))<code>{{ $errors->first('alamat') }}</code>@endif
+			</div>
+		</div>
+	</div>
 	@if( isset($kirim_berkas) )
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
