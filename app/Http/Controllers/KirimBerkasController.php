@@ -13,6 +13,7 @@ use App\KirimBerkas;
 use App\Staf;
 use App\RolePengiriman;
 use App\PetugasKirim;
+use App\Invoice;
 use App\PiutangAsuransi;
 use App\Classes\Yoga;
 use Input;
@@ -23,7 +24,7 @@ class KirimBerkasController extends Controller
 	private $input_tanggal;
 	private $input_alamat;
 	private $input_staf_id;
-	private $role_pengiriman_id;
+	private $input_role_pengiriman_id;
 	private $input_piutang_tercatat;
 
 	public function __construct()
@@ -37,7 +38,7 @@ class KirimBerkasController extends Controller
 		$this->input_tanggal          = Input::get('tanggal');
 		$this->input_alamat           = Input::get('alamat');
 		$this->input_staf_id          = Input::get('staf_id');
-		$this->role_pengiriman_id     = Input::get('role_pengiriman_id');;
+		$this->input_role_pengiriman_id     = Input::get('role_pengiriman_id');;
 		$this->input_piutang_tercatat = Input::get('piutang_tercatat');
 	 }
 	public function index(){
@@ -79,7 +80,6 @@ class KirimBerkasController extends Controller
 		return $data;
 	}
 	public function store(){
-		dd(Input::all()); 
 		DB::beginTransaction();
 		try {
 			$kirim_berkas          = new KirimBerkas;
@@ -255,8 +255,8 @@ class KirimBerkasController extends Controller
 		try {
 			$kirim_berkas = KirimBerkas::where('id', 'like', 'INV/%/KJE/' . $bulan . '/' . $tahun. '%')->latest()->firstOrFail();
 
-			$kirim_berkas_id = $kirim_berkas->id;
-			$nomor_saat_ini = explode('/', $kirim_berkas_id)[1];
+			$kirim_berkas_id   = $kirim_berkas->id;
+			$nomor_saat_ini    = explode('/', $kirim_berkas_id)[1];
 			$nomor_selanjutnya = (int) $nomor_saat_ini + 1;
 
 			return 'INV/' . $nomor_selanjutnya . '/KJE/'. $bulan.'/'. $tahun;
@@ -265,13 +265,42 @@ class KirimBerkasController extends Controller
 		}
 	}
 	private function inputData($kirim_berkas){
-		$kirim_berkas->tanggal = Yoga::datePrep($this->input_tanggal));
-		$kirim_berkas->alamat = Yoga::datePrep($this->input_alamat));
+
+		$kirim_berkas->tanggal = Yoga::datePrep($this->input_tanggal);
+		$kirim_berkas->alamat  = $this->input_alamat;
 		$kirim_berkas->save();
 
-		$staf_ids            = $this->input_staf_id);
-		$role_pengiriman_ids = $this->input_role_pengiriman_id);
+		$staf_ids            = $this->input_staf_id;
+		$role_pengiriman_ids = $this->input_role_pengiriman_id;
 
+		$piutang_ids = [];
+		foreach ($piutang_tercatat as $piutang) {
+			$piutang_ids[] = $piutang['piutang_id'];
+		}
+
+		$piutang_tercatat = $this->input_piutang_tercatat;
+		$piutang_tercatat = json_decode($piutang_tercatat, true);
+
+		$piutang_tercatat_by_asuransi = [];
+		$piutangs = PiutangAsuransi::whereIn('id', $piutang_ids)->get();
+		foreach ($piutangs as $p) {
+			$piutang_tercatat_by_asuransi[$p->periksa->asuransi_id][] = $p;
+		}
+
+		foreach ($piutang_tercatat_by_asuransi as $k => $piut) {
+			$piutang_ids = [];
+			foreach ($piut as $p) {
+				$piutang_ids[] = $p->id;
+			}
+			$invoice                  = new Invoice;
+			$invoice->id              = $this->invoice_id($kirim->id, $k);
+			$invoice->kirim_berkas_id = $kirim_berkas->id;
+			$invoice->save();
+
+			PiutangAsuransi::whereIn('id', $piutang_ids)->update([
+				'invoice_id' => $invoice->id
+			]);
+		}
 		foreach ($staf_ids as $k => $staf_id) {
 			$petugas_kirim                     = new PetugasKirim;
 			$petugas_kirim->staf_id            = $staf_id;
@@ -279,18 +308,21 @@ class KirimBerkasController extends Controller
 			$petugas_kirim->kirim_berkas_id    = $kirim_berkas->id;
 			$petugas_kirim->save();
 		}
+	}
+	private function invoice_id($kirim_berkas_id, $asuransi_id){
+		/* INV/12/KJE/PYR-1/III/2019/1 */
+		$ids = explode('/', $kirim_berkas_id);
 
-		$piutang_tercatat = $this->input_piutang_tercatat);
-		$piutang_tercatat = json_decode($piutang_tercatat, true);
-
-		$piutang_ids = [];
-
-		foreach ($piutang_tercatat as $piutang) {
-			$piutang_ids[] = $piutang['piutang_id'];
+		if (count($ids)>1) {
+			$payor = $asuransi_id;
+			$result = $ids[0] . '/'; //inv
+			$result .= $ids[1] . '/'; //12
+			$result .= $ids[2] . '/'; // kje
+			$result .= 'PYR-' .$payor .'/';
+			$result .= $ids[3] . '/'; //12
+			$result .= $ids[4];
+		} else {
+			return $kirim_berkas_id . '/' . $asuransi_id;
 		}
-
-		PiutangAsuransi::whereIn('id', $piutang_ids)->update([
-			'kirim_berkas_id' => $kirim_berkas->id
-		]);
 	}
 }
