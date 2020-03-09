@@ -273,13 +273,13 @@ class KirimBerkasController extends Controller
 		$staf_ids            = $this->input_staf_id;
 		$role_pengiriman_ids = $this->input_role_pengiriman_id;
 
+		$piutang_tercatat = $this->input_piutang_tercatat;
+		$piutang_tercatat = json_decode($piutang_tercatat, true);
+
 		$piutang_ids = [];
 		foreach ($piutang_tercatat as $piutang) {
 			$piutang_ids[] = $piutang['piutang_id'];
 		}
-
-		$piutang_tercatat = $this->input_piutang_tercatat;
-		$piutang_tercatat = json_decode($piutang_tercatat, true);
 
 		$piutang_tercatat_by_asuransi = [];
 		$piutangs = PiutangAsuransi::whereIn('id', $piutang_ids)->get();
@@ -293,7 +293,7 @@ class KirimBerkasController extends Controller
 				$piutang_ids[] = $p->id;
 			}
 			$invoice                  = new Invoice;
-			$invoice->id              = $this->invoice_id($kirim->id, $k);
+			$invoice->id              = $this->invoice_id($kirim_berkas->id, $k);
 			$invoice->kirim_berkas_id = $kirim_berkas->id;
 			$invoice->save();
 
@@ -321,6 +321,7 @@ class KirimBerkasController extends Controller
 			$result .= 'PYR-' .$payor .'/';
 			$result .= $ids[3] . '/'; //12
 			$result .= $ids[4];
+			return $result;
 		} else {
 			return $kirim_berkas_id . '/' . $asuransi_id;
 		}

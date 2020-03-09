@@ -75,32 +75,46 @@ Klinik Jati Elok | Kirim Berkas
 										</div>
 									</td>
 									<td nowrap class="autofit">
-
 										{!! Form::open(['url' => 'kirim_berkas/' .$kirim->id, 'method' => 'delete']) !!}
-										<a class="btn btn-info btn-xs" href="{{ url('kirim_berkas/' . $kirim->id . '/edit') }}">
-											<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-											Edit
-										</a>
-										@if(!is_null($kirim->foto_berkas_dan_bukti))
-											<a target="_blank" class="btn btn-primary btn-xs" href="{{ url('img/foto_berkas_dan_bukti/' . $kirim->foto_berkas_dan_bukti) }}">
-											<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-											Lihat Pengesahan
-										</a>
-										@else
-										<a class="btn btn-warning btn-xs" href="{{ url('kirim_berkas/' . $kirim->id . '/inputNota') }}">
-											<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-											Input Nota
-										</a>
-										@endif
-										<br />
-										<br />
-										<a target="_blank" class="btn btn-success btn-xs" href="{{ url('pdfs/kirim_berkas/' . $kirim->id) }}">
-											<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-											Cetak Form
-										</a>
-										<button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('Anda yakin mau menghapus form berkas ini?');return false;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+										<div class="table-responsive">
+											<table class="table table-hover table-condensed table-bordered">
+												<tbody>
+													<tr>
+														<td>
+															<a class="btn btn-info btn-xs btn-block" href="{{ url('kirim_berkas/' . $kirim->id . '/edit') }}">
+																<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+																Edit
+															</a>
+														</td>
+														<td>
+															@if(!is_null($kirim->foto_berkas_dan_bukti))
+																<a target="_blank" class="btn btn-primary btn-xs btn-block" href="{{ url('img/foto_berkas_dan_bukti/' . $kirim->foto_berkas_dan_bukti) }}">
+																<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+																Lihat Pengesahan
+															</a>
+															@else
+															<a class="btn btn-warning btn-xs btn-block" href="{{ url('kirim_berkas/' . $kirim->id . '/inputNota') }}">
+																<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+																Input Nota
+															</a>
+															@endif
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<a target="_blank" class="btn btn-success btn-xs btn-block" href="{{ url('pdfs/kirim_berkas/' . $kirim->id) }}">
+																<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+																Cetak Form
+															</a>
+														</td>
+														<td>
+															<button class="btn btn-danger btn-xs btn-block" type="submit" onclick="return confirm('Anda yakin mau menghapus form berkas ini?');return false;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
 										{!! Form::close() !!}
-
 									</td>
 								</tr>
 							@endforeach
