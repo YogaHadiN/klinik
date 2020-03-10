@@ -65,13 +65,11 @@
                 calendarWeeks: true,
                 autoclose: true
             });
-
-
-
-            // var image = $('#formfield').val()
-            // $('.image').attr("src","data:image/png;base64,"+image);
-
+			$('#asuransi_id').change(function(){
+				$('#nomor_asuransi').val('');
+			});
         });
+
 
 		function dummySubmit(){
 			if(validatePass()){

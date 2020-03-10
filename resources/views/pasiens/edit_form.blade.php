@@ -87,6 +87,7 @@
 							<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
 							  {!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
 								{!! Form::select('asuransi_id', $asuransi, $pasien->asuransi_id, array(
+									'id'         => 'asuransi_id', 
 									'class'         => 'form-control selectpick', 
 									'data-live-search'         => 'true'
 								))!!}
@@ -109,6 +110,7 @@
 							<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
 							  {!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
 								{!! Form::text('nomor_asuransi', $pasien->nomor_asuransi, array(
+									'id'         => 'nomor_asuransi',
 									'class'         => 'form-control',
 									'placeholder'   => 'nomor asuransi'
 								))!!}
