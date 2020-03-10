@@ -55,9 +55,12 @@ class TestController extends Controller
 			$excel_pembayaran = Excel::toArray(new PembayaranImport, $file)[0];
 			$data = [];
 			$timestamp = date('Y-m-d H:i:s');
+			$last_id = Rekening::where('id', '>' , 0)->latest()->first()->id;
+			$id = $id + 1;
 			foreach ($excel_pembayaran as $k => $e) {
+				
 				$data[] = [
-					'id' => $k +1,
+					'id' => $id,
 					'akun_bank_id' => 'wnazGyxGWGA',
 					'tanggal'      => $e['tanggal'],
 					'deskripsi'    => $e['deskripsi'],
@@ -67,6 +70,7 @@ class TestController extends Controller
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];
+				$id++;
 			}
 			Rekening::insert($data);
 		}  
