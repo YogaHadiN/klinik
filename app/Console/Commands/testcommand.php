@@ -55,74 +55,37 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("alter table kirim_berkas modify id varchar(255);");
-		DB::statement("CREATE TABLE telpons ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, nomor VARCHAR(30) NOT NULL, telponable_type VARCHAR(30) NOT NULL, telponable_id VARCHAR(30) NOT NULL, created_at timestamp, updated_at timestamp);");
-		$asuransis = Asuransi::all();
-		$data = [];
-		$timestamp = date('Y-m-d H:i:s');
-		foreach ($asuransis as $asu) {
-			if (!empty($asu->no_telp)) {
-				$data[] = [
-					'nomor'           => $asu->no_telp,
-					'telponable_id'   => $asu->id,
-					'telponable_type' => 'App\\Asuransi',
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
-			}
-		}
-		Telpon::insert($data);
-		DB::statement('ALTER table asuransis drop column no_telp');
-		DB::statement('ALTER table kirim_berkas add alamat text null');
-		$statement = "CREATE TABLE invoices ";
-		$statement .= "( ";
-		$statement .= "id varchar(255) PRIMARY KEY, ";
-		$statement .= "kirim_berkas_id VARCHAR(30) NOT NULL, ";
-		$statement .= "created_at timestamp, ";
-		$statement .= "updated_at timestamp";
-		$statement .= ");";
+		DB::statement("update asuransis set coa_id='111087' where id='200216001'"); // etiqa
+		DB::statement("update asuransis set coa_id='111066' where id='161123001'"); // aca
+		DB::statement("update asuransis set coa_id='111075' where id='170722001'"); // fwd
+		DB::statement("update asuransis set coa_id='111001' where id='1'"); // pan pacific
+		DB::statement("update asuransis set coa_id='111009' where id='151020001'"); // hanwha
+		DB::statement("update asuransis set coa_id='111015' where id='160207002'"); // axa admedika pyr
+		DB::statement("update asuransis set coa_id='111016' where id='160207003'"); // tokio marine
+		DB::statement("update asuransis set coa_id='111017' where id='160207004'"); // sunlife
+		DB::statement("update asuransis set coa_id='111019' where id='160207006'"); // icon plus
+		DB::statement("update asuransis set coa_id='111020' where id='160207007'"); // pertamina
+		DB::statement("update asuransis set coa_id='111021' where id='160207008'"); // aia
+		DB::statement("update asuransis set coa_id='111022' where id='160207009'"); // indosurya
+		DB::statement("update asuransis set coa_id='111023' where id='160207010'"); // mega life
+		DB::statement("update asuransis set coa_id='111024' where id='160207011'"); // regas
+		DB::statement("update asuransis set coa_id='111028' where id='160207015'"); // infomedia
+		DB::statement("update asuransis set coa_id='111029' where id='160207016'"); // patra
+		DB::statement("update asuransis set coa_id='111030' where id='160207017'"); // hdi
+		DB::statement("update asuransis set coa_id='111031' where id='160207018'"); // bumiputera
+		DB::statement("update asuransis set coa_id='111032' where id='160207019'"); // pertamina internasional
+		DB::statement("update asuransis set coa_id='111036' where id='160207023'"); // pelita air
+		DB::statement("update asuransis set coa_id='111071' where id='170309001'"); // bni_life
+		DB::statement("update asuransis set coa_id='111081' where id='181015001'"); // bca_life
+		DB::statement("update asuransis set coa_id='111083' where id='181231001'"); // angkasapura2
+		DB::statement("update asuransis set coa_id='111056' where id='34'"); // as umum mega
+		DB::statement("update asuransis set coa_id='111060' where id='5'"); // reliance
+		$statement = "update jurnal_umums as ju ";
+		$statement .= "join periksas as px on px.id = ju.jurnalable_id ";
+		$statement .= "join asuransis as asu on asu.id = px.asuransi_id ";
+		$statement .= "set ju.coa_id=asu.coa_id ";
+		$statement .= "where ju.coa_id is null ";
+		$statement .= "and ju.jurnalable_type='App\\\Periksa'";
 		DB::statement($statement);
-
-		$kirim_berkas = KirimBerkas::with('piutang_asuransi.periksa')->get();
-		DB::statement('ALTER TABLE piutang_asuransis CHANGE `kirim_berkas_id` `invoice_id` varchar(255) null;');
-		$invoices     = [];
-		$timestamp    = date('Y-m-d H:i:s');
-		foreach ($kirim_berkas as $kirim) {
-			foreach ($kirim->piutang_asuransi as $piutang) {
-				$invoices[ $piutang->kirim_berkas_id ][$piutang->periksa->asuransi_id] = [
-					'id'              => $this->invoice_id($piutang),
-					'kirim_berkas_id' => $piutang->kirim_berkas_id,
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
-				$piutang->invoice_id = $this->invoice_id($piutang);
-				$piutang->save();
-			}
-		}
-
-		$datas = [];
-		foreach ($invoices as $inv) {
-			foreach ($inv as $in) {
-				$datas[] = $in;
-			}
-		}
-		Invoice::insert($datas);
-	}
-	public function invoice_id($piutang){
-		/* INV/12/KJE/III/2019/1 */
-		$kirim_berkas_id = $piutang->kirim_berkas_id;
-		$ids = explode('/', $kirim_berkas_id);
-
-		if (count($ids)>1) {
-			$payor = $piutang->periksa->asuransi_id;
-			$result = $ids[0] . '/'; //inv
-			$result .= $ids[1] . '/'; //12
-			$result .= $ids[2] . '/'; // kje
-			$result .= 'PYR-' .$payor .'/';
-			$result .= $ids[3] . '/'; //12
-			$result .= $ids[4];
-		} else {
-			return $kirim_berkas_id . '/' . $piutang->periksa->asuransi_id;
-		}
 	}
 }

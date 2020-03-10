@@ -111,6 +111,7 @@ class JurnalUmumsController extends Controller
 				$pendapatans[] = $ju;
 			}
 		}
+		/* dd($pendapatans); */
 		//
 		$jurnalumums = json_encode( $jurnalumums );
 		$bebanCoaList = [null => '-pilih-'] + 

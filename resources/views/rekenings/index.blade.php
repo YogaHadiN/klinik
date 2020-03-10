@@ -2,7 +2,22 @@
 
 @section('title') 
 	Klinik Jati Elok | Rekening Bank {{ $rekening->akun }}
-
+@stop
+@section('head') 
+	<style type="text/css" media="all">
+		.kolom_1{
+			width: 10% !important;
+		}
+		.kolom_2{
+			width: 10% !important;
+		}
+		.kolom_3{
+			width: 50% !important;
+		}
+		.kolom_4{
+			width: 10% !important;
+		}
+	</style>
 @stop
 @section('page-title') 
 <h2>Rekening Bank {{ $rekening->akun }}</h2>
@@ -30,10 +45,13 @@
 					]) !!}
 				</div>
 			  </div>
-		<table class="table table-hover table-condensed table-bordered">
+		<table id="table_rekening" class="table table-hover table-condensed table-bordered">
 			<thead>
 				<tr>
-					<th nowrap>
+					<th nowrap class="kolom_1">
+						ID
+					</th>
+					<th nowrap class="kolom_2">
 						Tanggal
                         {!! Form::text('tanggal', null, [
 							'class' => 'form-control-inline tgl form-control ajaxsearchrekening',
@@ -41,7 +59,7 @@
 							'id'    => 'tanggal'
 						])!!}
 					</th>
-					<th>
+					<th class="kolom_3">
 						Deskripsi
                         {!! Form::text('deskripsi', null, [
 							'class' => 'form-control-inline deskripsi form-control ajaxsearchrekening',
@@ -49,14 +67,9 @@
 							'id' => 'deskripsi'
 						])!!}
 					</th>
-					<th nowrap>
+					<th nowrap class="kolom_4">
 						Kredit
 					</th>
-					@if(\Auth::user()->role == '1')
-					<th nowrap>
-						Saldo
-					</th>
-					@endif
 				</tr>
 			</thead>
 			<tbody id="rek_container">
@@ -107,23 +120,22 @@
 					var temp = '';
 					for (var i = 0; i < data.data.length; i++) {
 						temp += '<tr>';
-						temp += '<td nowrap>';
+						temp += '<td nowrap class="kolom_1">';
+						temp += data.data[i].id;
+						temp += '</td>';
+						temp += '<td nowrap class="kolom_2">';
 						temp += data.data[i].tanggal;
 						temp += '</td>';
-						temp += '<td>';
+						temp += '<td class="kolom_3">';
 						temp += data.data[i].deskripsi;
 						temp += '</td>';
-						temp += '<td class="text-right" nowrap>';
+						temp += '<td class="text-right kolom_4" nowrap>';
 						temp += uang(data.data[i].nilai);
 						temp += '</td>';
-					@if(\Auth::user()->role == '1')
-						temp += '<td class="text-right" nowrap>';
-						temp += uang(data.data[i].saldo_akhir);
-						temp += '</td>';
-					@endif
 						temp += '</tr>';
 					}
 					$('#rek_container').html(temp);
+					$('#rows').html(data.rows);
 					pages = data.pages;
 					$('#paging').twbsPagination({
 						startPage: parseInt(key) +1,

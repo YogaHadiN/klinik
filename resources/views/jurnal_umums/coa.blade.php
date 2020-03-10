@@ -213,7 +213,7 @@
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
 	{!! Form::text('route', $route, ['class' => 'form-control hide']) !!}
 	{!! Form::textarea('temp', $jurnalumums, [
-		'class' => 'form-control hide',
+		'class' => 'form-control',
 		'id'    => 'temp'
 	]) !!}
 	{!! Form::textarea('peralatanTemp', '[]', ['class' => 'hide form-control', 'id' => 'peralatanTemp']) !!}

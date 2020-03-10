@@ -52,11 +52,13 @@
                   {!! Form::text('akhir', null, ['class' => 'form-control rq tanggal']) !!}
 				  @if($errors->has('akhir'))<code>{{ $errors->first('akhir') }}</code>@endif
 				</div>
+				@if(\Auth::id() == 28)
 				<div class="form-group{{ $errors->has('excel_pembayaran') ? ' has-error' : '' }}">
 					{!! Form::label('excel_pembayaran', 'Excel Pembayaran') !!}
 					{!! Form::file('excel_pembayaran') !!}
 					  @if($errors->has('excel_pembayaran'))<code>{{ $errors->first('excel_pembayaran') }}</code>@endif
 				</div>
+				@endif
                 <div class="form-group">
                   <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

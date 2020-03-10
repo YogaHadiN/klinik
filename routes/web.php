@@ -20,8 +20,6 @@ Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
 Route::get('rekening/mandiri', 'MutasiBankController@info');
 Route::post('moota/callback', 'MutasiBankController@mootaCallback');
-Route::get('rekening_bank/search', 'RekeningController@search');
-Route::get('rekening_bank/{id}', 'RekeningController@index');
 
 
 Route::get('antrians', 'AntriansController@create');
@@ -81,6 +79,9 @@ Route::resource('invoices', 'InvoiceController');
 
 
   	Route::group(['middleware' => 'auth'], function(){
+
+			Route::get('rekening_bank/search', 'RekeningController@search');
+			Route::get('rekening_bank/{id}', 'RekeningController@index');
 
 			Route::get('cek_list_harian/obat', 'CekListHariansController@obat');
 			Route::post('cek_list_harian/obat', 'CekListHariansController@obatPost');

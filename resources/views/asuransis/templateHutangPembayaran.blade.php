@@ -62,7 +62,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered DTs">
+						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
 									<th>Tanggal</th>
@@ -85,7 +85,7 @@
 									@endforeach
 								@else
 									<tr>
-										<td class="text-center" colspan="">Tidak ada data untuk ditampilkan</td>
+										<td class="text-center" colspan="3">Tidak ada data untuk ditampilkan</td>
 									</tr>
 								@endif
 							</tbody>

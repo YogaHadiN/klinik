@@ -32,7 +32,6 @@ class AsuransisController extends Controller
 	private $input_email            = '';
 	private $input_umum             = '';
 	private $input_kali_obat        = '';
-	private $input_coa_id           = '';
 	private $input_kata_kunci       = '';
 
    public function __construct()
@@ -51,7 +50,6 @@ class AsuransisController extends Controller
 		$this->input_tipe_asuransi    = Input::get('tipe_asuransi');
 		$this->input_umum             = Yoga::cleanArrayJson(Input::get('umum'));
 		$this->input_kali_obat        = Input::get('kali_obat');
-		$this->input_coa_id           = Input::get('coa_id');
 		$this->input_kata_kunci       = Input::get('kata_kunci');
     }
 	/**
@@ -109,9 +107,9 @@ class AsuransisController extends Controller
 	public function store()
 
 	{
-		$asuransi     = new Asuransi;
-		$asuransi->id = Yoga::customId('App\Asuransi');
-		$asuransi     = $this->inputData($asuransi);
+		$asuransi         = new Asuransi;
+		$asuransi->id     = Yoga::customId('App\Asuransi');
+		$asuransi         = $this->inputData($asuransi);
 
 		$coa_id               = (int)Coa::where('id', 'like', '111%')->orderBy('id', 'desc')->first()->id + 1;
 		$coa                  = new Coa;
@@ -119,6 +117,7 @@ class AsuransisController extends Controller
 		$coa->kelompok_coa_id = '11';
 		$coa->coa             = 'Piutang Asuransi ' . $asuransi->nama;
 		$coa->save();
+
 
 		$asuransi->coa_id = $coa_id;
 		$asuransi->save();
@@ -192,9 +191,11 @@ class AsuransisController extends Controller
 	public function update(AsuransiValidation $request, $id)
 	{
 		$asuransi = Asuransi::findOrFail($id);
+
 		Pic::where('asuransi_id', $id)->delete();
 		Email::where('emailable_id', $id)->where('emailable_type', 'App\\Asuransi')->delete();
 		Telpon::where('telponable_id', $id)->where('telponable_type', 'App\\Asuransi')->delete();
+
 		$asuransi = $this->inputData($asuransi);
 
 		$tarifs   = Input::get('tarifs');
@@ -546,7 +547,6 @@ class AsuransisController extends Controller
 		$asuransi->tipe_asuransi    = $this->input_tipe_asuransi;
 		$asuransi->umum             = $this->input_umum;
 		$asuransi->kali_obat        = $this->input_kali_obat;
-		$asuransi->coa_id           = $this->input_coa_id;
 		$asuransi->kata_kunci       = $this->input_kata_kunci;
 		$asuransi->save();
 

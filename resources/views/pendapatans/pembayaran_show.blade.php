@@ -84,6 +84,11 @@
                   {!! Form::text('dibayar' , null, ['class' => 'form-control rq uangInput', 'id'=>'piutang']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
 				</div>
+				<div class="form-group @if($errors->has('rekening_id'))has-error @endif">
+				  {!! Form::label('rekening_id', 'ID rekening', ['class' => 'control-label']) !!}
+                  {!! Form::text('rekening_id', null, ['class' => 'form-control']) !!}
+				  @if($errors->has('rekening_id'))<code>{{ $errors->first('rekening_id') }}</code>@endif
+				</div>
 				{!! Form::textarea('catatan_container', '[]', ['class' => 'form-control textareacustom hide', 'id' => 'catatan_container']) !!}
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
@@ -281,9 +286,7 @@
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
-    $(function () {
-        view(true);
-    });
+view(true);
 function cek(control){
 	var html_barcode = $('.barcode').html();
 	var x = $('.barcode').find('.i').html();
@@ -340,23 +343,25 @@ function view(pertama_kali = false){
 
 	var cocok = 0;
 	var total  = excel_pembayaran.length;
+	console.log('excel_pembayaran');
+	console.log(excel_pembayaran);
     for (var i = 0; i < MyArray.length; i++) {
-		if( pertama_kali ){
-			for (var r = 0; r < excel_pembayaran.length; r++) {
-				var excel_tagihan = excel_pembayaran[r].tagihan;
-				if (
-					excel_pembayaran[r].peserta == null &&
-					MyArray[i].piutang == excel_tagihan
-				) {
-					cocok = cocok + 1;
-					excel_pembayaran.splice(r, 1);
-					if(MyArray[i].piutang - MyArray[i].pembayaran > 0){
-						MyArray[i].akan_dibayar = excel_tagihan;
-					}
-					break;
-				}
-			};
-		}
+		{{-- if( pertama_kali ){ --}}
+		{{-- 	for (var r = 0; r < excel_pembayaran.length; r++) { --}}
+		{{-- 		var excel_tagihan = excel_pembayaran[r].tagihan; --}}
+		{{-- 		if ( --}}
+		{{-- 			excel_pembayaran[r].peserta == null && --}}
+		{{-- 			MyArray[i].piutang == excel_tagihan --}}
+		{{-- 		) { --}}
+		{{-- 			cocok = cocok + 1; --}}
+		{{-- 			excel_pembayaran.splice(r, 1); --}}
+		{{-- 			if(MyArray[i].piutang - MyArray[i].pembayaran > 0){ --}}
+		{{-- 				MyArray[i].akan_dibayar = excel_tagihan; --}}
+		{{-- 			} --}}
+		{{-- 			break; --}}
+		{{-- 		} --}}
+		{{-- 	}; --}}
+		{{-- } --}}
 
         if(MyArray[i].piutang - MyArray[i].pembayaran > 0){
             piutang_total += MyArray[i].piutang;
@@ -396,7 +401,9 @@ function view(pertama_kali = false){
     $('#jumlah_pasien').html(i);
     $('#table_temp').html(temp);
     $('#table_temp2').html(temp2);
-    $('#piutang').val(uang2( akan_dibayar ));
+	if(!pertama_kali){
+		$('#piutang').val(uang2( akan_dibayar ));
+	}
     $('#piutang_total').html(piutang_total);
     $('#belum_dibayar_total').html(belum_dibayar_total);
     $('#sudah_dibayar_total').html(sudah_dibayar_total);
@@ -648,7 +655,5 @@ function jadikanCatatanDisini(control){
 	var x            = $(control).closest('tr').find('.i').html();
 	catatan(nama_peserta, tagihan, x);
 }
-
-
 </script>
 @stop

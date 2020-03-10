@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Rekening;
 use Input;
+use Artisan;
 use DB;
 
 class RekeningController extends Controller
@@ -25,6 +26,7 @@ class RekeningController extends Controller
 		$this->input_akun_bank_id   = Input::get('akun_bank_id');
     }
 	public function index($id){
+		Artisan::call('cek:mutasi20terakhir');
 		$rekening = Rekening::where('akun_bank_id', $id)
 			->where('debet', '0')
 			->orderBy('tanggal', 'desc')->first();
@@ -70,6 +72,7 @@ class RekeningController extends Controller
 		if (!$count) {
 			$query .= "str_to_date(tanggal, '%Y-%m-%d') as tanggal, ";
 			$query .= "deskripsi, ";
+			$query .= "id, ";
 			$query .= "nilai, ";
 			$query .= "saldo_akhir ";
 		} else {
