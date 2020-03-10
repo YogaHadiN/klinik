@@ -56,7 +56,7 @@ class TestController extends Controller
 			$data = [];
 			$timestamp = date('Y-m-d H:i:s');
 			$last_id = Rekening::where('id', '>' , 0)->latest()->first()->id;
-			$id = $id + 1;
+			$id = $last_id + 1;
 			foreach ($excel_pembayaran as $k => $e) {
 				
 				$data[] = [
