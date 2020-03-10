@@ -22,9 +22,6 @@ class KirimBerkas extends Model
 
 	public function getRekapTagihanAttribute(){
 		$invoices = $this->invoice;
-		/* return $invoices->first()->id; */
-		/* return $invoices->first()->id; */
-		/* return $invoices->first()->piutang_asuransi; */
 		$data              = [];
 		foreach ($invoices as $invoice) {
 			foreach ($invoice->piutang_asuransi as $piutang) {
@@ -48,18 +45,23 @@ class KirimBerkas extends Model
 		return $data2;
 	}
 	public function getPiutangTercatatAttribute(){
-		$piutang_asuransis = $this->piutang_asuransi;
-		$data = [];
-		foreach ($piutang_asuransis as $piutang) {
-			$data[] = [
-				'piutang_id'    => $piutang->id,
-				'piutang'       => $piutang->piutang,
-				'sudah_dibayar' => $piutang->sudah_dibayar,
-				'periksa_id'    => $piutang->periksa_id,
-				'nama_pasien'   => $piutang->periksa->pasien->nama,
-				'nama_asuransi' => $piutang->periksa->asuransi->nama
-			];
+		$invoices = $this->invoice;
+		$data     = [];
+		foreach ($invoices as $invoice) {
+			foreach ($invoice->piutang_asuransi as $piutang) {
+				$data[] = [
+					'piutang_id'    => $piutang->id,
+					'piutang'       => $piutang->piutang,
+					'sudah_dibayar' => $piutang->sudah_dibayar,
+					'periksa_id'    => $piutang->periksa_id,
+					'nama_pasien'   => $piutang->periksa->pasien->nama,
+					'nama_asuransi' => $piutang->periksa->asuransi->nama
+				];
+			}
 		}
 		return json_encode($data);
+	}
+	public function getIdViewAttribute(){
+		return str_replace('/', '!', $this->id);
 	}
 }

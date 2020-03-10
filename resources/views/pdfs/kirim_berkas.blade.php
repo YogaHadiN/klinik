@@ -242,6 +242,7 @@ border-spacing: -1px;
 	<table style="width:100%" class="status-pasien">
 		<thead>
 			<tr>
+				<th>Invoice</th>
 				<th>Asuransi</th>
 				<th>Jumlah</th>
 				<th>Total</th>
@@ -250,6 +251,7 @@ border-spacing: -1px;
 		<tbody>
 			@foreach($kirim_berkas->rekap_tagihan as $k => $tagihan)	
 				<tr>
+					<td>{{ $tagihan['nomor_invoice'] }}</td>
 					<td>{{ $k }}</td>
 					<td class="text-right">{{ $tagihan['jumlah_tagihan'] }} Tagihan</td>
 					<td class="text-right">{{ App\Classes\Yoga::buatrp( $tagihan['total_tagihan'] ) }}</td>
@@ -258,7 +260,7 @@ border-spacing: -1px;
 		</tbody>
 		<tfoot>
 			<tr>
-				<th></th>
+				<th colspan="2"></th>
 				<th class="text-right">{{ $jumlah_tagihan }} Tagihan</th>
 				<th class="text-right">{{ App\Classes\Yoga::buatrp( $total_tagihan ) }}</th>
 			</tr>

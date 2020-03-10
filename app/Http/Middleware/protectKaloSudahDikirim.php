@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\KirimBerkas;
 use App\Classes\Yoga;
+use App\Http\Controllers\KirimBerkasController;
 
 
 class protectKaloSudahDikirim
@@ -18,7 +19,9 @@ class protectKaloSudahDikirim
      */
     public function handle($request, Closure $next)
     {
-		$kirim_berkas = KirimBerkas::find($request->id);
+		$kirimBerkas  = new KirimBerkasController;
+		$id           = $kirimBerkas->controllerId($request->id);
+		$kirim_berkas = KirimBerkas::find($id);
 		if ( !is_null( $kirim_berkas->pengeluaran_id )  ) {
 			$pesan = Yoga::gagalFlash('Berkas yang sudah dikirim TIDAK DAPAT DIUBAH MAUPUN DIHAPUS');
 			return redirect()->back()->withPesan($pesan);

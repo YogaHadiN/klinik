@@ -76,6 +76,8 @@ Route::post('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@store'
 Route::get('antrianperiksa/{id}/images/edit', 'ImagesAntrianPeriksaController@edit');
 Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update');
 Route::resource('users', 'UsersController');
+Route::get('invoices/inv/{id}', 'InvoiceController@test');
+Route::resource('invoices', 'InvoiceController');
 
 
   	Route::group(['middleware' => 'auth'], function(){

@@ -64,10 +64,10 @@ Klinik Jati Elok | Kirim Berkas
 												<tbody>
 													@foreach($kirim->rekap_tagihan as $k => $tagihan)	
 														<tr>
-															<td>{{ $tagihan['nomor_invoice'] }}</td>
+															<td nowrap><a href="{{ url('invoices/' . str_replace('/', '!', $tagihan['nomor_invoice'])) }}">{{ $tagihan['nomor_invoice'] }}</a></td>
 															<td>{{ $k }}</td>
-															<td class="text-right">{{ $tagihan['jumlah_tagihan'] }} Tagihan</td>
-															<td class="text-right">{{ App\Classes\Yoga::buatrp( $tagihan['total_tagihan'] ) }}</td>
+															<td nowrap class="text-right">{{ $tagihan['jumlah_tagihan'] }} Tagihan</td>
+															<td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $tagihan['total_tagihan'] ) }}</td>
 														</tr>
 													@endforeach
 												</tbody>
@@ -75,17 +75,19 @@ Klinik Jati Elok | Kirim Berkas
 										</div>
 									</td>
 									<td nowrap class="autofit">
-										{!! Form::open(['url' => 'kirim_berkas/' .$kirim->id, 'method' => 'delete']) !!}
+										{!! Form::open(['url' => 'kirim_berkas/'. $kirim->id_view, 'method' => 'delete']) !!}
 										<div class="table-responsive">
 											<table class="table table-hover table-condensed table-bordered">
 												<tbody>
 													<tr>
 														<td>
-															<a class="btn btn-info btn-xs btn-block" href="{{ url('kirim_berkas/' . $kirim->id . '/edit') }}">
+															<a class="btn btn-info btn-xs btn-block" href="{{ url('kirim_berkas/' . $kirim->id_view . '/edit') }}">
 																<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 																Edit
 															</a>
 														</td>
+													</tr>
+													<tr>
 														<td>
 															@if(!is_null($kirim->foto_berkas_dan_bukti))
 																<a target="_blank" class="btn btn-primary btn-xs btn-block" href="{{ url('img/foto_berkas_dan_bukti/' . $kirim->foto_berkas_dan_bukti) }}">
@@ -102,11 +104,13 @@ Klinik Jati Elok | Kirim Berkas
 													</tr>
 													<tr>
 														<td>
-															<a target="_blank" class="btn btn-success btn-xs btn-block" href="{{ url('pdfs/kirim_berkas/' . $kirim->id) }}">
+															<a target="_blank" class="btn btn-success btn-xs btn-block" href="{{ url('pdfs/kirim_berkas/' . $kirim->id_view ) }}">
 																<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
 																Cetak Form
 															</a>
 														</td>
+													</tr>
+													<tr>
 														<td>
 															<button class="btn btn-danger btn-xs btn-block" type="submit" onclick="return confirm('Anda yakin mau menghapus form berkas ini?');return false;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 														</td>

@@ -95,12 +95,14 @@ class KirimBerkasController extends Controller
 		return redirect('kirim_berkas')->withPesan($pesan);
 	}
 	public function edit($id){
-		$kirim_berkas = KirimBerkas::with('piutang_asuransi.periksa.asuransi', 'piutang_asuransi.periksa.pasien')->where('id', $id )->first();
-		$staf_list = Staf::pluck('nama', 'id')->all();
+		$id                   = $this->controllerId($id);
+		$kirim_berkas         = KirimBerkas::with('invoice.piutang_asuransi.periksa.asuransi', 'invoice.piutang_asuransi.periksa.pasien')->where('id', $id )->first();
+		$staf_list            = Staf::pluck('nama', 'id')->all();
 		$role_pengiriman_list = RolePengiriman::list();
 		return view('kirim_berkas.edit', compact('staf_list', 'role_pengiriman_list','kirim_berkas'));
 	}
 	public function update($id){
+		$id                   = $this->controllerId($id);
 		DB::beginTransaction();
 		try {
 
@@ -120,6 +122,7 @@ class KirimBerkasController extends Controller
 		return redirect('kirim_berkas')->withPesan($pesan);
 	}
 	public function inputNota($id){
+		$id                   = $this->controllerId($id);
 		$kirim_berkas = KirimBerkas::find( $id );
 		$suppliers    = Supplier::all();
 		$stafs        = Yoga::stafList();
@@ -237,9 +240,17 @@ class KirimBerkasController extends Controller
 		}
 	}
 	public function destroy($id){
-		PiutangAsuransi::where('kirim_berkas_id', $id)->update([
-			'kirim_berkas_id' => null
-		]);
+		$id                   = $this->controllerId($id);
+		$kirim_berkas = KirimBerkas::find( $id );
+
+		$invoice_ids = [];
+		foreach ($kirim_berkas->invoice as $invoice) {
+			PiutangAsuransi::where('invoice_id', $invoice->id)->update([
+				'invoice_id' => null
+			]);
+			$invoice_ids[] = $invoice->id;
+		}
+		Invoice::whereIn('id', $invoice_ids)->delete();
 		PetugasKirim::where('kirim_berkas_id', $id)->delete();
 		KirimBerkas::destroy($id);
 		$pesan = Yoga::suksesFlash('Berkas Berhasil dihapus');
@@ -325,5 +336,8 @@ class KirimBerkasController extends Controller
 		} else {
 			return $kirim_berkas_id . '/' . $asuransi_id;
 		}
+	}
+	public function controllerId($id){
+		return str_replace('!', '/', $id);
 	}
 }

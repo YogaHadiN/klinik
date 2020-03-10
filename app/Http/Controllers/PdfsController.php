@@ -9,6 +9,7 @@ use App\Http\Controllers\LaporanNeracasController;
 use App\Http\Controllers\PajaksController;
 use App\Http\Controllers\AsuransisController;
 use App\Http\Controllers\PendapatansController;
+use App\Http\Controllers\KirimBerkasController;
 use App\Classes\Yoga;
 use App\Periksa;
 use App\KirimBerkas;
@@ -730,10 +731,13 @@ class PdfsController extends Controller
 	}
 	public function kirim_berkas($id){
 		header ('Content-type: text/html; charset=utf-8');
+		$kirimBerkas = new KirimBerkasController;
+		$id          = $kirimBerkas->controllerId($id);
+
 		$kirim_berkas    = KirimBerkas::with(
 			'petugas_kirim.staf', 
 			'petugas_kirim.role_pengiriman', 
-			'piutang_asuransi.periksa.asuransi')->where('id', $id)->first();
+			'invoice.piutang_asuransi.periksa.asuransi')->where('id', $id)->first();
 
 		$jumlah_tagihan = 0;
 		$total_tagihan = 0;
