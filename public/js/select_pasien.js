@@ -15,6 +15,7 @@
             var DDnamaAyah = $('#nama_ayah_Input').closest('th').hasClass('displayNone');
 
             $.get(url, data, function(hasil) {
+				alert('asu');
                 var MyArray = hasil.data;
                 var pages = hasil.pages;
                 var rows = hasil.rows;

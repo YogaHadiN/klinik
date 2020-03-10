@@ -174,7 +174,6 @@
 			window.clearTimeout(timeout);
 			timeout = window.setTimeout(function(){
 				clearAndSelectPasien();
-				console.log('exec');
 			},600);
 		});
 

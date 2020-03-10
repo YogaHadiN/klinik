@@ -5640,6 +5640,18 @@ img:not(.img-circle) {
 	width: 1%;
 	white-space: nowrap;
 }
+img.loader {
+	display:    block;
+	max-width:  100px;
+	max-height: 100px;
+	width:      auto;
+	height:     auto;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
 /*! jQuery UI - v1.11.4 - 2016-01-02
 * http://jqueryui.com
