@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\AsuransisController;
 use App\Pendapatan;
 use App\PembayaranBpjs;
+use App\Rekening;
 use App\PembayaranAsuransi;
 use App\PiutangDibayar;
 use App\PiutangAsuransi;
@@ -181,9 +182,7 @@ class PendapatansController extends Controller
 		return \Redirect::route('pendapatans.index');
 	}
     public function pembayaran_asuransi(){
-        $asuransi_list = [null => '-pilih-'] + Asuransi::pluck('nama', 'id')->all();
-        $pembayarans   = PembayaranAsuransi::with('asuransi', 'coa')->latest()->paginate(10);
-		return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans'));
+		return $this->pembayaran_asuransi_template();
     }
     public function pembayaran_asuransi_by_id($id){
         return 'asuransi '. $id;
@@ -242,71 +241,7 @@ class PendapatansController extends Controller
 	
 
     public function lihat_pembayaran_asuransi(){
-
-        $asuransi_id = Input::get('asuransi_id');
-
-
-		$total_sudah_dibayar = 0;
-		$total_belum_dibayar = 0;
-
-        $mulai       = Yoga::datePrep( Input::get('mulai') );
-        $akhir       = Yoga::datePrep( Input::get('akhir') );
-
-        $kasList     = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->pluck('coa', 'id')->all();
-
-        $pembayarans = $this->belumDibayar($mulai, $akhir, $asuransi_id);
-
-		/* return $pembayarans; */
-
-
-        foreach ($pembayarans as $k => $pemb) {
-            if ($pemb->pembayaran == null) {
-                $pembayarans[$k]->pembayaran = 0;
-            }
-			$total_belum_dibayar += $pemb->piutang - $pemb->sudah_dibayar;
-        }
-
-		/* return $total_belum_dibayar; */
-
-        $asuransi              = Asuransi::find($asuransi_id);
-		$PendapatansController = new PendapatansController;
-		$asuransis             = new AsuransisController;
-		$hutangs               = $asuransis->hutangs_template($asuransi_id);
-		$pembayarans_template  = $asuransis->pembayarans_template($asuransi_id);
-
-        $sudah_dibayars = $this->sudahDibayar( $mulai, $akhir, $asuransi_id );
-
-		$excel_pembayaran = [];
-
-		if (Input::hasFile('excel_pembayaran')) {
-			$file =Input::file('excel_pembayaran'); //GET FILE
-			$excel_pembayaran = Excel::toArray(new PembayaranImport, $file)[0];
-		}  
-
-		$excel_pembayaran = json_encode($excel_pembayaran);
-
-		/* dd($excel_pembayaran); */
-
-		foreach ($sudah_dibayars as $sb) {
-			$total_sudah_dibayar += $sb->pembayaran;
-		}
-
-		/* dd($pembayarans); */
-
-		return view('pendapatans.pembayaran_show', compact(
-			'pembayarans', 
-			'total_sudah_dibayar', 
-			'excel_pembayaran', 
-			'total_belum_dibayar', 
-			'asuransi', 
-			'sudah_dibayars', 
-			'mulai', 
-			'akhir', 
-			'asuransi_id', 
-			'hutangs', 
-			'pembayarans_template', 
-			'kasList'
-		));
+		return $this->lihat_pembayaran_asuransi_template();
     }
 	public function sudahDibayar( $mulai, $akhir, $asuransi_id ){
 		
@@ -333,6 +268,7 @@ class PendapatansController extends Controller
 	}
 	
     public function asuransi_bayar(){
+		/* dd(Input::all()); */ 
 		DB::beginTransaction();
 		try {
 			$rules = [
@@ -387,6 +323,11 @@ class PendapatansController extends Controller
 			$pb->tanggal_dibayar = $tanggal;
 			$pb->kas_coa_id      = $coa_id;
 			$confirm             = $pb->save();
+
+			$rekening                         = Rekening::find( Input::get('rekening_id') );
+			$rekening->pembayaran_asuransi_id = $pb->id;
+			$rekening->save();
+
 
 			$coa_id_asuransi = Asuransi::find($asuransi_id)->coa_id;// Piutang Asuransi
 
@@ -503,6 +444,105 @@ class PendapatansController extends Controller
 		}
 		$pesan = Yoga::suksesFlash('Input pembayaran kapitasi bpjs bulan ' . $periode_bulan . ' telah berhasil');
 		return redirect()->back()->withPesan($pesan);
+	}
+	public function pembayaran_asuransi_rekening($id){
+		return $this->pembayaran_asuransi_template($id);
+	}
+	private function pembayaran_asuransi_template($id = null){
+        $asuransi_list = [null => '-pilih-'] + Asuransi::pluck('nama', 'id')->all();
+        $pembayarans   = PembayaranAsuransi::with('asuransi', 'coa')->latest()->paginate(10);
+		if ($id) {
+			return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans', 'id'));
+		} else {
+			return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans'));
+		}
+	}
+	public function lihat_pembayaran_asuransi_by_rekening($id){
+		return $this->lihat_pembayaran_asuransi_template($id);
+	}
+	private function lihat_pembayaran_asuransi_template($id = null){
+        $asuransi_id = Input::get('asuransi_id');
+
+
+		$total_sudah_dibayar = 0;
+		$total_belum_dibayar = 0;
+
+        $mulai       = Yoga::datePrep( Input::get('mulai') );
+        $akhir       = Yoga::datePrep( Input::get('akhir') );
+
+        $kasList     = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->pluck('coa', 'id')->all();
+
+        $pembayarans = $this->belumDibayar($mulai, $akhir, $asuransi_id);
+
+		/* return $pembayarans; */
+
+
+        foreach ($pembayarans as $k => $pemb) {
+            if ($pemb->pembayaran == null) {
+                $pembayarans[$k]->pembayaran = 0;
+            }
+			$total_belum_dibayar += $pemb->piutang - $pemb->sudah_dibayar;
+        }
+
+		/* return $total_belum_dibayar; */
+
+        $asuransi              = Asuransi::find($asuransi_id);
+		$PendapatansController = new PendapatansController;
+		$asuransis             = new AsuransisController;
+		$hutangs               = $asuransis->hutangs_template($asuransi_id);
+		$pembayarans_template  = $asuransis->pembayarans_template($asuransi_id);
+
+        $sudah_dibayars = $this->sudahDibayar( $mulai, $akhir, $asuransi_id );
+
+		$excel_pembayaran = [];
+
+		if (Input::hasFile('excel_pembayaran')) {
+			$file =Input::file('excel_pembayaran'); //GET FILE
+			$excel_pembayaran = Excel::toArray(new PembayaranImport, $file)[0];
+		}  
+
+		$excel_pembayaran = json_encode($excel_pembayaran);
+
+		/* dd($excel_pembayaran); */
+
+		foreach ($sudah_dibayars as $sb) {
+			$total_sudah_dibayar += $sb->pembayaran;
+		}
+
+		/* dd($pembayarans); */
+
+		if ( isset($id) ) {
+			return view('pendapatans.pembayaran_show', compact(
+				'pembayarans', 
+				'total_sudah_dibayar', 
+				'excel_pembayaran', 
+				'total_belum_dibayar', 
+				'asuransi', 
+				'id', 
+				'sudah_dibayars', 
+				'mulai', 
+				'akhir', 
+				'asuransi_id', 
+				'hutangs', 
+				'pembayarans_template', 
+				'kasList'
+			));
+		} else {
+			return view('pendapatans.pembayaran_show', compact(
+				'pembayarans', 
+				'total_sudah_dibayar', 
+				'excel_pembayaran', 
+				'total_belum_dibayar', 
+				'asuransi', 
+				'sudah_dibayars', 
+				'mulai', 
+				'akhir', 
+				'asuransi_id', 
+				'hutangs', 
+				'pembayarans_template', 
+				'kasList'
+			));
+		}
 	}
 	
 }

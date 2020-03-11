@@ -70,6 +70,9 @@
 					<th nowrap class="kolom_4">
 						Kredit
 					</th>
+					<th nowrap class="kolom_4">
+						Action
+					</th>
 				</tr>
 			</thead>
 			<tbody id="rek_container">
@@ -119,7 +122,11 @@
 					{{-- $('#paging').html(''); --}}
 					var temp = '';
 					for (var i = 0; i < data.data.length; i++) {
-						temp += '<tr>';
+						temp += '<tr';
+						if( data.data[i].pembayaran_asuransi_id ){
+							temp += ' class="success"';
+						}
+						temp +='>';
 						temp += '<td nowrap class="kolom_1">';
 						temp += data.data[i].id;
 						temp += '</td>';
@@ -131,6 +138,13 @@
 						temp += '</td>';
 						temp += '<td class="text-right kolom_4" nowrap>';
 						temp += uang(data.data[i].nilai);
+						temp += '</td>';
+						temp += '<td class="kolom_4" nowrap>';
+						if( data.data[i].pembayaran_asuransi_id ){
+							temp += '<button type="button" class="btn btn-warning btn-sm btn-block">Detail</button>';
+						} else {
+							temp += '<a class="btn btn-primary btn-sm btn-block" href="' + base + '/pendapatans/pembayaran/asuransi/' + data.data[i].id+ '">Confirm</a>';
+						}
 						temp += '</td>';
 						temp += '</tr>';
 					}

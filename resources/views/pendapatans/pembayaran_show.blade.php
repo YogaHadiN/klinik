@@ -84,14 +84,14 @@
                   {!! Form::text('dibayar' , null, ['class' => 'form-control rq uangInput', 'id'=>'piutang']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
 				</div>
-				<div class="form-group @if($errors->has('rekening_id'))has-error @endif">
-				  {!! Form::label('rekening_id', 'ID rekening', ['class' => 'control-label']) !!}
-                  {!! Form::text('rekening_id', null, ['class' => 'form-control']) !!}
-				  @if($errors->has('rekening_id'))<code>{{ $errors->first('rekening_id') }}</code>@endif
-				</div>
+				@if(isset($id))
+					@include('pendapatans.pembayaran_show_form', ['id' => $id])
+				@else
+					@include('pendapatans.pembayaran_show_form', ['id' => null])
+				@endif
 				{!! Form::textarea('catatan_container', '[]', ['class' => 'form-control textareacustom hide', 'id' => 'catatan_container']) !!}
                 <div class="form-group">
-                    <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
+                    <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage(this);return false;">Bayar</button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}
                 </div>
                 {!! Form::close() !!}
@@ -287,6 +287,9 @@
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
 view(true);
+@if(isset($id))
+	cekRekening('#rekening_id');
+@endif
 function cek(control){
 	var html_barcode = $('.barcode').html();
 	var x = $('.barcode').find('.i').html();
@@ -423,38 +426,16 @@ function resetAll(){
     view();
 }
 
-function submitPage(){
-	var data = $('#pembayarans').val();
-	data = JSON.parse(data);
-	var akanDibayar = 0;
+function submitPage(control){
+	var val = $('#rekening_id').val();
+	$.get(base + '/transaksi/avail',
+		{ id: val },
+		function (data, textStatus, jqXHR) { 
+			console.log('dataaa');
+			console.log(data);
+			validate(control, $.trim(data));
+		});
 
-    for (var i = 0; i < data.length; i++) {
-        if(data[i].piutang - data[i].pembayaran > 0){
-			akanDibayar += parseInt( data[i].akan_dibayar );
-			if( data[i].akan_dibayar > ( data[i].piutang - data[i].pembayaran ) ){
-				var baris = parseInt(i) + 1;
-				alert('Pembayaran ' + data[i].nama_pasien + ', baris ke ' + baris + ' lebih besar dari nilai piutangnya, harap diperbaiki');
-				return false;
-			}
-		}
-    };
-
-	if(
-		validatePass() 
-		&& cleanUang( $('#piutang').val() ) > 0 
-		&& $('#staf_id').val() != '' 
-		&& data.length > 0
-		&& akanDibayar > 0
-	){
-		 $('#submit').click();
-	} else if(cleanUang( $('#piutang').val() ) < 1 ){
-		alert('Nilai yang dibayarkan harus lebih besar dari 0');
-		validasi('#piutang', 'nilai harus lebih dari Rp. 0 ');
-	} else if(akanDibayar < 1 ){
-		alert('Harus ada pasien yang di ceklist');
-	} else {
-		alert('Harus ada pasien yang di ceklist');
-	}
 }
 function akanDibayarKeyup(control){
 
@@ -654,6 +635,67 @@ function jadikanCatatanDisini(control){
 	var tagihan      = $(control).closest('tr').find('.tagihan').html();
 	var x            = $(control).closest('tr').find('.i').html();
 	catatan(nama_peserta, tagihan, x);
+}
+function validate(control, dt){
+	var data = $('#pembayarans').val();
+	data = JSON.parse(data);
+	var akanDibayar = 0;
+
+    for (var i = 0; i < data.length; i++) {
+        if(data[i].piutang - data[i].pembayaran > 0){
+			akanDibayar += parseInt( data[i].akan_dibayar );
+			if( data[i].akan_dibayar > ( data[i].piutang - data[i].pembayaran ) ){
+				var baris = parseInt(i) + 1;
+				alert('Pembayaran ' + data[i].nama_pasien + ', baris ke ' + baris + ' lebih besar dari nilai piutangnya, harap diperbaiki');
+				return false;
+			}
+		}
+    };
+
+	var found_tr_id = true;
+	if(dt == '0'){
+		found_tr_id = false;
+	}
+
+	console.log('found_tr_id');
+	console.log(found_tr_id);
+
+	console.log('dt == "0"');
+	console.log(dt == '0');
+
+	if(
+		validatePass2(control) 
+		&& cleanUang( $('#piutang').val() ) > 0 
+		&& data.length > 0
+		&& akanDibayar > 0
+		&& found_tr_id
+	){
+		 $('#submit').click();
+	} else if(cleanUang( $('#piutang').val() ) < 1 ){
+		alert('Nilai yang dibayarkan harus lebih besar dari 0');
+		validasi('#piutang', 'nilai harus lebih dari Rp. 0 ');
+	} else if(akanDibayar < 1 ){
+		alert('Harus ada pasien yang di ceklist');
+	} 
+	if(!found_tr_id ){
+		validasi1( $('#rekening_id'), 'Transaksi tidak ditemukan')
+	}
+}
+
+function cekRekening(control){
+
+	var id = $(control).val();
+
+	$.get(base + '/rekenings/cek_id',
+		{ id: id },
+		function (data, textStatus, jqXHR) {
+			$(control).closest('.form-group').find('.alert').remove();
+			if( data ){
+				$(control).closest('.form-group').append('<div><div class="alert alert-info"><h2>' + uang(data.nilai) + '</h2><h4>'+ moment(data.tanggal, 'YYYY-MM-DD HH:II:SS').format('DD MMM YYYY')+'</h4>' + data.deskripsi + '</div></div>')
+			}
+		}
+	);
+
 }
 </script>
 @stop

@@ -19,7 +19,15 @@
     <div id="print">
     </div>
 @endif
-
+@if(isset($id))
+{!! Form::open([
+	'url'    => 'pengeluarans/pembayaran_asuransi/show/' . $id,
+	"class"  => "m-t",
+	"role"   => "form",
+	"files"  => "true",
+	"method" => "post"
+]) !!}
+@else
 {!! Form::open([
 	'url'    => 'pengeluarans/pembayaran_asuransi/show',
 	"class"  => "m-t",
@@ -27,6 +35,7 @@
 	"files"  => "true",
 	"method" => "post"
 ]) !!}
+@endif
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-default">

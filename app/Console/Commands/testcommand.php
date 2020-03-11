@@ -55,9 +55,6 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("update jurnal_umums set coa_id='111066' where id='1138326'"); // etiqa
-		DB::statement("update jurnal_umums set coa_id='111066' where id='1138332'"); // etiqa
-		DB::statement("update jurnal_umums set coa_id='111066' where id='1138835'"); // etiqa
-		DB::statement("update jurnal_umums set coa_id='111066' where id='1138837'"); // etiqa
+		DB::statement("ALTER TABLE rekenings ADD COLUMN pembayaran_asuransi_id VARCHAR(255) NOT NULL;"); // etiqa
 	}
 }

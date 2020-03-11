@@ -1,4 +1,5 @@
     $(document).ready(function() {
+		loaderGif();
         $('#confirm_staf').on('show.bs.modal', function(){
             $('#confirm_staf input[type!="hidden"]').val('');
         });
@@ -171,6 +172,7 @@
 		var timeout;
 		$("body").on('keyup', '.ajaxselectpasien', function () {
 			$('#processing-warning').html('<i class="fa fa-refresh fa-spin fa-fw"></i> <span class="sr-only">Loading...</span> Processing').removeAttr('class').addClass('btn btn-default');
+			loaderGif();
 			window.clearTimeout(timeout);
 			timeout = window.setTimeout(function(){
 				clearAndSelectPasien();
@@ -354,6 +356,7 @@
             var DDnamaPeserta = $('#nama_peserta').closest('th').hasClass('displayNone');
             var DDnamaIbu = $('#nama_ibu').closest('th').hasClass('displayNone');
             var DDnamaAyah = $('#nama_ayah_Input').closest('th').hasClass('displayNone');
+
 
             $.get(url, data, function(hasil) {
                 var MyArray = hasil.data;
@@ -625,6 +628,12 @@ function cekPromo(control){
 		$(control).closest('.form-group').append('<span class="help-block">KTP harus 16 digit</span>')
 	}
 	 
+}
+function loaderGif(){
+	var colspan = $('#ajax').closest('table').find('thead tr').find('th:not(.displayNone)').length;
+	$('#ajax').html(
+		"<td colspan='" +colspan+ "'><img class='loader' src='" +base+ "/img/loader.gif' /></td>"
+	)
 }
 
     

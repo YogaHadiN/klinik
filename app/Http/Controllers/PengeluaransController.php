@@ -563,86 +563,94 @@ class PengeluaransController extends Controller
 		));
     }
     public function notaz_post(){
+		DB::beginTransaction();
+		try {
+				
 
-		if (gethostname() == 'kje') {
-			$checkout = new PengeluaransController;
-			$saldo_saat_ini = $checkout->parameterKasir()['uang_di_kasir'];
-		} else {
-			exec("mysqldump -u root -pYogaman89 jatielok | gzip > ~/Dropbox/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
-		}
-		$uang_di_kasir     = $this->parameterKasir()['uang_di_kasir'];
-		$total_uang_keluar = $this->parameterKasir()['total_uang_keluar'];
-		$uang_di_tangan    = $this->parameterKasir()['uang_di_tangan'];
-		$modal_awal        = $this->parameterKasir()['modal_awal'];
-		$modal_ids         = $this->parameterKasir()['modal_ids'];
-		$tanggal           = $this->parameterKasir()['tanggal'];
-		$total_uang_masuk  = $this->parameterKasir()['total_uang_masuk'];
-        $query = "select min(jenis_tarif_id) as jenis_tarif_id, min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' group by tp.jenis_tarif_id";
-        $transaksis = DB::select($query);
-        $pengeluarans = JurnalUmum::where('coa_id', 110000)
-                                    ->where('debit', '0')
-                                    ->where('created_at', '>=', $tanggal)
-                                    ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
-                                    ->get(['id']);
-        $detail_pengeluarans = [];
-        foreach ($pengeluarans as $peng) {
-            $detail_pengeluarans[] = $peng->id;
-        } 
-        $pengeluarans_tangan = JurnalUmum::where('coa_id', 110004)
-                                    ->where('debit', '0')
-                                    ->where('created_at', '>=', $tanggal)
-                                    ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
-                                    ->where('jurnalable_type', '!=', 'App\Modal')
-                                    ->get(['id']);
-        $detail_pengeluarans_tangan = [];
-        foreach ($pengeluarans_tangan as $peng) {
-            $detail_pengeluarans_tangan[] = $peng->id;
-        } 
-        $detail_pengeluarans = json_encode( $detail_pengeluarans );
-        //pindahkan semua kas di kasir menjadi kas di tangan
+			if (gethostname() == 'kje') {
+				$checkout = new PengeluaransController;
+				$saldo_saat_ini = $checkout->parameterKasir()['uang_di_kasir'];
+			} else {
+				exec("mysqldump -u root -pYogaman89 jatielok | gzip > ~/Dropbox/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
+			}
+			$uang_di_kasir     = $this->parameterKasir()['uang_di_kasir'];
+			$total_uang_keluar = $this->parameterKasir()['total_uang_keluar'];
+			$uang_di_tangan    = $this->parameterKasir()['uang_di_tangan'];
+			$modal_awal        = $this->parameterKasir()['modal_awal'];
+			$modal_ids         = $this->parameterKasir()['modal_ids'];
+			$tanggal           = $this->parameterKasir()['tanggal'];
+			$total_uang_masuk  = $this->parameterKasir()['total_uang_masuk'];
+			$query = "select min(jenis_tarif_id) as jenis_tarif_id, min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' group by tp.jenis_tarif_id";
+			$transaksis = DB::select($query);
+			$pengeluarans = JurnalUmum::where('coa_id', 110000)
+										->where('debit', '0')
+										->where('created_at', '>=', $tanggal)
+										->where('jurnalable_type', '!=', 'App\CheckoutKasir')
+										->get(['id']);
+			$detail_pengeluarans = [];
+			foreach ($pengeluarans as $peng) {
+				$detail_pengeluarans[] = $peng->id;
+			} 
+			$pengeluarans_tangan = JurnalUmum::where('coa_id', 110004)
+										->where('debit', '0')
+										->where('created_at', '>=', $tanggal)
+										->where('jurnalable_type', '!=', 'App\CheckoutKasir')
+										->where('jurnalable_type', '!=', 'App\Modal')
+										->get(['id']);
+			$detail_pengeluarans_tangan = [];
+			foreach ($pengeluarans_tangan as $peng) {
+				$detail_pengeluarans_tangan[] = $peng->id;
+			} 
+			$detail_pengeluarans = json_encode( $detail_pengeluarans );
+			//pindahkan semua kas di kasir menjadi kas di tangan
 
-        $new_z                 = new CheckoutKasir;
-        $new_z->modal_awal     = $modal_awal;
-        $new_z->uang_di_kasir  = $uang_di_kasir;
-        $new_z->uang_di_tangan = $uang_di_tangan + $uang_di_kasir;
-		$last_jurnal_id        = JurnalUmum::orderBy('id', 'desc')->first()->id;
+			$new_z                 = new CheckoutKasir;
+			$new_z->modal_awal     = $modal_awal;
+			$new_z->uang_di_kasir  = $uang_di_kasir;
+			$new_z->uang_di_tangan = $uang_di_tangan + $uang_di_kasir;
+			$last_jurnal_id        = JurnalUmum::orderBy('id', 'desc')->first()->id;
 
-        if (isset($last_jurnal_id)) {
-			$new_z->jurnal_umum_id = $last_jurnal_id;
-		} else {
-            $new_z->jurnal_umum_id = 1;
-        }
+			if (isset($last_jurnal_id)) {
+				$new_z->jurnal_umum_id = $last_jurnal_id;
+			} else {
+				$new_z->jurnal_umum_id = 1;
+			}
 
-        $new_z->uang_masuk               = $total_uang_masuk;
-        $new_z->uang_keluar              = $total_uang_keluar;
-        $new_z->detil_pengeluarans       = $detail_pengeluarans;
-        $new_z->detil_pengeluaran_tangan = json_encode( $detail_pengeluarans_tangan );
-        $new_z->detil_modals             = json_encode($modal_ids);
+			$new_z->uang_masuk               = $total_uang_masuk;
+			$new_z->uang_keluar              = $total_uang_keluar;
+			$new_z->detil_pengeluarans       = $detail_pengeluarans;
+			$new_z->detil_pengeluaran_tangan = json_encode( $detail_pengeluarans_tangan );
+			$new_z->detil_modals             = json_encode($modal_ids);
 
-        $confirm = $new_z->save();
-        if ($confirm) {
-            $jurnal                  = new JurnalUmum;
-            $jurnal->jurnalable_id   = $new_z->id;
-            $jurnal->jurnalable_type = 'App\CheckoutKasir';
-            $jurnal->coa_id          = 110004; // Kas di tangan
-            $jurnal->debit           = 1;
-            $jurnal->nilai           = $uang_di_kasir;
-            $jurnal->save();
+			$confirm = $new_z->save();
+			if ($confirm) {
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $new_z->id;
+				$jurnal->jurnalable_type = 'App\CheckoutKasir';
+				$jurnal->coa_id          = 110004; // Kas di tangan
+				$jurnal->debit           = 1;
+				$jurnal->nilai           = $uang_di_kasir;
+				$jurnal->save();
 
-            $jurnal                  = new JurnalUmum;
-            $jurnal->jurnalable_id   = $new_z->id;
-            $jurnal->jurnalable_type = 'App\CheckoutKasir';
-            $jurnal->coa_id          = 110000; // Kas di kasir
-            $jurnal->debit           = 0;
-            $jurnal->nilai           = $uang_di_kasir;
-            $jurnal->save();
-        }
-        //tambah semua komponen yang masuk kas, retrieve semua last id nya
-        $pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $new_z->id;
+				$jurnal->jurnalable_type = 'App\CheckoutKasir';
+				$jurnal->coa_id          = 110000; // Kas di kasir
+				$jurnal->debit           = 0;
+				$jurnal->nilai           = $uang_di_kasir;
+				$jurnal->save();
+			}
+			//tambah semua komponen yang masuk kas, retrieve semua last id nya
+			$pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
 		return redirect('pengeluarans/nota_z')
 			->withPesan($pesan)
 			->withModals($modal_awal)
 			->withPrint($new_z->id);
+			DB::commit();
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
     }
 
     public function erce(){

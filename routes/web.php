@@ -77,11 +77,12 @@ Route::resource('users', 'UsersController');
 Route::get('invoices/inv/{id}', 'InvoiceController@test');
 Route::resource('invoices', 'InvoiceController');
 
-
   	Route::group(['middleware' => 'auth'], function(){
 
 			Route::get('rekening_bank/search', 'RekeningController@search');
 			Route::get('rekening_bank/{id}', 'RekeningController@index');
+			Route::get('rekenings/cek_id', 'RekeningController@cekId');
+			Route::get('transaksi/avail', 'RekeningController@available');
 
 			Route::get('cek_list_harian/obat', 'CekListHariansController@obat');
 			Route::post('cek_list_harian/obat', 'CekListHariansController@obatPost');
@@ -460,13 +461,14 @@ Route::resource('invoices', 'InvoiceController');
 			Route::post('perujuks', 'PerujuksController@store');
 			Route::put('perujuks/{id}', 'PerujuksController@update');
 			Route::delete('perujuks/{id}', 'PerujuksController@destroy');
-
 			Route::get('pendapatans', 'PendapatansController@index');
 			Route::post('pendapatans/pembayaran/asuransi', 'PendapatansController@asuransi_bayar');
 			Route::get('pendapatans/create', 'PendapatansController@create');
 			Route::post('pendapatans/index', 'PendapatansController@store');
 			Route::get('pendapatans/pembayaran/asuransi', 'PendapatansController@pembayaran_asuransi');
+			Route::get('pendapatans/pembayaran/asuransi/{id}', 'PendapatansController@pembayaran_asuransi_rekening');
 			Route::post('pengeluarans/pembayaran_asuransi/show ', 'PendapatansController@lihat_pembayaran_asuransi');
+			Route::post('pengeluarans/pembayaran_asuransi/show/{id} ', 'PendapatansController@lihat_pembayaran_asuransi_by_rekening');
 			Route::get('pendapatans/pembayaran_bpjs ', 'PendapatansController@pembayaran_bpjs');
 			Route::post('pendapatans/pembayaran_bpjs', 'PendapatansController@pembayaran_bpjs_post');
 			Route::get('pendapatans/pembayaran/asuransi/show/{id}', 'PendapatansController@pembayaran_asuransi_show');

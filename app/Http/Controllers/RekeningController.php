@@ -73,6 +73,7 @@ class RekeningController extends Controller
 			$query .= "str_to_date(tanggal, '%Y-%m-%d') as tanggal, ";
 			$query .= "deskripsi, ";
 			$query .= "id, ";
+			$query .= "pembayaran_asuransi_id, ";
 			$query .= "nilai, ";
 			$query .= "saldo_akhir ";
 		} else {
@@ -81,6 +82,8 @@ class RekeningController extends Controller
 		$query .= "FROM rekenings ";
 		$query .= "WHERE akun_bank_id = '{$this->input_akun_bank_id}' ";
 		$query .= "AND debet = 0 ";
+		$query .= "AND deskripsi not like '%PURI WIDIYANI MARTIADEWI%' ";
+		$query .= "AND deskripsi not like '%Bunga Rekening%' ";
 		$query .= "AND ";
 		$query .= "(deskripsi like '{$str_deskripsi}' and tanggal like '{$str_tanggal}') ";
 		$query .= "ORDER BY tanggal desc, created_at desc ";
@@ -92,6 +95,23 @@ class RekeningController extends Controller
 		} else {
 			/* dd(DB::select($query)[0]->jumlah); */
 			return DB::select($query)[0]->jumlah;
+		}
+	}
+	public function available(){
+		$id = Input::get('id');
+		try {
+			Rekening::findOrFail($id);
+			return '1';
+		} catch (\Exception $e) {
+			return '0';
+		}
+	}
+	public function cekId(){
+		$id = Input::get('id');
+		try {
+			return Rekening::findOrFail($id);
+		} catch (\Exception $e) {
+	
 		}
 	}
 }
