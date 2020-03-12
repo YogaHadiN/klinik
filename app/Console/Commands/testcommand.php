@@ -89,18 +89,18 @@ class testcommand extends Command
 						->get();
 			foreach ($tarifs as $t) {
 				$result[] = [
-					"jenis_tarif_id"        => "111",
-					"biaya"                 => 100000,
+					"jenis_tarif_id"        => $t->jenis_tarif_id,
+					"biaya"                 => $t->biaya,
 					"asuransi_id"           => $d['asuransi_id'],
-					"jasa_dokter"           => 30000,
-					"tipe_tindakan_id"      => 3,
-					"bhp_items"             => null,
-					"jasa_dokter_tanpa_sip" => 30000,
+					"jasa_dokter"           => $t->jasa_dokter,
+					"tipe_tindakan_id"      => $t->tipe_tindakan_id,
+					"bhp_items"             => $t->bhp_items,
+					"jasa_dokter_tanpa_sip" => $t->jasa_dokter_tanpa_sip,
 					'created_at'            => $timestamp,
 					'updated_at'            => $timestamp
 				];
 			}
 		}
-		dd(Tarif::insert($result));
+		Tarif::insert($result);
 	}
 }
