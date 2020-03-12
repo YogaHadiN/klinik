@@ -456,9 +456,6 @@ class PeriksasController extends Controller
 	public function edit($id)
 	{
 		$periksa = Periksa::find($id);
-		//if (isset($periksa->gambar)) {
-			//$periksa->gambar->delete();
-		//}
 		return view('periksas.edit', compact('periksa'));
 	}
 

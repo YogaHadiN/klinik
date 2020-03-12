@@ -9,9 +9,11 @@ use App\AntrianPoli;
 use App\Pasien;
 use App\Sms;
 use App\KirimBerkas;
+use App\JenisTarif;
 use App\Invoice;
 use App\Terapi;
 use App\AntrianPeriksa;
+use App\Tarif;
 use App\FakturBelanja;
 use App\JurnalUmum;
 use App\Periksa;
@@ -55,6 +57,50 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("UPDATE tarifs set bhp_items = '[]' where bhp_items is null"); // etiqa
+
+		$asuransis = Asuransi::all();
+
+		$jenis_tarif_ids = [];
+		$data            = [];
+		foreach ($asuransis as $asu) {
+			$jenis_tarif_ids = ['147', '148', '149', '150'];
+			foreach ($asu->tarif as $tr) {
+				$jenis_tarif_ids[] = $tr->jenis_tarif_id;
+			}
+
+			$non_jenis_tarif = JenisTarif::whereNotIn('id', $jenis_tarif_ids)->get();
+			$jenis_tarifs = [];
+			foreach ($non_jenis_tarif as $jt) {
+				$jenis_tarifs[] = $jt->id;
+			}
+			if (count($jenis_tarifs)) {
+				$data[] = [
+					'asuransi_id'   => $asu->id,
+					'jenis_tarif_ids'  => $jenis_tarifs
+				];
+			}
+		}
+		/* dd($data); */
+		$result = [];
+		$timestamp = date('Y-m-d H:i:s');
+		foreach ($data as $d) {
+			$tarifs = Tarif::where('asuransi_id', '0')
+						->whereIn('jenis_tarif_id', $d['jenis_tarif_ids'])
+						->get();
+			foreach ($tarifs as $t) {
+				$result[] = [
+					"jenis_tarif_id"        => "111",
+					"biaya"                 => 100000,
+					"asuransi_id"           => $d['asuransi_id'],
+					"jasa_dokter"           => 30000,
+					"tipe_tindakan_id"      => 3,
+					"bhp_items"             => null,
+					"jasa_dokter_tanpa_sip" => 30000,
+					'created_at'            => $timestamp,
+					'updated_at'            => $timestamp
+				];
+			}
+		}
+		dd(Tarif::insert($result));
 	}
 }

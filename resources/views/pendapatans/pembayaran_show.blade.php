@@ -83,16 +83,42 @@
                   {!! Form::text('dibayar' , null, ['class' => 'form-control rq uangInput', 'id'=>'piutang']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
 				</div>
+				<div class="form-group @if($errors->has('invoice_id'))has-error @endif">
+				  {!! Form::label('invoice_id', 'ID Invoice', ['class' => 'control-label']) !!}
+				  <div class="table-responsive">
+				  	<table class="table table-hover table-condensed table-bordered">
+				  		<tbody>
+							<tr>
+								<td>
+									<div class="form-group">
+										{!! Form::text('invoice_id[]', null, array(
+											'class'         => 'form-control phone',
+											'placeholder'   => 'Nomor Invoice'
+											))!!}
+									</div>
+								</td>
+								<td class="column-fit">
+									<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+				  	</table>
+				  </div>
+                  {!! Form::text('invoice_id' , null, ['class' => 'form-control rq', 'id'=>'invoice_id']) !!}
+				  @if($errors->has('invoice_id'))<code>{{ $errors->first('invoice_id') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('kata_kunci'))has-error @endif">
+				  {!! Form::label('kata_kunci', 'Kata Kunci', ['class' => 'control-label']) !!}
+				  {!! Form::text('kata_kunci' , $asuransi->kata_kunci, ['class' => 'form-control rq', 'id'=>'kata_kunci']) !!}
+				  @if($errors->has('kata_kunci'))<code>{{ $errors->first('kata_kunci') }}</code>@endif
+				</div>
 				@if(isset($id))
 					@include('pendapatans.pembayaran_show_form', ['id' => $id])
 				@else
 					@include('pendapatans.pembayaran_show_form', ['id' => null])
 				@endif
-				<div class="form-group @if($errors->has('kata_kunci'))has-error @endif">
-				  {!! Form::label('kata_kunci', 'Dibayar Sebesar', ['class' => 'control-label']) !!}
-				  {!! Form::text('kata_kunci' , $asuransi->kata_kunci, ['class' => 'form-control rq', 'id'=>'kata_kunci']) !!}
-				  @if($errors->has('kata_kunci'))<code>{{ $errors->first('kata_kunci') }}</code>@endif
-				</div>
 				{!! Form::textarea('catatan_container', '[]', ['class' => 'form-control textareacustom hide', 'id' => 'catatan_container']) !!}
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage(this);return false;">Bayar</button>
@@ -143,6 +169,13 @@
 				</div>
             </div>
         </div>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">Invoice</h3>
+			</div>
+			<div class="panel-body">
+			</div>
+		</div>
 		<div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="panel-title">Catatan</div>

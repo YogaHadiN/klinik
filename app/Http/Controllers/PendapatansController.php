@@ -203,8 +203,6 @@ class PendapatansController extends Controller
 		$query = "SELECT px.id as id, p.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, px.piutang as piutang, px.piutang_dibayar as piutang_dibayar , px.piutang_dibayar as piutang_dibayar_awal from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$id}';";
 		$periksas = DB::select($query);
 
-
-
 		return view('pendapatans.pembayaran_show', compact(
 			'asuransi', 
 			'periksas', 

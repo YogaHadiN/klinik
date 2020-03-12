@@ -208,6 +208,18 @@
 </div>
 
 {!! Form::open(['url' => 'periksas/' . $periksa->id . '/update/transaksiPeriksa', 'method' => 'post']) !!}
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
+			  {!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
+			  {!! Form::text('nomor_asuransi', $periksa->nomor_asuransi, array(
+					'class'         => 'form-control rq'
+				))!!}
+			  @if($errors->has('nomor_asuransi'))<code>{{ $errors->first('nomor_asuransi') }}</code>@endif
+			</div>
+		</div>
+	</div>
 	<div class="hide">
 		<h2>Temp</h2>
 		{!! Form::textarea('temp', '[]', ['class' => 'form-control textareacustom', 'id' => 'temp']) !!}

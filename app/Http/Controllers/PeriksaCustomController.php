@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\TransaksiPeriksa;
 use App\PiutangAsuransi;
+use App\Pasien;
 use App\Classes\Yoga;
 use App\Periksa;
 use App\Sms;
@@ -36,19 +37,7 @@ class PeriksaCustomController extends Controller
 		));
 	}
 	public function updateTransaksiPeriksa(){
-		$rules            = [
-			'transaksis' => 'required',
-			'periksa'    => 'required',
-			'temp'       => 'required',
-			'jurnals'    => 'required'
-		];
-		
-		$validator = \Validator::make(Input::all(), $rules);
-		
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
+
 
 		$transaksis = json_decode( Input::get('transaksis'), true );
 		$periksa    = json_decode( Input::get('periksa'), true );
@@ -66,11 +55,17 @@ class PeriksaCustomController extends Controller
 				$trans->save();
 			}
 
-			$prx          = Periksa::find($periksa['id']);
-			$prx->tunai   = $periksa['tunai'];
-			$prx->piutang = $periksa['piutang'];
-			$confirm      = $prx->save();
+			$prx                 = Periksa::find($periksa['id']);
+			$prx->tunai          = $periksa['tunai'];
+			$prx->nomor_asuransi = Input::get('nomor_asuransi');
+			$prx->piutang        = $periksa['piutang'];
+			$confirm             = $prx->save();
 
+			if ( $prx->asuransi_id == $prx->pasien->asuransi_id ) {
+				$pasien                 = Pasien::find( $prx->pasien_id );
+				$pasien->nomor_asuransi = Input::get('nomor_asuransi');
+				$pasien->save();
+			}
 
 			if ( $prx->piutang > 0 ) {
 				try {
