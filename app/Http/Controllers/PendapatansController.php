@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\AsuransisController;
 use App\Pendapatan;
 use App\PembayaranBpjs;
+use App\Invoice;
 use App\Rekening;
 use App\PembayaranAsuransi;
 use App\PiutangDibayar;
@@ -326,6 +327,15 @@ class PendapatansController extends Controller
 			$rekening->pembayaran_asuransi_id = $pb->id;
 			$rekening->save();
 
+			$invoice_ids = Input::get('invoice_id');
+
+			$invoices = Invoice::whereIn('id', $invoice_ids)->get();
+
+			foreach ($invoices as $inv) {
+				$inv->pembayaran_asuransi_id = $pb->id;
+				$inv->save();
+			}
+
 
 			$coa_id_asuransi = Asuransi::find($asuransi_id)->coa_id;// Piutang Asuransi
 
@@ -461,6 +471,21 @@ class PendapatansController extends Controller
 	private function lihat_pembayaran_asuransi_template($id = null){
         $asuransi_id = Input::get('asuransi_id');
 
+		$query  = "SELECT ";
+		$query .= "inv.id as invoice_id ";
+		$query .= "FROM invoices as inv ";
+		$query .= "JOIN piutang_asuransis as pa on pa.invoice_id = inv.id ";
+		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
+		$query .= "WHERE px.asuransi_id = '{$asuransi_id}' ";
+		$query .= "AND inv.rekening_id is null ";
+		$query .= "GROUP BY inv.id;";
+		$invoices = DB::select($query);
+
+		/* $option_invoices = [ null => '-Pilih-' ]; */
+
+		foreach ($invoices as $inv) {
+			$option_invoices[$inv->invoice_id] = $inv->invoice_id;
+		}
 
 		$total_sudah_dibayar = 0;
 		$total_belum_dibayar = 0;
@@ -473,8 +498,6 @@ class PendapatansController extends Controller
         $pembayarans = $this->belumDibayar($mulai, $akhir, $asuransi_id);
 
 		/* return $pembayarans; */
-
-
         foreach ($pembayarans as $k => $pemb) {
             if ($pemb->pembayaran == null) {
                 $pembayarans[$k]->pembayaran = 0;
@@ -483,7 +506,6 @@ class PendapatansController extends Controller
         }
 
 		/* return $total_belum_dibayar; */
-
         $asuransi              = Asuransi::find($asuransi_id);
 		$PendapatansController = new PendapatansController;
 		$asuransis             = new AsuransisController;
@@ -500,47 +522,40 @@ class PendapatansController extends Controller
 		}  
 
 		$excel_pembayaran = json_encode($excel_pembayaran);
-
 		/* dd($excel_pembayaran); */
 
 		foreach ($sudah_dibayars as $sb) {
 			$total_sudah_dibayar += $sb->pembayaran;
 		}
-
 		/* dd($pembayarans); */
 
+		$param = compact( 
+			'pembayarans', 
+			'total_sudah_dibayar', 
+			'excel_pembayaran', 
+			'total_belum_dibayar', 
+			'asuransi', 
+			'sudah_dibayars', 
+			'option_invoices', 
+			'mulai', 
+			'akhir', 
+			'asuransi_id', 
+			'hutangs', 
+			'pembayarans_template', 
+			'kasList'
+		);
 		if ( isset($id) ) {
-			return view('pendapatans.pembayaran_show', compact(
-				'pembayarans', 
-				'total_sudah_dibayar', 
-				'excel_pembayaran', 
-				'total_belum_dibayar', 
-				'asuransi', 
-				'id', 
-				'sudah_dibayars', 
-				'mulai', 
-				'akhir', 
-				'asuransi_id', 
-				'hutangs', 
-				'pembayarans_template', 
-				'kasList'
-			));
-		} else {
-			return view('pendapatans.pembayaran_show', compact(
-				'pembayarans', 
-				'total_sudah_dibayar', 
-				'excel_pembayaran', 
-				'total_belum_dibayar', 
-				'asuransi', 
-				'sudah_dibayars', 
-				'mulai', 
-				'akhir', 
-				'asuransi_id', 
-				'hutangs', 
-				'pembayarans_template', 
-				'kasList'
-			));
-		}
+			$param['id'] = $id;
+		} 
+		return view('pendapatans.pembayaran_show', $param);
 	}
-	
+	public function detailPA(){
+		$id      = Input::get('id');
+		$invoices = Invoice::whereIn('id', $id )->get();
+		$result = [];
+		foreach ($invoices as $invoice) {
+			$result[] = $invoice->detail;
+		}
+		return $result;
+	}
 }

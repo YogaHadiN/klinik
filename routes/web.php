@@ -479,6 +479,7 @@ Route::resource('invoices', 'InvoiceController');
 			Route::post('anc/perujx', 'AncController@perujx');
 			Route::post('anc/uk', 'AncController@uk');
 			Route::post('pendapatans/pembayaran/asuransis/riwayatHutang', 'AsuransisController@riwayatHutang');
+			Route::get('pendapatans/pembayaran_show/detail/piutang_asuransis', 'PendapatansController@detailPA');
 
 
 			Route::post('poli/ajax/ibusafe', 'PoliAjaxController@ibusafe');

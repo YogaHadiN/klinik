@@ -66,6 +66,8 @@ class testcommand extends Command
 			}
 		}
 		Tarif::destroy($result);
+		$statement = 'ALTER TABLE invoices ADD COLUMN pembayaran_asuransi_id VARCHAR(255) null;';
+		DB::statement($statement);
 	}
 
 	/* private function tarifCorrection(){ */
