@@ -86,8 +86,8 @@ class AsuransisController extends Controller
 	 */
 	public function create()
 	{	
-		$tarifs         = $this->tariftemp()['tarifs'];
-		$tipe_tindakans = $this->tariftemp()['tipe_tindakans'];
+		$tarifs         = $this->tarifTemp()['tarifs'];
+		$tipe_tindakans = $this->tarifTemp()['tipe_tindakans'];
 		return view('asuransis.create', compact('tarifs', 'tipe_tindakans'));
 	}
 
@@ -163,6 +163,9 @@ class AsuransisController extends Controller
 		$asuransi = Asuransi::with('pic', 'emails', 'tarif')->where('id',$id)->first();
 		$tarifs         = $this->tariftemp($id)['tarifs'];
 		$tipe_tindakans = $this->tariftemp($id)['tipe_tindakans'];
+
+		/* return $tarifs; */
+		/* dd($tarifs); */
 		return view('asuransis.edit', compact(
 			'asuransi', 
 			'tipe_tindakans', 
@@ -626,10 +629,7 @@ class AsuransisController extends Controller
 			];
 		}
 		$tipe_tindakans = TipeTindakan::all();
-		return [
-			'tarifs' => json_encode($tarifs),
-			'tipe_tindakans' => $tipe_tindakans
-		];
+		return compact('tarifs', 'tipe_tindakans');
 	}
 	
 }

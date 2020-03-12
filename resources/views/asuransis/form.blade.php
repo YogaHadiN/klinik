@@ -399,8 +399,12 @@
 				<a class="btn btn-danger btn-block" href="{{ url('asuransis') }}">Cancel</a>
 			</div>
 		</div>
-		<div class="row hide">
+		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				{!! Form::textarea('tarifs', $tarifs, ['class' => 'form-control', 'id' => 'tarifs'])!!}
+				@if(isset($asuransi))
+					<textarea name="tarifs" id="tarifs" rows="8" cols="40">{{ $tarifs }}</textarea>
+				@else
+					<textarea name="tarifs" id="tarifs" rows="8" cols="40">{{ json_encode($tarifs) }}</textarea>
+				@endif
 			</div>
 		</div>
