@@ -73,7 +73,6 @@
 					  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
 					</div>
                 @endif
-                
 				<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
 				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
                   {!! Form::text('tanggal_dibayar' , null, ['class' => 'form-control tanggal rq']) !!}
@@ -89,6 +88,11 @@
 				@else
 					@include('pendapatans.pembayaran_show_form', ['id' => null])
 				@endif
+				<div class="form-group @if($errors->has('kata_kunci'))has-error @endif">
+				  {!! Form::label('kata_kunci', 'Dibayar Sebesar', ['class' => 'control-label']) !!}
+				  {!! Form::text('kata_kunci' , $asuransi->kata_kunci, ['class' => 'form-control rq', 'id'=>'kata_kunci']) !!}
+				  @if($errors->has('kata_kunci'))<code>{{ $errors->first('kata_kunci') }}</code>@endif
+				</div>
 				{!! Form::textarea('catatan_container', '[]', ['class' => 'form-control textareacustom hide', 'id' => 'catatan_container']) !!}
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage(this);return false;">Bayar</button>

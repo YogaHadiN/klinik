@@ -3172,6 +3172,9 @@ function kurangInput(control){
 }
 
 function validatedate(val) {
+	if (val == '') {
+		return true;
+	}
 	return moment( val, 'DD-MM-YYYY', true).isValid()
 }
 function validateNumeric(val){

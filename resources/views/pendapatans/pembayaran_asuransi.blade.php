@@ -108,6 +108,7 @@
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Created At</th>
                                 <th>Nama Asuransi</th>
                                 <th>Periode</th>
@@ -119,6 +120,7 @@
                         <tbody>
                             @foreach($pembayarans as $pemb)
                             <tr>
+                                <td>{{  $pemb->id  }}</td>
                                 <td>{{  $pemb->created_at  }}</td>
                                 <td>{{  $pemb->asuransi->nama  }}</td>
                                 <td>{{  $pemb->mulai->format('d-m-Y')  }} s/d {{  $pemb->akhir->format('d-m-Y')  }}</td>

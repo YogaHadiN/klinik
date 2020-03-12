@@ -7,7 +7,6 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Foundation\Validation\ValidationException;
 use App\Sms;
 use App\Console\Commands\sendMeLaravelLog;
 use App\Console\Commands\dbBackup;
@@ -22,7 +21,9 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-		  ValidationException::class
+		\Illuminate\Auth\AuthenticationException::class,
+		\Illuminate\Auth\Access\AuthorizationException::class,
+		\Illuminate\Validation\ValidationException::class,
     ];
 
     /**
