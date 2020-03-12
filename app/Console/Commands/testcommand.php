@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
 use App\Outbox;
 use App\Pengeluaran;
@@ -57,50 +56,62 @@ class testcommand extends Command
      */
     public function handle()
     {
-
 		$asuransis = Asuransi::all();
-
-		$jenis_tarif_ids = [];
-		$data            = [];
-		foreach ($asuransis as $asu) {
-			$jenis_tarif_ids = ['147', '148', '149', '150'];
-			foreach ($asu->tarif as $tr) {
-				$jenis_tarif_ids[] = $tr->jenis_tarif_id;
-			}
-
-			$non_jenis_tarif = JenisTarif::whereNotIn('id', $jenis_tarif_ids)->get();
-			$jenis_tarifs = [];
-			foreach ($non_jenis_tarif as $jt) {
-				$jenis_tarifs[] = $jt->id;
-			}
-			if (count($jenis_tarifs)) {
-				$data[] = [
-					'asuransi_id'   => $asu->id,
-					'jenis_tarif_ids'  => $jenis_tarifs
-				];
-			}
-		}
-		/* dd($data); */
 		$result = [];
-		$timestamp = date('Y-m-d H:i:s');
-		foreach ($data as $d) {
-			$tarifs = Tarif::where('asuransi_id', '0')
-						->whereIn('jenis_tarif_id', $d['jenis_tarif_ids'])
-						->get();
-			foreach ($tarifs as $t) {
-				$result[] = [
-					"jenis_tarif_id"        => $t->jenis_tarif_id,
-					"biaya"                 => $t->biaya,
-					"asuransi_id"           => $d['asuransi_id'],
-					"jasa_dokter"           => $t->jasa_dokter,
-					"tipe_tindakan_id"      => $t->tipe_tindakan_id,
-					"bhp_items"             => $t->bhp_items,
-					"jasa_dokter_tanpa_sip" => $t->jasa_dokter_tanpa_sip,
-					'created_at'            => $timestamp,
-					'updated_at'            => $timestamp
-				];
+		foreach ($asuransis as $asu) {
+			$data = DB::select("select id, count(jenis_tarif_id) as jum, jenis_tarif_id from tarifs where asuransi_id = '{$asu->id}' group by jenis_tarif_id having jum > 1;");
+			foreach ($data as $d) {
+				/* dd($d->id); */
+				$result[] = $d->id;
 			}
 		}
-		Tarif::insert($result);
+		Tarif::destroy($result);
 	}
+
+	/* private function tarifCorrection(){ */
+	/* 	$asuransis = Asuransi::all(); */
+
+	/* 	$jenis_tarif_ids = []; */
+	/* 	$data            = []; */
+	/* 	foreach ($asuransis as $asu) { */
+	/* 		$jenis_tarif_ids = ['147', '148', '149', '150']; */
+	/* 		foreach ($asu->tarif as $tr) { */
+	/* 			$jenis_tarif_ids[] = $tr->jenis_tarif_id; */
+	/* 		} */
+
+	/* 		$non_jenis_tarif = JenisTarif::whereNotIn('id', $jenis_tarif_ids)->get(); */
+	/* 		$jenis_tarifs = []; */
+	/* 		foreach ($non_jenis_tarif as $jt) { */
+	/* 			$jenis_tarifs[] = $jt->id; */
+	/* 		} */
+	/* 		if (count($jenis_tarifs)) { */
+	/* 			$data[] = [ */
+	/* 				'asuransi_id'   => $asu->id, */
+	/* 				'jenis_tarif_ids'  => $jenis_tarifs */
+	/* 			]; */
+	/* 		} */
+	/* 	} */
+	/* 	/1* dd($data); *1/ */
+	/* 	$result = []; */
+	/* 	$timestamp = date('Y-m-d H:i:s'); */
+	/* 	foreach ($data as $d) { */
+	/* 		$tarifs = Tarif::where('asuransi_id', '0') */
+	/* 					->whereIn('jenis_tarif_id', $d['jenis_tarif_ids']) */
+	/* 					->get(); */
+	/* 		foreach ($tarifs as $t) { */
+	/* 			$result[] = [ */
+	/* 				"jenis_tarif_id"        => $t->jenis_tarif_id, */
+	/* 				"biaya"                 => $t->biaya, */
+	/* 				"asuransi_id"           => $d['asuransi_id'], */
+	/* 				"jasa_dokter"           => $t->jasa_dokter, */
+	/* 				"tipe_tindakan_id"      => $t->tipe_tindakan_id, */
+	/* 				"bhp_items"             => $t->bhp_items, */
+	/* 				"jasa_dokter_tanpa_sip" => $t->jasa_dokter_tanpa_sip, */
+	/* 				'created_at'            => $timestamp, */
+	/* 				'updated_at'            => $timestamp */
+	/* 			]; */
+	/* 		} */
+	/* 	} */
+	/* 	Tarif::insert($result); */
+	/* } */
 }
