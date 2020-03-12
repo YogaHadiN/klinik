@@ -7,6 +7,8 @@ use Moota;
 use Log;
 use App\Rekening;
 use App\AkunBank;
+use App\Asuransi;
+use App\Http\Controllers\PendapatansController;
 
 class cekMutasi extends Command
 {
@@ -75,6 +77,9 @@ class cekMutasi extends Command
 						'saldo_akhir'  => $mutasi->balance,
 						'debet'        => $debet
 					];
+					if (!$debet) {
+						$this->checkIfMatchKeyWord($kata_kuncis, $mutasi->description, $mutasi->amount);
+					}
 				}
 			}
 			Rekening::insert($insertMutasi);
@@ -83,4 +88,30 @@ class cekMutasi extends Command
 		Log::info('Cek Mutasi Selesai');
 		Log::info('==================================================================================================================================');
     }
+	public function kata_kuncis(){
+		$asuransis = Asuransi::whereNotNull('kata_kunci')->get();
+
+		$kata_kuncis = [];
+		foreach ($asuransis as $asu) {
+			$kata_kuncis[] = [
+				'asuransi_id' => $asu->id,
+				'kata_kunci'  => $asu->kata_kunci
+			];
+		}
+		return $kata_kuncis;
+	}
+	private function checkIfMatchKeyWord($kata_kuncis, $description, $nilai){
+		$pendapatan = new PendapatansController;
+		foreach ($kata_kuncis as $kk) {
+			$kata_kunci = $kk['kata_kunci'];
+			$asuransi_id = $kk['asuransi_id'];
+			if (strpos($description, $kata_kunci )) {
+				$invoices = $pendapatan->invoicesQuery($asuransi_id, $nilai);
+				if ($invoices->count()) {
+					//Lakukan Pembayaran update semua rekening id dan semua piutang asuransi terkait
+				}
+			}
+		}
+
+	}
 }

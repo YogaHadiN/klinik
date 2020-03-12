@@ -471,16 +471,7 @@ class PendapatansController extends Controller
 	private function lihat_pembayaran_asuransi_template($id = null){
         $asuransi_id = Input::get('asuransi_id');
 
-		$query  = "SELECT ";
-		$query .= "inv.id as invoice_id ";
-		$query .= "FROM invoices as inv ";
-		$query .= "JOIN piutang_asuransis as pa on pa.invoice_id = inv.id ";
-		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
-		$query .= "WHERE px.asuransi_id = '{$asuransi_id}' ";
-		$query .= "AND inv.rekening_id is null ";
-		$query .= "GROUP BY inv.id;";
-		$invoices = DB::select($query);
-
+		$invoices = $this->invoicesQuery($asuransi_id);:
 		/* $option_invoices = [ null => '-Pilih-' ]; */
 
 		foreach ($invoices as $inv) {
@@ -550,12 +541,28 @@ class PendapatansController extends Controller
 		return view('pendapatans.pembayaran_show', $param);
 	}
 	public function detailPA(){
-		$id      = Input::get('id');
-		$invoices = Invoice::whereIn('id', $id )->get();
-		$result = [];
+		$id       = Input::get('id');
+		$invoices = Invoice::with('piutang_asuransi.periksa.asuransi')->whereIn('id', $id )->get();
+		$result   = [];
 		foreach ($invoices as $invoice) {
 			$result[] = $invoice->detail;
 		}
 		return $result;
 	}
+	public function invoicesQuery($asuransi_id, $nilai = false){
+		$query  = "SELECT ";
+		$query .= "inv.id as invoice_id, ";
+		$query .= "count(pa.piutang - pa.sudah_dibayar) as total_tagihan ";
+		$query .= "FROM invoices as inv ";
+		$query .= "JOIN piutang_asuransis as pa on pa.invoice_id = inv.id ";
+		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
+		$query .= "WHERE px.asuransi_id = '{$asuransi_id}' ";
+		$query .= "AND inv.rekening_id is null ";
+		if ($nilai) {
+			$query .= "AND total_tagihan = {$nilai} ";
+		}
+		$query .= "GROUP BY inv.id;";
+		return DB::select($query);
+	}
+	
 }
