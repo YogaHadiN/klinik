@@ -370,6 +370,7 @@
 														<th>Tipe Tindakan</th>
 														<th>Action</th>
 														<th class="hide">id</th>
+														<th class="hide">tipe_tindakan_id</th>
 													</tr>
 												</thead>
 												<tbody id="tblTarif">

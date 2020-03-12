@@ -1,3 +1,8 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		{!! Form::textarea('tipe_tindakans', $tipe_tindakans, ['class' => 'form-control', 'id' => 'tipe_tindakans'])!!}
+	</div>
+</div>
 <script type='text/javascript'>
 
 function dummySubmit(control){
@@ -40,18 +45,13 @@ function kataKunciValid(control){
 	var temp = '';
 	for (var i = 0; i < tarifs.length; i++) {
 		temp += '<tr>';
-		temp += '<td nowrap>' + tarifs[i].jenis_tarif + '</td>';
-		temp += '<td nowrap>' + tarifs[i].biaya + '</td>';
-		temp += '<td nowrap>' + tarifs[i].jasa_dokter + '</td>';
-		if( tarifs[i].tipe_tindakan_id == '1' ){
-			temp += '<td>' + 'Non Paket' + '</td>';
-		} else if (  tarifs[i].tipe_tindakan_id == '2'  ){
-			temp += '<td>' + 'Paket dengan Obat' + '</td>';
-		} else {
-			temp += '<td>' + 'Paket Jasa Dokter tanpa Obat' + '</td>';
-		}
-		temp += '<td>' + '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="' +i+ '">edit</buttom>' + '</td>';
-		temp += '<td nowrap class="hide">' + tarifs[i].id + '</td>';
+		temp += '<td nowrap class="jenis_tarif">' + tarifs[i].jenis_tarif + '</td>';
+		temp += '<td nowrap class="biaya">' + tarifs[i].biaya + '</td>';
+		temp += '<td nowrap class="jasa_dokter">' + tarifs[i].jasa_dokter + '</td>';
+		temp += '<td class="tipe_tindakan">' +  tarifs[i].tipe_tindakan + '</td>';
+		temp += '<td class="action">' + '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="' +i+ '">edit</buttom>' + '</td>';
+		temp += '<td nowrap class="hide id">' + tarifs[i].id + '</td>';
+		temp += '<td class="hide tipe_tindakan_id">' + tarifs[i].tipe_tindakan_id + '</td>';
 		temp += '</tr>';
 	}
 
@@ -59,29 +59,17 @@ function kataKunciValid(control){
 	</script>
 	<script>
 		function rowEdit(control){
-			var index = $(control).closest('tr').index() + 1;
+			var index     = $(control).closest('tr').index() + 1;
 
-			biaya = $('#tblTarif tr:nth-child(' + index + ') td:nth-child(2)').html();
-			jasa_dokter = $('#tblTarif tr:nth-child(' + index + ') td:nth-child(3)').html();
+			biaya         = $('#tblTarif tr:nth-child(' + index + ') td:nth-child(2)').html();
+			jasa_dokter   = $('#tblTarif tr:nth-child(' + index + ') td:nth-child(3)').html();
 			tipe_tindakan = $('#tblTarif tr:nth-child(' + index + ') td:nth-child(4)').html();
-			var tipe_tindakan_id = '';
-			if (tipe_tindakan == 'Non Paket') {
-				tipe_tindakan_id = '1';
-			} else if (tipe_tindakan == 'Paket dengan Obat'){
-				tipe_tindakan_id = '2';
-			}
+			tipe_tindakan_id = $(control).closest('tr').find('.tipe_tindakan_id').html();
 
 			var txtbiaya = '<div class="w"><input type="text" class="form-control" value="' +biaya+ '" id="txtbiaya" /></div>';
 			var txtjasadokter = '<div class="w"><input type="text" class="form-control" value="' +jasa_dokter+ '" id="txtjasadokter"/></div>';
-			var ddltipetindakan = '<select class="form-control" id="ddltipetindakan">';
-			if (tipe_tindakan_id == 1) {
-				ddltipetindakan += '<option value="1" selected>Non Paket</option><option value="2">Paket dengan Obat</option>'
-			} else if (tipe_tindakan_id == 2){
-				ddltipetindakan += '<option value="1">Non Paket</option><option value="2" selected>Paket dengan Obat</option>'
-			}
-			ddltipetindakan += '</select>';
-			console.log('keluar');
-			
+			var ddltipetindakan = ddlTipeTindakan(tipe_tindakan_id);
+
 			var action = '';
 			action += '<button type="button" class="btn btn-info btn-block" onclick="rowUpdate(this);return false;">Update</button>';
 			action += '<button type="button" class="btn btn-danger btn-block" onclick="rowCancel(this);return false;">Cancel</button>';
@@ -140,18 +128,15 @@ function kataKunciValid(control){
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(5)').html(htmaction);
 
 		}
-	</script>
-
-	<script>
 		function rowUpdate(control){
 
 			var key   = $(control).closest('tr').index();
 			var index = key + 1;
-			var id = $('#tblTarif tr:nth-child(' + index + ') td:last-child').html();
+			var id    = $('#tblTarif tr:nth-child(' + index + ') td:last-child').html();
 
-			var biaya_update = $('#txtbiaya').val();
-			var jasa_dokter_update = $('#txtjasadokter').val();
-			var tipe_tindakan_update = $('#ddltipetindakan option:selected').text();
+			var biaya_update            = $('#txtbiaya').val();
+			var jasa_dokter_update      = $('#txtjasadokter').val();
+			var tipe_tindakan_update    = $('#ddltipetindakan option:selected').text();
 			var tipe_tindakan_id_update = $('#ddltipetindakan').val();
 
 			tarifs[key]['biaya'] = empty(biaya_update);
@@ -164,6 +149,8 @@ function kataKunciValid(control){
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(2)').html(empty(biaya_update));
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(3)').html(empty(jasa_dokter_update));
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(4)').html(tipe_tindakan_update);
+			$(control).closest('tr').find('.tipe_tindakan_id').html(tipe_tindakan_id_update);
+			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(5)').html(htmaction);
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(5)').html(htmaction);
 
 			$('#tarifs').val(JSON.stringify(tarifs));
@@ -186,5 +173,22 @@ function kataKunciValid(control){
 		  ret = ret.substr('function '.length);
 		  ret = ret.substr(0, ret.indexOf('('));
 		  return ret;
+		}
+		function ddlTipeTindakan(val){
+			var tipe_tindakans = $('#tipe_tindakans').val();
+			var tipe_tindakans = $.parseJSON(tipe_tindakans); 
+			console.log('val');
+			console.log(val);
+			var temp  = '<select class="form-control" id="ddltipetindakan">';
+			for (var i = 0; i < tipe_tindakans.length; i++) {
+				temp += '<option value="' + tipe_tindakans[i].id + '"' ;
+				if(val == tipe_tindakans[i].id){
+					temp += ' selected';
+				}
+				temp += '>';
+				temp +=  tipe_tindakans[i].tipe_tindakan + '</option>';
+			}
+			temp += '</select>' ;
+			return temp;
 		}
 	</script>

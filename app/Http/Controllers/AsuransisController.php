@@ -11,6 +11,7 @@ use App\Pic;
 use App\PembayaranAsuransi;
 use App\Coa;
 use App\CatatanAsuransi;
+use App\TipeTindakan;
 use App\Classes\Yoga;
 use App\Http\Requests\AsuransiValidation;
 
@@ -85,20 +86,9 @@ class AsuransisController extends Controller
 	 */
 	public function create()
 	{	
-		$trf = Tarif::with('jenisTarif')->where('asuransi_id', '1')->get()	;
-		$tarifs = [];
-		foreach ($trf as $t) {
-			$tarifs[] = [
-				'jenis_tarif'      => $t->jenisTarif->jenis_tarif,
-				'id'               => $t->id,
-				'jasa_dokter'      => $t->jasa_dokter,
-				'tipe_tindakan_id' => $t->tipe_tindakan_id,
-				'biaya'            => $t->biaya
-			];
-		}
-
-		$tarifs = json_encode($tarifs);
-		return view('asuransis.create', compact('tarifs'));
+		$tarifs         = $this->tariftemp()['tarifs'];
+		$tipe_tindakans = $this->tariftemp()['tipe_tindakans'];
+		return view('asuransis.create', compact('tarifs', 'tipe_tindakans'));
 	}
 
 	/**
@@ -107,39 +97,46 @@ class AsuransisController extends Controller
 	 * @return Response
 	 */
 	public function store() {
-		$asuransi         = new Asuransi;
-		$asuransi->id     = Yoga::customId('App\Asuransi');
-		$asuransi         = $this->inputData($asuransi);
+		DB::beginTransaction();
+		try {
+			$asuransi         = new Asuransi;
+			$asuransi->id     = Yoga::customId('App\Asuransi');
+			$asuransi         = $this->inputData($asuransi);
 
-		$coa_id               = (int)Coa::where('id', 'like', '111%')->orderBy('id', 'desc')->first()->id + 1;
-		$coa                  = new Coa;
-		$coa->id              = $coa_id;
-		$coa->kelompok_coa_id = '11';
-		$coa->coa             = 'Piutang Asuransi ' . $asuransi->nama;
-		$coa->save();
+			$coa_id               = (int)Coa::where('id', 'like', '111%')->orderBy('id', 'desc')->first()->id + 1;
+			$coa                  = new Coa;
+			$coa->id              = $coa_id;
+			$coa->kelompok_coa_id = '11';
+			$coa->coa             = 'Piutang Asuransi ' . $asuransi->nama;
+			$coa->save();
 
 
-		$asuransi->coa_id = $coa_id;
-		$asuransi->save();
+			$asuransi->coa_id = $coa_id;
+			$asuransi->save();
 
-		$tarifs = Input::get('tarifs');
-		$tarifs = json_decode($tarifs, true);
+			$tarifs = Input::get('tarifs');
+			$tarifs = json_decode($tarifs, true);
 
-		$data = [];
+			$data = [];
 
-		foreach ($tarifs as $tarif_pribadi) {
-			$data [] = [
-				'biaya'                 => $tarif_pribadi['biaya'],
-				'asuransi_id'           => $asuransi_id,
-				'jenis_tarif_id'        => $tarif_pribadi['jenis_tarif_id'],
-				'tipe_tindakan_id'      => $tarif_pribadi['tipe_tindakan_id'],
-				'bhp_items'             => $tarif_pribadi['bhp_items'],
-				'jasa_dokter'           => $tarif_pribadi['jasa_dokter'],
-				'jasa_dokter_tanpa_sip' => $tarif_pribadi['jasa_dokter']
-			];
+			foreach ($tarifs as $tarif_pribadi) {
+				$data [] = [
+					'biaya'                 => $tarif_pribadi['biaya'],
+					'asuransi_id'           => $asuransi->id,
+					'jenis_tarif_id'        => $tarif_pribadi['jenis_tarif_id'],
+					'tipe_tindakan_id'      => $tarif_pribadi['tipe_tindakan_id'],
+					'bhp_items'             => $tarif_pribadi['bhp_items'],
+					'jasa_dokter'           => $tarif_pribadi['jasa_dokter'],
+					'jasa_dokter_tanpa_sip' => $tarif_pribadi['jasa_dokter']
+				];
+			}
+			Tarif::insert($data);
+			DB::commit();
+			return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . ucwords(strtolower(Input::get('nama')))  .'</strong> berhasil dibuat'));
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
 		}
-		Tarif::insert($data);
-		return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . ucwords(strtolower(Input::get('nama')))  .'</strong> berhasil dibuat'));
 	}
 
 	/**
@@ -163,20 +160,12 @@ class AsuransisController extends Controller
 	 */
 	public function edit($id)
 	{
-		$asuransi   = Asuransi::with('pic', 'emails', 'tarif')->where('id',$id)->first();
-		$tarifs = [];
-		foreach ($asuransi->tarif as $tarif) {
-			$tarifs[] = [
-				'id'                    => $tarif->id,
-				'jenis_tarif'           => $tarif->jenisTarif->jenis_tarif,
-				'biaya'                 => $tarif->biaya,
-				'jasa_dokter'           => $tarif->jasa_dokter,
-				'tipe_tindakan_id'      => $tarif->tipe_tindakan_id,
-				'jasa_dokter_tanpa_sip' => $tarif->jasa_dokter_tanpa_sip
-			];
-		}
+		$asuransi = Asuransi::with('pic', 'emails', 'tarif')->where('id',$id)->first();
+		$tarifs         = $this->tariftemp($id)['tarifs'];
+		$tipe_tindakans = $this->tariftemp($id)['tipe_tindakans'];
 		return view('asuransis.edit', compact(
 			'asuransi', 
+			'tipe_tindakans', 
 			'tarifs'
 		));
 	}
@@ -189,29 +178,36 @@ class AsuransisController extends Controller
 	 */
 	public function update(AsuransiValidation $request, $id)
 	{
-		$asuransi = Asuransi::findOrFail($id);
+		DB::beginTransaction();
+		try {
+			$asuransi = Asuransi::findOrFail($id);
 
-		Pic::where('asuransi_id', $id)->delete();
-		Email::where('emailable_id', $id)->where('emailable_type', 'App\\Asuransi')->delete();
-		Telpon::where('telponable_id', $id)->where('telponable_type', 'App\\Asuransi')->delete();
+			Pic::where('asuransi_id', $id)->delete();
+			Email::where('emailable_id', $id)->where('emailable_type', 'App\\Asuransi')->delete();
+			Telpon::where('telponable_id', $id)->where('telponable_type', 'App\\Asuransi')->delete();
 
-		$asuransi = $this->inputData($asuransi);
+			$asuransi = $this->inputData($asuransi);
 
-		$tarifs   = Input::get('tarifs');
-		$tarifs   = json_decode($tarifs, true);
+			$tarifs   = Input::get('tarifs');
+			$tarifs   = json_decode($tarifs, true);
 
-		foreach ($tarifs as $tarif) {
-			$tf                   = Tarif::find($tarif['id']);
-			$tf->biaya            = $tarif['biaya'];
-			$tf->jasa_dokter      = $tarif['jasa_dokter'];
-			$tf->tipe_tindakan_id = $tarif['tipe_tindakan_id'];
-			$confirm = $tf->save();
+			foreach ($tarifs as $tarif) {
+				$tf                   = Tarif::find($tarif['id']);
+				$tf->biaya            = $tarif['biaya'];
+				$tf->jasa_dokter      = $tarif['jasa_dokter'];
+				$tf->tipe_tindakan_id = $tarif['tipe_tindakan_id'];
+				$confirm = $tf->save();
 
-			if (!$confirm) {
-				return 'update gagal';
+				if (!$confirm) {
+					return 'update gagal';
+				}
 			}
+			DB::commit();
+			return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . Input::get('nama') . '</strong> berhasil diubah'));
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
 		}
-		return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . Input::get('nama') . '</strong> berhasil diubah'));
 	}
 
 	/**
@@ -613,4 +609,27 @@ class AsuransisController extends Controller
 			}
 		}
 	}
+	public function tarifTemp($id = 0){
+		$trf = Tarif::with('jenisTarif', 'tipeTindakan')->where('asuransi_id', $id)->get()	;
+		$tarifs = [];
+		foreach ($trf as $t) {
+			$tarifs[] = [
+				'jenis_tarif'           => $t->jenisTarif->jenis_tarif,
+				'jenis_tarif_id'        => $t->jenis_tarif_id,
+				'id'                    => $t->id,
+				'jasa_dokter'           => $t->jasa_dokter,
+				'tipe_tindakan_id'      => $t->tipe_tindakan_id,
+				'tipe_tindakan'         => $t->tipeTindakan->tipe_tindakan,
+				'bhp_items'             => $t->bhp_items,
+				'jasa_dokter_tanpa_sip' => $t->jasa_dokter_tanpa_sip,
+				'biaya'                 => $t->biaya
+			];
+		}
+		$tipe_tindakans = TipeTindakan::all();
+		return [
+			'tarifs' => json_encode($tarifs),
+			'tipe_tindakans' => $tipe_tindakans
+		];
+	}
+	
 }

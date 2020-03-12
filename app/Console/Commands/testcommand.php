@@ -55,6 +55,6 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("ALTER TABLE rekenings ADD COLUMN pembayaran_asuransi_id VARCHAR(255) NOT NULL;"); // etiqa
+		DB::statement("UPDATE tarifs set bhp_items = '[]' where bhp_items is null"); // etiqa
 	}
 }
