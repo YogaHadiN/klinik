@@ -38,22 +38,22 @@ function kataKunciValid(control){
 	tarifs = $.parseJSON(tarifs);
 
 	var temp = '';
-		@foreach($tarifs as $key => $tarif)
+	for (var i = 0; i < tarifs.length; i++) {
 		temp += '<tr>';
-		temp += '<td nowrap>' + '{!! $tarif['jenis_tarif'] !!}' + '</td>';
-		temp += '<td nowrap>' + '{!! $tarif['biaya'] !!}' + '</td>';
-		temp += '<td nowrap>' + '{!! $tarif['jasa_dokter'] !!}' + '</td>';
-		@if($tarif['tipe_tindakan_id'] == 1)
+		temp += '<td nowrap>' + tarifs[i].jenis_tarif + '</td>';
+		temp += '<td nowrap>' + tarifs[i].biaya + '</td>';
+		temp += '<td nowrap>' + tarifs[i].jasa_dokter + '</td>';
+		if( tarifs[i].tipe_tindakan_id == '1' ){
 			temp += '<td>' + 'Non Paket' + '</td>';
-		@elseif($tarif['tipe_tindakan_id'] == 2)
+		} else if (  tarifs[i].tipe_tindakan_id == '2'  ){
 			temp += '<td>' + 'Paket dengan Obat' + '</td>';
-		@else
+		} else {
 			temp += '<td>' + 'Paket Jasa Dokter tanpa Obat' + '</td>';
-		@endif
-		temp += '<td>' + '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="{!! $key!!}">edit</buttom>' + '</td>';
-		temp += '<td nowrap class="hide">' + '{!! $tarif['id'] !!}' + '</td>';
+		}
+		temp += '<td>' + '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="' +i+ '">edit</buttom>' + '</td>';
+		temp += '<td nowrap class="hide">' + tarifs[i].id + '</td>';
 		temp += '</tr>';
-	@endforeach
+	}
 
 	$('#tblTarif').html(temp);
 	</script>
@@ -129,8 +129,10 @@ function kataKunciValid(control){
 
 			$('.btn-warning').removeAttr('disabled');
 
+			var key = $(control).val();
+
 		  
-			var htmaction = '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="{!! $key!!}">edit</buttom>';
+			var htmaction = '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="' +key+ '">edit</buttom>';
 
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(2)').html(biaya);
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(3)').html(jasa_dokter);
@@ -143,31 +145,22 @@ function kataKunciValid(control){
 	<script>
 		function rowUpdate(control){
 
-			var key = $(control).closest('tr').index();
+			var key   = $(control).closest('tr').index();
 			var index = key + 1;
-
 			var id = $('#tblTarif tr:nth-child(' + index + ') td:last-child').html();
-
-			console.log('id = ' + id);
-
 
 			var biaya_update = $('#txtbiaya').val();
 			var jasa_dokter_update = $('#txtjasadokter').val();
 			var tipe_tindakan_update = $('#ddltipetindakan option:selected').text();
 			var tipe_tindakan_id_update = $('#ddltipetindakan').val();
 
-			console.log('biaya_update = ' + biaya_update);
-			console.log('jasa_dokter_update = ' + jasa_dokter_update);
-			console.log('tipe_tindakan_update = ' + tipe_tindakan_update);
-			console.log('tipe_tindakan_id_update = ' + tipe_tindakan_id_update);
-
 			tarifs[key]['biaya'] = empty(biaya_update);
 			tarifs[key]['jasa_dokter'] = empty(jasa_dokter_update);
 			tarifs[key]['tipe_tindakan_id'] = tipe_tindakan_id_update;
 
-			console.log(tarifs);
+			key = $(control).val();
 
-			var htmaction = '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="{!! $key!!}">edit</buttom>';
+			var htmaction = '<button type="button" class="btn btn-warning" onclick="rowEdit(this); return false;" value="' + key + '">edit</buttom>';
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(2)').html(empty(biaya_update));
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(3)').html(empty(jasa_dokter_update));
 			$('#tblTarif tr:nth-child(' + index + ') td:nth-child(4)').html(tipe_tindakan_update);

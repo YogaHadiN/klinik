@@ -400,6 +400,6 @@
 		</div>
 		<div class="row hide">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				{!! Form::textarea('tarifs', json_encode($tarifs), ['class' => 'form-control', 'id' => 'tarifs'])!!}
+				{!! Form::textarea('tarifs', $tarifs, ['class' => 'form-control', 'id' => 'tarifs'])!!}
 			</div>
 		</div>

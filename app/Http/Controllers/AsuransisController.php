@@ -96,6 +96,8 @@ class AsuransisController extends Controller
 				'biaya'            => $t->biaya
 			];
 		}
+
+		$tarifs = json_encode($tarifs);
 		return view('asuransis.create', compact('tarifs'));
 	}
 
@@ -104,9 +106,7 @@ class AsuransisController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function store()
-
-	{
+	public function store() {
 		$asuransi         = new Asuransi;
 		$asuransi->id     = Yoga::customId('App\Asuransi');
 		$asuransi         = $this->inputData($asuransi);
@@ -175,7 +175,6 @@ class AsuransisController extends Controller
 				'jasa_dokter_tanpa_sip' => $tarif->jasa_dokter_tanpa_sip
 			];
 		}
-		/* dd($tarifs); */
 		return view('asuransis.edit', compact(
 			'asuransi', 
 			'tarifs'
@@ -580,8 +579,8 @@ class AsuransisController extends Controller
 			if ( !empty($telpon) ) {
 				$telpons[] = [
 					'nomor'          => $telpon,
-					'emailable_id'   => $asuransi->id,
-					'emailable_type' => 'App\\Asuransi',
+					'telponable_id'   => $asuransi->id,
+					'telponable_type' => 'App\\Asuransi',
 					'created_at'     => $timestamp,
 					'updated_at'     => $timestamp
 				];
