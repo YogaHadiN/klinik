@@ -390,8 +390,12 @@ class PendapatansController extends Controller
 		$invoices = $this->invoicesQuery($asuransi_id);
 		/* $option_invoices = [ null => '-Pilih-' ]; */
 
-		foreach ($invoices as $inv) {
-			$option_invoices[$inv->invoice_id] = $inv->invoice_id;
+		if(count($invoices)){
+			foreach ($invoices as $inv) {
+				$option_invoices[$inv->invoice_id] = $inv->invoice_id;
+			}
+		} else {
+			$option_invoices = [];
 		}
 
 		$total_sudah_dibayar = 0;
