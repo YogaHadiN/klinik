@@ -24,12 +24,25 @@ use DB;
 
 class PendapatansController extends Controller
 {
+	private $input_dibayar;
+	private $input_mulai;
+	private $input_staf_id;
+	private $input_akhir;
+	private $input_tanggal_dibayar;
+	private $input_asuransi_id;
+	private $input_temp;
+	private $input_coa_id;
+	private $input_catatan_container;
+	private $input_rekening_id;
+	private $input_invoice_id;
 
 	/**
 	 * Display a listing of pendapatans
 	 *
 	 * @return Response
 	 */
+	public function __construct(){
+	}
 	public function index()
 	{
 		$pendapatans = Pendapatan::all();
@@ -267,8 +280,20 @@ class PendapatansController extends Controller
 	}
 	
     public function asuransi_bayar(){
-		/* dd(Input::all()); */ 
+		dd(Input::all()); 
 		DB::beginTransaction();
+
+		$this->input_dibayar           = Input::get('dibayar');
+		$this->input_mulai             = Input::get('mulai');
+		$this->input_staf_id           = Input::get('staf_id');
+		$this->input_akhir             = Input::get('akhir');
+		$this->input_tanggal_dibayar   = Input::get('tanggal_dibayar');
+		$this->input_asuransi_id       = Input::get('asuransi_id');
+		$this->input_temp              = Input::get('temp');
+		$this->input_coa_id            = Input::get('coa_id');
+		$this->input_catatan_container = Input::get('catatan_container');
+		$this->input_rekening_id       = Input::get('rekening_id');
+		$this->input_invoice_id        = Input::get('invoice_id');
 		try {
 			$rules = [
 				 'tanggal_dibayar' => 'date|required',
@@ -286,120 +311,11 @@ class PendapatansController extends Controller
 				return \Redirect::back()->withErrors($validator)->withInput();
 			}
 
-			$dibayar     = Yoga::clean( Input::get('dibayar') );
-			$mulai       = Input::get('mulai');
-			$staf_id     = Input::get('staf_id');
-			$akhir       = Input::get('akhir');
-			$tanggal     = Yoga::datePrep( Input::get('tanggal_dibayar') );
-			$asuransi_id = Input::get('asuransi_id');
-			$temp        = Input::get('temp');
-			$coa_id      = Input::get('coa_id');
-			$catatan_container      = Input::get('catatan_container');
-			$catatan_container      = json_decode($catatan_container, true) ;
-			
-			
-			$temp = json_decode($temp, true);
-
-			// add table nota_jual
-
-			$nota_jual_id     = Yoga::customId('App\NotaJual');
-			$nj               = new NotaJual;
-			$nj->id           = $nota_jual_id;
-			$nj->tipe_jual_id = 2;
-			$nj->tanggal      = $tanggal;
-			$nj->staf_id      = $staf_id;
-			$nj->save();
-
-			//create pembayaran_asuransis
-			
-			$pb                  = new PembayaranAsuransi;
-			$pb->asuransi_id     = $asuransi_id;
-			$pb->mulai           = $mulai;
-			$pb->staf_id         = $staf_id;
-			$pb->nota_jual_id    = $nota_jual_id;
-			$pb->akhir           = $akhir;
-			$pb->pembayaran      = $dibayar;
-			$pb->tanggal_dibayar = $tanggal;
-			$pb->kas_coa_id      = $coa_id;
-			$confirm             = $pb->save();
-
-			$rekening                         = Rekening::find( Input::get('rekening_id') );
-			$rekening->pembayaran_asuransi_id = $pb->id;
-			$rekening->save();
-
-			$invoice_ids = Input::get('invoice_id');
-
-			$invoices = Invoice::whereIn('id', $invoice_ids)->get();
-
-			foreach ($invoices as $inv) {
-				$inv->pembayaran_asuransi_id = $pb->id;
-				$inv->save();
-			}
-
-
-			$coa_id_asuransi = Asuransi::find($asuransi_id)->coa_id;// Piutang Asuransi
-
-			// insert jurnal_umums
-			if ($confirm) {
-				$jurnals = [];
-				$jurnals[] = [
-					'jurnalable_id'   => $nota_jual_id,
-					'jurnalable_type' => 'App\NotaJual',
-					'coa_id'          => $coa_id, //coa_kas_di_bank_mandiri = 110001;
-					'debit'           => 1,
-					'nilai'           => $dibayar,
-					'created_at'      => date('Y-m-d H:i:s'),
-					'updated_at'      => date('Y-m-d H:i:s')
-				];
-
-				$jurnals[] = [
-					'jurnalable_id'   => $nota_jual_id,
-					'jurnalable_type' => 'App\NotaJual',
-					'coa_id'          => $coa_id_asuransi,
-					'debit'           => 0,
-					'nilai'           => $dibayar,
-					'created_at'      => date('Y-m-d H:i:s'),
-					'updated_at'      => date('Y-m-d H:i:s')
-				];
-				JurnalUmum::insert($jurnals);
-			}
-			$bayars = [];
-			foreach ($temp as $tmp) {
-				if (
-					$tmp['akan_dibayar'] > 0 &&
-					$tmp['piutang'] > $tmp['pembayaran']
-				) {
-					//update piutang_asuransis
-					$pt                = PiutangAsuransi::find($tmp['piutang_id']);
-					$pt->sudah_dibayar = $pt->sudah_dibayar + $tmp['akan_dibayar'];
-					if ($pt->save()) {
-						$bayars[] = [
-							'periksa_id'             => $tmp['periksa_id'],
-							'pembayaran'             => $tmp['akan_dibayar'],
-							'pembayaran_asuransi_id' => $pb->id,
-							'created_at'             => date('Y-m-d H:i:s'),
-							'updated_at'             => date('Y-m-d H:i:s')
-						];
-					}
-				}
-			}
-
-			$catatans= [];
-			foreach ($catatan_container as $catatan) {
-				$catatans[] = [
-					'asuransi_id'            => $asuransi_id,
-					'pembayaran_asuransi_id' => $pb->id,
-					'peserta'                => $catatan['nama_peserta'],
-					'tagihan'                => $catatan['tagihan']
-				];
-			}
-			CatatanAsuransi::insert($catatans);
-			//piutang_dibayars insert
-			PiutangDibayar::insert($bayars);
-			$pesan = Yoga::suksesFlash('Asuransi <strong>' . Asuransi::find($asuransi_id)->nama . '</strong> tanggal <strong>' . Yoga::updateDatePrep($mulai). '</strong> sampai dengan <strong>' . Yoga::updateDatePrep($akhir) . ' BERHASIL</strong> dibayarkan sebesar <strong><span class="uang">' . $dibayar . '</span></strong>');
+			$data = $this->inputData();
+			$pesan = Yoga::suksesFlash('Asuransi <strong>' . $data['asuransi']->nama . '</strong> tanggal <strong>' . Yoga::updateDatePrep($data['mulai']). '</strong> sampai dengan <strong>' . Yoga::updateDatePrep($data['akhir']) . ' BERHASIL</strong> dibayarkan sebesar <strong><span class="uang">' . $data['dibayar'] . '</span></strong>');
 			DB::commit();
-			if ($coa_id == '110000') {
-				return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan)->withPrint($pb->id);
+			if ($data['coa_id'] == '110000') {
+				return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan)->withPrint($data['pb']->id);
 			} else {
 				return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan);
 			}
@@ -471,7 +387,7 @@ class PendapatansController extends Controller
 	private function lihat_pembayaran_asuransi_template($id = null){
         $asuransi_id = Input::get('asuransi_id');
 
-		$invoices = $this->invoicesQuery($asuransi_id);:
+		$invoices = $this->invoicesQuery($asuransi_id);
 		/* $option_invoices = [ null => '-Pilih-' ]; */
 
 		foreach ($invoices as $inv) {
@@ -545,24 +461,157 @@ class PendapatansController extends Controller
 		$invoices = Invoice::with('piutang_asuransi.periksa.asuransi')->whereIn('id', $id )->get();
 		$result   = [];
 		foreach ($invoices as $invoice) {
-			$result[] = $invoice->detail;
+			$result[] = $invoice->detail_invoice;
 		}
 		return $result;
 	}
 	public function invoicesQuery($asuransi_id, $nilai = false){
 		$query  = "SELECT ";
 		$query .= "inv.id as invoice_id, ";
-		$query .= "count(pa.piutang - pa.sudah_dibayar) as total_tagihan ";
+		if ($nilai) {
+			$query .= "sum(pa.piutang - pa.sudah_dibayar) as total_tagihan ";
+		} else {
+			$query .= "count(pa.piutang - pa.sudah_dibayar) as total_tagihan ";
+		}
 		$query .= "FROM invoices as inv ";
 		$query .= "JOIN piutang_asuransis as pa on pa.invoice_id = inv.id ";
 		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
 		$query .= "WHERE px.asuransi_id = '{$asuransi_id}' ";
-		$query .= "AND inv.rekening_id is null ";
+		$query .= "AND inv.pembayaran_asuransi_id is null ";
+		$query .= "GROUP BY inv.id";
 		if ($nilai) {
-			$query .= "AND total_tagihan = {$nilai} ";
+			$query .= " HAVING sum(pa.piutang - pa.sudah_dibayar) = {$nilai} LIMIT 1;";
+		} else {
+			$query .= ";";
 		}
-		$query .= "GROUP BY inv.id;";
 		return DB::select($query);
 	}
+	public function inputData(){
+		
+			$dibayar           = Yoga::clean( $this->input_dibayar );
+			$mulai             = $this->input_mulai;
+			$staf_id           = $this->input_staf_id;
+			$akhir             = $this->input_akhir;
+			$tanggal           = Yoga::datePrep( $this->input_tanggal_dibayar );
+			$asuransi_id       = $this->input_asuransi_id;
+			$temp              = $this->input_temp;
+			$coa_id            = $this->input_coa_id;
+			$catatan_container = $this->input_catatan_container;
+			$catatan_container = json_decode($catatan_container, true) ;
+			
+			
+			$temp = json_decode($temp, true);
+
+			// add table nota_jual
+
+			$nota_jual_id     = Yoga::customId('App\NotaJual');
+			$nj               = new NotaJual;
+			$nj->id           = $nota_jual_id;
+			$nj->tipe_jual_id = 2;
+			$nj->tanggal      = $tanggal;
+			$nj->staf_id      = $staf_id;
+			$nj->save();
+
+			//create pembayaran_asuransis
+			
+			$pb                  = new PembayaranAsuransi;
+			$pb->asuransi_id     = $asuransi_id;
+			$pb->mulai           = $mulai;
+			$pb->staf_id         = $staf_id;
+			$pb->nota_jual_id    = $nota_jual_id;
+			$pb->akhir           = $akhir;
+			$pb->pembayaran      = $dibayar;
+			$pb->tanggal_dibayar = $tanggal;
+			$pb->kas_coa_id      = $coa_id;
+			$confirm             = $pb->save();
+
+			//update rekening
+			$rekening                         = Rekening::find( $this->input_rekening_id );
+			$rekening->pembayaran_asuransi_id = $pb->id;
+			$rekening->save();
+
+
+			//update invoices
+			$invoice_ids = $this->input_invoice_id;
+			$invoices    = Invoice::whereIn('id', $invoice_ids)->get();
+
+			foreach ($invoices as $inv) {
+				if (isset($inv)) {
+					$inv->pembayaran_asuransi_id = $pb->id;
+					$inv->save();
+				}
+			}
+
+
+			$asuransi        = Asuransi::find($asuransi_id);
+			$coa_id_asuransi = $asuransi->coa_id;
+
+			// insert jurnal_umums
+			if ($confirm) {
+				$jurnals = [];
+				$jurnals[] = [
+					'jurnalable_id'   => $nota_jual_id,
+					'jurnalable_type' => 'App\NotaJual',
+					'coa_id'          => $coa_id, //coa_kas_di_bank_mandiri = 110001;
+					'debit'           => 1,
+					'nilai'           => $dibayar,
+					'created_at'      => date('Y-m-d H:i:s'),
+					'updated_at'      => date('Y-m-d H:i:s')
+				];
+
+				$jurnals[] = [
+					'jurnalable_id'   => $nota_jual_id,
+					'jurnalable_type' => 'App\NotaJual',
+					'coa_id'          => $coa_id_asuransi,
+					'debit'           => 0,
+					'nilai'           => $dibayar,
+					'created_at'      => date('Y-m-d H:i:s'),
+					'updated_at'      => date('Y-m-d H:i:s')
+				];
+				JurnalUmum::insert($jurnals);
+			}
+			$bayars = [];
+			foreach ($temp as $tmp) {
+				if (
+					$tmp['akan_dibayar'] > 0 &&
+					$tmp['piutang'] > $tmp['pembayaran']
+				) {
+					//update piutang_asuransis
+					$pt                = PiutangAsuransi::find($tmp['piutang_id']);
+					$pt->sudah_dibayar = $pt->sudah_dibayar + $tmp['akan_dibayar'];
+					if ($pt->save()) {
+						$bayars[] = [
+							'periksa_id'             => $tmp['periksa_id'],
+							'pembayaran'             => $tmp['akan_dibayar'],
+							'pembayaran_asuransi_id' => $pb->id,
+							'created_at'             => date('Y-m-d H:i:s'),
+							'updated_at'             => date('Y-m-d H:i:s')
+						];
+					}
+				}
+			}
+
+			$catatans= [];
+			foreach ($catatan_container as $catatan) {
+				$catatans[] = [
+					'asuransi_id'            => $asuransi_id,
+					'pembayaran_asuransi_id' => $pb->id,
+					'peserta'                => $catatan['nama_peserta'],
+					'tagihan'                => $catatan['tagihan']
+				];
+			}
+			CatatanAsuransi::insert($catatans);
+			PiutangDibayar::insert($bayars);
+
+			return [
+				'asuransi' => $asuransi,
+				'mulai'    => $mulai,
+				'akhir'    => $akhir,
+				'coa_id'   => $coa_id,
+				'pb'       => $pb,
+				'dibayar'  => $dibayar
+			];
+	}
+	
 	
 }
