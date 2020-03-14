@@ -8,7 +8,7 @@
 function dummySubmit(control){
 	if(validatePass2(control, [
 		{
-			'className' : 'kata_kunci',
+			'selector' : '.kata_kunci',
 			'testFunction' : kataKunciValid,
 			'message' : 'Kata Kunci sudah dipakai'
 		}

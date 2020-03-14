@@ -21,20 +21,21 @@ use App\Asuransi;
 use App\JurnalUmum;
 use App\CatatanAsuransi;
 use DB;
+use Carbon\Carbon;
 
 class PendapatansController extends Controller
 {
-	private $input_dibayar;
-	private $input_mulai;
-	private $input_staf_id;
-	private $input_akhir;
-	private $input_tanggal_dibayar;
-	private $input_asuransi_id;
-	private $input_temp;
-	private $input_coa_id;
-	private $input_catatan_container;
-	private $input_rekening_id;
-	private $input_invoice_id;
+	public $input_dibayar;
+	public $input_mulai;
+	public $input_staf_id;
+	public $input_akhir;
+	public $input_tanggal_dibayar;
+	public $input_asuransi_id;
+	public $input_temp;
+	public $input_coa_id;
+	public $input_catatan_container;
+	public $input_rekening_id;
+	public $input_invoice_id;
 
 	/**
 	 * Display a listing of pendapatans
@@ -280,10 +281,10 @@ class PendapatansController extends Controller
 	}
 	
     public function asuransi_bayar(){
-		dd(Input::all()); 
+		/* dd(Input::all()); */ 
 		DB::beginTransaction();
 
-		$this->input_dibayar           = Input::get('dibayar');
+		$this->input_dibayar           = Yoga::clean(Input::get('dibayar'));
 		$this->input_mulai             = Input::get('mulai');
 		$this->input_staf_id           = Input::get('staf_id');
 		$this->input_akhir             = Input::get('akhir');
@@ -438,12 +439,24 @@ class PendapatansController extends Controller
 		foreach ($sudah_dibayars as $sb) {
 			$total_sudah_dibayar += $sb->pembayaran;
 		}
+
+		$arus_kas_tujuan = null;
+		$tanggal_dibayar = null;
+
+		if (isset($id)) {
+			$rek = Rekening::find( $id );
+			$tanggal_dibayar = Carbon::CreateFromFormat('Y-m-d H:i:s',$rek->tanggal)->format('d-m-Y');
+			$arus_kas_tujuan = 110001;
+		}
+
 		/* dd($pembayarans); */
 
 		$param = compact( 
 			'pembayarans', 
 			'total_sudah_dibayar', 
 			'excel_pembayaran', 
+			'arus_kas_tujuan', 
+			'tanggal_dibayar', 
 			'total_belum_dibayar', 
 			'asuransi', 
 			'sudah_dibayars', 
@@ -462,10 +475,13 @@ class PendapatansController extends Controller
 	}
 	public function detailPA(){
 		$id       = Input::get('id');
-		$invoices = Invoice::with('piutang_asuransi.periksa.asuransi')->whereIn('id', $id )->get();
+		$id = json_decode($id, true);
 		$result   = [];
-		foreach ($invoices as $invoice) {
-			$result[] = $invoice->detail_invoice;
+		if (count($id)) {
+			$invoices = Invoice::with('piutang_asuransi.periksa.asuransi')->whereIn('id', $id )->get();
+			foreach ($invoices as $invoice) {
+				$result[] = $invoice->detail_invoice;
+			}
 		}
 		return $result;
 	}
@@ -492,7 +508,8 @@ class PendapatansController extends Controller
 	}
 	public function inputData(){
 		
-			$dibayar           = Yoga::clean( $this->input_dibayar );
+
+			$dibayar           = $this->input_dibayar;
 			$mulai             = $this->input_mulai;
 			$staf_id           = $this->input_staf_id;
 			$akhir             = $this->input_akhir;
@@ -529,10 +546,15 @@ class PendapatansController extends Controller
 			$pb->kas_coa_id      = $coa_id;
 			$confirm             = $pb->save();
 
+
 			//update rekening
-			$rekening                         = Rekening::find( $this->input_rekening_id );
-			$rekening->pembayaran_asuransi_id = $pb->id;
-			$rekening->save();
+			try {
+				$rekening                         = Rekening::findOrFail( $this->input_rekening_id );
+				$rekening->pembayaran_asuransi_id = $pb->id;
+				$rekening->save();
+			} catch (\Exception $e) {
+				
+			}
 
 
 			//update invoices
@@ -576,6 +598,7 @@ class PendapatansController extends Controller
 			}
 			$bayars = [];
 			foreach ($temp as $tmp) {
+				/* dd($tmp); */
 				if (
 					$tmp['akan_dibayar'] > 0 &&
 					$tmp['piutang'] > $tmp['pembayaran']

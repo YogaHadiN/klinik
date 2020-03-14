@@ -135,13 +135,17 @@ function resetAll(){
 }
 
 function submitPage(control){
-	var val = $('#rekening_id').val();
+	var val        = $('#rekening_id').val();
+	var kata_kunci = $('#kata_kunci').val();
+	var asuransi_id = $('#asuransi_id').val();
 	$.get(base + '/transaksi/avail',
-		{ id: val },
+		{ 
+			id: val,
+			kata_kunci: kata_kunci,
+			asuransi_id: asuransi_id
+		},
 		function (data, textStatus, jqXHR) { 
-			console.log('dataaa');
-			console.log(data);
-			validate(control, $.trim(data));
+			validate(control, data);
 		});
 
 }
@@ -361,22 +365,32 @@ function validate(control, dt){
     };
 
 	var found_tr_id = true;
-	if(dt == '0'){
+	var kata_kunci = $('#kata_kunci').val();
+	var rekening_id = $('#rekening_id').val();
+	var kata_kunci_belum_dipakai = true;
+	var validJumlahKataKunci = true;
+	if(dt['rekening_available'] == '0' && rekening_id != ''){
 		found_tr_id = false;
 	}
-
-	console.log('found_tr_id');
-	console.log(found_tr_id);
-
-	console.log('dt == "0"');
-	console.log(dt == '0');
+	if (WordCount(kata_kunci) < 2 && kata_kunci != '') {
+		validJumlahKataKunci = false;
+	} 
+	if (dt['kata_kunci_valid'] == '0' && kata_kunci != '') {
+		kata_kunci_belum_dipakai = false;
+	}
 
 	if(
-		validatePass2(control) 
+		validatePass2(control, [{
+			'selector'     : '.kata_kunci',
+			'testFunction' : cekKataKunciValid,
+			'message'      : 'Kata kunci tidak mendeskripsikan transaksi'
+		}]) 
 		&& cleanUang( $('#piutang').val() ) > 0 
 		&& data.length > 0
 		&& akanDibayar > 0
 		&& found_tr_id
+		&& validJumlahKataKunci
+		&& kata_kunci_belum_dipakai
 	){
 		 $('#submit').click();
 	} else if(cleanUang( $('#piutang').val() ) < 1 ){
@@ -385,8 +399,20 @@ function validate(control, dt){
 	} else if(akanDibayar < 1 ){
 		alert('Harus ada pasien yang di ceklist');
 	} 
+	console.log('found_tr_id');
+	console.log(found_tr_id);
 	if(!found_tr_id ){
 		validasi1( $('#rekening_id'), 'Transaksi tidak ditemukan')
+	}
+	console.log('validJumlahKataKunci');
+	console.log(validJumlahKataKunci);
+	if(!validJumlahKataKunci ){
+		validasi1( $('#kata_kunci'), 'Jumlah kata kunci harus lebih dari 1')
+	}
+	console.log('kata_kunci_belum_dipakai');
+	console.log(kata_kunci_belum_dipakai);
+	if(!kata_kunci_belum_dipakai ){
+		validasi1( $('#kata_kunci'), 'Kata Kunci Sudah Digunakan untuk Asuransi Lain')
 	}
 }
 
@@ -399,24 +425,17 @@ function cekRekening(control){
 		function (data, textStatus, jqXHR) {
 			$(control).closest('.form-group').find('.alert').remove();
 			if( data ){
-				$(control).closest('.form-group').append('<div><div class="alert alert-info"><h2>' + uang(data.nilai) + '</h2><h4>'+ moment(data.tanggal, 'YYYY-MM-DD HH:II:SS').format('DD MMM YYYY')+'</h4>' + data.deskripsi + '</div></div>')
+				$(control).closest('.form-group').append('<div><div class="alert alert-info"><h2>' + uang(data.nilai) + '</h2><h4>'+ moment(data.tanggal, 'YYYY-MM-DD HH:II:SS').format('DD MMM YYYY')+'</h4><span id="deskripsi">' + data.deskripsi + '</span></div></div>')
 			}
 		}
 	);
-}
-function tbhInput2(control){
-	var tr = $(control).closest('tr');
-	var val = tr.find('select').val();
-	tambahInput(control);
-	tr.next().find('select option[value="' +val+ '"]').remove();
-	tr.next().find('select').val('');
-	getPiutangAsuransiDetail(val);
 }
 function getPiutangAsuransiDetail(control){
 	var invoice_ids = [];
 	$(control).closest('tbody').find('select').each(function(){
 		invoice_ids.push( $(this).val() );
 	});
+	invoice_ids = JSON.stringify(invoice_ids);
 	var val = $(control).val();
 	$.get(base + '/pendapatans/pembayaran_show/detail/piutang_asuransis',
 		{ id: invoice_ids },
@@ -441,4 +460,40 @@ function viewInvoice(data){
 		temp += '</tr>';
 	}
 	$('#body_invoice').html(temp);
+}
+function cekKataKunciValid(val){
+	if ( $('#deskripsi').length ) {
+		
+		var deskripsi = $('#deskripsi').html();
+		deskripsi = deskripsi.toLowerCase();
+		val = val.toLowerCase();
+		console.log('deskripsi');
+		console.log(deskripsi);
+		console.log('val');
+		console.log(val);
+		console.log('deskripsi.includes(val)');
+		console.log(deskripsi.includes(val));
+		if (deskripsi.includes(val)){
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+}
+var origKurangInput = kurangInput;
+kurangInput = function(control) {
+	var tbody = $(control).closest('tbody');
+    origKurangInput(control);
+	getPiutangAsuransiDetail(tbody);
+}
+
+var origTambahInput = tambahInput;
+tambahInput = function(control) {
+    origTambahInput(control);
+	getPiutangAsuransiDetail(tr);
+}
+function WordCount(str) { 
+  return str.split(" ").length;
 }

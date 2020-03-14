@@ -60,22 +60,14 @@
                   {!! Form::select('staf_id', App\Classes\Yoga::stafList() , null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true', 'id'=>'staf_id']) !!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
-                @if (\Auth::id() == 28)
-					<div class="form-group @if($errors->has('coa_id'))has-error @endif">
-					  {!! Form::label('coa_id', 'Akun Kas Tujuan', ['class' => 'control-label']) !!}
-                      {!! Form::select('coa_id', $kasList, null, ['class' => 'form-control rq', 'id'=>'kasList']) !!}
-					  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
-					</div>
-                @else
-                    <div class="form-group">
-                      {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
-                      {!! Form::select('coa_id', $kasList, 110000, ['class' => 'form-control rq', 'id'=>'kasList', 'readonly' => 'readonly']) !!}
-					  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
-					</div>
-                @endif
+				<div class="form-group @if($errors->has('coa_id'))has-error @endif">
+				  {!! Form::label('coa_id', 'Akun Kas Tujuan', ['class' => 'control-label']) !!}
+				  {!! Form::select('coa_id', $kasList, $arus_kas_tujuan, ['class' => 'form-control rq', 'id'=>'kasList']) !!}
+				  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
+				</div>
 				<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
 				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
-                  {!! Form::text('tanggal_dibayar' , null, ['class' => 'form-control tanggal rq']) !!}
+                  {!! Form::text('tanggal_dibayar' , $tanggal_dibayar, ['class' => 'form-control tanggal rq']) !!}
 				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('dibayar'))has-error @endif">
@@ -99,7 +91,7 @@
 									</div>
 								</td>
 								<td class="column-fit">
-									<button type="button" class="btn btn-primary" onclick="tbhInput2(this); return false;">
+									<button type="button" class="btn btn-primary" onclick="tambahInput(this); return false;">
 										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 									</button>
 								</td>
@@ -111,7 +103,7 @@
 				</div>
 				<div class="form-group @if($errors->has('kata_kunci'))has-error @endif">
 				  {!! Form::label('kata_kunci', 'Kata Kunci', ['class' => 'control-label']) !!}
-				  {!! Form::text('kata_kunci' , $asuransi->kata_kunci, ['class' => 'form-control rq', 'id'=>'kata_kunci']) !!}
+				  {!! Form::text('kata_kunci' , $asuransi->kata_kunci, ['class' => 'form-control kata_kunci', 'id'=>'kata_kunci']) !!}
 				  @if($errors->has('kata_kunci'))<code>{{ $errors->first('kata_kunci') }}</code>@endif
 				</div>
 				@if(isset($id))

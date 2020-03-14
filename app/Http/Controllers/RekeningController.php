@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Rekening;
+use App\Asuransi;
 use Input;
 use Artisan;
 use DB;
@@ -98,13 +99,28 @@ class RekeningController extends Controller
 		}
 	}
 	public function available(){
-		$id = Input::get('id');
+		$id          = Input::get('id');
+		$kata_kunci  = Input::get('kata_kunci');
+		$asuransi_id = Input::get('asuransi_id');
+		$rekening_available = '0';
+		$kata_kunci_valid  = '1';
 		try {
 			Rekening::findOrFail($id);
-			return '1';
+			$rekening_available = '1';
 		} catch (\Exception $e) {
-			return '0';
+			$rekening_available = '0';
 		}
+
+		try {
+			Asuransi::where('id', '!=', $asuransi_id )
+				->where('kata_kunci', $kata_kunci)
+				->firstOrFail();
+			$kata_kunci_valid = '0';
+		} catch (\Exception $e) {
+			$kata_kunci_valid = '1';
+		}
+
+		return compact('rekening_available', 'kata_kunci_valid');
 	}
 	public function cekId(){
 		$id = Input::get('id');

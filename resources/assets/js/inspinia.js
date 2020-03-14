@@ -367,27 +367,27 @@ function validatePass2(control, extraValid = []){
 	var value = '';
 	var param = [
 		{
-			'className': 'rq',
+			'selector': '.rq',
 			'testFunction': validateNotEmpty,
 			'message':   'Harus diisi'
 		},
 		{
-			'className': 'tanggal',
+			'selector': '.tanggal',
 			'testFunction': validatedate,
 			'message':   'Format Tanggal tidak benar'
 		},
 		{
-			'className': 'numeric',
+			'selector': '.numeric',
 			'testFunction': validateNumeric,
 			'message':   'Format Tanggal tidak benar'
 		},
 		{
-			'className': 'email',
+			'selector': '.email',
 			'testFunction': validateEmail,
 			'message':   'Format Email tidak benar'
 		},
 		{
-			'className': 'phone',
+			'selector': '.phone',
 			'testFunction': validatePhone,
 			'message':   'Format Telepon tidak benar'
 		}
@@ -396,7 +396,7 @@ function validatePass2(control, extraValid = []){
 		param.push(extraValid[i]);
 	}
 	for (var i = 0, len = param.length; i < len; i++) {
-		$(control).closest('form').find('.' + param[i].className + ':not(div)').each(function(index, el) {
+		$(control).closest('form').find( param[i].selector + ':not(div)').each(function(index, el) {
 		  value = $(this).val();
 		  if ( !param[i].testFunction(value) ) {
 			validasi1($(this), param[i].message);
@@ -557,7 +557,7 @@ function daysInMonth(month, year) {
 }
 function tambahInput(control){
 	var getThru = true
-	$(control).closest('tr').find('input').each(function(){
+	$(control).closest('tr').find('input,select').each(function(){
 		if($(this).val() == ''){
 			getThru = false;
 		}
@@ -566,8 +566,8 @@ function tambahInput(control){
 		var many_row = $(control).closest('table').find('tr').length;
 		var row      = $(control).closest('tr')[0].outerHTML;
 		$(control).closest('tbody').append(row);
-		$(control).closest('tr').next().find('input').first().focus();
-		$(control).closest('tr').next().find('input').each(function(){
+		$(control).closest('tr').next().find('input,select').first().focus();
+		$(control).closest('tr').next().find('input,select').each(function(){
 			$(this).val('');
 		});
 		if( many_row == '1' ){
@@ -575,12 +575,12 @@ function tambahInput(control){
 		}
 		$(control).closest('td').html('<button type="button" class="btn btn-danger" onclick="kurangInput(this); return false;"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>');
 	} else {
-		$(control).closest('tr').find('input').each(function(){
+		$(control).closest('tr').find('input,select').each(function(){
 			if( $(this).val() == '' ){
 				validasi(this, 'harus diisi');
 			}
 		});
-		$(control).closest('tr').find('input').first().focus();
+		$(control).closest('tr').find('input,select').first().focus();
 	}
 }
 function kurangInput(control){ 

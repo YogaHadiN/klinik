@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Moota;
 use Log;
+use Carbon\Carbon;
 use App\Rekening;
+use App\Invoice;
 use App\AkunBank;
 use App\Asuransi;
 use App\Http\Controllers\PendapatansController;
@@ -13,17 +15,6 @@ use App\Http\Controllers\PendapatansController;
 class cekMutasi extends Command
 {
 
-	private $input_dibayar;
-	private $input_mulai;
-	private $input_staf_id;
-	private $input_akhir;
-	private $input_tanggal_dibayar;
-	private $input_asuransi_id;
-	private $input_temp;
-	private $input_coa_id;
-	private $input_catatan_container;
-	private $input_rekening_id;
-	private $input_invoice_id;
     /**
      * The name and signature of the console command.
      *
@@ -36,7 +27,7 @@ class cekMutasi extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Sinkronisasi Mandiri dengan sistem dengan transaksi bulan ini';
 
     /**
      * Create a new command instance.
@@ -55,10 +46,11 @@ class cekMutasi extends Command
      */
     public function handle()
     {
-		//define semua bank yang ada
 		Log::info('==================================================================================================================================');
 		Log::info('Cek Mutasi Dilakukan');
 		Log::info('==================================================================================================================================');
+
+		$pendapatan = new PendapatansController;
 
 		$banks = Moota::banks();
 		$kata_kuncis = $this->kata_kuncis();
@@ -80,7 +72,7 @@ class cekMutasi extends Command
 					$debet = 1;
 				}
 				$newRekening = Rekening::findOrNew($mutasi->mutation_id);
-				/* if ( !$newRekening->id ) { */
+				if ( !$newRekening->id ) {
 					$insertMutasi[] = [
 						'id'           => $mutasi->mutation_id,
 						'akun_bank_id' => $newBank->id,
@@ -90,20 +82,17 @@ class cekMutasi extends Command
 						'saldo_akhir'  => $mutasi->balance,
 						'debet'        => $debet
 					];
-					$mutasi->description = 'dfasdfasdfa etiqa ajsdlfja;';
-					$mutasi->amount      =  13240000;
 
-					$this->input_dibayar           = $mutasi->amount;
-					$this->input_staf_id           = 16;
-					$this->input_tanggal_dibayar   = $mutasi->created_at;
-					$this->input_coa_id            = 110001;
-					$this->input_rekening_id       = $mutasi->mutation_id;
+					$pendapatan->input_dibayar           = $mutasi->amount;
+					$pendapatan->input_staf_id           = 16;
+					$pendapatan->input_tanggal_dibayar   = Carbon::createFromFormat('Y-m-d H:i:s', $mutasi->created_at)->format('d-m-Y');
+					$pendapatan->input_coa_id            = 110001;
+					$pendapatan->input_rekening_id       = $mutasi->mutation_id;
 					if (!$debet) {
-						$this->checkIfMatchKeyWord($kata_kuncis, $mutasi->description, $mutasi->amount);
+						$this->checkIfMatchKeyWord($kata_kuncis, $mutasi->description, $mutasi->amount, $pendapatan);
 					}
-				/* } */
+				}
 			}
-			dd('this');
 			Rekening::insert($insertMutasi);
 		}
 		Log::info('==================================================================================================================================');
@@ -124,26 +113,29 @@ class cekMutasi extends Command
 		}
 		return $kata_kuncis;
 	}
-	private function checkIfMatchKeyWord($kata_kuncis, $description, $nilai){
-		$pendapatan = new PendapatansController;
+	private function checkIfMatchKeyWord($kata_kuncis, $description, $nilai, $pendapatan){
 		foreach ($kata_kuncis as $kk) {
 			$kata_kunci = $kk['kata_kunci'];
 			$asuransi_id = $kk['asuransi_id'];
-			if (strpos($description, $kata_kunci )) {
+			if (strpos($description, $kata_kunci )) { // jika ditemukan deskripsi sesuai dengan kata kunci
 				$invoices = $pendapatan->invoicesQuery($asuransi_id, $nilai);
 				if (count($invoices)) {
-					/* dd('ivoice', $invoices[0]); */
 					$inv_id = $invoices[0]->invoice_id;
 
 					$inv = Invoice::with('piutang_asuransi.periksa')->where('id',$inv_id)->first();
+					$pendapatan->input_asuransi_id       = $kk['asuransi_id'];
+					$pendapatan->input_invoice_id        = [$inv_id];
+					$pendapatan->input_mulai             = $inv->tanggal_mulai;
+					$pendapatan->input_temp              = $this->tempInput($inv);
+					$pendapatan->input_akhir             = $inv->tanggal_akhir;
+					$pendapatan->input_catatan_container = '[]';
 
-					$this->input_asuransi_id       = $kk['asuransi_id'];
-					$this->input_invoice_id        = $inv_id;
-					$this->input_mulai             = $inv->tanggal_mulai;
-					$this->input_temp              = $this->tempInput($inv);
-					$this->input_akhir             = $inv->tanggal_akhir;
-					$this->input_catatan_container = [];
-					$pendapatan->inputData();
+					$pendapatan->inputData(); //validasi dan input pembayaran asuransi secara otomatis ke sistem bila kata kunci cocok dan ditemukan invoice dengan jumlah yang sesuai
+					Log::info('============================================');
+					Log::info('Otomatis pembayaran asuransi masuk ke sistem');
+					Log::info('============================================');
+				} else {
+					$this->sendEmailToProviderAskingPaymentDetail($asuransi_id); // Jika match keyword tapi tidak ada invoice yang jumalhnya sesuai, tanyakan detail kepada asuransi
 				}
 			}
 		}
@@ -151,22 +143,26 @@ class cekMutasi extends Command
 	}
 	private function tempInput($inv){
 		$piutang_asuransis = $inv->piutang_asuransi;
-		$data = [];
-		foreach ($piutang_asuransis as $pa) {
+		$data              = [];
+		foreach ($piutang_asuransis as $pa) 
 			$data[] = [
 				'piutang_id'       => $pa->id,
 				'periksa_id'       => $pa->periksa_id,
 				'pasien_id'        => $pa->periksa->pasien_id,
 				'nama_pasien'      => $pa->periksa->pasien->nama,
-				'nama_pasien'      => $pa->periksa->tunai,
-				'nama_pasien'      => $pa->periksa->piutang,
+				'tunai'            => $pa->periksa->tunai,
+				'piutang'          => $pa->periksa->piutang,
 				'pembayaran'       => $pa->sudah_dibayar,
 				'total_pembayaran' => null,
 				'akan_dibayar'     => $pa->piutang - $pa->sudah_dibayar,
 				'tanggal'          => $pa->periksa->tanggal,
 				'sudah_dibayar'    => $pa->sudah_dibayar
 			];
-		}
 		return json_encode($data);
+	}
+	private function sendEmailToProviderAskingPaymentDetail($asuransi_id){
+		Log::info('============================================');
+		Log::info('Kirim email ke provider Tanyakan detail pembayaran');
+		Log::info('============================================');
 	}
 }
