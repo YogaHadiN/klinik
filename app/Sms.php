@@ -120,33 +120,58 @@ class Sms extends Model
 	}
 
 	public static function send($telepon, $message){
+
+		$key= env('WOOWA_KEY'); //this is demo key please change with your own key
+		$url='http://116.203.92.59/api/send_message';
+		$data = array(
+		  "phone_no" => $telepon,
+		  "key"      => $key,
+		  "message"  => $message
+		);
+		$data_string = json_encode($data);
+
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_VERBOSE, 0);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 360);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		  'Content-Type: application/json',
+		  'Content-Length: ' . strlen($data_string))
+		);
+		echo $res=curl_exec($ch);
+		curl_close($ch);
 		// Script http API SMS Reguler Zenziva
-		$userkey=env('ZENZIVA_USERKEY'); // userkey lihat di zenziva
+		/* $userkey=env('ZENZIVA_USERKEY'); // userkey lihat di zenziva */
 
-		$passkey=env('ZENZIVA_PASSKEY'); // set passkey di zenziva
+		/* $passkey=env('ZENZIVA_PASSKEY'); // set passkey di zenziva */
 
-		$url = 'https://reguler.zenziva.net/apps/smsapi.php';$curlHandle = curl_init();
+		/* $url = 'https://reguler.zenziva.net/apps/smsapi.php';$curlHandle = curl_init(); */
 
-		curl_setopt($curlHandle, CURLOPT_URL, $url);
+		/* curl_setopt($curlHandle, CURLOPT_URL, $url); */
 
-		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='.$userkey.'&passkey='.$passkey.'&nohp='.$telepon.'&pesan='.urlencode($message));
+		/* curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='.$userkey.'&passkey='.$passkey.'&nohp='.$telepon.'&pesan='.urlencode($message)); */
 
-		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+		/* curl_setopt($curlHandle, CURLOPT_HEADER, 0); */
 
-		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+		/* curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1); */
 
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+		/* curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2); */
 
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+		/* curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0); */
 
-		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+		/* curl_setopt($curlHandle, CURLOPT_TIMEOUT,30); */
 
-		curl_setopt($curlHandle, CURLOPT_POST, 1);
+		/* curl_setopt($curlHandle, CURLOPT_POST, 1); */
 
-		$results = curl_exec($curlHandle);
+		/* $results = curl_exec($curlHandle); */
 
-		curl_close($curlHandle);
-		return $results;
+		/* curl_close($curlHandle); */
+		/* return $results; */
 	}
 
 	public static function gammuSurvey($telepon, $message, $periksa_id){

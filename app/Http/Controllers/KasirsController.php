@@ -8,6 +8,7 @@ use App\Classes\Yoga;
 use App\Console\Commands\scheduleBackup;
 use App\Sms;
 use Moota;
+use DB;
 use Carbon\Carbon;
 use App\Http\Controllers\PengeluaransController;
 use GuzzleHttp\Exception\GuzzleException;
@@ -51,6 +52,8 @@ class KasirsController extends Controller
 		$bulan = $zenziva_array[1];
 		$tahun = $zenziva_array[2];
 
+		$pasien_pertama_belum_dikirim = $this->pasienPertamaBelumDikirim();
+
 		if( strtolower( $bulan ) == 'januari' ){
 			$bulan = '01';
 		} else if (  strtolower($bulan) == 'februari'  ){
@@ -81,6 +84,12 @@ class KasirsController extends Controller
 		$vultr                = $this->vultr();
 
 		$status = 'success';
+
+		//jika pasien admedika yang belum dikirim ada 25 hari yang lalu, maka warning
+		//
+		if ( $this->countDay( $pasien_pertama_belum_dikirim->tanggal  ) > 20) {
+			$status = 'warning';
+		} 
 
 		if ((strtotime( $zenziva_expired ) - strtotime('now')) < 864000) {
 			$status = 'warning';
@@ -113,6 +122,10 @@ class KasirsController extends Controller
 			$status = 'danger';
 		}
 
+		if ( $this->countDay( $pasien_pertama_belum_dikirim->tanggal  ) > 24) {
+			$status = 'danger';
+		} 
+
 
 		$zenziva_expired = Carbon::parse($zenziva_expired);
 		$time_left       = strtotime($zenziva_expired) - strtotime('now');
@@ -120,12 +133,15 @@ class KasirsController extends Controller
 		$saldos          = Saldo::with('staf')->latest()->paginate(20);
 
 
+		$jarak_hari =$this->countDay( $pasien_pertama_belum_dikirim->tanggal  );
 
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'status',
 			'time_left',
+			'pasien_pertama_belum_dikirim',
 			'zenziva_expired',
+			'jarak_hari',
 			'vultr',
 			'zenziva_credit',
 			'moota_balance'
@@ -193,6 +209,33 @@ class KasirsController extends Controller
 		$result = $client->metaData()->getAccountInfo();
 		return $result;
 	}
+	public function pasienPertamaBelumDikirim(){
+		
+		$query  = "SELECT ";
+		$query .= "px.tanggal, ";
+		$query .= "px.jam, ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "ps.nama as nama_pasien ";
+		$query .= "FROM piutang_asuransis as pa ";
+		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
+		$query .= "JOIN pasiens as ps on ps.id = px.pasien_id ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
+		$query .= "JOIN tipe_asuransis as ta on ta.id = asu.tipe_asuransi ";
+		$query .= "WHERE invoice_id is null ";
+		$query .= "AND px.tanggal > '2020-02-01 00:00:00' ";
+		$query .= "AND ta.id = 3 "; // tipe asuransi admedika
+		$query .= "ORDER BY px.tanggal asc ";
+		$query .= "LIMIT 1;";
+		return DB::select($query)[0];
+
+	}
+	private function countDay($date){
+		$now = time(); // or your date as well
+		$your_date = strtotime($date);
+		$datediff = $now - $your_date;
+		return round($datediff / (60 * 60 * 24));
+	}
+	
 
 
 }

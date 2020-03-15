@@ -4,9 +4,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Outbox;
 use App\Pengeluaran;
+use App\Woowa;
+use App\Sms;
 use App\AntrianPoli;
 use App\Pasien;
-use App\Sms;
 use App\KirimBerkas;
 use App\JenisTarif;
 use App\Invoice;
@@ -56,18 +57,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$asuransis = Asuransi::all();
-		$result = [];
-		foreach ($asuransis as $asu) {
-			$data = DB::select("select id, count(jenis_tarif_id) as jum, jenis_tarif_id from tarifs where asuransi_id = '{$asu->id}' group by jenis_tarif_id having jum > 1;");
-			foreach ($data as $d) {
-				/* dd($d->id); */
-				$result[] = $d->id;
-			}
-		}
-		Tarif::destroy($result);
-		$statement = 'ALTER TABLE invoices ADD COLUMN pembayaran_asuransi_id VARCHAR(255) null;';
-		DB::statement($statement);
+		Sms::send('+6281381912803', ' adfajfjasdfjasdlfk lasjajslfjasdfj ;lasjfljdslfjaslfj ;jsajd;fajslf ;laksjlajsflj https://www.google.com/');
 	}
 
 	/* private function tarifCorrection(){ */

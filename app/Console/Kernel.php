@@ -46,9 +46,9 @@ class Kernel extends ConsoleKernel
 		 Commands\imagePasien::class,
 		 Commands\imageStaf::class,
 		 Commands\perbaikiJurnal::class,
-		 Commands\smsPanggilTukanAc::class,
+		 /* Commands\smsPanggilTukanAc::class, */
 		 Commands\testNeraca::class,
-		 Commands\smsPromoUlangTahun::class,
+		 /* Commands\smsPromoUlangTahun::class, */
 		 Commands\pphDokter::class,
 		 Commands\scheduleBackup::class,
 		 Commands\multiPenyusutan::class,
@@ -75,8 +75,8 @@ class Kernel extends ConsoleKernel
 				  ->everyMinute();
 		 $schedule->command('task:penyusutan')
 				  ->monthlyOn(date('t'), '15:00');
-		 $schedule->command('sms:promoUlangTahun')
-				  ->monthlyOn('1', '14:00');
+		 /* $schedule->command('sms:promoUlangTahun') */
+				  /* ->monthlyOn('1', '14:00'); */
 		 $schedule->command('db:hapusDiskon')
 				  ->dailyAt('23:50');
 		 $schedule->command('test:neraca')
