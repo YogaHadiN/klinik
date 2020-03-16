@@ -414,7 +414,7 @@ class PeriksasController extends Controller
 			$cs->massUpdate($promo_updates);
 			$cs->massUpdate($pasien_updates);
 			$periksa->save();
-			$this->kirimWaAntrianBerikutnya();
+			/* $this->kirimWaAntrianBerikutnya(); */
 			DB::commit();
 			return redirect('ruangperiksa/' . $poli)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
@@ -875,9 +875,7 @@ class PeriksasController extends Controller
 		rsort($antrians);
 		$new_antrians = array_slice($antrians, 0, 5, true);
 
-		dd()
-
-		$antrianPeriksa->sendWaAntrian()
+		$antrianPeriksa->sendWaAntrian();
 	}
 	
 	
