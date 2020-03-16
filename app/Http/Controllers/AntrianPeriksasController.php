@@ -154,7 +154,7 @@ class AntrianPeriksasController extends Controller
 			$promo->save();
 		}
 
-		$this->sendWaAntrian($ap);
+		/* $this->sendWaAntrian($ap); */
 
 		PengantarPasien::where('antarable_id', $antrian_id)
 			->where('antarable_type', 'App\AntrianPoli')
@@ -280,16 +280,15 @@ class AntrianPeriksasController extends Controller
 			return $a['antrian'] <=> $b['antrian'];
 		});
 		/* sort($antrians); */
-		dd($antrians);
 
 		$antrian_terakhir_sudah_diperiksa = $px_per_tanggal->first()->antrian;
 		$antrian_saat_ini                 = array_search ( $antrian_terakhir_sudah_diperiksa, $antrians);
 		$antrian_pasien_ini               = array_search($ap->antrian, $antrians);
 
-		dd(compact(
-			'antrian_saat_ini',
-			'antrian_pasien_ini'
-		));
+		/* dd(compact( */
+		/* 	'antrian_saat_ini', */
+		/* 	'antrian_pasien_ini' */
+		/* )); */
 	}
 	
 }
