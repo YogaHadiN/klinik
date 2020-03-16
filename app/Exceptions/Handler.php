@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
 			 Log::info('=====================================================================================================');
 			 Log::info($exception->getTraceAsString());
 			 Log::info('=====================================================================================================');
-			 /* Sms::send(env("NO_HP_OWNER"),$exception->getTraceAsString() . ' pada jam ' . date('Y-m-d H:i:s') ); */
+			 Sms::send(env("NO_HP_OWNER"),$exception->getTraceAsString() . ' pada jam ' . date('Y-m-d H:i:s') );
 		 }
 		return parent::report($exception);
 	}

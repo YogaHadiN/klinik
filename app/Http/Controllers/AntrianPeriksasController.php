@@ -143,15 +143,6 @@ class AntrianPeriksasController extends Controller
 		$ap->diastolik           = Input::get('diastolik');
 		$ap->tinggi_badan        = $tinggi_badan;
 
-		if (
-			$ap->poli == 'umum' ||
-			$ap->poli == 'luka' ||
-			$ap->poli == 'sks'
-		) {
-			$totalAntrian = $this->totalAntrian($ap->tanggal);
-			$this->sendWaAntrian($totalAntrian, $ap->tanggal, $ap->antrian, $ap->pasien->np_telp);
-		}
-
 		$ap->save();
 
 		$antrian_id              = Input::get('antrian_id');
@@ -173,6 +164,14 @@ class AntrianPeriksasController extends Controller
 				'antarable_type' => 'App\AntrianPeriksa'
 			]);
 
+		if (
+			$ap->poli == 'umum' ||
+			$ap->poli == 'luka' ||
+			$ap->poli == 'sks'
+		) {
+			$totalAntrian = $this->totalAntrian($ap->tanggal);
+			$this->sendWaAntrian($totalAntrian, $ap->tanggal, $ap->antrian, $ap->pasien->np_telp);
+		}
 
 		return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$pasien->id . ' - ' . $pasien->nama . '</strong> berhasil masuk antrian periksa'));
 	}
@@ -252,7 +251,7 @@ class AntrianPeriksasController extends Controller
 	public function sendWaAntrian($totalAntrian, $tanggal, $antrian, $no_telp){
 
 		$antrian_pasien_ini =  array_search($antrian, $totalAntrian['antrians']) +1;
-		if ( gethostname() == 'Yogas-Mac.local' ) {
+		if ( gethostname() == 'Yogas-Mac' ) {
 			$no_telp = '081381912803';
 		}
 		$sisa_antrian =   $antrian_pasien_ini - $totalAntrian['antrian_saat_ini'] ;
@@ -265,7 +264,9 @@ class AntrianPeriksasController extends Controller
 		/* $text .= 'Mohon agar dapat membuka link berikut : https://www.google.com/ untuk mengetahui antrian yang diperiksa saat ini.'; */
 		$text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ;
 
-		/* Sms::send($no_telp, $text); */
+		/* dd(gethostname()); */
+		/* dd($no_telp); */
+		Sms::send($no_telp, $text);
 
 	}
 	public function totalAntrian($tanggal){
@@ -302,7 +303,6 @@ class AntrianPeriksasController extends Controller
 			'antrian_saat_ini'
 		);
 
-		/* dd($result); */
 		return $result;
 	}
 	
