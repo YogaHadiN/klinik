@@ -262,7 +262,7 @@ class AntrianPeriksasController extends Controller
 		$text .= $sisa_antrian . ' antrian lagi* \n\n ';
 		$text .= 'Sebelum giliran anda dipanggil. ';
 		/* $text .= 'Mohon agar dapat membuka link berikut : https://www.google.com/ untuk mengetahui antrian yang diperiksa saat ini.'; */
-		$text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ;
+		/* $text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ; */
 
 		/* dd(gethostname()); */
 		/* dd($no_telp); */
