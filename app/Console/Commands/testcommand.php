@@ -57,7 +57,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement('ALTER TABLE `rekenings` MODIFY `tanggal` datetime NOT NULL;')
+		DB::statement('ALTER TABLE `rekenings` MODIFY `tanggal` datetime NOT NULL;');
 		DB::statement("update rekenings set tanggal='2020-02-21 00:00:00' where id = '1';");
 		DB::statement("update rekenings set tanggal='2020-01-24 00:00:00' where id = '25';"); 
 		DB::statement("update rekenings set tanggal='2020-01-22 00:00:00' where id = '28';");
