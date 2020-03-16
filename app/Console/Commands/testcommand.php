@@ -57,28 +57,32 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement('ALTER TABLE `rekenings` MODIFY `tanggal` datetime NOT NULL;');
-		DB::statement("update rekenings set tanggal='2020-02-21 00:00:00' where id = '1';");
-		DB::statement("update rekenings set tanggal='2020-01-24 00:00:00' where id = '25';"); 
-		DB::statement("update rekenings set tanggal='2020-01-22 00:00:00' where id = '28';");
-		DB::statement("update rekenings set tanggal='2020-03-05 16:22:52' where id = '2qjy2RKVdWG';");
-		DB::statement("update rekenings set tanggal='2020-03-10 17:22:04' where id = '3EWgGRpAEWP';");
-		DB::statement("update rekenings set tanggal='2020-03-02 17:41:43' where id = 'G4kYwgPoGjp';");
-		DB::statement("update rekenings set tanggal='2020-03-13 14:56:36' where id = 'ylzrPrOyxWx';");
-		$pasiens = Pasien::all();
-		$invalid = [];
-		$valid = [];
-		$updated = 0;
-		foreach ($pasiens as $pasien) {
-			$notelp = $pasien->no_telp = str_replace(' ', '', $pasien->no_telp); 
-			$notelp = $notelp = str_replace('-', '', $notelp); 
-
-			$pasien->no_telp= $notelp;
-			if ($pasien->save()) {
-				$updated++;
-			}
-		}
-		dd($updated);
+		DB::statement("update rekenings ")	850	26
+		DB::statement("update rekenings ")	849	6
+		DB::statement("update rekenings ")	845	8
+		DB::statement("update rekenings ")	842	0LWdpoqEYWe
+		DB::statement("update rekenings ")	851	Arz6gYaA8jK
+		DB::statement("update rekenings ")	854	36
+		DB::statement("update rekenings ")	848	Arz6gdpXwjK
+		DB::statement("update rekenings ")	847	Exj7r4wwaz5
+		DB::statement("update rekenings ")	846	3ykV2mbNZkN
+		DB::statement("update rekenings ")	844	3
+		DB::statement("update rekenings ")	843	2
+		DB::statement("update rekenings ")	841	31
+		DB::statement("update rekenings ")	840	32
+		DB::statement("update rekenings ")	839	21
+		DB::statement("update rekenings ")	816	66
+		DB::statement("update rekenings ")	817	44
+		DB::statement("update rekenings ")	815	28
+		DB::statement("update rekenings ")	814	61
+		DB::statement("update rekenings ")	813	60
+		DB::statement("update rekenings ")	809	41
+		DB::statement("update rekenings ")	812	52
+		DB::statement("update rekenings ")	811	52
+		DB::statement("update rekenings ")	810	52
+		DB::statement("update rekenings ")	819	50
+		DB::statement("update rekenings ")	820	54
+		DB::statement("update rekenings ")	820	62
 	}
 
 	/* private function tarifCorrection(){ */

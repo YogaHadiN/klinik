@@ -33,7 +33,7 @@ class nomorAntrianUnik
 		$apl_per_tanggal = AntrianPoli::where('tanggal', $tanggal )
 			->where('antrian', $nomor_antrian)
 			->first();
-		$apl_per_tanggal = Periksa::where('tanggal', $tanggal )
+		$px_per_tanggal = Periksa::where('tanggal', $tanggal )
 			->where('antrian', $nomor_antrian)
 			->first();
 		$nama_pasien;
