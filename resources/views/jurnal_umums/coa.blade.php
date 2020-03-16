@@ -213,10 +213,10 @@
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
 	{!! Form::text('route', $route, ['class' => 'form-control hide']) !!}
 	{!! Form::textarea('temp', $jurnalumums, [
-		'class' => 'form-control',
+		'class' => 'form-control hide',
 		'id'    => 'temp'
 	]) !!}
-	{!! Form::textarea('peralatanTemp', '[]', ['class' => 'hide form-control', 'id' => 'peralatanTemp']) !!}
+	{!! Form::textarea('peralatanTemp', '[]', ['class' => 'hide form-control', 'id' => 'peralatanTemp']) !!} 
 	{!! Form::textarea('serviceAcTemp', '[]', ['class' => 'hide form-control', 'id' => 'serviceAcTemp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

@@ -72,6 +72,15 @@
 					</th>
 					<th nowrap class="kolom_4">
 						Action
+						{!! Form::select('pembayaran_null',[
+								0 => 'Semua' ,
+								1 => 'Belum Dicek' ,
+								2 => 'Sudah Dicek' 
+							], 0, [
+							'class'   => 'form-control-inline pembayaran_null form-control ajaxsearchrekening',
+							'onchange' => 'clearAndSearch();return false;',
+							'id'      => 'pembayaran_null'
+						])!!}
 					</th>
 				</tr>
 			</thead>
@@ -112,11 +121,12 @@
 			var pages;
 			 $.get(base + '/rekening_bank/search',
 			 	{ 
-					'tanggal':        $('#tanggal').val(),
-					'akun_bank_id':   $('#akun_bank_id').val(),
-					'deskripsi':      $('#deskripsi').val(),
-					'displayed_rows': $('#displayed_rows').val(),
-					'key':            key
+					'tanggal':         $('#tanggal').val(),
+					'akun_bank_id':    $('#akun_bank_id').val(),
+					'deskripsi':       $('#deskripsi').val(),
+					'pembayaran_null': $('#pembayaran_null').val(),
+					'displayed_rows':  $('#displayed_rows').val(),
+					'key':             key
 				},
 			 	function (data, textStatus, jqXHR) {
 					{{-- $('#paging').html(''); --}}

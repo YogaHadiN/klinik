@@ -642,11 +642,11 @@ class PengeluaransController extends Controller
 			}
 			//tambah semua komponen yang masuk kas, retrieve semua last id nya
 			$pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
-		return redirect('pengeluarans/nota_z')
-			->withPesan($pesan)
-			->withModals($modal_awal)
-			->withPrint($new_z->id);
 			DB::commit();
+			return redirect('pengeluarans/nota_z')
+				->withPesan($pesan)
+				->withModals($modal_awal)
+				->withPrint($new_z->id);
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;

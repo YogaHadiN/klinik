@@ -120,9 +120,8 @@ class Sms extends Model
 	}
 
 	public static function send($telepon, $message){
-
 		$key= env('WOOWA_KEY'); //this is demo key please change with your own key
-		$url='http://116.203.92.59/api/send_message';
+		$url='http://116.203.92.59/api/async_send_message';
 		$data = array(
 		  "phone_no" => $telepon,
 		  "key"      => $key,
@@ -145,6 +144,7 @@ class Sms extends Model
 		);
 		echo $res=curl_exec($ch);
 		curl_close($ch);
+
 		// Script http API SMS Reguler Zenziva
 		/* $userkey=env('ZENZIVA_USERKEY'); // userkey lihat di zenziva */
 

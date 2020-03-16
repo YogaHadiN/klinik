@@ -17,14 +17,17 @@ class RekeningController extends Controller
 		private $input_key;
 		private $input_deskripsi;
 		private $input_akun_bank_id;
+		private $input_pembayaran_null;
+
 
    public function __construct()
     {
-		$this->input_tanggal        = Input::get('tanggal');
-		$this->input_displayed_rows = Input::get('displayed_rows');
-		$this->input_key            = Input::get('key');
-		$this->input_deskripsi      = Input::get('deskripsi');
-		$this->input_akun_bank_id   = Input::get('akun_bank_id');
+		$this->input_tanggal         = Input::get('tanggal');
+		$this->input_displayed_rows  = Input::get('displayed_rows');
+		$this->input_key             = Input::get('key');
+		$this->input_deskripsi       = Input::get('deskripsi');
+		$this->input_akun_bank_id    = Input::get('akun_bank_id');
+		$this->input_pembayaran_null = Input::get('pembayaran_null');
     }
 	public function index($id){
 		Artisan::call('cek:mutasi20terakhir');
@@ -85,9 +88,15 @@ class RekeningController extends Controller
 		$query .= "AND debet = 0 ";
 		$query .= "AND deskripsi not like '%PURI WIDIYANI MARTIADEWI%' ";
 		$query .= "AND deskripsi not like '%Bunga Rekening%' ";
+		if ( $this->input_pembayaran_null == '1' ) {
+			$query .= "AND pembayaran_asuransi_id = '' ";
+		} else if (   $this->input_pembayaran_null == '2' ){
+			$query .= "AND pembayaran_asuransi_id not like '' ";
+		}
 		$query .= "AND ";
 		$query .= "(deskripsi like '{$str_deskripsi}' and tanggal like '{$str_tanggal}') ";
 		$query .= "ORDER BY tanggal desc, created_at desc ";
+		/* dd($query); */
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$this->input_displayed_rows};";
 		}
