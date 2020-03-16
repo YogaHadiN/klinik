@@ -57,32 +57,32 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("update rekenings ")	850	26
-		DB::statement("update rekenings ")	849	6
-		DB::statement("update rekenings ")	845	8
-		DB::statement("update rekenings ")	842	0LWdpoqEYWe
-		DB::statement("update rekenings ")	851	Arz6gYaA8jK
-		DB::statement("update rekenings ")	854	36
-		DB::statement("update rekenings ")	848	Arz6gdpXwjK
-		DB::statement("update rekenings ")	847	Exj7r4wwaz5
-		DB::statement("update rekenings ")	846	3ykV2mbNZkN
-		DB::statement("update rekenings ")	844	3
-		DB::statement("update rekenings ")	843	2
-		DB::statement("update rekenings ")	841	31
-		DB::statement("update rekenings ")	840	32
-		DB::statement("update rekenings ")	839	21
-		DB::statement("update rekenings ")	816	66
-		DB::statement("update rekenings ")	817	44
-		DB::statement("update rekenings ")	815	28
-		DB::statement("update rekenings ")	814	61
-		DB::statement("update rekenings ")	813	60
-		DB::statement("update rekenings ")	809	41
-		DB::statement("update rekenings ")	812	52
-		DB::statement("update rekenings ")	811	52
-		DB::statement("update rekenings ")	810	52
-		DB::statement("update rekenings ")	819	50
-		DB::statement("update rekenings ")	820	54
-		DB::statement("update rekenings ")	820	62
+		/* DB::statement("update rekenings ")	850	26 */
+		/* DB::statement("update rekenings ")	849	6 */
+		/* DB::statement("update rekenings ")	845	8 */
+		/* DB::statement("update rekenings ")	842	0LWdpoqEYWe */
+		/* DB::statement("update rekenings ")	851	Arz6gYaA8jK */
+		/* DB::statement("update rekenings ")	854	36 */
+		/* DB::statement("update rekenings ")	848	Arz6gdpXwjK */
+		/* DB::statement("update rekenings ")	847	Exj7r4wwaz5 */
+		/* DB::statement("update rekenings ")	846	3ykV2mbNZkN */
+		/* DB::statement("update rekenings ")	844	3 */
+		/* DB::statement("update rekenings ")	843	2 */
+		/* DB::statement("update rekenings ")	841	31 */
+		/* DB::statement("update rekenings ")	840	32 */
+		/* DB::statement("update rekenings ")	839	21 */
+		/* DB::statement("update rekenings ")	816	66 */
+		/* DB::statement("update rekenings ")	817	44 */
+		/* DB::statement("update rekenings ")	815	28 */
+		/* DB::statement("update rekenings ")	814	61 */
+		/* DB::statement("update rekenings ")	813	60 */
+		/* DB::statement("update rekenings ")	809	41 */
+		/* DB::statement("update rekenings ")	812	52 */
+		/* DB::statement("update rekenings ")	811	52 */
+		/* DB::statement("update rekenings ")	810	52 */
+		/* DB::statement("update rekenings ")	819	50 */
+		/* DB::statement("update rekenings ")	820	54 */
+		/* DB::statement("update rekenings ")	820	62 */
 	}
 
 	/* private function tarifCorrection(){ */
