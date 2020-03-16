@@ -57,32 +57,32 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("update rekenings set pembayaran_asuransi_id ='850' where id = '26';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='849' where id = '6';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='845' where id = '8';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='842' where id = '0LWdpoqEYWe';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='851' where id = 'Arz6gYaA8jK';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='854' where id = '36';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='848' where id = 'Arz6gdpXwjK';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='847' where id = 'Exj7r4wwaz5';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='846' where id = '3ykV2mbNZkN';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='844' where id = '3';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='843' where id = '2';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='841' where id = '31';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='840' where id = '32';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='839' where id = '21';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='816' where id = '66';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='817' where id = '44';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='815' where id = '28';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='814' where id = '61';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='813' where id = '60';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='809' where id = '41';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='812' where id = '52';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='811' where id = '52';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='810' where id = '52';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='819' where id = '50';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='820' where id = '54';")		
-		DB::statement("update rekenings set pembayaran_asuransi_id ='820' where id = '62';")		
+		DB::statement("update rekenings set pembayaran_asuransi_id ='850' where id = '26';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='849' where id = '6';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='845' where id = '8';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='842' where id = '0LWdpoqEYWe';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='851' where id = 'Arz6gYaA8jK';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='854' where id = '36';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='848' where id = 'Arz6gdpXwjK';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='847' where id = 'Exj7r4wwaz5';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='846' where id = '3ykV2mbNZkN';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='844' where id = '3';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='843' where id = '2';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='841' where id = '31';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='840' where id = '32';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='839' where id = '21';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='816' where id = '66';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='817' where id = '44';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='815' where id = '28';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='814' where id = '61';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='813' where id = '60';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='809' where id = '41';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='812' where id = '52';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='811' where id = '52';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='810' where id = '52';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='819' where id = '50';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='820' where id = '54';");
+		DB::statement("update rekenings set pembayaran_asuransi_id ='820' where id = '62';");
 	}
 
 	/* private function tarifCorrection(){ */
