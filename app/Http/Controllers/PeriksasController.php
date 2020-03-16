@@ -414,7 +414,7 @@ class PeriksasController extends Controller
 			$cs->massUpdate($promo_updates);
 			$cs->massUpdate($pasien_updates);
 			$periksa->save();
-			/* $this->kirimWaAntrianBerikutnya(); */
+			$this->kirimWaAntrianBerikutnya($periksa);
 			DB::commit();
 			return redirect('ruangperiksa/' . $poli)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
@@ -858,13 +858,13 @@ class PeriksasController extends Controller
 	public function jumlahBerkas($id){
 		return Periksa::find($id)->berkas->count();
 	}
-	public function kirimWaAntrianBerikutnya($tanggal, $periksa){
+	public function kirimWaAntrianBerikutnya($periksa){
 		$antrianPeriksa = new AntrianPeriksasController;
-		$totalAntrian   = $antrianPeriksa->totalAntrian($tanggal);
+		$totalAntrian   = $antrianPeriksa->totalAntrian($periksa->tanggal);
 		$antrian        = $periksa->antrian;
 
-		$antrian_periksas = AntrianPeriksa::where('antrian', '<', $antrian)
-							->where('tanggal', 'like', $tanggal . '%')
+		$antrian_periksas = AntrianPeriksa::where('antrian', '<', $periksa->antrian)
+							->where('tanggal', 'like', $periksa->tanggal . '%')
 							->get();
 
 		$nomor_antrian_periksas = [];
@@ -874,6 +874,9 @@ class PeriksasController extends Controller
 
 		rsort($antrians);
 		$new_antrians = array_slice($antrians, 0, 5, true);
+
+		return 
+
 
 		$antrianPeriksa->sendWaAntrian();
 	}

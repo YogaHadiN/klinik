@@ -265,7 +265,7 @@ class AntrianPeriksasController extends Controller
 		/* $text .= 'Mohon agar dapat membuka link berikut : https://www.google.com/ untuk mengetahui antrian yang diperiksa saat ini.'; */
 		$text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ;
 
-		Sms::send($no_telp, $text);
+		/* Sms::send($no_telp, $text); */
 
 	}
 	public function totalAntrian($tanggal){
