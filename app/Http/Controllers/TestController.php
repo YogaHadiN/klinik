@@ -46,7 +46,9 @@ class TestController extends Controller
 
 	public function index(){
 
-		return view('test.index');
+		/* return 'oke'; */
+		return phpinfo();
+		/* return view('test.index'); */
 
 	}
 	public function post(){

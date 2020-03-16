@@ -19,6 +19,10 @@ use DB;
 class AntrianPolisController extends Controller
 {
 
+
+	public function __construct() {
+        $this->middleware('nomorAntrianUnik', ['only' => ['store']]);
+    }
 	/**
 	 * Display a listing of antrianpolis
 	 *

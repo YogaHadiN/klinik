@@ -52,8 +52,10 @@ class cekMutasi extends Command
 
 		$pendapatan = new PendapatansController;
 
-		$banks = Moota::banks();
+		$banks       = Moota::banks();
 		$kata_kuncis = $this->kata_kuncis();
+		$timestamp = date('Y-m-d H:i:s');
+		
 		foreach ($banks['data'] as $bank) {
 			$bank_id = $bank->bank_id;
 			$newBank = AkunBank::findOrNew($bank_id);
@@ -64,6 +66,7 @@ class cekMutasi extends Command
 				$newBank->save();
 			}
 			$mutasis = Moota::mutation( $newBank->id )->month()->toArray();
+			dd($mutasis);
 			$insertMutasi = [];
 			foreach ($mutasis['data'] as $mutasi) {
 				if ( $mutasi->type == 'CR' ) {
@@ -80,15 +83,17 @@ class cekMutasi extends Command
 						'deskripsi'    => $mutasi->description,
 						'nilai'        => $mutasi->amount,
 						'saldo_akhir'  => $mutasi->balance,
-						'debet'        => $debet
+						'debet'        => $debet,
+						'created_at'   => $timestamp,
+						'updated_at'   => $timestamp
 					];
 
-					$pendapatan->input_dibayar           = $mutasi->amount;
-					$pendapatan->input_staf_id           = 16;
-					$pendapatan->input_tanggal_dibayar   = Carbon::createFromFormat('Y-m-d H:i:s', $mutasi->created_at)->format('d-m-Y');
-					$pendapatan->input_coa_id            = 110001;
-					$pendapatan->input_rekening_id       = $mutasi->mutation_id;
 					if (!$debet) {
+						$pendapatan->input_dibayar           = $mutasi->amount;
+						$pendapatan->input_staf_id           = 16;
+						$pendapatan->input_tanggal_dibayar   = Carbon::createFromFormat('Y-m-d H:i:s', $mutasi->created_at)->format('d-m-Y');
+						$pendapatan->input_coa_id            = 110001;
+						$pendapatan->input_rekening_id       = $mutasi->mutation_id;
 						$this->checkIfMatchKeyWord($kata_kuncis, $mutasi->description, $mutasi->amount, $pendapatan);
 					}
 				}

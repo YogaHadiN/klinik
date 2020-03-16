@@ -7,9 +7,9 @@ use App\Pengeluaran;
 use App\Woowa;
 use App\Sms;
 use App\AntrianPoli;
-use App\Pasien;
 use App\KirimBerkas;
 use App\JenisTarif;
+use App\Pasien;
 use App\Invoice;
 use App\Terapi;
 use App\AntrianPeriksa;
@@ -57,7 +57,28 @@ class testcommand extends Command
      */
     public function handle()
     {
-		Sms::send('+6281381912803', ' adfajfjasdfjasdlfk lasjajslfjasdfj ;lasjfljdslfjaslfj ;jsajd;fajslf ;laksjlajsflj https://www.google.com/');
+		DB::statement('ALTER TABLE `rekenings` MODIFY `tanggal` datetime NOT NULL;')
+		DB::statement("update rekenings set tanggal='2020-02-21 00:00:00' where id = '1';");
+		DB::statement("update rekenings set tanggal='2020-01-24 00:00:00' where id = '25';"); 
+		DB::statement("update rekenings set tanggal='2020-01-22 00:00:00' where id = '28';");
+		DB::statement("update rekenings set tanggal='2020-03-05 16:22:52' where id = '2qjy2RKVdWG';");
+		DB::statement("update rekenings set tanggal='2020-03-10 17:22:04' where id = '3EWgGRpAEWP';");
+		DB::statement("update rekenings set tanggal='2020-03-02 17:41:43' where id = 'G4kYwgPoGjp';");
+		DB::statement("update rekenings set tanggal='2020-03-13 14:56:36' where id = 'ylzrPrOyxWx';");
+		$pasiens = Pasien::all();
+		$invalid = [];
+		$valid = [];
+		$updated = 0;
+		foreach ($pasiens as $pasien) {
+			$notelp = $pasien->no_telp = str_replace(' ', '', $pasien->no_telp); 
+			$notelp = $notelp = str_replace('-', '', $notelp); 
+
+			$pasien->no_telp= $notelp;
+			if ($pasien->save()) {
+				$updated++;
+			}
+		}
+		dd($updated);
 	}
 
 	/* private function tarifCorrection(){ */

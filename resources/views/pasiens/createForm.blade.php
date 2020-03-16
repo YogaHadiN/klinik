@@ -61,20 +61,39 @@
 		@endif
 		 </div>
 		 <div class="panel-footer">
-		 	<div class="row">
-		 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<button class="btn btn-success btn-lg btn-block" 
-				 @if(isset($pengantar)) 
-					type="button" onclick="pasiensCreate();return false;" 
-				 @else 
-					 type="submit" 
-				 @endif 
-			 > Submit </button>
-		 		</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<a class="btn btn-danger btn-lg btn-block" href="{{ url('pasiens') }}">Cancel</a>
-		 		</div>
-		 	</div>
+			 <div class="row">
+			 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<button class="btn btn-success btn-block" type="button"
+						 @if(isset($pengantar)) 
+							 onclick="pasiensCreate();return false;" >
+							@if(isset($pasien))
+								Update
+							@else
+								Submit
+							@endif
+						</button>
+						 @else 
+							 onclick="dummySubmit(this);return false;">
+							@if(isset($pasien))
+								Update
+							@else
+								Submit
+							@endif
+							</button>
+							{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+						 @endif 
+			 	</div>
+			 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			 		<a class="btn btn-danger btn-block" href="{{ url('pasiens') }}">Cancel</a>
+			 	</div>
+			 </div>
 		 </div>
 	 </div>
  </div>
+ <script type="text/javascript" charset="utf-8">
+	function dummySubmit(control){
+		if(validatePass2(control)){
+			$('#submit').click();
+		}
+	}
+ </script>

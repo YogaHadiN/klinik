@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Input;
 
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Asuransi;
 use App\Staf;
+use Log;
 use App\Promo;
 use App\BukanPeserta;
 use App\Classes\Yoga;
@@ -33,6 +34,11 @@ class AntrianPeriksasController extends Controller
 	 *
 	 * @return Response
 	 */
+
+	public function __construct() {
+        /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
+        /* $this->middleware('super', ['only' => ['delete','update']]); */
+    }
 	public function index()
 	{
 		$asu = array('0' => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
@@ -64,9 +70,8 @@ class AntrianPeriksasController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-
 		$rules = [
 
 			'staf_id'          => 'required',
@@ -148,6 +153,8 @@ class AntrianPeriksasController extends Controller
 			$promo->promoable_id = $ap->id;
 			$promo->save();
 		}
+
+		$this->sendWaAntrian($ap);
 
 		PengantarPasien::where('antarable_id', $antrian_id)
 			->where('antarable_type', 'App\AntrianPoli')
@@ -231,4 +238,58 @@ class AntrianPeriksasController extends Controller
     public function promos(){
         return $this->morphMany('App\Promo', 'jurnalable');
     }
+	public function sendWaAntrian($ap){
+		Log::info('send WA anrina');
+		$tanggal = $ap->tanggal;
+		$antrians = [];
+		$apx_per_tanggal = AntrianPeriksa::with('pasien')->where('tanggal',  $tanggal)
+										->whereIn('poli', ['umum', 'sks', 'luka'])
+										->get();
+		$apl_per_tanggal = AntrianPoli::with('pasien')->where('tanggal',  $tanggal)
+										->whereIn('poli', ['umum', 'sks', 'luka'])
+										->get();
+		$px_per_tanggal = Periksa::with('pasien')->where('tanggal',  $tanggal)
+										->whereIn('poli', ['umum', 'sks', 'luka'])
+										->orderBy('antrian', 'desc')
+										->get();
+
+		foreach ($apx_per_tanggal as $apx) {
+			$antrians[] = [
+				'antrian' => $apx->antrian,
+				'pasien_id' => $apx->pasien_id,
+				'nama_pasien' => $apx->pasien->nama
+			];
+		}
+
+		foreach ($apl_per_tanggal as $apx) {
+			$antrians[] = [
+				'antrian' => $apx->antrian,
+				'pasien_id' => $apx->pasien_id,
+				'nama_pasien' => $apx->pasien->nama
+			];
+		}
+		foreach ($px_per_tanggal as $apx) {
+			$antrians[] = [
+				'antrian' => $apx->antrian,
+				'pasien_id' => $apx->pasien_id,
+				'nama_pasien' => $apx->pasien->nama
+			];
+		}
+
+		usort($antrians, function($a, $b) {
+			return $a['antrian'] <=> $b['antrian'];
+		});
+		/* sort($antrians); */
+		dd($antrians);
+
+		$antrian_terakhir_sudah_diperiksa = $px_per_tanggal->first()->antrian;
+		$antrian_saat_ini                 = array_search ( $antrian_terakhir_sudah_diperiksa, $antrians);
+		$antrian_pasien_ini               = array_search($ap->antrian, $antrians);
+
+		dd(compact(
+			'antrian_saat_ini',
+			'antrian_pasien_ini'
+		));
+	}
+	
 }

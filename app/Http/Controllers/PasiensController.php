@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Input;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Classes\Yoga;
 use App\Alergi;
 use App\Periksa;
@@ -20,6 +21,7 @@ class PasiensController extends Controller
     */
    public function __construct()
     {
+        $this->middleware('nomorAntrianUnik', ['only' => ['store']]);
         $this->middleware('super', ['only' => 'delete']);
     }
 
@@ -73,7 +75,7 @@ class PasiensController extends Controller
 			->withPoli($poli);
 	}
 	
-	public function store(){
+	public function store(Request $request){
 
 		$rules = [
 			"nama"      => "required",
