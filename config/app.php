@@ -170,6 +170,7 @@ return [
 		Barryvdh\Snappy\ServiceProvider::class,
 		Maatwebsite\Excel\ExcelServiceProvider::class,
 		Yugo\Moota\Providers\MootaServiceProvider::class,
+		Shivella\Bitly\BitlyServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -243,6 +244,7 @@ return [
 		'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
 		'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 		'Moota' => Yugo\Moota\Facades\Moota::class,
+	   'Bitly' => Shivella\Bitly\Facade\Bitly::class
     ],
 
 ];

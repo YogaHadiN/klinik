@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "alcaitiff/laravel-urlencode": "1.*",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "barryvdh/laravel-snappy": "^0.4.6",
         "endroid/qrcode": "^3.7.5",
@@ -27,6 +26,7 @@
         "malc0mn/vultr-api-client": "^1.1",
         "pda/pheanstalk": "^4.0.0",
         "predis/predis": "^1.1.1",
+        "shivella/laravel-bitly": "^1.1",
         "twilio/sdk": "^5.42",
         "watson/rememberable": "^3.2.1",
         "yugo/moota": "^1.2"

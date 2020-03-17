@@ -13,6 +13,7 @@ use App\Sms;
 use App\BukanPeserta;
 use App\Classes\Yoga;
 use App\AntrianPeriksa;
+use Bitly;
 use App\Pasien;
 use App\AntrianPoli;
 use App\Kabur;
@@ -143,6 +144,7 @@ class AntrianPeriksasController extends Controller
 		$ap->diastolik           = Input::get('diastolik');
 		$ap->tinggi_badan        = $tinggi_badan;
 
+
 		$ap->save();
 
 		$antrian_id              = Input::get('antrian_id');
@@ -170,7 +172,7 @@ class AntrianPeriksasController extends Controller
 			$ap->poli == 'sks'
 		) {
 			$totalAntrian = $this->totalAntrian($ap->tanggal);
-			$this->sendWaAntrian($totalAntrian, $ap->tanggal, $ap->antrian, $ap->pasien->np_telp);
+			$this->sendWaAntrian($totalAntrian, $ap->tanggal, $ap->antrian, $ap->pasien->np_telp, $ap->id);
 		}
 
 		return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$pasien->id . ' - ' . $pasien->nama . '</strong> berhasil masuk antrian periksa'));
@@ -248,12 +250,12 @@ class AntrianPeriksasController extends Controller
     public function promos(){
         return $this->morphMany('App\Promo', 'jurnalable');
     }
-	public function sendWaAntrian($totalAntrian, $tanggal, $antrian, $no_telp){
+	public function sendWaAntrian($totalAntrian, $tanggal, $antrian, $no_telp, $antrian_periksa_id){
 
 		$antrian_pasien_ini =  array_search($antrian, $totalAntrian['antrians']) +1;
-		if ( gethostname() == 'Yogas-Mac' ) {
+		/* if ( gethostname() == 'Yogas-Mac' ) { */
 			$no_telp = '081381912803';
-		}
+		/* } */
 		$sisa_antrian =   $antrian_pasien_ini - $totalAntrian['antrian_saat_ini'] ;
 
 		$text = 'Pasien Yth. Nomor Antrian Anda adalah \n\n *' . $antrian_pasien_ini ;
@@ -261,7 +263,11 @@ class AntrianPeriksasController extends Controller
 		$text .= '* \n\n Saat ini (' . date('d M y H:i:s'). ') Masih ada \n\n *';
 		$text .= $sisa_antrian . ' antrian lagi* \n\n ';
 		$text .= 'Sebelum giliran anda dipanggil. ';
-		/* $text .= 'Mohon agar dapat membuka link berikut : https://www.google.com/ untuk mengetahui antrian yang diperiksa saat ini.'; */
+		$text .= 'Mohon agar dapat membuka link berikut : \n\n';
+		$text .= Bitly::getUrl('http://45.76.186.44/antrianperiksa/' . $antrian_periksa_id);
+		$text .= '\n\n untuk mengetahui antrian yang diperiksa saat ini.';
+		$text .= '\n Bapak/Ibu bisa menunggu antrian periksa di rumah, dan datang saat antrian sudah dekat.';
+		$text .= '\n Jaga anda dan keluarga dari penyakit menular. Terima kasih.';
 		/* $text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ; */
 
 		/* dd(gethostname()); */
@@ -294,17 +300,11 @@ class AntrianPeriksasController extends Controller
 		}
 
 		sort($antrians);
-
 		$antrian_saat_ini   = array_search($px_per_tanggal->first()->antrian, $antrians);
-		
-		
 		$result = compact(
 			'antrians',
 			'antrian_saat_ini'
 		);
-
 		return $result;
 	}
-	
-	
 }
