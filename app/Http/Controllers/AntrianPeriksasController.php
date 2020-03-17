@@ -260,16 +260,15 @@ class AntrianPeriksasController extends Controller
 		$sisa_antrian =   $antrian_pasien_ini - $totalAntrian['antrian_saat_ini'] ;
 
 		$text = 'Pasien Yth. Nomor Antrian Anda adalah \n\n *' . $antrian_pasien_ini ;
-	    $text .=	'* \n\n Antrian yang diperiksa saat ini adalah \n\n *' . $totalAntrian['antrian_saat_ini'];
-		$text .= '* \n\n Saat ini (' . date('d M y H:i:s'). ') Masih ada \n\n *';
-		$text .= $sisa_antrian . ' antrian lagi* \n\n ';
+	    $text .=	'* \n\nAntrian yang diperiksa saat ini adalah\n\n *' . $totalAntrian['antrian_saat_ini'];
+		$text .= '* \n\nSaat ini (' . date('d M y H:i:s'). ') Masih ada\n\n *';
+		$text .= $sisa_antrian . ' antrian lagi*\n\n ';
 		$text .= 'Sebelum giliran anda dipanggil. ';
-		$text .= 'Mohon agar dapat membuka link berikut : \n\n';
+		$text .= 'Mohon agar dapat membuka link berikut untuk mengetahui antrian terakhir secara berkala: \n\n';
 		$text .= Bitly::getUrl('http://45.76.186.44/antrianperiksa/' . $antrian_periksa_id);
-		$text .= '\n\n untuk mengetahui antrian yang diperiksa saat ini.';
-		$text .= '\n Anda dapat membuka link secara berkala untuk mengetaui antrian terakhir.';
-		$text .= '\n Bapak/Ibu bisa menunggu antrian periksa di rumah, dan datang saat antrian sudah dekat.';
-		$text .= '\n Jaga anda dan keluarga dari penyakit menular. Terima kasih.';
+		$text .= '\n\n.';
+		$text .= '\n';
+		$text .= '\n Bapak/Ibu dapat menunggu antrian periksa di rumah, dan datang kembali ke klinik saat antrian sudah dekat, untuk mencegah menunggu terlalu lama, dan mencegah penularan penyakit. Terima kasih';
 		/* $text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ; */
 
 		/* dd(gethostname()); */
