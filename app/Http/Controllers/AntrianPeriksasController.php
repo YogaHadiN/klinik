@@ -172,7 +172,7 @@ class AntrianPeriksasController extends Controller
 			$ap->poli == 'sks'
 		) {
 			$totalAntrian = $this->totalAntrian($ap->tanggal);
-			$this->sendWaAntrian($totalAntrian, $ap->tanggal, $ap->antrian, $ap->pasien->np_telp, $ap->id);
+			$this->sendWaAntrian($totalAntrian, $ap->tanggal, $ap->antrian, $ap->pasien->no_telp, $ap->id);
 		}
 
 		return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$pasien->id . ' - ' . $pasien->nama . '</strong> berhasil masuk antrian periksa'));
