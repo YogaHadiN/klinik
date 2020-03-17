@@ -95,7 +95,7 @@ Klinik Jati Elok | Kirim Berkas
 																Lihat Pengesahan
 															</a>
 															@else
-															<a class="btn btn-warning btn-xs btn-block" href="{{ url('kirim_berkas/' . $kirim->id . '/inputNota') }}">
+															<a class="btn btn-warning btn-xs btn-block" href="{{ url('kirim_berkas/' . $kirim->id_view . '/inputNota') }}">
 																<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
 																Input Nota
 															</a>

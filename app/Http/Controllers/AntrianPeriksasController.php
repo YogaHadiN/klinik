@@ -251,7 +251,6 @@ class AntrianPeriksasController extends Controller
         return $this->morphMany('App\Promo', 'jurnalable');
     }
 	public function sendWaAntrian($totalAntrian, $tanggal, $antrian, $no_telp, $antrian_periksa_id){
-		Sms::send( '081381912803', $no_telp);
 
 		$antrian_pasien_ini =  array_search($antrian, $totalAntrian['antrians']) +1;
 		/* if ( gethostname() == 'Yogas-Mac' ) { */
@@ -266,8 +265,8 @@ class AntrianPeriksasController extends Controller
 		$text .= 'Sebelum giliran anda dipanggil. ';
 		$text .= 'Mohon agar dapat membuka link berikut untuk mengetahui antrian terakhir secara berkala: \n\n';
 		$text .= Bitly::getUrl('http://45.76.186.44/antrianperiksa/' . $antrian_periksa_id);
-		$text .= '\n\n.';
-		$text .= '\nBapak/Ibu dapat menunggu antrian periksa di rumah, dan datang kembali ke klinik saat antrian sudah dekat, untuk mencegah menunggu terlalu lama, dan mencegah penularan penyakit. Terima kasih';
+		/* $text .= '\n\n.'; */
+		/* $text .= '\nBapak/Ibu dapat menunggu antrian periksa di rumah, dan datang kembali ke klinik saat antrian sudah dekat, untuk mencegah menunggu terlalu lama, dan mencegah penularan penyakit. Terima kasih'; */
 		/* $text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ; */
 
 		/* dd(gethostname()); */
