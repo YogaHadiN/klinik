@@ -262,13 +262,12 @@ class AntrianPeriksasController extends Controller
 		$text = 'Pasien Yth. Nomor Antrian Anda adalah \n\n *' . $antrian_pasien_ini ;
 	    $text .=	'* \n\nAntrian yang diperiksa saat ini adalah\n\n *' . $totalAntrian['antrian_saat_ini'];
 		$text .= '* \n\nSaat ini (' . date('d M y H:i:s'). ') Masih ada\n\n *';
-		$text .= $sisa_antrian . ' antrian lagi*\n\n ';
+		$text .= $sisa_antrian . ' antrian lagi*\n\n';
 		$text .= 'Sebelum giliran anda dipanggil. ';
 		$text .= 'Mohon agar dapat membuka link berikut untuk mengetahui antrian terakhir secara berkala: \n\n';
 		$text .= Bitly::getUrl('http://45.76.186.44/antrianperiksa/' . $antrian_periksa_id);
 		$text .= '\n\n.';
-		$text .= '\n';
-		$text .= '\n Bapak/Ibu dapat menunggu antrian periksa di rumah, dan datang kembali ke klinik saat antrian sudah dekat, untuk mencegah menunggu terlalu lama, dan mencegah penularan penyakit. Terima kasih';
+		$text .= '\nBapak/Ibu dapat menunggu antrian periksa di rumah, dan datang kembali ke klinik saat antrian sudah dekat, untuk mencegah menunggu terlalu lama, dan mencegah penularan penyakit. Terima kasih';
 		/* $text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ; */
 
 		/* dd(gethostname()); */
