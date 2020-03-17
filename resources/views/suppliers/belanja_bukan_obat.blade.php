@@ -21,7 +21,7 @@
 @if( !isset( $kirim_berkas ) )
 	{!! Form::open(['url'=>'pengeluarans', 'method'=> 'post', 'files' => 'true']) !!} 
 @else
-	{!! Form::open(['url'=>'kirim_berkas/' . $kirim_berkas->id. '/inputNota', 'method'=> 'post', 'files' => 'true']) !!} 
+	{!! Form::open(['url'=>'kirim_berkas/' . $kirim_berkas->id_view. '/inputNota', 'method'=> 'post', 'files' => 'true']) !!} 
 @endif
 @if( isset($kirim_berkas) )
 	{!! Form::text('kirim_berkas_id', $kirim_berkas->id, ['class' => 'form-control hide']) !!}
