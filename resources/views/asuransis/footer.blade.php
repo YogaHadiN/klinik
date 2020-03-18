@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row hide">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		{!! Form::textarea('tipe_tindakans', $tipe_tindakans, ['class' => 'form-control', 'id' => 'tipe_tindakans'])!!}
 	</div>

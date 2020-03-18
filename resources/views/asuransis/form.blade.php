@@ -164,16 +164,9 @@
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 												<div class="form-group @if($errors->has('tipe_asuransi'))has-error @endif">
 												  {!! Form::label('tipe_asuransi', 'Tipe Asuransi', ['class' => 'control-label']) !!}
-													{!! Form::select('tipe_asuransi',array(
-														null => '- Tipe Asuransi -',
-														'1' => 'Admedika',
-														'2' => 'Kapitasi',
-														'3' => 'Perusahaan',
-														'4' => 'Flat',
-														'5' => 'BPJS',
-														), null, array(
+													{!! Form::select('tipe_asuransi', $tipe_asuransi_list, null, array(
 														'class'         => 'form-control rq',
-														'placeholder'   => 'tipe_asuransi'
+														'placeholder'   => '- Pilih Tipe Asuransi -'
 														))!!}
 												  @if($errors->has('tipe_asuransi'))<code>{{ $errors->first('tipe_asuransi') }}</code>@endif
 												</div>
@@ -400,7 +393,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hide">
 				@if(isset($asuransi))
 					<textarea name="tarifs" id="tarifs" rows="8" cols="40">{{ $tarifs }}</textarea>
 				@else

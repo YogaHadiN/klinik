@@ -5,6 +5,7 @@ use Input;
 use App\Http\Requests;
 use App\Asuransi;
 use App\Tarif;
+use App\TipeAsuransi;
 use App\Email;
 use App\Telpon;
 use App\Pic;
@@ -164,11 +165,15 @@ class AsuransisController extends Controller
 		$tarifs         = $this->tariftemp($id)['tarifs'];
 		$tipe_tindakans = $this->tariftemp($id)['tipe_tindakans'];
 
-		/* return $tarifs; */
-		/* dd($tarifs); */
+		$tipe_asuransi_list = [];
+		foreach (TipeAsuransi::all() as $k => $value) {
+			$tipe_asuransi_list[$value->id] = $value->tipe_asuransi;
+		}
+		/* dd($tipe_asuransi_list); */
 		return view('asuransis.edit', compact(
 			'asuransi', 
 			'tipe_tindakans', 
+			'tipe_asuransi_list', 
 			'tarifs'
 		));
 	}

@@ -86,8 +86,8 @@ class AntrianPolisController extends Controller
 	public function store()
 	{
 		/* return Input::all(); */ 
-		//DB::beginTransaction();
-		//try {
+		DB::beginTransaction();
+		try {
 			if (empty(Pasien::find(Input::get('pasien_id'))->image) && Input::get('asuransi_id') == '32') {
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu');
 			}
@@ -153,6 +153,16 @@ class AntrianPolisController extends Controller
 
 			$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
 
+
+			DB::commit();
+			if (
+				$ap->poli == 'umum' ||
+				$ap->poli == 'luka' ||
+				$ap->poli == 'sks'
+			) {
+				$totalAntrian = $this->totalAntrian($ap);
+				$this->sendWaAntrian($totalAntrian, $ap);
+			}
 			
 			if (Input::get('asuransi_id') == '32') {
 				return redirect('antrianpolis/pengantar/create/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat'));
@@ -163,13 +173,12 @@ class AntrianPolisController extends Controller
 					->withPrint($ap)
 					->withPesan($pesan);
 			}
-			//DB::commit();
 			return redirect('antrianpolis')
 				->withPesan($pesan);
-		//} catch (\Exception $e) {
-			//DB::rollback();
-			//throw $e;
-		//}
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
 	}
 
 	/**
@@ -245,5 +254,68 @@ class AntrianPolisController extends Controller
     public function promos(){
         return $this->morphMany('App\Promo', 'jurnalable');
     }
+
+	public function sendWaAntrian($totalAntrian, $tanggal, $antrian, $no_telp, $antrian_periksa_id){
+
+		$no_telp_string     = $no_telp;
+		$antrian_pasien_ini = array_search($antrian, $totalAntrian['antrians']) +1;
+		/* if ( gethostname() == 'Yogas-Mac' ) { */
+		$no_telp = '081381912803';
+		/* } */
+		$sisa_antrian =   $antrian_pasien_ini - $totalAntrian['antrian_saat_ini'] ;
+
+		$text = 'Pasien Yth. Nomor Antrian Anda adalah \n\n *' . $antrian_pasien_ini ;
+	    $text .=	'* \n\nAntrian yang diperiksa saat ini adalah\n\n *' . $totalAntrian['antrian_saat_ini'];
+		$text .= '* \n\nSaat ini (' . date('d M y H:i:s'). ') Masih ada\n\n *';
+		$text .= $sisa_antrian . ' antrian lagi*\n\n';
+		$text .= 'Sebelum giliran anda dipanggil. ';
+		$text .= 'Mohon agar dapat membuka link berikut untuk mengetahui antrian terakhir secara berkala: \n\n';
+		$text .= Bitly::getUrl('http://45.76.186.44/antrianperiksa/' . $antrian_periksa_id);
+		$text .= '\n\n.';
+		$text .= $no_telp_string;
+		/* $text .= '\n\n.'; */
+		/* $text .= '\nBapak/Ibu dapat menunggu antrian periksa di rumah, dan datang kembali ke klinik saat antrian sudah dekat, untuk mencegah menunggu terlalu lama, dan mencegah penularan penyakit. Terima kasih'; */
+		/* $text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ; */
+
+		/* dd(gethostname()); */
+		/* dd($no_telp); */
+		Sms::send($no_telp, $text);
+
+	}
+	public function totalAntrian($tanggal){
+		$tanggal = $ap->tanggal
+		$antrian = $ap->antrian
+		$no_telp = $ap->pasien->no_telp
+		$antrians = [];
+		$apx_per_tanggal = AntrianPeriksa::with('pasien')->where('tanggal',  $tanggal)
+										->whereIn('poli', ['umum', 'sks', 'luka'])
+										->get();
+		$apl_per_tanggal = AntrianPoli::with('pasien')->where('tanggal',  $tanggal)
+										->whereIn('poli', ['umum', 'sks', 'luka'])
+										->get();
+		$px_per_tanggal = Periksa::with('pasien')->where('tanggal',  $tanggal)
+										->whereIn('poli', ['umum', 'sks', 'luka'])
+										->orderBy('antrian', 'desc')
+										->get();
+
+		foreach ($apx_per_tanggal as $apx) {
+			$antrians[$apx->pasien_id] = $apx->antrian;
+		}
+
+		foreach ($apl_per_tanggal as $apx) {
+			$antrians[$apx->pasien_id] = $apx->antrian;
+		}
+		foreach ($px_per_tanggal as $apx) {
+			$antrians[$apx->pasien_id] = $apx->antrian;
+		}
+
+		sort($antrians);
+		$antrian_saat_ini   = array_search($px_per_tanggal->first()->antrian, $antrians);
+		$result = compact(
+			'antrians',
+			'antrian_saat_ini'
+		);
+		return $result;
+	}
 
 }
