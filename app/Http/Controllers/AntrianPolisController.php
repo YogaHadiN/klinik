@@ -283,9 +283,9 @@ class AntrianPolisController extends Controller
 
 	}
 	public function totalAntrian($tanggal){
-		$tanggal = $ap->tanggal
-		$antrian = $ap->antrian
-		$no_telp = $ap->pasien->no_telp
+		$tanggal = $ap->tanggal;
+		$antrian = $ap->antrian;
+		$no_telp = $ap->pasien->no_telp;
 		$antrians = [];
 		$apx_per_tanggal = AntrianPeriksa::with('pasien')->where('tanggal',  $tanggal)
 										->whereIn('poli', ['umum', 'sks', 'luka'])
