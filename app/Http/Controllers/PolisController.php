@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\AntrianPeriksa;
 use App\Classes\Yoga;
 use App\TujuanRujuk;
@@ -20,9 +21,15 @@ use File;
 
 class PolisController extends Controller
 {
-	public function poli($id){
 
-		$antrianperiksa 		= AntrianPeriksa::with('pasien.alergies')->where('id', $id)->first();
+
+	public function __construct() {
+
+        $this->middleware('harusUrut', ['only' => ['poli']]);
+    }
+	public function poli($id, Request $request){
+
+		$antrianperiksa 		= $request->antrian_periksa;
 
 
 		if ($antrianperiksa == null) {
@@ -163,9 +170,6 @@ class PolisController extends Controller
 			}
 		}
 
-		$keterangan     = \Cache::remember('keterangan', 60, function(){
-			return Asuransi::find(32);
-		});
 		if($periksaExist != null){
 
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
@@ -371,8 +375,6 @@ class PolisController extends Controller
 			->withHpht($hpht)
 			->with('tanggal_lahir_anak_terakhir', $tanggal_lahir_anak_terakhir)
 			->withSaran($saran);
-
-
             }
         
 		$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi);

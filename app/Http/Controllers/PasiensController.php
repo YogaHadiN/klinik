@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Classes\Yoga;
 use App\Alergi;
+use App\Http\Controllers\AntrianPolisController;
 use App\Periksa;
 use App\Pasien;
 use App\Asuransi;
@@ -47,7 +48,6 @@ class PasiensController extends Controller
 			->withJenis_peserta($jenis_peserta)
 			->withStaf($staf)
 			->withPoli($poli);
-		
 	}
 
 	/**
@@ -127,30 +127,18 @@ class PasiensController extends Controller
 		$pasien->image          = $pasien->imageUploadWajah('img', 'image', $id);
 		$pasien->save();
 	
-		$ap              = new AntrianPoli;
-		$ap->antrian     = Input::get('antrian');
-		$ap->asuransi_id = $asuransi_id;
-		$ap->pasien_id   = $id;
-		$ap->poli        = Input::get('poli');
-		$ap->staf_id     = Input::get('staf_id');
-		$ap->jam         = date("H:i:s");
-		$ap->tanggal     = date('Y-m-d');
-		$conf = $ap->save();
+		$ap                    = new AntrianPolisController;
+		$ap->input_pasien_id   = $id;
+		$ap->input_asuransi_id = $asuransi_id;
+		$ap->input_poli        = Input::get('poli');
+		$ap->input_staf_id     = Input::get('staf_id');
+		$ap->input_tanggal     = date('Y-m-d');
+		$ap->input_antrian     = Input::get('antrian');
+		$ap->input_jam         = date("H:i:s");
+		$ap                    = $ap->inputDataAntrianPoli();
 
-		if (
-			$ap->poli == 'umum' ||
-			$ap->poli == 'luka' ||
-			$ap->poli == 'sks'
-		) {
-			$totalAntrian = $this->totalAntrian($ap);
-			$this->sendWaAntrian($totalAntrian, $ap);
-		}
 
-		if ($conf) {
-			$pesan = Yoga::suksesFlash( '<strong>' . $id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
-		} else {
-			$pesan = Yoga::suksesFlash( '<strong>' . $id . ' - ' . $pasien->nama . '</strong> Gagal masuk antrian Nurse Station' );
-		}
+		$pesan = Yoga::suksesFlash( '<strong>' . $id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 
 		return redirect('antrianpolis')
 			->withPesan($pesan);

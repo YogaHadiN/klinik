@@ -93,7 +93,7 @@ class AntrianPeriksasController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		if (AntrianPoli::find( Input::get('antrian_id') ) == null) {
+		if (AntrianPoli::where( 'id',  Input::get('antrian_id') )->where('submitted', '0')->first() == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah hilang dari antrian poli, mungkin sudah dimasukkan sebelumnya');
 			return redirect()->back()->withPesan($pesan);
 		}
@@ -149,15 +149,17 @@ class AntrianPeriksasController extends Controller
 
 		$antrian_id              = Input::get('antrian_id');
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
-		$hapus                   = AntrianPoli::find($antrian_id);
+
+		$hapus            = AntrianPoli::find($antrian_id);
+		$hapus->submitted = 1;
 		$hapus->delete();
+
 		$promo = Promo::where('promoable_type' , 'App\AntrianPoli')->where('promoable_id', $antrian_id)->first() ;
 		if ( $promo ) {
 			$promo->promoable_type = 'App\AntrianPeriksa';
 			$promo->promoable_id = $ap->id;
 			$promo->save();
 		}
-
 
 		PengantarPasien::where('antarable_id', $antrian_id)
 			->where('antarable_type', 'App\AntrianPoli')
@@ -242,4 +244,27 @@ class AntrianPeriksasController extends Controller
     public function promos(){
         return $this->morphMany('App\Promo', 'jurnalable');
     }
+	public function editPoli($id){
+		$messages = [
+			'required' => ':attribute Harus Diisi',
+		];
+
+		$rules = [
+			'poli' => 'required',
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules, $messages);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$ap       = AntrianPeriksa::find( $id );
+		$ap->poli = Input::get('poli');
+		$ap->save();
+
+		$pesan = Yoga::suksesFlash('Pasien atas nama ' . $ap->pasien->nama . ' <strong>BERHASIL</strong> dipindah ke poli ' . $ap->poli);
+		return redirect()->back()->withPesan($pesan);
+	}
 }

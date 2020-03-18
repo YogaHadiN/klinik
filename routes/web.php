@@ -151,6 +151,7 @@ Route::resource('invoices', 'InvoiceController');
 			Route::get('copy_log_file', 'DatabaseController@copyLog');
 			Route::get('asuransis/catatan', 'AsuransisController@catatan');
 			Route::get('/asuransis/kata_kunci/unique_test', 'AsuransisController@kataKunciUnique');
+			Route::put('antrianperiksas/{id}/editPoli', 'AntrianPeriksasController@editPoli');
 
 
 			// dari menu users

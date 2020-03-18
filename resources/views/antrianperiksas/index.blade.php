@@ -35,7 +35,7 @@
                     <tr>
 						<th>Antrian</th>
                         <th>Tanggal</th>
-                        <th>Jam</th>
+                        <th>Poli</th>
                         <th>Pembayaran</th>
                         <th>Nama Pasien</th>
                         <th>Pemeriksa</th>
@@ -53,8 +53,14 @@
 								@else
 									<td>{!! $periksa->antrian !!}</td>
 								@endif
-                                <td>{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!}</td>
-                                <td>{!! $periksa->jam !!}</td>
+								<td>{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} </br>
+									{!! $periksa->jam !!}
+								</td>
+                                <td>
+                                    {!! Form::open(['url' => 'antrianperiksas/' . $periksa->id .'/editPoli', 'method' => 'put'])!!}
+										{!! Form::select('poli', $poli_list, $periksa->poli, ['class' => 'form-control', 'onchange' => 'changePoli(this);return false;']) !!}
+                                    {!! Form::close() !!}
+								</td>
                                 <td>{!! $periksa->asuransi->nama !!}</td>
                                 <td class="nama_pasien">{!! $periksa->pasien->nama !!}</td>
 								<td>
@@ -234,5 +240,10 @@
                 }
             });
         }
+		function changePoli(control){
+			if( $(control).val() != '' ){
+				$(control).closest('form').submit();
+			}
+		}
     </script>
 @stop
