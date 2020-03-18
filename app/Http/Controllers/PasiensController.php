@@ -137,6 +137,15 @@ class PasiensController extends Controller
 		$ap->tanggal     = date('Y-m-d');
 		$conf = $ap->save();
 
+		if (
+			$ap->poli == 'umum' ||
+			$ap->poli == 'luka' ||
+			$ap->poli == 'sks'
+		) {
+			$totalAntrian = $this->totalAntrian($ap);
+			$this->sendWaAntrian($totalAntrian, $ap);
+		}
+
 		if ($conf) {
 			$pesan = Yoga::suksesFlash( '<strong>' . $id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		} else {

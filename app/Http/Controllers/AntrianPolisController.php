@@ -282,7 +282,7 @@ class AntrianPolisController extends Controller
 		Sms::send($no_telp, $text);
 
 	}
-	public function totalAntrian($tanggal){
+	public function totalAntrian($ap){
 		$tanggal = $ap->tanggal;
 		$antrian = $ap->antrian;
 		$no_telp = $ap->pasien->no_telp;
