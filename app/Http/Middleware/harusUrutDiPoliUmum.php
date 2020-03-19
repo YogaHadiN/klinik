@@ -19,11 +19,19 @@ class harusUrutDiPoliUmum
      */
     public function handle($request, Closure $next)
     {
-		/* return $next($request); */
 		$id                       = $request->id;
 		$apl                      = new AntrianPolisController;
 		$ap                       = AntrianPeriksa::with('pasien.alergies')->where('id',$id)->first();
 		$request->antrian_periksa = $ap;
+		if (
+			!(
+				$ap->poli == 'umum' ||
+				$ap->poli == 'luka' ||
+				$ap->poli == 'sks'
+			)
+		) {
+			return $next($request);
+		}
 		// nomor antrian_yang_ditulis_admin 
 
 		$totalAntrian       = $apl->totalAntrian($ap);

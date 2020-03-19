@@ -30,8 +30,6 @@ class PolisController extends Controller
 	public function poli($id, Request $request){
 
 		$antrianperiksa 		= $request->antrian_periksa;
-
-
 		if ($antrianperiksa == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah dimasukkan sebelumnya atau buatlah antrian baru');
 			return redirect()->back()->withPesan($pesan);
@@ -283,7 +281,9 @@ class PolisController extends Controller
 				$kesimpulan		= null;
 				$saran			= null;
 			}
-			$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR'];
+			/* dd($_SERVER['SERVER_ADDR']); */
+			$url = url('/');
+			/* $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR']; */
 			$text = 'http://www.google.com';
 			$befores = Periksa::where('pasien_id', $pasien->id)->orderBy('created_at', 'desc')->take(2)->get();
 			if ( $befores->count() == 1 ) {
