@@ -23,12 +23,13 @@ class harusUrutDiPoliUmum
 		$apl                      = new AntrianPolisController;
 		$ap                       = AntrianPeriksa::with('pasien.alergies')->where('id',$id)->first();
 		$request->antrian_periksa = $ap;
+
+		$periksa = Periksa::where('tanggal', $ap->tanggal)->where('antrian', $ap->antrian)->first();
+
+		
 		if (
-			!(
-				$ap->poli == 'umum' ||
-				$ap->poli == 'luka' ||
-				$ap->poli == 'sks'
-			)
+			!( $ap->poli == 'umum' || $ap->poli == 'luka' || $ap->poli == 'sks') || 
+			(( $ap->poli == 'umum' || $ap->poli == 'luka' || $ap->poli == 'sks') && !is_null($periksa))
 		) {
 			return $next($request);
 		}

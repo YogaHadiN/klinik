@@ -18,7 +18,8 @@ class AntrianKasirsController extends Controller
 	 */
 	public function index()
 	{
-		$antriankasirs = Periksa::where('lewat_kasir2', '0')
+		$antriankasirs = Periksa::with('pasien', 'asuransi', 'antars')
+							->where('lewat_kasir2', '0')
 							->where('lewat_poli', '1')
 							->get();
 		return view('antriankasirs.index', compact('antriankasirs'));

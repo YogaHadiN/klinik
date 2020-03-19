@@ -151,7 +151,7 @@ class PolisController extends Controller
             $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->toArray();
         }
 
-		$periksaExist = Periksa::where('antrian_periksa_id', $antrianperiksa->id)->first();
+		$periksaExist = Periksa::with('terapii.merek.rak')->where('antrian_periksa_id', $antrianperiksa->id)->first();
 		$cekGdsBulanIni = Yoga::cekGDSBulanIni($antrianperiksa->pasien, $periksaExist); 
 
 		if ($asuransi_id == '32') {
