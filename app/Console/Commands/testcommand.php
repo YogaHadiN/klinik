@@ -57,7 +57,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("ALTER TABLE antrian_polis ADD submitted tinyint default 0 not null;");
+		dfsaf
 	}
 
 
