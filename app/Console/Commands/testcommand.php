@@ -57,7 +57,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		dfsaf
+		/* dfsaf */
 	}
 
 
