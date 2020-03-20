@@ -106,8 +106,6 @@
 		var timeout;
 		var length = $("#rek_container").closest('table').find('thead').find('th').length;
 		function clearAndSearch(key = 0){
-			 {{-- $("#rek_container").html("<tr><td colspan='2'></td><td colspan='2' class='text-center'><img src='" + base + "/img/loader.gif'></td><td colspan='3'></td></tr>"); --}}
-			
 			$("#rek_container").html("<tr><td colspan='" +length + "' class='text-center'><img class='loader' src='" + base + "/img/loader.gif'></td></tr>");
 			window.clearTimeout(timeout);
 			timeout = window.setTimeout(function(){
@@ -164,7 +162,6 @@
 					$('#paging').twbsPagination({
 						startPage: parseInt(key) +1,
 						totalPages: pages,
-						{{-- totalPages: 3, --}}
 						visiblePages: 7,
 						onPageClick: function (event, page) {
 							search(parseInt( page ) -1);

@@ -24,6 +24,7 @@ class harusUrutDiPoliUmum
 		$ap                       = AntrianPeriksa::with('pasien.alergies')->where('id',$id)->first();
 		$request->antrian_periksa = $ap;
 
+		return $next($request);
 		$periksa = Periksa::where('tanggal', $ap->tanggal)->where('antrian', $ap->antrian)->first();
 
 		
@@ -36,19 +37,19 @@ class harusUrutDiPoliUmum
 		// nomor antrian_yang_ditulis_admin 
 
 		$totalAntrian       = $apl->totalAntrian($ap);
-		//
 		// antrian_view yang seharusnya diperiksa saat ini 
-		$antrian_saat_ini   = $totalAntrian['antrian_saat_ini'] + 1;
+		$antrian_saat_ini   = $totalAntrian['antrian_saat_ini'];
 
 		$antrians = $totalAntrian['antrians'];
 
 		$antrian = $antrians[$antrian_saat_ini];
 
 		$apx= AntrianPeriksa::where('antrian', $antrian)->where('tanggal', $ap->tanggal)->first();
-		/* dd('antrian', $antrian); */
-		/* return false; */
+
+		/* dd('!$ap->antrian == "0"&& $antrian_saat_ini == "0"', !($ap->antrian == '0'&& $antrian_saat_ini == '0')); */
 		if (
-			$antrian == $ap->antrian
+			($antrian == $ap->antrian) &&
+			!($ap->antrian == '0'&& $antrian_saat_ini == '0')
 		) {
 			return $next($request);
 		} else {

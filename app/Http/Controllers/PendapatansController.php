@@ -36,6 +36,16 @@ class PendapatansController extends Controller
 	public $input_catatan_container;
 	public $input_rekening_id;
 	public $input_invoice_id;
+	public $input_id;
+	public $input_created_at;
+	public $input_nama_asuransi;
+	public $input_periode;
+	public $input_pembayaran;
+	public $input_tanggal_pembayaran;
+	public $input_tujuan_kas;
+	public $input_displayed_rows;
+	public $input_pass;
+	public $input_key;
 
 	/**
 	 * Display a listing of pendapatans
@@ -43,6 +53,30 @@ class PendapatansController extends Controller
 	 * @return Response
 	 */
 	public function __construct(){
+
+		$this->input_dibayar           = Yoga::clean(Input::get('dibayar'));
+		$this->input_mulai             = Input::get('mulai');
+		$this->input_staf_id           = Input::get('staf_id');
+		$this->input_akhir             = Input::get('akhir');
+		$this->input_tanggal_dibayar   = Input::get('tanggal_dibayar');
+		$this->input_asuransi_id       = Input::get('asuransi_id');
+		$this->input_temp              = Input::get('temp');
+		$this->input_coa_id            = Input::get('coa_id');
+		$this->input_catatan_container = Input::get('catatan_container');
+		$this->input_rekening_id       = Input::get('rekening_id');
+		$this->input_invoice_id        = Input::get('invoice_id');
+		$this->input_key               = Input::get('key');
+
+		$this->input_id                 = Input::get('id'). '%';
+		$this->input_created_at         = Input::get('created_at'). '%';
+		$this->input_nama_asuransi      = Input::get('nama_asuransi'). '%';
+		$this->input_periode            = Input::get('periode'). '%';
+		$this->input_pembayaran         = Input::get('pembayaran'). '%';
+		$this->input_tanggal_pembayaran = Input::get('tanggal_pembayaran'). '%';
+		$this->input_tujuan_kas         = $this->strSplit(Input::get('tujuan_kas'));
+		$this->input_displayed_rows     = Input::get('displayed_rows');
+		$this->input_pass               = $this->input_key * $this->input_displayed_rows;
+
 	}
 	public function index()
 	{
@@ -284,17 +318,6 @@ class PendapatansController extends Controller
 		/* dd(Input::all()); */ 
 		DB::beginTransaction();
 
-		$this->input_dibayar           = Yoga::clean(Input::get('dibayar'));
-		$this->input_mulai             = Input::get('mulai');
-		$this->input_staf_id           = Input::get('staf_id');
-		$this->input_akhir             = Input::get('akhir');
-		$this->input_tanggal_dibayar   = Input::get('tanggal_dibayar');
-		$this->input_asuransi_id       = Input::get('asuransi_id');
-		$this->input_temp              = Input::get('temp');
-		$this->input_coa_id            = Input::get('coa_id');
-		$this->input_catatan_container = Input::get('catatan_container');
-		$this->input_rekening_id       = Input::get('rekening_id');
-		$this->input_invoice_id        = Input::get('invoice_id');
 		try {
 			$rules = [
 				 'tanggal_dibayar' => 'date|required',
@@ -639,6 +662,65 @@ class PendapatansController extends Controller
 				'dibayar'  => $dibayar
 			];
 	}
+	public function cariPembayaran(){
+
+		$data  = $this->queryData();
+		$count = $this->queryData(true);
+		$pages = ceil( $count/ $this->input_displayed_rows );
+
+		return [
+			'data'  => $data,
+			'pages' => $pages,
+			'key'   => $this->input_key,
+			'rows'  => $count
+		];
+	}
+	private function strSplit($word){
+		$arr_word = str_split($word);
+		$result = '%';
+		foreach ($arr_word as $w) {
+			$result .= $w .'%';
+		}
+
+		return $result;
+	}
+	private function queryData(
+		$count = false
+	){
+		$query  = "SELECT ";
+		if (!$count) {
+			$query .= "pa.id, ";
+			$query .= "DATE_FORMAT( pa.created_at, '%Y-%m-%d') as created_at, ";
+			$query .= "asu.nama as nama_asuransi, ";
+			$query .= "concat(DATE_FORMAT( pa.mulai, '%Y-%m-%d'), ' s/d ', DATE_FORMAT( pa.akhir, '%Y-%m-%d')) as periode, ";
+			$query .= "pa.pembayaran as pembayaran, ";
+			$query .= "pa.tanggal_dibayar as tanggal_pembayaran, ";
+			$query .= "co.coa as tujuan_kas ";
+		} else {
+			$query .= "count(pa.id) as jumlah ";
+		}
+		$query .= "FROM pembayaran_asuransis as pa ";
+		$query .= "JOIN asuransis as asu on asu.id = pa.asuransi_id ";
+		$query .= "JOIN coas as co on co.id = pa.kas_coa_id ";
+		$query .= "WHERE pa.id like '{$this->input_id}' ";
+		$query .= "AND pa.created_at like '{$this->input_created_at}' ";
+		$query .= "AND asu.nama like '{$this->input_nama_asuransi}' ";
+		$query .= "AND concat(DATE_FORMAT( pa.mulai, '%Y-%m-%d'), ' s/d ', DATE_FORMAT( pa.akhir, '%Y-%m-%d')) like '{$this->input_periode}' ";
+		$query .= "AND pa.pembayaran like '{$this->input_pembayaran}' ";
+		$query .= "AND pa.tanggal_dibayar like '{$this->input_tanggal_pembayaran}' ";
+		$query .= "AND co.coa like '{$this->input_tujuan_kas}' ";
+		$query .= "ORDER BY pa.id desc ";
+		/* dd($query); */
+		if (!$count) {
+			$query .= "LIMIT {$this->input_pass}, {$this->input_displayed_rows};";
+		}
+		if (!$count) {
+			return DB::select($query);
+		} else {
+			return DB::select($query)[0]->jumlah;
+		}
+	}
+	
 	
 	
 }

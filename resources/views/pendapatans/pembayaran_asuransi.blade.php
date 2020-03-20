@@ -104,34 +104,83 @@
             </div>
             <div class="panel-body">
                 <div class-"table-responsive">
-                    <?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
-                    <table class="table table-hover table-condensed">
+					<div class="row">
+						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+							Menampilkan <span id="rows"></span> hasil
+						</div>
+						<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
+							{!! Form::select('displayed_rows', App\Classes\Yoga::manyRows(), 15, [
+								'class' => 'form-control',
+								'onchange' => 'clearAndSearch();return false;',
+								'id'    => 'displayed_rows'
+							]) !!}
+						</div>
+					</div>
+                    <table class="table table-hover table-condensed" id="table_pembayaran_asuransi">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Created At</th>
-                                <th>Nama Asuransi</th>
-                                <th>Periode</th>
-                                <th>Pembayaran</th>
-                                <th>Tanggal Pembayaran</th>
-                                <th>Tujuan Kas</th>
+                                <th>
+									 Id
+									{!! Form::text('id', null, [
+										'class' => 'form-control id',
+										'onkeyup' => 'clearAndSearch();return false',
+									]) !!}
+								</th>
+                                <th>
+									Created At
+									{!! Form::text('created_at', null, [
+										'class' => 'form-control created_at',
+										'onkeyup' => 'clearAndSearch(); return false'
+									]) !!}
+								</th>
+                                <th>
+									Nama Asuransi
+									{!! Form::text('nama_asuransi', null, [
+										'class' => 'form-control nama_asuransi',
+										'onkeyup' => 'clearAndSearch(); return false'
+									]) !!}
+								</th>
+                                <th>
+									Periode
+									{!! Form::text('periode', null, [
+										'class' => 'form-control periode',
+										'onkeyup' => 'clearAndSearch(); return false'
+									]) !!}
+								</th>
+                                <th>
+									Pembayaran
+									{!! Form::text('pembayaran', null, [
+										'class' => 'form-control pembayaran',
+										'onkeyup' => 'clearAndSearch(); return false'
+									]) !!}
+								</th>
+                                <th>
+									Tanggal Pembayaran
+									{!! Form::text('tanggal_pembayaran', null, [
+										'class' => 'form-control tanggal_pembayaran',
+										'onkeyup' => 'clearAndSearch(); return false'
+									]) !!}
+								</th>
+                                <th>
+									Tujuan Kas
+									{!! Form::text('tujuan_kas', null, [
+										'class' => 'form-control tujuan_kas',
+										'onkeyup' => 'clearAndSearch(); return false'
+									]) !!}
+								</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach($pembayarans as $pemb)
-                            <tr>
-                                <td>{{  $pemb->id  }}</td>
-                                <td>{{  $pemb->created_at  }}</td>
-                                <td>{{  $pemb->asuransi->nama  }}</td>
-                                <td>{{  $pemb->mulai->format('d-m-Y')  }} s/d {{  $pemb->akhir->format('d-m-Y')  }}</td>
-                                <td class="uang">{{  $pemb->pembayaran }}</td>
-                                <td>{{  $pemb->tanggal_dibayar->format('d-m-Y')  }}</td>
-                                <td>{{ $pemb->kas_coa_id }}-{{  $pemb->coa->coa }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
+                        <tbody id="pembayaran_asuransi_container"></tbody>
                     </table>
-                    <?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div id="page-box">
+								<nav class="text-right" aria-label="Page navigation" id="paging">
+								
+								</nav>
+							</div>
+						</div>
+					</div>
                 </div>
             </div>
         </div>
@@ -139,7 +188,21 @@
 </div>
 @stop
 @section('footer') 
+	<script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
 <script>
+	cariPembayaranAsuransi();
+	var timeout;
+	var length = $("#table_pembayaran_asuransi").find('thead').find('th').length;
+	function clearAndSearch(key = 0){
+		$("#pembayaran_asuransi_container").html("<tr><td colspan='" +length + "' class='text-center'><img class='loader' src='" + base + "/img/loader.gif'></td></tr>");
+		window.clearTimeout(timeout);
+		timeout = window.setTimeout(function(){
+			if($('#paging').data("twbs-pagination")){
+				$('#paging').twbsPagination('destroy');
+			}
+			cariPembayaranAsuransi(key);
+		},600);
+	}
 	var base = '{{ url("/") }}';
     $(function () {
           if( $('#print').length > 0 ){
@@ -180,8 +243,81 @@
 		  );
 	  });
   }
-</script>
+	function cariPembayaranAsuransi(key = 0){
+		var pages;
+		var id                 = $('#table_pembayaran_asuransi').find('.id').val();
+		var created_at         = $('#table_pembayaran_asuransi').find('.created_at').val();
+		var nama_asuransi      = $('#table_pembayaran_asuransi').find('.nama_asuransi').val();
+		var periode            = $('#table_pembayaran_asuransi').find('.periode').val();
+		var pembayaran         = $('#table_pembayaran_asuransi').find('.pembayaran').val();
+		var tanggal_pembayaran = $('#table_pembayaran_asuransi').find('.tanggal_pembayaran').val();
+		var tujuan_kas         = $('#table_pembayaran_asuransi').find('.tujuan_kas').val();
 
+		$.get(base + '/pendapatans/pembayaran_asuransi/cari_pembayaran',
+			{ 
+				id:                 id,
+				created_at:         created_at,
+				nama_asuransi:      nama_asuransi,
+				periode:            periode,
+				pembayaran:         pembayaran,
+				displayed_rows:     $('#displayed_rows').val(),
+				tanggal_pembayaran: tanggal_pembayaran,
+				tujuan_kas:         tujuan_kas,
+				key:         key
+			},
+			function (data, textStatus, jqXHR) {
+				console.log('data.data');
+				console.log(data.data);
+				var temp = '';
+				if( data.data.length > 0 ){
+					for (var i = 0; i < data.data.length; i++) {
+						temp += '<tr>'
+						temp += '<td>'
+						temp += data.data[i].id
+						temp += '</td>'
+						temp += '<td>'
+						temp += data.data[i].created_at
+						temp += '</td>'
+						temp += '<td>'
+						temp += data.data[i].nama_asuransi
+						temp += '</td>'
+						temp += '<td>'
+						temp += data.data[i].periode
+						temp += '</td>'
+						temp += '<td class="text-right">'
+						temp += uang(data.data[i].pembayaran)
+						temp += '</td>'
+						temp += '<td>'
+						temp += data.data[i].tanggal_pembayaran
+						temp += '</td>'
+						temp += '<td>'
+						temp += data.data[i].tujuan_kas
+						temp += '</td>'
+						temp += '</tr>'
+					}
+				} else {
+						temp += '<tr>'
+						temp += '<td class="text-center" colspan=' + length+ '>'
+						temp += 'Tidak ada data untuk ditampilkan'
+						temp += '</td>'
+						temp += '</tr>'
+				}
+				$('#pembayaran_asuransi_container').html(temp);
+				$('#rows').html(data.rows);
+				pages = data.pages;
+				$('#paging').twbsPagination({
+					startPage: parseInt(key) +1,
+					totalPages: pages,
+					{{-- totalPages: 3, --}}
+					visiblePages: 7,
+					onPageClick: function (event, page) {
+						cariPembayaranAsuransi(parseInt( page ) -1);
+					}
+				});
+			}
+		);
+	}
+</script>
 @stop
 
 

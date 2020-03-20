@@ -319,8 +319,10 @@ class AntrianPolisController extends Controller
 		if ( $px_per_tanggal->count() >2 ) {
 			$antrian_saat_ini   = array_search($px_per_tanggal->first()->antrian, $antrians);
 		} else {
-			$antrian_saat_ini   = 1;
+			$antrian_saat_ini   = 0;
 		}
+		/* dd($antrian_saat_ini); */
+
 		$result = compact(
 			'antrians',
 			'antrian_saat_ini'

@@ -38,13 +38,10 @@ class RekeningController extends Controller
 	}
 	public function search(){
 
-		$pass = $this->input_key * $this->input_displayed_rows;
-
+		$pass                  = $this->input_key * $this->input_displayed_rows;
 		$this->input_deskripsi = str_split($this->input_deskripsi);
-
-		$str_tanggal = $this->input_tanggal . '%';
-				
-		$str_deskripsi ='%';
+		$str_tanggal           = $this->input_tanggal . '%';
+		$str_deskripsi         = '%';
 		foreach ($this->input_deskripsi as $k => $t) {
 			if ($k != 0) {
 				$str_deskripsi = $str_deskripsi . '%' . $t;
