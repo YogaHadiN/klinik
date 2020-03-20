@@ -266,7 +266,7 @@ class AntrianPolisController extends Controller
 		$no_telp_string     = $no_telp;
 		$antrian_pasien_ini = array_search($antrian, $totalAntrian['antrians']) +1;
 		/* if ( gethostname() == 'Yogas-Mac' ) { */
-		/* $no_telp = '081381912803'; */
+		$no_telp = '081381912803';
 		/* } */
 		$sisa_antrian =   $antrian_pasien_ini - $totalAntrian['antrian_saat_ini'] ;
 

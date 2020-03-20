@@ -98,92 +98,85 @@
 {!! Form::close() !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">List Semua Pembayaran Asuransi</div>
-            </div>
-            <div class="panel-body">
-                <div class-"table-responsive">
-					<div class="row">
-						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-							Menampilkan <span id="rows"></span> hasil
-						</div>
-						<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
-							{!! Form::select('displayed_rows', App\Classes\Yoga::manyRows(), 15, [
-								'class' => 'form-control',
-								'onchange' => 'clearAndSearch();return false;',
-								'id'    => 'displayed_rows'
+		<div class-"table-responsive">
+			<div class="row">
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+					Menampilkan <span id="rows"></span> hasil
+				</div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
+					{!! Form::select('displayed_rows', App\Classes\Yoga::manyRows(), 15, [
+						'class' => 'form-control',
+						'onchange' => 'clearAndSearch();return false;',
+						'id'    => 'displayed_rows'
+					]) !!}
+				</div>
+			</div>
+			<table class="table table-hover table-condensed" id="table_pembayaran_asuransi">
+				<thead>
+					<tr>
+						<th>
+							Id
+							{!! Form::text('id', null, [
+								'class' => 'form-control id',
+								'onkeyup' => 'clearAndSearch();return false',
 							]) !!}
-						</div>
+						</th>
+						<th>
+							Created At
+							{!! Form::text('created_at', null, [
+								'class' => 'form-control created_at',
+								'onkeyup' => 'clearAndSearch(); return false'
+							]) !!}
+						</th>
+						<th>
+							Nama Asuransi
+							{!! Form::text('nama_asuransi', null, [
+								'class' => 'form-control nama_asuransi',
+								'onkeyup' => 'clearAndSearch(); return false'
+							]) !!}
+						</th>
+						<th>
+							Periode
+							{!! Form::text('periode', null, [
+								'class' => 'form-control periode',
+								'onkeyup' => 'clearAndSearch(); return false'
+							]) !!}
+						</th>
+						<th>
+							Pembayaran
+							{!! Form::text('pembayaran', null, [
+								'class' => 'form-control pembayaran',
+								'onkeyup' => 'clearAndSearch(); return false'
+							]) !!}
+						</th>
+						<th>
+							Tanggal Pembayaran
+							{!! Form::text('tanggal_pembayaran', null, [
+								'class' => 'form-control tanggal_pembayaran',
+								'onkeyup' => 'clearAndSearch(); return false'
+							]) !!}
+						</th>
+						<th>
+							Tujuan Kas
+							{!! Form::text('tujuan_kas', null, [
+								'class' => 'form-control tujuan_kas',
+								'onkeyup' => 'clearAndSearch(); return false'
+							]) !!}
+						</th>
+					</tr>
+				</thead>
+				<tbody id="pembayaran_asuransi_container"></tbody>
+			</table>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div id="page-box">
+						<nav class="text-right" aria-label="Page navigation" id="paging">
+
+						</nav>
 					</div>
-                    <table class="table table-hover table-condensed" id="table_pembayaran_asuransi">
-                        <thead>
-                            <tr>
-                                <th>
-									 Id
-									{!! Form::text('id', null, [
-										'class' => 'form-control id',
-										'onkeyup' => 'clearAndSearch();return false',
-									]) !!}
-								</th>
-                                <th>
-									Created At
-									{!! Form::text('created_at', null, [
-										'class' => 'form-control created_at',
-										'onkeyup' => 'clearAndSearch(); return false'
-									]) !!}
-								</th>
-                                <th>
-									Nama Asuransi
-									{!! Form::text('nama_asuransi', null, [
-										'class' => 'form-control nama_asuransi',
-										'onkeyup' => 'clearAndSearch(); return false'
-									]) !!}
-								</th>
-                                <th>
-									Periode
-									{!! Form::text('periode', null, [
-										'class' => 'form-control periode',
-										'onkeyup' => 'clearAndSearch(); return false'
-									]) !!}
-								</th>
-                                <th>
-									Pembayaran
-									{!! Form::text('pembayaran', null, [
-										'class' => 'form-control pembayaran',
-										'onkeyup' => 'clearAndSearch(); return false'
-									]) !!}
-								</th>
-                                <th>
-									Tanggal Pembayaran
-									{!! Form::text('tanggal_pembayaran', null, [
-										'class' => 'form-control tanggal_pembayaran',
-										'onkeyup' => 'clearAndSearch(); return false'
-									]) !!}
-								</th>
-                                <th>
-									Tujuan Kas
-									{!! Form::text('tujuan_kas', null, [
-										'class' => 'form-control tujuan_kas',
-										'onkeyup' => 'clearAndSearch(); return false'
-									]) !!}
-								</th>
-                            </tr>
-                        </thead>
-                        <tbody id="pembayaran_asuransi_container"></tbody>
-                    </table>
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<div id="page-box">
-								<nav class="text-right" aria-label="Page navigation" id="paging">
-								
-								</nav>
-							</div>
-						</div>
-					</div>
-                </div>
-            </div>
-        </div>
+				</div>
+			</div>
+		</div>
     </div>
 </div>
 @stop
