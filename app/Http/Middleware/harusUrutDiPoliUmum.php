@@ -24,7 +24,7 @@ class harusUrutDiPoliUmum
 		$ap                       = AntrianPeriksa::with('pasien.alergies')->where('id',$id)->first();
 		$request->antrian_periksa = $ap;
 
-		return $next($request);
+		/* return $next($request); */
 		$periksa = Periksa::where('tanggal', $ap->tanggal)->where('antrian', $ap->antrian)->first();
 
 		
@@ -46,16 +46,35 @@ class harusUrutDiPoliUmum
 
 		$apx= AntrianPeriksa::where('antrian', $antrian)->where('tanggal', $ap->tanggal)->first();
 
-		/* dd('!$ap->antrian == "0"&& $antrian_saat_ini == "0"', !($ap->antrian == '0'&& $antrian_saat_ini == '0')); */
-		if (
-			($antrian == $ap->antrian) &&
-			!($ap->antrian == '0'&& $antrian_saat_ini == '0')
-		) {
+		/* dd( */
+		/* 	'!$ap->antrian == "0"&& $antrian_saat_ini == "0"', */ 
+		/* 	!($ap->antrian == '0'&& $antrian_saat_ini == '0'), */
+		/* 	'$antrian == $ap->antrian', */ 
+		/* 	$antrian == $ap->antrian, */
+		/* 	'$antrian', */ 
+		/* 	$antrian, */
+		/* 	'$ap->antrian', */ 
+		/* 	$ap->antrian, */
+		/* 	'$antrian_saat_ini', */ 
+		/* 	$antrian_saat_ini */
+		/* ); */
+		$valid = true;
+		if ( !$antrian == $ap->antrian) {
+			$valid    = false;
+			$message  = 'Nomor antrian tidak urut, harusnya antrian selanjutnya adalah <strong>' . $apx->pasien_id . '-' . $apx->pasien->nama . '</strong>';
+			$message .= '<br />Jika anda ingin memeriksa pasien ini tanpa mengikuti antrian, ganti poli pasien ini menjadi poli gawat darurat';
+			$pesan    = Yoga::gagalFlash($message);
+		} 
+
+		if (!( $ap->antrian == '1'&& $antrian_saat_ini == '0')) {
+			$valid   = false;
+			$message = 'Pasien bukan nomor antrian pertama, ganti ke poli gawat darurat jika Anda tetap ingin memeriksa pasien ini';
+			$pesan   = Yoga::gagalFlash($message);
+		} 
+
+		if ($valid) {
 			return $next($request);
 		} else {
-			$message = 'Nomor antrian tidak urut, harusnya antrian selanjutnya adalah <strong>' . $apx->pasien_id . '-' . $apx->pasien->nama . '</strong>';
-			$message .= '<br />Jika anda ingin memeriksa pasien ini tanpa mengikuti antrian, ganti poli pasien ini menjadi poli gawat darurat';
-			$pesan = Yoga::gagalFlash($message);
 			return redirect()->back()->withPesan($pesan);
 		}
     }

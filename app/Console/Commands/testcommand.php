@@ -57,7 +57,23 @@ class testcommand extends Command
      */
     public function handle()
     {
-		/* dfsaf */
+		DB::statement("update rekenings set pembayaran_asuransi_id='807' where id = '80';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='815' where id = '64';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='780' where id = '88';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='781' where id = '76';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='793' where id = '58';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='792' where id = '63';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='791' where id = '85';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='808' where id = '73';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='785' where id = '82';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='785' where id = '83';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='787' where id = '57';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='789' where id = '78';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='788' where id = '78';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='787' where id = '57';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='781' where id = '76';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='782' where id = '68';");
+		DB::statement("update rekenings set pembayaran_asuransi_id='780' where id = '88';");
 	}
 
 

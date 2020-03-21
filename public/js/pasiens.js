@@ -594,17 +594,17 @@ function tanggalChange(){
 		'pasien_id'		: $('#id_pasien').val(),
 		'tanggal'		: tanggal
 	};
-	if (antrian == '') {
 		$.post(base + "/pasiens/ajax/cekantrian/tanggal", param, function(data) {
 			var pesan = '<div class="alert alert-info">';
 			pesan += 'Antrian Terkahir = ' + data;
 			pesan += '</div>';
 			$('#antrian_terakhir').html(pesan).hide().fadeIn(300);
 			if (parseInt( strTime( tanggal ) ) > parseInt( strTime( date() ) ) ) {
-				$('#antrianpoli_antrian').val(parseInt(data) + 1)	;
+				if (antrian == '') {
+					$('#antrianpoli_antrian').val(parseInt(data) + 1)	;
+				}
 			}
 		});
-	}
 }
 function cekPromo(control){
 
