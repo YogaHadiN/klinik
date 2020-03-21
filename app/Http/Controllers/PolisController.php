@@ -25,7 +25,7 @@ class PolisController extends Controller
 
 	public function __construct() {
 
-        /* $this->middleware('harusUrut', ['only' => ['poli']]); */
+        $this->middleware('harusUrut', ['only' => ['poli']]);
     }
 	public function poli($id, Request $request){
 

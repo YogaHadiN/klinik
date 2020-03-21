@@ -24,7 +24,7 @@ class harusUrutDiPoliUmum
 		$ap                       = AntrianPeriksa::with('pasien.alergies')->where('id',$id)->first();
 		$request->antrian_periksa = $ap;
 
-		/* return $next($request); */
+		return $next($request);
 		$periksa = Periksa::where('tanggal', $ap->tanggal)->where('antrian', $ap->antrian)->first();
 
 		
