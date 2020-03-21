@@ -58,10 +58,14 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<a class="btn btn-lg btn-block btn-success superbig-button" href="{{ url('fasilitas/antrian_pasien/umum') }}">Dokter Umum</a>
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/umum', 'method' => 'post']) !!}
+						<button type="submit" class="btn btn-lg btn-block btn-success superbig-button">Dokter Umum</button>
+					{!! Form::close() !!}
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<a class="btn btn-lg btn-block btn-primary superbig-button" href="{{ url('fasilitas/antrian_pasien/gigi') }}">Dokter Gigi</a>
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/gigi', 'method' => 'post']) !!}
+						<button type="submit" class="btn btn-lg btn-block btn-primary superbig-button">Dokter Gigi</button>
+					{!! Form::close() !!}
 				</div>
 			</div>
 			<div class="row">
@@ -71,10 +75,15 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<a class="btn btn-lg btn-block btn-info superbig-button" href="{{ url('fasilitas/antrian_pasien/kebidanan') }}">Bidan</a>
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/bidan', 'method' => 'post']) !!}
+						<button type="submit" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
+					{!! Form::close() !!}
+				
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<a class="btn btn-lg btn-block btn-warning superbig-button" href="{{ url('fasilitas/antrian_pasien/estetika') }}">Kecantikan</a>
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/estetika', 'method' => 'post']) !!}
+						<button type="submit" class="btn btn-lg btn-block btn-warning superbig-button">Estetika</button>
+					{!! Form::close() !!}
 				</div>
 			</div>
 		</div>

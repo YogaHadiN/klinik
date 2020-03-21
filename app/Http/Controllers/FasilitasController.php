@@ -245,4 +245,16 @@ class FasilitasController extends Controller
 		}
 		return redirect()->back()->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
 	}
+	public function antrianUmum(){
+		dd('umum');
+	}
+	public function antrianGigi(){
+		dd('Gigi');
+	}
+	public function antrianBidan(){
+		dd('Bidan');
+	}
+	public function antrianEstetika(){
+		dd('Estetika');
+	}
 }
