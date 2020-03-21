@@ -25,11 +25,11 @@ class PolisController extends Controller
 
 	public function __construct() {
 
-        $this->middleware('harusUrut', ['only' => ['poli']]);
+        /* $this->middleware('harusUrut', ['only' => ['poli']]); */
     }
 	public function poli($id, Request $request){
 
-		$antrianperiksa 		= $request->antrian_periksa;
+		$antrianperiksa                       = AntrianPeriksa::with('pasien.alergies')->where('id',$id)->first();
 		if ($antrianperiksa == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah dimasukkan sebelumnya atau buatlah antrian baru');
 			return redirect()->back()->withPesan($pesan);

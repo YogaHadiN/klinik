@@ -315,9 +315,7 @@ class PendapatansController extends Controller
 	}
 	
     public function asuransi_bayar(){
-		/* dd(Input::all()); */ 
 		DB::beginTransaction();
-
 		try {
 			$rules = [
 				 'tanggal_dibayar' => 'date|required',
@@ -327,7 +325,6 @@ class PendapatansController extends Controller
 				 'asuransi_id'     => 'required',
 				 'coa_id'          => 'required'
 			];
-
 			$validator = \Validator::make(Input::all(), $rules);
 
 			if ($validator->fails())
@@ -578,12 +575,9 @@ class PendapatansController extends Controller
 			} catch (\Exception $e) {
 				
 			}
-
-
 			//update invoices
 			$invoice_ids = $this->input_invoice_id;
 			$invoices    = Invoice::whereIn('id', $invoice_ids)->get();
-
 			foreach ($invoices as $inv) {
 				if (isset($inv)) {
 					$inv->pembayaran_asuransi_id = $pb->id;
@@ -652,7 +646,6 @@ class PendapatansController extends Controller
 			}
 			CatatanAsuransi::insert($catatans);
 			PiutangDibayar::insert($bayars);
-
 			return [
 				'asuransi' => $asuransi,
 				'mulai'    => $mulai,

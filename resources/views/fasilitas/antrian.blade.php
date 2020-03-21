@@ -85,10 +85,8 @@
 				$('.alert').fadeOut(500);
 			 }, 10000);
 	</script>
-
     {!! HTML::script('js/jquery-2.1.1.js')!!}
     {!! HTML::script('js/bootstrap.min.js')!!}
-
 </body>
 
 </html>

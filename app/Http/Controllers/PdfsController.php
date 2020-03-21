@@ -752,4 +752,17 @@ class PdfsController extends Controller
         return $pdf->stream();
 
 	}
+	public function antrian_pdf($id){
+		$antrian_poli = AntrianPoli::find($id);
+		$pdf = PDF::loadView('pdfs.antrian', compact(
+			'antrian_poli'
+		))
+		->setOption('page-width', 72)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
+        return $pdf->stream();
+	}
 }

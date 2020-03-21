@@ -25,6 +25,7 @@ Route::post('moota/callback', 'MutasiBankController@mootaCallback');
 Route::get('antrians', 'AntriansController@create');
 Route::post('antrians/print', 'AntriansController@store');
 
+Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
 Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 Route::put('fasilitas/konfirmasi', 'FasilitasController@konfirmasi'); //antrian pasien
 Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@input_tgl_lahir'); //antrian pasien
