@@ -8,6 +8,7 @@ use Input;
 use App\Http\Requests;
 
 use App\Promo;
+use App\Antrian;
 use App\Berkas;
 use DB;
 use App\Periksa;
@@ -187,7 +188,6 @@ class PeriksasController extends Controller
 		$periksa->sistolik 				= Yoga::returnNull( Input::get('sistolik') );
 		$periksa->diastolik 			= Yoga::returnNull( Input::get('diastolik') );
 		$periksa->terapi 				= $this->terapisBaru($terapis);
-		$periksa->antrian 				= Input::get('antrian');
 		$periksa->jam_periksa 			= Input::get('jam_periksa');
 		$periksa->jam_selesai_periksa 	= date('H:i:s');
 		$periksa->keterangan 			= Input::get('keterangan_periksa');
@@ -416,7 +416,7 @@ class PeriksasController extends Controller
 			$periksa->save();
 			/* $this->kirimWaAntrianBerikutnya($periksa); */
 			DB::commit();
-			return redirect('ruangperiksa/' . $poli)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+			return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -683,7 +683,7 @@ class PeriksasController extends Controller
 			Terapi::insert($terapiInserts);
 			$pasien = $periksa->pasien;
 			DB::commit();
-			return redirect('ruangperiksa/' . Input::get('poli'))->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+			return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -812,7 +812,15 @@ class PeriksasController extends Controller
 				'antarable_id' => $periksa_id,
 				'antarable_type' => 'App\Periksa'
 			]);
+		Antrian::where('antriable_id', $antrian_periksa_id)
+			->where('antriable_type', 'App\AntrianPeriksa')
+			->update([
+				'antriable_id' => $periksa_id,
+				'antriable_type' => 'App\Periksa'
+			]);
 		AntrianPeriksa::destroy( $antrian_periksa_id );
+
+
 	}
 	public function uploadBerkas($id){
 
@@ -858,6 +866,12 @@ class PeriksasController extends Controller
 	public function jumlahBerkas($id){
 		return Periksa::find($id)->berkas->count();
 	}
+	public function updateAntrian($periksa){
+
+
+		
+	}
+	
 	/* public function kirimWaAntrianBerikutnya($periksa){ */
 	/* 	$antrianPeriksa = new AntrianPeriksasController; */
 	/* 	$totalAntrian   = $antrianPeriksa->totalAntrian($periksa->tanggal); */

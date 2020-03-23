@@ -44,24 +44,6 @@ class testConsole extends Command
      */
     public function handle()
     {
-
-		$transaksis = TransaksiPeriksa::where('jenis_tarif_id', 116)->get();
-		$periksa_ids = [];
-		$transaksi_periksa_updates = [];
-		foreach ($transaksis as $trx) {
-			$pemeriksaan_penunjang = $trx->periksa->pemeriksaan_penunjang;
-			$hasil = Yoga::get_string_between( $pemeriksaan_penunjang, 'Gula Darah ', ',' );
-			$gula = preg_replace("/[^0-9]/","",$hasil);
-			if ($gula < 1000) {
-				$transaksi_periksa_updates[] = [
-					'collection' => $trx,
-					'updates' => [
-						'keterangan_pemeriksaan' => $gula . ' gr/dL'
-					]
-				];
-			}
-		}
-		$c = new CustomController;
-		return dd( $c->massUpdate($transaksi_periksa_updates) );
+		dd(session('antrian_id'));
     }
 }

@@ -20,8 +20,26 @@ class PasiensController extends Controller
     * Buat construct untuk middleware super, jadi hanya bisa di lakukan oleh Pak Yoga
     *
     */
+
+	public $dataIndexPasien;
+
    public function __construct()
     {
+		$ps               = new Pasien;
+
+		$this->dataIndexPasien = [
+			'statusPernikahan' => $ps->statusPernikahan(),
+			'panggilan'        => $ps->panggilan(),
+			'asuransi'         => Yoga::asuransiList(),
+			'jenis_peserta'    => $ps->jenisPeserta(),
+			'staf'             => Yoga::stafList(),
+			'poli'             => [
+				null => '- Pilih Poli -',
+				'darurat' => 'Poli Gawat Darurat'
+			],
+			'peserta'          => [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik']
+		];
+
         $this->middleware('nomorAntrianUnik', ['only' => ['store']]);
         $this->middleware('super', ['only' => 'delete']);
     }
@@ -32,22 +50,7 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function index()	{
-		$ps               = new Pasien;
-		$statusPernikahan = $ps->statusPernikahan();
-		$panggilan        = $ps->panggilan();
-		$asuransi         = Yoga::asuransiList();
-		$jenis_peserta    = $ps->jenisPeserta();
-		$staf             = Yoga::stafList();
-		$poli             = Yoga::poliList();
-		$peserta          = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
-		return view('pasiens.index')
-			->withAsuransi($asuransi)
-			->with('statusPernikahan', $statusPernikahan)
-			->with('panggilan', $panggilan)
-			->with('peserta', $peserta)
-			->withJenis_peserta($jenis_peserta)
-			->withStaf($staf)
-			->withPoli($poli);
+		return view('pasiens.index', $this->dataIndexPasien);
 	}
 
 	/**
@@ -130,10 +133,9 @@ class PasiensController extends Controller
 		$ap                    = new AntrianPolisController;
 		$ap->input_pasien_id   = $id;
 		$ap->input_asuransi_id = $asuransi_id;
-		$ap->input_poli        = Input::get('poli');
+		$ap->input_poli        = 'darurat';
 		$ap->input_staf_id     = Input::get('staf_id');
 		$ap->input_tanggal     = date('Y-m-d');
-		$ap->input_antrian     = Input::get('antrian');
 		$ap->input_jam         = date("H:i:s");
 		$ap                    = $ap->inputDataAntrianPoli();
 

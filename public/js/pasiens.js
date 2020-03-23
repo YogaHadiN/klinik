@@ -334,6 +334,12 @@
             } 
         });
     });
+	
+	function dummySubmit(control){
+		if(validatePass2(control)){
+			$('#submit').click();
+		}
+	}
 	function clearAndSelectPasien(key = 0){
 		if($('#paging').data("twbs-pagination")){
 			$('#paging').twbsPagination('destroy');
@@ -584,27 +590,6 @@ function caseNama(nama){
 		}); 
 		return str;
 	}
-}
-
-function tanggalChange(){
-	var tanggal = $('#antrianpoli_tanggal').val();
-	var antrian = $('#antrianpoli_antrian').val();
-	var param = {
-		'antrian'		: antrian,
-		'pasien_id'		: $('#id_pasien').val(),
-		'tanggal'		: tanggal
-	};
-		$.post(base + "/pasiens/ajax/cekantrian/tanggal", param, function(data) {
-			var pesan = '<div class="alert alert-info">';
-			pesan += 'Antrian Terkahir = ' + data;
-			pesan += '</div>';
-			$('#antrian_terakhir').html(pesan).hide().fadeIn(300);
-			if (parseInt( strTime( tanggal ) ) > parseInt( strTime( date() ) ) ) {
-				if (antrian == '') {
-					$('#antrianpoli_antrian').val(parseInt(data) + 1)	;
-				}
-			}
-		});
 }
 function cekPromo(control){
 

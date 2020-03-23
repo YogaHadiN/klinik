@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
 use App\Classes\Yoga;
+use App\Antrian;
 use App\Perbaikantrx;
 use App\GambarPeriksa;
 use App\Keberatan;
@@ -934,7 +935,6 @@ class CustomController extends Controller
 		$antrian              = new AntrianPeriksa;
 		$antrian->poli        = $periksa->poli;
 		$antrian->staf_id     = $periksa->staf_id;
-		$antrian->antrian     = $periksa->antrian;
 		$antrian->asuransi_id = $periksa->asuransi_id;
 		$antrian->asisten_id  = $periksa->asisten_id;
 		$antrian->pasien_id   = $periksa->pasien_id;
@@ -959,6 +959,12 @@ class CustomController extends Controller
 				->update([
 					 'gambarable_type' => 'App\AntrianPeriksa',
 					 'gambarable_id' => $antrian->id
+			]);
+			Antrian::where('antriable_type', 'App\Periksa')
+				->where('antriable_id', $periksa->id)
+				->update([
+					 'antriable_type' => 'App\AntrianPeriksa',
+					 'antriable_id' => $antrian->id
 			]);
 			DB::commit();
 			

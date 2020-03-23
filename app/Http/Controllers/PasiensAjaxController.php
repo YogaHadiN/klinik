@@ -270,43 +270,43 @@ class PasiensAjaxController extends Controller
 	}
 	
 	private function countAntrian($antrian, $tanggal){
-			$count_antrian_poli =  AntrianPoli::where('antrian', $antrian)
-									->where('tanggal', $tanggal)
-									->count();
-			$count_antrian_periksa = AntrianPeriksa::where('antrian', $antrian)
-										->where('tanggal', $tanggal)
-										->count();
-			$count = $count_antrian_poli + $count_antrian_periksa;
-			$nama = '';
+			/* $count_antrian_poli =  AntrianPoli::where('antrian', $antrian) */
+			/* 						->where('tanggal', $tanggal) */
+			/* 						->count(); */
+			/* $count_antrian_periksa = AntrianPeriksa::where('antrian', $antrian) */
+			/* 							->where('tanggal', $tanggal) */
+			/* 							->count(); */
+			/* $count = $count_antrian_poli + $count_antrian_periksa; */
+			/* $nama = ''; */
 
-			if($count_antrian_poli > 0){
-				$nama = AntrianPoli::where('antrian', $antrian)
-						->where('tanggal', $tanggal)
-						->first()->pasien->nama;
-				$antrian = AntrianPoli::where('antrian', $antrian)
-						->where('tanggal', $tanggal)
-						->first()->antrian;
+			/* if($count_antrian_poli > 0){ */
+			/* 	$nama = AntrianPoli::where('antrian', $antrian) */
+			/* 			->where('tanggal', $tanggal) */
+			/* 			->first()->pasien->nama; */
+			/* 	$antrian = AntrianPoli::where('antrian', $antrian) */
+			/* 			->where('tanggal', $tanggal) */
+			/* 			->first()->antrian; */
 				
-			} else if ($count_antrian_periksa > 0){
-				$nama = AntrianPeriksa::where('antrian', $antrian)
-						->where('tanggal', $tanggal)
-						->first()->pasien->nama;
+			/* } else if ($count_antrian_periksa > 0){ */
+			/* 	$nama = AntrianPeriksa::where('antrian', $antrian) */
+			/* 			->where('tanggal', $tanggal) */
+			/* 			->first()->pasien->nama; */
 
-				$antrian = AntrianPeriksa::where('antrian', $antrian)
-						->where('tanggal', $tanggal)
-						->first()->antrian;
-			}
+			/* 	$antrian = AntrianPeriksa::where('antrian', $antrian) */
+			/* 			->where('tanggal', $tanggal) */
+			/* 			->first()->antrian; */
+			/* } */
 
-			$antrian_pesan = '';
-			if($count > 0){
-				$antrian_pesan = $nama;
-			} else {
-				$antrian_pesan = '';
-			}
-			return [
-				 'count' => $count_antrian_poli + $count_antrian_periksa,
-				 'nama' => $nama
-			];
+			/* $antrian_pesan = ''; */
+			/* if($count > 0){ */
+			/* 	$antrian_pesan = $nama; */
+			/* } else { */
+			/* 	$antrian_pesan = ''; */
+			/* } */
+			/* return [ */
+			/* 	 'count' => $count_antrian_poli + $count_antrian_periksa, */
+			/* 	 'nama' => $nama */
+			/* ]; */
 	}
 
 

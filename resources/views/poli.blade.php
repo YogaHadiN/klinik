@@ -4,7 +4,7 @@
 {{ env("NAMA_KLINIK") }} | Poli {!! ucfirst($antrianperiksa->poli)!!}
 @stop
 @section('head')
-    <link href="{!! asset('css/poli.css') !!}" rel="stylesheet">
+    {{-- <link href="{!! asset('css/poli.css') !!}" rel="stylesheet"> --}}
 @stop
 @section('page-title') 
      <h2>RUANG PERIKSA Poli {!! ucfirst($antrianperiksa->poli)!!}</h2>

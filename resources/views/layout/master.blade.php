@@ -18,7 +18,7 @@
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
     -->
     <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
-
+    <link href="{!! asset('css/poli.css') !!}" rel="stylesheet">
 <link href="{!! asset('font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet">
 	<style type="text/css" media="all">
 		.fixed {
@@ -100,9 +100,9 @@
                             <li>{!! HTML::link('cek_list_harian/listrik', 'Listrik')!!}</li>
                         </ul>
                     </li>
-					{{--<li>--}}
-                        {{--<a href="{{ url('facebook/list') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Pendaftaran Online</span></a>--}}
-                    {{--</li>--}}
+					<li>
+                        <a href="{{ url('antrians') }}"><i class="fa fa-flask"></i> <span class="nav-label">Daftar Antrian</span></a>
+					</li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -157,14 +157,9 @@
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Poli</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="{{ url('ruangperiksa/umum') }}">Poli Umum</a> </li>
-                            <li><a href="{{ url('ruangperiksa/anc') }}">Poli ANC</a> </li>
-                            <li><a href="{{ url('ruangperiksa/suntikkb') }}">Suntik KB</a> </li>
-                            <li><a href="{{ url('ruangperiksa/estetika') }}">Estetika</a> </li>
-                            <li><a href="{{ url('ruangperiksa/usg') }}">Poli USG Kebidanan</a> </li>
-                            <li><a href="{{ url('ruangperiksa/usgabdomen') }}">Poli USG Abdomen</a> </li>
-                            <li><a href="{{ url('ruangperiksa/gigi') }}">Poli Gigi </a> </li>
-                            <li><a href="{{ url('ruangperiksa/darurat') }}">Poli Gawat Darurat </a> </li>
+							@foreach( App\JenisAntrian::all() as $poli )
+								<li><a href="{{ url('ruangperiksa/' . $poli->id) }}">{{ ucwords( $poli->jenis_antrian ) }}</a> </li>
+							@endforeach
                         </ul>
                     </li>
                     <li>
@@ -330,11 +325,23 @@
 								</div>
 							@endif
                         @yield('content')
+						<div class="barcode">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<button class="btn btn-info btn-block" type="button" onclick='refresh();return false;'>Refresh</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									this is it
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+	</div>
             {{--{!! HTML::script("js/all.js")!!}--}}
     <script src="{!! asset('js/all.js') !!}"></script>
     <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script>
@@ -354,7 +361,20 @@
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
     WebCam -->
 
-    <script>
+  <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
+	<script>
+		Pusher.logToConsole = true;
+
+		var pusher = new Pusher('281b6730814874b6b533', {
+		  cluster: 'ap1',
+		  forceTLS: true
+		});
+
+		var channel = pusher.subscribe('my-channel');
+		channel.bind('form-submitted', function(data) {
+		  alert(JSON.stringify(data));
+		});
+
 		var base = "{{ url('/') }}";
         $.ajaxSetup({
             headers: {
@@ -415,6 +435,8 @@
                 autoclose: true,
                 format: 'dd-mm-yyyy'
             });
+
+			$('.tanggal').closest('form').attr('autocomplete', 'off');
 
             $('.bulanTahun').datepicker({
                 todayBtn: "linked",

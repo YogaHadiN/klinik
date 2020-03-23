@@ -2,7 +2,7 @@
 		
 		view();
         $('#confirm_staf').on('show.bs.modal', function(){
-            $('#confirm_staf input[type!="hidden"]').val('');
+            $('#confirm_staf input').not(':input[type="hidden"]').val('');
         });
         $('#confirm_staf').on('shown.bs.modal', function(){
             $('#email').focus();

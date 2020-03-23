@@ -9,7 +9,7 @@
     <title>INSPINIA | Login</title>
     {!! HTML::style('css/bootstrap.min.css')!!}
     {!! HTML::style('font-awesome/css/font-awesome.css')!!}
-    {!! HTML::style('css/animate.css')!!}
+    {{-- {!! HTML::style('css/animate.css')!!} --}}
     {!! HTML::style('css/style.css')!!}
 	<style type="text/css" media="all">
 		.imgKonfirmasi {
@@ -58,12 +58,12 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/umum', 'method' => 'post']) !!}
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/1', 'method' => 'post']) !!}
 						<button type="submit" class="btn btn-lg btn-block btn-success superbig-button">Dokter Umum</button>
 					{!! Form::close() !!}
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/gigi', 'method' => 'post']) !!}
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/2', 'method' => 'post']) !!}
 						<button type="submit" class="btn btn-lg btn-block btn-primary superbig-button">Dokter Gigi</button>
 					{!! Form::close() !!}
 				</div>
@@ -75,13 +75,13 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/bidan', 'method' => 'post']) !!}
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/3', 'method' => 'post']) !!}
 						<button type="submit" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
 					{!! Form::close() !!}
 				
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/estetika', 'method' => 'post']) !!}
+					{!! Form::open(['url' => 'fasilitas/antrian_pasien/4', 'method' => 'post']) !!}
 						<button type="submit" class="btn btn-lg btn-block btn-warning superbig-button">Estetika</button>
 					{!! Form::close() !!}
 				</div>
@@ -90,6 +90,9 @@
 	</div>
     <!-- Mainly scripts -->
 	<script type="text/javascript" charset="utf-8">
+		@if (Session::has('print'))
+			window.open("{{ url('pdfs/antrian/' . Session::get('print')) }}", '_blank');
+		@endif
 			 setTimeout(function(){ 
 				$('.alert').fadeOut(500);
 			 }, 10000);

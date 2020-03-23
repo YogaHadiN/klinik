@@ -114,7 +114,6 @@ class AntrianPeriksasController extends Controller
 		$kecelakaan_kerja = Input::get('kecelakaan_kerja');
 		$asuransi_id      = Input::get('asuransi_id');
 
-		$ap->antrian             = Input::get('antrian');
 		$ap->berat_badan         = $berat_badan;
 		$ap->hamil               = Input::get('hamil');
 		$ap->asisten_id          = Input::get('asisten_id');
@@ -147,21 +146,23 @@ class AntrianPeriksasController extends Controller
 
 		$ap->save();
 
-		$antrian_id              = Input::get('antrian_id');
+		$antrian_poli_id         = Input::get('antrian_id');
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
+		$antrian_poli            = AntrianPoli::find($antrian_poli_id);
+		$antrian                 = $antrian_poli->antrian;
+		$antrian->antriable_id   = $ap->id;
+		$antrian->antriable_type = 'App\\AntrianPeriksa';
+		$antrian->save();
+		$antrian_poli->delete();
 
-		$hapus            = AntrianPoli::find($antrian_id);
-		$hapus->submitted = 1;
-		$hapus->delete();
-
-		$promo = Promo::where('promoable_type' , 'App\AntrianPoli')->where('promoable_id', $antrian_id)->first() ;
+		$promo = Promo::where('promoable_type' , 'App\AntrianPoli')->where('promoable_id', $antrian_poli_id)->first() ;
 		if ( $promo ) {
 			$promo->promoable_type = 'App\AntrianPeriksa';
 			$promo->promoable_id = $ap->id;
 			$promo->save();
 		}
 
-		PengantarPasien::where('antarable_id', $antrian_id)
+		PengantarPasien::where('antarable_id', $antrian_poli_id)
 			->where('antarable_type', 'App\AntrianPoli')
 			->update([
 				'antarable_id' => $ap->id,

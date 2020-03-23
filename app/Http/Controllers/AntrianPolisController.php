@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
+use App\Antrian;
 use Bitly;
 use App\Sms;
 use App\Asuransi;
@@ -29,21 +30,19 @@ class AntrianPolisController extends Controller
 	public $input_staf_id;
 	public $input_tanggal;
 	public $input_jam;
-	public $input_antrian;
 	public $input_kecelakaan_kerja;
 	public $input_self_register;
 	public $input_bukan_peserta;
+	public $input_antrian_id;
 
 	public function __construct() {
-
-		$this->input_pasien_id        = Input::get('pasien_id');
-		$this->input_asuransi_id      = Input::get('asuransi_id');
-		$this->input_poli             = Input::get('poli');
-		$this->input_staf_id          = Input::get('staf_id');
-		$this->input_tanggal          = Yoga::datePrep( Input::get('tanggal') );
-		$this->input_antrian          = Input::get('antrian');
-		$this->input_bukan_peserta    = Input::get('bukan_peserta');
-        $this->middleware('nomorAntrianUnik', ['only' => ['store']]);
+		$this->input_pasien_id     = Input::get('pasien_id');
+		$this->input_asuransi_id   = Input::get('asuransi_id');
+		$this->input_poli          = Input::get('poli');
+		$this->input_staf_id       = Input::get('staf_id');
+		$this->input_tanggal       = Yoga::datePrep( Input::get('tanggal') );
+		$this->input_bukan_peserta = Input::get('bukan_peserta');
+        /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
     }
 	/**
 	 * Display a listing of antrianpolis
@@ -68,9 +67,9 @@ class AntrianPolisController extends Controller
 
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		$perujuks_list = [null => ' - pilih perujuk -'] + Perujuk::pluck('nama', 'id')->all();
-		$antrianpolis  = AntrianPoli::with('pasien', 'asuransi', 'antars')
+
+		$antrianpolis  = AntrianPoli::with('pasien', 'asuransi', 'antars', 'antrian')
 								->where('submitted', 0)
-								->orderBy('antrian', 'asc')
 								->get();
 
 		$perjanjian = [];
@@ -78,7 +77,6 @@ class AntrianPolisController extends Controller
 		foreach ($antrianpolis as $p) {
 			$perjanjian[$p->tanggal->format('d-m-Y')][] = $p;
 		}
-
 
 		
 		return view('antrianpolis.index')
@@ -108,7 +106,6 @@ class AntrianPolisController extends Controller
 	 */
 	public function store()
 	{
-		/* return Input::all(); */ 
 		DB::beginTransaction();
 		try {
 			if (empty(Pasien::find(Input::get('pasien_id'))->image) && Input::get('asuransi_id') == '32') {
@@ -129,55 +126,9 @@ class AntrianPolisController extends Controller
 			}
 
 			$ap = $this->inputDataAntrianPoli();
-			$pasien = Pasien::find(Input::get('pasien_id'));
-
-			if(Input::get('staf_id_complain') != ''){
-				$conf = false;
-				$complain = new Complain;
-				$complain->pasien_id = Input::get('pasien_id');
-				$complain->tanggal = date('Y-m-d');
-				$complain->staf_id = Input::get('staf_id_complain');
-				$complain->complain = Input::get('complain');
-				$conf = $complain->save();
-			}
-
-			if ( !empty(trim(   Input::get('no_ktp')   ))) {
-
-				$conf = false;
-				$promo = Promo::where('no_ktp', Input::get('no_ktp'))->where('tahun', date('Y'))->get();
-
-				if ( $promo->count() > 0 ) {
-					$p                  = new Promo;
-					$p->no_ktp          = Input::get('no_ktp');
-					$p->tahun           = date('Y');
-					$p->promoable_id = $antrian_poli_id;
-					$p->promoable_type = 'App\AntrianPoli';
-					$p->save();
-				} else {
-					$conf = false;
-				}
-
-				if (!$conf) {
-					$pesan = Yoga::gagalFlash('<strong>Mohon Maag</strong> Promo sudah pernah digunakan sebelumnya untuk Tahun ini');
-				}
-			}
-
-			$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
-
-
 			DB::commit();
-			
-			if (Input::get('asuransi_id') == '32') {
-				return redirect('antrianpolis/pengantar/create/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat'));
-			}
+			return $this->arahkanAP($ap);
 
-			if ( $ap->poli == 'usg' ) {
-				return redirect('antrianpolis')
-					->withPrint($ap)
-					->withPesan($pesan);
-			}
-			return redirect('antrianpolis')
-				->withPesan($pesan);
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -289,70 +240,93 @@ class AntrianPolisController extends Controller
 
 	}
 	public function totalAntrian($ap){
-		$tanggal = $ap->tanggal;
-		$antrian = $ap->antrian;
-		$no_telp = $ap->pasien->no_telp;
-		$antrians = [];
-		$apx_per_tanggal = AntrianPeriksa::where('tanggal',  $tanggal)
-										->whereIn('poli', ['umum', 'sks', 'luka'])
-										->get();
-		$apl_per_tanggal = AntrianPoli::where('tanggal',  $tanggal)
-										->whereIn('poli', ['umum', 'sks', 'luka'])
-										->get();
-		$px_per_tanggal = Periksa::where('tanggal',  $tanggal)
-										->whereIn('poli', ['umum', 'sks', 'luka'])
-										->orderBy('antrian', 'desc')
-										->get();
+		/* $tanggal = $ap->tanggal; */
+		/* $antrian = $ap->antrian; */
+		/* $no_telp = $ap->pasien->no_telp; */
+		/* $antrians = []; */
+		/* $apx_per_tanggal = AntrianPeriksa::where('tanggal',  $tanggal) */
+		/* 								->whereIn('poli', ['umum', 'sks', 'luka']) */
+		/* 								->get(); */
+		/* $apl_per_tanggal = AntrianPoli::where('tanggal',  $tanggal) */
+		/* 								->whereIn('poli', ['umum', 'sks', 'luka']) */
+		/* 								->get(); */
+		/* $px_per_tanggal = Periksa::where('tanggal',  $tanggal) */
+		/* 								->whereIn('poli', ['umum', 'sks', 'luka']) */
+		/* 								->orderBy('antrian', 'desc') */
+		/* 								->get(); */
 
-		foreach ($apx_per_tanggal as $apx) {
-			$antrians[$apx->pasien_id] = $apx->antrian;
-		}
+		/* foreach ($apx_per_tanggal as $apx) { */
+		/* 	$antrians[$apx->pasien_id] = $apx->antrian; */
+		/* } */
 
-		foreach ($apl_per_tanggal as $apx) {
-			$antrians[$apx->pasien_id] = $apx->antrian;
-		}
-		foreach ($px_per_tanggal as $apx) {
-			$antrians[$apx->pasien_id] = $apx->antrian;
-		}
+		/* foreach ($apl_per_tanggal as $apx) { */
+		/* 	$antrians[$apx->pasien_id] = $apx->antrian; */
+		/* } */
+		/* foreach ($px_per_tanggal as $apx) { */
+		/* 	$antrians[$apx->pasien_id] = $apx->antrian; */
+		/* } */
 
-		sort($antrians);
-		if ( $px_per_tanggal->count() >2 ) {
-			$antrian_saat_ini   = array_search($px_per_tanggal->first()->antrian, $antrians);
-		} else {
-			$antrian_saat_ini   = 0;
-		}
-		/* dd($antrian_saat_ini); */
+		/* sort($antrians); */
+		/* if ( $px_per_tanggal->count() >2 ) { */
+		/* 	$antrian_saat_ini   = array_search($px_per_tanggal->first()->antrian, $antrians); */
+		/* } else { */
+		/* 	$antrian_saat_ini   = 0; */
+		/* } */
+		/* /1* dd($antrian_saat_ini); *1/ */
 
-		$result = compact(
-			'antrians',
-			'antrian_saat_ini'
-		);
-		return $result;
+		/* $result = compact( */
+		/* 	'antrians', */
+		/* 	'antrian_saat_ini' */
+		/* ); */
+		/* return $result; */
 	}
 	public function inputDataAntrianPoli(){
-		$ap                      = new AntrianPoli;
-		$ap->antrian             = $this->input_antrian;
-		$ap->asuransi_id         = $this->input_asuransi_id;
-		$ap->pasien_id           = $this->input_pasien_id;
-		$ap->poli                = $this->input_poli;
-		$ap->staf_id             = $this->input_staf_id;
+		$ap                            = new AntrianPoli;
+		$ap->asuransi_id               = $this->input_asuransi_id;
+		$ap->pasien_id                 = $this->input_pasien_id;
+		$ap->poli                      = $this->input_poli;
+		$ap->staf_id                   = $this->input_staf_id;
 		if ( $this->input_asuransi_id == '32' ) {
-			$ap->bukan_peserta   = $this->input_bukan_peserta;
+			$ap->bukan_peserta         = $this->input_bukan_peserta;
 		}
-		$ap->jam                 = date("H:i:s");
-		$ap->tanggal             = $this->input_tanggal;
+		$ap->jam                       = date("H:i:s");
+		$ap->tanggal                   = $this->input_tanggal;
 		$ap->save();
-		if (
-			$ap->poli == 'umum' ||
-			$ap->poli == 'luka' ||
-			$ap->poli == 'sks'
-		) {
-			$totalAntrian = $this->totalAntrian($ap);
-			$this->sendWaAntrian($totalAntrian, $ap);
+
+		if ( isset($this->input_antrian_id) ) {
+			$antrian_id         = $this->input_antrian_id;
+			$an                 = Antrian::find($antrian_id);
+			$an->antriable_id   = $ap->id;
+			$an->antriable_type = 'App\\AntrianPoli';
+			$an->save();
 		}
+		/* if ( */
+		/* 	$ap->poli == 'umum' || */
+		/* 	$ap->poli == 'luka' || */
+		/* 	$ap->poli == 'sks' */
+		/* ) { */
+		/* 	$totalAntrian = $this->totalAntrian($ap); */
+		/* 	$this->sendWaAntrian($totalAntrian, $ap); */
+		/* } */
 		return $ap;
+
 	}
 
-	
+	public function arahkanAP($ap){
+		$pasien = Pasien::find($this->input_pasien_id);
 
+		$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
+		
+		if ($this->input_asuransi_id == '32') {
+			return redirect('antrianpolis/pengantar/create/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat'));
+		}
+
+		if ( $ap->poli == 'usg' ) {
+			return redirect('antrianpolis')
+				->withPrint($ap)
+				->withPesan($pesan);
+		}
+		return redirect('antrianpolis')
+			->withPesan($pesan);
+	}
 }

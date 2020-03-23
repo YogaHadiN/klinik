@@ -21,6 +21,11 @@ class AntrianPeriksa extends Model{
 		return $this->belongsTo('App\Asuransi');
 	}
 
+
+	public function antrian(){
+        return $this->morphOne('App\Antrian', 'antriable');
+	}
+
 	public function pasien() {
 		return $this->belongsTo('App\Pasien');
 	}

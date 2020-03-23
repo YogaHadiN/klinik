@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'belum_masuk_kasir' => \App\Http\Middleware\BelumMasukKasir::class,
         'harusUrut' => \App\Http\Middleware\harusUrutDiPoliUmum::class,
         'nomorAntrianUnik' => \App\Http\Middleware\nomorAntrianUnik::class,
+        'redirectBackIfIdAntrianNotFound' => \App\Http\Middleware\redirectBackIfIdAntrianNotFound::class,
     ];
 
     /**

@@ -775,6 +775,12 @@ class Periksa extends Model{
         return $this->morphMany('App\GambarPeriksa', 'gambarable');
     }
 
+
+	public function antrian(){
+
+        return $this->morphOne('App\Antrian', 'antriable');
+	}
+
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }

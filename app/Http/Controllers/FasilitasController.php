@@ -8,12 +8,16 @@ use App\Http\Requests;
 use App\Fasilitas;
 use DB;
 use App\Pasien;
+use App\Antrian;
+use App\Panggilan;
 use App\JurnalUmum;
 use App\Periksa;
 use App\AntrianPeriksa;
 use App\TransaksiPeriksa;
 use App\Kabur;
 use App\Staf;
+use App\Http\Controllers\PasiensController;
+use App\Http\Controllers\AntrianPolisController;
 use App\Dispensing;
 use App\BukanPeserta;
 use App\AntrianPoli;
@@ -31,8 +35,13 @@ use App\DeletedPeriksa;
 
 class FasilitasController extends Controller
 {
+
+	public function __construct(){
+        $this->middleware('redirectBackIfIdAntrianNotFound', ['only' => ['prosesAntrian']]);
+	}
+	
     public function antrian_pasien(){
-		$antrianperiksa = AntrianPeriksa::with('pasien')->orderBy('antrian')->take(10)->get(['pasien_id', 'antrian']);
+		$antrianperiksa = AntrianPeriksa::with('pasien')->take(10)->get(['pasien_id']);
 		return view('fasilitas.antrian', compact('antrianperiksa'));
     }
     public function survey(){
@@ -77,8 +86,8 @@ class FasilitasController extends Controller
 		return redirect('fasilitas/antrian_pasien')->withPesan($pesan);
 	}
 	public function postAntrianPoli($poli, $pasien_id, $asuransi_id){
-		$antrianPoli = ( isset( AntrianPoli::orderBy('antrian', 'desc')->first()->antrian ) )?  AntrianPoli::orderBy('antrian', 'desc')->first()->antrian : null;
-		$antrianPeriksa = ( isset( AntrianPeriksa::orderBy('antrian', 'desc')->first()->antrian ) )? AntrianPeriksa::orderBy('antrian', 'desc')->first()->antrian : null; 
+		$antrianPoli = ( isset( AntrianPoli::latest()->first()->antrian ) )?  AntrianPoli::latest()->first()->antrian : null;
+		$antrianPeriksa = ( isset( AntrianPeriksa::orderBy('antrian_id', 'desc')->first()->antrian ) )? AntrianPeriksa::orderBy('antrian_id', 'desc')->first()->antrian : null; 
 		$antrian = [
 			$antrianPeriksa,
 			$antrianPoli
@@ -136,11 +145,9 @@ class FasilitasController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-
-
-		$kb       = new Kabur;
-		$kb->pasien_id   = Input::get('pasien_id');
-		$kb->alasan   = Input::get('alasan_kabur');
+		$kb            = new Kabur;
+		$kb->pasien_id = Input::get('pasien_id');
+		$kb->alasan    = Input::get('alasan_kabur');
 		$kb->save();
 
 		try {
@@ -150,7 +157,7 @@ class FasilitasController extends Controller
 			return redirect()->back()->withPesan($pesan);
 		}
 		$nama_pasien = $ap->pasien->nama;
-		$confirm = $ap->delete();
+		$confirm     = $ap->delete();
 
 
 		if ($confirm) {
@@ -245,16 +252,85 @@ class FasilitasController extends Controller
 		}
 		return redirect()->back()->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
 	}
-	public function antrianUmum(){
-		dd('umum');
+	public function antrian($id){
+		$antrians = Antrian::where('created_at', 'like', date('Y-m-d') . '%')
+							->where('jenis_antrian_id',$id)
+							->orderBy('nomor', 'desc')
+							->first();
+
+		if ( is_null( $antrians ) ) {
+			$antrian                   = new Antrian;
+			$antrian->nomor            = 1 ;
+			$antrian->jenis_antrian_id = $id ;
+			$antrian->save();
+		} else {
+			$antrian_terakhir          = $antrians->nomor + 1;
+			$antrian                   = new Antrian;
+			$antrian->nomor            = $antrian_terakhir ;
+			$antrian->jenis_antrian_id = $id ;
+			$antrian->save();
+		}
+		$antrian->antriable_id = $antrian->id;
+		$antrian->antriable_type = 'App\\Antrian';
+		$antrian->save();
+		return redirect('fasilitas/antrian_pasien')
+			->withPrint($antrian->id);
 	}
-	public function antrianGigi(){
-		dd('Gigi');
+	public function listAntrian(){
+		$antrians = Antrian::where('antriable_type', 'App\\Antrian')->get();
+		return view('fasilitas.list_antrian', compact(
+			'antrians'
+		));
 	}
-	public function antrianBidan(){
-		dd('Bidan');
+	public function prosesAntrian($id){
+		$antrian                                              = Antrian::with('jenis_antrian.poli_antrian.poli')->where('id', $id )->first();
+		$p                                                    = new PasiensController;
+		$polis[null]                                          = '-Pilih Poli-';
+		foreach ($antrian->jenis_antrian->poli_antrian as $k => $poli) {
+			$polis[ $poli->poli_id ]                               = $poli->poli->poli;
+		}
+		$p->dataIndexPasien['poli']                           = $polis;
+		$p->dataIndexPasien['antrian']                        = $antrian;
+		return $p->index();
 	}
-	public function antrianEstetika(){
-		dd('Estetika');
+	public function antrianPoliPost($id){
+		DB::beginTransaction();
+		try {
+			if (empty(Pasien::find(Input::get('pasien_id'))->image) && Input::get('asuransi_id') == '32') {
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu');
+			}
+
+			$rules = [
+				'tanggal'   => 'required',
+				'pasien_id' => 'required',
+				'poli'      => 'required'
+			];
+			
+			$validator = \Validator::make(Input::all(), $rules);
+			
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
+
+			$apc = new AntrianPolisController;
+
+			$apc->input_pasien_id     = Input::get('pasien_id');
+			$apc->input_asuransi_id   = Input::get('asuransi_id');
+			$apc->input_antrian_id   = $id;
+			$apc->input_poli          = Input::get('poli');
+			$apc->input_staf_id       = Input::get('staf_id');
+			$apc->input_tanggal       = Yoga::datePrep( Input::get('tanggal') );
+			$apc->input_bukan_peserta = Input::get('bukan_peserta');
+
+
+			$ap = $apc->inputDataAntrianPoli();
+			DB::commit();
+			return $apc->arahkanAP($ap);
+
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
 	}
 }

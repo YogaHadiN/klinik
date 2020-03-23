@@ -60,6 +60,9 @@
 
 @stop
 @section('content')
+	@if(Session::has('antrian_id'))
+	<h1>{{ session('antrian_id') }}</h1>
+	@endif
 	@include('pasiens.error')
 	@include('pasiens.form', ['createLink' => true])
 	@include('pasiens.validasiSuperAdmin')

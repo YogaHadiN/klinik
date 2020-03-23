@@ -11,6 +11,7 @@ use App\PembayaranAsuransi;
 use App\CatatanAsuransi;
 use App\PiutangDibayar;
 use App\NotaJual;
+use App\PoliAntrian;
 use App\KirimBerkas;
 use App\JenisTarif;
 use App\Pasien;
@@ -21,7 +22,7 @@ use App\Tarif;
 use App\FakturBelanja;
 use App\JurnalUmum;
 use App\Periksa;
-use App\Asuransi;
+use App\JenisAntrian;
 use App\Telpon;
 use DB;
 use Mail;
@@ -61,26 +62,131 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$piutang_asuransi = PembayaranAsuransi::where('id', [878,877,861])->get();
-
-		$nota_jual_ids = [];
-		foreach ($piutang_asuransi as $pa) {
-			$nota_jual_ids[] = $pa->nota_jual_id;
-		}
-		JurnalUmum::where('jurnalable_type', 'App\\NotaJual')->whereIn('jurnalable_id', $nota_jual_ids )->delete();
-		NotaJual::destroy($nota_jual_ids);
-		PembayaranAsuransi::destroy([878,877,861]);
-		/* CatatanAsuransi::whereIn('pembayaran_asuransi_id', [878,877,861])->delete(); */
-		PiutangDibayar::whereIn('pembayaran_asuransi_id', [878,877,861])->delete();
-
-		$query = "UPDATE piutang_asuransis as pa ";
-		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
-		$query .= "SET sudah_dibayar = 0 ";
-		$query .= "WHERE px.tanggal like '2019-12%' ";
-		$query .= "AND px.asuransi_id  = '21';";
-		DB::statement($query);
-		DB::statement("UPDATE invoices set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)");
 		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)");
+		DB::statement("CREATE TABLE jenis_antrians ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, jenis_antrian VARCHAR(30) NOT NULL, prefix VARCHAR(30) NOT NULL, created_at timestamp, updated_at timestamp);");
+		DB::statement("CREATE TABLE poli_antrians ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, jenis_antrian_id VARCHAR(30) NOT NULL, poli_id VARCHAR(30) NOT NULL, created_at timestamp, updated_at timestamp);");
+		DB::statement("CREATE TABLE panggilans ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, antrian_id VARCHAR(30) NOT NULL, created_at timestamp, updated_at timestamp);");
+		$timestamp = date('Y-m-d H:i:s');
+		$jenis_antrians = [
+			[
+				'jenis_antrian' => 'poli umum',
+				'prefix' => 'A',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian' => 'poli gigi',
+				'prefix' => 'B',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian' => 'poli kebidanan/kandungan',
+				'prefix' => 'C',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian' => 'poli estetika',
+				'prefix' => 'D',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian' => 'Poli USG',
+				'prefix' => 'E',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian' => 'Darurat',
+				'prefix' => 'F',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+
+		];
+		$poli_antrians = [
+			[
+				'jenis_antrian_id' => 1,
+				'poli_id' => 'umum',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 1,
+				'poli_id' => 'sks',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 1,
+				'poli_id' => 'luka',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 2,
+				'poli_id' => 'luka',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 3,
+				'poli_id' => 'anc',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 3,
+				'poli_id' => 'kb 1 bulan',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 3,
+				'poli_id' => 'kb 3 bulan',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 4,
+				'poli_id' => 'estetika',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 5,
+				'poli_id' => 'usg',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 5,
+				'poli_id' => 'usgabdomen',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 5,
+				'poli_id' => 'darurat',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+		];
+		PoliAntrian::insert($poli_antrians);
+		JenisAntrian::insert($jenis_antrians);
+		DB::statement("ALTER TABLE antrians ADD jenis_antrian_id varchar(255);");
+		DB::statement("ALTER TABLE antrians DROP COLUMN antrian_terakhir;");
+		DB::statement("ALTER TABLE antrian_polis DROP COLUMN antrian;");
+		DB::statement("ALTER TABLE antrian_periksas DROP COLUMN antrian;");
+		DB::statement("ALTER TABLE periksas DROP COLUMN antrian;");
+		DB::statement("ALTER TABLE antrians ADD nomor int(11);");
+		DB::statement("ALTER TABLE antrians ADD antriable_id varchar(30) null;");
+		DB::statement("ALTER TABLE antrians ADD antriable_type varchar(30) null;");
+		DB::statement("DELETE FROM antrians");
+		DB::statement("DELETE FROM antrian_periksas");
+		DB::statement("DELETE FROM antrian_polis");
 	}
 
 

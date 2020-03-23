@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\FormSubmitted;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +12,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('counter', function(){
+	return view('demo.counter');
+});
+Route::get('sender', function(){
+	return view('demo.sender');
+});
+Route::post('sender', function(){
+	/* dd( request()->all() ); */
+	$text = request()->content;
+	event(new FormSubmitted($text));
+});
+
+
 Route::get('queue', function(){
 	dispatch(new \App\Jobs\compressImage );
 });
@@ -26,13 +42,6 @@ Route::get('antrians', 'AntriansController@create');
 Route::post('antrians/print', 'AntriansController@store');
 
 
-Route::post('fasilitas/antrian_pasien/umum', 'FasilitasController@antrianUmum'); //antrian pasien
-Route::post('fasilitas/antrian_pasien/gigi', 'FasilitasController@antrianGigi'); //antrian pasien
-Route::post('fasilitas/antrian_pasien/bidan', 'FasilitasController@antrianBidan'); //antrian pasien
-Route::post('fasilitas/antrian_pasien/estetika', 'FasilitasController@antrianEstetika'); //antrian pasien
-
-Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
-Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 Route::put('fasilitas/konfirmasi', 'FasilitasController@konfirmasi'); //antrian pasien
 Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@input_tgl_lahir'); //antrian pasien
 Route::post('fasilitas/antrian_pasien/{poli}/tanggal', 'FasilitasController@post_tgl_lahir'); //antrian pasien
@@ -86,6 +95,12 @@ Route::resource('invoices', 'InvoiceController');
 
   	Route::group(['middleware' => 'auth'], function(){
 
+			Route::post('fasilitas/antrian_pasien/{id}', 'FasilitasController@antrian'); //antrian pasien
+			Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
+			Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
+			Route::get('antrians/proses/{id}', 'FasilitasController@prosesAntrian'); //antrian pasien
+			Route::post('antrians/antrianpolis/{id}', 'FasilitasController@antrianPoliPost'); //antrian pasien
+			Route::get('antrians', 'FasilitasController@listAntrian');
 			Route::get('rekening_bank/search', 'RekeningController@search');
 			Route::get('rekening_bank/{id}', 'RekeningController@index');
 			Route::get('rekenings/cek_id', 'RekeningController@cekId');
@@ -565,16 +580,7 @@ Route::resource('invoices', 'InvoiceController');
 			Route::get('ancs/{id}', 'AncsController@show');
 
 
-			Route::get('ruangperiksa', 'RuangPeriksaController@index');
-			Route::get('ruangperiksa/umum', 'RuangPeriksaController@umum');
-			Route::get('ruangperiksa/kandungan', 'RuangPeriksaController@kandungan');
-			Route::get('ruangperiksa/anc', 'RuangPeriksaController@anc');
-			Route::get('ruangperiksa/suntikkb', 'RuangPeriksaController@suntikkb');
-			Route::get('ruangperiksa/estetika', 'RuangPeriksaController@estetika');
-			Route::get('ruangperiksa/usg', 'RuangPeriksaController@usg');
-			Route::get('ruangperiksa/usgabdomen', 'RuangPeriksaController@usgabdomen');
-			Route::get('ruangperiksa/gigi', 'RuangPeriksaController@gigi');
-			Route::get('ruangperiksa/darurat', 'RuangPeriksaController@darurat');
+			Route::get('ruangperiksa/{jenis_antrian_id}', 'RuangPeriksaController@index');
 
 
 			Route::get('laporans', 'LaporansController@index');
@@ -643,6 +649,7 @@ Route::resource('invoices', 'InvoiceController');
 			Route::get('pdfs/piutang/sudah_dibayar/{id}/{mulai}/{akhir}', 'PdfsController@piutangAsuransiSudahDibayar');
 			Route::get('pdfs/piutang/semua/{id}/{mulai}/{akhir}', 'PdfsController@piutangAsuransi');
 			Route::get('pdfs/kirim_berkas/{id}', 'PdfsController@kirim_berkas');
+			Route::get('pdfs/antrian/{id}', 'PdfsController@antrian');
 
 
 

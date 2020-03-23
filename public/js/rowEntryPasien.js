@@ -1,7 +1,9 @@
         function rowEntry(control) {
 			$('#antrianpoli_poli').val('');
-			$('#antrianpoli_antrian').val('');
+			// $('#antrianpoli_antrian').val('');
 			$('#antrianpoli_tanggal').val('');
+
+			console.log('rorwnt');
 
             $('#cekBPJSkontrol').hide();
             $('#cekGDSBPJS').hide();

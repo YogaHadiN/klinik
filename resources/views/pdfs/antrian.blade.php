@@ -3,48 +3,27 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Struk {{ $antrian_poli->id }} | {{ $antrian_poli->pasien->nama }}</title>
+        <title>Struk {{ $antrian->id }}</title>
 		<link href="{!! asset('css/struk.css') !!}" rel="stylesheet">
     </head>
     <body>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box title-print text-center">
-                    <h1>{{ env("NAMA_KLINIK") }}</h1>
-                    <h5>
-                        {{ env("ALAMAT_KLINIK") }} <br>
-                        Telp : {{ env("TELPON_KLINIK") }}  
-                    </h5>
-                    <h2 class="text-center border-top border-bottom">Pemeriksaan Dokter</h2>
+                    <h2 class="text-center border-top border-bottom">Selamat Datang di {{ env('NAMA_KLINIK') }}</h2>
+                    <h3 class="text-center ">{{ env('ALAMAT_KLINIK') }}</h3>
                 </div>
-            <div class="box border-bottom">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Nama Pasien</td>
-                            <td>:</td>
-                            <td>{{ $antrian_poli->pasien->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tanggal</td>
-                            <td>:</td>
-                            <td>{{App\Classes\Yoga::updateDatePrep(  $antrian_poli->tanggal  )}}</td>
-                        </tr>
-                        <tr>
-                            <td>Jam Datang</td>
-                            <td>:</td>
-                            <td>{{ $antrian_poli->jam }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
             <div>
+				<h3 class="text-center">Nomor Antrian Anda Adalah :</h3>
                 <table class="table table-condensed">
                     <tbody id="transaksi-print">
                         <tr>
-							<td colspan="3" class="strong uang text-right" id="biaya-print">{{ $antrian_poli->antrian }}</td>
+							<td colspan="3" class="strong superbig text-center" id="biaya-print">{{ $antrian->jenis_antrian->prefix }}{{ $antrian->nomor }}</td>
                         </tr>
 					</tbody>
                 </table>
+				<h3 class="text-center ">Poli {{ $antrian->jenis_antrian->jenis_antrian }}</h3>
+				<h3 class="text-center ">{{ $antrian->created_at->format('d M y H:i:s') }}</h3>
+				<h3 class="text-center ">SEMOGA SEHAT SELALU</h3>
 				<br />
             </div>
         </div>

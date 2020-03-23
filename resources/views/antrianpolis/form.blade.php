@@ -33,7 +33,7 @@
 						  class="danger"
 					  @endif>
 					<td class="hide id">{!! $antrianpoli->id !!}</td>
-					<td class="antrian">{!! $antrianpoli->antrian!!}</td>
+					<td class="antrian_id">{!! $antrianpoli->antrian->jenis_antrian->prefix!!}{!! $antrianpoli->antrian->nomor!!}</td>
 					<td class="nama">{!! $antrianpoli->asuransi->nama !!}</td>
 					<td class="nama_pasien">{!! $antrianpoli->pasien->nama!!} </td>
 					<td class="poli">{!! $antrianpoli->poli!!}</td>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
+use App\Antrian;
 use App\Http\Controllers\LaporanLabaRugisController;
 use App\Http\Controllers\LaporanNeracasController;
 use App\Http\Controllers\PajaksController;
@@ -752,10 +753,10 @@ class PdfsController extends Controller
         return $pdf->stream();
 
 	}
-	public function antrian_pdf($id){
-		$antrian_poli = AntrianPoli::find($id);
+	public function antrian($id){
+		$antrian= Antrian::find($id);
 		$pdf = PDF::loadView('pdfs.antrian', compact(
-			'antrian_poli'
+			'antrian'
 		))
 		->setOption('page-width', 72)
 		->setOption('page-height', 297)

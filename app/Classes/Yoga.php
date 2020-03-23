@@ -2402,24 +2402,24 @@ class Yoga {
 		return false;
 	}
 	public static function antrianTerakhir($tanggal){
-		$periksa = Periksa::where('created_at', 'like', $tanggal. '%')
-			->orderBy('antrian', 'desc')
-			->first();
-		$periksa = isset($periksa->antrian)? $periksa->antrian : 0;
-		$antrianperiksa = AntrianPeriksa::where('created_at', 'like', $tanggal. '%')
-			->orderBy('antrian', 'desc')
-			->first();
-		$antrianperiksa = isset($antrianperiksa->antrian)? $antrianperiksa->antrian : 0;
-		$antrianpoli = AntrianPoli::where('created_at', 'like', $tanggal. '%')
-			->orderBy('antrian', 'desc')
-			->first();
-		$antrianpoli = isset($antrianpoli->antrian)? $antrianpoli->antrian : 0;
+		/* $periksa = Periksa::where('created_at', 'like', $tanggal. '%') */
+		/* 	->orderBy('antrian', 'desc') */
+		/* 	->first(); */
+		/* $periksa = isset($periksa->antrian)? $periksa->antrian : 0; */
+		/* $antrianperiksa = AntrianPeriksa::where('created_at', 'like', $tanggal. '%') */
+		/* 	->orderBy('antrian', 'desc') */
+		/* 	->first(); */
+		/* $antrianperiksa = isset($antrianperiksa->antrian)? $antrianperiksa->antrian : 0; */
+		/* $antrianpoli = AntrianPoli::where('created_at', 'like', $tanggal. '%') */
+		/* 	->orderBy('antrian', 'desc') */
+		/* 	->first(); */
+		/* $antrianpoli = isset($antrianpoli->antrian)? $antrianpoli->antrian : 0; */
 
-		return max( [
-			$periksa,
-			$antrianperiksa,
-			$antrianpoli
-		] );
+		/* return max( [ */
+		/* 	$periksa, */
+		/* 	$antrianperiksa, */
+		/* 	$antrianpoli */
+		/* ] ); */
 	}
 	public static function pasienSurvey(){
 		 return [ 

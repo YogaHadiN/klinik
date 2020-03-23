@@ -21,6 +21,9 @@ class AntrianPoli extends Model{
 
 		return $this->belongsTo('App\Staf');
 	}
+	public function antrian(){
+        return $this->morphOne('App\Antrian', 'antriable');
+	}
 
 	public function pasien(){
 

@@ -51,7 +51,7 @@
 								@if($periksa->poli == 'estetika' && $periksa->periksaEx != null)
 								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksaEx->id . '/images') }}">Gambar</a> </td>
 								@else
-									<td>{!! $periksa->antrian !!}</td>
+									<td>{!! $periksa->antrian->nomor_antrian !!}</td>
 								@endif
 								<td>{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} </br>
 									{!! $periksa->jam !!}
@@ -131,7 +131,11 @@
                             @foreach ($postperiksa as $periksa)
                                 <tr>
                                     <td class="hide">{!! $periksa->id !!}</td>
-									<td>{!! $periksa->antrian !!}</td> 
+									<td>
+										@if( !is_null($periksa->antrian ) )
+											{!! $periksa->antrian->nomor_antrian !!}
+										@endif
+									</td> 
                                     <td>{!! $periksa->pasien->nama !!}</td>
                                     <td>{!! $periksa->staf->nama !!}</td> 
                                     <td>{!! $periksa->asuransi->nama !!}</td>
