@@ -273,6 +273,8 @@ class FasilitasController extends Controller
 		$antrian->antriable_id = $antrian->id;
 		$antrian->antriable_type = 'App\\Antrian';
 		$antrian->save();
+		$apc          = new AntrianPolisController;
+		$apc->updateJumlahAntrian();
 		return redirect('fasilitas/antrian_pasien')
 			->withPrint($antrian->id);
 	}
@@ -332,5 +334,14 @@ class FasilitasController extends Controller
 			DB::rollback();
 			throw $e;
 		}
+	}
+	public function deleteAntrian($id){
+		$antrian      = Antrian::find( $id );
+		$nomo_antrian = $antrian->nomo_antrian;
+		$pesan        = Yoga::suksesFlash('Antrian ' . $nomo_antrian . ' BERHASIL dihapus');
+		$antrian->delete();
+		$apc          = new AntrianPolisController;
+		$apc->updateJumlahAntrian();
+		return redirect('antrians')->withPesan($pesan);
 	}
 }

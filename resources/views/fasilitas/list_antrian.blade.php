@@ -56,8 +56,12 @@ Klinik Jati Elok | List Antrian
 									<td>{{ $antrian->created_at->format('d M y') }}</td>
 									<td>{{ $antrian->jenis_antrian->prefix }}{{ $antrian->nomor }}</td>
 									<td nowrap class="autofit">
-										<a class="btn btn-info" href="{{ url('antrians/proses/' . $antrian->id) }}">Proses</a>
+										{!! Form::open(['url' => 'antrians/' . $antrian->id, 'method' => 'delete']) !!}
+											<a class="btn btn-info" href="{{ url('antrians/proses/' . $antrian->id) }}">Proses</a>
+											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $antrian->nomor_antrian }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+										{!! Form::close() !!}
 									</td>
+
 								</tr>
 							@endforeach
 						@else

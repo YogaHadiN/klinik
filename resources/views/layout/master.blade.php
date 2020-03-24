@@ -57,6 +57,10 @@
     @yield('head')
 </head>
 <body>
+	<audio id="myAudio">
+	  <source src="{{ url('sound/bell.mpeg') }}.ogg" type="audio/ogg">
+	  Your browser does not support the audio element.
+	</audio>
     <div id="overlayd"></div>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
@@ -100,9 +104,9 @@
                             <li>{!! HTML::link('cek_list_harian/listrik', 'Listrik')!!}</li>
                         </ul>
                     </li>
-					<li>
-                        <a href="{{ url('antrians') }}"><i class="fa fa-flask"></i> <span class="nav-label">Daftar Antrian</span></a>
-					</li>
+					<li class="landing_link">
+						<a href="{{ url('antrians') }}"><i class="fa fa-star"></i> <span class="nav-label">Daftar Antrian</span> <span id="jumlah_antrian" class="label label-warning pull-right">{{ App\Antrian::where('antriable_type', 'App\\Antrian')->count() }}</span></a>
+                    </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -363,6 +367,7 @@
 
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 	<script>
+		updateLandingLinkClass();
 		Pusher.logToConsole = true;
 
 		var pusher = new Pusher('281b6730814874b6b533', {
@@ -372,7 +377,13 @@
 
 		var channel = pusher.subscribe('my-channel');
 		channel.bind('form-submitted', function(data) {
-		  alert(JSON.stringify(data));
+			$('#jumlah_antrian').html(data.text);
+			document.getElementById("myAudio").play();
+			console.log('audia');
+			updateLandingLinkClass();
+			$('#jumlah_antrian').closest('li').fadeOut(function(){
+				$(this).fadeIn();
+			});
 		});
 
 		var base = "{{ url('/') }}";
@@ -505,6 +516,22 @@
                 "New row",
                 "New row" ] );
         }
+		function updateLandingLinkClass(){
+			var jumlah_antrian = $('#jumlah_antrian').html();
+			console.log('jumlah_antrian');
+			console.log(jumlah_antrian);
+			if(
+				parseInt(jumlah_antrian) > 0 &&
+				!$('#jumlah_antrian').closest('li').hasClass('landing_link')
+			){
+				$('#jumlah_antrian').closest('li').addClass('landing_link')
+			} else if (
+				parseInt(jumlah_antrian) < 1 &&
+				$('#jumlah_antrian').closest('li').hasClass('landing_link')
+			) {
+				$('#jumlah_antrian').closest('li').removeClass('landing_link')
+			}
+		}
 		{{--$('.table-responsive tbody tr').slice(-2).find('.dropdown').addClass('dropup');--}}
 
     </script>

@@ -2,11 +2,13 @@
 namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
+use App\Events\updateMonitor;
 use Illuminate\Http\Request;
 use App\AntrianPeriksa;
 use App\Classes\Yoga;
 use App\TujuanRujuk;
 use App\Periksa;
+use App\Panggilan;
 use App\Pasien;
 use App\AturanMinum;
 use App\Staf;
@@ -34,6 +36,8 @@ class PolisController extends Controller
 			$pesan = Yoga::gagalFlash('Pasien sudah dimasukkan sebelumnya atau buatlah antrian baru');
 			return redirect()->back()->withPesan($pesan);
 		}
+
+		$this->updateMonitor($antrianperiksa);
 
 		if ( $antrianperiksa->asuransi_id == '32' && empty( $antrianperiksa->pasien->image ) ) {
 			return redirect('pasiens/' . $antrianperiksa->pasien_id . '/edit')
@@ -506,5 +510,13 @@ class PolisController extends Controller
          }
          return \Cache::get($name);
     }
-
+	public function updateMonitor($ap){
+		if (isset( $ap->antrian )) {
+			$panggilan = Panggilan::find( 1 );
+			$panggilan->antrian_id = $ap->antrian->id;
+			$panggilan->save();
+		}
+		$text = $ap->antrian->nomor_antrian;
+		event(new updatemonitor($text));
+	}
 }

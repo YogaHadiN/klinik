@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Dispensing;
+use App\Events\updateMonitor;
 use App\Classes\Yoga;
 use App\Pasien;
 use App\Periksa;
@@ -44,6 +45,6 @@ class testConsole extends Command
      */
     public function handle()
     {
-		dd(session('antrian_id'));
+		event(new updateMonitor('ada'));
     }
 }

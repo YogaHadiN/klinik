@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 use App\Outbox;
 use App\Pengeluaran;
 use App\Woowa;
+use App\Panggilan;
 use App\Sms;
 use App\AntrianPoli;
 use App\PembayaranAsuransi;
@@ -176,6 +177,9 @@ class testcommand extends Command
 		];
 		PoliAntrian::insert($poli_antrians);
 		JenisAntrian::insert($jenis_antrians);
+		$panggilan       = new Panggilan;
+		$panggilan->antrian_id   = '90000';
+		$panggilan->save();
 		DB::statement("ALTER TABLE antrians ADD jenis_antrian_id varchar(255);");
 		DB::statement("ALTER TABLE antrians DROP COLUMN antrian_terakhir;");
 		DB::statement("ALTER TABLE antrian_polis DROP COLUMN antrian;");

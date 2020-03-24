@@ -60,6 +60,9 @@
 
 @stop
 @section('content')
+	@if(isset($antrian))
+		@include('fasilitas.memproses')
+	@endif
 	@if(Session::has('antrian_id'))
 	<h1>{{ session('antrian_id') }}</h1>
 	@endif

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
+use App\Events\FormSubmitted;
 use App\Antrian;
 use Bitly;
 use App\Sms;
@@ -308,6 +309,7 @@ class AntrianPolisController extends Controller
 		/* 	$totalAntrian = $this->totalAntrian($ap); */
 		/* 	$this->sendWaAntrian($totalAntrian, $ap); */
 		/* } */
+		$this->updateJumlahAntrian();
 		return $ap;
 
 	}
@@ -329,4 +331,9 @@ class AntrianPolisController extends Controller
 		return redirect('antrianpolis')
 			->withPesan($pesan);
 	}
+	public function updateJumlahAntrian(){
+		$text = Antrian::where('antriable_type', 'App\\Antrian')->count();
+		event(new FormSubmitted($text));
+	}
+	
 }

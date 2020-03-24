@@ -101,6 +101,7 @@ Route::resource('invoices', 'InvoiceController');
 			Route::get('antrians/proses/{id}', 'FasilitasController@prosesAntrian'); //antrian pasien
 			Route::post('antrians/antrianpolis/{id}', 'FasilitasController@antrianPoliPost'); //antrian pasien
 			Route::get('antrians', 'FasilitasController@listAntrian');
+			Route::delete('antrians/{id}', 'FasilitasController@deleteAntrian');
 			Route::get('rekening_bank/search', 'RekeningController@search');
 			Route::get('rekening_bank/{id}', 'RekeningController@index');
 			Route::get('rekenings/cek_id', 'RekeningController@cekId');
