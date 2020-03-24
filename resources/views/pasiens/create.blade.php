@@ -27,6 +27,16 @@
 </ol>
  @stop
  @section('content') 
+@if(isset($antrian))
+	@include('fasilitas.memproses')
+{!! Form::open(array(
+	"url"   => "antrians/{$antrian->id}/pasiens",
+	"class" => "m-t", 
+	"role"  => "form",
+	"files"  => "true",
+	"method"=> "post"
+))!!}
+@else
 {!! Form::open(array(
 	"url"   => "pasiens",
 	"class" => "m-t", 
@@ -34,6 +44,7 @@
 	"files"  => "true",
 	"method"=> "post"
 ))!!}
+@endif
 	@include('pasiens.createForm', ['antrianpolis' => true])
 {!! Form::close() !!}
  @stop

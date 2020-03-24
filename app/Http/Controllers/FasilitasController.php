@@ -317,15 +317,7 @@ class FasilitasController extends Controller
 
 			$apc = new AntrianPolisController;
 
-			$apc->input_pasien_id     = Input::get('pasien_id');
-			$apc->input_asuransi_id   = Input::get('asuransi_id');
 			$apc->input_antrian_id   = $id;
-			$apc->input_poli          = Input::get('poli');
-			$apc->input_staf_id       = Input::get('staf_id');
-			$apc->input_tanggal       = Yoga::datePrep( Input::get('tanggal') );
-			$apc->input_bukan_peserta = Input::get('bukan_peserta');
-
-
 			$ap = $apc->inputDataAntrianPoli();
 			DB::commit();
 			return $apc->arahkanAP($ap);
@@ -344,4 +336,41 @@ class FasilitasController extends Controller
 		$apc->updateJumlahAntrian();
 		return redirect('antrians')->withPesan($pesan);
 	}
+	public function createPasien($id){
+		$ps          = new PasiensController;
+		$polis[null] = ' - Pilih Poli - ';
+		$antrian     = Antrian::find( $id );
+		foreach ($antrian->jenis_antrian->poli_antrian as $poli) {
+			$polis[ $poli->poli_id ] = $poli->poli->poli;
+		}
+		$ps->dataCreatePasien['poli']    = $polis;
+		$ps->dataCreatePasien['antrian'] = $antrian;
+		return $ps->create();
+	}
+	public function storePasien($id){
+		$rules = [
+			"nama"      => "required",
+			"sex"       => "required",
+			"panggilan" => "required"
+		];
+
+		$pc = new PasiensController;
+
+		if ( $pc->input_punya_asuransi == '1' ) {
+			  $rules["asuransi_id"]    = "required";
+			  $rules["jenis_peserta"]  = "required";
+			  $rules["nomor_asuransi"] = "required";
+		}
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		$pc->input_antrian_id = $id;
+		return $pc->inputDataPasien();
+	}
+	
+	
 }

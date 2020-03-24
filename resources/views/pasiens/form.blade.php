@@ -7,7 +7,12 @@
 				@if( $createLink )
                 <div class="panelRight">
                 <a href="#" type="button" class="btn btn-info" data-toggle="modal" data-target="#kriteria"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Parameter Pencarian</a>
-                <a href="{{ url( 'pasiens/create' ) }}" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> PASIEN Baru</a>
+                @if(isset($antrian))
+					<a href="{{ url( "antrians/{$antrian->id}/pasiens/create" ) }}" type="button" class="btn btn-success">
+				@else
+					<a href="{{ url( 'pasiens/create' ) }}" type="button" class="btn btn-success">
+				@endif
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> PASIEN Baru</a>
                 <a href="#" type="button" class="btn btn-success hide" data-toggle="modal" data-target="#pasienInsert"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> PASIEN Baru</a>
                 </div>
 				@endif

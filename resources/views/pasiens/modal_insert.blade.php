@@ -246,31 +246,21 @@
 			  <h2>Antrian Poli</h2>
 			  <hr />
 		 <div class="row">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Nama Dokter', ['class' => 'control-label']) !!}
 				  {!! Form::select('staf_id' , App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick' , 'data-live-search' => 'true']) !!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
 			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('poli'))has-error @endif">
 				  {!! Form::label('poli', 'Poli', ['class' => 'control-label']) !!}
-				  {!! Form::select('poli' , App\Classes\Yoga::poliList(), null, [
-					  'class' => 'form-control',
+				  {!! Form::select('poli' , $poli, null, [
+					  'class'    => 'form-control',
 					  'onchange' => 'pilihPoli(this);return false;'
 				  ]) !!}
 				  @if($errors->has('poli'))<code>{{ $errors->first('poli') }}</code>@endif
-				</div>
-			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-
-				<div class="form-group @if($errors->has('antrian'))has-error @endif">
-				  {!! Form::label('antrian', 'Antrian') !!}
-				  {!! Form::text('antrian' , null, ['class' => 'form-control angka']) !!}
-				  @if($errors->has('antrian'))<code>{{ $errors->first('antrian') }}</code>@endif
 				</div>
 			</div>
 		 </div>

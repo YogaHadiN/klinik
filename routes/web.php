@@ -100,6 +100,8 @@ Route::resource('invoices', 'InvoiceController');
 			Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 			Route::get('antrians/proses/{id}', 'FasilitasController@prosesAntrian'); //antrian pasien
 			Route::post('antrians/antrianpolis/{id}', 'FasilitasController@antrianPoliPost'); //antrian pasien
+			Route::get('antrians/{id}/pasiens/create', 'FasilitasController@createPasien'); //antrian pasien
+			Route::post('antrians/{id}/pasiens', 'FasilitasController@storePasien'); //antrian pasien
 			Route::get('antrians', 'FasilitasController@listAntrian');
 			Route::delete('antrians/{id}', 'FasilitasController@deleteAntrian');
 			Route::get('rekening_bank/search', 'RekeningController@search');

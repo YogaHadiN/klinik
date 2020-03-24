@@ -33,9 +33,9 @@
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">Dokter</label>
 						{!! Form::select('staf_id', $staf, null, [
-						'class' => 'form-control selectpick rq',
-						'id' => 'antrianpoli_staf_id',
-						'data-live-search' => 'true'
+							'class'            => 'form-control selectpick rq',
+							'id'               => 'antrianpoli_staf_id',
+							'data-live-search' => 'true'
 						])!!}
 					</div>
 				</div>
@@ -114,9 +114,7 @@
 	  		<a class="btn btn-danger btn-block" href="{{ url('home/') }}">Cancel</a>
 	  	</div>
 	  </div>
-	  
   </div>
 </div>
 </div>
 {!! Form::close() !!}
-
