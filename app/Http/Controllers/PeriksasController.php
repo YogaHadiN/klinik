@@ -416,7 +416,12 @@ class PeriksasController extends Controller
 			$periksa->save();
 			/* $this->kirimWaAntrianBerikutnya($periksa); */
 			DB::commit();
-			return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+			if(isset($periksa->antrian)){
+				$ruang_periksa_id = $periksa->antrian->jenis_antrian_id;
+			} else {
+				$ruang_periksa_id = 6;
+			}
+			return redirect('ruangperiksa/' . $ruang_periksa_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -683,7 +688,13 @@ class PeriksasController extends Controller
 			Terapi::insert($terapiInserts);
 			$pasien = $periksa->pasien;
 			DB::commit();
-			return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+
+			if(isset($periksa->antrian)){
+				$ruang_periksa_id = $periksa->antrian->jenis_antrian_id;
+			} else {
+				$ruang_periksa_id = 6;
+			}
+			return redirect('ruangperiksa/' . $ruang_periksa_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;

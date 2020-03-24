@@ -169,7 +169,7 @@ class testcommand extends Command
 				'updated_at' => $timestamp
 			],
 			[
-				'jenis_antrian_id' => 5,
+				'jenis_antrian_id' => 6,
 				'poli_id' => 'darurat',
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp

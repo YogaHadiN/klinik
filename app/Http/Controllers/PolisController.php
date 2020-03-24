@@ -37,7 +37,9 @@ class PolisController extends Controller
 			return redirect()->back()->withPesan($pesan);
 		}
 
-		$this->updateMonitor($antrianperiksa);
+		if (isset($antrianperiksa->antrian)) {
+			$this->updateMonitor($antrianperiksa);
+		}
 
 		if ( $antrianperiksa->asuransi_id == '32' && empty( $antrianperiksa->pasien->image ) ) {
 			return redirect('pasiens/' . $antrianperiksa->pasien_id . '/edit')
@@ -512,11 +514,11 @@ class PolisController extends Controller
     }
 	public function updateMonitor($ap){
 		if (isset( $ap->antrian )) {
-			$panggilan = Panggilan::find( 1 );
+			$panggilan             = Panggilan::find( 1 );
 			$panggilan->antrian_id = $ap->antrian->id;
 			$panggilan->save();
 		}
 		$text = $ap->antrian->nomor_antrian;
-		event(new updatemonitor($text));
+		event(new updateMonitor($text));
 	}
 }

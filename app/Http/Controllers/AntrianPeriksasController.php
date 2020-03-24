@@ -150,9 +150,11 @@ class AntrianPeriksasController extends Controller
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
 		$antrian_poli            = AntrianPoli::find($antrian_poli_id);
 		$antrian                 = $antrian_poli->antrian;
-		$antrian->antriable_id   = $ap->id;
-		$antrian->antriable_type = 'App\\AntrianPeriksa';
-		$antrian->save();
+		if(isset($antrian)){
+			$antrian->antriable_id   = $ap->id;
+			$antrian->antriable_type = 'App\\AntrianPeriksa';
+			$antrian->save();
+		}
 		$antrian_poli->delete();
 
 		$promo = Promo::where('promoable_type' , 'App\AntrianPoli')->where('promoable_id', $antrian_poli_id)->first() ;

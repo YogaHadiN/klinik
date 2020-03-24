@@ -51,7 +51,11 @@
 								@if($periksa->poli == 'estetika' && $periksa->periksaEx != null)
 								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksaEx->id . '/images') }}">Gambar</a> </td>
 								@else
-									<td>{!! $periksa->antrian->nomor_antrian !!}</td>
+									<td>
+										@if(isset($periksa->antrian))
+											{!! $periksa->antrian->nomor_antrian !!}
+										@endif
+									</td>
 								@endif
 								<td>{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} </br>
 									{!! $periksa->jam !!}
