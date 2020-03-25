@@ -8,6 +8,7 @@ use Input;
 use App\Http\Requests;
 use App\Events\FormSubmitted;
 use App\Antrian;
+use App\JenisAntrian;
 use Bitly;
 use App\Sms;
 use App\Asuransi;
@@ -332,8 +333,29 @@ class AntrianPolisController extends Controller
 			->withPesan($pesan);
 	}
 	public function updateJumlahAntrian(){
-		$text = Antrian::where('antriable_type', 'App\\Antrian')->count();
-		event(new FormSubmitted($text));
+		$antrians          = Antrian::with('jenis_antrian.poli_antrian', 'jenis_antrian.antrian_terakhir')->where('antriable_type', 'App\\Antrian')->get();
+		$data['count']     = $antrians->count();
+		$jenis_antrian=JenisAntrian::with('antrian_terakhir')->orderBy('updated_at', 'desc')->get();
+		$data['panggilan']['nomor_antrian'] = $jenis_antrian->first()->antrian_terakhir->nomor_antrian;
+		$data['panggilan']['poli'] = ucwords($jenis_antrian->first()->jenis_antrian);
+
+		foreach ($jenis_antrian as $ja) {
+			$data['antrian_terakhir_per_poli'][$ja->id] = $ja->antrian_terakhir->nomor_antrian;
+		}
+
+		foreach ($antrians as $antrian) {
+			if( isset($data['data'][ $antrian->jenis_antrian_id ]['jumlah']) ){
+				$data['data'][ $antrian->jenis_antrian_id ]['jumlah']++;
+			} else {
+				$data['data'][ $antrian->jenis_antrian_id ]['jumlah'] = 1;
+			}
+			if (isset($antrian->jenis_antrian->antrian_terakhir)) {
+				$data['data'][ $antrian->jenis_antrian_id ]['nomor_antrian_terakhir'] = $antrian->jenis_antrian->antrian_terakhir->nomor_antrian;
+			} else {
+				$data['data'][ $antrian->jenis_antrian_id ]['nomor_antrian_terakhir'] = null;
+			}
+		}
+		event(new FormSubmitted($data));
 	}
 	
 }

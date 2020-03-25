@@ -514,9 +514,9 @@ class PolisController extends Controller
     }
 	public function updateMonitor($ap){
 		if (isset( $ap->antrian )) {
-			$panggilan             = Panggilan::find( 1 );
-			$panggilan->antrian_id = $ap->antrian->id;
-			$panggilan->save();
+			$jenis_antrian                      = $ap->antrian->jenis_antrian;
+			$jenis_antrian->antrian_terakhir_id = $ap->antrian->id;
+			$jenis_antrian->save();
 		}
 		$text = $ap->antrian->nomor_antrian;
 		event(new updateMonitor($text));

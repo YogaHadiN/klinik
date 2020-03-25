@@ -377,13 +377,11 @@
 
 		var channel = pusher.subscribe('my-channel');
 		channel.bind('form-submitted', function(data) {
-			$('#jumlah_antrian').html(data.text);
-			document.getElementById("myAudio").play();
-			console.log('audia');
+			console.log('data.text.count');
+			console.log(data.text.count);
+			$('#jumlah_antrian').html(data.text.count);
 			updateLandingLinkClass();
-			$('#jumlah_antrian').closest('li').fadeOut(function(){
-				$(this).fadeIn();
-			});
+
 		});
 
 		var base = "{{ url('/') }}";
@@ -531,6 +529,9 @@
 			) {
 				$('#jumlah_antrian').closest('li').removeClass('landing_link')
 			}
+			$('#jumlah_antrian').closest('li').fadeOut(function(){
+				$(this).fadeIn();
+			});
 		}
 		{{--$('.table-responsive tbody tr').slice(-2).find('.dropdown').addClass('dropup');--}}
 

@@ -270,10 +270,10 @@ class FasilitasController extends Controller
 			$antrian->jenis_antrian_id = $id ;
 			$antrian->save();
 		}
-		$antrian->antriable_id = $antrian->id;
+		$antrian->antriable_id   = $antrian->id;
 		$antrian->antriable_type = 'App\\Antrian';
 		$antrian->save();
-		$apc          = new AntrianPolisController;
+		$apc                     = new AntrianPolisController;
 		$apc->updateJumlahAntrian();
 		return redirect('fasilitas/antrian_pasien')
 			->withPrint($antrian->id);

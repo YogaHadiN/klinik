@@ -64,7 +64,7 @@ class testcommand extends Command
     public function handle()
     {
 		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)");
-		DB::statement("CREATE TABLE jenis_antrians ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, jenis_antrian VARCHAR(30) NOT NULL, prefix VARCHAR(30) NOT NULL, created_at timestamp, updated_at timestamp);");
+		DB::statement("CREATE TABLE jenis_antrians ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, jenis_antrian VARCHAR(30) NOT NULL, prefix VARCHAR(30) NOT NULL, antrian_terakhir_id VARCHAR(255) NULL, created_at timestamp, updated_at timestamp);");
 		DB::statement("CREATE TABLE poli_antrians ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, jenis_antrian_id VARCHAR(30) NOT NULL, poli_id VARCHAR(30) NOT NULL, created_at timestamp, updated_at timestamp);");
 		DB::statement("CREATE TABLE panggilans ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, antrian_id VARCHAR(30) NOT NULL, created_at timestamp, updated_at timestamp);");
 		$timestamp = date('Y-m-d H:i:s');
@@ -94,18 +94,11 @@ class testcommand extends Command
 				'updated_at' => $timestamp
 			],
 			[
-				'jenis_antrian' => 'Poli USG',
-				'prefix' => 'E',
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			],
-			[
 				'jenis_antrian' => 'Darurat',
 				'prefix' => 'F',
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			],
-
 		];
 		$poli_antrians = [
 			[
@@ -128,7 +121,7 @@ class testcommand extends Command
 			],
 			[
 				'jenis_antrian_id' => 2,
-				'poli_id' => 'luka',
+				'poli_id' => 'gigi',
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			],
@@ -146,6 +139,18 @@ class testcommand extends Command
 			],
 			[
 				'jenis_antrian_id' => 3,
+				'poli_id' => 'usg',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 3,
+				'poli_id' => 'usgabdomen',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'jenis_antrian_id' => 3,
 				'poli_id' => 'kb 3 bulan',
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
@@ -158,18 +163,6 @@ class testcommand extends Command
 			],
 			[
 				'jenis_antrian_id' => 5,
-				'poli_id' => 'usg',
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			],
-			[
-				'jenis_antrian_id' => 5,
-				'poli_id' => 'usgabdomen',
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			],
-			[
-				'jenis_antrian_id' => 6,
 				'poli_id' => 'darurat',
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
@@ -181,6 +174,7 @@ class testcommand extends Command
 		$panggilan->antrian_id   = '90000';
 		$panggilan->save();
 		DB::statement("ALTER TABLE antrians ADD jenis_antrian_id varchar(255);");
+		DB::statement("ALTER TABLE antrians ADD url varchar(255);");
 		DB::statement("ALTER TABLE antrians DROP COLUMN antrian_terakhir;");
 		DB::statement("ALTER TABLE antrian_polis DROP COLUMN antrian;");
 		DB::statement("ALTER TABLE antrian_periksas DROP COLUMN antrian;");
