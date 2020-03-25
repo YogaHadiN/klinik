@@ -333,14 +333,25 @@ class AntrianPolisController extends Controller
 			->withPesan($pesan);
 	}
 	public function updateJumlahAntrian(){
-		$antrians          = Antrian::with('jenis_antrian.poli_antrian', 'jenis_antrian.antrian_terakhir')->where('antriable_type', 'App\\Antrian')->get();
-		$data['count']     = $antrians->count();
-		$jenis_antrian=JenisAntrian::with('antrian_terakhir')->orderBy('updated_at', 'desc')->get();
-		$data['panggilan']['nomor_antrian'] = $jenis_antrian->first()->antrian_terakhir->nomor_antrian;
+		$count         = Antrian::with('jenis_antrian.poli_antrian', 'jenis_antrian.antrian_terakhir')->where('antriable_type', 'App\\Antrian')->count();
+		$data['count'] = $count;
+		$antrians      = Antrian::with('jenis_antrian.poli_antrian', 'jenis_antrian.antrian_terakhir')->where('created_at', 'like', date('Y-m-d') . '%')->get();
+		$jenis_antrian = JenisAntrian::with('antrian_terakhir')->orderBy('updated_at', 'desc')->get();
+
+		if ( isset($jenis_antrian->first()->antrian_terakhir)) {
+			$data['panggilan']['nomor_antrian'] = $jenis_antrian->first()->antrian_terakhir->nomor_antrian; 
+		} else {
+			$data['panggilan']['nomor_antrian'] = null;
+		}
+
 		$data['panggilan']['poli'] = ucwords($jenis_antrian->first()->jenis_antrian);
 
 		foreach ($jenis_antrian as $ja) {
-			$data['antrian_terakhir_per_poli'][$ja->id] = $ja->antrian_terakhir->nomor_antrian;
+			if (isset($ja->antrian_terakhir)) {
+				$data['antrian_terakhir_per_poli'][$ja->id] = $ja->antrian_terakhir->nomor_antrian;
+			} else {
+				$data['antrian_terakhir_per_poli'][$ja->id] = '-';
+			}
 		}
 
 		foreach ($antrians as $antrian) {
@@ -352,10 +363,16 @@ class AntrianPolisController extends Controller
 			if (isset($antrian->jenis_antrian->antrian_terakhir)) {
 				$data['data'][ $antrian->jenis_antrian_id ]['nomor_antrian_terakhir'] = $antrian->jenis_antrian->antrian_terakhir->nomor_antrian;
 			} else {
-				$data['data'][ $antrian->jenis_antrian_id ]['nomor_antrian_terakhir'] = null;
+				$data['data'][ $antrian->jenis_antrian_id ]['nomor_antrian_terakhir'] = '-';
+			}
+		}
+
+		foreach ($jenis_antrian as $ja) {
+			if (!isset($data['data'][$ja->id]) && $ja->id <5) {
+				$data['data'][$ja->id]['nomor_antrian_terakhir'] = '-';
+				$data['data'][$ja->id]['jumlah']                 = 0;
 			}
 		}
 		event(new FormSubmitted($data));
 	}
-	
 }

@@ -518,7 +518,7 @@ class PolisController extends Controller
 			$jenis_antrian->antrian_terakhir_id = $ap->antrian->id;
 			$jenis_antrian->save();
 		}
-		$text = $ap->antrian->nomor_antrian;
-		event(new updateMonitor($text));
+		$apc = new AntrianPolisController;
+		$apc->updateJumlahAntrian();
 	}
 }

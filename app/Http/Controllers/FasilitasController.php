@@ -253,7 +253,7 @@ class FasilitasController extends Controller
 		return redirect()->back()->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
 	}
 	public function antrian($id){
-		$antrians = Antrian::where('created_at', 'like', date('Y-m-d') . '%')
+		$antrians = Antrian::with('jenis_antrian')->where('created_at', 'like', date('Y-m-d') . '%')
 							->where('jenis_antrian_id',$id)
 							->orderBy('nomor', 'desc')
 							->first();
@@ -263,6 +263,7 @@ class FasilitasController extends Controller
 			$antrian->nomor            = 1 ;
 			$antrian->jenis_antrian_id = $id ;
 			$antrian->save();
+
 		} else {
 			$antrian_terakhir          = $antrians->nomor + 1;
 			$antrian                   = new Antrian;
