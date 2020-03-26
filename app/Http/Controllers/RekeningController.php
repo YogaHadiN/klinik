@@ -30,7 +30,12 @@ class RekeningController extends Controller
 		$this->input_pembayaran_null = Input::get('pembayaran_null');
     }
 	public function index($id){
-		Artisan::call('cek:mutasi20terakhir');
+		try {
+			Artisan::call('cek:mutasi20terakhir');
+		} catch (\Exception $e) {
+			$pesan = Yoga::gagalFlash('Mutasi Moota gagal');
+			session(['pesan' => $pesan]);
+		}
 		$rekening = Rekening::where('akun_bank_id', $id)
 			->where('debet', '0')
 			->orderBy('tanggal', 'desc')->first();

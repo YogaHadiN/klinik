@@ -19,7 +19,8 @@
     -->
     <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
     <link href="{!! asset('css/poli.css') !!}" rel="stylesheet">
-<link href="{!! asset('font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/888ab79ab3.js" crossorigin="anonymous"></script>
+
 	<style type="text/css" media="all">
 		.fixed {
 			position: fixed;
@@ -58,9 +59,10 @@
 </head>
 <body>
 	<audio id="myAudio">
-	  <source src="{{ url('sound/bell.mpeg') }}.ogg" type="audio/ogg">
+	  <source src="{{ url('sound/bel.mpeg') }}" type="audio/mpeg">
 	  Your browser does not support the audio element.
 	</audio>
+	<button type="button" onclick="playBell();return false;"></button>
     <div id="overlayd"></div>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
@@ -532,6 +534,9 @@
 			$('#jumlah_antrian').closest('li').fadeOut(function(){
 				$(this).fadeIn();
 			});
+		}
+		function playBell(){
+			document.getElementById('myAudio').play();
 		}
 		{{--$('.table-responsive tbody tr').slice(-2).find('.dropdown').addClass('dropup');--}}
 
