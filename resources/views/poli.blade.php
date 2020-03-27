@@ -98,9 +98,35 @@
 @include('gambar_periksa')
 @stop
 @section('footer') 
+	{!! Form::text('audio', json_encode($panggilan), ['class' => 'form-control', 'id' => 'sound']) !!}
+	
+<audio id="myAudio">
+  <source src="{{ url('sound/bel.mpeg') }}" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 <script>
+
 var base = '{!! url('/') !!}';
-console.log(base);
+
+var x = document.getElementById("myAudio");
+
+function panggilPasien(){
+	var sound = $('#sound').val();
+	sound     = JSON.parse(sound);
+	x.play();
+	var index = 0;
+	x.onended = function() {
+		if(index < sound.length){
+			x.src=base + '/sound/' + sound[index];
+			x.play();
+			index++;
+		} else {
+			x.src=base + '/sound/bel.mpeg';
+		}
+	};
+}
+
+audio.play();
 </script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
 {!! HTML::script('js/allpoli.js')!!} 

@@ -58,10 +58,6 @@
     @yield('head')
 </head>
 <body>
-	<audio id="myAudio">
-	  <source src="{{ url('sound/bel.mpeg') }}" type="audio/mpeg">
-	  Your browser does not support the audio element.
-	</audio>
 	<button type="button" onclick="playBell();return false;"></button>
     <div id="overlayd"></div>
     <div id="wrapper">
@@ -373,29 +369,29 @@
 		var channel_name = getChannelName();
 		var event_name   = 'form-submitted';
 
-		{{-- Pusher.logToConsole = true; --}}
+		Pusher.logToConsole = true;
 
-		{{-- var pusher = new Pusher('281b6730814874b6b533', { --}}
-		{{--   cluster: 'ap1', --}}
-		{{--   forceTLS: true --}}
-		{{-- }); --}}
+		var pusher = new Pusher('281b6730814874b6b533', {
+		  cluster: 'ap1',
+		  forceTLS: true
+		});
 
-		{{-- if(dev){ --}}
-		{{-- 	var channel_name = 'my-channel2'; --}}
-		{{-- 	var event_name   = 'form-submitted2'; --}}
-		{{-- } else { --}}
-		{{-- 	var channel_name = 'my-channel'; --}}
-		{{-- 	var event_name   = 'form-submitted'; --}}
-		{{-- } --}}
+		if(dev){
+			var channel_name = 'my-channel2';
+			var event_name   = 'form-submitted2';
+		} else {
+			var channel_name = 'my-channel';
+			var event_name   = 'form-submitted';
+		}
 
-		{{-- var channel = pusher.subscribe(channel_name); --}}
-		{{-- channel.bind(event_name, function(data) { --}}
-		{{-- 	console.log('data.text.count'); --}}
-		{{-- 	console.log(data.text.count); --}}
-		{{-- 	$('#jumlah_antrian').html(data.text.count); --}}
-		{{-- 	updateLandingLinkClass(); --}}
+		var channel = pusher.subscribe(channel_name);
+		channel.bind(event_name, function(data) {
+			console.log('data.text.count');
+			console.log(data.text.count);
+			$('#jumlah_antrian').html(data.text.count);
+			updateLandingLinkClass();
 
-		{{-- }); --}}
+		});
 
 		var base = "{{ url('/') }}";
         $.ajaxSetup({

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Rekening;
 use App\Asuransi;
+use App\Classes\Yoga;
 use Input;
 use Artisan;
 use DB;

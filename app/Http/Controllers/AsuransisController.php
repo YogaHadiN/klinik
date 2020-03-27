@@ -374,7 +374,9 @@ class AsuransisController extends Controller
 		$query .="group by pias.id ";
 		$query .=")bl ";
 		$query .="group by year(tanggal) desc, month(tanggal) desc ";
-		return DB::select($query);
+		$result = DB::select($query);
+
+		return $result;
 	}
 	public function pembayarans_template($id){
 		return PembayaranAsuransi::with('staf')->where('asuransi_id', $id)->orderBy('tanggal_dibayar', 'desc')->get();

@@ -31,7 +31,6 @@ class PolisController extends Controller
     }
 	public function poli($id, Request $request){
 
-
 		$antrianperiksa                       = AntrianPeriksa::with('pasien.alergies', 'antrian.jenis_antrian')->where('id',$id)->first();
 		if ($antrianperiksa == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah dimasukkan sebelumnya atau buatlah antrian baru');
@@ -56,6 +55,7 @@ class PolisController extends Controller
 		$pemeriksaan_awal 	= '';
 		$pakai_bayar_pribadi = false;
 
+		
 		$panggilan = $this->panggilan($antrianperiksa);
 
 		$g = null;
@@ -358,6 +358,7 @@ class PolisController extends Controller
 			->withUk($uk)
 			->withTb($tb)
 			->with('jumlah_janin', $jumlah_janin)
+			->with('panggilan', $panggilan)
 			->with('nama_suami', $nama_suami)
 			->with('bb_sebelum_hamil', $bb_sebelum_hamil)
 			->with('golongan_darah', $golongan_darah)
@@ -493,6 +494,7 @@ class PolisController extends Controller
 			->withTindakans($tindakans)
 			->withPlafon($plafonFlat)
 			->withAdatindakan($adatindakan)
+			->with('panggilan', $panggilan)
 			->withG($g)
 			->withP($p)
 			->withA($a)
@@ -526,16 +528,144 @@ class PolisController extends Controller
 	private function panggilan($antrianperiksa){
 		if (isset($antrianperiksa->antrian)) {
 			$nomor_antrian = $antrianperiksa->antrian->nomor_antrian;
-			$huruf         = strtolower(str_split($nomor_antrian)[0]);
-			$angka         = substr($nomor_antrian, 1);
-			$banyaknya_angka = count(str_split($angka));
+			return $this->panggilPasien($nomor_antrian);
+		}
+	}
 
-			$result = [];
-			if ( $banyaknya_angka < 1 || $angka == '11' ) {
+	private function panggilPasien($nomor_antrian){
+		$huruf         = strtolower(str_split($nomor_antrian)[0]);
+		$angka         = substr($nomor_antrian, 1);
+
+
+		$result = [];
+		if ( (int)$angka < 12 || $angka == '100' ) {
+			$result = [
+				$huruf . '.mp3',
+				(int) $angka . '.mp3',
+				'silahkanmasuk.mp3'
+			];
+		} else if ( (int) $angka % 100 == 0 ) {
+			$angka  = str_split($angka)[0];
+			$result = [
+				(int) $angka . '.mp3',
+				'ratus.mp3',
+				'silahkanmasuk.mp3'
+			];
+		} else if ( (int)$angka < 20  ) {
+			$angka = substr($angka, 1);
+			$result = [
+				$huruf . '.mp3',
+				(int) $angka . '.mp3',
+				'belas.mp3',
+				'silahkanmasuk.mp3'
+			];
+		} else if ( (int)$angka < 100  ) {
+			$angka = str_split($angka, 1);
+			if ($angka[1] != '0') {
 				$result = [
-					'bel.mpeg',
 					$huruf . '.mp3',
+					(int) $angka[0] . '.mp3',
+					'puluh.mp3',
+					(int) $angka[1] . '.mp3',
+					'silahkanmasuk.mp3'
+				];
+			} else {
+				$result = [
+					$huruf . '.mp3',
+					(int) $angka[0] . '.mp3',
+					'puluh.mp3',
+					'silahkanmasuk.mp3'
 				];
 			}
+
+		} else if ( (int)$angka < 112  ) {
+			$angka = substr($angka, 1);
+			$result = [
+				$huruf . '.mp3',
+				'100.mp3',
+				(int) $angka . '.mp3',
+				'silahkanmasuk.mp3'
+			];
+		} else if ( (int)$angka < 120  ) {
+			$angka = substr($angka, 1);
+			$angka = str_split($angka);
+			$result = [
+				$huruf . '.mp3',
+				'100.mp3',
+				(int) $angka[1] . '.mp3',
+				'belas.mp3',
+				'silahkanmasuk.mp3'
+			];
+		} else if ( (int)$angka < 200  ) {
+			$angka = substr($angka, 1);
+			$angka = str_split($angka);
+			if($angka[1] != '0'){
+				$result = [
+					$huruf . '.mp3',
+					'100.mp3',
+					(int) $angka[0] . '.mp3',
+					'puluh.mp3',
+					(int) $angka[1] . '.mp3',
+					'silahkanmasuk.mp3'
+				];
+			} else {
+				$result = [
+					$huruf . '.mp3',
+					'100.mp3',
+					(int) $angka[0] . '.mp3',
+					'puluh.mp3',
+					'silahkanmasuk.mp3'
+				];
+			}
+		} else if( (int)$angka < 999  ) {
+			$angka = str_split($angka);
+			if(
+				$angka[1] == '0' ||
+				$angka[1] == '1'  &&  (int)$angka[2] < 2 
+			){
+				$result = [
+					$huruf . '.mp3',
+					(int) $angka[0] . '.mp3',
+					'ratus.mp3',
+					(int) ($angka[1] . $angka[2]) . '.mp3',
+					'silahkanmasuk.mp3'
+				];
+				dd($result);
+			} else if(
+				(int)$angka[1] > 0 &&
+				$angka[2] == '0'
+			) {
+				$result = [
+					$huruf . '.mp3',
+					(int) $angka[0] . '.mp3',
+					'ratus.mp3',
+					(int) $angka[1] . '.mp3',
+					'puluh.mp3',
+					'silahkanmasuk.mp3'
+				];
+			} else if(
+			   	$angka[1] == '1'
+			) {
+				$result = [
+					$huruf . '.mp3',
+					(int) $angka[0] . '.mp3',
+					'ratus.mp3',
+					(int) $angka[2] . '.mp3',
+					'belas.mp3',
+					'silahkanmasuk.mp3'
+				];
+			} else {
+				$result = [
+					$huruf . '.mp3',
+					(int) $angka[0] . '.mp3',
+					'ratus.mp3',
+					(int) $angka[1] . '.mp3',
+					'puluh.mp3',
+					(int) $angka[2] . '.mp3',
+					'silahkanmasuk.mp3'
+				];
+			}
+		}
+		return $result;
 	}
 }

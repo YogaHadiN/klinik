@@ -59,10 +59,21 @@ class revertPembayaranAsuransi extends Command
 		$query                 = "UPDATE piutang_asuransis as pa ";
 		$query                .= "JOIN periksas as px on px.id = pa.periksa_id ";
 		$query                .= "SET sudah_dibayar = 0 ";
-		$query                .= "WHERE px.tanggal like '2019-12%' ";
+		$query                .= "WHERE px.tanggal like '2020-02%' ";
+		$query                .= "OR px.tanggal like '2019-12%' ";
+		$query                .= "OR px.tanggal like '2019-08%' ";
 		$query                .= "AND px.asuransi_id  = '{$asuransi_id}';";
 		DB::statement($query);
-		DB::statement("UPDATE invoices set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)");
-		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)");
+
+		$ids_string = '';
+		foreach ($pembayaran_ids as $k => $id) {
+			if ($k) {
+				$ids_string .= ',' . $id;
+			} else {
+				$ids_string .=  $id;
+			}
+		}
+		DB::statement("UPDATE invoices set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (".$ids_string.")");
+		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (".$ids_string.")");
     }
 }
