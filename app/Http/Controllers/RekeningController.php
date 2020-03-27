@@ -38,6 +38,7 @@ class RekeningController extends Controller
 		}
 		$rekening = Rekening::where('akun_bank_id', $id)
 			->where('debet', '0')
+			->where('deskripsi', 'not like', '%cs-cs%')
 			->orderBy('tanggal', 'desc')->first();
 		return view('rekenings.index', compact('rekening'));
 	}

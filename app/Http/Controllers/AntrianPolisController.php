@@ -347,13 +347,12 @@ class AntrianPolisController extends Controller
 		$data['panggilan']['poli'] = ucwords($jenis_antrian->first()->jenis_antrian);
 
 		foreach ($jenis_antrian as $ja) {
-			if (isset($ja->antrian_terakhir)) {
+			if (isset($ja->antrian_terakhir ) && strpos($ja->updated_at, date('Y-m-d')) !== false ) {
 				$data['antrian_terakhir_per_poli'][$ja->id] = $ja->antrian_terakhir->nomor_antrian;
 			} else {
 				$data['antrian_terakhir_per_poli'][$ja->id] = '-';
 			}
 		}
-
 		foreach ($antrians as $antrian) {
 			if( isset($data['data'][ $antrian->jenis_antrian_id ]['jumlah']) ){
 				$data['data'][ $antrian->jenis_antrian_id ]['jumlah']++;

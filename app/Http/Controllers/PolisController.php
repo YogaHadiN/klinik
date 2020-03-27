@@ -31,7 +31,8 @@ class PolisController extends Controller
     }
 	public function poli($id, Request $request){
 
-		$antrianperiksa                       = AntrianPeriksa::with('pasien.alergies')->where('id',$id)->first();
+
+		$antrianperiksa                       = AntrianPeriksa::with('pasien.alergies', 'antrian.jenis_antrian')->where('id',$id)->first();
 		if ($antrianperiksa == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah dimasukkan sebelumnya atau buatlah antrian baru');
 			return redirect()->back()->withPesan($pesan);
@@ -55,6 +56,7 @@ class PolisController extends Controller
 		$pemeriksaan_awal 	= '';
 		$pakai_bayar_pribadi = false;
 
+		$panggilan = $this->panggilan($antrianperiksa);
 
 		$g = null;
 		$p = null;
@@ -520,5 +522,20 @@ class PolisController extends Controller
 		}
 		$apc = new AntrianPolisController;
 		$apc->updateJumlahAntrian();
+	}
+	private function panggilan($antrianperiksa){
+		if (isset($antrianperiksa->antrian)) {
+			$nomor_antrian = $antrianperiksa->antrian->nomor_antrian;
+			$huruf         = strtolower(str_split($nomor_antrian)[0]);
+			$angka         = substr($nomor_antrian, 1);
+			$banyaknya_angka = count(str_split($angka));
+
+			$result = [];
+			if ( $banyaknya_angka < 1 || $angka == '11' ) {
+				$result = [
+					'bel.mpeg',
+					$huruf . '.mp3',
+				];
+			}
 	}
 }

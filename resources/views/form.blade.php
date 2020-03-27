@@ -146,11 +146,13 @@
 							<div class="panel panel-primary col2">
 								<div class="panel-heading">
 									<div class="panelLeft">
-										<h3>Status Pasien</h3>
+										<button class="btn btn-success" type="button" onclick="panggilPasien();return false;">
+											<i class="fas fa-volume-up fa-3x"></i>
+										</button>
 									</div>
 									<div class="panelRight">
 										@if( $antrianperiksa->asuransi_id == '32' )
-											<a target="_blank" class="btn btn-primary btn-sm" href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0?/', '+62', $antrianperiksa->pasien->no_telp) }}&text=Selamat%20siang%20saya%20{{ rawurlencode( $antrianperiksa->staf->nama ) }}%2C%20saya%20ditugaskan%20terkait%20pasien%20{{ rawurlencode($antrianperiksa->pasien->nama) }}%20yang%20berobat%20ke%20klinik.%20Ada%20yang%20bisa%20dibantu%20untuk%20keluhannya%3F%20") }}"><i class="fab fa-whatsapp fa-3x"></i></a>
+											<a target="_blank" class="btn btn-primary btn-sm" href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0?/', '+62', $antrianperiksa->pasien->no_telp) }}&text=Selamat%20{{ App\Classes\Yoga::whatDay() }}%20saya%20{{ rawurlencode( $antrianperiksa->staf->nama ) }}%2C%20saya%20ditugaskan%20terkait%20pasien%20{{ rawurlencode($antrianperiksa->pasien->nama) }}%20yang%20berobat%20ke%20klinik.%20Ada%20yang%20bisa%20dibantu%20untuk%20keluhannya%3F%20") }}"><i class="fab fa-whatsapp fa-3x"></i></a>
 										@endif
 									</div>
 								</div>

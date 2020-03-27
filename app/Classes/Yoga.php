@@ -2661,6 +2661,19 @@ class Yoga {
                         break;
                 }
 	}
-	
-	
+	public static function whatDay(){
+
+		$h = date('H');
+		if ( (int)$h > 17) {
+			return 'malam';
+		} else if( (int)$h > 14){
+			return 'sore';
+		} else if( (int)$h > 10){
+			return 'siang';
+		} else if( (int)$h > 4){
+			return 'pagi';
+		} else {
+			return 'malam';
+		}
+	}
 }

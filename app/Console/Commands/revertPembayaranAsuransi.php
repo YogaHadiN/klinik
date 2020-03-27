@@ -43,23 +43,24 @@ class revertPembayaranAsuransi extends Command
      */
     public function handle()
     {
-		$pembayaran_ids = [808, 862, 866];
-		$piutang_asuransi = PembayaranAsuransi::where('id', $pembayaran_ids)->get();
-
-		$nota_jual_ids = [];
-		foreach ($piutang_asuransi as $pa) {
-			$nota_jual_ids[] = $pa->nota_jual_id;
+		$pembayaran_ids        = [808, 862, 866];
+		$pembayaran_asuransis  = PembayaranAsuransi::where('id', $pembayaran_ids)->get();
+		$asuransi_id           = $pembayaran_asuransis->first()->asuransi_id;
+		$nota_jual_ids         = [];
+		foreach ($pembayaran_asuransis as $pa) {
+			$nota_jual_ids[]   = $pa->nota_jual_id;
 		}
 		JurnalUmum::where('jurnalable_type', 'App\\NotaJual')->whereIn('jurnalable_id', $nota_jual_ids )->delete();
 		NotaJual::destroy($nota_jual_ids);
 		PembayaranAsuransi::destroy($pembayaran_ids);
 		PiutangDibayar::whereIn('pembayaran_asuransi_id', $pembayaran_ids)->delete();
 
-		$query = "UPDATE piutang_asuransis as pa ";
-		$query .= "JOIN periksas as px on px.id = pa.periksa_id ";
-		$query .= "SET sudah_dibayar = 0 ";
-		$query .= "WHERE px.tanggal like '2019-12%' ";
-		$query .= "AND px.asuransi_id  = '21';";
+
+		$query                 = "UPDATE piutang_asuransis as pa ";
+		$query                .= "JOIN periksas as px on px.id = pa.periksa_id ";
+		$query                .= "SET sudah_dibayar = 0 ";
+		$query                .= "WHERE px.tanggal like '2019-12%' ";
+		$query                .= "AND px.asuransi_id  = '{$asuransi_id}';";
 		DB::statement($query);
 		DB::statement("UPDATE invoices set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)");
 		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)");

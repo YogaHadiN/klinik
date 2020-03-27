@@ -370,21 +370,32 @@
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 	<script>
 		updateLandingLinkClass();
-		Pusher.logToConsole = true;
+		var channel_name = getChannelName();
+		var event_name   = 'form-submitted';
 
-		var pusher = new Pusher('281b6730814874b6b533', {
-		  cluster: 'ap1',
-		  forceTLS: true
-		});
+		{{-- Pusher.logToConsole = true; --}}
 
-		var channel = pusher.subscribe('my-channel');
-		channel.bind('form-submitted', function(data) {
-			console.log('data.text.count');
-			console.log(data.text.count);
-			$('#jumlah_antrian').html(data.text.count);
-			updateLandingLinkClass();
+		{{-- var pusher = new Pusher('281b6730814874b6b533', { --}}
+		{{--   cluster: 'ap1', --}}
+		{{--   forceTLS: true --}}
+		{{-- }); --}}
 
-		});
+		{{-- if(dev){ --}}
+		{{-- 	var channel_name = 'my-channel2'; --}}
+		{{-- 	var event_name   = 'form-submitted2'; --}}
+		{{-- } else { --}}
+		{{-- 	var channel_name = 'my-channel'; --}}
+		{{-- 	var event_name   = 'form-submitted'; --}}
+		{{-- } --}}
+
+		{{-- var channel = pusher.subscribe(channel_name); --}}
+		{{-- channel.bind(event_name, function(data) { --}}
+		{{-- 	console.log('data.text.count'); --}}
+		{{-- 	console.log(data.text.count); --}}
+		{{-- 	$('#jumlah_antrian').html(data.text.count); --}}
+		{{-- 	updateLandingLinkClass(); --}}
+
+		{{-- }); --}}
 
 		var base = "{{ url('/') }}";
         $.ajaxSetup({
@@ -392,23 +403,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-		@if( gethostname() == 'dell' )
-			{{--setInterval(function(){--}}
-				{{--$.get('{{ url("master/ajax/antrianTerakhir") }}', { 'tanggal' : '{{ date('Y-m-d') }}' }, function(data) {--}}
-					{{--var before = $('#antrianMaster').html();--}}
-					{{--data = $.trim(data)--}}
-						{{--if( before != data ){--}}
-							{{--if( parseInt(data) > 0 ){--}}
-								{{--$('#antrianPasien').hide().fadeIn(300);--}}
-								{{--$('#antrianMaster').html(data);--}}
-							{{--} else {--}}
-								{{--$('#antrianPasien').fadeOut(300);--}}
-								{{--$('#antrianMaster').html(data);--}}
-							{{--}--}}
-						{{--}--}}
-				{{--});--}}
-			{{--}, 5000);--}}
-		@endif
 
         $(document).ready(function() {
 
@@ -537,6 +531,14 @@
 		}
 		function playBell(){
 			document.getElementById('myAudio').play();
+		}
+		function getChannelName(){
+			@if( gethostname() == 'Yogas-Mac.local' )
+				var channel_name = 'my-channel2';
+			@else
+				var channel_name = 'my-channel';
+			@endif
+			return channel_name;
 		}
 		{{--$('.table-responsive tbody tr').slice(-2).find('.dropdown').addClass('dropup');--}}
 

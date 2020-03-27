@@ -45,6 +45,6 @@ class testConsole extends Command
      */
     public function handle()
     {
-		event(new updateMonitor('ada'));
+
     }
 }
