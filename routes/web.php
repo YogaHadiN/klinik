@@ -552,6 +552,7 @@ Route::resource('invoices', 'InvoiceController');
 			Route::post('formulas/ajax/ajaxformula', 'FormulasAjaxController@ajaxformula');
 
 			Route::get('poli/{id}', 'PolisController@poli');
+			Route::get('poli/ajax/panggil_pasien', 'PolisController@panggilPasienAjax');
 
 
 			Route::get('kasir/{id}', 'KasirBaseController@kasir');

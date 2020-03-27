@@ -366,8 +366,8 @@
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 	<script>
 		updateLandingLinkClass();
-		var channel_name = getChannelName();
-		var event_name   = 'form-submitted';
+		var channel_name    = 'my-channel';
+		var event_name      = 'form-submitted';
 
 		Pusher.logToConsole = true;
 
@@ -376,23 +376,11 @@
 		  forceTLS: true
 		});
 
-		if(dev){
-			var channel_name = 'my-channel2';
-			var event_name   = 'form-submitted2';
-		} else {
-			var channel_name = 'my-channel';
-			var event_name   = 'form-submitted';
-		}
-
 		var channel = pusher.subscribe(channel_name);
 		channel.bind(event_name, function(data) {
-			console.log('data.text.count');
-			console.log(data.text.count);
 			$('#jumlah_antrian').html(data.text.count);
 			updateLandingLinkClass();
-
 		});
-
 		var base = "{{ url('/') }}";
         $.ajaxSetup({
             headers: {

@@ -146,9 +146,11 @@
 							<div class="panel panel-primary col2">
 								<div class="panel-heading">
 									<div class="panelLeft">
-										<button class="btn btn-success" type="button" onclick="panggilPasien();return false;">
-											<i class="fas fa-volume-up fa-3x"></i>
-										</button>
+										@if( isset($panggil) )
+											<button class="btn btn-success" type="button" onclick="panggilPasien();return false;">
+												<i class="fas fa-volume-up fa-3x"></i>
+											</button>
+										@endif
 									</div>
 									<div class="panelRight">
 										@if( $antrianperiksa->asuransi_id == '32' )

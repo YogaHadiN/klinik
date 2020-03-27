@@ -20,8 +20,6 @@ class AntrianPeriksa extends Model{
 	public function asuransi() {
 		return $this->belongsTo('App\Asuransi');
 	}
-
-
 	public function antrian(){
         return $this->morphOne('App\Antrian', 'antriable');
 	}

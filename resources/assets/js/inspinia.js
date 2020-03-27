@@ -639,3 +639,17 @@ function validatePhone(phone)
 function validateNotEmpty( val ){
 	return !val == '';
 }
+function panggilPasien(sound){
+	var x     = document.getElementById("myAudio");
+	x.play();
+	var index = 0;
+	x.onended = function() {
+		if(index < sound.length){
+			x.src=base + '/sound/' + sound[index];
+			x.play();
+			index++;
+		} else {
+			x.src=base + '/sound/bel.mpeg';
+		}
+	};
+}

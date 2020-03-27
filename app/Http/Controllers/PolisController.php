@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
+use App\Http\Controllers\AntrianPolisController;
 use App\Events\updateMonitor;
 use Illuminate\Http\Request;
 use App\AntrianPeriksa;
@@ -31,7 +32,7 @@ class PolisController extends Controller
     }
 	public function poli($id, Request $request){
 
-		$antrianperiksa                       = AntrianPeriksa::with('pasien.alergies', 'antrian.jenis_antrian')->where('id',$id)->first();
+		$antrianperiksa                       = AntrianPeriksa::with('gambars','pasien.alergies', 'antrian.jenis_antrian', 'asuransi')->where('id',$id)->first();
 		if ($antrianperiksa == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah dimasukkan sebelumnya atau buatlah antrian baru');
 			return redirect()->back()->withPesan($pesan);
@@ -55,8 +56,10 @@ class PolisController extends Controller
 		$pemeriksaan_awal 	= '';
 		$pakai_bayar_pribadi = false;
 
-		
-		$panggilan = $this->panggilan($antrianperiksa);
+		$panggilan = null;
+		if ( isset( $antrianperiksa->antrian ) ) {
+			$panggilan = $this->panggilPasien($antrianperiksa->antrian->nomor_antrian);
+		}
 
 		$g = null;
 		$p = null;
@@ -525,13 +528,6 @@ class PolisController extends Controller
 		$apc = new AntrianPolisController;
 		$apc->updateJumlahAntrian();
 	}
-	private function panggilan($antrianperiksa){
-		if (isset($antrianperiksa->antrian)) {
-			$nomor_antrian = $antrianperiksa->antrian->nomor_antrian;
-			return $this->panggilPasien($nomor_antrian);
-		}
-	}
-
 	private function panggilPasien($nomor_antrian){
 		$huruf         = strtolower(str_split($nomor_antrian)[0]);
 		$angka         = substr($nomor_antrian, 1);
@@ -667,5 +663,11 @@ class PolisController extends Controller
 			}
 		}
 		return $result;
+	}
+	public function panggilPasienAjax(){
+		$nomor_antrian = Input::get('nomor_antrian');
+		$apc           = new AntrianPolisController;
+		$apc->updateJumlahAntrian();
+		return $this->panggilPasien($nomor_antrian);
 	}
 }

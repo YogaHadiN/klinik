@@ -16,6 +16,7 @@
      </ol>
 @stop
 @section('content') 
+
 <input type="hidden" name="_token" id="token" value="{{ Session::token() }}">
 <div class="panel panel-primary">
       <div class="panel-heading">
@@ -51,7 +52,7 @@
 								@if($periksa->poli == 'estetika' && $periksa->periksaEx != null)
 								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksaEx->id . '/images') }}">Gambar</a> </td>
 								@else
-									<td>
+									<td class="nomor_antrian">
 										@if(isset($periksa->antrian))
 											{!! $periksa->antrian->nomor_antrian !!}
 										@endif
@@ -77,11 +78,17 @@
 
                                 <td nowrap>
                                     {!! Form::open(['url' => 'antrianperiksas/' . $periksa->id, 'method' => 'delete'])!!}
-                                    <a href="{!! URL::to('poli/' . $periksa->id)!!}" class="btn btn-success btn-xs">Proses</a>
+										<a href="{!! URL::to('poli/' . $periksa->id)!!}" class="btn btn-success btn-xs">
+											<span class="glyphicon glyphicon-log-in " aria-hidden="true"></span>
+										</a>
                                         {!! Form::hidden('pasien_id', $periksa->pasien_id, ['class' => 'pasien_id'])!!}
                                         {!! Form::hidden('alasan', null, ['class' => 'alasan', 'id' => 'alasan' . $periksa->id])!!}
-                                        <button type="button" class="btn btn-danger btn-xs" onclick="alasas_hapus(this);return false;">Delete</button>
-
+                                        <button type="button" class="btn btn-danger btn-xs" onclick="alasas_hapus(this);return false;">
+											<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+										</button>
+                                        <button type="button" class="btn btn-info btn-xs" onclick="panggil(this);return false;">
+											<span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+										</button>
 										@if( $periksa->asuransi_id == '32' && $periksa->antars->count() > 0 )		
 											<a class="btn btn-primary btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">{!! $periksa->antars->count() !!} pengantar</a>
 										@elseif( $periksa->asuransi_id == '32' && $periksa->antars->count() < 1 )
@@ -209,9 +216,20 @@
     </div>
 @endif
 @include('antrianpolis.modalalasan', ['antrianperiksa' => 'fasilitas/antrianperiksa/destroy'])
+@include('panggil')
+
 @stop
 @section('footer') 
     <script>
+		function panggil(control){
+			var nomor_antrian = $(control).closest('tr').find('.nomor_antrian').html().trim();
+			$.get(base + '/poli/ajax/panggil_pasien',
+				{ nomor_antrian: nomor_antrian },
+				function (data, textStatus, jqXHR) {
+					panggilPasien(data);
+				}
+			);
+		}
 		function alasas_hapus(control){
 			var id = $(control).closest('tr').find('.id').html()
 			var pasien_id = $(control).closest('tr').find('.pasien_id').html()

@@ -336,7 +336,7 @@ class AntrianPolisController extends Controller
 		$count         = Antrian::with('jenis_antrian.poli_antrian', 'jenis_antrian.antrian_terakhir')->where('antriable_type', 'App\\Antrian')->count();
 		$data['count'] = $count;
 		$antrians      = Antrian::with('jenis_antrian.poli_antrian', 'jenis_antrian.antrian_terakhir')->where('created_at', 'like', date('Y-m-d') . '%')->get();
-		$jenis_antrian = JenisAntrian::with('antrian_terakhir')->orderBy('updated_at', 'desc')->get();
+		$jenis_antrian = JenisAntrian::with('antrian_terakhir.jenis_antrian')->orderBy('updated_at', 'desc')->get();
 
 		if ( isset($jenis_antrian->first()->antrian_terakhir)) {
 			$data['panggilan']['nomor_antrian'] = $jenis_antrian->first()->antrian_terakhir->nomor_antrian; 

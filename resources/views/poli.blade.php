@@ -98,35 +98,15 @@
 @include('gambar_periksa')
 @stop
 @section('footer') 
+@if( isset($panggilan) )
 	{!! Form::text('audio', json_encode($panggilan), ['class' => 'form-control', 'id' => 'sound']) !!}
-	
-<audio id="myAudio">
-  <source src="{{ url('sound/bel.mpeg') }}" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
+	@include('panggil')
+@endif
 <script>
-
-var base = '{!! url('/') !!}';
-
-var x = document.getElementById("myAudio");
-
-function panggilPasien(){
-	var sound = $('#sound').val();
-	sound     = JSON.parse(sound);
-	x.play();
-	var index = 0;
-	x.onended = function() {
-		if(index < sound.length){
-			x.src=base + '/sound/' + sound[index];
-			x.play();
-			index++;
-		} else {
-			x.src=base + '/sound/bel.mpeg';
-		}
-	};
-}
-
-audio.play();
+var base  = '{!! url('/') !!}';
+var sound = $('#sound').val();
+sound     = JSON.parse(sound);
+panggilPasien(sound);
 </script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
 {!! HTML::script('js/allpoli.js')!!} 
@@ -134,4 +114,3 @@ audio.play();
     afiCount();
 </script>
 @stop
-
