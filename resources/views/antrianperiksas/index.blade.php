@@ -226,7 +226,7 @@
 			$.get(base + '/poli/ajax/panggil_pasien',
 				{ nomor_antrian: nomor_antrian },
 				function (data, textStatus, jqXHR) {
-					panggilPasien(data);
+					pglPasien(data);
 				}
 			);
 		}

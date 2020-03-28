@@ -524,8 +524,73 @@
 			@endif
 			return channel_name;
 		}
-		{{--$('.table-responsive tbody tr').slice(-2).find('.dropdown').addClass('dropup');--}}
 
+		function pglPasien(sound){
+			var x     = document.getElementById("myAudio");
+			x.play();
+			var index = 0;
+			x.onended = function() {
+				if(index < sound.length){
+					x.src=base + '/sound/' + sound[index];
+					x.play();
+					index++;
+				} else {
+					x.src=base + '/sound/bel.mpeg';
+				}
+			};
+		}
+		function validatePass2(control, extraValid = []){
+			var pass  = true;
+			var value = '';
+			var param = [
+				{
+					'selector': '.rq',
+					'testFunction': validateNotEmpty,
+					'message':   'Harus diisi'
+				},
+				{
+					'selector': '.tanggal',
+					'testFunction': validatedate,
+					'message':   'Format Tanggal tidak benar'
+				},
+				{
+					'selector': '.numeric',
+					'testFunction': validateNumeric,
+					'message':   'Format Tanggal tidak benar'
+				},
+				{
+					'selector': '.email',
+					'testFunction': validateEmail,
+					'message':   'Format Email tidak benar'
+				},
+				{
+					'selector': '.phone',
+					'testFunction': validatePhone,
+					'message':   'Format Telepon tidak benar'
+				}
+			];
+			for (var i = 0, len = extraValid.length; i < len; i++) {
+				param.push(extraValid[i]);
+			}
+			for (var i = 0, len = param.length; i < len; i++) {
+				$(control).closest('form').find( param[i].selector + ':not(div)').each(function(index, el) {
+				  value = $(this).val();
+				  if ( !param[i].testFunction(value) ) {
+					validasi1($(this), param[i].message);
+					pass = false;
+				  }
+				});
+			}
+			if (!pass) {
+				$(control).closest('form').find('.rq').each(function(index, el) {
+				  if ($(this).val() == '') {
+					$(this).focus();
+					return false;
+				  }
+				});
+			}
+			return pass;
+		}
     </script>
 <style>
     body.DTTT_Print {

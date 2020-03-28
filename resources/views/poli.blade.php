@@ -106,7 +106,7 @@
 var base  = '{!! url('/') !!}';
 var sound = $('#sound').val();
 sound     = JSON.parse(sound);
-panggilPasien(sound);
+pglPasien(sound);
 </script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
 {!! HTML::script('js/allpoli.js')!!} 
