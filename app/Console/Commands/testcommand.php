@@ -66,31 +66,19 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("CREATE TABLE abaikan_transaksis ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, transaksi_id VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)");
-		DB::statement("DELETE FROM raks where id = 'X1'");
-		DB::statement("DELETE FROM mereks where rak_id = 'X1'");
-		DB::statement("UPDATE asuransis set kali_obat = '1.25' where kali_obat is null");
+		$rekening_ids = [43, 59, 74, 86, 38, 42, 53, 56, 67, 75, 77];
+		$ids = '';
+		foreach ($rekening_ids as $k => $id) {
+			if ( $k == 0 ) {
+				$ids .= $id;
+			} else {
+				$ids .=  ',' . $id;
+			}
+		}
+		DB::statement("UPDATE FROM rekenings set pembayaran_asuransi_id = 906 where id in( " .$ids ." )");
 
-		$timestamp = date('Y-m-d H:i:s');
-		
-		$abaikans = [
-			[
-				'transaksi_id' => '0LWdpRR7oWe',
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			],
-			[
-				'transaksi_id' => 'mVz5v0nQ4jv',
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			],
-			[
-				'transaksi_id' => 'nazGOrOaazG',
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			]
-		];
-		AbaikanTransaksi::insert($abaikans);
-		Artisan::call('test:console');
+		$rekening_ids = [4829, 4828, 4827];
+		DB::statement("DELETE FROM pengeluarans where id in (" .$ids ." )");
+		DB::statement("DELETE FROM jurnal_umums where jurnalable_id in (" .$ids ." ) and jurnalable_type = 'App\\\Pengeluaran'");
    	}
 }

@@ -99,12 +99,14 @@ class PengeluaransController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator->messages())->withInput();
 		}
+
 		$staf_id           = Input::get('staf_id');
 		$supplier_id       = Input::get('supplier_id');
 		$nilai             = Yoga::clean( Input::get('nilai') );
 		$tanggal           = Input::get('tanggal');
 		$keterangan        = Input::get('keterangan');
 
+		// insert tabel pengeluarans
 		$peng                 = new Pengeluaran;
 		$peng->staf_id        = $staf_id;
 		$peng->supplier_id    = $supplier_id;
@@ -138,6 +140,9 @@ class PengeluaransController extends Controller
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
+
+			//
+			// insert tabel jurnal_umums
 			JurnalUmum::insert($jurnals);
 		}
 		$nama_supplier = Supplier::find($supplier_id)->nama;
