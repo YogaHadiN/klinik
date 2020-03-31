@@ -69,7 +69,7 @@ class PendapatansController extends Controller
 
 		$this->input_id                 = Input::get('id'). '%';
 		$this->input_created_at         = Input::get('created_at'). '%';
-		$this->input_nama_asuransi      = Input::get('nama_asuransi'). '%';
+		$this->input_nama_asuransi      = '%' .Input::get('nama_asuransi'). '%';
 		$this->input_periode            = Input::get('periode'). '%';
 		$this->input_pembayaran         = Input::get('pembayaran'). '%';
 		$this->input_tanggal_pembayaran = Input::get('tanggal_pembayaran'). '%';
@@ -343,6 +343,7 @@ class PendapatansController extends Controller
 	}
 	
     public function asuransi_bayar(){
+		/* dd(Input::all()); */ 
 		DB::beginTransaction();
 		try {
 			$rules = [
@@ -497,7 +498,7 @@ class PendapatansController extends Controller
 			$arus_kas_tujuan = 110001;
 		}
 
-		/* dd($pembayarans); */
+		/* dd($excel_pembayaran); */
 
 		$param = compact( 
 			'pembayarans', 
@@ -571,7 +572,7 @@ class PendapatansController extends Controller
 			
 			$temp = json_decode($temp, true);
 
-			// add table nota_jual
+			// create nota_jual
 
 			$nota_jual_id     = Yoga::customId('App\NotaJual');
 			$nj               = new NotaJual;
@@ -603,6 +604,7 @@ class PendapatansController extends Controller
 			} catch (\Exception $e) {
 				
 			}
+			//
 			//update invoices
 			$invoice_ids = $this->input_invoice_id;
 			$invoices    = Invoice::whereIn('id', $invoice_ids)->get();
@@ -612,11 +614,9 @@ class PendapatansController extends Controller
 					$inv->save();
 				}
 			}
-
-
 			$asuransi        = Asuransi::find($asuransi_id);
 			$coa_id_asuransi = $asuransi->coa_id;
-
+			//
 			// insert jurnal_umums
 			if ($confirm) {
 				$jurnals = [];
@@ -643,7 +643,6 @@ class PendapatansController extends Controller
 			}
 			$bayars = [];
 			foreach ($temp as $tmp) {
-				/* dd($tmp); */
 				if (
 					$tmp['akan_dibayar'] > 0 &&
 					$tmp['piutang'] > $tmp['pembayaran']
@@ -662,17 +661,7 @@ class PendapatansController extends Controller
 					}
 				}
 			}
-
 			$catatans= [];
-			foreach ($catatan_container as $catatan) {
-				$catatans[] = [
-					'asuransi_id'            => $asuransi_id,
-					'pembayaran_asuransi_id' => $pb->id,
-					'peserta'                => $catatan['nama_peserta'],
-					'tagihan'                => $catatan['tagihan']
-				];
-			}
-			CatatanAsuransi::insert($catatans);
 			PiutangDibayar::insert($bayars);
 			return [
 				'asuransi' => $asuransi,

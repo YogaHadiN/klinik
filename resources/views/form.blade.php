@@ -147,7 +147,7 @@
 								<div class="panel-heading">
 									<div class="panelLeft">
 										@if( isset($panggilan) )
-											<button class="btn btn-success" type="button" onclick="panggilPasien();return false;">
+											<button class="btn btn-success" type="button" onclick="pglPasien();return false;">
 												<i class="fas fa-volume-up fa-3x"></i>
 											</button>
 										@endif

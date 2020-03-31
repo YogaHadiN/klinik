@@ -43,18 +43,22 @@ class revertPembayaranAsuransi extends Command
      */
     public function handle()
     {
-		$pembayaran_ids        = [808, 862, 866];
+		$pembayaran_ids        = [899, 900, 901, 902, 903, 904, 905];
 		$pembayaran_asuransis  = PembayaranAsuransi::where('id', $pembayaran_ids)->get();
 		$asuransi_id           = $pembayaran_asuransis->first()->asuransi_id;
 		$nota_jual_ids         = [];
+
+		$mulais = [];
+		$akhirs = [];
 		foreach ($pembayaran_asuransis as $pa) {
-			$nota_jual_ids[]   = $pa->nota_jual_id;
+			$nota_jual_ids[] = $pa->nota_jual_id;
+			$mulais[]        = $pa->mulai;
+			$akhirs[]        = $pa->akhir;
 		}
 		JurnalUmum::where('jurnalable_type', 'App\\NotaJual')->whereIn('jurnalable_id', $nota_jual_ids )->delete();
 		NotaJual::destroy($nota_jual_ids);
 		PembayaranAsuransi::destroy($pembayaran_ids);
 		PiutangDibayar::whereIn('pembayaran_asuransi_id', $pembayaran_ids)->delete();
-
 
 		$query                 = "UPDATE piutang_asuransis as pa ";
 		$query                .= "JOIN periksas as px on px.id = pa.periksa_id ";

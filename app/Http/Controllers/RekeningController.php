@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Rekening;
 use App\Asuransi;
+use App\AbaikanTransaksi;
 use App\Classes\Yoga;
 use Input;
 use Artisan;
@@ -37,11 +38,19 @@ class RekeningController extends Controller
 			$pesan = Yoga::gagalFlash('Mutasi Moota gagal');
 			session(['pesan' => $pesan]);
 		}
+
+		$ignored     = AbaikanTransaksi::all();
+		$ignored_ids = [];
+		foreach ($ignored as $ignore) {
+			$ignored_ids[] = $ignore->transaksi_id;
+		}
 		$rekening = Rekening::where('akun_bank_id', $id)
 			->where('debet', '0')
 			->where('deskripsi', 'not like', '%cs-cs%')
+			->whereNotIn('id', $ignored_ids)
 			->orderBy('tanggal', 'desc')->first();
-		return view('rekenings.index', compact('rekening'));
+
+		return view('rekenings.index', compact('rekening', 'ignored_ids'));
 	}
 	public function search(){
 
@@ -92,6 +101,7 @@ class RekeningController extends Controller
 		$query .= "AND debet = 0 ";
 		$query .= "AND deskripsi not like '%PURI WIDIYANI MARTIADEWI%' ";
 		$query .= "AND deskripsi not like '%Bunga Rekening%' ";
+		$query .= "AND id not in (" . $this->ignoredId() . ")";
 		if ( $this->input_pembayaran_null == '1' ) {
 			$query .= "AND pembayaran_asuransi_id = '' ";
 		} else if (   $this->input_pembayaran_null == '2' ){
@@ -142,5 +152,17 @@ class RekeningController extends Controller
 		} catch (\Exception $e) {
 	
 		}
+	}
+	private function ignoredId(){
+		$ignored_ids = '';
+		$abaikans = AbaikanTransaksi::all();
+		foreach ($abaikans as $k => $abaikan) {
+			if ($k == 0) {
+				$ignored_ids .= "'" . $abaikan->transaksi_id . "'" ;
+			} else {
+				$ignored_ids .= ", '" . $abaikan->transaksi_id . "'";
+			}
+		}
+		return $ignored_ids;
 	}
 }

@@ -54,25 +54,25 @@ function view(pertama_kali = false){
 
 	var cocok = 0;
 	var total  = excel_pembayaran.length;
-	console.log('excel_pembayaran');
-	console.log(excel_pembayaran);
     for (var i = 0; i < MyArray.length; i++) {
-		// {{-- if( pertama_kali ){ --}}
-		// {{-- 	for (var r = 0; r < excel_pembayaran.length; r++) { --}}
-		// {{-- 		var excel_tagihan = excel_pembayaran[r].tagihan; --}}
-		// {{-- 		if ( --}}
-		// {{-- 			excel_pembayaran[r].peserta == null && --}}
-		// {{-- 			MyArray[i].piutang == excel_tagihan --}}
-		// {{-- 		) { --}}
-		// {{-- 			cocok = cocok + 1; --}}
-		// {{-- 			excel_pembayaran.splice(r, 1); --}}
-		// {{-- 			if(MyArray[i].piutang - MyArray[i].pembayaran > 0){ --}}
-		// {{-- 				MyArray[i].akan_dibayar = excel_tagihan; --}}
-		// {{-- 			} --}}
-		// {{-- 			break; --}}
-		// {{-- 		} --}}
-		// {{-- 	}; --}}
-		// {{-- } --}}
+		 if( pertama_kali ){ 
+			console.log('if lewat');
+		 	for (var r = 0; r < excel_pembayaran.length; r++) { 
+		 		var excel_tagihan = excel_pembayaran[r].tagihan;
+		 		if ( 
+		 			MyArray[i].piutang == excel_tagihan 
+		 		) { 
+		 			cocok = cocok + 1; 
+		 			excel_pembayaran.splice(r, 1); 
+		 			if(MyArray[i].piutang - MyArray[i].pembayaran > 0){ 
+		 				MyArray[i].akan_dibayar = excel_tagihan; 
+		 			} 
+		 			break; 
+		 		} 
+		 	}; 
+		 } else {
+			console.log('payah');
+		 }
 
         if(MyArray[i].piutang - MyArray[i].pembayaran > 0){
             piutang_total += MyArray[i].piutang;

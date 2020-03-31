@@ -127,8 +127,7 @@ class LaporansController extends Controller
 	}
 	
 
-	public function index()
-	{
+	public function index() {
 		$akun_banks = AkunBank::all();
 		$asuransis      = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();

@@ -8,8 +8,13 @@ use App\Events\updateMonitor;
 use App\Classes\Yoga;
 use App\Pasien;
 use App\Periksa;
+use App\PembayaranAsuransi;
+use App\NotaJual;
+use App\JurnalUmum;
+use App\PiutangDibayar;
 use App\TransaksiPeriksa;
 use Log;
+use DB;
 use App\Http\Controllers\CustomController;
 
 class testConsole extends Command
@@ -45,6 +50,40 @@ class testConsole extends Command
      */
     public function handle()
     {
+		$pembayaran_ids        = [863, 823, 822, 799, 767, 755, 753, 752, 751, 750, 737, 716, 715, 714, 713, 712, 695, 691, 683];
+		$pembayaran_asuransis  = PembayaranAsuransi::where('id', $pembayaran_ids)->get();
+		$asuransi_id           = $pembayaran_asuransis->first()->asuransi_id;
+		$nota_jual_ids         = [];
 
+		$mulais = [];
+		$akhirs = [];
+		foreach ($pembayaran_asuransis as $pa) {
+			$nota_jual_ids[] = $pa->nota_jual_id;
+			$mulais[]        = $pa->mulai;
+			$akhirs[]        = $pa->akhir;
+		}
+		NotaJual::destroy($nota_jual_ids);
+		PembayaranAsuransi::destroy($pembayaran_ids);
+		JurnalUmum::where('jurnalable_type', 'App\\NotaJual')->whereIn('jurnalable_id', $nota_jual_ids )->delete();
+		PiutangDibayar::whereIn('pembayaran_asuransi_id', $pembayaran_ids)->delete();
+
+		$query                 = "UPDATE piutang_asuransis as pa ";
+		$query                .= "JOIN periksas as px on px.id = pa.periksa_id ";
+		$query                .= "SET sudah_dibayar = 0 ";
+		$query                .= "WHERE px.tanggal like '2019%' ";
+		$query                .= "AND px.asuransi_id  = '{$asuransi_id}';";
+		DB::statement($query);
+
+		$ids_string = '';
+		foreach ($pembayaran_ids as $k => $id) {
+			if ($k) {
+				$ids_string .= ',' . $id;
+			} else {
+				$ids_string .=  $id;
+			}
+		}
+		DB::statement("UPDATE invoices set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (".$ids_string.")");
+		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (".$ids_string.")");
+		DB::statement("UPDATE asuransis set kali_obat = 1.25 where kali_obat is null");
     }
 }

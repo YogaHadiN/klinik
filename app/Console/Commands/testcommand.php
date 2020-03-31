@@ -11,7 +11,7 @@ use App\Sms;
 use App\AntrianPoli;
 use App\PembayaranAsuransi;
 use App\CatatanAsuransi;
-use Artisan;
+use App\AbaikanTransaksi;
 use App\PiutangDibayar;
 use App\NotaJual;
 use App\PoliAntrian;
@@ -28,6 +28,7 @@ use App\Periksa;
 use App\JenisAntrian;
 use App\Telpon;
 use DB;
+use Artisan;
 use Mail;
 use Log;
 use Input;
@@ -65,35 +66,31 @@ class testcommand extends Command
      */
     public function handle()
     {
+		DB::statement("CREATE TABLE abaikan_transaksis ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, transaksi_id VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)");
+		DB::statement("DELETE FROM raks where id = 'X1'");
+		DB::statement("DELETE FROM mereks where rak_id = 'X1'");
+		DB::statement("UPDATE asuransis set kali_obat = '1.25' where kali_obat is null");
 
-		DB::statement("update piutang_asuransis as pa join periksas as px on px.id = pa.periksa_id set sudah_dibayar=0 where px.asuransi_id='160207002' and (px.tanggal like '2020-02%') or px.tanggal like '2019-12%' or px.tanggal like '2019-08%';");
-		DB::statement("UPDATE invoices set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (808, 862, 866)");
-		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (808, 862, 866)");
-		DB::statement("delete pd from piutang_dibayars as pd join periksas as px on px.id = pd.periksa_id where px.asuransi_id = 21 and px.tanggal like '2019-12%';");
-		DB::statement("delete pd from piutang_dibayars as pd join periksas as px on px.id = pd.periksa_id where px.asuransi_id = 160207002 and (px.tanggal like '2020-02%' or px.tanggal like '2019-12%' or px.tanggal like '2019-08%');");
-	}
-
-    /* public function handle() */
-    /* { */
-		/* $piutang_asuransi = PembayaranAsuransi::where('id', [878,877,861])->get(); */
-
-		/* $nota_jual_ids = []; */
-		/* foreach ($piutang_asuransi as $pa) { */
-			/* $nota_jual_ids[] = $pa->nota_jual_id; */
-		/* } */
-		/* JurnalUmum::where('jurnalable_type', 'App\\NotaJual')->whereIn('jurnalable_id', $nota_jual_ids )->delete(); */
-		/* NotaJual::destroy($nota_jual_ids); */
-		/* PembayaranAsuransi::destroy([878,877,861]); */
-		/* /1* CatatanAsuransi::whereIn('pembayaran_asuransi_id', [878,877,861])->delete(); *1/ */
-		/* PiutangDibayar::whereIn('pembayaran_asuransi_id', [878,877,861])->delete(); */
-
-		/* $query = "UPDATE piutang_asuransis as pa "; */
-		/* $query .= "JOIN periksas as px on px.id = pa.periksa_id "; */
-		/* $query .= "SET sudah_dibayar = 0 "; */
-		/* $query .= "WHERE px.tanggal like '2019-12%' "; */
-		/* $query .= "AND px.asuransi_id  = '21';"; */
-		/* DB::statement($query); */
-		/* DB::statement("UPDATE invoices set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)"); */
-		/* DB::statement("UPDATE rekenings set pembayaran_asuransi_id = null where pembayaran_asuransi_id in (878,877,861)"); */
-	/* } */
+		$timestamp = date('Y-m-d H:i:s');
+		
+		$abaikans = [
+			[
+				'transaksi_id' => '0LWdpRR7oWe',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'transaksi_id' => 'mVz5v0nQ4jv',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			],
+			[
+				'transaksi_id' => 'nazGOrOaazG',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			]
+		];
+		AbaikanTransaksi::insert($abaikans);
+		Artisan::call('test:console');
+   	}
 }
