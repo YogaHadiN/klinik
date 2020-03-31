@@ -58,7 +58,6 @@
     @yield('head')
 </head>
 <body>
-	<button type="button" onclick="playBell();return false;"></button>
     <div id="overlayd"></div>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">

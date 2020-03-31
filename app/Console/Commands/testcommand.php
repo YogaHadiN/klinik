@@ -66,19 +66,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$timestamp = date('Y-m-d H:i:s');
-		$datas = [
-			[
-				'transaksi_id' => '13',
-				'created_at'   => $timestamp,
-				'updated_at'   => $timestamp
-			],
-			[
-				'transaksi_id' => '65',
-				'created_at'   => $timestamp,
-				'updated_at'   => $timestamp
-			]
-		];
-		AbaikanTransaksi::insert($datas);
+		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 809 where id = 51");
+		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 783 where id = 55");
    	}
 }
