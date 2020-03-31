@@ -70,10 +70,7 @@ function view(pertama_kali = false){
 		 			break; 
 		 		} 
 		 	}; 
-		 } else {
-			console.log('payah');
-		 }
-
+		 } 
         if(MyArray[i].piutang - MyArray[i].pembayaran > 0){
             piutang_total += MyArray[i].piutang;
             sudah_dibayar_total += MyArray[i].pembayaran;
