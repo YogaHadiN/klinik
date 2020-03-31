@@ -66,7 +66,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$rekening_ids = [43, 59, 74, 86, 38, 42, 53, 56, 67, 75, 77];
+		$rekening_ids = [13];
 		$ids = '';
 		foreach ($rekening_ids as $k => $id) {
 			if ( $k == 0 ) {
@@ -75,10 +75,6 @@ class testcommand extends Command
 				$ids .=  ',' . $id;
 			}
 		}
-		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 906 where id in( " .$ids ." )");
-
-		$rekening_ids = [4829, 4828, 4827];
-		DB::statement("DELETE FROM pengeluarans where id in (" .$ids ." )");
-		DB::statement("DELETE FROM jurnal_umums where jurnalable_id in (" .$ids ." ) and jurnalable_type = 'App\\\Pengeluaran'");
+		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 907 where id in( " .$ids ." )");
    	}
 }
