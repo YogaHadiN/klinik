@@ -75,7 +75,7 @@ class testcommand extends Command
 				$ids .=  ',' . $id;
 			}
 		}
-		DB::statement("UPDATE FROM rekenings set pembayaran_asuransi_id = 906 where id in( " .$ids ." )");
+		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 906 where id in( " .$ids ." )");
 
 		$rekening_ids = [4829, 4828, 4827];
 		DB::statement("DELETE FROM pengeluarans where id in (" .$ids ." )");
