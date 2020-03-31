@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Surat;
 use Input;
+use Image;
 use App\Classes\Yoga;
 use DB;
 class SuratController extends Controller
@@ -23,6 +24,7 @@ class SuratController extends Controller
 		return view('surats.edit', compact('surat'));
 	}
 	public function store(Request $request){
+		/* dd(Input::all()); */ 
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
@@ -32,7 +34,8 @@ class SuratController extends Controller
 		$surat->surat_masuk = Input::get('surat_masuk');
 		$surat->alamat      = Input::get('alamat');
 		$surat->save();
-		$surat->foto_surat  = $this->imageUpload('surat', 'surat', $surat->id, 'img/surat');
+
+		$surat->foto_surat  = $this->imageUpload('surat', 'foto_surat', $surat->id, 'img/surat');
 		$surat->save();
 		$pesan = Yoga::suksesFlash('Surat baru berhasil dibuat');
 		return redirect('surats')->withPesan($pesan);
@@ -45,7 +48,9 @@ class SuratController extends Controller
 		$surat->nomor_surat = Input::get('nomor_surat');
 		$surat->tanggal     = Yoga::datePrep(Input::get('tanggal'));
 		$surat->surat_masuk = Input::get('surat_masuk');
-		$surat->foto_surat  = $this->imageUpload('surat', 'surat', $surat->id, 'img/surat');
+		if (Input::hasFile('foto_surat')) {
+			$surat->foto_surat  = $this->imageUpload('surat', 'foto_surat', $surat->id, 'img/surat');
+		}
 		$surat->alamat      = Input::get('alamat');
 		$surat->save();
 		$pesan = Yoga::suksesFlash('Surat berhasil diupdate');

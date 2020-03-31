@@ -66,7 +66,6 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 809 where id = 51");
-		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 783 where id = 55");
+		DB::statement("ALTER TABLE surats add column foto_surat varchar(255) null;");
    	}
 }

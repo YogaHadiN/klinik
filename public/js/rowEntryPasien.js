@@ -3,16 +3,14 @@
 			// $('#antrianpoli_antrian').val('');
 			$('#antrianpoli_tanggal').val('');
 
-			console.log('rorwnt');
-
             $('#cekBPJSkontrol').hide();
             $('#cekGDSBPJS').hide();
 
-			var nama = $(control).closest('tr').find('td:nth-child(2) div').html();
-			var image = base + '/' + $(control).closest('tr').find('td:nth-child(12) div').html();
-			var nama_asuransi = $(control).closest('tr').find('td:nth-child(6) div').html();
-			var option_asuransi = '<option value="">- Pilih Pembayaran -</option>';
-			option_asuransi += '<option value="0">Biaya Pribadi</option>';
+			var nama             = $(control).closest('tr').find('td:nth-child(2) div').html();
+			var image            = base + '/' + $(control).closest('tr').find('td:nth-child(12) div').html();
+			var nama_asuransi    = $(control).closest('tr').find('td:nth-child(6) div').html();
+			var option_asuransi  = '<option value="">- Pilih Pembayaran -</option>';
+			option_asuransi     += '<option value="0">Biaya Pribadi</option>';
 
 			var ID = $(control).closest('tr').find('td:first-child div').html();
 			var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
@@ -32,8 +30,6 @@
                 .remove();
             $('#namaPasien').val(nama);
             $('#imageForm').attr('src', image);
-			console.log('image');
-			console.log(image);
             $('#ID_PASIEN').val(ID);
             $("#ddlPembayaran").html(option_asuransi);
             resetComplain();
