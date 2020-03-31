@@ -66,6 +66,6 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("ALTER TABLE surats add column foto_surat varchar(255) null;");
+		dfdfsdfa;
    	}
 }
