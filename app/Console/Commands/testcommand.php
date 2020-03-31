@@ -66,15 +66,19 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$rekening_ids = [13];
-		$ids = '';
-		foreach ($rekening_ids as $k => $id) {
-			if ( $k == 0 ) {
-				$ids .= $id;
-			} else {
-				$ids .=  ',' . $id;
-			}
-		}
-		DB::statement("UPDATE rekenings set pembayaran_asuransi_id = 907 where id in( " .$ids ." )");
+		$timestamp = date('Y-m-d H:i:s');
+		$datas = [
+			[
+				'transaksi_id' => '13',
+				'created_at'   => $timestamp,
+				'updated_at'   => $timestamp
+			],
+			[
+				'transaksi_id' => '65',
+				'created_at'   => $timestamp,
+				'updated_at'   => $timestamp
+			]
+		];
+		AbaikanTransaksi::insert($datas);
    	}
 }
