@@ -66,8 +66,6 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("ALTER TABLE berkas CHANGE `periksa_id` `berkasable_id` varchar(255);");
-		DB::statement("ALTER TABLE berkas add column `berkasable_type` varchar(255);");
-		DB::statement("UPDATE berkas set berkasable_type = 'App\\\Periksa'");
+		cdfasdjlfk;
    	}
 }
