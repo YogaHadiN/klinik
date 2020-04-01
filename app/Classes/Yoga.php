@@ -1004,7 +1004,6 @@ class Yoga {
 			return $transaksis;
 		}
 		public static function dispensingObatBulanIni($asuransi, $periksa = [] ,$edit = false,$kasir = false){
-			//return dd( $edit );
 
 			if ($edit) {
 				$edit = 0;
@@ -1037,7 +1036,6 @@ class Yoga {
 				// 
 				
 				$periksaFlatBulanIni  = Periksa::with('terapii')->where('asuransi_id', $asuransi->id)->where('tanggal', 'like', date('Y-m') . '%')->get();
-				//return dd( $periksaFlatBulanIni );
 
 				foreach ($periksaFlatBulanIni as $key => $pxBulanIni) {
 					
@@ -1046,7 +1044,6 @@ class Yoga {
 					//
 					
 					$terapiArray = $pxBulanIni->terapii;
-					//return dd( $terapiArray );
 					$dispensingObat = 0;
 					foreach($terapiArray as $terapi){
 						//dispensing = harga_jual * jumlah * kali_obat;
@@ -1959,29 +1956,26 @@ class Yoga {
 			//---------------------
 			// coba
 			//
-			$ddd = [];
-			//---------------------
+			/* $ddd = []; */
+			/* //--------------------- */
 
-			foreach ($periksa->terapii as $k => $terapi) {
-				try {
-					/* $ddd[] = $terapi->merek_id; */
-					$aturan_minum_id = $terapi->merek->rak->formula->aturan_minum_id;
-					if ($aturan_minum_id == '3' || $pernahDiagnosaDM) {
-						$dikasihObatGula = true;
-					}
+			/* dd($periksa); */
+			/* foreach ($periksa->terapii as $k => $terapi) { */
+			/* 	try { */
+			/* 		$aturan_minum_id = $terapi->merek->rak->formula->aturan_minum_id; */
+			/* 		if ($aturan_minum_id == '3' || $pernahDiagnosaDM) { */
+			/* 			$dikasihObatGula = true; */
+			/* 		} */
 
-				} catch (\Exception $e) {
-					dd($terapi);
-					dd('this');
-					$ddd[] = $terapi->merek_id;
+			/* 	} catch (\Exception $e) { */
+			/* 		$ddd[] = $terapi->merek_id; */
 					
-				}
-				/* $aturan_minum_id = $terapi->merek->rak->formula->aturan_minum_id; */
-				/* if ($aturan_minum_id == '3' || $pernahDiagnosaDM) { */
-				/* 	$dikasihObatGula = true; */
-				/* } */
-			}
-			/* dd($ddd); */	
+			/* 	} */
+			/* 	/1* $aturan_minum_id = $terapi->merek->rak->formula->aturan_minum_id; *1/ */
+			/* 	/1* if ($aturan_minum_id == '3' || $pernahDiagnosaDM) { *1/ */
+			/* 	/1* 	$dikasihObatGula = true; *1/ */
+			/* 	/1* } *1/ */
+			/* } */
 		}
 		$umur = Yoga::umur($pasien->tanggal_lahir);
 		if ($dikasihObatGula || ($umur > 50)) {

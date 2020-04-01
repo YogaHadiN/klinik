@@ -16,7 +16,6 @@ class InvoiceController extends Controller
 		));
 	}
 	public function test($id){
-		dd('test');
 	}
 	
 }

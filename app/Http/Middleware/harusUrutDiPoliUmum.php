@@ -46,18 +46,6 @@ class harusUrutDiPoliUmum
 
 		$apx= AntrianPeriksa::where('antrian', $antrian)->where('tanggal', $ap->tanggal)->first();
 
-		/* dd( */
-		/* 	'!$ap->antrian == "0"&& $antrian_saat_ini == "0"', */ 
-		/* 	!($ap->antrian == '0'&& $antrian_saat_ini == '0'), */
-		/* 	'$antrian == $ap->antrian', */ 
-		/* 	$antrian == $ap->antrian, */
-		/* 	'$antrian', */ 
-		/* 	$antrian, */
-		/* 	'$ap->antrian', */ 
-		/* 	$ap->antrian, */
-		/* 	'$antrian_saat_ini', */ 
-		/* 	$antrian_saat_ini */
-		/* ); */
 		$valid = true;
 		if ( !$antrian == $ap->antrian) {
 			$valid    = false;

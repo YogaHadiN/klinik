@@ -66,6 +66,17 @@ class testcommand extends Command
      */
     public function handle()
     {
-		dfdfsdfa;
+		$data = [
+			"merek_id"          => "150801013",
+			"signa"             => "3 x 1",
+			"aturan_minum"      => "berputar",
+			"jumlah"            => 6,
+			"harga_beli_satuan" => 1665,
+			"harga_jual_satuan" => 0,
+			"periksa_id"        => "200320141",
+			"created_at"        => "2020-03-20 22:06:27",
+			"updated_at"        => "2020-03-20 22:06:34"
+		];
+		Terapi::create($data);
    	}
 }

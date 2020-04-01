@@ -12,7 +12,7 @@ class Terapi extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = ['id'];
 
 	public function merek(){
 

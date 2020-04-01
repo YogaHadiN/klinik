@@ -509,7 +509,6 @@ class PdfsController extends Controller
 	}
 	public function pph21dokter($id){
 		$pph = Pph21Dokter::find($id);
-		return dd( $pph->staf->nama );
 	}
 	public function amortisasi($tahun){
 		$pajak           = new PajaksController;

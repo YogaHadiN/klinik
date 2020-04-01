@@ -235,8 +235,6 @@ class AntrianPolisController extends Controller
 		/* $text .= '\nBapak/Ibu dapat menunggu antrian periksa di rumah, dan datang kembali ke klinik saat antrian sudah dekat, untuk mencegah menunggu terlalu lama, dan mencegah penularan penyakit. Terima kasih'; */
 		/* $text .= 'Sistem akan mengirimkan whatsapp untuk mengingatkan anda jika tersisa 5 antrian lagi dan 1 antrian lagi sebelum anda dipanggil. Terima kasih' ; */
 
-		/* dd(gethostname()); */
-		/* dd($no_telp); */
 		Sms::send($no_telp, $text);
 
 	}

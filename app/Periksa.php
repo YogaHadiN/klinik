@@ -73,7 +73,6 @@ class Periksa extends Model{
         $terapis = $this->terapii;
         $terapi = json_encode($terapis);
 
-
         if($terapi != ""){
                 $MyArray = $terapis;
             } else {
@@ -1204,7 +1203,6 @@ class Periksa extends Model{
                 $bhp = $trx->biaya;
             }
         }
-        //return dd( $transaksis );
         $trxa = json_encode($transaksis);
         $trxa = json_decode($trxa, true);
         foreach ($trxa as $k=>$trx) {

@@ -25,7 +25,6 @@ class SudahSelesai
         return $next($request);
     }
 	public function form($request, $id){
-		/* dd($request->route()->parameters['periksa']); */
 		$periksa_id =  $request->route()->parameters()[$id];
 		$periksa = Periksa::find($periksa_id);
 		if ($periksa->lewat_kasir2 == 1) {

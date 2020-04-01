@@ -170,7 +170,6 @@ class LaporansController extends Controller
 				$darurat[] = $ap;	
 			}
 		}
-		/* dd('this'); */
 		/* $staf          = Yoga::stafList(); */
 		$staf          = Yoga::stafList();
 		$poliIni       = $this->poliIni(date('Y-m-d'));
@@ -1146,15 +1145,12 @@ class LaporansController extends Controller
 									//->where('pcare_submit','2')
 									//->orderBy('pcare_submit')
 									//->get();
-		//return dd($sms_test);
 		//=======================================================
-		//return dd($sms_kontak);
 		$sms_masuk		= SmsKontak::with('pasien')
 									->where('created_at', 'like', $tanggal. '%')
 									->where('pcare_submit', '1')
 									->get();
 		$sms_gagal		= SmsGagal::where('created_at', 'like', $tanggal. '%')->get();
-		//return dd($sms_gagal->count());
 		$pcare_submits  = PcareSubmit::pluck('pcare_submit', 'id');
 		return view('laporans.sms_bpjs', compact(
 			'sms_kontak',

@@ -873,12 +873,6 @@ class CustomController extends Controller
 		}
 	}
     public function test(){
-		return dd( (int)strtotime( date('Y-m-d H:i:s')) > (int)strtotime( date('2016-08-t 23:59:59') ) );
-		return dd( (int)strtotime( date('2016-08-t 23:59:59') )> (int)strtotime( date('Y-m-d H:i:s')) );
-		return (int)strtotime( date('Y-m-d H:i:s'));
-		return dd( strtotime( date('Y-m-d H:i:s') ) > strtotime( date('2016-08-t H:i:s') ) );
-		return dd( strtotime( date('Y-m-d H:i:s') ) < strtotime( date('2016-08-t H:i:s') ) );
-		return dd( strtotime(  date('2016-08-t H:i:s') ) );
     }
     public function getmereks(){
         $qs = str_split( Input::get('q') );
