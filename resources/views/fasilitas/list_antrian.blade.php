@@ -57,7 +57,9 @@ Klinik Jati Elok | List Antrian
 									<td>{{ $antrian->jenis_antrian->prefix }}{{ $antrian->nomor }}</td>
 									<td nowrap class="autofit">
 										{!! Form::open(['url' => 'antrians/' . $antrian->id, 'method' => 'delete']) !!}
-											<a class="btn btn-info" href="{{ url('antrians/proses/' . $antrian->id) }}">Proses</a>
+											<a class="btn btn-info btn-sm" href="{{ url('antrians/proses/' . $antrian->id) }}">
+												<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+											</a>
 											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $antrian->nomor_antrian }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 										{!! Form::close() !!}
 									</td>
@@ -79,4 +81,3 @@ Klinik Jati Elok | List Antrian
 @section('footer') 
 	
 @stop
-

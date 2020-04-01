@@ -363,17 +363,18 @@ class FormulasController extends Controller
 
 				Dose::insert($doses);
 
-				$komposisis = Input::get('json');
 
-				$MyArray = json_decode($komposisis, true);
+				$MyArray = json_decode(Input::get('json'), true);
 
 				$komposisis = [];
-				for($i = 0; $i < count($MyArray); $i++) {
-					$komposisis[] = [
-						'formula_id' => $formula_id,
-						'bobot' => $MyArray[$i]['bobot'],
-						'generik_id' => $MyArray[$i]['generik_id'],
-					];
+				if (isset($MyArray)) {
+					for($i = 0; $i < count($MyArray); $i++) {
+						$komposisis[] = [
+							'formula_id' => $formula_id,
+							'bobot' => $MyArray[$i]['bobot'],
+							'generik_id' => $MyArray[$i]['generik_id'],
+						];
+					}
 				}
 
 				Komposisi::insert($komposisis);
@@ -382,7 +383,7 @@ class FormulasController extends Controller
 				$merek         = new Merek;
 				$merek->id     = $merek_id_custom;
 				$merek->rak_id = Input::get('rak_id');
-				if(count($MyArray) == 1 ){
+				if(isset($MyArray) && count($MyArray) == 1 ){
 					$merekCustom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('sediaan') . ' ' . $MyArray[0]['bobot'] ;
 				} else {
 					$merekCustom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('sediaan');

@@ -167,7 +167,9 @@
                                 validasi('input[name="stok_minimal"]', 'Harus diisi');
                             }
                         } else {
+							alert('ohe');
                             $.post(base + "/formulas/ajax/ajaxformula", {'json': json, 'merek' : $('#merek').val(), 'sediaan' : $('#sediaan').val(), 'rak_id' : $('#rak_id').val()}, function(data) {
+								console.log(data);
                                 data = JSON.parse(data);
                                 if( data.formula == '1' || data.merek == '1' || data.rak == '1' ){
                                     if(data.formula == '1'){

@@ -38,7 +38,7 @@
     @section('footer') 
   <script>
   var base = "{{ url('/')  }}"
-	console.log(base);
+console.log(base);
     </script>
 <script src="{{ url('js/createForm.js')  }}"></script>
     @stop

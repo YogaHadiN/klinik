@@ -38,8 +38,8 @@ Route::get('rekening/mandiri', 'MutasiBankController@info');
 Route::post('moota/callback', 'MutasiBankController@mootaCallback');
 
 
-Route::get('antrians', 'AntriansController@create');
-Route::post('antrians/print', 'AntriansController@store');
+/* Route::get('antrians', 'AntriansController@create'); */
+/* Route::post('antrians/print', 'AntriansController@store'); */
 
 
 Route::put('fasilitas/konfirmasi', 'FasilitasController@konfirmasi'); //antrian pasien

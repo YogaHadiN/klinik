@@ -1,5 +1,6 @@
 
 
+
         if($('#json').val() == '' || $('#json').val() == '[]'){
 
             var json = [];
@@ -11,6 +12,7 @@
             $('#indikasi').focus();
         }
 
+        console.log('json');
         console.log(json);
 
         $(document).ready(function() {
@@ -159,10 +161,13 @@
                                 validasi('input[name="harga_beli"]', 'Harga Beli tidak boleh 0');
                             }
                         } else {
-                            $('.btn, form:input').attr('disabled', 'disabled');
+							console.log('dummy json');
+							console.log(json);
+                            // $('.btn, form:input').attr('disabled', 'disabled');
                             $.post(base + "/formulas/ajax/ajaxformula", {'json': json, 'merek' : $('#merek').val(), 'sediaan' : $('#sediaan').val(), 'rak_id' : $('#rak_id').val(), '_token' : $('#token').val() }, function(data) {
+								console.log('data');
+								console.log(data);
                                 data = JSON.parse(data);
-
                                 if( data.formula == '1' || data.merek == '1' || data.rak == '1' ){
                                     if(data.formula == '1'){
                                         alert('formula sama');

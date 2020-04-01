@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
-
 use App\Merek;
 use App\Formula;
 use DB;
@@ -14,21 +12,24 @@ use App\Rak;
 
 class FormulasAjaxController extends Controller
 {
-
-	
-
 	public function ajaxformula(){
-
 		if(Input::ajax()){
-			$komposisis = Input::get('json');
 
-				$MyArray = $komposisis;
+
+			if (is_null( Input::get('json') )) {
+				$komposisis = [];
+			} else {
+				$komposisis = Input::get('json');
+			}
+			$MyArray    = $komposisis;
+				
 				//validasi merek
-				if(count($MyArray) == 1 ){
+				if(isset($MyArray) && count($MyArray) ){
 					$merek = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('sediaan') . ' ' . $MyArray[0]['bobot'];;
 				} else {
 					$merek = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('sediaan');
 				}
+
 
 				if(Merek::where('merek', $merek)->get()->count() == 0){
 					$merek_bool = '0';
@@ -36,7 +37,7 @@ class FormulasAjaxController extends Controller
 					$merek_bool = '1';
 				}
 
-			//validasi formula jika ada formula dengan komposisi yang sama gagalkan 
+				//validasi formula jika ada formula dengan komposisi yang sama gagalkan 
 				$formula_bool = '0';
 
 				$formulas = Formula::all();
@@ -79,7 +80,6 @@ class FormulasAjaxController extends Controller
 				// return $temp;
 				//validasi rak
 
-
 				if(Rak::where('id', Input::get('rak_id'))->get()->count() == 0){
 					$rak = '0';
 				} else {
@@ -93,10 +93,7 @@ class FormulasAjaxController extends Controller
 				'rak'		=> $rak,
 				'temp' 		=> $temp
 			];
-
 			return json_encode($data);
-
 		}
-
 	}
 }
