@@ -44,7 +44,6 @@ class KirimBerkasController extends Controller
 	public function index(){
 
 		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'invoice.piutang_asuransi.periksa.asuransi')->get();
-		/* dd($kirim_berkas->first()->rekap_tagihan); */
 		return view('kirim_berkas.index', compact(
 			'kirim_berkas'
 		));
@@ -174,9 +173,6 @@ class KirimBerkasController extends Controller
 		$peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id,'img/belanja/lain');
 		$confirm              = $peng->save();
 
-		/* dd($this->imageUpload('faktur', 'foto_berkas_dan_bukti', $id, 'img/foto_berkas_dan_bukti')); */ 
-
-		/* dd($id); */
 		$kirim_berkas                        = KirimBerkas::find($id);
 		$kirim_berkas->foto_berkas_dan_bukti = $this->imageUpload('faktur', 'foto_berkas_dan_bukti', $kirim_berkas->id_view, 'img/foto_berkas_dan_bukti');
 		$kirim_berkas->pengeluaran_id        = $peng->id;

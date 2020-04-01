@@ -131,7 +131,6 @@ class DiscountsController extends Controller
 		return view('discounts.promoKtpPerTahun', compact('promos'));
 	}
 	public function promoKtpPertahunPost(){
-		return dd( Input::all() );
 		$rules = [
 			'no_ktp' => 'required',
 			'poli'   => 'required',

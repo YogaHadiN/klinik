@@ -343,7 +343,6 @@ class PendapatansController extends Controller
 	}
 	
     public function asuransi_bayar(){
-		/* dd(Input::all()); */ 
 		DB::beginTransaction();
 		try {
 			$rules = [
@@ -483,7 +482,6 @@ class PendapatansController extends Controller
 		}  
 
 		$excel_pembayaran = json_encode($excel_pembayaran);
-		/* dd($excel_pembayaran); */
 
 		foreach ($sudah_dibayars as $sb) {
 			$total_sudah_dibayar += $sb->pembayaran;
@@ -498,7 +496,6 @@ class PendapatansController extends Controller
 			$arus_kas_tujuan = 110001;
 		}
 
-		/* dd($excel_pembayaran); */
 
 		$param = compact( 
 			'pembayarans', 
@@ -720,7 +717,6 @@ class PendapatansController extends Controller
 		$query .= "AND pa.tanggal_dibayar like '{$this->input_tanggal_pembayaran}' ";
 		$query .= "AND co.coa like '{$this->input_tujuan_kas}' ";
 		$query .= "ORDER BY pa.id desc ";
-		/* dd($query); */
 		if (!$count) {
 			$query .= "LIMIT {$this->input_pass}, {$this->input_displayed_rows};";
 		}

@@ -64,7 +64,6 @@ class PdfsController extends Controller
 	{
 
 		$periksa = Periksa::find($periksa_id);
-        //return dd( $trxa );
 		$pdf = PDF::loadView('pdfs.struk', compact(
 			'periksa'
 		//))->setPaper(array(0, 0, 210, 810),'Potrait');
@@ -119,14 +118,12 @@ class PdfsController extends Controller
     
     public function pembelian($faktur_belanja_id){
         $fakturbelanja = FakturBelanja::find($faktur_belanja_id);
-		//return dd( $fakturbelanja );
         $total = 0;
         if ($fakturbelanja->belanja_id == 1) {
             foreach ($fakturbelanja->pembelian as $pemb) {
                 $total += $pemb->harga_beli * $pemb->jumlah;
             }
 		} else if ($fakturbelanja->belanja_id == 4) {
-			//return dd( $fakturbelanja->belanjaPeralatan );
             foreach ($fakturbelanja->belanjaPeralatan as $pemb) {
                 $total += $pemb->harga_satuan * $pemb->jumlah;
             }
@@ -603,7 +600,6 @@ class PdfsController extends Controller
 									->where('tunai' , '>', '0')
 									->take(20)
 									->get();
-        //return dd( $trxa );
 		$pdf = PDF::loadView('pdfs.multiStruk', compact(
 			'periksas'
 		//))->setPaper(array(0, 0, 210, 810),'Potrait');

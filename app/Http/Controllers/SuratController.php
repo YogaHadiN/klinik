@@ -24,7 +24,6 @@ class SuratController extends Controller
 		return view('surats.edit', compact('surat'));
 	}
 	public function store(Request $request){
-		/* dd(Input::all()); */ 
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}

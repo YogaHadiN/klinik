@@ -199,7 +199,6 @@ class CustomController extends Controller
 		$tindakanPeriksa = json_decode( $tindakanPeriksa, true ); 
 		$jenisTarifDiskon =[];
 		foreach ($tindakanPeriksa as $t) {
-			//return dd( $t );
 			$jenisTarifDiskon[] = $t['jenis_tarif_id'];
 		}
 

@@ -84,8 +84,6 @@ class FacebookController extends Controller
     }
 	
 	public function daftarkan(){
-		//return dd( Input::all());
-		//return dd( Input::get('pernah_berobat'));
 		$pasien = $this->pasien(Input::get('email'), Input::get('facebook_id'));
 		$email_pasien = Input::get('email');
 		$pilihan_pembayaran = Input::get('pembayaran');

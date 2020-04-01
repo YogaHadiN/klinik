@@ -292,7 +292,6 @@ class PolisController extends Controller
 				$kesimpulan		= null;
 				$saran			= null;
 			}
-			/* dd($_SERVER['SERVER_ADDR']); */
 			$url = url('/');
 			/* $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR']; */
 			$text = 'http://www.google.com';
@@ -469,9 +468,6 @@ class PolisController extends Controller
 		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id, $periksa);
 
 		$url = url('/');
-		//return dd( $antrianperiksa->gambars );
-		//return dd( $periksa->gambars );
-		//return dd($td);
 
 		$generik_lists = Generik::list();
 		/* return $pasien->alergies[0]->generik; */
@@ -626,7 +622,6 @@ class PolisController extends Controller
 					(int) ($angka[1] . $angka[2]) . '.mp3',
 					'silahkanmasuk.mp3'
 				];
-				dd($result);
 			} else if(
 				(int)$angka[1] > 0 &&
 				$angka[2] == '0'

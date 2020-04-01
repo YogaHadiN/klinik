@@ -511,7 +511,6 @@ class PengantarsController extends Controller
 	}
 
 	public function postKunjunganSakit(){
-		//return dd( Input::all() );
 		$id			= Input::get('id');
 		$ks       = KunjunganSakit::find($id);
 		$ks->pcare_submit   = Input::get('pcare_submit');
@@ -581,7 +580,6 @@ class PengantarsController extends Controller
 	}
 	
 	public function postServiceAc(){
-		return dd( Input::all() );
 		$rules = [
 			'' => '',
 		];

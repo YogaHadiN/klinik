@@ -126,7 +126,6 @@ class KasirBaseController extends Controller
 				'harga_jual_satuan' => $t['harga_jual_satuan']
 			];
 		}
-		//return dd( $arrays );
 		//rubah harga obat sesuai dengan terapi yang sudah diubah
 		//
 		//

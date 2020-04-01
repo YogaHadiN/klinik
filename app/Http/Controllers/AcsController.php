@@ -20,7 +20,6 @@ class AcsController extends Controller
 		return view('acs.create');
 	}
 	public function store(){
-		//return dd( Input::all() );
 		$ac             = new Ac;
 		$ac->merek      = Input::get('merek');
 		$ac->keterangan = Input::get('keterangan');

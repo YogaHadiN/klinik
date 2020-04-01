@@ -63,7 +63,6 @@ class LaporansController extends Controller
 			->whereRaw('pcare_submit = 0 or pcare_submit = 2')
 			->orderBy('pcare_submit')
 			->get();
-		//return dd($ks);
 		$ksSubmit = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
 			->where('created_at', 'like', $tanggal . '%')
 			->whereRaw('pcare_submit = 1 or pcare_submit = 3')
@@ -1192,7 +1191,6 @@ class LaporansController extends Controller
 	}
 
 	public function postKunjunganSakit(){
-		return dd( Input::all() );
 	}
 	public function dispensingBpjs(){
 		$staf_id = Input::get('id');
@@ -1374,7 +1372,6 @@ class LaporansController extends Controller
 			}
 		}
 
-		/* dd($data); */
 		return view('laporans.jumlah_pasien_dm_ht', compact(
 			'bulanTahun',
 			'data',

@@ -130,7 +130,6 @@ class HomeController extends Controller
 			$transaksi = $periksaExist->transaksi;
 			// return $transaksi;
 			$transaksi = json_decode($transaksi, true);
-			// return dd($transaksi);
 
 			for ($i = count($transaksi)-1; $i >= 0; $i--) {
 				if(

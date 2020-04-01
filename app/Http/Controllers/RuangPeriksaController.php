@@ -42,7 +42,6 @@ class RuangPeriksaController extends Controller
 			->whereIn('poli', $poli_ids)
 			->get();
 
-		/* dd($antrianperiksa->first()->antrian->nomor_antrian); */
 		$postperiksa = Periksa::with(
 			'staf', 
 			'asuransi', 

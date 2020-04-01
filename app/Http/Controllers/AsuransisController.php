@@ -169,7 +169,6 @@ class AsuransisController extends Controller
 		foreach (TipeAsuransi::all() as $k => $value) {
 			$tipe_asuransi_list[$value->id] = $value->tipe_asuransi;
 		}
-		/* dd($tipe_asuransi_list); */
 		return view('asuransis.edit', compact(
 			'asuransi', 
 			'tipe_tindakans', 

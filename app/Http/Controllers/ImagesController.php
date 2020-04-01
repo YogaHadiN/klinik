@@ -68,11 +68,9 @@ class ImagesController extends Controller
 
 		$image_sisa = Input::get('image_sisa');
 		$sisa = json_decode($image_sisa,true);
-		//return dd( $sisa );
 		$start_input_key = count($sisa);
 		$confirm = GambarPeriksa::insert($sisa);
 
-		//return  dd(Input::file('foto_estetika')) ;
 
 		if ( Input::hasFile('foto_estetika') ) {
 			if (count( Input::file('foto_estetika') ) > 0 ) {

@@ -35,7 +35,6 @@ class BukuBesarsController extends Controller
 				//$errors[] = $ju;
 			//}
 		//}
-		//return dd($errors);
 
 
 		return view('buku_besars.show', compact(

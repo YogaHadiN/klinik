@@ -110,14 +110,12 @@ class RekeningController extends Controller
 		$query .= "AND ";
 		$query .= "(deskripsi like '{$str_deskripsi}' and tanggal like '{$str_tanggal}') ";
 		$query .= "ORDER BY tanggal desc, created_at desc ";
-		/* dd($query); */
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$this->input_displayed_rows};";
 		}
 		if (!$count) {
 			return DB::select($query);
 		} else {
-			/* dd(DB::select($query)[0]->jumlah); */
 			return DB::select($query)[0]->jumlah;
 		}
 	}

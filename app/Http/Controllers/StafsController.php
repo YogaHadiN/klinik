@@ -131,8 +131,6 @@ class StafsController extends Controller
 	 */
 	public function update($id)
 	{
-		//return dd( Input::all() );
-		//return dd( Input::hasFile('ktp_image') );
 		$staf = Staf::findOrFail($id);
 
 		$staf                       = Staf::find($id);

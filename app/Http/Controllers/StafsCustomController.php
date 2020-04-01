@@ -21,7 +21,6 @@ class StafsCustomController extends Controller
     public function gaji($id){
     	$stafArray = BayarGaji::where('staf_id', $id)->latest()->paginate(20);
     	$stafGajiDokter = BayarDokter::where('staf_id', $id)->latest()->paginate(20);
-		//return dd( $stafArray );
     	$staf = Staf::find($id);
 		return view('stafs.gaji', compact(
 			'staf',

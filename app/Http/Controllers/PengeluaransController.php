@@ -452,7 +452,6 @@ class PengeluaransController extends Controller
     
     public function nota_z(){
         $checkout = CheckoutKasir::latest()->first();
-		//return dd( $checkout );
 
         $tanggal = $checkout->created_at;
 		//return $tanggal;
@@ -702,7 +701,6 @@ class PengeluaransController extends Controller
         } else {
             $sumberModal = false;
         }
-        //return dd( $sumberModal );
         if ($sumberModal) {
             $jurnal                  = new JurnalUmum;
             $jurnal->jurnalable_id   = $modal->id;
@@ -1654,7 +1652,6 @@ class PengeluaransController extends Controller
 
 		if ( $jurnalable_type == 'Pengeluaran' ) {
 			$object = Pengeluaran::find( $jurnalable_id );
-			return dd( $object );
 
 			//$fb = new FakturBelanja;
 			//$fb->tanggal = $object->tanggal;

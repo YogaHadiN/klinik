@@ -139,7 +139,6 @@ class SmsController extends Controller
 		return redirect()->back()->withPesan($pesan);
 	}
 	public function smsKontakPost(){
-		//return dd( Input::all() );
 		//return Input::get('pcare_submit');
 		$rules = [
 		  "id" => "required",

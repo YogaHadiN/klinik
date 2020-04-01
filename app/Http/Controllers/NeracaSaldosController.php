@@ -50,7 +50,6 @@ class NeracaSaldosController extends Controller
     		$jurnalumums[$k]['nilai'] = $value;
     	}
 
-    	// return dd($jurnalumums);
     	return view('neraca_saldos.show', compact('jurnalumums'));
 
     }

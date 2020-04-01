@@ -33,7 +33,6 @@ class CekListHariansController extends Controller
 	}
 
 	public function pulsaPost(){
-		//return dd( Input::all() );
 		$messages          = array(
 			'required'    => ':attribute harus diisi terlebih dahulu',
 		);

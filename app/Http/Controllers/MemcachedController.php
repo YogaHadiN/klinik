@@ -80,7 +80,6 @@ class MemcachedController extends Controller
 		$query = "alter table jenis_tarifs modify coa_id int(11) not null";
 		DB::statement($query);
 
-		return dd($ids);
     }
 
 

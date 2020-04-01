@@ -186,7 +186,6 @@ class AntrianPolisController extends Controller
 	 */
 	public function destroy($id)
 	{
-		return dd( Input::all() );
 
 		$antrianpoli = AntrianPoli::find($id);
 		$pasien_id = $antrianpoli->pasien_id;
@@ -274,7 +273,6 @@ class AntrianPolisController extends Controller
 		/* } else { */
 		/* 	$antrian_saat_ini   = 0; */
 		/* } */
-		/* /1* dd($antrian_saat_ini); *1/ */
 
 		/* $result = compact( */
 		/* 	'antrians', */

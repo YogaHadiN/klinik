@@ -18,7 +18,6 @@ class DispensingsController extends Controller
 
 	public function index()
 	{	
-		//return dd( Input::all() );
 		$mulai = Yoga::datePrep(Input::get('mulai'));
 		$akhir = Yoga::datePrep(Input::get('akhir'));
 		$rak_id = Input::get('rak_id');
