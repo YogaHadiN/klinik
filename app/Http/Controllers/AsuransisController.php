@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
 use App\Asuransi;
+use App\Berkas;
 use App\Tarif;
 use App\TipeAsuransi;
 use App\Email;
 use App\Telpon;
 use App\Pic;
 use App\PembayaranAsuransi;
+use App\Http\Controllers\CustomController;
 use App\Coa;
 use App\CatatanAsuransi;
 use App\TipeTindakan;
@@ -87,8 +89,8 @@ class AsuransisController extends Controller
 	 */
 	public function create()
 	{	
-		$tarifs         = $this->tarifTemp()['tarifs'];
-		$tipe_tindakans = $this->tarifTemp()['tipe_tindakans'];
+		$tarifs         = $this->tarifTemp();
+		$tipe_tindakans = TipeTindakan::all();
 		return view('asuransis.create', compact('tarifs', 'tipe_tindakans'));
 	}
 
@@ -161,16 +163,19 @@ class AsuransisController extends Controller
 	 */
 	public function edit($id)
 	{
-		$asuransi = Asuransi::with('pic', 'emails', 'tarif')->where('id',$id)->first();
-		$tarifs         = $this->tariftemp($id)['tarifs'];
-		$tipe_tindakans = $this->tariftemp($id)['tipe_tindakans'];
+		$asuransi = Asuransi::with('pic', 'emails', 'tarif.jenisTarif', 'tarif.tipeTindakan')->where('id',$id)->first();
+		$tarifs         = $this->tariftemp($asuransi, $id);
+		$tipe_tindakans = TipeTindakan::all();
 
 		$tipe_asuransi_list = [];
 		foreach (TipeAsuransi::all() as $k => $value) {
 			$tipe_asuransi_list[$value->id] = $value->tipe_asuransi;
 		}
+		$px = new CustomController;
+		$warna = $px->warna;
 		return view('asuransis.edit', compact(
 			'asuransi', 
+			'warna', 
 			'tipe_tindakans', 
 			'tipe_asuransi_list', 
 			'tarifs'
@@ -618,8 +623,8 @@ class AsuransisController extends Controller
 			}
 		}
 	}
-	public function tarifTemp($id = 0){
-		$trf = Tarif::with('jenisTarif', 'tipeTindakan')->where('asuransi_id', $id)->get()	;
+	public function tarifTemp($asuransi, $id = 0){
+		$trf    = $asuransi->tarif;
 		$tarifs = [];
 		foreach ($trf as $t) {
 			$tarifs[] = [
@@ -634,8 +639,46 @@ class AsuransisController extends Controller
 				'biaya'                 => $t->biaya
 			];
 		}
-		$tipe_tindakans = TipeTindakan::all();
-		return compact('tarifs', 'tipe_tindakans');
+		return $tarifs;
 	}
-	
+	public function uploadBerkas(){
+		if(Input::hasFile('file')) {
+			$id = Input::get('asuransi_id');
+			$nama_file               = Input::get('nama_file');
+			$upload_cover            = Input::file('file');
+			$extension               = $upload_cover->getClientOriginalExtension();
+
+			$berkas                  = new Berkas;
+			$berkas->berkasable_id   = $id;
+			$berkas->berkasable_type = 'App\\Asuransi';
+			$berkas->nama_file       = $nama_file;
+			$berkas->save();
+
+
+			$filename =	 $berkas->id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			//
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'berkas/asuransi/' . $id;
+
+			// Mengambil file yang di upload
+			//
+			//
+			/* return [$filename, $destination_path]; */
+
+			$upload_cover->move($destination_path , $filename);
+			return $berkas->id;
+			
+		} else {
+			return null;
+		}
+	}
+	public function hapusBerkas(){
+		$berkas_id = Input::get('berkas_id');
+		if ( Berkas::destroy( $berkas_id ) ) {
+			return '1';
+		} else {
+			return '0';
+		}
+	}
 }

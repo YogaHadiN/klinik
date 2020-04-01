@@ -23,6 +23,7 @@
         "url"   => "asuransis/". $asuransi->id ,
         "class" => "m-t", 
         "role"  => "form",
+		"files"=> "true",
         "method"=> "put"
         ))!!}
 

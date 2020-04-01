@@ -1250,10 +1250,7 @@ class Periksa extends Model{
 		return $this->hasMany('App\PiutangDibayar');
 	}
 	
-	public function berkas(){
-		return $this->hasMany('App\Berkas');
-	}
-	
-	
-	
+    public function berkas(){
+        return $this->morphMany('App\Berkas', 'berkasable');
+    }
 }

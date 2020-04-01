@@ -34,6 +34,7 @@
         "url"   => "asuransis",
         "class" => "m-t", 
         "role"  => "form",
+		"files"=> "true",
         "method"=> "post"
         ))!!}
 @include('asuransis/form', [
@@ -47,7 +48,8 @@
 'penagihanstring' => null
 ])
     {!! Form::close() !!}
-    @stop
-    @section('footer') 
-            @include('asuransis/footer', ['tarifs' => $tarifs])
-    @stop
+@stop
+@section('footer') 
+		{!! HTML::script('js/show_periksa.js') !!}
+		@include('asuransis/footer', ['tarifs' => $tarifs])
+@stop

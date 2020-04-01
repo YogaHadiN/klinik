@@ -440,12 +440,8 @@ class PeriksasController extends Controller
 		/* return $periksa->pembayarans; */
 
 
-		$warna = [
-			'primary',
-			'info',
-			'warning',
-			'danger'
-		];
+		$cs = new CustomController;
+		$warna = $cs->warna;
 
 		return view('periksas.show', compact(
 			'warna',
@@ -836,13 +832,14 @@ class PeriksasController extends Controller
 
 		if(Input::hasFile('file')) {
 
-			$nama_file    = Input::get('nama_file');
-			$upload_cover = Input::file('file');
-			$extension    = $upload_cover->getClientOriginalExtension();
+			$nama_file               = Input::get('nama_file');
+			$upload_cover            = Input::file('file');
+			$extension               = $upload_cover->getClientOriginalExtension();
 
-			$berkas             = new Berkas;
-			$berkas->periksa_id = $id;
-			$berkas->nama_file  = $nama_file;
+			$berkas                  = new Berkas;
+			$berkas->berkasable_id   = $id;
+			$berkas->berkasable_type = 'App\\Periksa';
+			$berkas->nama_file       = $nama_file;
 			$berkas->save();
 
 

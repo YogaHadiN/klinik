@@ -170,6 +170,8 @@ Route::resource('invoices', 'InvoiceController');
 			Route::post('/periksas/berkas/hapus', 'PeriksasController@hapusBerkas');
 			Route::get('periksas/{id}/cek/jumlah/berkas', 'PeriksasController@jumlahBerkas');
 
+			Route::put('asuransis/{id}/upload', 'AsuransisController@uploadBerkas');
+			Route::post('asuransis/berkas/hapus', 'AsuransisController@hapusBerkas');
 
 
 			Route::get('backup', 'DatabaseController@index');

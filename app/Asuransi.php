@@ -124,4 +124,8 @@ class Asuransi extends Model{
     public function telpons(){
 		return $this->morphMany('App\Telpon', 'telponable');
     }
+
+    public function berkas(){
+        return $this->morphMany('App\Berkas', 'berkasable');
+    }
 }

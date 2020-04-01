@@ -39,10 +39,17 @@ use DB;
 class CustomController extends Controller
 {
 
+  public $warna;
   public function __construct()
     {
         $this->middleware('belum_masuk_kasir', ['only' => ['kembali2']]);
         $this->middleware('selesai', ['only' => ['kembali','kembali2', 'kembali3']]);
+		$this->warna =[
+			'primary',
+			'info',
+			'warning',
+			'danger'
+		];
     }
 	public function create_rak($id)
 	{
@@ -243,12 +250,7 @@ class CustomController extends Controller
         	$obat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;
         	$dibayar = $jasa_dokter + $obat;
         }
-		$warna = [
-			'primary',
-			'info',
-			'warning',
-			'danger'
-		];
+		$warna = $this->warna;
 		return view('surveys.index', compact(
 			'reseps',
 			'warna',
