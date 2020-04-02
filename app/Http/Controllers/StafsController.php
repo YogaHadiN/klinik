@@ -110,7 +110,6 @@ class StafsController extends Controller
 	public function show($id)
 	{
 		$staf = Staf::findOrFail($id);
-
 		return view('stafs.show', compact('staf'));
 	}
 
@@ -123,7 +122,6 @@ class StafsController extends Controller
 	public function edit($id)
 	{
 		$staf = Staf::find($id);
-
 		return view('stafs.edit', compact('staf'));
 	}
 

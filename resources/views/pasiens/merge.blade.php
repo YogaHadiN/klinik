@@ -40,7 +40,7 @@
 		function dummySubmit(){
 			var r = confirm('Anda yakin mau menggabungkan pasien ini? Semua pasien ini akan dihapus dan akan disisakan hanya satu yang biru muda');
 			if(r){
-				if(validatePass()){
+				if(validatePass2()){
 					$('#submit').click();
 				}
 			}

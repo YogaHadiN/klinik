@@ -25,14 +25,14 @@ use DB;
 class PasiensMergeController extends Controller
 {
 	public function index(){
-		$ps = new Pasien;
+		$ps               = new Pasien;
 		$statusPernikahan = $ps->statusPernikahan();
-		$panggilan = $ps->panggilan();
-		$asuransi = Yoga::asuransiList();
-		$jenis_peserta = $ps->jenisPeserta();
-		$staf = Yoga::stafList();
-		$poli = Yoga::poliList();
-		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
+		$panggilan        = $ps->panggilan();
+		$asuransi         = Yoga::asuransiList();
+		$jenis_peserta    = $ps->jenisPeserta();
+		$staf             = Yoga::stafList();
+		$poli             = Yoga::poliList();
+		$peserta          = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		return view('pasiens.merge')
 			->withAsuransi($asuransi)
 			->with('statusPernikahan', $statusPernikahan)
