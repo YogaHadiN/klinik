@@ -41,9 +41,9 @@
  @stop
  @section('footer') 
 
-	 <script type="text/javascript" charset="utf-8">
-		var base = "{{ url('/') }}";
-	 </script>
+ <script type="text/javascript" charset="utf-8">
+	var base = "{{ url('/') }}";
+ </script>
 {!! HTML::script('js/plugins/webcam/photo.js')!!}
 {!! HTML::script('js/togglepanel.js')!!}
 

@@ -250,11 +250,16 @@
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				@include('antrianpolis.webcamForm', [
-				'image'     => $image, 
-				'ktp_image' => $ktp_image,
-				'subject'   => 'Staf'
-				])  
+				<div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+					{!! Form::label('image', 'Upload Pas Foto') !!}
+					{!! Form::file('image') !!}
+						@if (isset($staf) && $staf->image)
+							<p> {!! HTML::image(asset($staf->image), null, ['class'=>'img-rounded upload']) !!} </p>
+						@else
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+						@endif
+					{!! $errors->first('image', '<p class="help-block">:message</p>') !!}
+				</div>
 			</div>
 		</div>
 		<div class="row">

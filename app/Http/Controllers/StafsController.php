@@ -15,8 +15,51 @@ class StafsController extends Controller
 {
 
 
-	  public function __construct()
-    {
+	public $input_id;
+	public $input_alamat_domisili;
+	public $input_alamat_ktp;
+	public $input_email;
+	public $input_titel;
+	public $input_ktp;
+	public $input_jenis_kelamin;
+	public $input_nama;
+	public $input_no_hp;
+	public $input_no_telp;
+	public $input_ada_penghasilan_lain;
+	public $input_str;
+	public $input_menikah;
+	public $input_jumlah_anak;
+	public $input_npwp;
+	public $input_image;
+	public $input_ktp_image;
+	public $input_str_image;
+	public $input_sip_image;
+	public $input_gambar_npwp;
+	public $input_kartu_keluarga;
+	public $input_tanggal_lahir;
+	public $input_tanggal_lulus;
+	public $input_tanggal_mulai;
+	public $input_universitas_asal;
+
+	  public function __construct() {
+		$this->input_alamat_domisili      = Input::get('alamat_domisili');
+		$this->input_alamat_ktp           = Input::get('alamat_ktp');
+		$this->input_email                = Input::get('email');
+		$this->input_titel                = Input::get('titel');
+		$this->input_ktp                  = Input::get('ktp');
+		$this->input_jenis_kelamin        = Input::get('jenis_kelamin');
+		$this->input_nama                 = ucwords(strtolower(Input::get('nama'))) . ', ' . Input::get('titel');
+		$this->input_no_hp                = Input::get('no_hp');
+		$this->input_no_telp              = Input::get('no_telp');
+		$this->input_ada_penghasilan_lain = Input::get('ada_penghasilan_lain');
+		$this->input_str                  = Input::get('str');
+		$this->input_menikah              = Input::get('menikah');
+		$this->input_jumlah_anak          = Input::get('jumlah_anak');
+		$this->input_npwp                 = Input::get('npwp');
+		$this->input_tanggal_lahir        = Yoga::datePrep( Input::get('tanggal_lahir') );
+		$this->input_tanggal_lulus        = Yoga::datePrep( Input::get('tanggal_lulus') );
+		$this->input_tanggal_mulai        = Yoga::datePrep( Input::get('tanggal_mulai') );
+		$this->input_universitas_asal     = Input::get('universitas_asal');
         $this->middleware('super', ['only' => ['delete']]);
         /* $this->middleware('super', ['only' => ['delete','update']]); */
     }
@@ -56,42 +99,9 @@ class StafsController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-
-		$nama = ucwords(strtolower(Input::get('nama'))) . ', ' . Input::get('titel');
-
-		$staf_id                    = Yoga::customId('App\Staf');
-		$staf                       = new Staf;
-		$staf->id                   = $staf_id;
-		$staf->alamat_domisili      = Input::get('alamat_domisili');
-		$staf->alamat_ktp           = Input::get('alamat_ktp');
-		$staf->email                = Input::get('email');
-		$staf->titel                = Input::get('titel');
-		$staf->ktp                  = Input::get('ktp');
-		$staf->jenis_kelamin        = Input::get('jenis_kelamin');
-		$staf->nama                 = $nama;
-		$staf->no_hp                = Input::get('no_hp');
-		$staf->no_telp              = Input::get('no_telp');
-		$staf->ada_penghasilan_lain = Input::get('ada_penghasilan_lain');
-		$staf->str                  = Input::get('str');
-		$staf->menikah              = Input::get('menikah');
-		$staf->jumlah_anak          = Input::get('jumlah_anak');
-		$staf->npwp                 = Input::get('npwp');
-		$staf->ktp_image            = $this->imageUpload('ktp', 'ktp_image', $staf_id);
-		$staf->str_image            = $this->imageUpload('str', 'str_image', $staf_id);
-		$staf->sip_image            = $this->imageUpload('sip', 'sip_image', $staf_id);
-		$staf->gambar_npwp          = $this->imageUpload('npwp', 'gambar_npwp', $staf_id);
-		$staf->surat_nikah          = $this->imageUpload('surat_nikah', 'surat_nikah', $staf_id);
-		$staf->kartu_keluarga       = $this->imageUpload('kk', 'kartu_keluarga', $staf_id);
-		$staf->tanggal_lahir        = Yoga::datePrep( Input::get('tanggal_lahir') );
-		$staf->tanggal_lulus        = Yoga::datePrep( Input::get('tanggal_lulus') );
-		$staf->tanggal_mulai        = Yoga::datePrep( Input::get('tanggal_mulai') );
-		$staf->universitas_asal     = Input::get('universitas_asal');
-		
-		if (!empty(Input::get('image'))) {
-			$staf->image      	= Yoga::inputStafImageIfNotEmpty(Input::get('image'), $staf_id);
-		}
-
-		$staf->save();
+		$staf                 = new Staf;
+		$staf->id             = Yoga::customId('App\Staf');
+		$this->inputData($staf);
 
 
 		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf baru <strong>' . $nama . '</strong> Berhasil <strong>Dimasukkan</strong>'));
@@ -131,49 +141,14 @@ class StafsController extends Controller
 	 */
 	public function update($id)
 	{
-		$staf = Staf::findOrFail($id);
-
-		$staf                       = Staf::find($id);
-		$staf->alamat_domisili      = Input::get('alamat_domisili');
-		$staf->alamat_ktp           = Input::get('alamat_ktp');
-		$staf->email                = Input::get('email');
-		$staf->titel                = Input::get('titel');
-		$staf->ktp                  = Input::get('ktp');
-		$staf->jenis_kelamin        = Input::get('jenis_kelamin');
-		$staf->ada_penghasilan_lain = Input::get('ada_penghasilan_lain');
-		$staf->nama                 = Input::get('nama');
-		$staf->no_hp                = Input::get('no_hp');
-		$staf->menikah              = Input::get('menikah');
-		$staf->jumlah_anak          = Input::get('jumlah_anak');
-		$staf->npwp                 = Input::get('npwp');
-		$staf->no_telp              = Input::get('no_telp');
-		$staf->str                  = Input::get('str');
-
-		if (Input::hasFile('ktp_image')) {
-			$staf->ktp_image   = $this->imageUpload('ktp', 'ktp_image', $id);
+		$validator = \Validator::make(Input::all(), Staf::$rules);
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		if (Input::hasFile('str_image')) {
-			$staf->str_image              = $this->imageUpload('str', 'str_image', $id); 
-		}
-
-		if (Input::hasFile('sip_image')) {
-			$staf->sip_image              = $this->imageUpload('sip', 'sip_image', $id); 
-		}
-		if (Input::hasFile('gambar_npwp')) {
-			$staf->gambar_npwp              = $this->imageUpload('npwp', 'gambar_npwp', $id); 
-		}
-		$staf->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
-		$staf->tanggal_lulus    = Yoga::datePrep(Input::get('tanggal_lulus'));
-		$staf->tanggal_mulai    = Yoga::datePrep(Input::get('tanggal_mulai'));
-		$staf->universitas_asal = Input::get('universitas_asal');
-
-		if (!empty(Input::get('image'))) {
-			$staf->image      	= Yoga::inputStafImageIfNotEmpty(Input::get('image'), $id);
-		}
-
-		$staf->save();
-
+		$staf = Staf::find($id);
+		$this->inputData($staf);
 		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf <strong>' . Input::get('nama') . '</strong> Berhasil <strong>Diubah</strong>'));
 	}
 
@@ -196,6 +171,7 @@ class StafsController extends Controller
 
 
 	private function imageUpload($pre, $fieldName, $id){
+
 		if(Input::hasFile($fieldName)) {
 
 			$upload_cover = Input::file($fieldName);
@@ -220,7 +196,7 @@ class StafsController extends Controller
 			return 'img/staf/'. $filename;
 			
 		} else {
-			return null;
+			return $staf->$fieldName;
 		}
 
 	}
@@ -263,4 +239,27 @@ public function pph21DokterUmum(){
 		return redirect()->back()->withPesan($pesan);
 		
 	}
+	public function inputData(){
+		
+			$staf->alamat_domisili      = $this->input_alamat_domisili;
+			$staf->alamat_ktp           = $this->input_alamat_ktp;
+			$staf->email                = $this->input_email;
+			$staf->titel                = $this->input_titel;
+			$staf->ktp                  = $this->input_ktp;
+			$staf->jenis_kelamin        = $this->input_jenis_kelamin;
+			$staf->nama                 = $this->input_nama;;
+			$staf->no_hp                = $this->input_no_hp;
+			$staf->no_telp              = $this->input_no_telp;
+			$staf->ada_penghasilan_lain = $this->input_ada_penghasilan_lain;
+			$staf->str                  = $this->input_str;
+			$staf->menikah              = $this->input_menikah;
+			$staf->jumlah_anak          = $this->input_jumlah_anak;
+			$staf->npwp                 = $this->input_npwp;
+			$staf->tanggal_lahir        = Yoga::datePrep( $this->input_tanggal_lahir );
+			$staf->tanggal_lulus        = Yoga::datePrep( $this->input_tanggal_lulus );
+			$staf->tanggal_mulai        = Yoga::datePrep( $this->input_tanggal_mulai );
+			$staf->universitas_asal     = $this->input_universitas_asal;
+			$staf->save();
+	}
+
 }

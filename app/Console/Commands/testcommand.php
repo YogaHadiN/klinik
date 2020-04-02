@@ -16,6 +16,7 @@ use App\PiutangDibayar;
 use App\NotaJual;
 use App\PoliAntrian;
 use App\KirimBerkas;
+use App\PasienRujukBalik;
 use App\JenisTarif;
 use App\Pasien;
 use App\Invoice;
@@ -66,6 +67,46 @@ class testcommand extends Command
      */
     public function handle()
     {
-		cdfasdjlfk;
+		DB::statement("CREATE TABLE pasien_rujuk_baliks ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, pasien_id VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)");
+
+		$timestamp = date('Y-m-d H:i:s');
+		
+		$datas = [
+			[
+				'pasien_id' => '10',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			], 
+
+			[
+				'pasien_id' => '10',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			], 
+
+			[
+				'pasien_id' => '10',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			], 
+			[
+				'pasien_id' => '10',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			], 
+			[
+				'pasien_id' => '10',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			], 
+			[
+				'pasien_id' => '10',
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			], 
+		];
+
+		PasienRujukBalik::insert($datas);
+
    	}
 }
