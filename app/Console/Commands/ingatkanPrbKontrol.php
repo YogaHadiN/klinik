@@ -52,5 +52,6 @@ class ingatkanPrbKontrol extends Command
 	private function sendWa($pasien){
 		$message = "Selamat Sore. Maaf mengganggu. Kami dari Klinik Jati Elok izin mengingatkan pasien atas nama " . $pasien->nama . " untuk memeriksakan diri di Klinik untuk mengambil resep bulanan obat PRB BPJS. Terima kasih";
 		Sms::send($pasien->no_telp, $message);
+		Log::info('Terkirim wa ke ' . $pasien->no_telp . ' : ' $message);
 	}
 }

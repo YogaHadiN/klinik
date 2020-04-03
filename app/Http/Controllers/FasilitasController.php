@@ -87,7 +87,7 @@ class FasilitasController extends Controller
 	}
 	public function postAntrianPoli($poli, $pasien_id, $asuransi_id){
 		$antrianPoli = ( isset( AntrianPoli::latest()->first()->antrian ) )?  AntrianPoli::latest()->first()->antrian : null;
-		$antrianPeriksa = ( isset( AntrianPeriksa::orderBy('antrian_id', 'desc')->first()->antrian ) )? AntrianPeriksa::orderBy('antrian_id', 'desc')->first()->antrian : null; 
+		$antrianPeriksa = ( isset( AntrianPeriksa::latest()->first()->antrian ) )? AntrianPeriksa::latest()->first()->antrian : null; 
 		$antrian = [
 			$antrianPeriksa,
 			$antrianPoli
