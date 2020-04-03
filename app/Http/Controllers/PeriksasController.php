@@ -684,11 +684,7 @@ class PeriksasController extends Controller
 			$pasien = $periksa->pasien;
 			DB::commit();
 
-			if(isset($periksa->antrian)){
-				$ruang_periksa_id = $periksa->antrian->jenis_antrian_id;
-			} else {
-				$ruang_periksa_id = 6;
-			}
+			$ruang_periksa_id = $periksa->antrian->jenis_antrian_id;
 		return redirect('ruangperiksa/' . $ruang_periksa_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
 			DB::rollback();

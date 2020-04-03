@@ -210,7 +210,6 @@ class AntrianPeriksasController extends Controller
 		}
 		$ap->delete();
 
-
 		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Pasien <strong>' . $pasien_id . ' - ' . $nama_pasien . '</strong> Berhasil dihapus dari antrian'  ));
 	}
 

@@ -298,14 +298,6 @@ class AntrianPolisController extends Controller
 			$an->antriable_type = 'App\\AntrianPoli';
 			$an->save();
 		}
-		/* if ( */
-		/* 	$ap->poli == 'umum' || */
-		/* 	$ap->poli == 'luka' || */
-		/* 	$ap->poli == 'sks' */
-		/* ) { */
-		/* 	$totalAntrian = $this->totalAntrian($ap); */
-		/* 	$this->sendWaAntrian($totalAntrian, $ap); */
-		/* } */
 		$this->updateJumlahAntrian();
 		return $ap;
 
