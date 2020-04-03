@@ -32,7 +32,6 @@ class Kernel extends ConsoleKernel
 		 Commands\testConsole::class,
 		 Commands\gammuSend::class,
 		 Commands\smsCekInbox::class,
-		 Commands\resetAntrian::class,
 		 Commands\testJurnal::class,
 		 Commands\dbBackup::class,
 		 Commands\dbHapusdiskon::class,
@@ -87,8 +86,6 @@ class Kernel extends ConsoleKernel
 					->dailyAt('23.30'); 
 		 $schedule->command('sms:laporanharian')
 					->dailyAt('23:00'); 
-		 $schedule->command('reset:antrian')
-					->dailyAt('00:00'); 
 		 $schedule->command('send:melaravelLog')
 					->dailyAt('01:00'); 
 		 $schedule->command('db:scheduleBackup')
