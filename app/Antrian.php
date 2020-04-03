@@ -17,4 +17,10 @@ class Antrian extends Model
 	public function getNomorAntrianAttribute(){
 		return $this->jenis_antrian->prefix . $this->nomor;
 	}
+	public function getJenisAntrianIdAttribute(){
+		if (is_null($this->jenis_antrian_id)) {
+			return '6';
+		}
+		return $this->jenis_antrian_id;
+	}
 }

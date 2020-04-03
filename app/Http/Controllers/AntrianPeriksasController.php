@@ -184,8 +184,10 @@ class AntrianPeriksasController extends Controller
 	 */
 	public function destroy($id)
 	{
-		// return Input::all();
-		$ap = AntrianPeriksa::find($id);
+		$ap            = AntrianPeriksa::with('antrian', 'pasien')->where('id',$id)->first();
+		$jenis_antrian_id = $ap->antrian->jenis_antrian_id;
+		$pasien_id = $ap->pasien_id;
+		$nama_pasien = $ap->pasien->nama;
 
 		$kabur            = new Kabur;
 		$kabur->pasien_id = $ap->pasien_id;
@@ -209,7 +211,7 @@ class AntrianPeriksasController extends Controller
 		$ap->delete();
 
 
-		return redirect('ruangperiksa/' . $ap->poli)->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Pasien <strong>' . $pasien_id . ' - ' . $nama_pasien . '</strong> Berhasil dihapus dari antrian'  ));
 	}
 
 	private function periksaKosong($pasien_id, $staf_id, $asisten_id, $ap_id, $antrian, $jamdatang){

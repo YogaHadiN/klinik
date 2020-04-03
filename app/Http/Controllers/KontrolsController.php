@@ -31,16 +31,16 @@ class KontrolsController extends Controller
 
 		$periksa = Periksa::find( Input::get('periksa_id') );
 
-		$k       = new Kontrol;
+		$k             = new Kontrol;
 		$k->periksa_id = Input::get('periksa_id');
-		$k->tanggal = Yoga::datePrep( Input::get('tanggal') );
+		$k->tanggal    = Yoga::datePrep( Input::get('tanggal') );
 		$confirm = $k->save();
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Janji Kontrol Sudah Dibuat');
 		} else {
 			$pesan = Yoga::gagalFlash('Janji Kontrol Gagal Dibuat');
 		}
-		return redirect('ruangperiksa/' . $periksa->poli)->withPesan($pesan);
+		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan($pesan);
 
 	}
 	public function update($id){
@@ -66,7 +66,7 @@ class KontrolsController extends Controller
 		} else {
 			$pesan = Yoga::gagalFlash('Update Janji Kontrol Gagal');
 		}
-		return redirect('ruangperiksa/' . $periksa->poli)->withPesan($pesan);
+		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan($pesan);
 	}
 	
 	public function edit($id){
@@ -80,7 +80,7 @@ class KontrolsController extends Controller
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Jadwal kontrol berhasil dibatalkan');
 		}
-		return redirect('ruangperiksa/' . $periksa->poli)->withPesan($pesan);
+		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan($pesan);
 	}
 	
 	

@@ -101,7 +101,7 @@ class RujukansController extends Controller
 
 
 
-		$periksa                   = Periksa::find(Input::get('periksa_id'));
+		$periksa                   = Periksa::with('antrian', 'pasien')->where('id', Input::get('periksa_id'))->first();
 		// INPUT RUJUKAN 
 		// cek apakah rujukannya rujukan baru atay lama
 		$tujuan_rujuk              = str_replace(' ', '', Input::get('tujuan_rujuk'));
@@ -183,7 +183,7 @@ class RujukansController extends Controller
 			$this->updateInfoRS(Input::get('rumah_sakit_telepon'), Input::get('rumah_sakit_alamat'), Input::get('rumah_sakit_ugd'), $rujuk->rumah_sakit_id);
 		}
 
-		return redirect('ruangperiksa/' . $periksa->poli)->withPesan(Yoga::suksesFlash('rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil dibuat'));
+		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil dibuat'));
 	}
 
 	/**
@@ -362,7 +362,7 @@ class RujukansController extends Controller
 		if ($confirm) {
 			$this->updateInfoRS(Input::get('rumah_sakit_telepon'), Input::get('rumah_sakit_alamat'), Input::get('rumah_sakit_ugd'), $rujuk->rumah_sakit_id);
 		}
-		return redirect('ruangperiksa/' . $periksa->poli)->withPesan(Yoga::suksesFlash('Rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil diubah!'));
+		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil diubah!'));
 	}
 
 	/**
@@ -378,7 +378,7 @@ class RujukansController extends Controller
 		$rujukan->delete();
 
 
-		return redirect('ruangperiksa/'.$periksa->poli)->withPesan(Yoga::suksesFlash('Rujukan untuk pasien <strong>' . $periksa->id . ' - '. $periksa->pasien->nama. '</strong> berhasil dihapus'));
+		return redirect('ruangperiksa/'.$periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Rujukan untuk pasien <strong>' . $periksa->id . ' - '. $periksa->pasien->nama. '</strong> berhasil dihapus'));
 	}
 
 	private function updateInfoRS($telepon, $alamat, $ugd, $rumah_sakit_id){

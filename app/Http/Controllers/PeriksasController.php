@@ -93,7 +93,7 @@ class PeriksasController extends Controller
 		//jika pasien sudah hilang dari antrian periksa, mungkin dia sudah diproses ke apotek
 		if( AntrianPeriksa::find( Input::get('antrian_id') ) == null || Periksa::where('antrian_periksa_id', Input::get('antrian_id'))->count() > 0){
 			$pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrianperiksa, mungkin sudah dimasukkan atau buatlah antrian yang baru');
-			return redirect('ruangperiksa/' . Input::get('poli'))->withPesan($pesan);
+			return redirect()->back()->withPesan($pesan);
 		}
 		// return var_dump(json_decode(Input::get('terapi'), true));
 		//Pada tahap ini ada beberapa yang perlu ditambahkan
