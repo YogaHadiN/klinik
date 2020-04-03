@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Input;
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\AntrianPeriksa;
 use App\JenisAntrian;
 use App\Classes\Yoga;
@@ -23,8 +23,9 @@ class RuangPeriksaController extends Controller
         $this->middleware('backIfNotFound', ['only' => ['index']]);
 	}
 
-	public function index($jenis_antrian_id){
-		$jenis_antrian = JenisAntrian::find($jenis_antrian_id);
+	public function index(Request $request, $jenis_antrian_id){
+
+		$jenis_antrian = $request->jenis_antrian;
 
 		$poli_ids = [];
 		foreach ($jenis_antrian->poli_antrian as $poli) {

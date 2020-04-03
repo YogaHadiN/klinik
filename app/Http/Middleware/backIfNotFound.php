@@ -3,6 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Input;
+use App\JenisAntrian;
+use App\Classes\Yoga;
 
 class backIfNotFound
 {
@@ -16,7 +19,7 @@ class backIfNotFound
     public function handle($request, Closure $next)
     {
 		try {
-			$request->jenis_antrian = JenisAntrian::findOrFail($jenis_antrian_id);
+			$request->jenis_antrian = JenisAntrian::findOrFail( $request->jenis_antrian_id);
 			return $next($request);
 		} catch (\Exception $e) {
 			$pesan = Yoga::gagalFlash('Ruang Periksa tidak ditemukan');
