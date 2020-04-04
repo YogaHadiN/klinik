@@ -183,7 +183,12 @@ class RujukansController extends Controller
 			$this->updateInfoRS(Input::get('rumah_sakit_telepon'), Input::get('rumah_sakit_alamat'), Input::get('rumah_sakit_ugd'), $rujuk->rumah_sakit_id);
 		}
 
-		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil dibuat'));
+		$jenis_antrian_id = 6;
+		if (!is_null($periksa->antrian)) {
+			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
+		}
+
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil dibuat'));
 	}
 
 	/**
