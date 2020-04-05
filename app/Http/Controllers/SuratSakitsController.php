@@ -149,13 +149,14 @@ class SuratSakitsController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
+
 		$ss                = SuratSakit::with('periksa.antrian', 'periksa.pasien')->where('id',$id)->first();
 		$ss->periksa_id    = Input::get('periksa_id');
 		$ss->tanggal_mulai = Yoga::datePrep(Input::get('tanggal_mulai'));
 		$ss->hari          = Input::get('hari');
 		$ss->save();
 
-		return redirect('ruangperiksa/' . $suratsakit->periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit <strong>' .$suratsakit->periksa->pasien_id. ' - ' .$suratsakit->periksa->pasien->nama. '</strong> berhasil <strong>DIUBAH</strong>'));
+		return redirect('ruangperiksa/' . $ss->periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit <strong>' .$ss->periksa->pasien_id. ' - ' .$ss->periksa->pasien->nama. '</strong> berhasil <strong>DIUBAH</strong>'));
 	}
 
 	/**
