@@ -37,7 +37,7 @@
 							 <tr class="cust-green-bg">
 							 @endif
 							 <td> {!! $key + 1!!} </td>
-							 <td> <a data-target=".bs-example-modal-lg" data-toggle="modal" data-value="{{ $pembelian->merek_id }}" onclick="informasi(this); return false; " href="#" >{!! $pembelian->merek->merek !!}</a> </td>
+							 <td> <a data-target=".bs-example-modal-lg" data-toggle="modal" data-value="{{ $pembelian->merek_id }}" onclick="informasi(this); return false; " href="#" >{!! $pembelian->merek->merek ?? 'merek dihapus' !!}</a> </td>
 							@if ($pembelian->harga_naik > 0)
 							  {{-- expr --}}
 							   <td><span class="uang"> {!! $pembelian->harga_beli !!} </span>, naik {!! $pembelian->harga_naik !!} </td>
