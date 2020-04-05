@@ -75,16 +75,19 @@ class SuratSakitsController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-		// return Input::all();
 		$periksa = Periksa::find(Input::get('periksa_id'));
 
-		$ss = new SuratSakit;
-		$ss->periksa_id = Input::get('periksa_id');
+		$ss                = new SuratSakit;
+		$ss->periksa_id    = Input::get('periksa_id');
 		$ss->tanggal_mulai = Yoga::datePrep(Input::get('tanggal_mulai'));
-		$ss->hari = Input::get('hari');
+		$ss->hari          = Input::get('hari');
 		$ss->save();	
 
-		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit Untuk <strong>' .$periksa->pasien_id. ' - ' .$periksa->pasien->nama. '</strong> Berhasil Dibuat selama <strong>' .Input::get('hari'). ' Hari </strong>mulai tanggal <strong>' .Input::get('tanggal_mulai').  '</strong>'));
+		$jenis_antrian_id = '6';
+		if ( !is_null( $periksa->antrian ) ) {
+			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
+		}
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit Untuk <strong>' .$periksa->pasien_id. ' - ' .$periksa->pasien->nama. '</strong> Berhasil Dibuat selama <strong>' .Input::get('hari'). ' Hari </strong>mulai tanggal <strong>' .Input::get('tanggal_mulai').  '</strong>'));
 	}
 
 	/**
@@ -156,7 +159,11 @@ class SuratSakitsController extends Controller
 		$ss->hari          = Input::get('hari');
 		$ss->save();
 
-		return redirect('ruangperiksa/' . $ss->periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit <strong>' .$ss->periksa->pasien_id. ' - ' .$ss->periksa->pasien->nama. '</strong> berhasil <strong>DIUBAH</strong>'));
+		$jenis_antrian_id = '6';
+		if (!is_null($ss->periksa->antrian)) {
+			$jenis_antrian_id = $ss->periksa->antrian->jenis_antrian_id
+		}
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit <strong>' .$ss->periksa->pasien_id. ' - ' .$ss->periksa->pasien->nama. '</strong> berhasil <strong>DIUBAH</strong>'));
 	}
 
 	/**
@@ -170,7 +177,10 @@ class SuratSakitsController extends Controller
 		$suratsakit       = SuratSakit::with('periksa.antrian', 'periksa.pasien')->where('id',$id)->first();
 		$periksa_id       = $suratsakit->periksa_id;
 		$nama_pasien      = $suratsakit->periksa->pasien->nama;
-		$jenis_antrian_id = $suratsakit->antrian->jenis_antrian_id;
+		$jenis_antrian_id = '6';
+		if (!is_null($suratsakit->antrian)) {
+			$jenis_antrian_id = $suratsakit->antrian->jenis_antrian_id;	
+		}
 		$suratsakit->delete();
 
 		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit untuk <strong>' .$periksa_id. ' - ' .$nama_pasien. '</strong> berhasil dihapus'));

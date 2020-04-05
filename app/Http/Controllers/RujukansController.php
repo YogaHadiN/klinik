@@ -367,7 +367,11 @@ class RujukansController extends Controller
 		if ($confirm) {
 			$this->updateInfoRS(Input::get('rumah_sakit_telepon'), Input::get('rumah_sakit_alamat'), Input::get('rumah_sakit_ugd'), $rujuk->rumah_sakit_id);
 		}
-		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil diubah!'));
+		$jenis_antrian_id = '6';
+		if (!is_null($periksa->antrian)) {
+			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
+		}
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil diubah!'));
 	}
 
 	/**
@@ -383,7 +387,11 @@ class RujukansController extends Controller
 		$rujukan->delete();
 
 
-		return redirect('ruangperiksa/'.$periksa->antrian->jenis_antrian_id)->withPesan(Yoga::suksesFlash('Rujukan untuk pasien <strong>' . $periksa->id . ' - '. $periksa->pasien->nama. '</strong> berhasil dihapus'));
+		$jenis_antrian_id = '6';
+		if (!is_null($periksa->antrian)) {
+			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
+		}
+		return redirect('ruangperiksa/'.$jenis_antrian_id)->withPesan(Yoga::suksesFlash('Rujukan untuk pasien <strong>' . $periksa->id . ' - '. $periksa->pasien->nama. '</strong> berhasil dihapus'));
 	}
 
 	private function updateInfoRS($telepon, $alamat, $ugd, $rumah_sakit_id){

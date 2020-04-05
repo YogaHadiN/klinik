@@ -77,9 +77,13 @@ class PengantarsController extends Controller
 		if(!$insert){
 			return redirect('antrianperiksas')->withPesan(Yoga::gagalFlash('Tidak ada pengantar yang ditambahkan'));
 		}
-		$ap = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
-		$pesan = 'Pengantar Berhasil Ditambahkan, total ada <strong>' . $insert . ' pengantar</strong> yang terdaftar untuk ' . $ap->pasien->nama;
-		return redirect('ruangperiksa/' . $ap->antrian->jenis_antrian_id)->withPesan( Yoga::suksesFlash($pesan) );
+		$ap                   = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
+		$pesan                = 'Pengantar Berhasil Ditambahkan, total ada <strong>' . $insert . ' pengantar</strong> yang terdaftar untuk ' . $ap->pasien->nama;
+		$jenis_antrian_id     = '6';
+		if (!is_null($ap->antrian)) {
+			$jenis_antrian_id = $ap->antrian->jenis_antrian_id;
+		}
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan( Yoga::suksesFlash($pesan) );
 	}
 
 	public function pengantarPost(){

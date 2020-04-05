@@ -184,10 +184,13 @@ class AntrianPeriksasController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$ap            = AntrianPeriksa::with('antrian', 'pasien')->where('id',$id)->first();
-		$jenis_antrian_id = $ap->antrian->jenis_antrian_id;
-		$pasien_id = $ap->pasien_id;
-		$nama_pasien = $ap->pasien->nama;
+		$ap               = AntrianPeriksa::with('antrian', 'pasien')->where('id',$id)->first();
+		$jenis_antrian_id = '6';
+		if (!is_null( $ap->antrian )) {
+			$jenis_antrian_id = $ap->antrian->jenis_antrian_id;
+		}
+		$pasien_id        = $ap->pasien_id;
+		$nama_pasien      = $ap->pasien->nama;
 
 		$kabur            = new Kabur;
 		$kabur->pasien_id = $ap->pasien_id;

@@ -40,7 +40,13 @@ class KontrolsController extends Controller
 		} else {
 			$pesan = Yoga::gagalFlash('Janji Kontrol Gagal Dibuat');
 		}
-		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan($pesan);
+
+		$jenis_antrian_id = '6';
+		if (!is_null( $periksa->antrian )) {
+			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
+		}
+		
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan($pesan);
 
 	}
 	public function update($id){
@@ -66,7 +72,11 @@ class KontrolsController extends Controller
 		} else {
 			$pesan = Yoga::gagalFlash('Update Janji Kontrol Gagal');
 		}
-		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan($pesan);
+		$jenis_antrian_id = '6';
+		if ( !is_null($periksa->antrian) ) {
+			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id
+		}
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan($pesan);
 	}
 	
 	public function edit($id){
@@ -80,7 +90,11 @@ class KontrolsController extends Controller
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Jadwal kontrol berhasil dibatalkan');
 		}
-		return redirect('ruangperiksa/' . $periksa->antrian->jenis_antrian_id)->withPesan($pesan);
+		$jenis_antrian_id = '6';
+		if ( !is_null($periksa->antrian) ) {
+			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id
+		}
+		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan($pesan);
 	}
 	
 	
