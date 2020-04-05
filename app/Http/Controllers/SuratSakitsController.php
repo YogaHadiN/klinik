@@ -161,7 +161,7 @@ class SuratSakitsController extends Controller
 
 		$jenis_antrian_id = '6';
 		if (!is_null($ss->periksa->antrian)) {
-			$jenis_antrian_id = $ss->periksa->antrian->jenis_antrian_id
+			$jenis_antrian_id = $ss->periksa->antrian->jenis_antrian_id;
 		}
 		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Surat Sakit <strong>' .$ss->periksa->pasien_id. ' - ' .$ss->periksa->pasien->nama. '</strong> berhasil <strong>DIUBAH</strong>'));
 	}
