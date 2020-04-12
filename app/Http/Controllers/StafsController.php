@@ -13,8 +13,6 @@ use App\Classes\Yoga;
 
 class StafsController extends Controller
 {
-
-
 	public $input_id;
 	public $input_alamat_domisili;
 	public $input_alamat_ktp;
@@ -56,7 +54,7 @@ class StafsController extends Controller
 		$this->input_tanggal_mulai        = Yoga::datePrep( Input::get('tanggal_mulai') );
 		$this->input_universitas_asal     = Input::get('universitas_asal');
         $this->middleware('super', ['only' => ['delete']]);
-        /* $this->middleware('super', ['only' => ['delete','update']]); */
+        $this->middleware('admin', ['only' => ['update']]);
     }
 
 	/**
@@ -67,7 +65,6 @@ class StafsController extends Controller
 	public function index()
 	{
 		$stafs = Staf::all();
-		// return 'oke';
 		return view('stafs.index', compact('stafs'));
 	}
 

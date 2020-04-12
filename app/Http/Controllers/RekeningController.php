@@ -14,12 +14,12 @@ use DB;
 class RekeningController extends Controller
 {
 
-		private $input_tanggal;
-		private $input_displayed_rows;
-		private $input_key;
-		private $input_deskripsi;
-		private $input_akun_bank_id;
-		private $input_pembayaran_null;
+	private $input_tanggal;
+	private $input_displayed_rows;
+	private $input_key;
+	private $input_deskripsi;
+	private $input_akun_bank_id;
+	private $input_pembayaran_null;
 
 
    public function __construct()
@@ -30,6 +30,7 @@ class RekeningController extends Controller
 		$this->input_deskripsi       = Input::get('deskripsi');
 		$this->input_akun_bank_id    = Input::get('akun_bank_id');
 		$this->input_pembayaran_null = Input::get('pembayaran_null');
+        $this->middleware('admin', ['except' => []]);
     }
 	public function index($id){
 		try {
@@ -70,7 +71,6 @@ class RekeningController extends Controller
 		$count         = $this->queryData( $str_deskripsi, $str_tanggal, $pass, true);
 
 		$pages = ceil( $count/ $this->input_displayed_rows );
-		/* return $query; */
 		return [
 			'data'  => $data,
 			'pages' => $pages,

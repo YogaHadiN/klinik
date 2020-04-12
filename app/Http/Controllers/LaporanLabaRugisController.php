@@ -16,6 +16,7 @@ class LaporanLabaRugisController extends Controller
 
   public function __construct()
     {
+        $this->middleware('super', ['except' => []]);
         $this->middleware('notready', ['only' => ['perBulan']]);
     }
     public function index(){

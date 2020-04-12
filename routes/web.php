@@ -92,6 +92,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 Route::resource('users', 'UsersController');
 Route::get('invoices/inv/{id}', 'InvoiceController@test');
 Route::resource('invoices', 'InvoiceController');
+Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 
   	Route::group(['middleware' => 'auth'], function(){
 

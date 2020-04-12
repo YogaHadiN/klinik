@@ -122,10 +122,10 @@
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
                             <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
                             <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
+                            <li>{!! HTML::link('pasien_rujuk_baliks', 'Pasien Rujuk Balik')!!}</li>
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
                             <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
                             <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
-                            {{--<li>{!! HTML::link('pelamars', 'Data Pelamar')!!}</li>--}}
                         </ul>
                     </li>
                     <li>
@@ -144,14 +144,16 @@
                             <li>{!! HTML::link('gopays', 'Go Pay')!!}</li>
                         </ul>
                     </li>
-					<li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rekening</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-							@foreach(App\AkunBank::all() as $akun)	
-								<li>{!! HTML::link('rekening_bank/' . $akun->id, 'Akun Bank ' . $akun->akun)!!}</li>
-							@endforeach
-                        </ul>
-                    </li>
+					@if( \Auth::user()->role == '6' || \Auth::user()->role == '4')
+						<li>
+							<a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rekening</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								@foreach(App\AkunBank::all() as $akun)	
+									<li>{!! HTML::link('rekening_bank/' . $akun->id, 'Akun Bank ' . $akun->akun)!!}</li>
+								@endforeach
+							</ul>
+						</li>
+					@endif
 					<li>
                         <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
                     </li>
@@ -222,7 +224,10 @@
                             <li>{!! HTML::link('jurnal_umums/normalisasi', 'Normalisasi Jurnal')!!}</li>
                         </ul>
                     </li>
-					@if(\Auth::id() == 28)
+					@if(
+						\Auth::user()->role == '6' ||
+						\Auth::user()->role == '4'
+						)
 						<li>
 							<a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Gaji dan Bagi Hasil</span><span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">

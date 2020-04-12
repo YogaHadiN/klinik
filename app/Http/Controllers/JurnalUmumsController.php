@@ -38,7 +38,10 @@ class JurnalUmumsController extends Controller
 	public function __construct()
 	 {
 		 $this->middleware('super', ['only' => [
+			 'index',
+			 'show',
 			 'edit',
+			 'destroy',
 			 'update'
 		 ]]);
 		 $this->middleware('notready', ['only' => [

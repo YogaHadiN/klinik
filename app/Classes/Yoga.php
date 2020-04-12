@@ -6,6 +6,7 @@ use Input;
 use App\Rak;
 use App\Poli;
 use App\SmsKirim;
+use App\Role;
 use App\JurnalUmum;
 use App\Pasien;
 use App\Signa;
@@ -592,15 +593,7 @@ class Yoga {
 		}
 
 		public static function roleList() {
-			return array(
-                null => '-Pilih Role-',
-                '1' => 'Dokter',
-                '2' => 'Kasir',
-                '3' => 'Bidan',
-                '4' => 'Admin',
-                '5' => 'Dokter Gigi',
-                '6' => 'Super Admin'
-            );
+			return array(null => '- Pilih Peran -') + Role::pluck('role', 'id')->all();
 		}
 		public static function rakList() {
 			$rakList['%'] = ['Semua Rak'];

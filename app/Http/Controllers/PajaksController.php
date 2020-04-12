@@ -12,6 +12,11 @@ use Input;
 
 class PajaksController extends Controller
 {
+
+	public function __construct()
+	 {
+		 $this->middleware('super', ['except' => []]);
+	 }
 	public function amortisasi(){
 		$query  = "select year(created_at) as tahun from penyusutans group by YEAR(created_at)";
 		$data = DB::select($query);
