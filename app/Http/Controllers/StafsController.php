@@ -41,7 +41,7 @@ class StafsController extends Controller
 		$this->input_titel                = Input::get('titel');
 		$this->input_ktp                  = Input::get('ktp');
 		$this->input_jenis_kelamin        = Input::get('jenis_kelamin');
-		$this->input_nama                 = ucwords(strtolower(Input::get('nama'))) . ', ' . Input::get('titel');
+		$this->input_nama                 = ucwords(strtolower(Input::get('nama')));
 		$this->input_no_hp                = Input::get('no_hp');
 		$this->input_no_telp              = Input::get('no_telp');
 		$this->input_ada_penghasilan_lain = Input::get('ada_penghasilan_lain');
@@ -229,6 +229,11 @@ class StafsController extends Controller
 		$staf->titel                = $this->input_titel;
 		$staf->ktp                  = $this->input_ktp;
 		$staf->jenis_kelamin        = $this->input_jenis_kelamin;
+		if (is_null( $staf->id )) {
+			$staf->nama                 = $this->input_nama . ', ' . Input::get('titel');
+		} else {
+			$staf->nama                 = $this->input_nama;
+		}
 		$staf->nama                 = $this->input_nama;;
 		$staf->no_hp                = $this->input_no_hp;
 		$staf->no_telp              = $this->input_no_telp;
@@ -249,7 +254,6 @@ class StafsController extends Controller
 		$staf->tanggal_mulai        = Yoga::datePrep( $this->input_tanggal_mulai );
 		$staf->universitas_asal     = $this->input_universitas_asal;
 		$staf->save();
-
 		return $staf;
 	}
 
