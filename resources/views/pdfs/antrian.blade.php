@@ -15,17 +15,21 @@ h3{
 .margin-top {
 	margin-top: 10px;
 }
+.bold {
+	font-weight: bold;
+}
 table {
 	font-size: 13px;
+	text-align: left !important;
 }
-.text-left{
-	text-align: left;
-}
-.bold{
-	font-align: left;
-}
-
-		</style>
+						.box-border{
+							border: 1px solid black;
+						}
+						.underline{
+							text-decoration: underline;
+						}
+		
+</style>
     </head>
     <body>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -49,46 +53,49 @@ table {
 				<h2 class="text-center ">{{ ucwords( $antrian->jenis_antrian->jenis_antrian ) }}</h2>
 				<h3 class="text-center ">{{ $antrian->created_at->format('d M y H:i:s') }}</h3>
 				<br />
-				<div class="box title-print text-center">
+				<div class="title-print text-center">
                     <h3 class="text-center border-top">
-						Mohon Untuk Dapat Diisi Dengan Benar
+						Mohon Untuk Dapat Dilingkari Dengan Benar
 					</h3>
                     <h3 class="text-center border-bottom border-top">
 					</h3>
 
 					<table>
 						<tbody>
-							<tr class="text-left">
+							<tr>
 								<td colspan="2">Apakah anda memiliki keluhan Demam ?</td>
 							</tr>
-							<tr class="text-center bold">
-								<td>Ya</td>
-								<td>Tidak</td>
-							</tr>
-							<tr class="text-left">
-								<td colspan="2">Apakah anda memiliki keluhan Nyeri Menelan ?</td>
-							</tr>
-							<tr class="text-center bold">
-								<td>Ya</td>
-								<td>Tidak</td>
-							</tr>
-							<tr class="text-left">
-								<td colspan="2">Apakah anda memiliki keluhan Batuk ?</td>
-							</tr>
-							<tr class="text-center bold">
-								<td>Ya</td>
-								<td>Tidak</td>
-							</tr>
-							<tr class="text-left">
-								<td colspan="2">Apakah anda memiliki riwayat kontak dengan seseorang yang terkonfirmasi/ positif COVID 19 ?</td>
-							</tr>
-							<tr class="text-center bold">
-								<td>Ya</td>
-								<td>Tidak</td>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
 							</tr>
 							<tr>
-								<td>
-									<ul>Kontak berarti :</ul>
+								<td colspan="2">Apakah anda memiliki keluhan Nyeri Menelan ?</td>
+							</tr>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
+							</tr>
+
+							<tr>
+								<td colspan="2">Apakah anda memiliki keluhan Batuk ?</td>
+							</tr>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
+							</tr>
+							<tr>
+								<td colspan="2">Apakah Anda sempat bepergian ke Luar Negeri dalam 14 hari terakhir</td>
+							</tr>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
+							</tr>
+							<tr>
+								<td colspan="2">Apakah anda memiliki riwayat <strong>kontak</strong> dengan seseorang yang terkonfirmasi/ positif COVID 19 ?</td>
+							</tr>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
+							</tr>
+							<tr>
+								<td class="box-border">
+									<ul class="bold underline">Kontak berarti :</ul>
 									<ul>Tinggal serumah</ul>
 									<ul>Kontak tatap muka, misalnya : bercakap-cakap selama beberapa menit</ul>
 									<ul>Terkena batuk pasien terkonfirmasi</ul>
