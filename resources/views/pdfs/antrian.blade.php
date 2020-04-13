@@ -98,12 +98,9 @@ table {
 							</tr>
 						</tbody>
 					</table>
-
                 </div>
             </div>
-
-				<h2 class="text-center border-top border-bottom margin-top">SEMOGA SEHAT SELALU</h2>
-
+			<h2 class="text-center border-top border-bottom margin-top">SEMOGA SEHAT SELALU</h2>
         <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
         <script type="text/javascript" charset="utf-8">
             window.print();
