@@ -82,6 +82,24 @@ table {
 								<td>Ya  / Tidak</td>
 							</tr>
 							<tr>
+								<td colspan="2">Apakah anda memiliki keluhan sulit mencium bau?</td>
+							</tr>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
+							</tr>
+							<tr>
+								<td colspan="2">Apakah anda memiliki keluhan sesak nafas / nafas pendek / nafas terasa berat ?</td>
+							</tr>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
+							</tr>
+							<tr>
+								<td colspan="2">Apakah anda memiliki keluhan sulit merasakan rasa pahit, manis, asin, atau rasa makanan / minuman ?</td>
+							</tr>
+							<tr class="bold">
+								<td>Ya  / Tidak</td>
+							</tr>
+							<tr>
 								<td colspan="2">Apakah Anda sempat bepergian ke Luar Negeri dalam 14 hari terakhir</td>
 							</tr>
 							<tr class="bold">

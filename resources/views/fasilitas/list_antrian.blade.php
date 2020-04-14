@@ -24,16 +24,6 @@ Klinik Jati Elok | List Antrian
 					List Antrian
 				</div>
 				<div id="Antrian Terakhir" class="panelRight">
-					<div class="widget style1 navy-bg">
-						<div class="row vertical-align">
-							<div class="col-xs-3">
-								<i class="fa fa-rss fa-3x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<h2 class="font-bold">huhu</h2>
-							</div>
-						</div>
-					</div> 
 				</div>
 			</h3>
 		</div>
