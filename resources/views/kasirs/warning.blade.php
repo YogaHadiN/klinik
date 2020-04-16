@@ -13,14 +13,6 @@
 				<h1>{{ App\Classes\Yoga::buatrp( $moota_balance ) }}</h1>
 				<p>Saldo Moota harus diatas Rp. 10.000,- </p>
 
-			<h3>Credit Zenziva</h3>
-				<h1>{{ $zenziva_credit }}</h1>
-				<p>Credit Zenziva harus diatas 100</p>
-
-			<h3>Expired Zenziva</h3>
-			<h1>{{ $zenziva_expired->format('d M Y') }} ({{ $time_left }})</h1>
-				<p>Expired Zenziva harus diatas 10 hari</p>
-
 			<h3>Credit Vultr</h3>
 			<h1>$ {{ abs( $vultr['balance'] + $vultr['pending_charges'] ) }} </h1>
 				<p>Credit Vultr harus diatas $15</p>

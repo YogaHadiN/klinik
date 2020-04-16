@@ -42,45 +42,35 @@ class KasirsController extends Controller
 
 		$client          = new Client(); //GuzzleHttp\Client
 		$res             = $client->request('GET', 'gsm.zenziva.net/api/balance/?userkey=' . env('ZENZIVA_USERKEY'). '&passkey=' . env('ZENZIVA_PASSKEY'), []);
-		$zenziva         = $res->getBody();
-		$zenziva         = json_decode( $zenziva, true );
-		$zenziva_credit  = $zenziva['credit'];
-		$zenziva_expired = $zenziva['expired'];
-		$zenziva_array = explode(' ', $zenziva_expired );
 
-		$hari = $zenziva_array[0];
-		$bulan = $zenziva_array[1];
-		$tahun = $zenziva_array[2];
 
 		$pasien_pertama_belum_dikirim = $this->pasienPertamaBelumDikirim();
 
-		if( strtolower( $bulan ) == 'januari' ){
-			$bulan = '01';
-		} else if (  strtolower($bulan) == 'februari'  ){
-			$bulan = '02';
-		} else if (  strtolower($bulan) == 'maret'  ){
-			$bulan = '03';
-		} else if (  strtolower($bulan) == 'april'  ){
-			$bulan = '04';
-		} else if (  strtolower($bulan) == 'mei'  ){
-			$bulan = '05';
-		} else if (  strtolower($bulan) == 'juni'  ){
-			$bulan = '06';
-		} else if (  strtolower($bulan) == 'juli'  ){
-			$bulan = '07';
-		} else if (  strtolower($bulan) == 'agustus'  ){
-			$bulan = '08';
-		} else if (  strtolower($bulan) == 'september'  ){
-			$bulan = '09';
-		} else if (  strtolower($bulan) == 'oktober'  ){
-			$bulan = '10';
-		} else if (  strtolower($bulan) == 'november'  ){
-			$bulan = '11';
-		} else if (  strtolower($bulan) == 'desember'  ){
-			$bulan = '12';
-		}
-		$zenziva_expired      = $tahun . '-' . $bulan . '-' . $hari;
-		$zenziva_expired_safe = false;
+		/* if( strtolower( $bulan ) == 'januari' ){ */
+		/* 	$bulan = '01'; */
+		/* } else if (  strtolower($bulan) == 'februari'  ){ */
+		/* 	$bulan = '02'; */
+		/* } else if (  strtolower($bulan) == 'maret'  ){ */
+		/* 	$bulan = '03'; */
+		/* } else if (  strtolower($bulan) == 'april'  ){ */
+		/* 	$bulan = '04'; */
+		/* } else if (  strtolower($bulan) == 'mei'  ){ */
+		/* 	$bulan = '05'; */
+		/* } else if (  strtolower($bulan) == 'juni'  ){ */
+		/* 	$bulan = '06'; */
+		/* } else if (  strtolower($bulan) == 'juli'  ){ */
+		/* 	$bulan = '07'; */
+		/* } else if (  strtolower($bulan) == 'agustus'  ){ */
+		/* 	$bulan = '08'; */
+		/* } else if (  strtolower($bulan) == 'september'  ){ */
+		/* 	$bulan = '09'; */
+		/* } else if (  strtolower($bulan) == 'oktober'  ){ */
+		/* 	$bulan = '10'; */
+		/* } else if (  strtolower($bulan) == 'november'  ){ */
+		/* 	$bulan = '11'; */
+		/* } else if (  strtolower($bulan) == 'desember'  ){ */
+		/* 	$bulan = '12'; */
+		/* } */
 		$vultr                = $this->vultr();
 
 		$status = 'success';
@@ -91,28 +81,12 @@ class KasirsController extends Controller
 			$status = 'warning';
 		} 
 
-		if ((strtotime( $zenziva_expired ) - strtotime('now')) < 864000) {
-			$status = 'warning';
-		} 
-
-		if( $zenziva_credit < 500 ){
-			$status = 'warning';
-		}
-
 		if( ($vultr['balance'] + $vultr['pending_charges']) > -20 ){
 			$status = 'warning';
 		}
 
 		if( $moota_balance < 20000 ){
 			$status = 'warning';
-		}
-
-		if ((strtotime( $zenziva_expired ) - strtotime('now')) < 432000) {
-			$status = 'danger';
-		} 
-
-		if( $zenziva_credit < 100 ){
-			$status = 'danger';
 		}
 
 		if( $moota_balance < 10000 ){
@@ -127,9 +101,6 @@ class KasirsController extends Controller
 		} 
 
 
-		$zenziva_expired = Carbon::parse($zenziva_expired);
-		$time_left       = strtotime($zenziva_expired) - strtotime('now');
-		$time_left       = $this->secondsToTime($time_left);
 		$saldos          = Saldo::with('staf')->latest()->paginate(20);
 
 
@@ -138,12 +109,9 @@ class KasirsController extends Controller
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'status',
-			'time_left',
 			'pasien_pertama_belum_dikirim',
-			'zenziva_expired',
 			'jarak_hari',
 			'vultr',
-			'zenziva_credit',
 			'moota_balance'
 		));
 	}
