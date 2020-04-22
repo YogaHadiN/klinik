@@ -576,7 +576,7 @@
             $('#pasien_id_stafs').val(pasien_id);
         }
 function confirmStaf(){
-    if(validatePass()){
+    if(validatePass2()){
        $('#submit_confirm_staf').click(); 
     }    
 }
