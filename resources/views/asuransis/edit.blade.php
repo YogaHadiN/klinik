@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
- {{ env("NAMA_KLINIK") }} | Asuransi Baru
+ {{ env("NAMA_KLINIK") }} | Edit Asuransi
 
  @stop
  @section('page-title') 
@@ -52,5 +52,7 @@
 @endif
 @stop
 @section('footer') 
+
 	@include('asuransis/footer', ['tarifs' => $tarifs])
+	{!! HTML::script('js/asuransi_upload.js')!!}
 @stop

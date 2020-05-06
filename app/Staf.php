@@ -61,4 +61,7 @@ class Staf extends Model{
 		}
 
 	}
+    public function berkas(){
+        return $this->morphMany('App\Berkas', 'berkasable');
+    }
 }

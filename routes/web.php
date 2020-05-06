@@ -174,6 +174,8 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 			Route::put('asuransis/{id}/upload', 'AsuransisController@uploadBerkas');
 			Route::post('asuransis/berkas/hapus', 'AsuransisController@hapusBerkas');
 
+			Route::put('stafs/{id}/upload', 'StafsController@uploadBerkas');
+			Route::post('stafs/berkas/hapus', 'StafsController@hapusBerkas');
 
 			Route::get('backup', 'DatabaseController@index');
 			Route::get('copy_log_file', 'DatabaseController@copyLog');

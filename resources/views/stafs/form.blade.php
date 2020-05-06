@@ -203,6 +203,9 @@
 		</div>
 	</div>
 </div>
+@if( isset($staf) )
+	@include('asuransis.upload', ['asuransi' => $staf, 'models' => 'stafs', 'folder' => 'staf'])
+@endif
 @if( \Auth::user()->role == '6' && isset( $staf ) )
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

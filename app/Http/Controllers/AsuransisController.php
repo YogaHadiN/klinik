@@ -24,19 +24,25 @@ use DB;
 class AsuransisController extends Controller
 {
 
-	private $input_nama             = '';
-	private $input_pic             = '';
-	private $input_alamat           = '';
-	private $input_telpon          = '';
-	private $input_tanggal_berakhir = '';
-	private $input_penagihan        = '';
-	private $input_gigi             = '';
-	private $input_rujukan          = '';
-	private $input_tipe_asuransi    = '';
-	private $input_email            = '';
-	private $input_umum             = '';
-	private $input_kali_obat        = '';
-	private $input_kata_kunci       = '';
+	public $input_nama             = '';
+	public $input_pic             = '';
+	public $input_alamat           = '';
+	public $input_telpon          = '';
+	public $input_tanggal_berakhir = '';
+	public $input_penagihan        = '';
+	public $input_gigi             = '';
+	public $input_rujukan          = '';
+	public $input_tipe_asuransi    = '';
+	public $input_email            = '';
+	public $input_umum             = '';
+	public $input_kali_obat        = '';
+	public $input_kata_kunci       = '';
+	public $hasfile;
+	public $input_id;
+	public $input_nama_file;
+	public $input_file;
+	public $berkasable_type;
+	public $input_folder;
 
    public function __construct()
     {
@@ -55,6 +61,12 @@ class AsuransisController extends Controller
 		$this->input_umum             = Yoga::cleanArrayJson(Input::get('umum'));
 		$this->input_kali_obat        = Input::get('kali_obat');
 		$this->input_kata_kunci       = Input::get('kata_kunci');
+		$this->hasfile         = Input::hasFile('file');
+		$this->input_id        = Input::get('asuransi_id');
+		$this->input_nama_file = Input::get('nama_file');
+		$this->input_file      = Input::file('file');
+		$this->berkasable_type = 'App\\Asuransi';
+		$this->input_folder    = 'asuransi';
     }
 	/**
 	 * Display a listing of asuransis
@@ -642,15 +654,15 @@ class AsuransisController extends Controller
 		return $tarifs;
 	}
 	public function uploadBerkas(){
-		if(Input::hasFile('file')) {
-			$id = Input::get('asuransi_id');
-			$nama_file               = Input::get('nama_file');
-			$upload_cover            = Input::file('file');
-			$extension               = $upload_cover->getClientOriginalExtension();
+		if($this->hasfile) {
+			$id           = $this->input_id;
+			$nama_file    = $this->input_nama_file;
+			$upload_cover = $this->input_file;
+			$extension    = $upload_cover->getClientOriginalExtension();
 
 			$berkas                  = new Berkas;
 			$berkas->berkasable_id   = $id;
-			$berkas->berkasable_type = 'App\\Asuransi';
+			$berkas->berkasable_type = $this->berkasable_type;
 			$berkas->nama_file       = $nama_file;
 			$berkas->save();
 
@@ -659,7 +671,7 @@ class AsuransisController extends Controller
 
 			//menyimpan bpjs_image ke folder public/img
 			//
-			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'berkas/asuransi/' . $id;
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'berkas/' . $this->input_folder . '/' . $id;
 
 			// Mengambil file yang di upload
 			//

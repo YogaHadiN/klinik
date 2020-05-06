@@ -7,6 +7,7 @@ use Input;
 use Image;
 use App\Http\Requests;
 use App\Http\Controllers\PengeluaransController;
+use App\Http\Controllers\AsuransisController;
 use App\Staf;
 use App\Pph21Dokter;
 use App\Classes\Yoga;
@@ -255,6 +256,18 @@ class StafsController extends Controller
 		$staf->universitas_asal     = $this->input_universitas_asal;
 		$staf->save();
 		return $staf;
+	}
+
+	public function uploadBerkas($id){
+		$asu                  = new AsuransisController;
+		$asu->input_id        = $id;
+		$asu->berkasable_type = 'App\\Staf';
+		$asu->input_folder    = 'staf';
+		return $asu->uploadBerkas();
+	}
+	public function hapusBerkas(){
+		$asu                  = new AsuransisController;
+		return $asu->hapusBerkas();
 	}
 
 }
