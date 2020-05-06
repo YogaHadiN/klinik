@@ -101,9 +101,17 @@ class AsuransisController extends Controller
 	 */
 	public function create()
 	{	
-		$tarifs         = $this->tarifTemp();
-		$tipe_tindakans = TipeTindakan::all();
-		return view('asuransis.create', compact('tarifs', 'tipe_tindakans'));
+		$tarifs             = $this->tarifTemp();
+		$tipe_tindakans     = TipeTindakan::all();
+		$tipe_asuransi_list = $this->tipe_asuransi_list();
+		$px                 = new CustomController;
+		$warna              = $px->warna;
+		return view('asuransis.create', compact(
+			'warna', 
+			'tipe_tindakans', 
+			'tipe_asuransi_list', 
+			'tarifs'
+		));
 	}
 
 	/**
@@ -175,16 +183,11 @@ class AsuransisController extends Controller
 	 */
 	public function edit($id)
 	{
-		$asuransi = Asuransi::with('pic', 'emails', 'tarif.jenisTarif', 'tarif.tipeTindakan')->where('id',$id)->first();
-		$tarifs         = $this->tariftemp($asuransi, $id);
-		$tipe_tindakans = TipeTindakan::all();
-
-		$tipe_asuransi_list = [];
-		foreach (TipeAsuransi::all() as $k => $value) {
-			$tipe_asuransi_list[$value->id] = $value->tipe_asuransi;
-		}
-		$px = new CustomController;
-		$warna = $px->warna;
+		$tarifs             = $this->tariftemp($asuransi, $id);
+		$tipe_tindakans     = TipeTindakan::all();
+		$tipe_asuransi_list = $this->tipe_asuransi_list();
+		$px                 = new CustomController;
+		$warna              = $px->warna;
 		return view('asuransis.edit', compact(
 			'asuransi', 
 			'warna', 
@@ -635,7 +638,8 @@ class AsuransisController extends Controller
 			}
 		}
 	}
-	public function tarifTemp($asuransi, $id = 0){
+	public function tarifTemp($id = 0){
+		$asuransi = Asuransi::with('pic', 'emails', 'tarif.jenisTarif', 'tarif.tipeTindakan')->where('id',$id)->first();
 		$trf    = $asuransi->tarif;
 		$tarifs = [];
 		foreach ($trf as $t) {
@@ -692,5 +696,12 @@ class AsuransisController extends Controller
 		} else {
 			return '0';
 		}
+	}
+	private function tipe_asuransi_list(){
+		$tipe_asuransi_list = [];
+		foreach (TipeAsuransi::all() as $k => $value) {
+			$tipe_asuransi_list[$value->id] = $value->tipe_asuransi;
+		}
+		return $tipe_asuransi_list;
 	}
 }
