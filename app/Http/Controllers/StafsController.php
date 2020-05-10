@@ -119,8 +119,14 @@ class StafsController extends Controller
 	 */
 	public function edit($id)
 	{
+		$cs = new CustomController;
+		$warna = $cs->warna;
 		$staf = Staf::find($id);
-		return view('stafs.edit', compact('staf'));
+		return view('stafs.edit', compact(
+			'warna',
+			'staf'
+
+		));
 	}
 
 	/**
