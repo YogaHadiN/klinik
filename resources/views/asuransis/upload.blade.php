@@ -32,7 +32,7 @@
 								@if( $asuransi->berkas->count() > 0 )
 									@foreach($asuransi->berkas as $berkas)
 										<tr>
-											<td><a class="btn btn-block btn-{{ $warna[ rand(0, count($warna) -1) ] }}" href="{{ url('berkas/asuransi/' . $asuransi->id .'/' . $berkas->id  . '.pdf') }}" target="_blank">Download {{ $berkas->nama_file }}</a></td>
+											<td><a class="btn btn-block btn-{{ $warna[ rand(0, count($warna) -1) ] }}" href="{{ url('berkas/' . $folder. '/' . $asuransi->id .'/' . $berkas->id  . '.pdf') }}" target="_blank">Download {{ $berkas->nama_file }}</a></td>
 											<td nowrap class="autofit"><button type="button" onclick="deleteBerkas({{ $berkas->id }}, this); return false;" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> </button></td>
 										</tr>
 									@endforeach
