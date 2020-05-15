@@ -354,7 +354,7 @@
 <div class="row">
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
-            {!! Form::submit('submit', array(
+            {!! Form::submit('Submit', array(
                 'class' => 'btn btn-primary block full-width m-b'
             )) !!}
         </div>

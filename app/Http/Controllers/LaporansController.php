@@ -43,6 +43,8 @@ class LaporansController extends Controller
 			 'pengantar',
 			 'index',
 			 'harian',
+			 'anc',
+			 'kb',
 			 'penyakit',
 			 'points',
 			 'rujukankebidanan',

@@ -31,6 +31,7 @@
 				@include('pasiens.edit_form', ['facebook' =>false, 'pasien' => $pasien])
             {!! Form::close() !!}
 
+
             @if(\Auth::user()->role == '6')
                 {!! Form::open(array('url' => 'pasiens/' . $pasien->id, 'method' => 'DELETE'))!!} 
 				<div class="row">
@@ -47,6 +48,7 @@
 				</div>
                 {!! Form::close() !!}
             @endif
+			
  @stop
  @section('footer') 
  <!-- Data picker -->

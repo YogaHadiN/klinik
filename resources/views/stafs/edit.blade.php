@@ -24,9 +24,7 @@
  @stop
 
  @section('content') 
-
  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-     
   {!! Form::model($staf, array(
       "url"   => "stafs/". $staf->id,
       "class" => "m-t", 
@@ -51,8 +49,6 @@
 		  {!! Form::close() !!}
   	</div>
   </div>
-  
-
  </div>
 
  @stop
@@ -63,8 +59,4 @@
 {!! HTML::script('js/togglepanel.js')!!}
 {!! HTML::script('js/asuransi_upload.js')!!}
 {!! HTML::script('js/plugins/webcam/photo.js')!!}
-
  @stop
-
-
-       
