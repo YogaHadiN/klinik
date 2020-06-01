@@ -62,6 +62,11 @@ class UsersController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		if ( Input::get('role') == '6' ) {
+			$pesan = Yoga::gagalFlash('Tidak bisa membuat Super Admin');
+			return redirect()->back()->withPesan($pesan);
+		}
+
 		$user = new User;
 		$user->email	= Input::get('email');	
 		$user->username	= Input::get('username');	
