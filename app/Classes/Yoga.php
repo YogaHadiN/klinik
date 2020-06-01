@@ -596,7 +596,9 @@ class Yoga {
 			$roles = Role::all();
 			$result[null] = '- Pilih Peran -' ;
 			foreach ($roles as $role) {
-				$result[ $role->id ] = $role->role;
+				if ( $role->id < 6 ) {
+					$result[ $role->id ] = $role->role;
+				}
 			}
 			return $result;
 		}
