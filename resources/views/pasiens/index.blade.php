@@ -78,7 +78,6 @@
 <script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
 {!! HTML::script('js/plugins/webcam/photo.js')!!}
 {!! HTML::script('js/togglepanel.js')!!}
-{{-- {!! HTML::script('js/select2/dist/js/select2.min.js')!!} --}}
 {!! HTML::script('js/pasiens.js')!!}
 {!! HTML::script('js/rowEntryPasien.js')!!}
 {!! HTML::script('js/cekbpjskontrol.js')!!}

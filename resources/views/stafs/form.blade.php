@@ -207,47 +207,47 @@
 	@include('asuransis.upload', ['asuransi' => $staf, 'models' => 'stafs', 'folder' => 'staf'])
 @endif
 @if( \Auth::user()->role == '6' && isset( $staf ) )
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<div class="panel-title">Daftar Gaji</div>
-				</div>
-				<div class="panel-body">
-					<div class="table-responsive">
-						<table class="table table-hover table-condensed">
-							<thead>
-								<tr>
-									<th>Tanggal</th>
-									<th>Periode</th>
-									<th>Gaji Pokok</th>
-									<th>Bonus</th>
-									<th>Total</th>
-								</tr>
-							</thead>
-							<tbody>
-								@if($staf->gaji->count() > 0)
-									@foreach($staf->gaji as $gaji)
-										<tr>
-											<td>{{ $gaji->tanggal_dibayar->format('d-m-Y') }}</td>
-											<td class="text-right">{{ $gaji->mulai->format('M-Y') }}</td>
-											<td class="text-right">{{ App\Classes\Yoga::buatrp($gaji->gaji_pokok )}}</td>
-											<td class="text-right">{{ App\Classes\Yoga::buatrp($gaji->bonus) }}</td>
-											<td class="text-right strong">{{ App\Classes\Yoga::buatrp($gaji->bonus + $gaji->gaji_pokok ) }}</td>
-										</tr>
-									@endforeach
-								@else
-									<tr>
-										<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
-									</tr>
-								@endif
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	{{-- <div class="row"> --}}
+	{{-- 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> --}}
+	{{-- 		<div class="panel panel-info"> --}}
+	{{-- 			<div class="panel-heading"> --}}
+	{{-- 				<div class="panel-title">Daftar Gaji</div> --}}
+	{{-- 			</div> --}}
+	{{-- 			<div class="panel-body"> --}}
+	{{-- 				<div class="table-responsive"> --}}
+	{{-- 					<table class="table table-hover table-condensed"> --}}
+	{{-- 						<thead> --}}
+	{{-- 							<tr> --}}
+	{{-- 								<th>Tanggal</th> --}}
+	{{-- 								<th>Periode</th> --}}
+	{{-- 								<th>Gaji Pokok</th> --}}
+	{{-- 								<th>Bonus</th> --}}
+	{{-- 								<th>Total</th> --}}
+	{{-- 							</tr> --}}
+	{{-- 						</thead> --}}
+	{{-- 						<tbody> --}}
+	{{-- 							@if($staf->gaji->count() > 0) --}}
+	{{-- 								@foreach($staf->gaji as $gaji) --}}
+	{{-- 									<tr> --}}
+	{{-- 										<td>{{ $gaji->tanggal_dibayar->format('d-m-Y') }}</td> --}}
+	{{-- 										<td class="text-right">{{ $gaji->mulai->format('M-Y') }}</td> --}}
+	{{-- 										<td class="text-right">{{ App\Classes\Yoga::buatrp($gaji->gaji_pokok )}}</td> --}}
+	{{-- 										<td class="text-right">{{ App\Classes\Yoga::buatrp($gaji->bonus) }}</td> --}}
+	{{-- 										<td class="text-right strong">{{ App\Classes\Yoga::buatrp($gaji->bonus + $gaji->gaji_pokok ) }}</td> --}}
+	{{-- 									</tr> --}}
+	{{-- 								@endforeach --}}
+	{{-- 							@else --}}
+	{{-- 								<tr> --}}
+	{{-- 									<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td> --}}
+	{{-- 								</tr> --}}
+	{{-- 							@endif --}}
+	{{-- 						</tbody> --}}
+	{{-- 					</table> --}}
+	{{-- 				</div> --}}
+	{{-- 			</div> --}}
+	{{-- 		</div> --}}
+	{{-- 	</div> --}}
+	{{-- </div> --}}
 @endif
 </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
