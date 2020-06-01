@@ -593,7 +593,12 @@ class Yoga {
 		}
 
 		public static function roleList() {
-			return array(null => '- Pilih Peran -') + Role::pluck('role', 'id')->all();
+			$roles = Role::all();
+			$result[null] = '- Pilih Peran -' ;
+			foreach ($roles as $role) {
+				$result[ $role->id ] = $role->role;
+			}
+			return $result;
 		}
 		public static function rakList() {
 			$rakList['%'] = ['Semua Rak'];
