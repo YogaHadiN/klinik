@@ -6,6 +6,7 @@ use Input;
 
 use App\Http\Requests;
 use App\AkunBank;
+use App\Config;
 use App\Asuransi;
 use App\AntrianPeriksa;
 use App\Periksa;
@@ -192,12 +193,19 @@ class LaporansController extends Controller
 			$jumlah += (int) $hariini->jumlah;
 		}
 
-		$angka_kontak_saat_ini = SmsKontak::angkaKontak(date('Y-m'));
-		$pengantar_belum_disubmit = PengantarPasien::where('created_at', 'like', date('Y-m') . '%')
-									->where('pcare_submit', '0')
-									->where('kunjungan_sehat', '1')
-									->count();
-		$sms_belum_di_submit = SmsKontak::where('created_at', 'like', date('Y-m') . '%')
+		$angka_kontak_saat_ini               = SmsKontak::angkaKontak(date('Y-m'));
+		$pengantar_belum_disubmit            = PengantarPasien::where('created_at', 'like', date('Y-m') . '%')
+																->where('pcare_submit', '0')
+																->where('kunjungan_sehat', '1')
+																->count();
+		$jumlah_peserta_bpjs                 = Config::where('id', 1)->first()->value;
+		$target_jumlah_pasien_bpjs_bulan_ini = $jumlah_peserta_bpjs * 0.15; //target peserta bpjs bulan ini adalah 15% dari seluruh peserta
+		$tanggal                             = date('d'); // tanggal hari ini
+		$target_jumlah_pasien_bpjs_per_hari  = ceil($target_jumlah_pasien_bpjs_bulan_ini / 25); // karena target harus dipenuhi tanggal 25 setiap bulannya;
+		$target_jumlah_angka_kontak_hari_ini = date('d') * $target_jumlah_pasien_bpjs_per_hari;
+		$angka_kontak_belum_terpenuhi = $target_jumlah_angka_kontak_hari_ini - $angka_kontak_saat_ini;
+
+		$target_pasien_bpjs_hari_ini = SmsKontak::where('created_at', 'like', date('Y-m') . '%')
 									->where('pcare_submit', '0')
 									->count();
 		$kunjungan_sakit_belum_di_submit = KunjunganSakit::where('created_at', 'like', date('Y-m') . '%')
@@ -229,7 +237,7 @@ class LaporansController extends Controller
 			'akun_banks',
 			'angka_kontak_saat_ini',
 			'pengantar_belum_disubmit',
-			'sms_belum_di_submit',
+			'angka_kontak_belum_terpenuhi',
 			'kunjungan_sakit_belum_di_submit',
 			'nursestation',
 			'obat_minus',

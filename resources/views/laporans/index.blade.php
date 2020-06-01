@@ -195,13 +195,13 @@
 								<tr>
 									<td><h3>Angka Kontak Saat ini</h3></td>
 									<td><h3>Pengantar belum disubmit</h3></td>
-									<td><h3>SMS belum disubmit</h3></td>
+									<td><h3>Angka Kontak Belum Terpenuhi</h3></td>
 									<td><h3>Kunjungan sakit belum disubmit</h3></td>
 								</tr>
 								<tr>
 									<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>
 									<td><h1> <a class="" href="{{ url('laporans/pengantar') }}">{{ $pengantar_belum_disubmit }}</a> </h1></td>
-									<td><h1> <a class="" href="{{ url('laporans/sms/bpjs?bulanTahun='. date('m-Y')) }}">{{ $sms_belum_di_submit }}</a> </h1></td>
+									<td><h1> {{ $angka_kontak_belum_terpenuhi }} </h1></td>
 									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
 									<td><h1></h1></td>
 								</tr>
