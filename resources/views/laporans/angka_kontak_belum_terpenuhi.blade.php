@@ -13,10 +13,11 @@
 	width: 20%;
 }
 .cl-3 {
-	width: 30% !important;
+	width: 30%;
 }
 .cl-4 {
-	width: 20%;
+	width: 20% !important;
+	word-wrap: break-word !important;
 }
 .cl-4 {
 	width: 20%;

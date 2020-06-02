@@ -199,6 +199,10 @@ class LaporansController extends Controller
 																->where('kunjungan_sehat', '1')
 																->count();
 
+
+
+
+
 		$jumlah_peserta_bpjs                 = Config::where('id', 1)->first()->value;
 		//target peserta bpjs bulan ini adalah 15% dari seluruh peserta
 		$target_jumlah_pasien_bpjs_bulan_ini = $jumlah_peserta_bpjs * 0.15;
@@ -207,12 +211,7 @@ class LaporansController extends Controller
 
 		$target_jumlah_angka_kontak_hari_ini = (date('d') -1) * $target_jumlah_pasien_bpjs_per_hari;
 
-		$angka_kontak_belum_terpenuhi        = $target_jumlah_angka_kontak_hari_ini - $angka_kontak_saat_ini;
-
-
-
-
-
+		$angka_kontak_belum_terpenuhi        = $target_jumlah_angka_kontak_hari_ini - SmsKontak::angkaKontakSampaiKemarin();
 
 		$kunjungan_sakit_belum_di_submit = KunjunganSakit::where('created_at', 'like', date('Y-m') . '%')
 									->where('pcare_submit', '0')
