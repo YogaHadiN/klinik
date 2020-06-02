@@ -1,0 +1,1 @@
+ALTER TABLE pasiens ADD kepala_keluarga_id VARCHAR( 255 );

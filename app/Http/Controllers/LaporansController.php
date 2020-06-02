@@ -198,16 +198,22 @@ class LaporansController extends Controller
 																->where('pcare_submit', '0')
 																->where('kunjungan_sehat', '1')
 																->count();
-		$jumlah_peserta_bpjs                 = Config::where('id', 1)->first()->value;
-		$target_jumlah_pasien_bpjs_bulan_ini = $jumlah_peserta_bpjs * 0.15; //target peserta bpjs bulan ini adalah 15% dari seluruh peserta
-		$tanggal                             = date('d'); // tanggal hari ini
-		$target_jumlah_pasien_bpjs_per_hari  = ceil($target_jumlah_pasien_bpjs_bulan_ini / 25); // karena target harus dipenuhi tanggal 25 setiap bulannya;
-		$target_jumlah_angka_kontak_hari_ini = date('d') * $target_jumlah_pasien_bpjs_per_hari;
-		$angka_kontak_belum_terpenuhi = $target_jumlah_angka_kontak_hari_ini - $angka_kontak_saat_ini;
 
-		$target_pasien_bpjs_hari_ini = SmsKontak::where('created_at', 'like', date('Y-m') . '%')
-									->where('pcare_submit', '0')
-									->count();
+		$jumlah_peserta_bpjs                 = Config::where('id', 1)->first()->value;
+		//target peserta bpjs bulan ini adalah 15% dari seluruh peserta
+		$target_jumlah_pasien_bpjs_bulan_ini = $jumlah_peserta_bpjs * 0.15;
+		// karena target harus dipenuhi tanggal 25 setiap bulannya;
+		$target_jumlah_pasien_bpjs_per_hari  = ceil($target_jumlah_pasien_bpjs_bulan_ini / 25);
+
+		$target_jumlah_angka_kontak_hari_ini = (date('d') -1) * $target_jumlah_pasien_bpjs_per_hari;
+
+		$angka_kontak_belum_terpenuhi        = $target_jumlah_angka_kontak_hari_ini - $angka_kontak_saat_ini;
+
+
+
+
+
+
 		$kunjungan_sakit_belum_di_submit = KunjunganSakit::where('created_at', 'like', date('Y-m') . '%')
 									->where('pcare_submit', '0')
 									->count();;
@@ -1391,5 +1397,37 @@ class LaporansController extends Controller
 			$ids[] = $d->$attr_id;
 		}
 		return $ids;
+	}
+	public function angkaKontakBelumTerpenuhi(){
+		$tahunBulan = date('Y-m');
+
+		$query  = "SELECT ";
+		$query .= "ps.nama as nama_pasien, ";
+		$query .= "ps.no_telp as no_telp, ";
+		$query .= "ps.alamat as alamat, ";
+		$query .= "ps.alamat as alamat, ";
+		$query .= "ps.nomor_asuransi_bpjs as nomor_asuransi_bpjs, ";
+		$query .= "count(px.pasien_id) as kali_berobat ";
+		$query .= "FROM pasiens as ps ";
+		$query .= "JOIN periksas as px on px.pasien_id = ps.id ";
+		$query .= "WHERE nomor_asuransi_bpjs not like '' and nomor_asuransi_bpjs is not null ";
+		$query .= "AND ( ps.id not in( Select pengantar_id from pengantar_pasiens where created_at like '{$tahunBulan}%' and pcare_submit = 1 )";
+		// yang termsuk  sms_kontaks yang sudah di sms yang dimasukkan di pcare_submit
+		$query .= "AND  ps.id not in( Select pasien_id from sms_kontaks where created_at like '{$tahunBulan}%' and pcare_submit = 1 )";
+		// yang termsuk  pasien bpjs yang mengunakan Pembayaran non bpjs
+		$query .= "AND  ps.id not in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tahunBulan}%' and ks.pcare_submit = 1 ) ";
+		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
+		$query .= "AND  ps.id not in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tahunBulan}%' )) ";
+		$query .= "group by px.pasien_id, ps.alamat ";
+		$query .= "order by kali_berobat ";
+		$query .= "LIMIT 20;";
+		
+		$data = DB::select($query);
+		return view('laporans.angka_kontak_belum_terpenuhi', compact(
+			'data'
+		));
+
+
+		
 	}
 }

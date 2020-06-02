@@ -76,9 +76,8 @@ class PenjualansController extends Controller
 					'created_at'   => $timestamp,
 					'updated_at'   => $timestamp
 				];
-				$rak_id             = Merek::find($data['merek_id'])->rak_id;
-
-				$rak = Rak::find($rak_id);
+				$rak_id    = Merek::find($data['merek_id'])->rak_id;
+				$rak       = Rak::find($rak_id);
 				$rak->stok = $rak->stok - $data['jumlah'];
 				$rak->save();
 
@@ -151,7 +150,6 @@ class PenjualansController extends Controller
 			JurnalUmum::insert($jurnals);
 			Penjualan::insert($penjualans);
 			Dispensing::insert($dispensings);
-			// return 'oke';
 			$pesan = '<strong>Transaksi Penjualan Tanpa Resep</strong> Berhasil dilakukan';
 			DB::commit();
 			return redirect('penjualans')->withPesan(Yoga::suksesFlash($pesan))

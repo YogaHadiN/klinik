@@ -201,7 +201,7 @@
 								<tr>
 									<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>
 									<td><h1> <a class="" href="{{ url('laporans/pengantar') }}">{{ $pengantar_belum_disubmit }}</a> </h1></td>
-									<td><h1> {{ $angka_kontak_belum_terpenuhi }} </h1></td>
+									<td><h1><a class="" href="{{ url('laporans/angka_kontak_belum_terpenuhi') }}"> {{ $angka_kontak_belum_terpenuhi }} </a></h1></td>
 									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
 									<td><h1></h1></td>
 								</tr>

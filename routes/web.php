@@ -594,6 +594,7 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 
 			Route::get('laporans', 'LaporansController@index');
 			Route::post('laporans/dispensing/bpjs/dokter', 'LaporansController@dispensingBpjs');
+			Route::get('laporans/angka_kontak_belum_terpenuhi', 'LaporansController@angkaKontakBelumTerpenuhi');
 
 			Route::get('laporans/pengantar', 'LaporansController@pengantar');
 			Route::get('laporans/harian', 'LaporansController@harian');
