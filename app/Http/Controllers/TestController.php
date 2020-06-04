@@ -46,9 +46,16 @@ class TestController extends Controller
 
 	public function index(){
 
-		/* return 'oke'; */
-		return phpinfo();
-		/* return view('test.index'); */
+		DB::statement('ALTER TABLE pasiens ADD kepala_keluarga_id VARCHAR( 255 );');
+		DB::statement('ALTER TABLE pasiens ADD sudah_kontak_bulan_ini tinyint( 1 ) default 0;');
+
+		$periksa_bulan_ini = Periksa::with('pasien')->where('tanggal', 'like', date('Y-m') .'%')->get();
+
+		foreach ($periksa_bulan_ini as $p) {
+			$pasien = $p->pasien;
+			$pasien->sudah_kontak_bulan_ini = 1;
+			$pasien->save();
+		}
 
 	}
 	public function post(){

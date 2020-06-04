@@ -34,7 +34,6 @@ table tr td:nth-child(3),table tr th:nth-child(3) {
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div>
-		
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#belumProses" aria-controls="belumProses" role="tab" data-toggle="tab">Belum diProses</a></li>
@@ -70,8 +69,6 @@ table tr td:nth-child(3),table tr th:nth-child(3) {
 		
 	</div>
 </div>
-
-	
 @include('obat')
 @stop
 @section('footer') 

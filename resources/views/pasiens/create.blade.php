@@ -5,12 +5,10 @@
 
  @stop
  @section('head')
-
     <link href="{{ url('css/select2custom.css') }}" rel="stylesheet">
     <link href="{!! asset('js/select2/dist/css/select2.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/select2-bootstrap-theme/dist/select2-bootstrap.css') !!}" rel="stylesheet">
  @stop
-
  @section('page-title') 
 
  <h2>Pasien Baru</h2>

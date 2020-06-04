@@ -43,11 +43,12 @@ class PasiensAjaxController extends Controller
 		    $namaPeserta   = Input::get('nama_peserta');
 		    $namaAsuransi  = Input::get('nama_asuransi');
 		    $nomorAsuransi = Input::get('nomorAsuransi');
+		    $sudah_kontak = Input::get('sudah_kontak');
 
 		    $displayed_rows = Input::get('displayed_rows');
 		    $key = Input::get('key');
-			$data = $this->queryData($ID_PASIEN, $namaPasien, $alamat, $tanggalLahir, $noTelp, $namaAsuransi, $nomorAsuransi, $namaPeserta, $namaIbu, $namaAyah, $displayed_rows, $key);
-			$count = $this->queryData($ID_PASIEN, $namaPasien, $alamat, $tanggalLahir, $noTelp, $namaAsuransi, $nomorAsuransi, $namaPeserta, $namaIbu, $namaAyah, $displayed_rows, $key, true)[0]->jumlah;
+			$data = $this->queryData($ID_PASIEN, $namaPasien, $alamat, $tanggalLahir, $noTelp, $namaAsuransi, $nomorAsuransi, $namaPeserta, $namaIbu, $namaAyah, $sudah_kontak, $displayed_rows, $key);
+			$count = $this->queryData($ID_PASIEN, $namaPasien, $alamat, $tanggalLahir, $noTelp, $namaAsuransi, $nomorAsuransi, $namaPeserta, $namaIbu, $namaAyah, $sudah_kontak, $displayed_rows, $key, true)[0]->jumlah;
 			$pages = ceil( $count/ $displayed_rows );
 
 			return [
@@ -349,13 +350,14 @@ class PasiensAjaxController extends Controller
 		}
 		return $namaPasien;
 	}
-	private function queryData($ID_PASIEN, $namaPasien, $alamat, $tanggalLahir, $noTelp, $namaAsuransi, $nomorAsuransi, $namaPeserta, $namaIbu, $namaAyah, $displayed_rows, $key, $count = false){
+	private function queryData($ID_PASIEN, $namaPasien, $alamat, $tanggalLahir, $noTelp, $namaAsuransi, $nomorAsuransi, $namaPeserta, $namaIbu, $namaAyah, $sudah_kontak, $displayed_rows, $key, $count = false){
 			$pass = $key * $displayed_rows;
 
 			$query  = "SELECT ";
 			if (!$count) {
 				$query .= "p.asuransi_id, p.id as ID_PASIEN, ";
 				$query .= "p.nama as namaPasien, ";
+				$query .= "p.sudah_kontak_bulan_ini as sudah_berobat_bulan_ini, ";
 				$query .= "p.alamat, ";
 				$query .= "p.tanggal_lahir as tanggalLahir, ";
 				$query .= "p.no_telp as noTelp, ";
@@ -380,6 +382,7 @@ class PasiensAjaxController extends Controller
 			$query .= "AND (p.nama_peserta like ? or ? = '') ";
 			$query .= "AND (p.nama_ibu like ? or ? = '') ";
 			$query .= "AND (p.nama_ayah like ? or ? = '') ";
+			$query .= "AND (p.sudah_kontak_bulan_ini like ? or ? = '') ";
 			$query .= "ORDER BY p.created_at DESC ";
 			if (!$count) {
 				$query .= "LIMIT {$pass}, {$displayed_rows} ";
@@ -405,9 +408,10 @@ class PasiensAjaxController extends Controller
 				$namaIbu ,
 				'%' . $namaAyah . '%',
 				$namaAyah ,
+				'%' . $sudah_kontak . '%',
+				$sudah_kontak
 			]);
 			return $data;
 	}
-	
-	
+
 }

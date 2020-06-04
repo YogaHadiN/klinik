@@ -78,8 +78,16 @@
                            {!! Form::text('nama_ayah', null, ['class' => 'form-control-inline form-control ajaxselectpasien', 'id' => 'nama_ayah_Input'])!!}
                         </th>
                         <th class="displayNone">Asuransi ID</th>
-                        <th class="action">Action <br> <button class="btn btn-danger  btn-block" id="clear">clear</button></th>
-
+                        <th class="action">Sudah Kontak <br> 
+							{!! Form::select('sudah_kontak',[
+								null => '- Pilih -',
+								1 => 'Sudah',
+								0 => 'Belum'
+							], null, [
+								'class' => 'form-control',
+								'onchange' => 'clearAndSelectPasien();return false;'
+						]) !!}
+						</th>
                     {!! Form::close()!!}
                     </tr>
                 </thead>
@@ -136,16 +144,6 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">Masukkan ke antrian</h4>
-			</div>
-			<div class="modal-body">
-				@include('pasiens.antrianpoli_insert')
-			</div>
-		</div>
-	</div>
-</div>  
+@if (isset($poli))
+	@include('pasiens.modal_antrian_poli_insert')  
+@endif

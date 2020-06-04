@@ -10,7 +10,6 @@
 		<tbody>
 				@foreach($ks as $px)
 					<tr
-		
 						@if($px->pcare_submit == '2')
 							class="warning"
 						@elseif($px->pcare_submit == '3')
@@ -39,7 +38,6 @@
 							<strong>Diagnosa : </strong> <br />
 							{{  $px->periksa->diagnosa->diagnosa  }}
 							{{ $px->periksa->diagnosa->icd10_id }} - {{ $px->periksa->diagnosa->icd10->diagnosaICD }}
-
 						</td>
 						<td>
 							<div class="row">
@@ -60,7 +58,6 @@
 									{!! Form::close() !!}
 								</div>
 							</div>
-
 						</td>
 					</tr>
 				@endforeach

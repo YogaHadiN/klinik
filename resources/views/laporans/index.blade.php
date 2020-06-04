@@ -196,7 +196,7 @@
 									<td><h3>Angka Kontak Saat ini</h3></td>
 									<td><h3>Pengantar belum disubmit</h3></td>
 									<td><h3>Angka Kontak Belum Terpenuhi</h3></td>
-									<td><h3>Kunjungan sakit belum disubmit</h3></td>
+									<td><h3>Kunjungan sakit Tidak Pakai BPJS Belum Disubmit</h3></td>
 								</tr>
 								<tr>
 									<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>

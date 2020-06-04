@@ -2670,4 +2670,17 @@ class Yoga {
 			return 'malam';
 		}
 	}
+	public static function tahunList(){
+	  $time = strtotime("-10 year", time());
+	  $year = date("Y", $time);
+	  $result = [];
+		for ($i = date('Y'); $i > $year  ; $i--) {
+			$result[$i] = (string)$i;
+		}
+	  return $result;
+	}
+	
+	
+
+	
 }

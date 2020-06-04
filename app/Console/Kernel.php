@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
 		 Commands\smsCekInbox::class,
 		 Commands\testJurnal::class,
 		 Commands\dbBackup::class,
+		 Commands\refreshKunjunganPasien::class,
 		 Commands\dbHapusdiskon::class,
 		 Commands\sendMeLaravelLog::class,
 		 Commands\imageResize::class,
@@ -74,6 +75,8 @@ class Kernel extends ConsoleKernel
 				  ->everyMinute();
 		 $schedule->command('task:penyusutan')
 				  ->monthlyOn(date('t'), '15:00');
+		 $schedule->command('db:refreshKunjunganPasien')
+				  ->monthlyOn(1, '01:00');
 		 /* $schedule->command('sms:promoUlangTahun') */
 				  /* ->monthlyOn('1', '14:00'); */
 		 $schedule->command('db:hapusDiskon')

@@ -197,14 +197,14 @@ class PengantarsController extends Controller
 
 	public function pengantar($id){
 
-		$ps = new Pasien;
+		$ps               = new Pasien;
 		$statusPernikahan = $ps->statusPernikahan();
-		$panggilan = $ps->panggilan();
-		$asuransi = Yoga::asuransiList();
-		$jenis_peserta = $ps->jenisPeserta();
-		$staf = Yoga::stafList();
-		$poli = Yoga::poliList();
-		$ap = AntrianPoli::with('pasien','asuransi','staf')->where('id', $id)->first();
+		$panggilan        = $ps->panggilan();
+		$asuransi         = Yoga::asuransiList();
+		$jenis_peserta    = $ps->jenisPeserta();
+		$staf             = Yoga::stafList();
+		$poli             = Yoga::poliList();
+		$ap               = AntrianPoli::with('pasien','asuransi','staf')->where('id', $id)->first();
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		return view('antrianpolis.pengantar', compact(
 			'ap',
@@ -439,14 +439,16 @@ class PengantarsController extends Controller
 	}
 
 	public function submitPcare(){
-		$id = Input::get('id');
-		$kunjungan_sehat = Input::get('kunjungan_sehat');
-		$pcare_submit = Input::get('pcare_submit');
-		$pp = Pasien::find($id);
-		$confirm = PengantarPasien::where('pengantar_id', $id)
+		$id                          = Input::get('id');
+		$kunjungan_sehat             = Input::get('kunjungan_sehat');
+		$pcare_submit                = Input::get('pcare_submit');
+		$pp                          = Pasien::find($id);
+		$pp->sudah_kontak_bulan_ini = 1;
+		$pp->save();
+		$confirm                     = PengantarPasien::where('pengantar_id', $id)
 			->where('created_at', 'like' , date('Y-m') . '%')
 			->update([
-				'pcare_submit' => $pcare_submit,
+				'pcare_submit'    => $pcare_submit,
 				'kunjungan_sehat' => $kunjungan_sehat
 			]);
 		if ($confirm) {
@@ -515,10 +517,14 @@ class PengantarsController extends Controller
 	}
 
 	public function postKunjunganSakit(){
-		$id			= Input::get('id');
-		$ks       = KunjunganSakit::find($id);
-		$ks->pcare_submit   = Input::get('pcare_submit');
-		$confirm = $ks->save();
+		$id                              = Input::get('id');
+		$ks                              = KunjunganSakit::find($id);
+		$ks->pcare_submit                = Input::get('pcare_submit');
+		$confirm                         = $ks->save();
+		$pasien                          = $ks->periksa->pasien;
+		$pasien->sudah_kontak_bulan_ini = 1;
+		$pasien->save();
+
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Pastikan anda sudah memasukkan pasien <strong>' . $ks->periksa->pasien->nama . '</strong> di PCare');
 		} else {

@@ -164,33 +164,33 @@ class PeriksasController extends Controller
 
 		// INPUT DATA PERIKSA FINAL!!!!!
 		$periksa->id 					= $periksa_id;
-		$periksa->anamnesa 				= Input::get('anamnesa');
-		$periksa->asuransi_id 			= $asuransi->id;
-		$periksa->diagnosa_id 			= Input::get('diagnosa_id');
-		$periksa->pasien_id 			= Input::get('pasien_id');
-		$periksa->berat_badan  			= Input::get('berat_badan');
-		$periksa->poli  				= Input::get('poli');
-		$periksa->staf_id 				= Input::get('staf_id');
-		$periksa->asisten_id 			= Input::get('asisten_id');
-		$periksa->periksa_awal 			= Input::get('periksa_awal');
-		$periksa->jam 					= Input::get('jam');
-		$periksa->jam_resep 			= date('H:i:s');
-		$periksa->keterangan_diagnosa 	= Input::get('keterangan_diagnosa');
-		$periksa->lewat_poli 			= '1';
-		$periksa->lewat_kasir 			= '0';
-		$periksa->lewat_kasir2 			= '0';
-		$periksa->antrian_periksa_id	= Input::get('antrian_id');
-		$periksa->resepluar 			= Input::get('resepluar');
-		$periksa->pemeriksaan_fisik 	= Input::get('pemeriksaan_fisik');
-		$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
-		$periksa->tanggal 				= Input::get('tanggal');
-		$periksa->sistolik 				= Yoga::returnNull( Input::get('sistolik') );
-		$periksa->diastolik 			= Yoga::returnNull( Input::get('diastolik') );
-		$periksa->terapi 				= $this->terapisBaru($terapis);
-		$periksa->jam_periksa 			= Input::get('jam_periksa');
-		$periksa->jam_selesai_periksa 	= date('H:i:s');
-		$periksa->keterangan 			= Input::get('keterangan_periksa');
-		$periksa->transaksi 			= json_encode($transaksis);
+		$periksa->anamnesa                = Input::get('anamnesa');
+		$periksa->asuransi_id             = $asuransi->id;
+		$periksa->diagnosa_id             = Input::get('diagnosa_id');
+		$periksa->pasien_id               = Input::get('pasien_id');
+		$periksa->berat_badan             = Input::get('berat_badan');
+		$periksa->poli                    = Input::get('poli');
+		$periksa->staf_id                 = Input::get('staf_id');
+		$periksa->asisten_id              = Input::get('asisten_id');
+		$periksa->periksa_awal            = Input::get('periksa_awal');
+		$periksa->jam                     = Input::get('jam');
+		$periksa->jam_resep               = date('H:i:s');
+		$periksa->keterangan_diagnosa     = Input::get('keterangan_diagnosa');
+		$periksa->lewat_poli              = '1';
+		$periksa->lewat_kasir             = '0';
+		$periksa->lewat_kasir2            = '0';
+		$periksa->antrian_periksa_id      = Input::get('antrian_id');
+		$periksa->resepluar               = Input::get('resepluar');
+		$periksa->pemeriksaan_fisik       = Input::get('pemeriksaan_fisik');
+		$periksa->pemeriksaan_penunjang   = Input::get('pemeriksaan_penunjang');
+		$periksa->tanggal                 = Input::get('tanggal');
+		$periksa->sistolik                = Yoga::returnNull( Input::get('sistolik') );
+		$periksa->diastolik               = Yoga::returnNull( Input::get('diastolik') );
+		$periksa->terapi                  = $this->terapisBaru($terapis);
+		periksa->jam_periksa             = Input::get('jam_periksa');
+		$periksa->jam_selesai_periksa     = date('H:i:s');
+		$periksa->keterangan              = Input::get('keterangan_periksa');
+		$periksa->transaksi               = json_encode($transaksis);
 
 		$promo = Promo::where('promoable_type' , 'App\AntrianPeriksa')->where('promoable_id', Input::get('antrian_id'))->first() ;
 		if ( $promo ) {
@@ -413,6 +413,10 @@ class PeriksasController extends Controller
 			$cs->massUpdate($promo_updates);
 			$cs->massUpdate($pasien_updates);
 			$periksa->save();
+
+			$pasien                          = $periksa->pasien;
+			$pasien->sudah_kontak_bulan_ini = 1;
+			$pasien->save();
 			/* $this->kirimWaAntrianBerikutnya($periksa); */
 			DB::commit();
 			if(isset($periksa->antrian)){

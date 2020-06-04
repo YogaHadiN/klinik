@@ -104,7 +104,7 @@
 					<li class="landing_link">
 						<a href="{{ url('antrians') }}"><i class="fa fa-star"></i> <span class="nav-label">Daftar Antrian</span> <span id="jumlah_antrian" class="label label-warning pull-right">{{ App\Antrian::where('antriable_type', 'App\\Antrian')->count() }}</span></a>
                     </li>
-                    <li>
+					<li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pasiens', 'Pasien')!!}</li>
@@ -114,18 +114,27 @@
                             <li>{!! HTML::link('rumahsakits', 'Rumah Sakit')!!}</li>
                             <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
                             <li>{!! HTML::link('tarifs', 'Tarif')!!}</li>
-                            <li>{!! HTML::link('perujuks', 'Perujuk')!!}</li>
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
                             <li>{!! HTML::link('pengeluarans/peralatans', 'Peralatan')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('surats', 'Surat Masuk dan Keluar')!!}</li>
-                            <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
-                            <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
-                            <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
-                            <li>{!! HTML::link('pasien_rujuk_baliks', 'Pasien Rujuk Balik')!!}</li>
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
                             <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
                             <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data BPJS</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('perujuks', 'Perujuk')!!}</li>
+                            <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
+                            <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
+                            <li>{!! HTML::link('laporans/angka_kontak_bpjs', 'Kunjungan Sakit')!!}</li>
+                            <li>{!! HTML::link('laporans/pengantar_pasien', 'Pengantar Pasien')!!}</li>
+                            <li>{!! HTML::link('laporans/kunjungan_sakit', 'Kunjungan Sakit Tidak Pakai BPJS')!!}</li>
+                            <li>{!! HTML::link('home_visits', 'Kunjungan Sehat')!!}</li>
+                            <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
+                            <li>{!! HTML::link('pasien_rujuk_baliks', 'Pasien Rujuk Balik')!!}</li>
                         </ul>
                     </li>
                     <li>

@@ -370,7 +370,13 @@
                 var rows = hasil.rows;
                 var temp = "";
                  for (var i = 0; i < MyArray.length; i++) {
-                    temp += "<tr>";
+                    temp += "<tr";
+					 console.log(" MyArray[i].sudah_berobat_bulan_ini ");
+					 console.log( MyArray[i].sudah_berobat_bulan_ini );
+					if ( MyArray[i].sudah_berobat_bulan_ini ) {
+						temp += " class='info' ";
+					}
+					temp += '>';
                     if(DDID_PASIEN){
                         temp += "<td nowrap class='displayNone'><div>" + MyArray[i].ID_PASIEN + "</div></td>";
                     } else {

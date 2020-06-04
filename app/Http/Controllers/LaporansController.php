@@ -53,6 +53,7 @@ class LaporansController extends Controller
 			 'no_asisten',
 			 'jumlahDiare',
 			 'bpjsTidakTerpakai',
+			 'angkaKontakBelumTerpenuhi',
 			 'pengantar',
 			 'jumlahIspa',
 			 'smsBpjs'
@@ -62,23 +63,26 @@ class LaporansController extends Controller
 	public function bpjsTidakTerpakai(){
 		$tanggall = Input::get('bulanTahun');
 		$tanggal  = Yoga::blnPrep($tanggall);
-		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
+
+		$ks = KunjunganSakit::with(
+			'periksa.pasien', 
+			'periksa.asuransi', 
+			'periksa.diagnosa.icd10', 
+			'periksa.terapii.merek'
+		)
 			->where('created_at', 'like', $tanggal . '%')
-			->whereRaw('pcare_submit = 0 or pcare_submit = 2')
+			->whereRaw('(pcare_submit = 0 or pcare_submit = 2)')
 			->orderBy('pcare_submit')
 			->get();
+
 		$ksSubmit = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
 			->where('created_at', 'like', $tanggal . '%')
-			->whereRaw('pcare_submit = 1 or pcare_submit = 3')
+			->whereRaw('(pcare_submit = 1 or pcare_submit = 3)')
 			->orderBy('pcare_submit')
 			->get();
-		foreach ($ks as $k) {
-			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
-			if ( $this->count($k->pengantar_id, $tanggal) > 0 && $k->kunjungan_sehat == '1') {
-				$k->delete();
-			}
-		}
+
 		$pcare_submits =  PcareSubmit::pluck('pcare_submit', 'id');
+		/* dd(9); */
 		return view('laporans.bpjs_tidak_terpakai', compact(
 			'pcare_submits',
 			'ksSubmit',
@@ -1179,26 +1183,36 @@ class LaporansController extends Controller
 	
 	private function count($id){
 
-			// cek Berapa Kali Pengantar ini berobat
-			$berapaKaliPeriksa = Periksa::where('pasien_id', $id)
-			->where('tanggal', 'like', date('Y-m') . '%') 
-			->count() ;
+		// cek Berapa Kali Pengantar ini berobat
+		$berapaKaliPeriksa = Periksa::where('pasien_id', $id)
+		->where('tanggal', 'like', date('Y-m') . '%') 
+		->count() ;
+		if ($berapaKaliPeriksa > 0) {
+			return $berapaKaliPeriksa;
+		}
 
-			// cek Berapa Kali Pengantar ini mengantar
-			$berapaKaliPengantar = PengantarPasien::where('pengantar_id', $id)
-			->where('created_at', 'like', date('Y-m') . '%') 
-			->where('pcare_submit', 1)
-			->count() ;
+		// cek Berapa Kali Pengantar ini mengantar
+		$berapaKaliPengantar = PengantarPasien::with('pengantar')->where('pengantar_id', $id)
+		->where('created_at', 'like', date('Y-m') . '%') 
+		->where('pcare_submit', 1)
+		->count() ;
 
+		if ($berapaKaliPengantar > 0) {
+			return $berapaKaliPengantar;
+		}
 
-			$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
-			$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
-			$query .= "AND ks.pcare_submit = 1 ";
-			$query .= "AND px.pasien_id = '" . $id . "';";
+		$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
+		$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
+		$query .= "AND ks.pcare_submit = 1 ";
+		$query .= "AND px.pasien_id = '" . $id . "';";
 
-			$countKunjunganSakit = DB::select($query)[0]->jumlah;
+		$countKunjunganSakit = DB::select($query)[0]->jumlah;
 
-			return $berapaKaliPeriksa + $berapaKaliPengantar + $countKunjunganSakit;
+		if ($countKunjunganSakit > 0) {
+			return $countKunjunganSakit;
+		}
+
+		return 0;
 		 
 	}
 
@@ -1425,8 +1439,18 @@ class LaporansController extends Controller
 		return view('laporans.angka_kontak_belum_terpenuhi', compact(
 			'data'
 		));
-
-
-		
 	}
+	public function angkaKontakBpjs(){
+		return view('laporans.angka_kontak_bpjs');
+	}
+	public function PengantarPasienBpjs(){
+		return view('laporans.kunjungan_sehat_bpjs');
+	}
+	public function KunjunganSakitBpjs(){
+		return view('laporans.kunjungan_sakit_bpjs');
+	}
+	public function homeVisit(){
+		return view('laporans.home_visit');
+	}
+	
 }

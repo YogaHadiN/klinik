@@ -25,6 +25,7 @@ class SmsKontak extends Model
 
 		// Untuk menghitung berapa pasien yang sudah masuk angka kontak kita, 
 		// ===================================================================
+		//
 		$query = "SELECT DISTINCT count(*) as jumlah FROM pasiens ";
 		// kita hitung dulu jumlah pasien yang punya nomor asuransi bpjs
 		$query.= "WHERE nomor_asuransi_bpjs is not null ";
