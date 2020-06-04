@@ -187,7 +187,7 @@ class PeriksasController extends Controller
 		$periksa->sistolik                = Yoga::returnNull( Input::get('sistolik') );
 		$periksa->diastolik               = Yoga::returnNull( Input::get('diastolik') );
 		$periksa->terapi                  = $this->terapisBaru($terapis);
-		periksa->jam_periksa             = Input::get('jam_periksa');
+		$periksa->jam_periksa             = Input::get('jam_periksa');
 		$periksa->jam_selesai_periksa     = date('H:i:s');
 		$periksa->keterangan              = Input::get('keterangan_periksa');
 		$periksa->transaksi               = json_encode($transaksis);
