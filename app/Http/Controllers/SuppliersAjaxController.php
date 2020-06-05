@@ -71,6 +71,10 @@ class SuppliersAjaxController extends Controller
         }
         return json_encode( $data );
     }
-    
+	public function upload(){
 
+		dd(Input::all()); 
+
+
+	}
 }

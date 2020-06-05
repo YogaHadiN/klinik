@@ -31,14 +31,16 @@
 	 @include('suppliers.form', ['submit' => 'UPDATE'])
 	 {!! Form::close() !!}
 	 {!! Form::open(array('url' => 'suppliers/' . $supplier->id,'method' => 'DELETE'))!!} 
+
 	 {!! Form::submit('DELETE', array(
-			 'class' => 'btn btn-danger btn-block',
-			 'onclick' => "return confirm('Yakin Maun Menghapus supplier " . $supplier->nama . " ?')"
-		 ))!!}
+		 'class' => 'btn btn-danger btn-block',
+		 'onclick' => "return confirm('Yakin Maun Menghapus supplier " . $supplier->nama . " ?')"
+	 ))!!}
  {!! Form::close() !!}
  @stop
  @section('footer') 
-{!! HTML::script('js/create_supplier.js')!!} 
+	{!! HTML::script('js/asuransi_upload.js')!!}
+	{!! HTML::script('js/create_supplier.js')!!} 
 
  @stop
 

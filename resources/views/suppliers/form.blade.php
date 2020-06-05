@@ -10,7 +10,6 @@
 				))!!}
 			  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
 			</div>
-
 			<div class="form-group @if($errors->has('alamat'))has-error @endif">
 			  {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
 				{!! Form::textarea('alamat', null, array(

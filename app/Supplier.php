@@ -26,5 +26,8 @@ class Supplier extends Model{
 		return [ null => '-Pilih-' ] + Supplier::pluck('nama', 'id')->all();
 	}
 	
+    public function berkas(){
+        return $this->morphMany('App\Berkas', 'berkasable');
+    }
 
 }

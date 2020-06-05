@@ -15,8 +15,6 @@ $(':file').on('change', function () {
 				'file':        $('#file').prop('files'),
 				'nama_file':   $('#nama_file').val()
 			};
-		  console.log('ajax_data');
-		  console.log(ajax_data);
 		$.ajax({
 			// Your server script to process the upload
 			url: base + '/' + models + '/' + asuransi_id + '/upload',

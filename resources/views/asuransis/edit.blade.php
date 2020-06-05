@@ -28,13 +28,13 @@
         ))!!}
 
 @include('asuransis/form', [
-  'tanggal' => App\Classes\Yoga::updateDatePrep($asuransi->tanggal_berakhir), 
-  'submit' => 'Update', 
-  'tarifs' => json_encode($tarifs), 
-  'umumstring' => $asuransi->umumstring,
-  'gigistring' => $asuransi->gigistring,
-  'rujukanstring' => $asuransi->rujukanstring,
-  'hapus' => true,
+  'tanggal'         => App\Classes\Yoga::updateDatePrep($asuransi->tanggal_berakhir),
+  'submit'          => 'Update',
+  'tarifs'          => json_encode($tarifs),
+  'umumstring'      => $asuransi->umumstring,
+  'gigistring'      => $asuransi->gigistring,
+  'rujukanstring'   => $asuransi->rujukanstring,
+  'hapus'           => true,
   'penagihanstring' => $asuransi->penagihanstring
 ])
 {!! Form::close()!!}
