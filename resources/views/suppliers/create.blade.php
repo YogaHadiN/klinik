@@ -26,20 +26,15 @@
 </ol>
  @stop
  @section('content') 
- <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-	 <div class="panel panel-default">
-	 	<div class="panel-body">
-            {!! Form::open(array(
-                "url"   => "suppliers",
-                "class" => "m-t", 
-                "role"  => "form",
-                "method"=> "post"
-            ))!!}
-              @include('suppliers.form', ['submit' => 'SUBMIT'])
-            {!! Form::close() !!}
-	 	</div>
-	 </div>
- </div>
+{!! Form::open(array(
+	"url"   => "suppliers",
+	"class" => "m-t", 
+	"files"  => "true",
+	"role"  => "form",
+	"method"=> "post"
+))!!}
+  @include('suppliers.form', ['submit' => 'SUBMIT'])
+{!! Form::close() !!}
  @stop
  @section('footer') 
 	 <script src="{{ url('js/create_supplier.js') }}"></script>

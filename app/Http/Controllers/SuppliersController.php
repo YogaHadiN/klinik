@@ -6,7 +6,7 @@
 namespace App\Http\Controllers;
 
 use Input;
-
+use Image;
 use App\Http\Requests;
 
 use App\Supplier;
@@ -17,6 +17,13 @@ use App\FakturBelanja;
 
 class SuppliersController extends Controller
 {
+	public $input_nama;
+	public $input_alamat;
+	public $input_no_telp;
+	public $input_hp_pic;
+	public $input_pic;
+	public $hasFile;
+	public $file;
 
 	/**
 	 * Display a listing of suppliers
@@ -28,6 +35,14 @@ class SuppliersController extends Controller
 
   public function __construct()
     {
+		$this->input_nama    = Input::get('nama');
+		$this->input_alamat  = Input::get('alamat');
+		$this->input_no_telp = Input::get('no_telp');
+		$this->input_hp_pic  = Input::get('hp_pic');
+		$this->input_pic     = Input::get('pic');
+		$this->hasFile       = Input::hasFile('image');
+		$this->file          = Input::file('image');
+
         $this->middleware('super', ['only' => 'delete']);
     }
 
@@ -70,7 +85,8 @@ class SuppliersController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		} 
 
-		Supplier::create($data);
+		$supplier = new Supplier;
+		$supplier = $this->inputData($supplier);
 
 		$nama = Input::get('nama');
 		if (Input::ajax()) {
@@ -151,7 +167,6 @@ class SuppliersController extends Controller
 	public function edit($id)
 	{
 		$supplier = Supplier::find($id);
-
 		return view('suppliers.edit', compact('supplier'));
 	}
 
@@ -172,10 +187,9 @@ class SuppliersController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$supplier->update($data);
+		$supplier = $this->inputData($supplier);
 
-		
-		$nama = Input::get('nama');
+		$nama = $supplier->nama;
 
 		return \Redirect::route('suppliers.index')->withPesan(Yoga::suksesFlash('Supplier <strong>' . $nama . '</strong> telah <strong>BERHASIL</strong> diubah'));
 	}
@@ -194,6 +208,48 @@ class SuppliersController extends Controller
 		$nama = Input::get('nama');
 
 		return \Redirect::route('suppliers.index')->withPesan(Yoga::suksesFlash('Supplier <strong>' . $nama . '</strong> telah <strong>BERHASIL</strong> dihapus'));
+	}
+	public function inputData($supplier){
+		$supplier->nama    = $this->input_nama;
+		$supplier->alamat  = $this->input_alamat;
+		$supplier->no_telp = $this->input_no_telp;
+		$supplier->hp_pic  = $this->input_hp_pic;
+		$supplier->pic     = $this->input_pic;
+		$supplier->save();
+		$supplier->image     = $this->imageUpload('supplier', 'img/supplier', 'image', $supplier);
+		$supplier->save();
+		return $supplier;
+	}
+	
+	private function imageUpload($pre, $folder, $fieldName, $staf){
+		if( $this->hasFile ) {
+
+			$upload_cover = $this->file;
+			/* dd($upload_cover); */
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
+			//membuat nama file random + extension
+			$filename =	 $folder . '/' .  $pre . $staf->id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR;
+
+			// Mengambil file yang di upload
+			$upload_cover->save($destination_path . '/' . $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return $filename;
+			
+		} else {
+			return $staf->$fieldName;
+		}
+
 	}
 
 }

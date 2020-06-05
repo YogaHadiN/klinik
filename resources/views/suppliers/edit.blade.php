@@ -20,26 +20,22 @@
  @stop
  @section('content') 
 
-	 <div class="row">
-		 <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-			 {!! Form::model($supplier, array(
-					 "url"   => "suppliers/". $supplier->id,
-					 "class" => "m-t", 
-					 "role"  => "form",
-					 "method"=> "put"
-				 ))!!}
-				 @include('suppliers.form', ['submit' => 'UPDATE'])
-				 {!! Form::close() !!}
+ {!! Form::model($supplier, array(
+		 "url"   => "suppliers/". $supplier->id,
+		"class"  => "m-t",
+		"role"   => "form",
+		"files"  => "true",
+		 "method"=> "put"
+	 ))!!}
 
-				 {!! Form::open(array('url' => 'suppliers/' . $supplier->id,'method' => 'DELETE'))!!} 
-				 {!! Form::submit('DELETE', array(
-						 'class' => 'btn btn-danger btn-block',
-						 'onclick' => "return confirm('Yakin Maun Menghapus supplier " . $supplier->nama . " ?')"
-					 ))!!}
-			 {!! Form::close() !!}
-		 </div>
-	 </div>
-
+	 @include('suppliers.form', ['submit' => 'UPDATE'])
+	 {!! Form::close() !!}
+	 {!! Form::open(array('url' => 'suppliers/' . $supplier->id,'method' => 'DELETE'))!!} 
+	 {!! Form::submit('DELETE', array(
+			 'class' => 'btn btn-danger btn-block',
+			 'onclick' => "return confirm('Yakin Maun Menghapus supplier " . $supplier->nama . " ?')"
+		 ))!!}
+ {!! Form::close() !!}
  @stop
  @section('footer') 
 {!! HTML::script('js/create_supplier.js')!!} 
