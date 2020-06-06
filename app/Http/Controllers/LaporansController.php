@@ -1456,5 +1456,8 @@ class LaporansController extends Controller
 	public function homeVisit(){
 		return view('laporans.home_visit');
 	}
+	public function angkaKontakBpjsBulanIni(){
+		return view('laporans.home_visit');
+	}
 	
 }

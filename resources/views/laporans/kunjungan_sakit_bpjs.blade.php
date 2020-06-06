@@ -5,13 +5,13 @@ Klinik Jati Elok | Angka Kunjungan Sakit BPJS
 
 @stop
 @section('page-title') 
-<h2>Angka Kunjungan Sakit BPJS</h2>
+<h2>Angka Kunjungan Sakit Tidak Pakai BPJS</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Angka Kunjungan Sakit BPJS</strong>
+		  <strong>Angka Kunjungan Sakit Tidak Pakai BPJS</strong>
 	  </li>
 </ol>
 

@@ -1,20 +1,17 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use Input;
-use DB;
 
-class AngkaKontakController extends Controller
+class AngkaKontakBpjsBulanIniController extends Controller
 {
-
 	public $input_nama;
 	public $input_tanggal;
 	public $input_nomor_asuransi_bpjs;
 	public $input_no_telp;
 	public $input_displayed_rows;
 	public $input_key;
-	public $input_tahun;
-	public $input_bulan;
 
 	/**
 	* @param 
@@ -28,8 +25,6 @@ class AngkaKontakController extends Controller
 		$this->input_no_telp             = Input::get('no_telp');
 		$this->input_displayed_rows      = Input::get('displayed_rows');
 		$this->input_key                 = Input::get('key');
-		$this->input_tahun               = Input::get('tahun');
-		$this->input_bulan               = Input::get('bulan');
 	}
 	
 	public function searchAjax(){
@@ -46,7 +41,6 @@ class AngkaKontakController extends Controller
 	}
 	private function queryData($count = false){
 
-		$bulan_ini = $this->input_tahun . '-' . $this->input_bulan;
 		$pass  = $this->input_key * $this->input_displayed_rows;
 		$query = "SELECT ";
 		if (!$count) {
@@ -70,7 +64,6 @@ class AngkaKontakController extends Controller
 		$query .= "AND (ps.no_telp like '%{$this->input_no_telp}%') ";
 		$query .= "AND (ps.nomor_asuransi_bpjs like '%{$this->input_nomor_asuransi_bpjs}%') ";
 		$query .= "AND (px.asuransi_id = 32) ";
-		$query .= "AND (px.tanggal like '{$bulan_ini}%')  ";
 		if ($count) {
 			$query .= ") a ";
 		}
@@ -81,6 +74,7 @@ class AngkaKontakController extends Controller
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$this->input_displayed_rows} ";
 		}
+
 		return DB::select($query);
 	}
 }

@@ -129,6 +129,7 @@
                             <li>{!! HTML::link('perujuks', 'Perujuk')!!}</li>
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
                             <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
+                            <li>{!! HTML::link('laporans/angka_kontak_bpjs_bulan_ini', 'Angka Kontak Bulan Ini')!!}</li>
                             <li>{!! HTML::link('laporans/angka_kontak_bpjs', 'Kunjungan Sakit')!!}</li>
                             <li>{!! HTML::link('laporans/pengantar_pasien', 'Pengantar Pasien')!!}</li>
                             <li>{!! HTML::link('laporans/kunjungan_sakit', 'Kunjungan Sakit Tidak Pakai BPJS')!!}</li>

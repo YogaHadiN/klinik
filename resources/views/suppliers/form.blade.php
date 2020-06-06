@@ -53,7 +53,7 @@
  </div>
 <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
 	<div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-		{!! Form::label('image', 'Image') !!}
+		{!! Form::label('image', 'KTP Image') !!}
 		{!! Form::file('image') !!}
 			@if (isset($supplier) && $supplier->image)
 				<p> {!! HTML::image(asset($supplier->image), null, ['class'=>'img-rounded upload']) !!} </p>
@@ -61,5 +61,15 @@
 				<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 			@endif
 		{!! $errors->first('image', '<p class="help-block">:message</p>') !!}
+	</div>
+	<div class="form-group{{ $errors->has('muka_image') ? ' has-error' : '' }}">
+		{!! Form::label('muka_image', 'Foto Wajah') !!}
+		{!! Form::file('muka_image') !!}
+			@if (isset($supplier) && $supplier->muka_image)
+				<p> {!! HTML::image(asset($supplier->muka_image), null, ['class'=>'img-rounded upload']) !!} </p>
+			@else
+				<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+			@endif
+		{!! $errors->first('muka_image', '<p class="help-block">:message</p>') !!}
 	</div>
 </div>

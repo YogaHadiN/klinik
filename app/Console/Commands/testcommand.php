@@ -71,6 +71,6 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement('ALTER TABLE suppliers ADD image varchar(255);');
+		DB::statement('ALTER TABLE suppliers ADD muka_image varchar(255);');
    	}
 }

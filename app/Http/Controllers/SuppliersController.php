@@ -22,8 +22,10 @@ class SuppliersController extends Controller
 	public $input_no_telp;
 	public $input_hp_pic;
 	public $input_pic;
-	public $hasFile;
-	public $file;
+	public $hasFileImage;
+	public $fileImage;
+	public $hasFileMukaImage;
+	public $fileMukaImage;
 
 	/**
 	 * Display a listing of suppliers
@@ -35,13 +37,15 @@ class SuppliersController extends Controller
 
   public function __construct()
     {
-		$this->input_nama    = Input::get('nama');
-		$this->input_alamat  = Input::get('alamat');
-		$this->input_no_telp = Input::get('no_telp');
-		$this->input_hp_pic  = Input::get('hp_pic');
-		$this->input_pic     = Input::get('pic');
-		$this->hasFile       = Input::hasFile('image');
-		$this->file          = Input::file('image');
+		$this->input_nama       = Input::get('nama');
+		$this->input_alamat     = Input::get('alamat');
+		$this->input_no_telp    = Input::get('no_telp');
+		$this->input_hp_pic     = Input::get('hp_pic');
+		$this->input_pic        = Input::get('pic');
+		$this->hasFileImage     = Input::hasFile('image');
+		$this->fileImage        = Input::file('image');
+		$this->hasFileMukaImage = Input::hasFile('muka_image');
+		$this->fileMukaImage    = Input::file('muka_image');
 
         $this->middleware('super', ['only' => 'delete']);
     }
@@ -210,22 +214,21 @@ class SuppliersController extends Controller
 		return \Redirect::route('suppliers.index')->withPesan(Yoga::suksesFlash('Supplier <strong>' . $nama . '</strong> telah <strong>BERHASIL</strong> dihapus'));
 	}
 	public function inputData($supplier){
-		$supplier->nama    = $this->input_nama;
-		$supplier->alamat  = $this->input_alamat;
-		$supplier->no_telp = $this->input_no_telp;
-		$supplier->hp_pic  = $this->input_hp_pic;
-		$supplier->pic     = $this->input_pic;
+		$supplier->nama       = $this->input_nama;
+		$supplier->alamat     = $this->input_alamat;
+		$supplier->no_telp    = $this->input_no_telp;
+		$supplier->hp_pic     = $this->input_hp_pic;
+		$supplier->pic        = $this->input_pic;
 		$supplier->save();
-		$supplier->image     = $this->imageUpload('supplier', 'img/supplier', 'image', $supplier);
+		$supplier->image      = $this->imageUpload('ktp_supplier', $this->hasFileImage, $this->fileImage, 'img/supplier', 'image', $supplier);
+		$supplier->muka_image = $this->imageUpload('muka_supplier', $this->hasFileMukaImage, $this->fileMukaImage,'img/supplier', 'muka_image', $supplier);
 		$supplier->save();
 		return $supplier;
 	}
 	
-	private function imageUpload($pre, $folder, $fieldName, $staf){
-		if( $this->hasFile ) {
-
-			$upload_cover = $this->file;
-			/* dd($upload_cover); */
+	private function imageUpload($pre, $hasFile, $upload_cover, $folder, $fieldName, $staf){
+		if( $hasFile ) {
+			//
 			//mengambil extension
 			$extension = $upload_cover->getClientOriginalExtension();
 

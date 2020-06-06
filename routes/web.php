@@ -596,13 +596,14 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 			Route::get('laporans', 'LaporansController@index');
 			Route::post('laporans/dispensing/bpjs/dokter', 'LaporansController@dispensingBpjs');
 			Route::get('laporans/angka_kontak_belum_terpenuhi', 'LaporansController@angkaKontakBelumTerpenuhi');
-
+			Route::get('laporans/angka_kontak_bpjs_bulan_ini', 'LaporansController@angkaKontakBpjsBulanIni');
 			Route::get('laporans/angka_kontak_bpjs', 'LaporansController@angkaKontakBpjs');
 			Route::get('laporans/kunjungan_sakit', 'LaporansController@KunjunganSakitBpjs');
 			Route::get('laporans/pengantar_pasien', 'LaporansController@PengantarPasienBpjs');
 			Route::get('pasiens/ajax/angka_kontak_bpjs', 'AngkaKontakController@searchAjax');
 			Route::get('/pasiens/ajax/kunjungan_sakit_bpjs', 'KunjunganSakitController@searchAjax');
 			Route::get('/pasiens/ajax/kunjungan_sehat_bpjs', 'KunjunganSehatController@searchAjax');
+			Route::get('/pasiens/ajax/angka_kontak_bpjs_bulan_ini', 'AngkaKontakBpjsBulanIniController@searchAjax');
 
 
 			Route::get('laporans/pengantar', 'LaporansController@pengantar');
