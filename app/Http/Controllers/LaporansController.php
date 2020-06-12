@@ -1457,7 +1457,7 @@ class LaporansController extends Controller
 		return view('laporans.home_visit');
 	}
 	public function angkaKontakBpjsBulanIni(){
-		return view('laporans.home_visit');
+		return view('laporans.angka_kontak_bpjs_bulan_ini');
 	}
 	
 }

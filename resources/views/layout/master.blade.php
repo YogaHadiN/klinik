@@ -161,6 +161,7 @@
 								@foreach(App\AkunBank::all() as $akun)	
 									<li>{!! HTML::link('rekening_bank/' . $akun->id, 'Akun Bank ' . $akun->akun)!!}</li>
 								@endforeach
+								<li>{!! HTML::link('rekening_bank/ignore', 'Tranasaksi Diabaikan')!!}</li>
 							</ul>
 						</li>
 					@endif

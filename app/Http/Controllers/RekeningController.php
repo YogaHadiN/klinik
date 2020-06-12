@@ -40,16 +40,8 @@ class RekeningController extends Controller
 			session(['pesan' => $pesan]);
 		}
 
-		$ignored     = AbaikanTransaksi::all();
-		$ignored_ids = [];
-		foreach ($ignored as $ignore) {
-			$ignored_ids[] = $ignore->transaksi_id;
-		}
-		$rekening = Rekening::where('akun_bank_id', $id)
-			->where('debet', '0')
-			->where('deskripsi', 'not like', '%cs-cs%')
-			->whereNotIn('id', $ignored_ids)
-			->orderBy('tanggal', 'desc')->first();
+		$ignored_ids = $this->cariIgnoredIds();
+		$rekening    = $this->rekeningCari($id,$ignored_ids);
 
 		return view('rekenings.index', compact('rekening', 'ignored_ids'));
 	}
@@ -67,8 +59,8 @@ class RekeningController extends Controller
 			}
 		}
 		$str_deskripsi = $str_deskripsi . '%';
-		$data          = $this->queryData( $str_deskripsi, $str_tanggal, $pass);
-		$count         = $this->queryData( $str_deskripsi, $str_tanggal, $pass, true);
+		$data          = $this->queryData( false, $str_deskripsi, $str_tanggal, $pass);
+		$count         = $this->queryData( false, $str_deskripsi, $str_tanggal, $pass, true);
 
 		$pages = ceil( $count/ $this->input_displayed_rows );
 		return [
@@ -80,6 +72,7 @@ class RekeningController extends Controller
 
 	}
 	private function queryData(
+		$include_abaikan = false,
 		$str_deskripsi,
 		$str_tanggal,
 		$pass,
@@ -97,11 +90,18 @@ class RekeningController extends Controller
 			$query .= "count(id) as jumlah ";
 		}
 		$query .= "FROM rekenings ";
-		$query .= "WHERE akun_bank_id = '{$this->input_akun_bank_id}' ";
-		$query .= "AND debet = 0 ";
+		$query .= "WHERE ";
+		if (!$include_abaikan) {
+		$query .= "akun_bank_id = '{$this->input_akun_bank_id}' AND ";
+		}
+		$query .= "debet = 0 ";
 		$query .= "AND deskripsi not like '%PURI WIDIYANI MARTIADEWI%' ";
 		$query .= "AND deskripsi not like '%Bunga Rekening%' ";
-		$query .= "AND id not in (" . $this->ignoredId() . ")";
+		if ( $include_abaikan ) {
+			$query .= "AND id in (" . $this->ignoredId() . ")";
+		} else {
+			$query .= "AND id not in (" . $this->ignoredId() . ")";
+		}
 		if ( $this->input_pembayaran_null == '1' ) {
 			$query .= "AND pembayaran_asuransi_id = '' ";
 		} else if (   $this->input_pembayaran_null == '2' ){
@@ -113,6 +113,7 @@ class RekeningController extends Controller
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$this->input_displayed_rows};";
 		}
+		/* dd( $query ); */
 		if (!$count) {
 			return DB::select($query);
 		} else {
@@ -163,4 +164,85 @@ class RekeningController extends Controller
 		}
 		return $ignored_ids;
 	}
+	public function ignore($id){
+
+		$abaikan               = new AbaikanTransaksi;
+		$abaikan->transaksi_id = $id;
+		$abaikan->save();
+
+		$rekening              = Rekening::find( $id );
+		$nilai                 = $rekening->nilai;
+		$deskripsi             = $rekening->deskripsi;
+
+		$pesan = Yoga::suksesFlash('Transaksi senilai <strong>' . Yoga::buatrp( $nilai ) . '</strong> dengan deskripsi <strong>' . $deskripsi . '</strong> berhasil di abaikan');
+		return redirect()->back()->withPesan($pesan);
+		
+	}
+	public function ignoredList(){
+
+		$ignored_ids = $this->cariIgnoredIds();
+		$rekening    = $this->rekeningCari(null,$ignored_ids);
+
+		return view('rekenings.abaikan', compact('rekening', 'ignored_ids'));
+	}
+	public function ignoredListAjax(){
+		$pass                  = $this->input_key * $this->input_displayed_rows;
+		$this->input_deskripsi = str_split($this->input_deskripsi);
+		$str_tanggal           = $this->input_tanggal . '%';
+		$str_deskripsi         = '%';
+		foreach ($this->input_deskripsi as $k => $t) {
+			if ($k != 0) {
+				$str_deskripsi = $str_deskripsi . '%' . $t;
+			} else {
+				$str_deskripsi = $str_deskripsi . $t;
+			}
+		}
+		$str_deskripsi = $str_deskripsi . '%';
+		$data          = $this->queryData( true, $str_deskripsi, $str_tanggal, $pass);
+		$count         = $this->queryData( true, $str_deskripsi, $str_tanggal, $pass, true);
+
+		$pages = ceil( $count/ $this->input_displayed_rows );
+		return [
+			'data'  => $data,
+			'pages' => $pages,
+			'key'   => $this->input_key,
+			'rows'  => $count
+		];
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function rekeningCari($id, $ignored_ids)
+	{
+		if ( !is_null($id) ) {
+			return Rekening::where('akun_bank_id', $id)
+				->where('debet', '0')
+				->where('deskripsi', 'not like', '%cs-cs%')
+				->whereNotIn('id', $ignored_ids)
+				->orderBy('tanggal', 'desc')->first();
+			
+		}
+		return Rekening::where('debet', '0')
+			->where('deskripsi', 'not like', '%cs-cs%')
+			->whereIn('id', $ignored_ids)
+			->orderBy('tanggal', 'desc')->first();
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function cariIgnoredIds()
+	{
+		$ignored     = AbaikanTransaksi::all();
+		$ignored_ids = [];
+		foreach ($ignored as $ignore) {
+			$ignored_ids[] = $ignore->transaksi_id;
+		}
+		return $ignored_ids;
+	}
+	
+	
 }

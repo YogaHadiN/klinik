@@ -81,7 +81,7 @@ $("body").on('keyup', '.ajaxselect', function () {
 	timeout = window.setTimeout(function(){
 		clearAndSelect();
 		console.log('exec');
-	},600);
+	},1000);
 });
 function loaderGif(){
 	var colspan = $('#ajax_container').closest('table').find('thead tr').find('th:not(.displayNone)').length;

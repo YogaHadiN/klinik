@@ -1,30 +1,33 @@
 @extends('layout.master')
 
 @section('title') 
-	Klinik Jati Elok | Rekening Bank {{ $rekening->akun }}
+Klinik Jati Elok | Transaksi Diabaikan
+
 @stop
 @section('head') 
-    <link href="{!! asset('css/rekening.css') !!}" rel="stylesheet" media="screen">
+	<link href="{!! asset('css/rekening.css') !!}" rel="stylesheet" media="screen">
 @stop
 @section('page-title') 
-<h2>Rekening Bank {{ $rekening->akun }}</h2>
+<h2>Transaksi Diabaikan</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Rekening Bank {{ $rekening->akun_bank->akun }}</strong>
+		  <strong>Transaksi Diabaikan</strong>
 	  </li>
 </ol>
+
 @stop
 @section('content') 
 	{!! Form::text('akun_bank_id', $rekening->akun_bank_id, ['class' => 'form-control hide', 'id' => 'akun_bank_id']) !!}
 	{!! Form::text('auth_id', Auth::id(), ['class' => 'form-control hide', 'id' => 'auth_id']) !!}
+	{!! Form::text('ignored', 1, ['class' => 'form-control hide', 'id' => 'ignored']) !!}
 	<div class="table-responsive">
 			<div class="row">
-			  	<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-			  		Menampilkan <span id="rows"></span> hasil
-			  	</div>
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+					Menampilkan <span id="rows"></span> hasil
+				</div>
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
 					{!! Form::select('displayed_rows', App\Classes\Yoga::manyRows(), 15, [
 						'class' => 'form-control',
@@ -41,7 +44,7 @@
 					</th>
 					<th nowrap class="kolom_2">
 						Tanggal
-                        {!! Form::text('tanggal', null, [
+						{!! Form::text('tanggal', null, [
 							'class' => 'form-control-inline tgl form-control ajaxsearchrekening',
 							'onkeyup' => 'clearAndSearch();return false;',
 							'id'    => 'tanggal'
@@ -49,7 +52,7 @@
 					</th>
 					<th class="kolom_3">
 						Deskripsi
-                        {!! Form::text('deskripsi', null, [
+						{!! Form::text('deskripsi', null, [
 							'class' => 'form-control-inline deskripsi form-control ajaxsearchrekening',
 							'onkeyup' => 'clearAndSearch();return false;',
 							'id' => 'deskripsi'
@@ -85,10 +88,9 @@
 					</div>
 				</div>
 			</div>
-	</div>
+	</div>	
 @stop
 @section('footer') 
 	<script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
 	{!! HTML::script('js/rekening.js')!!}
 @stop
-

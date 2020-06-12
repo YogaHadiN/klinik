@@ -14,6 +14,8 @@ class KunjunganSehatController extends Controller
 	public $input_no_telp;
 	public $input_displayed_rows;
 	public $input_key;
+	public $input_bulan;
+	public $input_tahun;
 	/**
 	* @param 
 	*/
@@ -32,6 +34,7 @@ class KunjunganSehatController extends Controller
 		$count               = $this->queryData(true)[0]->jumlah;
 		$pages               = ceil( $count/ $this->input_displayed_rows );
 
+		/* dd('oye'); */
 		return [
 			'data'  => $data,
 			'pages' => $pages,
@@ -39,8 +42,11 @@ class KunjunganSehatController extends Controller
 			'rows'  => $count
 		];
 	}
-	private function queryData($count = false){
+	public function queryData($count = false){
 		$pass = $this->input_key * $this->input_displayed_rows;
+		if ( isset( $this->input_tahun ) && isset( $this->input_bulan ) ) {
+			$bulan_ini = $this->input_tahun . '-' . $this->input_bulan;
+		}
 		$query  = "SELECT ";
 		if (!$count) {
 			$query .= "nama, ";
@@ -58,10 +64,12 @@ class KunjunganSehatController extends Controller
 		$query .= "AND (nama like '%{$this->input_nama}%') ";
 		$query .= "AND (no_telp like '%{$this->input_no_telp}%') ";
 		$query .= "AND (nomor_asuransi_bpjs like '%{$this->input_nomor_asuransi_bpjs}%') ";
+		if (isset( $bulan_ini )) {
+			$query .= "AND (pp.created_at like '{$bulan_ini}%')  ";
+		}
 		$query .= "AND (pcare_submit = '1') ";
-		/* $query .= "GROUP BY p.id "; */
-		/* $query .= "ORDER BY dg.created_at DESC "; */
 
+		/* dd($query); */
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$this->input_displayed_rows} ";
 		}

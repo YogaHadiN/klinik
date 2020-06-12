@@ -106,7 +106,10 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 			Route::get('antrians', 'FasilitasController@listAntrian');
 			Route::delete('antrians/{id}', 'FasilitasController@deleteAntrian');
 			Route::get('rekening_bank/search', 'RekeningController@search');
+			Route::get('rekening_bank/ignore', 'RekeningController@ignoredList');
 			Route::get('rekening_bank/{id}', 'RekeningController@index');
+			Route::post('rekening_bank/ignore/{id}', 'RekeningController@ignore');
+			Route::get('/rekening_bank/ignoredList/ajax', 'RekeningController@ignoredListAjax');
 			Route::get('rekenings/cek_id', 'RekeningController@cekId');
 			Route::get('transaksi/avail', 'RekeningController@available');
 

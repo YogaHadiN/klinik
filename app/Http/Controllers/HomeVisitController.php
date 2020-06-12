@@ -23,6 +23,9 @@ class HomeVisitController extends Controller
 	public $berat_badan;
 	public $hasFile;
 	public $file;
+	public $input_bulan;
+	public $input_tahun;
+	public $input_no_telp;
 
 	/**
 	* @param 
@@ -31,6 +34,7 @@ class HomeVisitController extends Controller
 	public function __construct()
 	{
 		$this->input_nama                = Input::get('nama');
+		$this->input_no_telp             = Input::get('no_telp');
 		$this->input_tanggal             = Input::get('tanggal');
 		$this->input_nomor_asuransi_bpjs = Input::get('nomor_asuransi_bpjs');
 		$this->input_key                 = Input::get('key');
@@ -40,7 +44,7 @@ class HomeVisitController extends Controller
 		$this->sistolik                  = Input::get('sistolik');
 		$this->diastolik                 = Input::get('diastolik');
 		$this->hasFile                   = Input::hasFile('image');
-		$this->file                       = Input::file('image');
+		$this->file                      = Input::file('image');
 
 	}
 
@@ -65,8 +69,10 @@ class HomeVisitController extends Controller
 		];
 	}
 	private function queryData($count = false){
-
 		$pass  = $this->input_key * $this->input_displayed_rows;
+		if ( isset( $this->input_tahun ) && isset( $this->input_bulan ) ) {
+			$bulan_ini = $this->input_tahun . '-' . $this->input_bulan;
+		}
 		$query = "SELECT ";
 		if (!$count) {
 			$query .= "ps.nama, ";
@@ -84,7 +90,13 @@ class HomeVisitController extends Controller
 		$query .= "WHERE ";
 		$query .= "(hv.created_at like '%{$this->input_tanggal}%') ";
 		$query .= "AND (ps.nama like '%{$this->input_nama}%') ";
+		$query .= "AND (ps.no_telp like '%{$this->input_no_telp}%') ";
+		if (isset( $bulan_ini )) {
+			$query .= "AND (hv.created_at like '{$bulan_ini}%')  ";
+		}
 		$query .= "AND (ps.nomor_asuransi_bpjs like '%{$this->input_nomor_asuransi_bpjs}%' or nomor_asuransi_bpjs is null) ";
+
+		/* dd( $query ); */
 		/* $query .= "GROUP BY px.pasien_id "; */
 		/* $query .= "GROUP BY p.id "; */
 		/* $query .= "ORDER BY dg.created_at DESC "; */

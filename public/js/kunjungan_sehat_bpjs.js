@@ -7,6 +7,7 @@ function searchAjax(key = 0) {
 	var tanggal             = $('#tanggal').val();
 	var bulan             = $('#bulan').val();
 	var tahun             = $('#tahun').val();
+	var no_telp             = $('#no_telp').val();
 	var nomor_asuransi_bpjs = $('#nomor_asuransi_bpjs').val();
 	var jenis_kunjungan     = $('#jenis_kunjungan').val();
 	var displayed_rows      = $('#displayed_rows').val();
@@ -17,6 +18,7 @@ function searchAjax(key = 0) {
 			'tanggal':             tanggal,
 			'bulan':               bulan,
 			'tahun':               tahun,
+			'no_telp':             no_telp,
 			'nomor_asuransi_bpjs': nomor_asuransi_bpjs,
 			'jenis_kunjungan':     jenis_kunjungan,
 			'displayed_rows':      displayed_rows,

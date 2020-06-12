@@ -44,10 +44,10 @@ class AngkaKontakController extends Controller
 			'rows'  => $count
 		];
 	}
-	private function queryData($count = false){
+	public function queryData($count = false){
 
 		$bulan_ini = $this->input_tahun . '-' . $this->input_bulan;
-		$pass  = $this->input_key * $this->input_displayed_rows;
+		$pass      = $this->input_key * $this->input_displayed_rows;
 		$query = "SELECT ";
 		if (!$count) {
 			$query .= "ps.nama, ";
