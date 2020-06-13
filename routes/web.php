@@ -212,6 +212,7 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 			Route::delete('kontrols/{id}', 'KontrolsController@destroy');
 
 			Route::resource('pasiens', 'PasiensController');
+			Route::resource('periksas', 'PeriksasController');
 
 			Route::group(['middleware' => 'admin'], function(){
 				Route::resource('surats', 'SuratController');
@@ -219,7 +220,6 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 				Route::resource('asuransis', 'AsuransisController');
 				Route::resource('diagnosas', 'DiagnosasController');
 				Route::resource('suppliers', 'SuppliersController');
-				Route::resource('periksas', 'PeriksasController');
 				Route::resource('stafs', 'StafsController');
 				Route::resource('formulas', 'FormulasController');
 				Route::resource('raks', 'RaksController');
