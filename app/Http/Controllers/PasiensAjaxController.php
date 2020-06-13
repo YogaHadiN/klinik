@@ -417,6 +417,6 @@ class PasiensAjaxController extends Controller
 	public function ajaxTanggalLahir(){
 		$tanggal_lahir = Input::get('tanggal_lahir_cek');
 		$tanggal_lahir = Carbon::CreateFromFormat('d-m-Y', $tanggal_lahir)->format('Y-m-d');
-		return Pasien::where('tanggal_lahir', $tanggal_lahir)->get(['nama', 'no_telp', 'alamat']);
+		return Pasien::where('tanggal_lahir', $tanggal_lahir)->get(['nama', 'no_telp', 'alamat', 'id']);
 	}
 }

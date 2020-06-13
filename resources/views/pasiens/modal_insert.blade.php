@@ -38,7 +38,10 @@
 			</div>
 		</div>
 		<div class="row" id="row_ajax_container" style="display:none">
-			<h3>Berikut ini pasien dengan tanggal lahir yang sama, Jangan lanjutkan bila pasien sudah terdaftar</h3>
+			<div class="alert alert-danger">
+				Berikut ini pasien dengan tanggal lahir yang sama, Jangan lanjutkan bila pasien sudah terdaftar
+				 <a href="{{ url('pasiens/gabungkan/pasien/ganda') }}" target="_blank">Gabungkan</a> jika menemukan pasien  yagng dobel, tabel dengan latar warna merah adalah kemungkinan pasien duplikasi, gabungkan sebelum melanjutkan 
+			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="table-responsive">
 						<table class="table table-hover table-condensed table-bordered">
@@ -47,6 +50,7 @@
 									<th>Nama</th>
 									<th>Alamat</th>
 									<th>No Telp</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody id="ajax_container"></tbody>

@@ -11,7 +11,14 @@ $("#tanggal_lahir").datepicker({
 		function (data, textStatus, jqXHR) {
 			var temp = '';
 			for (var i = 0, len = data.length; i < len; i++) {
-				temp += '<tr>';
+
+				var duplicate = checkIfDuplicate(data, data[i].nama);
+
+				temp += '<tr';
+				if (duplicate) {
+					temp += ' class="danger"';
+				}
+				temp += '>';
 				temp += '<td class="nama">';
 				temp += data[i].nama;
 				temp += '</td>';
@@ -21,13 +28,30 @@ $("#tanggal_lahir").datepicker({
 				temp += '<td class="no_telp">';
 				temp += data[i].no_telp;
 				temp += '</td>';
+				temp += '<td class="detil_action">';
+				temp += '<a class="btn btn-info btn-sm" href="' + base + '/pasiens/' + data[i].id + '/edit"><i class="fas fa-info"></i></button>'
+				temp += '</td>';
 				temp += '</tr>';
 			}
 			if ( data.length > 0 ) {
 				$('#row_ajax_container').fadeIn('slow');
-				$('#ajax_container').html(temp);
 			}
+			$('#ajax_container').html(temp);
 		}
 	);
 });
 	
+function checkIfDuplicate(data,nama) {
+
+	var count = 0;
+	for (var i = 0, len = data.length; i < len; i++) {
+		if (nama.substring(0, 3) == data[i].nama.substring(0, 3)) {
+			count++;
+		}
+	}
+
+	if (count > 1) {
+		return true;
+	}
+	return false;
+}
