@@ -211,9 +211,9 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 			Route::put('kontrols/{id}', 'KontrolsController@update');
 			Route::delete('kontrols/{id}', 'KontrolsController@destroy');
 
+			Route::resource('pasiens', 'PasiensController');
 
 			Route::group(['middleware' => 'admin'], function(){
-				Route::resource('pasiens', 'PasiensController');
 				Route::resource('surats', 'SuratController');
 				Route::resource('pelamars', 'PelamarsController');
 				Route::resource('asuransis', 'AsuransisController');
@@ -264,7 +264,6 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 				Route::post('pembelians/ajax', 'PembeliansController@ajax');
 				Route::post('pembelians/ajax/formulabyid', 'PembeliansAjaxController@formulabyid');
 				Route::post('pembelians/ajax/rakbyid', 'PembeliansAjaxController@rakbyid');
-				Route::get('stafs/{id}/terapi', 'CustomController@terapi');
 				Route::post('pembelians', 'PembeliansController@store');
 				Route::get('pembelians/riwayat', 'PembeliansController@riwayat');
 				Route::get('pembelians/show/{id}', 'PembeliansController@show');
@@ -458,11 +457,6 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 				Route::get('laporans/angka_kontak_bpjs_bulan_ini', 'LaporansController@angkaKontakBpjsBulanIni');
 				Route::get('laporans/angka_kontak_bpjs', 'LaporansController@angkaKontakBpjs');
 				Route::get('laporans/kunjungan_sakit', 'LaporansController@KunjunganSakitBpjs');
-				Route::get('laporans/pengantar_pasien', 'LaporansController@PengantarPasienBpjs');
-				Route::get('pasiens/ajax/angka_kontak_bpjs', 'AngkaKontakController@searchAjax');
-				Route::get('/pasiens/ajax/kunjungan_sakit_bpjs', 'KunjunganSakitController@searchAjax');
-				Route::get('/pasiens/ajax/kunjungan_sehat_bpjs', 'KunjunganSehatController@searchAjax');
-				Route::get('/pasiens/ajax/angka_kontak_bpjs_bulan_ini', 'AngkaKontakBpjsBulanIniController@searchAjax');
 
 
 				Route::get('laporans/pengantar', 'LaporansController@pengantar');
@@ -759,7 +753,12 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 			Route::get('bahan_bangunans/ikhtisarkan', 'BahanBangunansController@ikhtisarkan');
 			Route::post('bahan_bangunans/ikhtisarkan', 'BahanBangunansController@ikhtisarkanPost');
 			Route::post('bahan_bangunans/konfirmasi/{bulan}/{tahun}', 'BahanBangunansController@konfirmasiPost');
+			Route::get('stafs/{id}/terapi', 'CustomController@terapi');
 
-
+			Route::get('laporans/pengantar_pasien', 'LaporansController@PengantarPasienBpjs');
+			Route::get('pasiens/ajax/angka_kontak_bpjs', 'AngkaKontakController@searchAjax');
+			Route::get('/pasiens/ajax/kunjungan_sakit_bpjs', 'KunjunganSakitController@searchAjax');
+			Route::get('/pasiens/ajax/kunjungan_sehat_bpjs', 'KunjunganSehatController@searchAjax');
+			Route::get('/pasiens/ajax/angka_kontak_bpjs_bulan_ini', 'AngkaKontakBpjsBulanIniController@searchAjax');
 
   	});
