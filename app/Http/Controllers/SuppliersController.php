@@ -46,7 +46,7 @@ class SuppliersController extends Controller
 		$this->fileImage        = Input::file('image');
 		$this->hasFileMukaImage = Input::hasFile('muka_image');
 		$this->fileMukaImage    = Input::file('muka_image');
-
+        $this->middleware('admin', ['except' => []]);
         $this->middleware('super', ['only' => 'delete']);
     }
 

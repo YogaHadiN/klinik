@@ -18,6 +18,14 @@ use App\Pembelian;
 
 class MereksController extends Controller
 {
+	/**
+	* @param 
+	*/
+	public function __construct()
+	{
+        $this->middleware('admin', ['except' => []]);
+	}
+	
 
 	/**
 	 * Display a listing of mereks
@@ -29,7 +37,6 @@ class MereksController extends Controller
 		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
 		// $mereks = Merek::where('id', '>', '0')->get();
 		$raks_nol = Rak::with('merek')->where('harga_beli', '<', 1)->get();
-
 
 		return view('mereks.index', compact('mereks', 'raks_nol'));
 	}

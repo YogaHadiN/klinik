@@ -16,6 +16,11 @@ use App\JenisTarif;
 
 class DiscountsController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('admin', ['except' => []]);
+	}
+
 	public function index(){
 		$discounts = Discount::with('discountAsuransi')->get();
 		$jumlahAsuransi = Asuransi::count();

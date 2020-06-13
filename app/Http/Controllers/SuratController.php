@@ -10,6 +10,14 @@ use App\Classes\Yoga;
 use DB;
 class SuratController extends Controller
 {
+	/**
+	* @param 
+	*/
+	public function __construct()
+	{
+        $this->middleware('admin', ['except' => []]);
+	}
+	
 	public function index(){
 		$surats = Surat::all();
 		return view('surats.index', compact(

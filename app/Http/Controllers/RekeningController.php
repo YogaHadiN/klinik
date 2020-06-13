@@ -30,6 +30,7 @@ class RekeningController extends Controller
 		$this->input_deskripsi       = Input::get('deskripsi');
 		$this->input_akun_bank_id    = Input::get('akun_bank_id');
 		$this->input_pembayaran_null = Input::get('pembayaran_null');
+        $this->middleware('super', ['only' => ['ignoredList', 'ignore']]);
         $this->middleware('admin', ['except' => []]);
     }
 	public function index($id){

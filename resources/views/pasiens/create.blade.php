@@ -6,8 +6,6 @@
  @stop
  @section('head')
     <link href="{{ url('css/select2custom.css') }}" rel="stylesheet">
-    <link href="{!! asset('js/select2/dist/css/select2.min.css') !!}" rel="stylesheet">
-    <link href="{!! asset('css/select2-bootstrap-theme/dist/select2-bootstrap.css') !!}" rel="stylesheet">
  @stop
  @section('page-title') 
 
@@ -36,11 +34,12 @@
 ))!!}
 @else
 {!! Form::open(array(
-	"url"   => "pasiens",
-	"class" => "m-t", 
-	"role"  => "form",
-	"files"  => "true",
-	"method"=> "post"
+	"url"          => "pasiens",
+	"class"        => "m-t",
+	"role"         => "form",
+	"autocomplete" => "off",
+	"files"        => "true",
+	"method"       => "post"
 ))!!}
 @endif
 	@include('pasiens.createForm', ['antrianpolis' => true])
@@ -52,8 +51,6 @@ var base = "{{ url('/') }}";
 </script>
 	{!! HTML::script('js/plugins/webcam/photo.js')!!}
 	{!! HTML::script('js/togglepanel.js')!!}
-	{!! HTML::script('js/select2/dist/js/select2.min.js')!!}
-	{!! HTML::script('js/pasiens.js')!!}
 	{!! HTML::script('js/pasien_create.js')!!}
 	{!! HTML::script('js/select2custom.js')!!}
 	{!! HTML::script('js/peringatan_usg.js')!!}

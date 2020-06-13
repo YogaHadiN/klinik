@@ -12,6 +12,11 @@ use Image;
 
 class AcsController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('admin', ['except' => []]);
+	}
+
 	public function index(){
 		$acs            = Ac::all();
 		return view('acs.index', compact('acs'));

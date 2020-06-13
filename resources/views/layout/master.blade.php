@@ -17,9 +17,11 @@
     <link href="{!! asset('css/jquery-ui.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
     -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
     <link href="{!! asset('css/poli.css') !!}" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/888ab79ab3.js" crossorigin="anonymous"></script>
+	{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" crossorigin="anonymous"></script> --}}
 
 	<style type="text/css" media="all">
 		.fixed {
@@ -349,6 +351,7 @@
 	</div>
             {{--{!! HTML::script("js/all.js")!!}--}}
     <script src="{!! asset('js/all.js') !!}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script>
     <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js') !!}"></script>
     <!-- Mainly scripts 
@@ -366,6 +369,7 @@
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
     WebCam -->
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="{!! url('js/master.js') !!}"></script>
 	<script>
 		var base = "{{ url('/') }}";

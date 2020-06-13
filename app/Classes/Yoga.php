@@ -571,7 +571,6 @@ class Yoga {
 		}
 
 		public static function asuransiList(){
-			
 			return array(null => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
 		}
 
@@ -616,8 +615,6 @@ class Yoga {
 		}
 
 		public static function customId($model){
-
-			
 			if($model::where('id', 'like', date('ymd') . '%')->get()->count() == 0) {
     			$idCustom = date('ymd').sprintf("%03d", 1);
     		} else {
@@ -626,7 +623,6 @@ class Yoga {
     			$insert_id = "$substr_id" + 1;
     			$idCustom = date('ymd').sprintf("%03d", $insert_id);
     		}
-
     		return $idCustom; // id ke 100, tanggal 01-01-2016 mereturn 1601010100
 		}
 

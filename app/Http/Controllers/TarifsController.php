@@ -24,6 +24,16 @@ class TarifsController extends Controller
 	 *
 	 * @return Response
 	 */
+	/**
+	* @param 
+        $this->middleware('admin'
+     * \@param ['except' => []]);
+	*/
+	public function __construct()
+	{
+        $this->middleware('admin', ['except' => []]);
+	}
+	
 	public function index()
 	{
 		$tarifs = Tarif::with(

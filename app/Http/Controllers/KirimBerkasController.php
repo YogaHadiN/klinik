@@ -40,6 +40,7 @@ class KirimBerkasController extends Controller
 		$this->input_staf_id          = Input::get('staf_id');
 		$this->input_role_pengiriman_id     = Input::get('role_pengiriman_id');;
 		$this->input_piutang_tercatat = Input::get('piutang_tercatat');
+        $this->middleware('admin', ['except' => []]);
 	 }
 	public function index(){
 

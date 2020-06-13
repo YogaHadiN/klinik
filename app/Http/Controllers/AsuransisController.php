@@ -47,6 +47,7 @@ class AsuransisController extends Controller
    public function __construct()
     {
         $this->middleware('super', ['only' => 'delete']);
+        $this->middleware('admin', ['except' => []]);
 		$this->input_nama             = ucwords(strtolower(Input::get('nama')));
 		$this->input_alamat           = Input::get('alamat');
 		$this->input_pic           = Input::get('pic');

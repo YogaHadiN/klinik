@@ -30,12 +30,27 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6">
-
 				<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
 				  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
-					{!! Form::text('tanggal_lahir', null, ['class' => 'form-control tanggal'])!!}
+				  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control', 'id' => 'tanggal_lahir'])!!}
 				  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 				</div>
+			</div>
+		</div>
+		<div class="row" id="row_ajax_container" style="display:none">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="table-responsive">
+						<table class="table table-hover table-condensed table-bordered">
+							<thead>
+								<tr>
+									<th>Nama</th>
+									<th>Alamat</th>
+									<th>No Telp</th>
+								</tr>
+							</thead>
+							<tbody id="ajax_container"></tbody>
+						</table>
+					</div>
 			</div>
 		</div>
 		<div class="row">
