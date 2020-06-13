@@ -29,6 +29,7 @@ Route::post('sender', function(){
 Route::get('queue', function(){
 	dispatch(new \App\Jobs\compressImage );
 });
+Route::get('laporans', 'LaporansController@index');
 Route::get('/', 'AuthController@index');
 Route::get('login', 'AuthController@index')->name('login');
 Route::get('logout', 'AuthController@logout');
@@ -95,7 +96,6 @@ Route::resource('invoices', 'InvoiceController');
 Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 
   	Route::group(['middleware' => 'auth'], function(){
-
 			Route::post('fasilitas/antrian_pasien/{id}', 'FasilitasController@antrian'); //antrian pasien
 			Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
 			Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
@@ -451,7 +451,6 @@ Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 				Route::post('pendapatans/pembayaran/asuransis/riwayatHutang', 'AsuransisController@riwayatHutang');
 				Route::get('pendapatans/pembayaran_show/detail/piutang_asuransis', 'PendapatansController@detailPA');
 
-				Route::get('laporans', 'LaporansController@index');
 				Route::post('laporans/dispensing/bpjs/dokter', 'LaporansController@dispensingBpjs');
 				Route::get('laporans/angka_kontak_belum_terpenuhi', 'LaporansController@angkaKontakBelumTerpenuhi');
 				Route::get('laporans/angka_kontak_bpjs_bulan_ini', 'LaporansController@angkaKontakBpjsBulanIni');
