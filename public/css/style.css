@@ -5115,3 +5115,6 @@ table.tabelTerapi tr td {
 	width: 1%;
 	white-space: nowrap;
 }
+.money {
+	direction: rtl;
+}

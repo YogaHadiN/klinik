@@ -67,6 +67,105 @@
 			  </div>
 			</div>
 		</div>
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">Kalkulator Bagi Hasil</div>
+				</div>
+				<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed table-bordered">
+								<tbody>
+									<tr>
+										<td>
+											<div class="form-group @if($errors->has('pendapatan_bpjs')) has-error @endif">
+												  {!! Form::label('pendapatan_bpjs', 'Pendapatan BPJS', ['class' => 'control-label']) !!}
+												  {!! Form::text('pendapatan_bpjs' , null, ['class' => 'form-control money']) !!}
+												  @if($errors->has('pendapatan_bpjs'))<code>{{ $errors->first('pendapatan_bpjs') }}</code>@endif
+											</div>
+										</td>
+										<td>
+											x 20 %
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-group @if($errors->has('gaji_dokter_gigi_bpjs')) has-error @endif">
+												  {!! Form::label('gaji_dokter_gigi_bpjs', 'Gaji Dokter Gigi BPJS', ['class' => 'control-label']) !!}
+												  {!! Form::text('gaji_dokter_gigi_bpjs' , null, ['class' => 'form-control money']) !!}
+												  @if($errors->has('gaji_dokter_gigi_bpjs'))<code>{{ $errors->first('gaji_dokter_gigi_bpjs') }}</code>@endif
+											</div>
+										</td>
+										<td>
+											Dikurangi
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-group @if($errors->has('asisten_gigi')) has-error @endif">
+												{!! Form::label('asisten_gigi', 'Asisten Gigi', ['class' => 'control-label']) !!}
+												{!! Form::text('asisten_gigi' , null, ['class' => 'form-control money']) !!}
+												@if($errors->has('asisten_gigi'))<code>{{ $errors->first('asisten_gigi') }}</code>@endif
+											</div>
+										</td>
+										<td>
+											Dikurangi
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-group @if($errors->has('bahan_gigi_vendor')) has-error @endif">
+											{!! Form::label('bahan_gigi_vendor', 'Bahan Gigi Yang Dikeluarkan Vendor', ['class' => 'control-label']) !!}
+											{!! Form::text('bahan_gigi_vendor' , null, ['class' => 'form-control money']) !!}
+											@if($errors->has('bahan_gigi_vendor'))<code>{{ $errors->first('bahan_gigi_vendor') }}</code>@endif
+											</div>
+										</td>
+										<td>
+											Dikurangi
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-group @if($errors->has('bahan_gigi_owner')) has-error @endif">
+											{!! Form::label('bahan_gigi_owner', 'Bahan Gigi Yang Dikeluarkan Owner', ['class' => 'control-label']) !!}
+											{!! Form::text('bahan_gigi_owner' , null, ['class' => 'form-control money']) !!}
+											@if($errors->has('bahan_gigi_owner'))<code>{{ $errors->first('bahan_gigi_vendor') }}</code>@endif
+											</div>
+										</td>
+										<td>
+											Dikurangi
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-group @if($errors->has('listrik')) has-error @endif">
+												{!! Form::label('listrik', 'Listrik', ['class' => 'control-label']) !!}
+												{!! Form::text('listrik' , null, ['class' => 'form-control money']) !!}
+												@if($errors->has('listrik'))<code>{{ $errors->first('listrik') }}</code>@endif
+											</div>
+										</td>
+										<td>
+											Dikurangi
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-group @if($errors->has('obat')) has-error @endif">
+												{!! Form::label('obat', 'Obat', ['class' => 'control-label']) !!}
+												{!! Form::text('obat' , null, ['class' => 'form-control money']) !!}
+												@if($errors->has('obat'))<code>{{ $errors->first('obat') }}</code>@endif
+											</div>
+										</td>
+										<td>
+											Dikurangi
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="panel panel-success">
 		<div class="panel-heading">

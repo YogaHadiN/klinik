@@ -434,13 +434,6 @@
         rupiahDibayarPasien("#" + id);
         $('#dibayar_asuransi').focus();
 
-        $('.money').autoNumeric('init', {
-            aSep: '.',
-            aDec: ',', 
-            aSign: 'Rp. ',
-            vMin: '-9999999999999.99' ,
-            mDec: 0
-        });
 
         $('.total').each(function() {
             var number = $(this).html();

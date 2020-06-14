@@ -38,29 +38,14 @@ use App\Http\Controllers\AsuransisController;
 
 class LaporansController extends Controller
 {
-	Public function __construct()
+	public function __construct()
 	 {
-		 $this->middleware('super', ['except' => [
-			 'pengantar',
-			 'index',
-			 'harian',
-			 'anc',
-			 'kb',
-			 'status',
-			 'penyakit',
-			 'points',
-			 'rujukankebidanan',
-			 'no_asisten',
-			 'jumlahDiare',
-			'angkaKontakBpjs',
-			'PengantarPasienBpjs',
-			'KunjunganSakitBpjs',
-			'homeVisit',
-			 'bpjsTidakTerpakai',
-			 'angkaKontakBelumTerpenuhi',
-			 'pengantar',
-			 'jumlahIspa',
-			 'smsBpjs'
+		 $this->middleware('super', ['only' => [
+			 'payment',
+			 'paymentpost',
+			 'pendapatan',
+			 'omsetEstetik',
+			 'status'
 		 ]]);
 	 }
 
@@ -442,7 +427,6 @@ class LaporansController extends Controller
 			->withHariinis($hariinis)
 			->withTunaijumlah($tunaiJumlah);
 	}
-
 	public function bulanan()
 	{
 		$tanggall = Input::get('bulanTahun');
