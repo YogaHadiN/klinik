@@ -214,7 +214,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::resource('pasiens', 'PasiensController');
 		Route::resource('periksas', 'PeriksasController');
 
-		/* Route::group(['middleware' =>[ 'auth', 'admin']], function(){ */
+		Route::group(['middleware' =>[ 'admin']], function(){
 			Route::resource('surats', 'SuratController');
 			Route::resource('pelamars', 'PelamarsController');
 			Route::resource('asuransis', 'AsuransisController');
@@ -501,7 +501,7 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::post('kirim_berkas/{id}/inputNota', 'KirimBerkasController@inputNotaPost');
 			Route::put('kirim_berkas/{id}', 'KirimBerkasController@update');
 			Route::delete('kirim_berkas/{id}', 'KirimBerkasController@destroy');
-		/* }); */
+		});
 		Route::get('ranaps', 'RanapsController@index');
 
 		//membuat merek baru berdasarkan merek_id
