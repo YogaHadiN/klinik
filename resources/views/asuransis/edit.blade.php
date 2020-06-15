@@ -26,17 +26,16 @@
 		"files"=> "true",
         "method"=> "put"
         ))!!}
-
-@include('asuransis/form', [
-  'tanggal'         => App\Classes\Yoga::updateDatePrep($asuransi->tanggal_berakhir),
-  'submit'          => 'Update',
-  'tarifs'          => json_encode($tarifs),
-  'umumstring'      => $asuransi->umumstring,
-  'gigistring'      => $asuransi->gigistring,
-  'rujukanstring'   => $asuransi->rujukanstring,
-  'hapus'           => true,
-  'penagihanstring' => $asuransi->penagihanstring
-])
+		@include('asuransis/form', [
+		  'tanggal'         => App\Classes\Yoga::updateDatePrep($asuransi->tanggal_berakhir),
+		  'submit'          => 'Update',
+		  'tarifs'          => json_encode($tarifs),
+		  'umumstring'      => $asuransi->umumstring,
+		  'gigistring'      => $asuransi->gigistring,
+		  'rujukanstring'   => $asuransi->rujukanstring,
+		  'hapus'           => true,
+		  'penagihanstring' => $asuransi->penagihanstring
+		])
 {!! Form::close()!!}
 @if(\Auth::user()->role == '6')
 <div class="row">
@@ -52,7 +51,6 @@
 @endif
 @stop
 @section('footer') 
-
 	@include('asuransis/footer', ['tarifs' => $tarifs])
 	{!! HTML::script('js/asuransi_upload.js')!!}
 @stop

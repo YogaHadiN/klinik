@@ -102,7 +102,7 @@ class AsuransisController extends Controller
 	 */
 	public function create()
 	{	
-		$tarifs             = $this->tarifTemp();
+		$tarifs             = $this->tarifTemp()['tarif'];
 		$tipe_tindakans     = TipeTindakan::all();
 		$tipe_asuransi_list = $this->tipe_asuransi_list();
 		$px                 = new CustomController;
@@ -184,11 +184,14 @@ class AsuransisController extends Controller
 	 */
 	public function edit($id)
 	{
-		$tarifs             = $this->tariftemp($asuransi, $id);
+		$tarifTemp          = $this->tarifTemp($id);
+		$tarifs             = $tarifTemp['tarif'];
 		$tipe_tindakans     = TipeTindakan::all();
 		$tipe_asuransi_list = $this->tipe_asuransi_list();
 		$px                 = new CustomController;
 		$warna              = $px->warna;
+		$asuransi           = $tarifTemp['asuransi'];
+
 		return view('asuransis.edit', compact(
 			'asuransi', 
 			'warna', 
@@ -656,7 +659,10 @@ class AsuransisController extends Controller
 				'biaya'                 => $t->biaya
 			];
 		}
-		return $tarifs;
+		return [
+			'tarif' => $tarifs,
+			'asuransi' => $asuransi
+		];
 	}
 	public function uploadBerkas(){
 		if($this->hasfile) {

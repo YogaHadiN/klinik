@@ -1,3 +1,16 @@
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			@if(isset($update))
+				<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Update</button>
+			@else
+				<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
+			@endif
+			{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<a class="btn btn-danger btn-block" href="{{ url('home/') }}">Cancel</a>
+		</div>
+	</div>
 <div class="row hide">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		{!! Form::textarea('tipe_tindakans', $tipe_tindakans, ['class' => 'form-control', 'id' => 'tipe_tindakans'])!!}
@@ -6,15 +19,11 @@
 <script type='text/javascript'>
 
 function dummySubmit(control){
-	if(validatePass2(control, [
-		{
-			'selector' : '.kata_kunci',
-			'testFunction' : kataKunciValid,
-			'message' : 'Kata Kunci sudah dipakai'
-		}
-	])){
+	console.log('this');
+	if(validatePass2(control)){
 		$('#submit').click();
 	}
+	console.log('sparta');
 }
 
 function kataKunciValid(control){
