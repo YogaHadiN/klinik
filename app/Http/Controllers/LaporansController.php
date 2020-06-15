@@ -40,7 +40,7 @@ class LaporansController extends Controller
 {
 	public function __construct()
 	 {
-		 $this->middleware('super', ['only' => [
+		 $this->middleware('super', ['except' => [
 			 'payment',
 			 'paymentpost',
 			 'pendapatan',

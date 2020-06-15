@@ -29,7 +29,6 @@ Route::post('sender', function(){
 Route::get('queue', function(){
 	dispatch(new \App\Jobs\compressImage );
 });
-Route::get('laporans', 'LaporansController@index');
 Route::get('/', 'AuthController@index');
 Route::get('login', 'AuthController@index')->name('login');
 Route::get('logout', 'AuthController@logout');
@@ -96,6 +95,7 @@ Route::resource('invoices', 'InvoiceController');
 Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 
 Route::group(['middleware' => 'auth'], function(){
+
 		Route::post('fasilitas/antrian_pasien/{id}', 'FasilitasController@antrian'); //antrian pasien
 		Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
 		Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
@@ -214,7 +214,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::resource('pasiens', 'PasiensController');
 		Route::resource('periksas', 'PeriksasController');
 
-		Route::group(['middleware' => 'admin'], function(){
+		/* Route::group(['middleware' =>[ 'auth', 'admin']], function(){ */
 			Route::resource('surats', 'SuratController');
 			Route::resource('pelamars', 'PelamarsController');
 			Route::resource('asuransis', 'AsuransisController');
@@ -451,12 +451,12 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::post('pendapatans/pembayaran/asuransis/riwayatHutang', 'AsuransisController@riwayatHutang');
 			Route::get('pendapatans/pembayaran_show/detail/piutang_asuransis', 'PendapatansController@detailPA');
 
+			Route::get('laporans', 'LaporansController@index');
 			Route::post('laporans/dispensing/bpjs/dokter', 'LaporansController@dispensingBpjs');
 			Route::get('laporans/angka_kontak_belum_terpenuhi', 'LaporansController@angkaKontakBelumTerpenuhi');
 			Route::get('laporans/angka_kontak_bpjs_bulan_ini', 'LaporansController@angkaKontakBpjsBulanIni');
 			Route::get('laporans/angka_kontak_bpjs', 'LaporansController@angkaKontakBpjs');
 			Route::get('laporans/kunjungan_sakit', 'LaporansController@KunjunganSakitBpjs');
-
 
 			Route::get('laporans/pengantar', 'LaporansController@pengantar');
 			Route::get('laporans/harian', 'LaporansController@harian');
@@ -501,7 +501,7 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::post('kirim_berkas/{id}/inputNota', 'KirimBerkasController@inputNotaPost');
 			Route::put('kirim_berkas/{id}', 'KirimBerkasController@update');
 			Route::delete('kirim_berkas/{id}', 'KirimBerkasController@destroy');
-		});
+		/* }); */
 		Route::get('ranaps', 'RanapsController@index');
 
 		//membuat merek baru berdasarkan merek_id
@@ -557,8 +557,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('rujukans/show', 'RujukansController@show');
 		Route::get('rujukans/{id}', 'RujukansController@ini');
 		Route::get('rujukans/delete/{id}', 'RujukansController@destroy');
-
-
 
 		Route::post('rujuajax/rs', 'RujukansAjaxController@rs');
 		Route::post('rujuajax/rschange', 'RujukansAjaxController@rschange');
