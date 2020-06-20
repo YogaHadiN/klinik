@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'selesaiPeriksa' => \App\Http\Middleware\SudahSelesaiPeriksa::class,
         'super' => \App\Http\Middleware\SuperAdminOnly::class,
         'admin' => \App\Http\Middleware\adminOnly::class,
+        'keuangan' => \App\Http\Middleware\KeuanganAccessOnly::class,
         'protect' => \App\Http\Middleware\protectKaloSudahDikirim::class,
         'belum_masuk_kasir' => \App\Http\Middleware\BelumMasukKasir::class,
         'harusUrut' => \App\Http\Middleware\harusUrutDiPoliUmum::class,

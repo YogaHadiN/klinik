@@ -587,11 +587,3 @@ function validatePhone(phone)
 function validateNotEmpty( val ){
 	return !val == '';
 }
-
-$('.money').autoNumeric('init', {
-	aSep: '.',
-	aDec: ',', 
-	aSign: 'Rp. ',
-	vMin: '-9999999999999.99' ,
-	mDec: 0
-});
