@@ -44,6 +44,11 @@ class RekeningController extends Controller
 		$ignored_ids = $this->cariIgnoredIds();
 		$rekening    = $this->rekeningCari($id,$ignored_ids);
 
+		if ( is_null($rekening)) {
+			$pesan = Yoga::gagalFlash('Tidak ada data rekening yang bisa diambil');
+			return redirect()->back()->withPesan($pesan);
+		}
+
 		return view('rekenings.index', compact('rekening', 'ignored_ids'));
 	}
 	public function search(){
