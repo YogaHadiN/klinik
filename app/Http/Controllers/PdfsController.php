@@ -562,9 +562,9 @@ class PdfsController extends Controller
 		->setOption('margin-bottom', 10);
         return $pdf->stream();
 	}
-	public function peredaranBruto(){
+	public function peredaranBruto($tahun){
 		$pb = new PajaksController;
-		$peredaranBruto = $pb->queryPeredaranBruto();
+		$peredaranBruto = $pb->queryPeredaranBruto($tahun);
 
 		$total = 0;
 		foreach ($peredaranBruto as $pb) {

@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "awageeks/laravel-bpjs": "^1.2",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "barryvdh/laravel-snappy": "^0.4.6",
         "endroid/qrcode": "^3.7.5",

@@ -171,6 +171,7 @@ return [
 		Maatwebsite\Excel\ExcelServiceProvider::class,
 		Yugo\Moota\Providers\MootaServiceProvider::class,
 		Shivella\Bitly\BitlyServiceProvider::class,
+		/* Awageeks\Bpjs\BpjsServiceProvider::class, */
         /*
          * Package Service Providers...
          */
