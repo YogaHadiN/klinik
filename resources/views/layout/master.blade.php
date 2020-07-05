@@ -218,6 +218,7 @@
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pajaks/amortisasi', 'Laporan Amortisasi Pajak')!!}</li>
                             <li>{!! HTML::link('pajaks/peredaran_bruto', 'Laporan Peredaran Bruto')!!}</li>
+                            <li>{!! HTML::link('pajaks/peredaran_bruto/bikinan', 'Laporan Peredaran Bruto Bikinan')!!}</li>
                         </ul>
                      </li>
 					@endif

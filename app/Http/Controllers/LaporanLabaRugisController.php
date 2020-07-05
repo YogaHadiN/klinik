@@ -20,57 +20,67 @@ class LaporanLabaRugisController extends Controller
         $this->middleware('notready', ['only' => ['perBulan']]);
     }
     public function index(){
-
-		$query  = "SELECT year(created_at) as tahun ";
-		$query .= "FROM jurnal_umums ";
-		$query .= "GROUP BY year(created_at);";
-		$data = DB::select($query);
-
-		$tahun=[];
-		foreach ($data as $d) {
-			$tahun[$d->tahun] = $d->tahun;
-		}
-
-		$periode = [
-			null => ' - Pilih - ',
-			'1' => 'Per Bulan',
-			'2' => 'Per Tahun'
-		];
-
-
-		$data_bulan = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-
-		$bulan = [];
-
-		foreach ($data_bulan as $k => $b) {
-			$bulan[$k +1] = $b;
-		}
+		$range   = $this->rangeLabaRugi();
+		$bulan   = $range['bulan'];
+		$tahun   = $range['tahun'];
+		$bikinan = false;
 
 		return view('laporan_laba_rugis.index',compact(
 			'tahun',
+			'bikinan',
 			'bulan'
 		));
     }
     public function bikinan(){
-		$periode = [
-			null => ' - Pilih - ',
-			'1' => 'Per Bulan',
-			'2' => 'Per Tahun'
-		];
-    	return view('laporan_laba_rugis.bikinan',compact('periode'));
+		$range   = $this->rangeLabaRugi();
+		$bulan   = $range['bulan'];
+		$tahun   = $range['tahun'];
+		$bikinan = true;
+
+    	return view('laporan_laba_rugis.index',compact(
+			'tahun',
+			'bikinan',
+			'bulan'
+		));
     }
 
 
 	public function bikinanShow(){
-		$periode = Input::get('periode');
-		$bulan = Input::get('bulan');
-		$tahun = Input::get('tahun');
 
-		if ($periode == '1') {
-			return redirect('laporan_laba_rugis/perBulan/'.$bulan . '/' . $tahun . '/bikinan');
-		} else if ($periode == '2'){
-			return redirect('laporan_laba_rugis/perTahun/'.$tahun . '/bikinan');
-		}
+		$bulan_awal  = Input::get('bulan_awal');
+		$bulan_akhir = Input::get('bulan_akhir');
+		$tahun_awal  = Input::get('tahun_awal');
+		$tahun_akhir = Input::get('tahun_akhir');
+
+		$tanggal_awal  = $tahun_awal. "-" . str_pad($bulan_awal, 2, '0', STR_PAD_LEFT)  . "-01"  ;
+		$tanggal_akhir = $tahun_akhir. "-" . str_pad($bulan_akhir, 2, '0', STR_PAD_LEFT) . "-01"  ;
+		$tanggal_akhir = date("Y-m-t", strtotime($tanggal_akhir));
+
+		$tempLaporanLabaRugi = $this->tempLaporanLabaRugiRangeByDate($tanggal_awal, $tanggal_akhir, true);
+		/* dd($tempLaporanLabaRugi); */
+
+		$pendapatan_usahas   = $tempLaporanLabaRugi['pendapatan_usahas'];
+		$hpps                = $tempLaporanLabaRugi['hpps'];
+		$biayas              = $tempLaporanLabaRugi['biayas'];
+		$pendapatan_lains    = $tempLaporanLabaRugi['pendapatan_lains'];
+		$bulan               = $tempLaporanLabaRugi['bulan'];
+		$tahun               = $tempLaporanLabaRugi['tahun'];
+		$bebans              = $tempLaporanLabaRugi['bebans'];
+		$bikinan             = true;
+
+    	return view('laporan_laba_rugis.show', compact(
+            'pendapatan_usahas',
+            'bikinan',
+            'hpps',
+            'tanggal_awal',
+            'tanggal_akhir',
+            'biayas',
+            'pendapatan_lains',
+            'bulan',
+            'tahun',
+            'bebans'
+        ));
+
 	}
 
 	public function show(){
@@ -92,10 +102,12 @@ class LaporanLabaRugisController extends Controller
 		$bulan               = $tempLaporanLabaRugi['bulan'];
 		$tahun               = $tempLaporanLabaRugi['tahun'];
 		$bebans              = $tempLaporanLabaRugi['bebans'];
+		$bikinan = false;
 
     	return view('laporan_laba_rugis.show', compact(
             'pendapatan_usahas',
             'hpps',
+            'bikinan',
             'tanggal_awal',
             'tanggal_akhir',
             'biayas',
@@ -131,7 +143,7 @@ class LaporanLabaRugisController extends Controller
 		$path = Input::path();
 		/* $jn = new JurnalUmumsController; */
 		/* $ju->notReady($path); */
-		$templaporanlabarugibikinan = $this->templaporanlabarugibikinan(null, $tahun, 'perTahun');
+		$templaporanlabarugibikinan = $this->tempLaporanLabaRugiRangeByDate(null, $tahun, 'perTahun', true);
 		$pendapatan_usahas = $templaporanlabarugibikinan['pendapatan_usahas'];
 		$hpps              = $templaporanlabarugibikinan['hpps'];
 		$biayas            = $templaporanlabarugibikinan['biayas'];
@@ -214,39 +226,79 @@ class LaporanLabaRugisController extends Controller
 		return $this->olahDataLaporanLabaRugi($akuns, $bulan, $tahun);
 	}
 
-	public function tempLaporanLabaRugiRangeByDate($tanggal_awal, $tanggal_akhir){
+	public function tempLaporanLabaRugiRangeByDate($tanggal_awal, $tanggal_akhir, $bikinan = false){
+		$query  = "select ";
+		$query .= "px.asuransi_id as asuransi_id, ";
+		$query .= "j.jurnalable_type as jurnalable_type, ";
+		$query .= "coa_id as coa_id, ";
+		$query .= "c.coa as coa, ";
+		$query .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai ";
+		$query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
+		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
+		$query .= "WHERE j.created_at between '{$tanggal_awal}%' and '{$tanggal_akhir}%'";
+		/* $query .= "WHERE j.created_at like '2019%'"; */
+		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query .= "group by coa_id ";
+        $akuns  = DB::select($query);
+
+		if ($bikinan) {
+			foreach ($akuns as $k=>$ak) {
+				if (
+					$ak->asuransi_id == '0' 
+					&& $ak->jurnalable_type == 'App\Periksa' 
+				) {
+					unset($akuns[$k]);
+				}
+			}
+		}
+
+		/* $query  = "select "; */
+		/* if ($bikinan) { */
+		/* 	$query .= "px.asuransi_id as asuransi_id, "; */
+		/* 	$query .= "j.jurnalable_type as jurnalable_type, "; */
+		/* } */
+		/* $query .= "coa_id as coa_id, "; */
+		/* $query .= "c.coa as coa, "; */
+		/* $query .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai "; */
+		/* $query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id "; */
+		/* if ($bikinan) { */
+		/* 	$query .= "left join periksas as px on px.id = j.jurnalable_id "; */
+		/* } */
+		/* $query .= "WHERE j.created_at like '2019%'"; */
+		/* $query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) "; */
+		/* $query .= "group by coa_id "; */
+        /* $akuns  = DB::select($query); */
+
+		/* if ($bikinan) { */
+		/* 	foreach ($akuns as $k=>$ak) { */
+		/* 		if ( */
+		/* 			$ak->asuransi_id == 0 */ 
+		/* 			&& $ak->jurnalable_type == 'App\Periksa' */ 
+		/* 			/1* && (substr($ak->coa_id, 0, 1) == '4' || substr($ak->coa_id, 0, 1) == '7' ) *1/ */
+		/* 		) { */
+		/* 			unset($akuns[$k]); */
+		/* 		} */
+		/* 	} */
+		/* } */
+
+		return $this->olahDataLaporanLabaRugi($akuns, null, null, $tanggal_awal, $tanggal_akhir);
+	}
+
+	public function templaporanlabarugibikinan($tanggal_awal, $tanggal_akhir){
 		$query  = "select ";
 		$query .= "coa_id as coa_id, ";
 		$query .= "c.coa as coa, ";
 		$query .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai ";
 		$query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
-		$query .= "where date(j.created_at) between '{$tanggal_awal}' and '{$tanggal_akhir}'  ";
+		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
+		$query .= "where date(j.created_at) between '{$tanggal_awal} 00:00:00' and '{$tanggal_akhir} 23:59:59'  ";
 		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
 		$query .= "group by coa_id ";
-        $akuns              = DB::select($query);
+        $akuns  = db::select($query);
+		/* dd($query); */
+
+
 		return $this->olahDataLaporanLabaRugi($akuns, null, null, $tanggal_awal, $tanggal_akhir);
-	}
-
-	public function templaporanlabarugibikinan($bulan, $tahun, $periode){
-		$query              = "select ";
-		$query             .= "coa_id as coa_id, ";
-		$query             .= "px.asuransi_id as asuransi_id, ";
-		$query             .= "j.jurnalable_type as jurnalable_type, ";
-		$query             .= "c.coa as coa, ";
-		$query             .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai ";
-		$query             .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
-		$query             .= "left join periksas as px on px.id = j.jurnalable_id ";
-		if ($periode       == 'perBulan') {
-			$query         .= "where j.created_at like '{$tahun}-{$bulan}%' ";
-		}else if( $periode == 'perTahun' ) {
-			$query         .= "where j.created_at like '{$tahun}%' ";
-		}
-		$query             .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
-		$query             .= "and jurnalable_type not like 'App\\\Periksa' and (asuransi_id not like 0 or asuransi_id is null) ";
-		$query             .= "group by coa_id ";
-        $akuns              = db::select($query);
-
-		return $this->olahDataLaporanLabaRugi($akuns, $bulan, $tahun);
 	}
 	private function olahDataLaporanLabaRugi($akuns, $bulan, $tahun, $tanggal_awal = null, $tanggal_akhir = null){
 
@@ -295,4 +347,27 @@ class LaporanLabaRugisController extends Controller
             'bebans'            => $bebans
 		];
 	}
+	public function rangeLabaRugi(){
+		
+		$query  = "SELECT year(created_at) as tahun ";
+		$query .= "FROM jurnal_umums ";
+		$query .= "GROUP BY year(created_at);";
+		$data = DB::select($query);
+
+		$tahun=[];
+		foreach ($data as $d) {
+			$tahun[$d->tahun] = $d->tahun;
+		}
+
+		$data_bulan = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+
+		$bulan = [];
+
+		foreach ($data_bulan as $k => $b) {
+			$bulan[$k +1] = $b;
+		}
+
+		return compact('bulan', 'tahun');
+	}
+	
 }

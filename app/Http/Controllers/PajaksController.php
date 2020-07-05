@@ -113,6 +113,79 @@ class PajaksController extends Controller
 		));
 	}
 	public function peredaranBruto(){
+		$pluck = $this->pluckTahun();
+		$bikinan = false;
+		return view('pajaks.peredaranBruto', compact(
+			'bikinan',
+			'pluck'
+		));
+	}
+	
+	public function queryPeredaranBruto($tahun){
+		$query  = "SELECT  ";
+		$query .= "ju.jurnalable_type, ";
+		$query .= "px.asuransi_id, ";
+		$query .= "DATE_FORMAT( ju.created_at, '%M' ) as bulan, ";
+		$query .= "CASE WHEN debit = 0 THEN nilai ELSE nilai * -1 END as nilai ";
+		$query .= "FROM jurnal_umums as ju ";
+		$query .= "JOIN coas as co on co.id = ju.coa_id ";
+		$query .= "left JOIN periksas as px on px.id = ju.jurnalable_id ";
+		$query .= "WHERE ju.created_at like '{$tahun}%'";
+		$query .= "AND (coa_id like '4%' "; //Pendapatan Usaha
+		$query .= "OR coa_id like '7%') "; //Pendapatan Lain
+
+		$data = DB::select($query);
+
+		$perBulan = [
+			  "January"   => 0,
+			  "February"  => 0,
+			  "March"     => 0,
+			  "April"     => 0,
+			  "May"       => 0,
+			  "June"      => 0,
+			  "July"      => 0,
+			  "August"    => 0,
+			  "September" => 0,
+			  "October"   => 0,
+			  "November"  => 0,
+			  "December"  => 0
+			];
+		foreach ($data as $d) {
+			if ( $d->jurnalable_type != 'App\Periksa' || $d->asuransi_id !=0 ) {
+				$perBulan[ $d->bulan ] += $d->nilai;
+			} 	
+		}
+
+		$total = 0;
+		foreach ($perBulan as $n) {
+			$total += $n;
+		}
+
+		dd($total);
+	}
+	public function peredaranBrutoBikinan(){
+		$pluck   = $this->pluckTahun();
+		$bikinan = true;
+		return view('pajaks.peredaranBruto', compact(
+			'bikinan',
+			'pluck',
+		));
+	}
+
+	public function peredaranBrutoBikinanPost(){
+		$tahun = Input::get('tahun');
+		$peredaranBruto = $this->queryPeredaranBruto($tahun);
+		return view('pajaks.peredaranBrutoPost', compact(
+			'peredaranBruto', 'tahun'
+		));
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function pluckTahun()
+	{
 		$query  = "select year(created_at) as tahun from jurnal_umums group by YEAR(created_at)";
 		$data = DB::select($query);
 
@@ -122,21 +195,8 @@ class PajaksController extends Controller
 			$year = $d->tahun;
 			$pluck[$d->tahun] = $d->tahun;
 		}
-		return view('pajaks.peredaranBruto', compact(
-			'pluck'
-		));
+		return $pluck;
 	}
 	
-	public function queryPeredaranBruto($tahun){
-		$query  = "SELECT  ";
-		$query .= "DATE_FORMAT( ju.created_at, '%M' ) as bulan, ";
-		$query .= "SUM(CASE WHEN debit = 0 THEN nilai ELSE nilai * -1 END) AS total ";
-		$query .= "FROM jurnal_umums as ju ";
-		$query .= "JOIN coas as co on co.id = ju.coa_id ";
-		$query .= "WHERE ju.created_at like '{$tahun}%'";
-		$query .= "AND (coa_id like '40%' "; //Pendapatan Usaha
-		$query .= "OR coa_id like '70%') "; //Pendapatan Lain
-		$query .= "GROUP BY YEAR(ju.created_at), MONTH(ju.created_at)"; //Pendapatan Lain
-		return DB::select($query);
-	}
+	
 }

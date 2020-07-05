@@ -23,7 +23,11 @@
 		  <div class="panelLeft">
 		  </div>
 			<div class="panelRight">
-				<a class="btn btn-warning" target="_blank" href="{{ url('pdfs/laporan_laba_rugi/' . $tanggal_awal . '/' . $tanggal_akhir) }}">Bentuk PDF</a>
+				@if ($bikinan)
+					<a class="btn btn-warning" target="_blank" href="{{ url('pdfs/laporan_laba_rugi/bikinan/' . $tanggal_awal . '/' . $tanggal_akhir) }}">Bentuk PDF</a>
+				@else
+					<a class="btn btn-warning" target="_blank" href="{{ url('pdfs/laporan_laba_rugi/' . $tanggal_awal . '/' . $tanggal_akhir) }}">Bentuk PDF</a>
+				@endif
 		  </div>
 	  </div>
 	  <div class="panel-body">

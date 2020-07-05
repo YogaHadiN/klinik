@@ -23,7 +23,11 @@
 					<h3 class="panel-title">Laporan Peredaran Bruto </h3>
 				</div>
 				<div class="panel-body">
-					{!! Form::open(['url' => 'pajaks/peredaran_bruto', 'method' => 'post']) !!}
+					@if ($bikinan)
+						{!! Form::open(['url' => 'pajaks/peredaran_bruto/bikinan', 'method' => 'post']) !!}
+					@else
+						{!! Form::open(['url' => 'pajaks/peredaran_bruto', 'method' => 'post']) !!}
+					@endif
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<div class="form-group @if($errors->has('tahun'))has-error @endif">

@@ -485,6 +485,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::post('pajaks/amortisasiPost', 'PajaksController@amortisasiPost');
 		Route::get('pajaks/peredaran_bruto', 'PajaksController@peredaranBruto');
 		Route::post('pajaks/peredaran_bruto', 'PajaksController@peredaranBrutoPost');
+		Route::get('pajaks/peredaran_bruto/bikinan', 'PajaksController@peredaranBrutoBikinan');
+		Route::post('pajaks/peredaran_bruto/bikinan', 'PajaksController@peredaranBrutoBikinanPost');
 
 		Route::get('kirim_berkas', 'KirimBerkasController@index');
 		Route::get('kirim_berkas/create', 'KirimBerkasController@create');
@@ -661,6 +663,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/formulir/usg/{id}/{asuransi_id}', 'PdfsController@formUsg');
 	Route::get('pdfs/merek', 'PdfsController@merek');
 	Route::get('pdfs/laporan_laba_rugi/{tahun_awal}/{tanggal_akhir}', 'PdfsController@laporanLabaRugi');
+	Route::get('pdfs/laporan_laba_rugi/bikinan/{tahun_awal}/{tanggal_akhir}', 'PdfsController@laporanLabaRugiBikinan');
 	Route::get('pdfs/laporan_neraca/{tahun}', 'PdfsController@laporanNeraca');
 	Route::get('pdfs/jurnal_umum/{bulan}/{tahun}', 'PdfsController@jurnalUmum');
 	Route::get('pdfs/buku_besar/{bulan}/{tahun}/{coa_id}', 'PdfsController@jurnalUmum');

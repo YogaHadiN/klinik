@@ -194,8 +194,18 @@ class multiPenyusutan extends Command
 			$last_ringkasan_penyustan_id = $arrays['last_ringkasan_penyustan_id'];
 
 		}
-		RingkasanPenyusutan::insert($ringkasanPenyusutan);
-		Penyusutan::insert($penyusutans);
-		JurnalUmum::insert($jurnals);
+		foreach (array_chunk($ringkasanPenyusutan,1000) as $t)  
+		{
+			RingkasanPenyusutan::insert($t);
+		}
+		foreach (array_chunk($penyusutans,1000) as $t)  
+		{
+			Penyusutan::insert($t);
+		}
+		foreach (array_chunk($jurnals,1000) as $t)  
+		{
+			JurnalUmum::insert($t);
+		}
+
     }
 }

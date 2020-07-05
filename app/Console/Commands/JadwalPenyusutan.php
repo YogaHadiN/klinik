@@ -298,7 +298,11 @@ class JadwalPenyusutan extends Command
 		return $total_penyusutan;
 	}
 	private function hitungPenyusutan($harga_perolehan, $masa_pakai, $selisih_perolehan_dengan_penyusutan){
-		$yang_harusnya_disusutkan = $harga_perolehan / ( 12 * $masa_pakai );
+		try {
+			$yang_harusnya_disusutkan = $harga_perolehan / ( 12 * $masa_pakai );
+		} catch (\Exception $e) {
+			dd($harga_perolehan, $masa_pakai, $selisih_perolehan_dengan_penyusutan);
+		}
 		return min([ $yang_harusnya_disusutkan, $selisih_perolehan_dengan_penyusutan ]);
 	}
 	private function addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $id, $keterangan = 'Peralatan', $tanggal){

@@ -554,6 +554,7 @@ class JurnalUmumsController extends Controller
 
 					/* return $bulan_penyusutan; */
 
+					dd( $bulan_penyusutan );
 					$jurnal = JurnalUmum::where('jurnalable_type', 'App\RingkasanPenyusutan')
 							->where('created_at', 'like', $bulan_penyusutan . '%')
 							->where('debit', '0')

@@ -16,7 +16,11 @@
 </ol>
 @stop
 @section('content') 
-{!! Form::open(['url' => 'laporan_laba_rugis', 'method' => 'post']) !!}
+@if ( $bikinan )
+	{!! Form::open(['url' => 'laporan_laba_rugis/bikinan', 'method' => 'post']) !!}
+@else
+	{!! Form::open(['url' => 'laporan_laba_rugis', 'method' => 'post']) !!}
+@endif
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<div class="form-group @if($errors->has('bulan_awal'))has-error @endif">

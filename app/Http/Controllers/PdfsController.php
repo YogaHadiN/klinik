@@ -761,4 +761,14 @@ class PdfsController extends Controller
 		->setOption('margin-left', 0);
         return $pdf->stream();
 	}
+	public function laporanLabaRugiBikinan($tanggal_awal, $tanggal_akhir){
+		$lap   = new LaporanLabaRugisController;
+		$query = $lap->templaporanlabarugibikinan($tanggal_awal, $tanggal_akhir);
+		$pdf   = PDF::loadView(
+					'pdfs.laporan_laba_rugi', 
+					$query)
+				->setPaper('a4');
+        return $pdf->stream();
+	}
+	
 }
