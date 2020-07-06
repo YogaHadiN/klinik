@@ -98,7 +98,7 @@ class testcommand extends Command
 			]
 		]);
 	}
-	private bpjs(){
+	private function bpjs(){
 
 		$uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/dokter/0/13"; //url web service bpjs;
 		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/provider/0/3"; //url web service bpjs; */
