@@ -74,19 +74,19 @@ class testcommand extends Command
 
 		DB::statement("delete from coas where id in (select co.id from coas as co left join jurnal_umums as ju on ju.coa_id = co.id where ju.coa_id is null and co.id like '12%')");
 		DB::statement("delete from coas where id in (select co.id from coas as co left join jurnal_umums as ju on ju.coa_id = co.id where ju.coa_id is null and co.id like '10%')");
-		DB::statement("update jurnal_umums set nilai = 20000 where id = 226687;")
-		DB::statement("update jurnal_umums set nilai = 35000 where id = 393460;")
-		DB::statement("update jurnal_umums set nilai = 20000 where id = 459209;")
-		DB::statement("update jurnal_umums set nilai = 35000 where id = 520931;")
-		DB::statement("update jurnal_umums set nilai = 115000 where id = 721494;")
-		DB::statement("update jurnal_umums set nilai = 35000 where id = 758562;")
-		DB::statement("update jurnal_umums set nilai = 15000 where id = 768188;")
-		DB::statement("update jurnal_umums set nilai = 35000 where id = 819723;")
-		DB::statement("update jurnal_umums set nilai = 20000 where id = 964228;")
-		DB::statement("update jurnal_umums set nilai = 35000 where id = 983506;")
-		DB::statement("update jurnal_umums set nilai = 85000 where id = 307335;")
-		DB::statement("delete from jurnal_umums where jurnalable_type = 'App\\\Pengeluaran' and jurnalable_id = 5182;")
-		DB::statement("delete from pengeluarans where id = 5182;")
+		DB::statement("update jurnal_umums set nilai = 20000 where id = 226687;");
+		DB::statement("update jurnal_umums set nilai = 35000 where id = 393460;");
+		DB::statement("update jurnal_umums set nilai = 20000 where id = 459209;");
+		DB::statement("update jurnal_umums set nilai = 35000 where id = 520931;");
+		DB::statement("update jurnal_umums set nilai = 115000 where id = 721494;");
+		DB::statement("update jurnal_umums set nilai = 35000 where id = 758562;");
+		DB::statement("update jurnal_umums set nilai = 15000 where id = 768188;");
+		DB::statement("update jurnal_umums set nilai = 35000 where id = 819723;");
+		DB::statement("update jurnal_umums set nilai = 20000 where id = 964228;");
+		DB::statement("update jurnal_umums set nilai = 35000 where id = 983506;");
+		DB::statement("update jurnal_umums set nilai = 85000 where id = 307335;");
+		DB::statement("delete from jurnal_umums where jurnalable_type = 'App\\\Pengeluaran' and jurnalable_id = 5182;");
+		DB::statement("delete from pengeluarans where id = 5182;");
 		/* return $data; */
 	}
 	private function thisCoba(){
