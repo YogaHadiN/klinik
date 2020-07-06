@@ -15,9 +15,8 @@
 					  @foreach($pendapatan_usahas['akuns'] as $p)
 						  <tr>
 							<td></td>
-							<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $p->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $p->coa }}</a></td>
-							{{-- <td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  abs($p->nilai)  )}}</td> --}}
-							<td class="text-right" nowrap>{{ abs( $p->nilai  ) }}</td>
+							<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $p['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $p['coa'] }}</a></td>
+							<td class="text-right" nowrap>{{ abs( $p['nilai']  ) }}</td>
 							<td></td>
 						  </tr>
 					  @endforeach
@@ -35,9 +34,8 @@
 					  @foreach($hpps['akuns'] as $hpp)
 					  <tr>
 						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $hpp->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $hpp->coa }}</a></td>
-						<td class="text-right">{{ abs($hpp->nilai)  }}</td>
-						{{-- <td class="text-right">{{App\Classes\Yoga::buatrp(  abs($hpp->nilai)  )}}</td> --}}
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $hpp['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $hpp['coa'] }}</a></td>
+						<td class="text-right">{{ abs($hpp['nilai'])  }}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -63,9 +61,8 @@
 					  @foreach($biayas['akuns'] as $biaya)
 					  <tr>
 						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya->coa }}</a></td>
-						{{-- <td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  abs($biaya->nilai)  )}}</td> --}}
-						<td class="text-right" nowrap>{{ abs($biaya->nilai)  }}</td>
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya['coa'] }}</a></td>
+						<td class="text-right" nowrap>{{ abs($biaya['nilai'])  }}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -91,9 +88,8 @@
 					  @foreach($pendapatan_lains['akuns'] as $pend)
 					  <tr>
 						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend->coa }}</a></td>
-						<td class="text-right" nowrap>{{ abs($pend->nilai)  }}</td>
-						{{-- <td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  abs($pend->nilai)  )}}</td> --}}
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend['coa'] }}</a></td>
+						<td class="text-right" nowrap>{{ abs($pend['nilai'])  }}</td>
 						<td></td>
 					  </tr>
 					  @endforeach

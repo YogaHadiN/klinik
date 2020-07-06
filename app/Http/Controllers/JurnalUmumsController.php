@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 
 use App\JurnalUmum;
+use Carbon\Carbon;
 use App\Manual;
 use App\FakturBelanja;
 use App\Penyusutan;
@@ -425,6 +426,7 @@ class JurnalUmumsController extends Controller
 	public function inputManualPost(){
 		$rules           = [
 			'temp'       => 'required',
+			'tanggal'       => 'required',
 			'keterangan' => 'required'
 		];
 		
@@ -434,9 +436,11 @@ class JurnalUmumsController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}	
-		$keterangan = Input::get('keterangan');
-		$temp = Input::get('temp');
-		$temp = json_decode($temp, true);
+		$keterangan     = Input::get('keterangan');
+		$temp           = Input::get('temp');
+		$temp           = json_decode($temp, true);
+		$tanggal_submit = Input::get('tanggal');
+		$tanggal_submit = Carbon::createFromFormat('d-m-Y', $tanggal_submit);
 
 		$m             = new Manual;
 		$m->keterangan = Input::get('keterangan');
@@ -444,7 +448,6 @@ class JurnalUmumsController extends Controller
 
 		$jurnals = [];
 		if ($confirm) {
-			$timestamp = date('Y-m-d H:i:s');
 			foreach ($temp as $t) {
 				$jurnals[] = [
 					'jurnalable_id'   => $m->id,
@@ -452,8 +455,8 @@ class JurnalUmumsController extends Controller
 					'debit'           => $t['debit'],
 					'coa_id'          => $t['coa_id'],
 					'nilai'           => $t['nilai'],
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
+					'created_at'      => $tanggal_submit,
+					'updated_at'      => $tanggal_submit
 				];
 			}
 		}

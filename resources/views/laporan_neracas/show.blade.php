@@ -96,25 +96,13 @@
                   <td colspan="3"><h3>Lancar</h3></td>
                 </tr>
 				 @foreach($akunAktivaLancar as $ju) 
-					 @if($ju->debit - $ju->kredit != 0)
-						<tr>
-							<td></td>
-							<td>{{ $ju->coa }}</td>
-							<td>{{ $ju->debit - $ju->kredit }}</td>
-						</tr>
-					@endif
+					 @include('laporan_neracas.debitkredit')
 				 @endforeach 
                 <tr>
                   <td colspan="3"><h3>Tidak Lancar</h3></td>
                 </tr>
 				 @foreach($akunAktivaTidakLancar as $ju) 
-					 @if($ju->debit - $ju->kredit != 0)
-						<tr>
-							<td></td>
-							<td>{{ $ju->coa }}</td>
-							<td>{{ $ju->debit - $ju->kredit }}</td>
-						</tr>
-					@endif
+					 @include('laporan_neracas.debitkredit')
 				 @endforeach 
               </tbody>
             </table>
@@ -126,11 +114,11 @@
                   <td colspan="3"><h3>Hutang</h3></td>
                 </tr>
 				 @foreach($akunHutang as $v) 
-					 @if($ju->kredit - $ju->debit != 0)
+					 @if($ju['kredit'] - $ju['debit'] != 0)
 						<tr>
 						  <td></td>
-						  <td>{{ $v->coa }}</td>
-						  <td>{{ $v->kredit - $v->debit }}</td>
+						  <td>{{ $v['coa'] }}</td>
+						  <td>{{ $v['kredit'] - $v['debit'] }}</td>
 						</tr>
 					@endif
 				 @endforeach 
@@ -140,11 +128,11 @@
 				 @foreach($akunModal as $v) 
 						<tr>
 						  <td></td>
-						  <td>{{ $v->coa }}</td>
-							@if( $v->coa_id == 301000 )
-							  <td>{{ $v->kredit - $v->debit + $labaSebelumnya }}</td>
+						  <td>{{ $v['coa'] }}</td>
+							@if( $v['coa_id'] == 301000 )
+							  <td>{{ $v['kredit'] - $v['debit'] + $labaSebelumnya }}</td>
 							@else
-							  <td>{{ $v->kredit - $v->debit }}</td>
+							  <td>{{ $v['kredit'] - $v['debit'] }}</td>
 							@endif
 						</tr>
 				 @endforeach 

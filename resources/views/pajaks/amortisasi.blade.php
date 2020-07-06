@@ -28,7 +28,7 @@
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<div class="form-group @if($errors->has('tahun'))has-error @endif">
 								  {!! Form::label('tahun', 'Tahun', ['class' => 'control-label']) !!}
-									{!! Form::select('tahun', $pluck, null, array(
+									{!! Form::select('tahun', $lists, null, array(
 										'class'         => 'form-control rq'
 									))!!}
 								  @if($errors->has('tahun'))<code>{{ $errors->first('tahun') }}</code>@endif

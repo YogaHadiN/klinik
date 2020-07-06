@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Http\Controllers\LaporanLabaRugisController;
 use Input;
 use DB;
 use App\JurnalUmum;
@@ -29,7 +30,43 @@ class LaporanNeracasController extends Controller
 	 }
 
     public function index(){
-		return view('laporan_neracas.index');
+		$bikinan = false;
+		return view('laporan_neracas.index', compact('bikinan'));
+	}
+
+    public function indexBikinan(){
+		$bikinan = true;
+		return view('laporan_neracas.index', compact('bikinan'));
+	}
+
+    public function showBikinan(){
+		$tahun = Input::get('tahun');
+		$path  = Input::path();
+		$temp = $this->temp($tahun, true);
+		$akunAktivaLancar      = $temp['akunAktivaLancar'];
+		$total_harta           = $temp['total_harta'];
+		$akunHutang            = $temp['akunHutang'];
+		$akunModal             = $temp['akunModal'];
+		$total_liabilitas      = $temp['total_liabilitas'];
+		$laba_tahun_berjalan   = $temp['laba_tahun_berjalan'];
+		$akunAktivaTidakLancar = $temp['akunAktivaTidakLancar'];
+		$labaSebelumnya        = $temp['labaSebelumnya'];
+		$total_modal           = $temp['total_modal'];
+		$total_hutang          = $temp['total_hutang'];
+
+    	return view('laporan_neracas.show', compact(
+            'akunAktivaLancar',
+            'tahun',
+            'total_harta',
+            'total_modal',
+            'total_hutang',
+            'total_liabilitas',
+            'akunHutang',
+            'labaSebelumnya',
+            'akunModal',
+            'laba_tahun_berjalan',
+            'akunAktivaTidakLancar'
+        ));
 	}
     public function show(){
 		$tahun = Input::get('tahun');
@@ -60,78 +97,122 @@ class LaporanNeracasController extends Controller
             'akunAktivaTidakLancar'
         ));
 	}
-	private function temp($tahun){
-
+	private function temp($tahun, $bikinan = false){
 		$tahun_depan = $tahun + 1;
 
 		$query = "SELECT co.id as coa_id, ";
 		$query .= "co.coa, ";
-		$query .= "sum(CASE WHEN debit = 1 THEN nilai ELSE 0 END) as debit, ";
-		$query .= "sum(CASE WHEN debit = 0 THEN nilai ELSE 0 END) as kredit, ";
+		if ( $bikinan ) {
+			$query .= "px.asuransi_id as asuransi_id, ";
+		}
+		$query .= "CASE WHEN debit = 1 THEN nilai ELSE 0 END as debit, ";
+		$query .= "CASE WHEN debit = 0 THEN nilai ELSE 0 END as kredit, ";
+		$query .= "ju.jurnalable_type as jurnalable_type, ";
 		$query .= "co.kelompok_coa_id ";
 		$query .= "FROM jurnal_umums as ju ";
 		$query .= "join coas as co on co.id = ju.coa_id ";
-		$query .= "where ( ";
+		if ($bikinan) {
+			$query .= "join periksas as px on px.id = ju.jurnalable_id ";
+		}
+		$query .= "where ";
+		$query .= " ( ";
 		$query .= "co.kelompok_coa_id = 11 ";
 		$query .= "or co.kelompok_coa_id = 12 ";
 		$query .= "or co.kelompok_coa_id = 2 ";
 		$query .= "or co.kelompok_coa_id = 3 ";
 		$query .= ") ";
-		$query .= "and ju.created_at < '{$tahun_depan}-01-01' group by co.id";
+		$query .= "and ju.created_at < '{$tahun_depan}-01-01' ";
+		$query .= "and ju.created_at > '2017-11-30 23:59:59';";
+		/* $query .= " group by co.id"; */
 
-		//return $query;
+		/* dd( $query ); */
+
 		$dataAll = DB::select($query);
-		
-		
 
-		 $akunAktivaLancar = [];
+		 $akunAktivaLancar      = [];
 		 $akunAktivaTidakLancar = [];
-		 $akunHutang = [];
-		 $seluruhModal = [];
+		 $akunHutang            = [];
+		 $seluruhModal          = [];
 
+		 $data = [];
 		 foreach ($dataAll as $d) {
-			if ($d->kelompok_coa_id == 11){
+			if ( 
+				$bikinan 
+				&& $d->jurnalable_type == 'App\Periksa' 
+				&& $d->asuransi_id == '0'
+			) {
+				unset($akun);
+				continue;
+			}
+
+			$data[ $d->coa_id ]['coa_id']          = $d->coa_id;
+			$data[ $d->coa_id ]['coa']             = $d->coa;
+			$data[ $d->coa_id ]['kelompok_coa_id'] = $d->kelompok_coa_id;
+			if ( !isset( $data[ $d->coa_id ]['debit'] ) ) {
+				$data[ $d->coa_id ]['debit'] = 0;
+			}
+
+			if ( !isset( $data[ $d->coa_id ]['kredit'] ) ) {
+				$data[ $d->coa_id ]['kredit'] = 0;
+			}
+			$data[ $d->coa_id ]['debit'] += $d->debit;
+			$data[ $d->coa_id ]['kredit'] += $d->kredit;
+		 }
+
+		 foreach ($data as $d) {
+			if ($d['kelompok_coa_id'] == 11){
 		 		$akunAktivaLancar[] = $d;
-			} else if ($d->kelompok_coa_id == 12){
+			} else if ($d['kelompok_coa_id'] == 12){
 		 		$akunAktivaTidakLancar[] = $d;
-			} else if ($d->kelompok_coa_id == 2){
+			} else if ($d['kelompok_coa_id'] == 2){
 		 		$akunHutang[] = $d;
-			} else if ($d->kelompok_coa_id == 3){
+			} else if ($d['kelompok_coa_id'] == 3){
 		 		$seluruhModal[] = $d;
 			}
 		 }
 
 		$total_harta = 0;
+
 		foreach ($akunAktivaLancar as $v) {
-			$total_harta += $v->debit - $v->kredit;
+			$total_harta += $v['debit'] - $v['kredit'];
 		}
+
 		foreach ($akunAktivaTidakLancar as $v) {
-			$total_harta += $v->debit - $v->kredit;
+			$total_harta += $v['debit'] -$v['kredit'];
 		}
+
 		$total_hutang = 0;
 		foreach ($akunHutang as $v) {
-			$total_hutang += $v->kredit - $v->debit;
+			$total_hutang += $v['kredit'] - $v['debit'];
 		}
 
 		//total modal = seluruh modal + laba tahun sebelumnya
 
 		$totalSeluruhModal = 0;
 		foreach ($seluruhModal as $v) {
-			$totalSeluruhModal += $v->kredit - $v->debit;
+			$totalSeluruhModal += $v['kredit'] - $v['debit'];
 		}
-		$labaSebelumnya = $this->labaSebelumnya($tahun);
 
+		$tahun_kemarin = $tahun - 1;
+		if ( $bikinan ) {
+			$labaSebelumnya = $this->hitungLaba( '2017-12-01 00:00:00', $tahun_kemarin . '-12-31 23:59:59' , true);
+		} else {
+			$labaSebelumnya = $this->hitungLaba( '2017-12-01 00:00:00', $tahun_kemarin . '-12-31 23:59:59');
+		}
 		$total_modal = $totalSeluruhModal + $labaSebelumnya;
-
-
 
 		//
 		//Menghitung laba saat ini
 		//
 		
+		$llr = new LaporanLabaRugisController;
 
-		$total_liabilitas = $total_hutang + $total_modal;
-		$laba_tahun_berjalan = $total_harta - $total_liabilitas;
+		$total_liabilitas    = $total_hutang + $total_modal;
+		if ( $bikinan ) {
+			$laba_tahun_berjalan = $this->hitungLaba($tahun . '-01-01 00:00:00', $tahun. '-12-31 23:59:59', true);
+		} else {
+			$laba_tahun_berjalan = $this->hitungLaba($tahun . '-01-01 00:00:00', $tahun. '-12-31 23:59:59');
+		}
 		
 
 		//
@@ -139,30 +220,35 @@ class LaporanNeracasController extends Controller
 		//
 		return [ 
 			'akunAktivaLancar'      => $akunAktivaLancar,
-			'total_liabilitas'           => $total_liabilitas,
+			'total_liabilitas'      => $total_liabilitas,
 			'total_harta'           => $total_harta,
 			'total_modal'           => $total_modal,
-			'total_hutang'           => $total_hutang,
+			'total_hutang'          => $total_hutang,
 			'akunHutang'            => $akunHutang,
 			'akunModal'             => $seluruhModal,
 			'laba_tahun_berjalan'   => $laba_tahun_berjalan,
-			'labaSebelumnya'   => $labaSebelumnya,
+			'labaSebelumnya'        => $labaSebelumnya,
 			'akunAktivaTidakLancar' => $akunAktivaTidakLancar
 		];
 	}
-	private function labaSebelumnya($tahun){
+	private function labaSebelumnya($tahun, $bikinan = false){
 		
 
 		$query  = "SELECT ";
+		if ( $bikinan ) {
+			$query .= "px.asuransi_id as asuransi_id, ";
+		}
 		$query .= "coa_id as coa_id, ";
+		$query .= "j.jurnalable_type as jurnalable_type, ";
 		$query .= "c.coa as coa, ";
 		$query .= "sum(CASE WHEN debit = 1 THEN nilai ELSE 0 END) as debit, ";
 		$query .= "sum(CASE WHEN debit = 0 THEN nilai ELSE 0 END) as kredit ";
 		$query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
+		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
 		$query .= "where j.created_at < '{$tahun}-01-01 00:00:00' ";
-		$query .= "and j.created_at > '0000-00-00 00:00:00' ";
+		$query .= "and j.created_at > '2017-11-30 00:00:00' ";
 		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
-		$query .= "group by coa_id ";
+
         $akuns = DB::select($query);
 
 		$pendapatan_usahas['total_nilai'] = 0;
@@ -172,6 +258,7 @@ class LaporanNeracasController extends Controller
 		$biayas['total_nilai'] = 0;
 		$pendapatan_lains['total_nilai'] = 0;
 		$bebans['total_nilai'] = 0;
+
 		foreach ($akuns as $a) {
 			if (substr($a->coa_id, 0, 1) === '4') {
 				$pendapatan_usahas['akuns'][] = $a;
@@ -192,6 +279,13 @@ class LaporanNeracasController extends Controller
 		}
 		return $pendapatan_usahas['total_nilai']-$hpps['total_nilai'] - $biayas['total_nilai'] + $pendapatan_lains['total_nilai'];
 	}
-	
-
+	private function hitungLaba( $tanggal_awal, $tanggal_akhir, $bikinan = false ){
+		$llr = new LaporanLabaRugisController;
+		if ( $bikinan ) {
+			$query = $llr->tempLaporanLabaRugiRangeByDate( $tanggal_awal, $tanggal_akhir, true);
+		} else {
+			$query = $llr->tempLaporanLabaRugiRangeByDate( $tanggal_awal, $tanggal_akhir);
+		}
+		return $query['pendapatan_usahas']['total_nilai'] - $query['hpps']['total_nilai'] - $query['biayas']['total_nilai'] + $query['pendapatan_lains']['total_nilai'];
+	}
 }

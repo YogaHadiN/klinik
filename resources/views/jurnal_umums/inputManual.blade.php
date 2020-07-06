@@ -36,6 +36,17 @@
 						{!! Form::open(['url' => 'jurnal_umums/manual', 'method' => 'post']) !!}
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<div class="form-group @if($errors->has('tanggal'))has-error @endif">
+									  {!! Form::label('tanggal', 'Tanggal Submit', ['class' => 'control-label']) !!}
+										{!! Form::text('tanggal', null, array(
+											'class'         => 'form-control rq tanggal'
+										))!!}
+									  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 									<div class="form-group @if($errors->has('keterangan'))has-error @endif">
 										{!! Form::label('keterangan', 'Keterangan', ['class' => 'control-label']) !!}
 										{!! Form::textarea('keterangan', null, array(

@@ -40,8 +40,8 @@
 						@if(count($peredaranBruto) > 0)
 							@foreach( $peredaranBruto as $b )
 								<tr>
-									<td>{{ $b->bulan }}</td>
-									<td class="text-right">{{App\Classes\Yoga::buatrp(  $b->total  )}}</td>
+									<td>{{ $b['bulan'] }}</td>
+									<td class="text-right">{{$b['nilai']}}</td>
 								</tr>
 							@endforeach
 						@else
@@ -50,6 +50,12 @@
 							</tr>
 						@endif
 					</tbody>
+					<tfoot>
+						<tr>
+							<th>Total</th>
+							<th class="text-right">{{$total}}</th>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 			

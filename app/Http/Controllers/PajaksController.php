@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Carbon\Carbon;
+use App\Http\Controllers\LaporanLabaRugisController;
 use App\BelanjaPeralatan;
 use App\BahanBangunan;
 use DB;
@@ -121,47 +123,51 @@ class PajaksController extends Controller
 		));
 	}
 	
-	public function queryPeredaranBruto($tahun){
-		$query  = "SELECT  ";
-		$query .= "ju.jurnalable_type, ";
-		$query .= "px.asuransi_id, ";
-		$query .= "DATE_FORMAT( ju.created_at, '%M' ) as bulan, ";
-		$query .= "CASE WHEN debit = 0 THEN nilai ELSE nilai * -1 END as nilai ";
-		$query .= "FROM jurnal_umums as ju ";
-		$query .= "JOIN coas as co on co.id = ju.coa_id ";
-		$query .= "left JOIN periksas as px on px.id = ju.jurnalable_id ";
-		$query .= "WHERE ju.created_at like '{$tahun}%'";
-		$query .= "AND (coa_id like '4%' "; //Pendapatan Usaha
-		$query .= "OR coa_id like '7%') "; //Pendapatan Lain
+	public function queryPeredaranBruto($tahun, $bikinan = false){
+		$llr   = new LaporanLabaRugisController;
+		$akuns = $llr->queryLaporanKeuangan($tahun, null, null);
 
-		$data = DB::select($query);
+		$perbulan = [];
+		foreach ($akuns as $akun) {
+			if ( 
+				substr($akun->coa_id, 0, 1) == '4' ||
+				substr($akun->coa_id, 0, 1) == '7'
+			) {
+				if ( 
+					$bikinan 
+					&& $akun->jurnalable_type == 'App\Periksa' 
+					&& $akun->asuransi_id == '0'
+				) {
+					unset($akun);
+					continue;
+				}
 
-		$perBulan = [
-			  "January"   => 0,
-			  "February"  => 0,
-			  "March"     => 0,
-			  "April"     => 0,
-			  "May"       => 0,
-			  "June"      => 0,
-			  "July"      => 0,
-			  "August"    => 0,
-			  "September" => 0,
-			  "October"   => 0,
-			  "November"  => 0,
-			  "December"  => 0
+				$month = Carbon::parse($akun->created_at)->format('F');
+				if ( !isset($perbulan[ $month ]['nilai_debit']) ) {
+					$perbulan[ $month ]['nilai_debit']   = 0;
+				}
+				if ( !isset($perbulan[ $month ]['nilai_kredit']) ) {
+					$perbulan[ $month ]['nilai_kredit']  = 0;
+				}
+
+				if ( $akun->debit                                         == 1 ) {
+					$perbulan[ $month ]['nilai_debit']          += $akun->nilai; // get nilai debit
+				} else {
+					$perbulan[ $month ]['nilai_kredit']         += $akun->nilai; // get nilai kredit
+				}
+			}
+		}
+
+		$akuns = [];
+		foreach ($perbulan as $k => $pb) {
+			$akuns[] = [
+				'bulan' => $k,
+				'nilai' => abs($pb['nilai_debit'] - $pb['nilai_kredit'])
 			];
-		foreach ($data as $d) {
-			if ( $d->jurnalable_type != 'App\Periksa' || $d->asuransi_id !=0 ) {
-				$perBulan[ $d->bulan ] += $d->nilai;
-			} 	
 		}
 
-		$total = 0;
-		foreach ($perBulan as $n) {
-			$total += $n;
-		}
+		return $akuns;
 
-		dd($total);
 	}
 	public function peredaranBrutoBikinan(){
 		$pluck   = $this->pluckTahun();
@@ -173,10 +179,16 @@ class PajaksController extends Controller
 	}
 
 	public function peredaranBrutoBikinanPost(){
-		$tahun = Input::get('tahun');
-		$peredaranBruto = $this->queryPeredaranBruto($tahun);
+		$tahun          = Input::get('tahun');
+		$peredaranBruto = $this->queryPeredaranBruto($tahun, true);
+
+		$total = 0;
+		foreach ($peredaranBruto as $v) {
+			$total += $v['nilai'];
+		}
+
 		return view('pajaks.peredaranBrutoPost', compact(
-			'peredaranBruto', 'tahun'
+			'peredaranBruto', 'tahun', 'total'
 		));
 	}
 	/**
