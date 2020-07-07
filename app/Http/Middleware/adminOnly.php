@@ -18,7 +18,7 @@ class adminOnly
     public function handle($request, Closure $next)
     {
 		if (
-			!( Auth::user()->role == '4' || Auth::user()->role == '6')
+			!( Auth::user()->role < '4')
 		) {
 			 $pesan = Yoga::gagalFlash( 'Anda tidak diizinkan melakukan operasi ini');
 			 return redirect()->back()->withPesan($pesan);
