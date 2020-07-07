@@ -23,10 +23,10 @@
     <hr>
     <div class="row">
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		  <div class="form-group @if($errors->has('tahun'))has-error @endif">
-		    {!! Form::label('tahun', 'Tahun', ['class' => 'control-label']) !!}
-            {!! Form::text('tahun', date('Y'), ['class' => 'form-control rq']) !!}
-		    @if($errors->has('tahun'))<code>{{ $errors->first('tahun') }}</code>@endif
+		  <div class="form-group @if($errors->has('tanggal'))has-error @endif">
+		    {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label tanggal']) !!}
+            {!! Form::text('tanggal', date('d-m-Y'), ['class' => 'form-control rq']) !!}
+		    @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 		  </div>
         <div class="form-group">
           <div class="row">
