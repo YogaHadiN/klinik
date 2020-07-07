@@ -163,6 +163,7 @@
 								@foreach(App\AkunBank::all() as $akun)	
 									<li>{!! HTML::link('rekening_bank/' . $akun->id, 'Akun Bank ' . $akun->akun)!!}</li>
 								@endforeach
+								@if( \Auth::user()->role == '6')
 								<li>{!! HTML::link('rekening_bank/ignore', 'Tranasaksi Diabaikan')!!}</li>
 							</ul>
 						</li>
