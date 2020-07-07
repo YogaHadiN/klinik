@@ -207,7 +207,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('periksas', 'PeriksasController');
 
 	Route::group(['middleware' =>[ 'admin']], function(){
-
 		Route::group(['middleware' =>[ 'keuangan']], function(){
 			Route::get('rekening_bank/search', 'RekeningController@search');
 			Route::get('rekening_bank/ignore', 'RekeningController@ignoredList');
@@ -244,10 +243,10 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::get('laporan_neracas/show', 'LaporanNeracasController@show');
 			Route::get('laporan_neracas/indexBikinan', 'LaporanNeracasController@indexBikinan');
 			Route::get('laporan_neracas/BikinanShow', 'LaporanNeracasController@showBikinan');
-
 			Route::get('neraca_saldos', 'NeracaSaldosController@index');
 			Route::get('neraca_saldos/show', 'NeracaSaldosController@show');
 		});
+	});
 
 		Route::resource('surats', 'SuratController');
 		Route::resource('pelamars', 'PelamarsController');
@@ -449,6 +448,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pendapatans/pembayaran_show/detail/piutang_asuransis', 'PendapatansController@detailPA');
 
 		Route::get('laporans', 'LaporansController@index');
+
 		Route::post('laporans/dispensing/bpjs/dokter', 'LaporansController@dispensingBpjs');
 		Route::get('laporans/angka_kontak_belum_terpenuhi', 'LaporansController@angkaKontakBelumTerpenuhi');
 		Route::get('laporans/angka_kontak_bpjs_bulan_ini', 'LaporansController@angkaKontakBpjsBulanIni');
@@ -500,7 +500,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::post('kirim_berkas/{id}/inputNota', 'KirimBerkasController@inputNotaPost');
 		Route::put('kirim_berkas/{id}', 'KirimBerkasController@update');
 		Route::delete('kirim_berkas/{id}', 'KirimBerkasController@destroy');
-	});
 	Route::get('ranaps', 'RanapsController@index');
 
 	//membuat merek baru berdasarkan merek_id
@@ -757,5 +756,4 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/pasiens/ajax/kunjungan_sakit_bpjs', 'KunjunganSakitController@searchAjax');
 	Route::get('/pasiens/ajax/kunjungan_sehat_bpjs', 'KunjunganSehatController@searchAjax');
 	Route::get('/pasiens/ajax/angka_kontak_bpjs_bulan_ini', 'AngkaKontakBpjsBulanIniController@searchAjax');
-
 });
