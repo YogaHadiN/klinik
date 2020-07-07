@@ -156,7 +156,7 @@
                             <li>{!! HTML::link('gopays', 'Go Pay')!!}</li>
                         </ul>
                     </li>
-					@if( \Auth::user()->role == '6' || \Auth::user()->role == '4')
+					@if( \Auth::user()->role >= '4')
 						<li>
 							<a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rekening</span><span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
