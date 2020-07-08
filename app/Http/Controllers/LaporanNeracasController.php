@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\LaporanLabaRugisController;
 use Input;
 use DB;
+use Carbon\Carbon;
 use App\JurnalUmum;
 use App\Coa;
 use App\Classes\Yoga;
@@ -40,9 +41,9 @@ class LaporanNeracasController extends Controller
 	}
 
     public function showBikinan(){
-		$tahun = Input::get('tahun');
-		$path  = Input::path();
-		$temp = $this->temp($tahun, true);
+		$tanggal = Input::get('tanggal');
+		$path    = Input::path();
+		$temp    = $this->temp($tanggal, true);
 		$akunAktivaLancar      = $temp['akunAktivaLancar'];
 		$total_harta           = $temp['total_harta'];
 		$akunHutang            = $temp['akunHutang'];
@@ -56,7 +57,7 @@ class LaporanNeracasController extends Controller
 
     	return view('laporan_neracas.show', compact(
             'akunAktivaLancar',
-            'tahun',
+            'tanggal',
             'total_harta',
             'total_modal',
             'total_hutang',
@@ -69,9 +70,9 @@ class LaporanNeracasController extends Controller
         ));
 	}
     public function show(){
-		$tahun = Input::get('tahun');
-		$path  = Input::path();
-		$temp = $this->temp($tahun);
+		$tanggal = Input::get('tanggal');
+		$path    = Input::path();
+		$temp    = $this->temp($tanggal);
 		$akunAktivaLancar      = $temp['akunAktivaLancar'];
 		$total_harta           = $temp['total_harta'];
 		$akunHutang            = $temp['akunHutang'];
@@ -85,7 +86,7 @@ class LaporanNeracasController extends Controller
 
     	return view('laporan_neracas.show', compact(
             'akunAktivaLancar',
-            'tahun',
+            'tanggal',
             'total_harta',
             'total_modal',
             'total_hutang',
@@ -97,8 +98,12 @@ class LaporanNeracasController extends Controller
             'akunAktivaTidakLancar'
         ));
 	}
-	private function temp($tahun, $bikinan = false){
-		$tahun_depan = $tahun + 1;
+	private function temp($tanggal, $bikinan = false){
+		$tanggal       = Carbon::createFromFormat('d-m-Y',$tanggal);
+		$tanggal_awal  = '2017-12-01 00:00:00';
+		$tanggal_akhir = $tanggal->format('Y-m-d 23:59:59');
+
+		/* dd( $tanggal_awal, $tanggal_akhir ); */
 
 		$query = "SELECT co.id as coa_id, ";
 		$query .= "co.coa, ";
@@ -121,8 +126,8 @@ class LaporanNeracasController extends Controller
 		$query .= "or co.kelompok_coa_id = 2 ";
 		$query .= "or co.kelompok_coa_id = 3 ";
 		$query .= ") ";
-		$query .= "and ju.created_at < '{$tahun_depan}-01-01' ";
-		$query .= "and ju.created_at > '2017-11-30 23:59:59';";
+		$query .= "and ju.created_at <= '{$tanggal_akhir}' ";
+		$query .= "and ju.created_at >= '{$tanggal_awal}';";
 		/* $query .= " group by co.id"; */
 
 		/* dd( $query ); */
@@ -193,11 +198,10 @@ class LaporanNeracasController extends Controller
 			$totalSeluruhModal += $v['kredit'] - $v['debit'];
 		}
 
-		$tahun_kemarin = $tahun - 1;
 		if ( $bikinan ) {
-			$labaSebelumnya = $this->hitungLaba( '2017-12-01 00:00:00', $tahun_kemarin . '-12-31 23:59:59' , true);
+			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal_akhir, true);
 		} else {
-			$labaSebelumnya = $this->hitungLaba( '2017-12-01 00:00:00', $tahun_kemarin . '-12-31 23:59:59');
+			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal_akhir);
 		}
 		$total_modal = $totalSeluruhModal + $labaSebelumnya;
 
@@ -208,12 +212,15 @@ class LaporanNeracasController extends Controller
 		$llr = new LaporanLabaRugisController;
 
 		$total_liabilitas    = $total_hutang + $total_modal;
+		/* dd( $tanggal_awal, $tanggal_akhir ); */
 		if ( $bikinan ) {
-			$laba_tahun_berjalan = $this->hitungLaba($tahun . '-01-01 00:00:00', $tahun. '-12-31 23:59:59', true);
+			$laba_tahun_berjalan = $this->hitungLaba($tanggal_awal , $tanggal_akhir, true);
 		} else {
-			$laba_tahun_berjalan = $this->hitungLaba($tahun . '-01-01 00:00:00', $tahun. '-12-31 23:59:59');
+			$laba_tahun_berjalan = $this->hitungLaba($tanggal_awal , $tanggal_akhir);
 		}
+
 		
+		/* dd($laba_tahun_berjalan); */
 
 		//
 		// END Menghitung laba saat ini

@@ -240,9 +240,9 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::get('laporan_arus_kass', 'LaporanArusKassController@index');
 			Route::get('laporan_arus_kass/show', 'LaporanArusKassController@show');
 			Route::get('laporan_neracas', 'LaporanNeracasController@index');
-			Route::get('laporan_neracas/show', 'LaporanNeracasController@show');
+			Route::post('laporan_neracas/show', 'LaporanNeracasController@show');
 			Route::get('laporan_neracas/indexBikinan', 'LaporanNeracasController@indexBikinan');
-			Route::get('laporan_neracas/BikinanShow', 'LaporanNeracasController@showBikinan');
+			Route::post('laporan_neracas/showBikinan', 'LaporanNeracasController@showBikinan');
 			Route::get('neraca_saldos', 'NeracaSaldosController@index');
 			Route::get('neraca_saldos/show', 'NeracaSaldosController@show');
 		});

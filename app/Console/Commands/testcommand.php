@@ -72,7 +72,9 @@ class testcommand extends Command
     public function handle()
     {
 
-		DB::statement("update users set role = 1 where role = 5;");
+		DB::statement("update jurnal_umums set coa_id = 110004 where coa_id = 301000 and jurnalable_type = 'App\\\Modal';");
+		DB::statement("ALTER TABLE input_hartas DROP COLUMN penyusutan;");
+
 		/* return $data; */
 	}
 	private function thisCoba(){

@@ -74,10 +74,10 @@
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<h1>
-			Laporan Neraca Tahun {{ $tahun }}
+			Laporan Neraca Hingga Tanggal {{ $tanggal }}
 		</h1>
 		<div class="panelRight">
-			<a class="btn btn-warning" href="{{ url('pdfs/laporan_neraca/' . $tahun) }}"> Bentuk PDF</a>
+			<a class="btn btn-warning" href="{{ url('pdfs/laporan_neraca/' . $tanggal) }}"> Bentuk PDF</a>
 		</div>
 	</div>
   <div class="panel-body">
@@ -118,7 +118,7 @@
 						<tr>
 						  <td></td>
 						  <td>{{ $v['coa'] }}</td>
-						  <td>{{ $v['kredit'] - $v['debit'] }}</td>
+						  <td class="text-right">{{ App\Classes\Yoga::buatrp($v['kredit'] - $v['debit']) }}</td>
 						</tr>
 					@endif
 				 @endforeach 
@@ -130,27 +130,29 @@
 						  <td></td>
 						  <td>{{ $v['coa'] }}</td>
 							@if( $v['coa_id'] == 301000 )
-							  <td>{{ $v['kredit'] - $v['debit'] + $labaSebelumnya }}</td>
+							  <td class="text-right">{{ App\Classes\Yoga::buatrp( $v['kredit'] - $v['debit'] + $labaSebelumnya ) }}</td>
 							@else
-							  <td>{{ $v['kredit'] - $v['debit'] }}</td>
+							  <td class="text-right">{{ App\Classes\Yoga::buatrp( $v['kredit'] - $v['debit'] ) }}</td>
 							@endif
 						</tr>
 				 @endforeach 
 					<tr>
 					  <td></td>
 					  <td>301999 - Laba Tahun Berjalan</td>
-					  <td>{{ $laba_tahun_berjalan }}</td>
+					  <td class="text-right">{{ App\Classes\Yoga::buatrp( $laba_tahun_berjalan ) }}</td>
 					</tr>
               </tbody>
             </table>
           </td>
         </tr>
 		<tr>
-			<td><h1>{{ $total_harta }}</h1></td>
-          <td><h1>{{ $total_liabilitas + $laba_tahun_berjalan}}</h1></td>
+			<td class="text-right"><h1>{{ App\Classes\Yoga::buatrp( $total_harta ) }}</h1></td>
+          <td class="text-right"><h1>{{ App\Classes\Yoga::buatrp( $total_liabilitas + $laba_tahun_berjalan )}}</h1></td>
+
 		</tr>
       </tbody>
     </table>
+	<h3> Selisih = {{  App\Classes\Yoga::buatrp( abs( $total_harta - ( $total_liabilitas + $laba_tahun_berjalan ) ) )}}</h3>
   </div>
 </div>
 @stop

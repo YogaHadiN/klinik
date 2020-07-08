@@ -204,7 +204,6 @@
                             <li>{!! HTML::link('buku_besars', 'Buku Besar')!!}</li>
                             <li>{!! HTML::link('neraca_saldos', 'Neraca Saldo')!!}</li>
                             <li>{!! HTML::link('laporan_laba_rugis', 'Laporan Laba Rugi')!!}</li>
-                            <li>{!! HTML::link('laporan_laba_rugis/bikinan', 'LBR bikinan')!!}</li>
                             <li>{!! HTML::link('laporan_arus_kass', 'Laporan Arus Kas')!!}</li>
                             <li>{!! HTML::link('laporan_neracas', 'Laporan Neraca')!!}</li>
                             <li>{!! HTML::link('pengeluarans/input_harta', 'Input Harta')!!}</li>
@@ -219,6 +218,8 @@
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Pajak</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pajaks/amortisasi', 'Laporan Amortisasi Pajak')!!}</li>
+                            <li>{!! HTML::link('laporan_laba_rugis/bikinan', 'Laporan Laba Rugi')!!}</li>
+                            <li>{!! HTML::link('laporan_neracas/indexBikinan', 'Laporan Neraca')!!}</li>
                             <li>{!! HTML::link('pajaks/peredaran_bruto', 'Laporan Peredaran Bruto')!!}</li>
                             <li>{!! HTML::link('pajaks/peredaran_bruto/bikinan', 'Laporan Peredaran Bruto Bikinan')!!}</li>
                         </ul>

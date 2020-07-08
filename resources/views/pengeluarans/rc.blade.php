@@ -34,19 +34,6 @@
 					 {!! Form::text('kas_masuk' , null, ['class' => 'form-control rq uangInput']) !!}
 			     @if($errors->has('kas_masuk'))<code>{{ $errors->first('kas_masuk') }}</code>@endif
 			   </div>
-                @if (\Auth::id() == '28')
-					<div class="form-group @if($errors->has('sumber_uang'))has-error @endif">
-					  {!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
-                     {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
-					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
-					</div>
-                @else
-					<div class="form-group hide @if($errors->has('sumber_uang'))has-error @endif">
-					  {!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
-                     {!! Form::select('sumber_uang', $sumberUangList, '110004', ['class' => 'form-control rq']) !!}
-					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
-					</div>
-                @endif
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Petugas Penginput', ['class' => 'control-label']) !!}
                  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' =>'true']) !!}
