@@ -424,9 +424,10 @@ class JurnalUmumsController extends Controller
 
 	}
 	public function inputManualPost(){
+		/* dd(Input::all()); */ 
 		$rules           = [
 			'temp'       => 'required',
-			'tanggal'       => 'required',
+			'tanggal'    => 'required',
 			'keterangan' => 'required'
 		];
 		
@@ -440,7 +441,7 @@ class JurnalUmumsController extends Controller
 		$temp           = Input::get('temp');
 		$temp           = json_decode($temp, true);
 		$tanggal_submit = Input::get('tanggal');
-		$tanggal_submit = Carbon::createFromFormat('d-m-Y', $tanggal_submit);
+		$tanggal_submit = Carbon::createFromFormat('d-m-Y', $tanggal_submit)->format('Y-m-d');
 
 		$m             = new Manual;
 		$m->keterangan = Input::get('keterangan');
