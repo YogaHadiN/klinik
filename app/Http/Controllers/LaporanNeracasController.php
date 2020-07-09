@@ -203,9 +203,9 @@ class LaporanNeracasController extends Controller
 		}
 
 		if ( $bikinan ) {
-			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal_akhir, true);
+			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal->format('Y-12-31 23:59:59')->subYear(), true);
 		} else {
-			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal_akhir);
+			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal->format('Y-12-31 23:59:59')->subYear());
 		}
 		$total_modal = $totalSeluruhModal + $labaSebelumnya;
 
