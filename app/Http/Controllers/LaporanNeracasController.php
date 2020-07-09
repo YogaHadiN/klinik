@@ -117,7 +117,7 @@ class LaporanNeracasController extends Controller
 		$query .= "FROM jurnal_umums as ju ";
 		$query .= "join coas as co on co.id = ju.coa_id ";
 		if ($bikinan) {
-			$query .= "join periksas as px on px.id = ju.jurnalable_id ";
+			$query .= "left join periksas as px on px.id = ju.jurnalable_id ";
 		}
 		$query .= "where ";
 		$query .= " ( ";
@@ -141,6 +141,8 @@ class LaporanNeracasController extends Controller
 
 		 $data = [];
 		 foreach ($dataAll as $d) {
+			 /* dd($d->kelompok_coa_id); */
+
 			if ( 
 				$bikinan 
 				&& $d->jurnalable_type == 'App\Periksa' 
@@ -175,6 +177,8 @@ class LaporanNeracasController extends Controller
 		 		$seluruhModal[] = $d;
 			}
 		 }
+
+		 /* dd( $akunAktivaTidakLancar ); */
 
 		$total_harta = 0;
 

@@ -2069,34 +2069,34 @@ class PengeluaransController extends Controller
 				}
 			}
 
-		$confirm             = JurnalUmum::insert($jurnals);
+		/* dd( $jurnals ); */
+		JurnalUmum::insert($jurnals);
+		/* dd( $jurnals ); */
+		
 		Penyusutan::insert($penyusutans);
 		RingkasanPenyusutan::insert($ringkasan_penyusutans);
 		$ih->hutang_terbayar = $hutangTerbayar;
 		$ih->save();
 
-		if ($confirm) {
-			$text = '<ul>';
-			$text .= '<li>Harta Berhasil Ditambahkan berupa <strong>' . Input::get('harta'). '</strong></li>';
-			if ( Input::get('metode_bayar_id') == 2 ) {
-				$text .= '<li><strong>' . $berapaKalihutangTerbayar . '</strong> kali hutang terbayar total <strong>' . Yoga::buatrp( $hutangTerbayar ). '</strong></li>';
-			}
-			if ( $barangSudahDijual ) {
-				$text .= '<li>berhasil dijual</li>';
-				$text .= '<li>seharga <strong>' . Input::get('harga_jual'). '</strong></li>';
-				$text .= '<li>harga beli<strong> ' . Yoga::buatrp( $pj->harga_beli ). '</strong></li>';
-				$text .= '<li>harga jual<strong> ' . Yoga::buatrp( $pj->harga_jual ). '</strong></li>';
-				$text .= '<li>penyusutan<strong> ' . Yoga::buatrp( $pj->penyusutan ). '</strong></li>';
-				$text .= '<li>harga wajar<strong> ' . Yoga::buatrp( $hargaWajar ). '</strong></li>';
-				$text .= '<li>keuntungan<strong>  ' . Yoga::buatrp( $keuntungan ). '</strong></li>';
-			}
-			$text .= '<li><strong>' . $berapaKalipenyusutanTerbayar . '</strong> kali penyusutan terbayar total <strong>' . Yoga::buatrp( $penyusutanTerbayar ). '</strong></li>';
-			$text .= '<li><strong>'.count( $jurnals ).'</strong> kali jurnal umum tersubmit</li>';
-			$text .= '</ul>';
-			$pesan = Yoga::suksesFlash($text);
-		} else {
-			$pesan = Yoga::gagalFlash('Harta Gagal Ditambahkan');
+		$text = '<ul>';
+		$text .= '<li>Harta Berhasil Ditambahkan berupa <strong>' . Input::get('harta'). '</strong></li>';
+		if ( Input::get('metode_bayar_id') == 2 ) {
+			$text .= '<li><strong>' . $berapaKalihutangTerbayar . '</strong> kali hutang terbayar total <strong>' . Yoga::buatrp( $hutangTerbayar ). '</strong></li>';
 		}
+		if ( $barangSudahDijual ) {
+			$text .= '<li>berhasil dijual</li>';
+			$text .= '<li>seharga <strong>' . Input::get('harga_jual'). '</strong></li>';
+			$text .= '<li>harga beli<strong> ' . Yoga::buatrp( $pj->harga_beli ). '</strong></li>';
+			$text .= '<li>harga jual<strong> ' . Yoga::buatrp( $pj->harga_jual ). '</strong></li>';
+			$text .= '<li>penyusutan<strong> ' . Yoga::buatrp( $pj->penyusutan ). '</strong></li>';
+			$text .= '<li>harga wajar<strong> ' . Yoga::buatrp( $hargaWajar ). '</strong></li>';
+			$text .= '<li>keuntungan<strong>  ' . Yoga::buatrp( $keuntungan ). '</strong></li>';
+		}
+		$text .= '<li><strong>' . $berapaKalipenyusutanTerbayar . '</strong> kali penyusutan terbayar total <strong>' . Yoga::buatrp( $penyusutanTerbayar ). '</strong></li>';
+		$text .= '<li><strong>'.count( $jurnals ).'</strong> kali jurnal umum tersubmit</li>';
+		$text .= '</ul>';
+		$pesan = Yoga::suksesFlash($text);
+
 		return redirect()->back()->withPesan($pesan);
 	}
 	public function selsihUang($timestamp, $jurnals){

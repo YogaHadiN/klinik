@@ -74,6 +74,8 @@ class testcommand extends Command
 
 		DB::statement("update jurnal_umums set coa_id = 110004 where coa_id = 301000 and jurnalable_type = 'App\\\Modal';");
 		DB::statement("ALTER TABLE input_hartas DROP COLUMN penyusutan;");
+		DB::statement("ALTER TABLE jurnal_umums MODIFY nilai bigint;");
+
 
 		/* return $data; */
 	}
