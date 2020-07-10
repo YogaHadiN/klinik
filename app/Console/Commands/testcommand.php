@@ -72,11 +72,11 @@ class testcommand extends Command
     public function handle()
     {
 
-		DB::statement("update jurnal_umums set coa_id = 110004 where coa_id = 301000 and jurnalable_type = 'App\\\Modal';");
-		DB::statement("ALTER TABLE input_hartas DROP COLUMN penyusutan;");
-		DB::statement("ALTER TABLE jurnal_umums MODIFY nilai bigint;");
-
-
+		DB::statement("DELETE from coas where id = 120012");
+		DB::statement("delete from jurnal_umums where jurnalable_type = 'App\\\InputHarta' and jurnalable_id = '4';");
+		DB::statement("delete from coas where id in (120017,120018,200008);");
+		DB::statement("delete from input_hartas where id = 4;");
+		DB::statement("delete from jurnal_umums where jurnalable_type = 'App\\\PenjualanAset';");
 		/* return $data; */
 	}
 	private function thisCoba(){

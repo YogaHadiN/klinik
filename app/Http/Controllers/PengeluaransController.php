@@ -1740,12 +1740,19 @@ class PengeluaransController extends Controller
 		return view('pengeluarans.inputHarta', compact('hartas'));
 	}
 	public function postInputHarta(){
+		dd(Input::all()); 
 		$jurnals            = [];
 		$hargaJualClean     = Yoga::clean( Input::get('harga_jual') );
 		$hargaClean         = Yoga::clean( Input::get('harga') );
 		$tax_amnesty        = Input::get('tax_amnesty');
 		$uangMukaClean      = Yoga::clean( Input::get('uang_muka') );
 		$timestamp_that_day = Yoga::bulanTahun( Input::get('bulan_tahun_beli') ) . '-01';
+		$tanggal_dijual = null;
+		if ( !empty( Input::get('bulan_tahun_jual') ) ) {
+			$tanggal_dijual = Carbon::createFromFormat('Y-m', Input::get('bulan_tahun_jual'));
+		}
+		$timestamp_that_day = Carbon::parse($timestamp_that_day);
+
 
 		// harta bertambah di debet, hutang bertambah di kredit, bila ada uang muka, kas berkurang di kredit
 		// 1. Insert coa_id, coa_penyusutan_id, coa_hutang_id
@@ -1801,6 +1808,7 @@ class PengeluaransController extends Controller
 		$ih                    = new InputHarta;
 		$ih->harta             = Input::get('harta');
 		$ih->tanggal_beli      = $timestamp_that_day;
+		$ih->tanggal_dijual    = $tanggal_dijual;
 		$ih->coa_id            = $coa_id;
 		$ih->coa_penyusutan_id = $coa_penyusutan_id;
 		$ih->tax_amnesty       = $tax_amnesty;
@@ -1829,8 +1837,8 @@ class PengeluaransController extends Controller
 			'debit'           => 1,
 			'nilai'           => $hargaClean,
 			'coa_id'          => $coa_id,
-			'created_at'      => $timestamp_that_day,
-			'updated_at'      => $timestamp_that_day
+			'created_at'      => $timestamp_that_day->format('Y-m-d'),
+			'updated_at'      => $timestamp_that_day->format('Y-m-d')
 		];
 
 		// hutang bertambah di kredit
@@ -1842,8 +1850,8 @@ class PengeluaransController extends Controller
 				'debit'                    => 0,
 				'nilai'                    => $hutangHarta,
 				'coa_id'                   => $coa_hutang_id,
-				'created_at'               => $timestamp_that_day,
-				'updated_at'               => $timestamp_that_day
+				'created_at'               => $timestamp_that_day->format('Y-m-d'),
+				'updated_at'               => $timestamp_that_day->format('Y-m-d')
 			];
 			// kas berkurang di kredit untuk pembayaran uang muka
 			// jika ada uang muka
@@ -1854,8 +1862,8 @@ class PengeluaransController extends Controller
 					'debit'                => 0,
 					'nilai'                => $uangMukaClean,
 					'coa_id'               => 110004,
-					'created_at'           => $timestamp_that_day,
-					'updated_at'           => $timestamp_that_day
+					'created_at'           => $timestamp_that_day->format('Y-m-d'),
+					'updated_at'           => $timestamp_that_day->format('Y-m-d')
 				];
 				/* $jurnals                    = $this->tambahModal($timestamp_that_day, $jurnals); */
 			}
@@ -1867,8 +1875,8 @@ class PengeluaransController extends Controller
 				'debit'           => 0,
 				'nilai'           => $hargaClean,
 				'coa_id'          => 110004,
-				'created_at'      => $timestamp_that_day,
-				'updated_at'      => $timestamp_that_day
+				'created_at'      => $timestamp_that_day->format('Y-m-d'),
+				'updated_at'      => $timestamp_that_day->format('Y-m-d')
 			];
 			/* $jurnals = $this->tambahModal($timestamp_that_day, $jurnals); */
 		}
@@ -1878,7 +1886,7 @@ class PengeluaransController extends Controller
 		if ( Input::get('metode_bayar_id') == 2 ) {
 			$angsuranPerBulan             = ( $hargaClean - $uangMukaClean ) / ( Input::get('lama_cicilan') * 12 );
 		}
-		$jumlahBulan                  = Yoga::monthInterval($timestamp_that_day, date('Y-m-d H:i:s'));
+		$jumlahBulan                  = (int) Yoga::monthInterval($timestamp_that_day->format('Y-m-d'), date('Y-m-d H:i:s')) +1;
 		$hutangTerbayar               = 0;
 		$penyusutanTerbayar           = 0;
 		$berapaKalihutangTerbayar     = 0;
@@ -1894,8 +1902,9 @@ class PengeluaransController extends Controller
 			// 4. kumpulkan array pembayaran hutang hingga sekarang saat ini
 			//
 			for ($i = 0; $i < $jumlahBulan - 1; $i++) {
-				$n = (int)$i + 1;	
-				$timestamp = Yoga::monthLater($timestamp_that_day, $n);
+				$timestamp = $timestamp_that_day->copy()->addMonthsNoOverflow($i);
+
+				/* dd( $timestamp ); */
 				if ( Input::get('metode_bayar_id') == 2 ) {
 					if ( $hutangHarta - $hutangTerbayar > 0) {
 						$bayarBulanIni = (int)min( [ $angsuranPerBulan, ($hutangHarta - $hutangTerbayar ) ] );
@@ -1912,8 +1921,8 @@ class PengeluaransController extends Controller
 							'debit'           => 1,
 							'nilai'           => $bayarBulanIni,
 							'coa_id'          => $coa_hutang_id,
-							'created_at'      => $timestamp,
-							'updated_at'      => $timestamp
+							'created_at'      => $timestamp->format('Y-m-d'),
+							'updated_at'      => $timestamp->format('Y-m-d')
 						];
 						$jurnals[] = [
 							'jurnalable_id'   => $bayar->id,
@@ -1921,8 +1930,8 @@ class PengeluaransController extends Controller
 							'debit'           => 0,
 							'nilai'           => $bayarBulanIni,
 							'coa_id'          => 110004,
-							'created_at'      => $timestamp,
-							'updated_at'      => $timestamp
+							'created_at'      => $timestamp->format('Y-m-d'),
+							'updated_at'      => $timestamp->format('Y-m-d')
 						];
 						/* $jurnals         = $this->tambahModal($timestamp, $jurnals); */
 						$hutangTerbayar += $bayarBulanIni;
@@ -1948,23 +1957,23 @@ class PengeluaransController extends Controller
 					
 					$bayarPenyusutan      = (int)min( [ $penyusutanPerBulan, ( $hargaClean - $penyusutanTerbayar ) ] );
 
-					$timestamp_ringkasan_penyusutan = Carbon::parse( $timestamp );
 
 
 					// cari penyusutan dengan susutable_type = App\InputHarta, bila tidak ditemukan, buat App\RingkasanPenyusutan baru
 
+					$timestamp_last_second_of_month = $timestamp->format('Y-m-t 23:59:59');
 
 					try {
 						$penyusutan_harta_bulan_ini = Penyusutan::where('susutable_type', 'App\InputHarta')
-															->where('created_at', 'like', $timestamp_ringkasan_penyusutan->format('Y-m'). '%')
+															->where('created_at', 'like', $timestamp->format('Y-m'). '%')
 															->firstOrFail();
 						$ringkasan_penyusutan_id = $penyusutan_harta_bulan_ini->ringkasan_penyusutan_id;
 					} catch (\Exception $e) {
 						$last_ringkasan_penyustan_id++;
 						$ringkasan_penyusutans[] = [
-							'keterangan' => 'Penyusutan Harta bulan ' . $timestamp_ringkasan_penyusutan->format('M y'),
-							'created_at' =>  $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59'),
-							'updated_at' =>  $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59')
+							'keterangan' => 'Penyusutan Harta bulan ' . $timestamp->format('M y'),
+							'created_at' =>  $timestamp_last_second_of_month,
+							'updated_at' =>  $timestamp_last_second_of_month
 						];
 						$ringkasan_penyusutan_id = $last_ringkasan_penyustan_id;
 					}
@@ -1974,8 +1983,8 @@ class PengeluaransController extends Controller
 						'debit'           => 1,
 						'nilai'           => $bayarPenyusutan,
 						'coa_id'          => 612312, // biaya penyusutan
-						'created_at'      => $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59'),
-						'updated_at'      => $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59')
+						'created_at'      => $timestamp_last_second_of_month,
+						'updated_at'      => $timestamp_last_second_of_month
 					];
 					$jurnals[] = [
 						'jurnalable_id'   => $ringkasan_penyusutan_id,
@@ -1983,25 +1992,18 @@ class PengeluaransController extends Controller
 						'debit'           => 0,
 						'nilai'           => $bayarPenyusutan,
 						'coa_id'          => $coa_penyusutan_id, // Akumulasi penyusutan harta
-						'created_at'      => $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59'),
-						'updated_at'      => $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59')
+						'created_at'      => $timestamp_last_second_of_month,
+						'updated_at'      => $timestamp_last_second_of_month
 					];
-
-
-
-					/* $ringkasan_penyusutan       = new RingkasanPenyusutan; */
-					/* $ringkasan_penyusutan->keterangan   = ; */
-					/* $ringkasan_penyusutan->save(); */
-
 
 					$penyusutans[] = [
 						'ringkasan_penyusutan_id' => $ringkasan_penyusutan_id,
 						'susutable_id'            => $ih->id,
-						'keterangan'              => 'Penyusutan ' . Input::get('harta') . ' bulan ' . $timestamp_ringkasan_penyusutan->format('M y'),
+						'keterangan'              => 'Penyusutan ' . Input::get('harta') . ' bulan ' . $timestamp->format('M y'),
 						'susutable_type'          => 'App\InputHarta',
 						'nilai'                   => $bayarPenyusutan,
-						'created_at'              => $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59'),
-						'updated_at'              => $timestamp_ringkasan_penyusutan->format('Y-m-t 23:59:59')
+						'created_at'              => $timestamp_last_second_of_month,
+						'updated_at'              => $timestamp_last_second_of_month
 					];
 
 					/* JurnalUmum::where('jurnalable_type', 'App\RingkasanPenyusutan')->where('jurnalable_id', $ringkasan_penyusutan_id)->update([ */
@@ -2030,13 +2032,26 @@ class PengeluaransController extends Controller
 							'created_at'      => $timestamp,
 							'updated_at'      => $timestamp
 						];
+
+						if ($penyusutanTerbayar > 0) {
+							$jurnals[] = [
+								'jurnalable_id'   => $pj->id,
+								'jurnalable_type' => 'App\PenjualanAset',
+								'debit'           => 1,
+								'nilai'           => $penyusutanTerbayar,
+								'coa_id'          => $coa_penyusutan_id,
+								'created_at'      => $timestamp,
+								'updated_at'      => $timestamp
+							];
+						}
+
 						$hargaWajar = $hargaClean - $penyusutanTerbayar; // harga perolehan dikurangi pernyusutan
 						if ($hargaWajar>0) {
 							$jurnals[] = [
 								'jurnalable_id'   => $pj->id,
 								'jurnalable_type' => 'App\PenjualanAset',
 								'debit'           => 0,
-								'nilai'           => $hargaClean-$penyusutanTerbayar,
+								'nilai'           => $hargaClean,
 								'coa_id'          => $coa_id,
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
@@ -2053,7 +2068,7 @@ class PengeluaransController extends Controller
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
-						} else {
+						} else if ( $keuntungan < 0 ){
 							$jurnals[] = [
 								'jurnalable_id'   => $pj->id,
 								'jurnalable_type' => 'App\PenjualanAset',
@@ -2069,7 +2084,6 @@ class PengeluaransController extends Controller
 				}
 			}
 
-		/* dd( $jurnals ); */
 		JurnalUmum::insert($jurnals);
 		/* dd( $jurnals ); */
 		

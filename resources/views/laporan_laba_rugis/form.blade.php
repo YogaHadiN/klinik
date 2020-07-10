@@ -61,7 +61,7 @@
 					  @foreach($biayas['akuns'] as $biaya)
 					  <tr>
 						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya['coa'] }}</a></td>
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya['coa_id'] }} - {{ $biaya['coa'] }}</a></td>
 						<td class="text-right" nowrap>{{ abs($biaya['nilai'])  }}</td>
 						<td></td>
 					  </tr>
@@ -100,13 +100,32 @@
 						<td></td>
 						<td class="text-right" nowrap>{{ $pendapatan_lains['total_nilai'] }}</td>
 						{{-- <td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  $pendapatan_lains['total_nilai'] )}}</td> --}}
+					  </tr>
+					  <tr>
+						<td colspan="5" class="light-bold">Beban Lain</td>
+					  </tr>
+					  @foreach($bebans['akuns'] as $b)
+					  <tr>
+						<td></td>
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $b['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $b['coa'] }}</a></td>
+						<td class="text-right" nowrap>{{ abs($b['nilai'])  }}</td>
+						<td></td>
+					  </tr>
+					  @endforeach
+					  <tr>
+						<td></td>
+						<td></td>
+						<td>Total Beban Lain</td>
+						<td></td>
+						<td class="text-right" nowrap>{{ $bebans['total_nilai'] }}</td>
+						{{-- <td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  $pendapatan_lains['total_nilai'] )}}</td> --}}
+					  </tr>
 					  <tr class="red light-bold">
 						<td colspan="2"></td>
 						<td>Laba Rugi Bersih</td>
 						<td></td>
-						<td class="text-right" nowrap>{{ $pendapatan_usahas['total_nilai'] - $hpps['total_nilai'] -  $biayas['total_nilai'] +  $pendapatan_lains['total_nilai']  }}</td>
+						<td class="text-right" nowrap>{{ $pendapatan_usahas['total_nilai'] - $hpps['total_nilai'] -  $biayas['total_nilai'] +  $pendapatan_lains['total_nilai'] - $bebans['total_nilai']  }}</td>
 						{{-- <td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  $pendapatan_usahas['total_nilai'] - $hpps['total_nilai'] -  $biayas['total_nilai'] +  $pendapatan_lains['total_nilai']  )}}</td> --}}
-					  </tr>
 					  </tr>
 					</tbody>
 				  </table>

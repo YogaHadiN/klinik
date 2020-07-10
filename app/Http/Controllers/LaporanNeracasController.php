@@ -203,9 +203,9 @@ class LaporanNeracasController extends Controller
 		}
 
 		if ( $bikinan ) {
-			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal->format('Y-12-31 23:59:59')->subYear(), true);
+			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal->copy()->subYear()->format('Y-12-31 23:59:59'), true);
 		} else {
-			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal->format('Y-12-31 23:59:59')->subYear());
+			$labaSebelumnya = $this->hitungLaba( $tanggal_awal, $tanggal->copy()->subYear()->format('Y-12-31 23:59:59'));
 		}
 		$total_modal = $totalSeluruhModal + $labaSebelumnya;
 
@@ -216,6 +216,7 @@ class LaporanNeracasController extends Controller
 		$llr = new LaporanLabaRugisController;
 
 		$total_liabilitas    = $total_hutang + $total_modal;
+		$tanggal_awal = $tanggal->format('Y-01-01 00:00:00');
 		/* dd( $tanggal_awal, $tanggal_akhir ); */
 		if ( $bikinan ) {
 			$laba_tahun_berjalan = $this->hitungLaba($tanggal_awal , $tanggal_akhir, true);
@@ -224,7 +225,7 @@ class LaporanNeracasController extends Controller
 		}
 
 		
-		/* dd($laba_tahun_berjalan); */
+		/* dd($tanggal_awal, $tanggal_akhir, $laba_tahun_berjalan); */
 
 		//
 		// END Menghitung laba saat ini
@@ -297,6 +298,6 @@ class LaporanNeracasController extends Controller
 		} else {
 			$query = $llr->tempLaporanLabaRugiRangeByDate( $tanggal_awal, $tanggal_akhir);
 		}
-		return $query['pendapatan_usahas']['total_nilai'] - $query['hpps']['total_nilai'] - $query['biayas']['total_nilai'] + $query['pendapatan_lains']['total_nilai'];
+		return $query['pendapatan_usahas']['total_nilai'] - $query['hpps']['total_nilai'] - $query['biayas']['total_nilai'] + $query['pendapatan_lains']['total_nilai'] - $query['bebans']['total_nilai'];
 	}
 }

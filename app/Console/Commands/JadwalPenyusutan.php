@@ -90,6 +90,7 @@ class JadwalPenyusutan extends Command
 		$query .= "FROM belanja_peralatans as bp ";
 		$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
 		$query .= "WHERE tanggal <= '{$tanggal}'";
+		$query .= "AND tanggal >= '2017-12-01 00:00:00'";
 
 		$peralatans = DB::select($query);
 
@@ -97,7 +98,7 @@ class JadwalPenyusutan extends Command
 		$timestamp                  = date('Y-m-d 23:59:59', strtotime($tanggal));
 
 		$last_ringkasan_penyustan_id++;
-		$ringkasanPenyusutan = $this->addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $last_ringkasan_penyustan_id, 'Peralatan', $tanggal);
+		$ringkasanPenyusutan = $this->addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $last_ringkasan_penyustan_id, 'Peralatan');
 		foreach ($peralatans as $p) {
 			//
 			// 1. Hitung dlu semua penyusutan untuk barang ini
@@ -147,8 +148,11 @@ class JadwalPenyusutan extends Command
 		//
 		$hartas = InputHarta::with('susuts')
 			->where('tanggal_beli', '<=', $tanggal)
+			->where('tanggal_dijual', '>=', $tanggal)
 			->where('tax_amnesty', 0)
+			->where('created_at', '>=', '2017-12-01 00:00:00')
 			->get();
+		
 		foreach ($hartas as $harta) {
 			$bayarPenyusutan = $this->penyusutan($harta);
 			$last_ringkasan_penyustan_id++;
@@ -175,12 +179,13 @@ class JadwalPenyusutan extends Command
 		
 		$bahans           = BahanBangunan::with('susuts')
 							->where('tanggal_renovasi_selesai', '<=', $tanggal)
+							->where('created_at', '>=', '2017-12-01 00:00:00')
 							->get();
 		$total_penyusutan = $this->penyusutanBahanBangunan($bahans);
 		$total_penyusutan_bahan_bangunan = 0;
 		if ($total_penyusutan > 0) {
 			$last_ringkasan_penyustan_id++;
-			$ringkasanPenyusutan = $this->addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $last_ringkasan_penyustan_id, 'Bahan Bangunan', $tanggal);
+			$ringkasanPenyusutan = $this->addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $last_ringkasan_penyustan_id, 'Bahan Bangunan');
 			foreach ($bahans as $b) {
 				$harga_perolehan = $b->harga_satuan * $b->jumlah;
 				if ($b->bangunan_permanen) {
@@ -241,11 +246,11 @@ class JadwalPenyusutan extends Command
 		$jurnals// array jurnal_umum
 	){
 		if ($total_penyusutan > 0) {
-			$ringkasanPenyusutan = $this->addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $last_ringkasan_penyustan_id, $keterangan, $tanggal);
+			$ringkasanPenyusutan = $this->addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $last_ringkasan_penyustan_id, $keterangan);
 			$penyusutans[]                      = [
 				'nilai'                    => $total_penyusutan,
 				'keterangan'               => $keteranganPenyusutan,
-				'ringkasan_pernyusutan_id' => $last_ringkasan_penyustan_id,
+				'ringkasan_penyusutan_id' => $last_ringkasan_penyustan_id,
 				'susutable_id'             => $susutable_id,
 				'susutable_type'           => 'App\InputHarta',
 				'created_at'               => $timestamp,
@@ -305,10 +310,10 @@ class JadwalPenyusutan extends Command
 		}
 		return min([ $yang_harusnya_disusutkan, $selisih_perolehan_dengan_penyusutan ]);
 	}
-	private function addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $id, $keterangan = 'Peralatan', $tanggal){
+	private function addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $id, $keterangan = 'Peralatan'){
 		$ringkasanPenyusutan[] = [
 			 'id'         => $id,
-			 'keterangan' => 'Penyusutan ' . $keterangan . ' bulan ' . date('M y', strtotime($tanggal)),
+			 'keterangan' => 'Penyusutan ' . $keterangan . ' bulan ' . date('M y', strtotime($timestamp)),
 			 'created_at' => $timestamp,
 			 'updated_at' => $timestamp
 		];

@@ -117,7 +117,7 @@
 					 @if($ju['kredit'] - $ju['debit'] != 0)
 						<tr>
 						  <td></td>
-						  <td>{{ $v['coa'] }}</td>
+						  <td>{{ $v['coa_id'] }} - {{ $v['coa'] }}</td>
 						  <td class="text-right">{{ App\Classes\Yoga::buatrp($v['kredit'] - $v['debit']) }}</td>
 						</tr>
 					@endif
@@ -128,7 +128,7 @@
 				 @foreach($akunModal as $v) 
 						<tr>
 						  <td></td>
-						  <td>{{ $v['coa'] }}</td>
+						  <td>{{ $v['coa_id'] }} - {{ $v['coa'] }}</td>
 							@if( $v['coa_id'] == 301000 )
 							  <td class="text-right">{{ App\Classes\Yoga::buatrp( $v['kredit'] - $v['debit'] + $labaSebelumnya ) }}</td>
 							@else
