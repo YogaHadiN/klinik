@@ -1740,7 +1740,6 @@ class PengeluaransController extends Controller
 		return view('pengeluarans.inputHarta', compact('hartas'));
 	}
 	public function postInputHarta(){
-		dd(Input::all()); 
 		$jurnals            = [];
 		$hargaJualClean     = Yoga::clean( Input::get('harga_jual') );
 		$hargaClean         = Yoga::clean( Input::get('harga') );
