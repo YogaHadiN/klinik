@@ -73,10 +73,7 @@ class testcommand extends Command
     {
 
 		DB::statement("DELETE from coas where id = 120012");
-		DB::statement("delete from jurnal_umums where jurnalable_type = 'App\\\InputHarta' and jurnalable_id = '4';");
-		DB::statement("delete from coas where id in (120017,120018,200008);");
-		DB::statement("delete from input_hartas where id = 4;");
-		DB::statement("delete from jurnal_umums where jurnalable_type = 'App\\\PenjualanAset';");
+		DB::statement("ALTER TABLE input_hartas MODIFY tanggal_dijual date;");
 		/* return $data; */
 	}
 	private function thisCoba(){
