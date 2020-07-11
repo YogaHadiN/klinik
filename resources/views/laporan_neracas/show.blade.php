@@ -118,7 +118,7 @@
 						<tr>
 						  <td></td>
 						  <td>{{ $v['coa_id'] }} - {{ $v['coa'] }}</td>
-						  <td class="text-right">{{ App\Classes\Yoga::buatrp($v['kredit'] - $v['debit']) }}</td>
+						  <td class="text-right">{{$v['kredit'] - $v['debit'] }}</td>
 						</tr>
 					@endif
 				 @endforeach 
@@ -130,29 +130,29 @@
 						  <td></td>
 						  <td>{{ $v['coa_id'] }} - {{ $v['coa'] }}</td>
 							@if( $v['coa_id'] == 301000 )
-							  <td class="text-right">{{ App\Classes\Yoga::buatrp( $v['kredit'] - $v['debit'] + $labaSebelumnya ) }}</td>
+							  <td class="text-right">{{ $v['kredit'] - $v['debit'] + $labaSebelumnya }}</td>
 							@else
-							  <td class="text-right">{{ App\Classes\Yoga::buatrp( $v['kredit'] - $v['debit'] ) }}</td>
+							  <td class="text-right">{{ $v['kredit'] - $v['debit'] }}</td>
 							@endif
 						</tr>
 				 @endforeach 
 					<tr>
 					  <td></td>
 					  <td>301999 - Laba Tahun Berjalan</td>
-					  <td class="text-right">{{ App\Classes\Yoga::buatrp( $laba_tahun_berjalan ) }}</td>
+					  <td class="text-right">{{ $laba_tahun_berjalan }}</td>
 					</tr>
               </tbody>
             </table>
           </td>
         </tr>
 		<tr>
-			<td class="text-right"><h1>{{ App\Classes\Yoga::buatrp( $total_harta ) }}</h1></td>
-          <td class="text-right"><h1>{{ App\Classes\Yoga::buatrp( $total_liabilitas + $laba_tahun_berjalan )}}</h1></td>
+			<td class="text-right"><h1>{{ $total_harta }}</h1></td>
+          <td class="text-right"><h1>{{ $total_liabilitas + $laba_tahun_berjalan }}</h1></td>
 
 		</tr>
       </tbody>
     </table>
-	<h3> Selisih = {{  App\Classes\Yoga::buatrp( abs( $total_harta - ( $total_liabilitas + $laba_tahun_berjalan ) ) )}}</h3>
+	<h3> Selisih = {{  abs( $total_harta - ( $total_liabilitas + $laba_tahun_berjalan )  ) }}</h3>
   </div>
 </div>
 @stop

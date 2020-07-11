@@ -2,6 +2,6 @@
 	<tr>
 		<td></td>
 		<td>{{ $ju['coa_id'] }}-{{$ju['coa'] }}</td>
-		<td class="text-right">{{  App\Classes\Yoga::buatrp( $ju['debit'] - $ju['kredit']) }}</td>
+		<td class="text-right">{{  $ju['debit'] - $ju['kredit'] }}</td>
 	</tr>
 @endif

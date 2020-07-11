@@ -148,10 +148,14 @@ class JadwalPenyusutan extends Command
 		//
 		$hartas = InputHarta::with('susuts')
 			->where('tanggal_beli', '<=', $tanggal)
-			->where('tanggal_dijual', '>=', $tanggal)
+			->whereRaw('(tanggal_dijual >= '. $tanggal . ' or tanggal_dijual is null)')
 			->where('tax_amnesty', 0)
 			->where('created_at', '>=', '2017-12-01 00:00:00')
 			->get();
+			/* ->toSql(); */
+
+		/* dd( $hartas ); */
+
 		
 		foreach ($hartas as $harta) {
 			$bayarPenyusutan = $this->penyusutan($harta);

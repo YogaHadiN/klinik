@@ -216,13 +216,16 @@ class LaporanNeracasController extends Controller
 		$llr = new LaporanLabaRugisController;
 
 		$total_liabilitas    = $total_hutang + $total_modal;
-		$tanggal_awal = $tanggal->format('Y-01-01 00:00:00');
-		/* dd( $tanggal_awal, $tanggal_akhir ); */
+		$tanggal_awal = max([$tanggal->format('Y-01-01 00:00:00'), $tanggal_awal]);
 		if ( $bikinan ) {
 			$laba_tahun_berjalan = $this->hitungLaba($tanggal_awal , $tanggal_akhir, true);
 		} else {
 			$laba_tahun_berjalan = $this->hitungLaba($tanggal_awal , $tanggal_akhir);
 		}
+
+		/* dd($tanggal_awal); */
+
+		/* dd($laba_tahun_berjalan); */
 
 		
 		/* dd($tanggal_awal, $tanggal_akhir, $laba_tahun_berjalan); */
