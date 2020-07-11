@@ -147,19 +147,19 @@ class JadwalPenyusutan extends Command
 		// II. Input Harta ( Harta yang bernilai besar dan bersertifikat misal : rumah / tanah )
 		//
 		$hartas = InputHarta::with('susuts')
-			->where('tanggal_beli', '<=', $tanggal)
-			->whereRaw('(tanggal_dijual >= '. $tanggal . ' or tanggal_dijual is null)')
+			->whereRaw("tanggal_beli <= '" . $tanggal. "' and (tanggal_dijual >= '". $tanggal . "' or tanggal_dijual is null)")
 			->where('tax_amnesty', 0)
 			->where('created_at', '>=', '2017-12-01 00:00:00')
 			->get();
 			/* ->toSql(); */
 
-		/* dd( $hartas ); */
 
+		
 		
 		foreach ($hartas as $harta) {
 			$bayarPenyusutan = $this->penyusutan($harta);
 			$last_ringkasan_penyustan_id++;
+			/* if ( $harta->coa_penyusutan_id == '120018' && $tanggal == '2019-10-30'	) { */
 			$rekam = $this->rekamPenyusutan(
 				$harta->harta, 
 				$harta->id, 
