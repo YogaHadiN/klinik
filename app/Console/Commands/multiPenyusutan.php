@@ -134,6 +134,7 @@ class multiPenyusutan extends Command
 		RingkasanPenyusutan::truncate();
 		JurnalUmum::where('jurnalable_type', 'App\RingkasanPenyusutan')->delete();
 
+
 		$faktur_belanja_ids = [];
 		$faktur_belanjas    = [];
 		$jurnals            = [];
