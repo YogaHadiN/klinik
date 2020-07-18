@@ -74,7 +74,9 @@ class testcommand extends Command
 
 		DB::statement("DELETE from coas where id = 120012");
 		DB::statement("ALTER TABLE input_hartas MODIFY tanggal_dijual date;");
+		DB::statement("ALTER TABLE input_hartas MODIFY harga bigint;");
 		DB::statement("update input_hartas set tanggal_dijual = null where id not like 4;");
+		DB::statement("update belanja_peralatans set masa_pakai = 8 where masa_pakai =  10;");
 		/* return $data; */
 	}
 	private function thisCoba(){
