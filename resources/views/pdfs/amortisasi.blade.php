@@ -60,7 +60,7 @@
 					])
 					@include('pdfs.formAmortisasi', [
 						'kelompok' => 'Kelompok III',
-						'peralatans' => $peralatans[10]
+						'peralatans' => $peralatans[16]
 					])
 					@include('pdfs.formAmortisasi', [
 						'kelompok' => 'Kelompok IV',

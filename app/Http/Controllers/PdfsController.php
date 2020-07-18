@@ -511,8 +511,9 @@ class PdfsController extends Controller
 		$pph = Pph21Dokter::find($id);
 	}
 	public function amortisasi($tahun){
-		$pajak           = new PajaksController;
-		$peralatans      = $pajak->queryAmortisasi( 'peralatan', 'belanja_peralatans', 'App\\\BelanjaPeralatan', 'fb.tanggal', $tahun);
+		$pajak        = new PajaksController;
+		$input_hartas = $pajak->queryAmortisasi( 'harta', 'input_hartas', 'App\\\InputHarta', 'bp.tanggal_beli', $tahun);
+		$peralatans   = $pajak->queryAmortisasi( 'peralatan', 'belanja_peralatans', 'App\\\BelanjaPeralatan', 'fb.tanggal', $tahun);
 		$jumlah_penyusutan = 0;
 		$zuzuts = [];
 
@@ -522,14 +523,23 @@ class PdfsController extends Controller
 			$zuzuts[]= $p->total_penyusutan - $p->susut_fiskal_tahun_lalu;
 			$array[$p->masa_pakai][] = $p;
 		}
+
+		foreach ($input_hartas as $p) {
+			if ( $p->masa_pakai < 20 ) {
+				$jumlah_penyusutan       += $p->total_penyusutan - $p->susut_fiskal_tahun_lalu;
+				$zuzuts[]                 = $p->total_penyusutan - $p->susut_fiskal_tahun_lalu;
+				$array[$p->masa_pakai][]  = $p;
+			}
+		}
+
 		if (!isset( $array[4] )) {
 			$array[4] = [];
 		}
 		if (!isset( $array[8] )) {
 			$array[8] = [];
 		}
-		if (!isset( $array[10] )) {
-			$array[10] = [];
+		if (!isset( $array[16] )) {
+			$array[16] = [];
 		}
 		if (!isset( $array[20] )) {
 			$array[20] = [];
@@ -549,7 +559,21 @@ class PdfsController extends Controller
 		if (!isset( $array[1] )) {
 			$array[1] = [];
 		}
+		foreach ($input_hartas as $p) {
+			if ( $p->masa_pakai == 20 ) {
+				$jumlah_penyusutan       += $p->total_penyusutan - $p->susut_fiskal_tahun_lalu;
+				$zuzuts[]                 = $p->total_penyusutan - $p->susut_fiskal_tahun_lalu;
+				$array[1][]  = $p;
+			}
+		}
 		$bahan_bangunans = $array;
+
+		/* foreach ($input_hartas as $input_harta) { */
+		/* 	if ( $input_harta->masa_pakai == '20' ) { */
+		/* 		$bahan_bangunans = $bahan_bangunans-> */
+		/* 	} */
+		/* } */
+
 
 		$pdf = PDF::loadView('pdfs.amortisasi', compact(
 			'peralatans',

@@ -87,19 +87,27 @@ class PajaksController extends Controller
 		$query .= "DATE_FORMAT({$tanggal}, '%M %Y') as tanggal_perolehan, ";
 		$query .= "SUM(CASE WHEN pn.created_at < '{$first_date_of_the_previous_year}' THEN pn.nilai ELSE 0 END) AS susut_fiskal_tahun_lalu,";
 		$query .= "SUM(nilai) AS total_penyusutan, ";
-		$query .= "bp.harga_satuan as harga_satuan, ";
 		if ($BelanjaPeralatan != 'App\\\BahanBangunan') {
 			$query .= "bp.masa_pakai as masa_pakai, ";
 		}
 		if ($BelanjaPeralatan == 'App\\\BahanBangunan') {
 			$query .= "bp.bangunan_permanen as permanen, ";
 		}
-		$query .= "bp.jumlah as jumlah, ";
-		$query .= "pn.created_at as tanggal_penyusutan, ";
-		$query .= "fb.tanggal as tanggal ";
+		if ( $BelanjaPeralatan == 'App\\\InputHarta' ) {
+			$query .= "bp.harga as harga_satuan, ";
+			$query .= "1 as jumlah, ";
+			$query .= "bp.tanggal_beli as tanggal, ";
+		} else {
+			$query .= "bp.harga_satuan as harga_satuan, ";
+			$query .= "bp.jumlah as jumlah, ";
+			$query .= "fb.tanggal as tanggal, ";
+		}
+		$query .= "pn.created_at as tanggal_penyusutan ";
 		$query .= "FROM penyusutans as pn ";
 		$query .= "JOIN {$belanja_peralatans} as bp on bp.id = pn.susutable_id ";
-		$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
+		if ( $BelanjaPeralatan != 'App\\\InputHarta' ) {
+			$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
+		}
 		$query .= "WHERE pn.created_at < '{$first_date_of_the_year}'";
 		$query .= "AND pn.susutable_type = '{$BelanjaPeralatan}' ";
 		$query .= "GROUP BY pn.susutable_id";
@@ -107,6 +115,50 @@ class PajaksController extends Controller
 		//return $query;
 		return DB::select($query);
 	}
+
+	/* public function queryAmortisasi( */
+	/* 	$peralatan, */
+	/* 	$belanja_peralatans, */
+	/* 	$BelanjaPeralatan, */
+	/* 	$tanggal, */
+	/* 	$tahun */
+	/* ){ */
+	/* 	$tahun_pajak = $tahun +1; */
+	/* 	$first_date_of_the_year          = date($tahun_pajak .'-01-01');//2017-01-01 00:00:00 */
+	/* 	/1* return 'first_date_of_the_year = ' . $first_date_of_the_year; *1/ */
+	/* 	$first_date_of_the_previous_year = date('Y-m-d H:i:s', strtotime("-1 year " . $first_date_of_the_year)); //2016-01-01 00:00:00 */
+	/* 	/1* return 'first_date_of_the_previous_year = ' . $first_date_of_the_previous_year; *1/ */
+
+	/* 	$query  = "SELECT "; */
+	/* 	/1* $query .= "bp.{$peralatan} as peralatan, "; *1/ */
+	/* 	$query .= "DATE_FORMAT({$tanggal}, '%m') as bulan_perolehan, "; */
+	/* 	$query .= "DATE_FORMAT({$tanggal}, '%Y') as tahun_perolehan, "; */
+	/* 	$query .= "SUM(CASE WHEN pn.created_at < '{$first_date_of_the_previous_year}' THEN pn.nilai ELSE 0 END) AS susut_fiskal_tahun_lalu,"; */
+	/* 	$query .= "SUM(nilai) AS total_penyusutan, "; */
+	/* 	$query .= "sum(bp.harga_satuan * bp.jumlah) as harga_perolehan, "; */
+	/* 	$query .= "sum(bp.harga_satuan * bp.jumlah) - SUM(CASE WHEN pn.created_at < '{$first_date_of_the_previous_year}' THEN pn.nilai ELSE 0 END) as harga_awal_tahun, "; */
+	/* 	/1* $query .= "bp.harga_satuan as harga_satuan, "; *1/ */
+	/* 	if ($BelanjaPeralatan != 'App\\\BahanBangunan') { */
+	/* 		$query .= "bp.masa_pakai as masa_pakai, "; */
+	/* 	} */
+	/* 	if ($BelanjaPeralatan == 'App\\\BahanBangunan') { */
+	/* 		$query .= "bp.bangunan_permanen as permanen, "; */
+	/* 	} */
+	/* 	/1* $query .= "bp.jumlah as jumlah, "; *1/ */
+	/* 	$query .= "pn.created_at as tanggal_penyusutan, "; */
+	/* 	$query .= "fb.tanggal as tanggal "; */
+	/* 	$query .= "FROM penyusutans as pn "; */
+	/* 	$query .= "JOIN {$belanja_peralatans} as bp on bp.id = pn.susutable_id "; */
+	/* 	$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id "; */
+	/* 	$query .= "WHERE pn.created_at < '{$first_date_of_the_year}'"; */
+	/* 	$query .= "AND pn.susutable_type = '{$BelanjaPeralatan}' "; */
+	/* 	$query .= "GROUP BY pn.susutable_id"; */
+
+	/* 	dd($query); */
+	/* 	//return $query; */
+	/* 	return DB::select($query); */
+	/* } */
+
 	public function peredaranBrutoPost(){
 		$tahun = Input::get('tahun');
 		$peredaranBruto = $this->queryPeredaranBruto($tahun);
