@@ -243,7 +243,7 @@
                     </li>
 					@if(
 						\Auth::user()->role == '6' ||
-						\Auth::user()->role == '4'
+						\Auth::user()->role == '5'
 						)
 						<li>
 							<a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Gaji dan Bagi Hasil</span><span class="fa arrow"></span></a>

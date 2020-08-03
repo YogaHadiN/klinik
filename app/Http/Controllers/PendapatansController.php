@@ -77,6 +77,11 @@ class PendapatansController extends Controller
 		$this->input_displayed_rows     = Input::get('displayed_rows');
 		$this->input_pass               = $this->input_key * $this->input_displayed_rows;
 
+
+		 $this->middleware('keuangan', ['only' => [
+			 'pembayaran_bpjs', 
+			 'pembayaran_bpjs_post'
+		 ]]);
 	}
 	public function index()
 	{

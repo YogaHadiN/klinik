@@ -65,6 +65,11 @@ class PengeluaransController extends Controller
 	public function __construct()
 	 {
 	     $this->middleware('super', ['only' => ['bayar_gaji_karyawan', 'nota_z']]);
+		 $this->middleware('keuangan', ['only' => [
+			 'gajiDokterGigi', 
+			 'gajiDokterGigiBayar', 
+			 'gajiDokterGigiEdit', 
+		 ]]);
 	     $this->middleware('notready', ['only' => ['nota_z']]);
 	 }
 	public function index($id)
