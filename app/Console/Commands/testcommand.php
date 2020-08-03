@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Outbox;
+use App\User;
 use App\Pengeluaran;
 use App\Woowa;
 use App\PengantarPasien;
@@ -71,13 +72,40 @@ class testcommand extends Command
      */
     public function handle()
     {
-
-		DB::statement("DELETE from coas where id = 120012");
-		DB::statement("ALTER TABLE input_hartas MODIFY tanggal_dijual date;");
-		DB::statement("ALTER TABLE input_hartas MODIFY harga bigint;");
-		DB::statement("update input_hartas set tanggal_dijual = null where id not like 4;");
-		DB::statement("update belanja_peralatans set masa_pakai = 8 where masa_pakai =  10;");
-		/* return $data; */
+		DB::statement("Delete from users where role not like 6;");
+		$param = [
+			[
+				'username'       => 'Dokter',
+				'role'           => 1    ,
+				'password'       => '$2y$10$WqHVkYQlTaqucuf5LhijL..ppIe3A3OOuCKNzFXmuvfVmvAymmffu',
+				'email'          => 'dokter@gmail.com'     ,
+				'remember_token' => '',
+				'aktif'          => 1 ,
+				'created_at'     => '2020-08-03 09:57:16' ,
+				'updated_at'     => '2020-08-03 09:59:39'
+			],
+			[
+				'username'   => 'Admin',
+				'role'       => 4    ,
+				'password'   => '$2y$10$V9yLOMrJeC35XwvuiN3m/ezt6fIZ9PXGe9X07ITkROyo3fN6DCNx6' ,
+				'email'      => 'admin@gmail.com'     ,
+				'remember_token' => '',
+				'aktif'      => 1 ,
+				'created_at' => '2020-08-03 09:57:39',
+				'updated_at' => '2020-08-03 09:59:50'
+			],
+			[
+				'username'   => 'Keuangan          ',
+				'role'       => 2    ,
+				'password'   => '$2y$10$37iO.r6Du8uHmkTWk7I.vu8KP7Zf6wVf3/vjQKz9kv9ZijKxkb/Ra' ,
+				'email'      => 'keuangan@gmail.com'     ,
+				'remember_token' => '',
+				'aktif'      => 1 ,
+				'created_at' => '2020-08-03 09:57:39',
+				'updated_at' => '2020-08-03 09:59:50'
+			]
+		];
+		User::insert( $param );
 	}
 	private function thisCoba(){
 		$client->request('GET', '/get', [

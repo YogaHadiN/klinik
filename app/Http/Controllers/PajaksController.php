@@ -104,9 +104,9 @@ class PajaksController extends Controller
 		}
 		$query .= "pn.created_at as tanggal_penyusutan ";
 		$query .= "FROM penyusutans as pn ";
-		$query .= "JOIN {$belanja_peralatans} as bp on bp.id = pn.susutable_id ";
+		$query .= "left JOIN {$belanja_peralatans} as bp on bp.id = pn.susutable_id ";
 		if ( $BelanjaPeralatan != 'App\\\InputHarta' ) {
-			$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
+			$query .= "left JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
 		}
 		$query .= "WHERE pn.created_at < '{$first_date_of_the_year}'";
 		$query .= "AND pn.susutable_type = '{$BelanjaPeralatan}' ";

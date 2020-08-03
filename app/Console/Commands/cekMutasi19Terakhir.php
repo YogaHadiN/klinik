@@ -22,7 +22,7 @@ class cekMutasi19Terakhir extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Cek 20 transaksi terakhir';
 
     /**
      * Create a new command instance.
@@ -64,6 +64,7 @@ class cekMutasi19Terakhir extends Command
 				} else {
 					$debet = 1;
 				}
+
 				$newRekening = Rekening::findOrNew($mutasi->mutation_id);
 				if ( !$newRekening->id ) {
 					$insertMutasi[] = [
