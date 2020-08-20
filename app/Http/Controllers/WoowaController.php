@@ -8,7 +8,7 @@ use Log;
 
 class WoowaController extends Controller
 {
-	public function webhookc(){
+	public function webhook(){
 		Log::info("pek cun");
 		$json = file_get_contents('php://input');
 		$data = json_decode($json);
