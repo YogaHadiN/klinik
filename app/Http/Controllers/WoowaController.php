@@ -10,7 +10,9 @@ class WoowaController extends Controller
 {
 	public function webhook(){
 		$json = file_get_contents('php://input');
+		Log::info('-=-=-=-=-=');
+		Log::info($json);
+		Log::info('-=-=-=-=-=');
 		$data = json_decode($json);
-		Log::info($data);
 	}
 }
