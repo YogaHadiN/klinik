@@ -72,40 +72,28 @@ class testcommand extends Command
      */
     public function handle()
     {
-		DB::statement("Delete from users where role not like 6;");
-		$param = [
-			[
-				'username'       => 'Dokter',
-				'role'           => 1    ,
-				'password'       => '$2y$10$WqHVkYQlTaqucuf5LhijL..ppIe3A3OOuCKNzFXmuvfVmvAymmffu',
-				'email'          => 'dokter@gmail.com'     ,
-				'remember_token' => '',
-				'aktif'          => 1 ,
-				'created_at'     => '2020-08-03 09:57:16' ,
-				'updated_at'     => '2020-08-03 09:59:39'
-			],
-			[
-				'username'   => 'Admin',
-				'role'       => 4    ,
-				'password'   => '$2y$10$V9yLOMrJeC35XwvuiN3m/ezt6fIZ9PXGe9X07ITkROyo3fN6DCNx6' ,
-				'email'      => 'admin@gmail.com'     ,
-				'remember_token' => '',
-				'aktif'      => 1 ,
-				'created_at' => '2020-08-03 09:57:39',
-				'updated_at' => '2020-08-03 09:59:50'
-			],
-			[
-				'username'   => 'Keuangan          ',
-				'role'       => 2    ,
-				'password'   => '$2y$10$37iO.r6Du8uHmkTWk7I.vu8KP7Zf6wVf3/vjQKz9kv9ZijKxkb/Ra' ,
-				'email'      => 'keuangan@gmail.com'     ,
-				'remember_token' => '',
-				'aktif'      => 1 ,
-				'created_at' => '2020-08-03 09:57:39',
-				'updated_at' => '2020-08-03 09:59:50'
-			]
-		];
-		User::insert( $param );
+		Sms::send('081381912803', 'this is sparta');
+	}
+	private function webhook(){
+		$data["license"]="5c286f1ed7121";
+		$data["url"]    ="https://yourwebsite.com/listen.php"; // message data will push to this url
+		$data["no_wa"]  = "6289648615564";    //sender number registered in woowa
+		$data["action"] = "set";
+
+		$url="http://api.woo-wa.com/v2.0/webhook";
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close ($ch);
+		if ($err) {
+			dd("cURL Error #:" . $err);
+		} else {
+			dd( $result);
+		}
 	}
 	private function thisCoba(){
 		$client->request('GET', '/get', [
