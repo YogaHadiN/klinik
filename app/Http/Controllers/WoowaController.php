@@ -11,7 +11,7 @@ class WoowaController extends Controller
 	public function webhook(){
 		$json = file_get_contents('php://input');
 		Log::info('this is sparta');
-		Log::info($data);
+		Log::info($json);
 		$data = json_decode($json);
 	}
 }
