@@ -72,7 +72,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		Sms::send('081381912803', 'this is sparta');
+		/* Sms::send('081381912803', 'this is sparta'); */
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
