@@ -72,6 +72,7 @@ class testcommand extends Command
      */
     public function handle()
     {
+		Log::info('test');
 		/* Sms::send('081381912803', 'this is sparta'); */
 	}
 	private function webhook(){
