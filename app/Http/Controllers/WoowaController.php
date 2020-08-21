@@ -14,8 +14,8 @@ class WoowaController extends Controller
 		Log::info($json);
 		$data = json_decode($json);
 		Log::info('contact name');
-		Log::info($data['contact_name']);
+		Log::info($data->contact_name);
 		Log::info('message');
-		Log::info($data['message']);
+		Log::info($data->message);
 	}
 }
