@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Log;
+use App\Sms;
 
 class WoowaController extends Controller
 {
