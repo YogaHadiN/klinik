@@ -13,5 +13,9 @@ class WoowaController extends Controller
 		Log::info('this is sparta');
 		Log::info($json);
 		$data = json_decode($json);
+		Log::info('contact name');
+		Log::info($data['contact_name']);
+		Log::info('message');
+		Log::info($data['message']);
 	}
 }
