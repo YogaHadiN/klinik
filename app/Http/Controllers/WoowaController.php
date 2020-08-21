@@ -25,6 +25,6 @@ class WoowaController extends Controller
 
 		$message = 'Selamat Siang. Terima kasih telah menghubungi kami. Ada yang dapat kami bantu?';
 
-		Sms::send($data->contact_name, $message);
+		/* Sms::send($data->contact_name, $message); */
 	}
 }
