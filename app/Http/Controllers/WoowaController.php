@@ -66,7 +66,6 @@ class WoowaController extends Controller
 			$whatsapp_registration->nama  = $this->clean($message);
 			$whatsapp_registration->save();
 			Log::info(json_encode($whatsapp_registration));
-		}
 		} else if ( 
 			!is_null( $whatsapp_registration ) 
 			is_null( $whatsapp_registration->tanggal_lahir ) 
