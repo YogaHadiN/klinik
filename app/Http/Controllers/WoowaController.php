@@ -74,21 +74,94 @@ class WoowaController extends Controller
 		) 
 		{
 			if ( $this->validateDate($this->clean($message), $format = 'd-m-Y') ) {
-				$whatsapp_registration->nama  = Carbon::CreateFromFormat('d-m-Y',$this->clean($message))->format('Y-m-d');
+				$whatsapp_registration->tanggal_lahir  = Carbon::CreateFromFormat('d-m-Y',$this->clean($message))->format('Y-m-d');
 				$whatsapp_registration->save();
 			} else {
 				$response = 'Input yang anda masukkan salah';
 			}
 		} else if ( 
 			!is_null( $whatsapp_registration ) &&
-			is_null( $whatsapp_registration->tanggal_lahir ) 
+			is_null( $whatsapp_registration->demam ) 
 		) 
 		{
-			if ( validateDate($date, $format = 'd-m-Y') ) {
-				$whatsapp_registration->nama  = Carbon::CreateFromFormat('d-m-Y',$this->clean($message))->format('Y-m-d');
+			if ( $this->clean($message) = 'ya') ) {
+				$whatsapp_registration->demam  = 1;
+				$whatsapp_registration->save();
+			} else if ( $this->clean($message) = 'tidak') ) {
+				$whatsapp_registration->demam  = 0;
 				$whatsapp_registration->save();
 			} else {
-				$response = 'Input yang anda masukkan salah';
+				$response = 'Input Tidak tepat';
+			}
+		} else if ( 
+			!is_null( $whatsapp_registration ) &&
+			is_null( $whatsapp_registration->batuk_pilek ) 
+		) 
+		{
+			if ( $this->clean($message) = 'ya') ) {
+				$whatsapp_registration->batuk_pilek  = 1;
+				$whatsapp_registration->save();
+			} else if ( $this->clean($message) = 'tidak') ) {
+				$whatsapp_registration->batuk_pilek  = 0;
+				$whatsapp_registration->save();
+			} else {
+				$response = 'Input Tidak tepat';
+			}
+		} else if ( 
+			!is_null( $whatsapp_registration ) &&
+			is_null( $whatsapp_registration->nyeri_menelan ) 
+		) 
+		{
+			if ( $this->clean($message) = 'ya') ) {
+				$whatsapp_registration->nyeri_menelan  = 1;
+				$whatsapp_registration->save();
+			} else if ( $this->clean($message) = 'tidak') ) {
+				$whatsapp_registration->nyeri_menelan  = 0;
+				$whatsapp_registration->save();
+			} else {
+				$response = 'Input Tidak tepat';
+			}
+		} else if ( 
+			!is_null( $whatsapp_registration ) &&
+			is_null( $whatsapp_registration->sesak_nafas ) 
+		) 
+		{
+			if ( $this->clean($message) = 'ya') ) {
+				$whatsapp_registration->sesak_nafas  = 1;
+				$whatsapp_registration->save();
+			} else if ( $this->clean($message) = 'tidak') ) {
+				$whatsapp_registration->sesak_nafas  = 0;
+				$whatsapp_registration->save();
+			} else {
+				$response = 'Input Tidak tepat';
+			}
+		} else if ( 
+			!is_null( $whatsapp_registration ) &&
+			is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) 
+		) 
+		{
+			if ( $this->clean($message) = 'ya') ) {
+				$whatsapp_registration->bepergian_ke_luar_negeri  = 1;
+				$whatsapp_registration->save();
+			} else if ( $this->clean($message) = 'tidak') ) {
+				$whatsapp_registration->bepergian_ke_luar_negeri  = 0;
+				$whatsapp_registration->save();
+			} else {
+				$response = 'Input Tidak tepat';
+			}
+		} else if ( 
+			!is_null( $whatsapp_registration ) &&
+			is_null( $whatsapp_registration->kontak_covid ) 
+		) 
+		{
+			if ( $this->clean($message) = 'ya') ) {
+				$whatsapp_registration->kontak_covid  = 1;
+				$whatsapp_registration->save();
+			} else if ( $this->clean($message) = 'tidak') ) {
+				$whatsapp_registration->kontak_covid  = 0;
+				$whatsapp_registration->save();
+			} else {
+				$response = 'Input Tidak tepat';
 			}
 		}
 
