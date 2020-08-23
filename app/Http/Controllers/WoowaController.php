@@ -15,16 +15,38 @@ class WoowaController extends Controller
 		Log::info($json);
 
 		$data = json_decode($json);
-		$message = $data->message;
-		$no_telp = $data->contact_name;
-
+		$message             = $data->message;
+		$no_telp             = $data->contact_name;
+		$tanya_tanggal_lahir = 'Bisa dibantu tanggal lahirnya? Contoh 19 Juli 1993 kirim 19-07-1983';
+		$tanya_nama_pasien   = 'Bisa dibantu nama pasien?';
+		$tanya_poli          = 'Bisa dibantu berobat ke dokter apa? balas 1 untuk dokter umum, balas 2 untuk dokter gigi, balas 3 untuk suntik kb/periksa hamil. Balas 4 untuk dokter estetika / kecantikan';
+		$tanya_pembayaran    = 'Bisa dibantu pembayaran menggunakan apa? balas 1 untuk biaya pribadi, balas 2 untuk bpjs, balas 3 untuk asuransi. Balas 4 untuk dokter estetika / kecantikan';
 		if ( $message == 'daftar' ) {
-			$message = 'Bisa dibantu tanggal lahirnya? Contoh 19 Juli 1993 kirim 19-07-1983';
+
+			try {
+				$whatsapp_registration            = WhatsappRegistration::where('no_telp', $no_telp)
+																		->where('updated_at', '>', strtotime('-1 hour'))
+																		->first();
+				if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
+					$message = $tanya_tanggal_lahir;
+				}
+				if ( is_null( $whatsapp_registration->nama ) ) {
+					$message = $tanya_nama_pasien;
+				}
+				if ( is_null( $whatsapp_registration->poli ) ) {
+					$message = $tanya_poli;
+				}
+				if ( is_null( $whatsapp_registration->pembayaran ) ) {
+					$message = $tanya_pembayaran;
+				}
+
+			} catch (\Exception $e) {
+				$whatsapp_registration            = new WhatsappRegistration;
+			}
+			$whatsapp_registration->no_telp   = $no_telp;
+			$whatsapp_registration->save();
+
 			Sms::send($no_telp, $message);
-			/* $whatsapp_registration            = new WhatsappRegistration; */
-			/* $whatsapp_registration->no_telp   = $np_telp; */
-			/* $whatsapp_registration->reg_level = 1; */
-			/* $whatsapp_registration->save(); */
 		}
 		/* $message = 'Selamat Siang. Terima kasih telah menghubungi kami. Ada yang dapat kami bantu?'; */
 		/* Sms::send($data->contact_name, $message); */
