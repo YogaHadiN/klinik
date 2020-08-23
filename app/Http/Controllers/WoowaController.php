@@ -208,7 +208,7 @@ class WoowaController extends Controller
 		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
 			return 'Apakah anda sempat bepergian ke luar negeri dalam 14 hari terakhir?';
 		}
-		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
+		if ( is_null( $whatsapp_registration->kontak_covid ) ) {
 			return 'Apakah anda sempat sempat kontak dengan penderita covid?';
 		}
 		return "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda. Nama = {$whatsapp_registration->nama}, tanggal lahir = {$whatsapp_registration->tanggal_lahir}, pembayaran = {$whatsapp_registration->pembayaran}, poli = {$whatsapp_registration->poli}";
