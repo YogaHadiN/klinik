@@ -71,7 +71,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->tanggal_lahir ) 
 		) 
 		{
-			if ( validateDate($date, $format = 'd-m-Y') ) {
+			if ( $this->validateDate($date, $format = 'd-m-Y') ) {
 				$whatsapp_registration->nama  = Carbon::CreateFromFormat('d-m-Y',$this->clean($message))->format('Y-m-d');
 				$whatsapp_registration->save();
 			} else {
