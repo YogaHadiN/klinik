@@ -84,7 +84,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->demam ) 
 		) 
 		{
-			if ( $this->clean($message) = 'ya') ) {
+			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->demam  = 1;
 				$whatsapp_registration->save();
 			} else if ( $this->clean($message) = 'tidak') ) {
@@ -98,7 +98,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->batuk_pilek ) 
 		) 
 		{
-			if ( $this->clean($message) = 'ya') ) {
+			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->batuk_pilek  = 1;
 				$whatsapp_registration->save();
 			} else if ( $this->clean($message) = 'tidak') ) {
@@ -112,7 +112,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->nyeri_menelan ) 
 		) 
 		{
-			if ( $this->clean($message) = 'ya') ) {
+			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->nyeri_menelan  = 1;
 				$whatsapp_registration->save();
 			} else if ( $this->clean($message) = 'tidak') ) {
@@ -126,7 +126,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->sesak_nafas ) 
 		) 
 		{
-			if ( $this->clean($message) = 'ya') ) {
+			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->sesak_nafas  = 1;
 				$whatsapp_registration->save();
 			} else if ( $this->clean($message) = 'tidak') ) {
@@ -140,7 +140,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) 
 		) 
 		{
-			if ( $this->clean($message) = 'ya') ) {
+			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->bepergian_ke_luar_negeri  = 1;
 				$whatsapp_registration->save();
 			} else if ( $this->clean($message) = 'tidak') ) {
@@ -154,7 +154,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->kontak_covid ) 
 		) 
 		{
-			if ( $this->clean($message) = 'ya') ) {
+			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->kontak_covid  = 1;
 				$whatsapp_registration->save();
 			} else if ( $this->clean($message) = 'tidak') ) {
