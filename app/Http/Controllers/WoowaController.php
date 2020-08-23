@@ -53,8 +53,11 @@ class WoowaController extends Controller
 				!is_null( $whatsapp_registration ) 
 		) 
 		{
-				$whatsapp_registration->pembayaran   = $this->clean($message);
-				$whatsapp_registration->save();
+
+			Log::info('masuk pak eko');
+			$whatsapp_registration->pembayaran  = $this->clean($message);
+			$whatsapp_registration->save();
+			Log::info(json_encode($whatsapp_registration));
 		}
 
 		Sms::send($no_telp, $this->botKirim($whatsapp_registration));
