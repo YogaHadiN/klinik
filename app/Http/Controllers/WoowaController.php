@@ -27,6 +27,7 @@ class WoowaController extends Controller
 		$whatsapp_registration = WhatsappRegistration::where('no_telp', $no_telp)
 													->where('updated_at', '>', strtotime('-1 hour'))
 													->first();
+		Log::info($this->clean($message));
 		if ( $this->clean($message) == 'daftar' ) {
 			if ( is_null( $whatsapp_registration ) ) {
 				$whatsapp_registration            = new WhatsappRegistration;
@@ -43,7 +44,6 @@ class WoowaController extends Controller
 				$whatsapp_registration->poli   = (int) $this->clean($message);
 				$whatsapp_registration->save();
 		} else if ( 
-				!is_numeric((int) $this->clean($message)) &&
 				(
 					$this->clean($message) == 'a' ||
 					$this->clean($message) == 'b' ||
@@ -53,7 +53,6 @@ class WoowaController extends Controller
 				!is_null( $whatsapp_registration ) 
 		) 
 		{
-
 			Log::info('masuk pak eko');
 			$whatsapp_registration->pembayaran  = $this->clean($message);
 			$whatsapp_registration->save();
