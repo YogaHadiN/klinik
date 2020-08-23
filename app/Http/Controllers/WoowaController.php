@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Log;
 use App\Sms;
+use App\WhatsappRegistration;
 
 class WoowaController extends Controller
 {
