@@ -87,7 +87,7 @@ class WoowaController extends Controller
 			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->demam  = 1;
 				$whatsapp_registration->save();
-			} else if ( $this->clean($message) = 'tidak') ) {
+			} else if ( $this->clean($message) = 'tidak') {
 				$whatsapp_registration->demam  = 0;
 				$whatsapp_registration->save();
 			} else {
@@ -101,7 +101,7 @@ class WoowaController extends Controller
 			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->batuk_pilek  = 1;
 				$whatsapp_registration->save();
-			} else if ( $this->clean($message) = 'tidak') ) {
+			} else if ( $this->clean($message) = 'tidak')  {
 				$whatsapp_registration->batuk_pilek  = 0;
 				$whatsapp_registration->save();
 			} else {
@@ -115,7 +115,7 @@ class WoowaController extends Controller
 			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->nyeri_menelan  = 1;
 				$whatsapp_registration->save();
-			} else if ( $this->clean($message) = 'tidak') ) {
+			} else if ( $this->clean($message) = 'tidak')  {
 				$whatsapp_registration->nyeri_menelan  = 0;
 				$whatsapp_registration->save();
 			} else {
@@ -129,7 +129,7 @@ class WoowaController extends Controller
 			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->sesak_nafas  = 1;
 				$whatsapp_registration->save();
-			} else if ( $this->clean($message) = 'tidak') ) {
+			} else if ( $this->clean($message) = 'tidak')  {
 				$whatsapp_registration->sesak_nafas  = 0;
 				$whatsapp_registration->save();
 			} else {
@@ -143,7 +143,7 @@ class WoowaController extends Controller
 			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->bepergian_ke_luar_negeri  = 1;
 				$whatsapp_registration->save();
-			} else if ( $this->clean($message) = 'tidak') ) {
+			} else if ( $this->clean($message) = 'tidak')  {
 				$whatsapp_registration->bepergian_ke_luar_negeri  = 0;
 				$whatsapp_registration->save();
 			} else {
@@ -157,7 +157,7 @@ class WoowaController extends Controller
 			if ( $this->clean($message) = 'ya')  {
 				$whatsapp_registration->kontak_covid  = 1;
 				$whatsapp_registration->save();
-			} else if ( $this->clean($message) = 'tidak') ) {
+			} else if ( $this->clean($message) = 'tidak')  {
 				$whatsapp_registration->kontak_covid  = 0;
 				$whatsapp_registration->save();
 			} else {
