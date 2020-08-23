@@ -185,16 +185,16 @@ class WoowaController extends Controller
 	private function botKirim($whatsapp_registration)
 	{
 		if ( is_null( $whatsapp_registration->poli ) ) {
-			return $this->tanya_poli;
+			return  'Bisa dibantu berobat ke dokter apa? %0Dbalas 1 untuk dokter umum,%0abalas 2 untuk dokter gigi, %0Dbalas 3 untuk suntik kb/periksa hamil.$0aBalas 4 untuk dokter estetika / kecantikan';
 		}
 		if ( is_null( $whatsapp_registration->pembayaran ) ) {
-			return  $this->tanya_pembayaran;
+			return   'Bisa dibantu pembayaran menggunakan apa? balas A untuk biaya pribadi, balas B untuk bpjs, balas C untuk asuransi';
 		}
 		if ( is_null( $whatsapp_registration->nama ) ) {
-			return $this->tanya_nama_pasien;
+			return  'Bisa dibantu nama pasien?';
 		}
 		if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
-			return $this->tanya_tanggal_lahir;
+			return  'Bisa dibantu tanggal lahirnya? Contoh 19 Juli 1993 kirim 19-07-1983';
 		}
 		if ( is_null( $whatsapp_registration->demam ) ) {
 			return 'Apakah anda memiliki keluhan demam ?';
