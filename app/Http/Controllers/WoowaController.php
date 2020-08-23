@@ -21,8 +21,8 @@ class WoowaController extends Controller
 		$tanya_tanggal_lahir = 'Bisa dibantu tanggal lahirnya? Contoh 19 Juli 1993 kirim 19-07-1983';
 		$tanya_nama_pasien   = 'Bisa dibantu nama pasien?';
 		$tanya_poli          = 'Bisa dibantu berobat ke dokter apa? balas 1 untuk dokter umum, balas 2 untuk dokter gigi, balas 3 untuk suntik kb/periksa hamil. Balas 4 untuk dokter estetika / kecantikan';
-		$tanya_pembayaran    = 'Bisa dibantu pembayaran menggunakan apa? balas 1 untuk biaya pribadi, balas 2 untuk bpjs, balas 3 untuk asuransi. Balas 4 untuk dokter estetika / kecantikan';
-		if ( $message == 'daftar' ) {
+		$tanya_pembayaran    = 'Bisa dibantu pembayaran menggunakan apa? balas 1 untuk biaya pribadi, balas 2 untuk bpjs, balas 3 untuk asuransi';
+		if ( $this->clean($message) == 'daftar' ) {
 
 			try {
 				$whatsapp_registration            = WhatsappRegistration::where('no_telp', $no_telp)
@@ -34,11 +34,11 @@ class WoowaController extends Controller
 				if ( is_null( $whatsapp_registration->nama ) ) {
 					$message = $tanya_nama_pasien;
 				}
-				if ( is_null( $whatsapp_registration->poli ) ) {
-					$message = $tanya_poli;
-				}
 				if ( is_null( $whatsapp_registration->pembayaran ) ) {
 					$message = $tanya_pembayaran;
+				}
+				if ( is_null( $whatsapp_registration->poli ) ) {
+					$message = $tanya_poli;
 				}
 
 			} catch (\Exception $e) {
@@ -52,4 +52,14 @@ class WoowaController extends Controller
 		/* $message = 'Selamat Siang. Terima kasih telah menghubungi kami. Ada yang dapat kami bantu?'; */
 		/* Sms::send($data->contact_name, $message); */
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function clean($param)
+	{
+		return strtolower( trim($param) );
+	}
+	
 }
