@@ -91,7 +91,7 @@ class WoowaController extends Controller
 		}
 
 		$response = $response . ' ' . $this->botKirim($whatsapp_registration);
-		Sms::send($no_telp, $message);
+		Sms::send($no_telp, $response);
 	}
 	/**
 	* undocumented function
