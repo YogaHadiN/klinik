@@ -10,47 +10,55 @@ use App\WhatsappRegistration;
 
 class WoowaController extends Controller
 {
+	public $tanya_tanggal_lahir = 'Bisa dibantu tanggal lahirnya? Contoh 19 Juli 1993 kirim 19-07-1983';
+
+	public $tanya_nama_pasien   = 'Bisa dibantu nama pasien?';
+
+	public 	$tanya_poli         = 'Bisa dibantu berobat ke dokter apa? balas 1 untuk dokter umum, balas 2 untuk dokter gigi, balas 3 untuk suntik kb/periksa hamil. Balas 4 untuk dokter estetika / kecantikan';
+
+	public $tanya_pembayaran    = 'Bisa dibantu pembayaran menggunakan apa? balas A untuk biaya pribadi, balas B untuk bpjs, balas C untuk asuransi';
+
 	public function webhook(){
-		$json = file_get_contents('php://input');
-
+		$json                  = file_get_contents('php://input');
 		Log::info($json);
-
-		$data = json_decode($json);
-		$message             = $data->message;
-		$no_telp             = $data->contact_name;
-		$tanya_tanggal_lahir = 'Bisa dibantu tanggal lahirnya? Contoh 19 Juli 1993 kirim 19-07-1983';
-		$tanya_nama_pasien   = 'Bisa dibantu nama pasien?';
-		$tanya_poli          = 'Bisa dibantu berobat ke dokter apa? balas 1 untuk dokter umum, balas 2 untuk dokter gigi, balas 3 untuk suntik kb/periksa hamil. Balas 4 untuk dokter estetika / kecantikan';
-		$tanya_pembayaran    = 'Bisa dibantu pembayaran menggunakan apa? balas 1 untuk biaya pribadi, balas 2 untuk bpjs, balas 3 untuk asuransi';
+		$data                  = json_decode($json);
+		$message               = $data->message;
+		$no_telp               = $data->contact_name;
+		$whatsapp_registration = WhatsappRegistration::where('no_telp', $no_telp)
+													->where('updated_at', '>', strtotime('-1 hour'))
+													->first();
 		if ( $this->clean($message) == 'daftar' ) {
-
-			try {
-				$whatsapp_registration            = WhatsappRegistration::where('no_telp', $no_telp)
-																		->where('updated_at', '>', strtotime('-1 hour'))
-																		->first();
-				if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
-					$message = $tanya_tanggal_lahir;
-				}
-				if ( is_null( $whatsapp_registration->nama ) ) {
-					$message = $tanya_nama_pasien;
-				}
-				if ( is_null( $whatsapp_registration->pembayaran ) ) {
-					$message = $tanya_pembayaran;
-				}
-				if ( is_null( $whatsapp_registration->poli ) ) {
-					$message = $tanya_poli;
-				}
-
-			} catch (\Exception $e) {
+			if ( is_null( $whatsapp_registration ) ) {
 				$whatsapp_registration            = new WhatsappRegistration;
+				$whatsapp_registration->no_telp   = $no_telp;
+				$whatsapp_registration->save();
 			}
-			$whatsapp_registration->no_telp   = $no_telp;
-			$whatsapp_registration->save();
-
-			Sms::send($no_telp, $message);
+		} else if ( 
+				is_numeric((int) $this->clean($message)) &&
+				(int) $this->clean($message) > 0 &&
+				(int) $this->clean($message) < 5 &&
+				!is_null( $whatsapp_registration ) 
+		) 
+		{
+				$whatsapp_registration->poli   = (int) $this->clean($message);
+				$whatsapp_registration->save();
+		} else if ( 
+				!is_numeric((int) $this->clean($message)) &&
+				(
+					$this->clean($message) == 'a' ||
+					$this->clean($message) == 'b' ||
+					$this->clean($message) == 'c' ||
+					$this->clean($message) == 'd'
+				) &&
+				!is_null( $whatsapp_registration ) 
+		) 
+		{
+				$whatsapp_registration->pembayaran   = $this->clean($message);
+				$whatsapp_registration->save();
 		}
-		/* $message = 'Selamat Siang. Terima kasih telah menghubungi kami. Ada yang dapat kami bantu?'; */
-		/* Sms::send($data->contact_name, $message); */
+
+		Sms::send($no_telp, $this->botKirim($whatsapp_registration));
+
 	}
 	/**
 	* undocumented function
@@ -61,5 +69,25 @@ class WoowaController extends Controller
 	{
 		return strtolower( trim($param) );
 	}
-	
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function botKirim($whatsapp_registration)
+	{
+		if ( is_null( $whatsapp_registration->poli ) ) {
+			return $this->tanya_poli;
+		}
+		if ( is_null( $whatsapp_registration->pembayaran ) ) {
+			return  $this->tanya_pembayaran;
+		}
+		if ( is_null( $whatsapp_registration->nama ) ) {
+			return $this->tanya_nama_pasien;
+		}
+		if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
+			return $this->tanya_tanggal_lahir;
+		}
+		return "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda. Nama = {$whatsapp_registration->nama}, tanggal lahir = {$whatsapp_registration->tanggal_lahir}, pembayaran = {$whatsapp_registration->pembayaran}, poli = {$whatsapp_registration->poli}";
+	}
 }
