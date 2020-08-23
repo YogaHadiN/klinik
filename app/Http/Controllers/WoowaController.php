@@ -67,7 +67,7 @@ class WoowaController extends Controller
 			$whatsapp_registration->save();
 			Log::info(json_encode($whatsapp_registration));
 		} else if ( 
-			!is_null( $whatsapp_registration ) 
+			!is_null( $whatsapp_registration ) &&
 			is_null( $whatsapp_registration->tanggal_lahir ) 
 		) 
 		{
@@ -78,7 +78,7 @@ class WoowaController extends Controller
 				$response = 'Input yang anda masukkan salah';
 			}
 		} else if ( 
-			!is_null( $whatsapp_registration ) 
+			!is_null( $whatsapp_registration ) &&
 			is_null( $whatsapp_registration->tanggal_lahir ) 
 		) 
 		{
