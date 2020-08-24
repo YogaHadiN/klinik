@@ -14,22 +14,14 @@ class WoowaController extends Controller
 {
 	public function webhook(){
 		$json                  = file_get_contents('php://input');
-		Log::info($json);
 		$data                  = json_decode($json);
 		$message               = $data->message;
 		$no_telp               = $data->contact_name;
 		$whatsapp_registration = WhatsappRegistration::where('no_telp', $no_telp)
 													->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
 													->first();
-		$query = WhatsappRegistration::where('no_telp', $no_telp)
-													->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
-													->toSql();
-		Log::info('whatsapp_registration awal');
-		Log::info( json_encode($whatsapp_registration) );
 		Log::info('$this->clean($message)');
 		Log::info($this->clean($message));
-		Log::info('query');
-		Log::info($query);
 		$response = '';
 
 		if ( $this->clean($message) == 'daftar' ) {
@@ -37,8 +29,6 @@ class WoowaController extends Controller
 				$whatsapp_registration            = new WhatsappRegistration;
 				$whatsapp_registration->no_telp   = $no_telp;
 				$whatsapp_registration->save();
-			} else {
-				$response = '*Ulasan jawaban Anda :*';
 			}
 		} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -181,7 +171,17 @@ class WoowaController extends Controller
 		if (
 			!is_null( $whatsapp_registration ) 
 		) {
-			$response .= PHP_EOL;
+			if (
+			 !is_null( $whatsapp_registration->nama ) ||
+			 !is_null( $whatsapp_registration->poli ) ||
+			 !is_null( $whatsapp_registration->pembayaran ) ||
+			 !is_null( $whatsapp_registration->tanggal_lahir )
+			) {
+				$response .=    "*Ulasan Anda*";
+				$response .= PHP_EOL;
+				$response .= PHP_EOL;
+				$response .= PHP_EOL;
+			}
 			if ( !is_null( $whatsapp_registration->nama ) ) {
 				$response .= 'Nama : ' . $whatsapp_registration->nama  ;
 				$response .= PHP_EOL;
@@ -241,8 +241,25 @@ class WoowaController extends Controller
 	private function botKirim($whatsapp_registration)
 	{
 		if ( is_null( $whatsapp_registration->poli ) ) {
-			$text = 'Terima kasih telah mendaftar sebagai pasien di Klinik Jati Elok.' . PHP_EOL. 'Dengan senang hati kami akan siap membantu Anda.' . PHP_EOL . PHP_EOL . 'Bisa dibantu berobat ke dokter apa?' . PHP_EOL . 'Balas *A* untuk dokter umum, ' . PHP_EOL . 'Balas *B* untuk dokter gigi, ' . PHP_EOL . 'Balas *C* untuk suntik kb/periksa hamil.' . PHP_EOL . 'Balas *D* untuk dokter estetika / kecantikan';
+			$text  = 'Terima kasih telah mendaftar sebagai pasien di *KLINIK JATI ELOK*.' 
 			$text .= PHP_EOL;
+			$text .= 'Dengan senang hati kami akan siap membantu Anda.'
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Bisa dibantu berobat ke dokter apa?';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *A* untuk Dokter Umum, ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *B* untuk Dokter Gigi, ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *C* untuk Suntik KB/Periksa Hamil.';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *D* untuk Dokter Estetika/Kecantikan';
 			return $text;
 
 		}
@@ -250,30 +267,33 @@ class WoowaController extends Controller
 			$text = 'Bisa dibantu pembayaran menggunakan apa? ';
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
-			$text .= 'Balas *A* untuk pembayaran dengan biaya pribadi, '  ;
 			$text .= PHP_EOL;
-			$text .= 'Balas *B* pembayaran dengan BPJS, ';
+			$text .= 'Balas *A* untuk *Biaya Pribadi*, '  ;
 			$text .= PHP_EOL;
-			$text .= 'Balas *C* pembayaran dengan asuransi';
+			$text .= PHP_EOL;
+			$text .= 'Balas *B* untuk *BPJS*, ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *C* untuk *Asuransi Lain*';
 			return $text;
 		}
 		if ( is_null( $whatsapp_registration->nama ) ) {
-			return  'Bisa dibantu Nama Lengkap pasien?';
+			return  'Bisa dibantu *Nama Lengkap* pasien?';
 		}
 		if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
-			return  'Bisa dibantu tanggal pasien? ' . PHP_EOL . PHP_EOL . 'Contoh *19 Juli 2003* balas dengan *19-07-2003*';
+			return  'Bisa dibantu *Tanggal Lahir* pasien? ' . PHP_EOL . PHP_EOL . 'Contoh *19 Juli 2003* balas dengan *19-07-2003*';
 		}
 		if ( is_null( $whatsapp_registration->demam ) ) {
-			return 'Apakah pasien memiliki keluhan demam. Balas *ya/tidak*?';
+			return 'Apakah pasien memiliki keluhan demam. ' . PHP_EOL . PHP_EOL .  'Balas *ya/tidak*?';
 		}
 		if ( is_null( $whatsapp_registration->batuk_pilek ) ) {
-			return 'Apakah pasien memiliki keluhan batuk pilek. Balas *ya/tidak*?';
+			return 'Apakah pasien memiliki keluhan batuk pilek.  ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*?';
 		}
 		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
-			return 'Apakah pasien memiliki keluhan nyeri menelan. Balas *ya/tidak*?';
+			return 'Apakah pasien memiliki keluhan nyeri menelan.  ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*?';
 		}
 		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
-			return 'Apakah pasien sempat bepergian ke luar negeri dalam 14 hari terakhir? Balas *ya/tidak*';
+			return 'Apakah pasien sempat bepergian ke luar negeri dalam 14 hari terakhir?  ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->kontak_covid ) ) {
 
