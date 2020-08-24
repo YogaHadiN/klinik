@@ -21,13 +21,13 @@
 @stop
 @section('content') 
 	<div class="row">
-		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div class="col-md-4 col-lg-4">
 			<div class="alert alert-info">
 				<h2>Jumlah Pasien Lama</h2>
 				<h1>{{ $pasien_lama }} pasien, {{ $persen_lama }} %</h1>
 			</div>
 		</div>
-		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div class="col-md-4 col-lg-4">
 			<div class="alert alert-success">
 				<h2>Jumlah Pasien Baru</h2>
 				<h1>{{ $pasien_baru }} pasien, {{ $persen_baru }} %</h1>

@@ -23,7 +23,7 @@ class WoowaController extends Controller
 		$message               = $data->message;
 		$no_telp               = $data->contact_name;
 		$whatsapp_registration = WhatsappRegistration::where('no_telp', $no_telp)
-													->where('updated_at', '>', strtotime('-1 hour'))
+													->where('updated_at', '<', strtotime('+1 hour'))
 													->first();
 		Log::info($this->clean($message));
 		$response = '';
