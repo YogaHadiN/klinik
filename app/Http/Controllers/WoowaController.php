@@ -241,9 +241,9 @@ class WoowaController extends Controller
 	private function botKirim($whatsapp_registration)
 	{
 		if ( is_null( $whatsapp_registration->poli ) ) {
-			$text  = 'Terima kasih telah mendaftar sebagai pasien di *KLINIK JATI ELOK*.' 
+			$text  = 'Terima kasih telah mendaftar sebagai pasien di *KLINIK JATI ELOK*.' ;
 			$text .= PHP_EOL;
-			$text .= 'Dengan senang hati kami akan siap membantu Anda.'
+			$text .= 'Dengan senang hati kami akan siap membantu Anda.';
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 			$text .= 'Bisa dibantu berobat ke dokter apa?';
@@ -317,7 +317,18 @@ class WoowaController extends Controller
 
 			return $text;
 		}
-		return "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda. Nama = {$whatsapp_registration->nama}, tanggal lahir = {$whatsapp_registration->tanggal_lahir}, pembayaran = {$whatsapp_registration->pembayaran}, poli = {$whatsapp_registration->poli}";
+		
+		$text = "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda." ;
+		$text .= PHP_EOL;
+		$text .= PHP_EOL;
+		$text .= "Nama = {$whatsapp_registration->nama}";
+		$text .= PHP_EOL;
+		$text .= "tanggal lahir = {$whatsapp_registration->tanggal_lahir}";
+		$text .= PHP_EOL;
+		$text .= "pembayaran = {$whatsapp_registration->pembayaran}";
+		$text .= PHP_EOL;
+		$text .= "poli = {$whatsapp_registration->poli}";
+		return $text;
 	}
 	private function validateDate($date, $format = 'Y-m-d')
 	{
