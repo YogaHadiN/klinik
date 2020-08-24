@@ -28,6 +28,8 @@ class WoowaController extends Controller
 		$query = WhatsappRegistration::where('no_telp', $no_telp)
 													->whereRaw("DATE_ADD( updated_at, interval 1 hour ) < '" . date('Y-m-d H:i:s') . "'")
 													->toSql();
+		Log::info('whatsapp_registration awal');
+		Log::info( json_encode($whatsapp_registration) );
 		Log::info('$this->clean($message)');
 		Log::info($this->clean($message));
 		Log::info('query');
