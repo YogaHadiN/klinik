@@ -31,19 +31,25 @@ class WoowaController extends Controller
 		Log::info('query');
 		Log::info($query);
 		$response = '';
+
 		if ( $this->clean($message) == 'daftar' ) {
 			if ( is_null( $whatsapp_registration ) ) {
 				$whatsapp_registration            = new WhatsappRegistration;
 				$whatsapp_registration->no_telp   = $no_telp;
 				$whatsapp_registration->save();
+			} else {
+				$response = '*Ulasan jawaban Anda :*';
 			}
 		} else if ( 
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->poli ) 
 		) {
 			if (
-				(int)$this->clean($message) > 0 &&
-				(int)$this->clean($message) < 5
+				$this->clean($message) == 'a' ||
+				$this->clean($message) == 'b' ||
+				$this->clean($message) == 'c' ||
+				$this->clean($message) == 'd' ||
+				$this->clean($message) == 'e'
 			) {
 				$whatsapp_registration->poli   = (int) $this->clean($message);
 				$whatsapp_registration->save();
@@ -56,8 +62,9 @@ class WoowaController extends Controller
 		) 
 		{
 			if (
-				(int)$this->clean($message) > 0 &&
-				(int)$this->clean($message) < 5
+				$this->clean($message) == 'a' ||
+				$this->clean($message) == 'b' ||
+				$this->clean($message) == 'c'
 			) {
 				$whatsapp_registration->pembayaran  = $this->clean($message);
 				$whatsapp_registration->save();
@@ -174,7 +181,6 @@ class WoowaController extends Controller
 		if (
 			!is_null( $whatsapp_registration ) 
 		) {
-			$response = '*Ulasan jawaban Anda :*';
 			$response .= PHP_EOL;
 			if ( !is_null( $whatsapp_registration->nama ) ) {
 				$response .= 'Nama : ' . $whatsapp_registration->nama  ;
@@ -190,6 +196,8 @@ class WoowaController extends Controller
 					$response .= ' Suntik KB / Periksa Hamil';
 				} else if (  $this->clean($whatsapp_registration->poli) == 'd'  ){
 					$response .= ' Dokter Estetik / Kecantikan';
+				} else if (  $this->clean($whatsapp_registration->poli) == 'e'  ){
+					$response .= 'USG Kebidanan';
 				}
 				$response .= PHP_EOL;
 			}
@@ -205,9 +213,10 @@ class WoowaController extends Controller
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->tanggal_lahir ) ) {
-				$response .= 'Pembayaran : '.  $whatsapp_registration->tanggal_lahir;
+				$response .= 'Tanggal Lahir : '.  Carbon::CreateFromFormat('Y-m-d',$whatsapp_registration->tanggal_lahir)->format('d M Y');;
 				$response .= PHP_EOL;
 			}
+			$response .= "============";
 			$response .= PHP_EOL;
 		}
 
