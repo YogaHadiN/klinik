@@ -232,14 +232,8 @@ class WoowaController extends Controller
 	private function botKirim($whatsapp_registration)
 	{
 		if ( is_null( $whatsapp_registration->poli ) ) {
-			$text = 'Terima kasih telah mendaftar sebagai pasien di Klinik Jati Elok.' .. 'Dengan senang hati kami akan siap membantu Anda.' . PHP_EOL . PHP_EOL . 'Bisa dibantu berobat ke dokter apa?' . PHP_EOL . 'Balas *A* untuk dokter umum, ' . PHP_EOL . 'Balas *B* untuk dokter gigi, ' . PHP_EOL . 'Balas *C* untuk suntik kb/periksa hamil.' . PHP_EOL . 'Balas *D* untuk dokter estetika / kecantikan';
+			$text = 'Terima kasih telah mendaftar sebagai pasien di Klinik Jati Elok.' . PHP_EOL. 'Dengan senang hati kami akan siap membantu Anda.' . PHP_EOL . PHP_EOL . 'Bisa dibantu berobat ke dokter apa?' . PHP_EOL . 'Balas *A* untuk dokter umum, ' . PHP_EOL . 'Balas *B* untuk dokter gigi, ' . PHP_EOL . 'Balas *C* untuk suntik kb/periksa hamil.' . PHP_EOL . 'Balas *D* untuk dokter estetika / kecantikan';
 			$text .= PHP_EOL;
-			$text .= PHP_EOL;
-			$text .= 'Balas *A* untuk pembayaran dengan biaya pribadi, '  
-			$text .= PHP_EOL;
-			$text .= 'Balas *B* pembayaran dengan BPJS, '
-			$text .= PHP_EOL;
-			$text .= 'Balas *C* pembayaran dengan asuransi';
 			return $text;
 
 		}
