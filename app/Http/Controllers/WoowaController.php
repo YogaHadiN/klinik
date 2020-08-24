@@ -171,8 +171,48 @@ class WoowaController extends Controller
 
 		Log::info('whatsapp_registration');
 		Log::info( json_encode($whatsapp_registration) );
+		if (
+			!is_null( $whatsapp_registration ) 
+		) {
+			$response = '*Ulasan jawaban Anda :*';
+			$response .= PHP_EOL;
+			if ( !is_null( $whatsapp_registration->nama ) ) {
+				$response .= 'Nama : ' . $whatsapp_registration->nama  ;
+				$response .= PHP_EOL;
+			}
+			if ( !is_null( $whatsapp_registration->poli ) ) {
+				$response .= 'Poli : ';
+				if ( $this->clean($whatsapp_registration->poli) == 'a' ) {
+					$response .= ' Dokter Umum';
+				} else if (  $this->clean($whatsapp_registration->poli) == 'b'  ){
+					$response .= ' Dokter Gigi';
+				} else if (  $this->clean($whatsapp_registration->poli) == 'c'  ){
+					$response .= ' Suntik KB / Periksa Hamil';
+				} else if (  $this->clean($whatsapp_registration->poli) == 'd'  ){
+					$response .= ' Dokter Estetik / Kecantikan';
+				}
+				$response .= PHP_EOL;
+			}
+			if ( !is_null( $whatsapp_registration->pembayaran ) ) {
+				$response .= 'Pembayaran : ';
+				if ( $this->clean($whatsapp_registration->pembayaran) == 'a' ) {
+					$response .= 'Biaya Pribadi';
+				} else if (  $this->clean($whatsapp_registration->pembayaran) == 'b'  ){
+					$response .= 'BPJS';
+				} else if (  $this->clean($whatsapp_registration->pembayaran) == 'c'  ){
+					$response .= 'Asuransi Lain';
+				}
+				$response .= PHP_EOL;
+			}
+			if ( !is_null( $whatsapp_registration->tanggal_lahir ) ) {
+				$response .= 'Pembayaran : '.  $whatsapp_registration->tanggal_lahir;
+				$response .= PHP_EOL;
+			}
+			$response .= PHP_EOL;
+		}
 
-		$response = $response . ' ' . $this->botKirim($whatsapp_registration);
+		$response .=  $this->botKirim($whatsapp_registration);
+		
 		Sms::send($no_telp, $response);
 	}
 	/**
@@ -192,32 +232,67 @@ class WoowaController extends Controller
 	private function botKirim($whatsapp_registration)
 	{
 		if ( is_null( $whatsapp_registration->poli ) ) {
-			return  'Bisa dibantu berobat ke dokter apa?' . PHP_EOL . ' balas 1 untuk dokter umum, ' . PHP_EOL . ' balas 2 untuk dokter gigi, ' . PHP_EOL . ' balas 3 untuk suntik kb/periksa hamil.' . PHP_EOL . ' Balas 4 untuk dokter estetika / kecantikan';
+			$text = 'Terima kasih telah mendaftar sebagai pasien di Klinik Jati Elok.' .. 'Dengan senang hati kami akan siap membantu Anda.' . PHP_EOL . PHP_EOL . 'Bisa dibantu berobat ke dokter apa?' . PHP_EOL . 'Balas *A* untuk dokter umum, ' . PHP_EOL . 'Balas *B* untuk dokter gigi, ' . PHP_EOL . 'Balas *C* untuk suntik kb/periksa hamil.' . PHP_EOL . 'Balas *D* untuk dokter estetika / kecantikan';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *A* untuk pembayaran dengan biaya pribadi, '  
+			$text .= PHP_EOL;
+			$text .= 'Balas *B* pembayaran dengan BPJS, '
+			$text .= PHP_EOL;
+			$text .= 'Balas *C* pembayaran dengan asuransi';
+			return $text;
 
 		}
 		if ( is_null( $whatsapp_registration->pembayaran ) ) {
-			return   'Bisa dibantu pembayaran menggunakan apa? ' . PHP_EOL . ' balas A untuk biaya pribadi, ' . PHP_EOL . ' balas B untuk bpjs, ' . PHP_EOL . ' balas C untuk asuransi';
+			$text = 'Bisa dibantu pembayaran menggunakan apa? ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *A* untuk pembayaran dengan biaya pribadi, '  
+			$text .= PHP_EOL;
+			$text .= 'Balas *B* pembayaran dengan BPJS, '
+			$text .= PHP_EOL;
+			$text .= 'Balas *C* pembayaran dengan asuransi';
+			return $text;
 		}
 		if ( is_null( $whatsapp_registration->nama ) ) {
-			return  'Bisa dibantu nama lengkap pasien?';
+			return  'Bisa dibantu Nama Lengkap pasien?';
 		}
 		if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
-			return  'Bisa dibantu tanggal lahirnya? ' . PHP_EOL . ' Contoh 19 Juli 1993 kirim 19-07-1983';
+			return  'Bisa dibantu tanggal pasien? ' . PHP_EOL . PHP_EOL . 'Contoh *19 Juli 2003* balas dengan *19-07-2003*';
 		}
 		if ( is_null( $whatsapp_registration->demam ) ) {
-			return 'Apakah anda memiliki keluhan demam ?';
+			return 'Apakah pasien memiliki keluhan demam. Balas *ya/tidak*?';
 		}
 		if ( is_null( $whatsapp_registration->batuk_pilek ) ) {
-			return 'Apakah anda memiliki keluhan batuk pilek ?';
+			return 'Apakah pasien memiliki keluhan batuk pilek. Balas *ya/tidak*?';
 		}
 		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
-			return 'Apakah anda memiliki keluhan nyeri menelan ?';
+			return 'Apakah pasien memiliki keluhan nyeri menelan. Balas *ya/tidak*?';
 		}
 		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
-			return 'Apakah anda sempat bepergian ke luar negeri dalam 14 hari terakhir?';
+			return 'Apakah pasien sempat bepergian ke luar negeri dalam 14 hari terakhir? Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->kontak_covid ) ) {
-			return 'Apakah anda sempat sempat kontak dengan penderita covid?' . PHP_EOL . ' blablablablabla ';
+
+			$text = 'Apakah anda memiliki riwayat kontak dengan seseorang yang terkonfirmasi/ positif COVID 19 ?' 
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= '*Kontak Berarti :*';
+			$text .= PHP_EOL;
+			$text .= '- Tinggal serumah';
+			$text .= PHP_EOL;
+			$text .= '- Kontak tatap muka, misalnya : bercakap-cakap selama beberapa menit';
+			$text .= PHP_EOL;
+			$text .= '- Terkena Batuk pasien terkontaminasi';
+			$text .= PHP_EOL;
+			$text .= '- Berada dalam radius 2 meter selama lebih dari 15 menit dengan kasus terkonfirmasi';
+			$text .= PHP_EOL;
+			$text .= '- Kontak dengan cairan tubuh kasus terkonfirmasi';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *ya/tidak*';
+
+			return $text;
 		}
 		return "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda. Nama = {$whatsapp_registration->nama}, tanggal lahir = {$whatsapp_registration->tanggal_lahir}, pembayaran = {$whatsapp_registration->pembayaran}, poli = {$whatsapp_registration->poli}";
 	}
