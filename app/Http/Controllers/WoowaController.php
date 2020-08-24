@@ -241,9 +241,9 @@ class WoowaController extends Controller
 			$text = 'Bisa dibantu pembayaran menggunakan apa? ';
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
-			$text .= 'Balas *A* untuk pembayaran dengan biaya pribadi, '  
+			$text .= 'Balas *A* untuk pembayaran dengan biaya pribadi, '  ;
 			$text .= PHP_EOL;
-			$text .= 'Balas *B* pembayaran dengan BPJS, '
+			$text .= 'Balas *B* pembayaran dengan BPJS, ';
 			$text .= PHP_EOL;
 			$text .= 'Balas *C* pembayaran dengan asuransi';
 			return $text;
