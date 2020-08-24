@@ -25,10 +25,13 @@ class WoowaController extends Controller
 		$whatsapp_registration = WhatsappRegistration::where('no_telp', $no_telp)
 													->whereRaw("DATE_ADD( updated_at, interval 1 hour ) < '" . date('Y-m-d H:i:s') . "'")
 													->first();
+		$query = WhatsappRegistration::where('no_telp', $no_telp)
+													->whereRaw("DATE_ADD( updated_at, interval 1 hour ) < '" . date('Y-m-d H:i:s') . "'")
+													->toSql();
 		Log::info('$this->clean($message)');
 		Log::info($this->clean($message));
 		Log::info('query');
-		Log::info($whatsapp_registration->toSql());
+		Log::info($query);
 		$response = '';
 		if ( $this->clean($message) == 'daftar' ) {
 			if ( is_null( $whatsapp_registration ) ) {
