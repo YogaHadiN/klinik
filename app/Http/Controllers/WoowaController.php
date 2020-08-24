@@ -268,7 +268,7 @@ class WoowaController extends Controller
 		}
 		if ( is_null( $whatsapp_registration->kontak_covid ) ) {
 
-			$text = 'Apakah anda memiliki riwayat kontak dengan seseorang yang terkonfirmasi/ positif COVID 19 ?' 
+			$text = 'Apakah anda memiliki riwayat kontak dengan seseorang yang terkonfirmasi/ positif COVID 19 ?' ;
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 			$text .= '*Kontak Berarti :*';
