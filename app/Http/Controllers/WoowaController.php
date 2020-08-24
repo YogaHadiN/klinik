@@ -185,7 +185,7 @@ class WoowaController extends Controller
 	private function botKirim($whatsapp_registration)
 	{
 		if ( is_null( $whatsapp_registration->poli ) ) {
-			return  'Bisa dibantu berobat ke dokter apa? %0Dbalas 1 untuk dokter umum,%0abalas 2 untuk dokter gigi, %0Dbalas 3 untuk suntik kb/periksa hamil.$0aBalas 4 untuk dokter estetika / kecantikan';
+			return  'Bisa dibantu berobat ke dokter apa? balas 1 untuk dokter umum, balas 2 untuk dokter gigi, balas 3 untuk suntik kb/periksa hamil.Balas 4 untuk dokter estetika / kecantikan';
 		}
 		if ( is_null( $whatsapp_registration->pembayaran ) ) {
 			return   'Bisa dibantu pembayaran menggunakan apa? balas A untuk biaya pribadi, balas B untuk bpjs, balas C untuk asuransi';
