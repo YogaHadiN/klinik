@@ -12,9 +12,8 @@ use App\WhatsappRegistration;
 class WablasController extends Controller
 {
 	public function webhook(){
-		Log::info('Wuanjifrrrrrr');
 		if(isset($_POST['message'])) {
-			dd($_POST['message']);
+			Log::info('Wuanjifrrrrrr');
 			$message               = $_POST['message'];
 			$no_telp               = $_POST['phone'];
 
