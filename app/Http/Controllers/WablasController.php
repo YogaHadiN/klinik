@@ -215,7 +215,7 @@ class WablasController extends Controller
 
 			$response .=  $this->botKirim($whatsapp_registration);
 			
-			Sms::send($no_telp, $response);
+			/* Sms::send($no_telp, $response); */
 		}
 	}
 
