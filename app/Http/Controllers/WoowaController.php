@@ -127,10 +127,11 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->sesak_nafas ) 
 		) 
 		{
-			if ( $this->clean($message) == 'ya')  {
+			Log::info('============================ sesak nafas ==========================================');
+			if ( $this->clean($message)             == 'ya')  {
 				$whatsapp_registration->sesak_nafas  = 1;
 				$whatsapp_registration->save();
-			} else if ( $this->clean($message) == 'tidak')  {
+			} else if ( $this->clean($message)      == 'tidak')  {
 				$whatsapp_registration->sesak_nafas  = 0;
 				$whatsapp_registration->save();
 			} else {
@@ -141,7 +142,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) 
 		) 
 		{
-			Log::info('INIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII LHOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO==================================');
+			Log::info('============================ bepergian ke luar neger ==========================================');
 			if ( $this->clean($message) == 'ya')  {
 				$whatsapp_registration->bepergian_ke_luar_negeri  = 1;
 				$whatsapp_registration->save();
@@ -281,6 +282,9 @@ class WoowaController extends Controller
 		}
 		if ( is_null( $whatsapp_registration->batuk_pilek ) ) {
 			return 'Apakah pasien memiliki keluhan batuk pilek? ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
+		}
+		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
+			return 'Apakah pasien memiliki keluhan sesak nafas? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
 			return 'Apakah pasien memiliki keluhan nyeri menelan? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
