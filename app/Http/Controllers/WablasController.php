@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class WablasController extends Controller
 {
 	public function webhook(){
-		dd( 'iyes' );
+		dd( 'iyes  sirrrrrrr' );
 		Log::info( ' ================================== WABLAS ===========================' );
 		Log::info($_POST['message']);
 		if(isset($_POST['message'])) {
