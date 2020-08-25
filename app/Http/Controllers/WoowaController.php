@@ -141,6 +141,7 @@ class WoowaController extends Controller
 			is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) 
 		) 
 		{
+			Log::info('INIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII LHOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO==================================');
 			if ( $this->clean($message) == 'ya')  {
 				$whatsapp_registration->bepergian_ke_luar_negeri  = 1;
 				$whatsapp_registration->save();
@@ -177,12 +178,12 @@ class WoowaController extends Controller
 			 !is_null( $whatsapp_registration->pembayaran ) ||
 			 !is_null( $whatsapp_registration->tanggal_lahir )
 			) {
-				$response .=    "*Ulasan Pengisian Anda*";
+				$response .=    "*Uraian Pengisian Anda*";
 				$response .= PHP_EOL;
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->nama ) ) {
-				$response .= 'Nama : ' . ucwords($whatsapp_registration->nama)  ;
+				$response .= 'Nama Pasien: ' . ucwords($whatsapp_registration->nama)  ;
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->poli ) ) {
