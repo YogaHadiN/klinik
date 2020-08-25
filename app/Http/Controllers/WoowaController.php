@@ -182,7 +182,7 @@ class WoowaController extends Controller
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->nama ) ) {
-				$response .= 'Nama : ' . ucword($whatsapp_registration->nama)  ;
+				$response .= 'Nama : ' . ucwords($whatsapp_registration->nama)  ;
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->poli ) ) {
@@ -313,7 +313,7 @@ class WoowaController extends Controller
 		$text = "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda." ;
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= "Nama = {ucword($whatsapp_registration->nama)}";
+		$text .= "Nama = {ucwords($whatsapp_registration->nama)}";
 		$text .= PHP_EOL;
 		$text .= "tanggal lahir = {Carbon::CreateFromFormat('Y-m-d',$whatsapp_registration->tanggal_lahir)->format('d M Y')}";
 		$text .= PHP_EOL;
