@@ -13,6 +13,7 @@ class WablasController extends Controller
 {
 	public function webhook(){
 		if(isset($_POST['message'])) {
+			dd($_POST['message']);
 			$message               = $_POST['message'];
 			$no_telp               = $_POST['phone'];
 
