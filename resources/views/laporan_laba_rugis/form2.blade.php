@@ -15,8 +15,8 @@
 					  @foreach($pendapatan_usahas['akuns'] as $p)
 						  <tr>
 							<td></td>
-							<td colspan="2">{{ $p->coa }}</td>
-							<td nowrap class="text-right">{{App\Classes\Yoga::buatrp(  abs($p->nilai )  )}}</td>
+							<td colspan="2">{{ $p['coa']}}</td>
+							<td nowrap class="text-right">{{App\Classes\Yoga::buatrp(  abs($p['nilai'] )  )}}</td>
 							<td></td>
 						  </tr>
 					  @endforeach
@@ -33,8 +33,8 @@
 					  @foreach($hpps['akuns'] as $hpp)
 					  <tr>
 						<td></td>
-						<td colspan="2">{{ $hpp->coa }}</td>
-						<td nowrap class="text-right">{{App\Classes\Yoga::buatrp( abs($hpp->nilai)  )}}</td>
+						<td colspan="2">{{ $hpp['coa']}}</td>
+						<td nowrap class="text-right">{{App\Classes\Yoga::buatrp( abs($hpp['nilai'])  )}}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -60,8 +60,8 @@
 					  @foreach($biayas['akuns'] as $biaya)
 					  <tr>
 						<td></td>
-						<td colspan="2">{{ $biaya->coa }}</td>
-						<td nowrap class="text-right">{{App\Classes\Yoga::buatrp( abs($biaya->nilai)  )}}</td>
+						<td colspan="2">{{ $biaya['coa']}}</td>
+						<td nowrap class="text-right">{{App\Classes\Yoga::buatrp( abs($biaya['nilai'])  )}}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -85,8 +85,8 @@
 					  @foreach($pendapatan_lains['akuns'] as $pend)
 					  <tr>
 						<td></td>
-						<td colspan="2">{{ $pend->coa }}</td>
-						<td nowrap class="text-right">{{App\Classes\Yoga::buatrp(   abs($pend->nilai)  )}}</td>
+						<td colspan="2">{{ $pend['coa']}}</td>
+						<td nowrap class="text-right">{{App\Classes\Yoga::buatrp(   abs($pend['nilai'])  )}}</td>
 						<td></td>
 					  </tr>
 					  @endforeach

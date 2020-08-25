@@ -407,6 +407,8 @@ class PdfsController extends Controller
 	public function laporanLabaRugi($tanggal_awal, $tanggal_akhir){
 		$lap   = new LaporanLabaRugisController;
 		$query = $lap->tempLaporanLabaRugiRangeByDate($tanggal_awal, $tanggal_akhir);
+		/* dd($query); */
+		/* dd($query['pendapatan_usahas']['akuns'][0]['coa']); */
 		$pdf   = PDF::loadView(
 					'pdfs.laporan_laba_rugi', 
 					$query)
