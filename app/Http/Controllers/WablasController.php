@@ -219,6 +219,110 @@ class WablasController extends Controller
 		}
 	}
 
+	private function clean($param)
+	{
+		return strtolower( trim($param) );
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function botKirim($whatsapp_registration)
+	{
+		if ( is_null( $whatsapp_registration->poli ) ) {
+			$text  = 'Terima kasih telah mendaftar sebagai pasien di *KLINIK JATI ELOK*.' ;
+			$text .= PHP_EOL;
+			$text .= 'Dengan senang hati kami akan siap membantu Anda.';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Bisa dibantu berobat ke dokter apa?';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *A* untuk Dokter Umum, ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *B* untuk Dokter Gigi, ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *C* untuk Suntik KB/Periksa Hamil.';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *D* untuk Dokter Estetika/Kecantikan';
+			return $text;
+
+		}
+		if ( is_null( $whatsapp_registration->pembayaran ) ) {
+			$text = 'Bisa dibantu pembayaran menggunakan apa? ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *A* untuk *Biaya Pribadi*, '  ;
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *B* untuk *BPJS*, ';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *C* untuk *Asuransi Lain*';
+			return $text;
+		}
+		if ( is_null( $whatsapp_registration->nama ) ) {
+			return  'Bisa dibantu *Nama Lengkap* pasien?';
+		}
+		if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
+			return  'Bisa dibantu *Tanggal Lahir* pasien? ' . PHP_EOL . PHP_EOL . 'Contoh *19 Juli 2003* balas dengan *19-07-2003*';
+		}
+		if ( is_null( $whatsapp_registration->demam ) ) {
+			return 'Apakah pasien memiliki keluhan demam?' . PHP_EOL . PHP_EOL .  'Balas *ya/tidak*';
+		}
+		if ( is_null( $whatsapp_registration->batuk_pilek ) ) {
+			return 'Apakah pasien memiliki keluhan batuk pilek? ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
+		}
+		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
+			return 'Apakah pasien memiliki keluhan sesak nafas? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
+		}
+		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
+			return 'Apakah pasien memiliki keluhan nyeri menelan? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
+		}
+		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
+			return 'Apakah pasien sempat bepergian ke luar negeri dalam 14 hari terakhir?  ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
+		}
+		if ( is_null( $whatsapp_registration->kontak_covid ) ) {
+
+			$text = 'Apakah anda memiliki riwayat kontak dengan seseorang yang terkonfirmasi/ positif COVID 19 ?' ;
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= '*Kontak Berarti :*';
+			$text .= PHP_EOL;
+			$text .= '- Tinggal serumah';
+			$text .= PHP_EOL;
+			$text .= '- Kontak tatap muka, misalnya : bercakap-cakap selama beberapa menit';
+			$text .= PHP_EOL;
+			$text .= '- Terkena Batuk pasien terkontaminasi';
+			$text .= PHP_EOL;
+			$text .= '- Berada dalam radius 2 meter selama lebih dari 15 menit dengan kasus terkonfirmasi';
+			$text .= PHP_EOL;
+			$text .= '- Kontak dengan cairan tubuh kasus terkonfirmasi';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *ya/tidak*';
+
+			return $text;
+		}
+		
+		$text = "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda." ;
+		$text .= PHP_EOL;
+		$text .= PHP_EOL;
+		$text .= "Nama = {ucwords($whatsapp_registration->nama)}";
+		$text .= PHP_EOL;
+		$text .= "tanggal lahir = {Carbon::CreateFromFormat('Y-m-d',$whatsapp_registration->tanggal_lahir)->format('d M Y')}";
+		$text .= PHP_EOL;
+		$text .= "pembayaran = {$this->formatPembayaran($whatsapp_registration->pembayaran)}";
+		$text .= PHP_EOL;
+		$text .= "poli = {$this->formatPoli($whatsapp_registration->poli)}";
+		return $text;
+	}
 	private function validateDate($date, $format = 'Y-m-d')
 	{
 		$d = DateTime::createFromFormat($format, $date);
@@ -259,4 +363,5 @@ class WablasController extends Controller
 			return 'Asuransi Lain';
 		}
 	}
+	
 }
