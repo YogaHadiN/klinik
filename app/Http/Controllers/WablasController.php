@@ -317,13 +317,9 @@ class WablasController extends Controller
 		$text = "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda." ;
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= "Nama = {ucwords($whatsapp_registration->nama)}";
+		$text .= "Anda telah terdaftar dengan Nomor Antrian A80";
 		$text .= PHP_EOL;
-		$text .= "tanggal lahir = {Carbon::CreateFromFormat('Y-m-d',$whatsapp_registration->tanggal_lahir)->format('d M Y')}";
-		$text .= PHP_EOL;
-		$text .= "pembayaran = {$this->formatPembayaran($whatsapp_registration->pembayaran)}";
-		$text .= PHP_EOL;
-		$text .= "poli = {$this->formatPoli($whatsapp_registration->poli)}";
+		$text .= "Silahkan menunggu untuk dilayani";
 		return $text;
 	}
 	private function validateDate($date, $format = 'Y-m-d')
@@ -366,5 +362,4 @@ class WablasController extends Controller
 			return 'Asuransi Lain';
 		}
 	}
-	
 }
