@@ -218,4 +218,45 @@ class WablasController extends Controller
 			Sms::send($no_telp, $response);
 		}
 	}
+
+	private function validateDate($date, $format = 'Y-m-d')
+	{
+		$d = DateTime::createFromFormat($format, $date);
+		// The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+		return $d && $d->format($format) === $date;
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function formatPoli($param)
+	{
+		if ( $this->clean($param) == 'a' ) {
+			return ' Dokter Umum';
+		} else if (  $this->clean($param) == 'b'  ){
+			return ' Dokter Gigi';
+		} else if (  $this->clean($param) == 'c'  ){
+			return ' Suntik KB / Periksa Hamil';
+		} else if (  $this->clean($param) == 'd'  ){
+			return ' Dokter Estetik / Kecantikan';
+		} else if (  $this->clean($param) == 'e'  ){
+			return 'USG Kebidanan';
+		}
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function formatPembayaran($param)
+	{
+		if ( $this->clean($param) == 'a' ) {
+			return 'Biaya Pribadi';
+		} else if (  $this->clean($param) == 'b'  ){
+			return 'BPJS';
+		} else if (  $this->clean($param) == 'c'  ){
+			return 'Asuransi Lain';
+		}
+	}
 }
