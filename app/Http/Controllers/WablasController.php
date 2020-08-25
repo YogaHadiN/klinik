@@ -44,7 +44,10 @@ class WablasController extends Controller
 					$whatsapp_registration->poli   = $this->clean($message);
 					$whatsapp_registration->save();
 				} else {
-					$response = 'Input yang anda masukkan salah';
+					$response = '```Input yang anda masukkan salah```';
+					$response .= PHP_EOL;
+					$response = '```Mohon Diulangi```';
+					$response .= PHP_EOL;
 				}
 			} else if ( 
 					!is_null( $whatsapp_registration ) &&
@@ -253,6 +256,9 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 			$text .= 'Balas *D* untuk Dokter Estetika/Kecantikan';
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Balas *E* untuk USG Kebidanan';
 			return $text;
 
 		}
@@ -267,7 +273,7 @@ class WablasController extends Controller
 			$text .= 'Balas *B* untuk *BPJS*, ';
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
-			$text .= 'Balas *C* untuk *Asuransi Lain*';
+			$text .= 'Balas *C* untuk *Asuransi/Pembayaran Lain*';
 			return $text;
 		}
 		if ( is_null( $whatsapp_registration->nama ) ) {
@@ -314,13 +320,13 @@ class WablasController extends Controller
 			return $text;
 		}
 		
-		$text = "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda." ;
+		$text = "Terima kasih, telah mendaftar" ;
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= "Anda telah terdaftar dengan Nomor Antrian A80";
+		$text .= "Anda telah terdaftar dengan Nomor Antrian";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= "```*A80*```";
+		$text .= "```A80```";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
 		$text .= "Silahkan menunggu untuk dilayani";
