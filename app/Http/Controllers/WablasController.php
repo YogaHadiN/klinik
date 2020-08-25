@@ -283,10 +283,10 @@ class WablasController extends Controller
 			return 'Apakah pasien memiliki keluhan batuk pilek? ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
-			return 'Apakah pasien memiliki keluhan sesak nafas? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
-		}
-		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
 			return 'Apakah pasien memiliki keluhan nyeri menelan? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
+		}
+		if ( is_null( $whatsapp_registration->sesak_nafas ) ) {
+			return 'Apakah pasien memiliki keluhan sesak nafas? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
 			return 'Apakah pasien sempat bepergian ke luar negeri dalam 14 hari terakhir?  ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
