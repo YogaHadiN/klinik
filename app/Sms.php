@@ -118,8 +118,35 @@ class Sms extends Model
 	public function smsZenziva(){
 		
 	}
-
 	public static function send($telepon, $message){
+		$curl = curl_init();
+		$token = env('WABLAS_TOKEN');
+		$data = [
+			'phone' => $telepon,
+			'message' =>$message
+		];
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,
+			array(
+				"Authorization: $token",
+			)
+		);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+		curl_setopt($curl, CURLOPT_URL, "https://console.wablas.com/api/send-message");
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		$result = curl_exec($curl);
+		curl_close($curl);
+
+		echo "<pre>";
+		print_r($result);
+
+	}
+	
+
+	public static function sendWoowa($telepon, $message){
 		$key= env('WOOWA_KEY'); //this is demo key please change with your own key
 		$url='http://116.203.92.59/api/async_send_message';
 		$data = array(
