@@ -177,44 +177,36 @@ class WoowaController extends Controller
 			 !is_null( $whatsapp_registration->pembayaran ) ||
 			 !is_null( $whatsapp_registration->tanggal_lahir )
 			) {
-				$response .=    "*Ulasan Anda*";
+				$response .=    "*Ulasan Pengisian Anda*";
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->nama ) ) {
-				$response .= 'Nama : ' . $whatsapp_registration->nama  ;
+				$response .= 'Nama : ' . ucfirst($whatsapp_registration->nama)  ;
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->poli ) ) {
 				$response .= 'Poli : ';
-				if ( $this->clean($whatsapp_registration->poli) == 'a' ) {
-					$response .= ' Dokter Umum';
-				} else if (  $this->clean($whatsapp_registration->poli) == 'b'  ){
-					$response .= ' Dokter Gigi';
-				} else if (  $this->clean($whatsapp_registration->poli) == 'c'  ){
-					$response .= ' Suntik KB / Periksa Hamil';
-				} else if (  $this->clean($whatsapp_registration->poli) == 'd'  ){
-					$response .= ' Dokter Estetik / Kecantikan';
-				} else if (  $this->clean($whatsapp_registration->poli) == 'e'  ){
-					$response .= 'USG Kebidanan';
-				}
+				$response .= $this->formatPoli( $whatsapp_registration->poli );
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->pembayaran ) ) {
 				$response .= 'Pembayaran : ';
-				if ( $this->clean($whatsapp_registration->pembayaran) == 'a' ) {
-					$response .= 'Biaya Pribadi';
-				} else if (  $this->clean($whatsapp_registration->pembayaran) == 'b'  ){
-					$response .= 'BPJS';
-				} else if (  $this->clean($whatsapp_registration->pembayaran) == 'c'  ){
-					$response .= 'Asuransi Lain';
-				}
+				$response .= $this->formatPembayaran( $whatsapp_registration->pembayaran );
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->tanggal_lahir ) ) {
 				$response .= 'Tanggal Lahir : '.  Carbon::CreateFromFormat('Y-m-d',$whatsapp_registration->tanggal_lahir)->format('d M Y');;
 				$response .= PHP_EOL;
 			}
-			$response .= PHP_EOL;
+			if (
+			 !is_null( $whatsapp_registration->nama ) ||
+			 !is_null( $whatsapp_registration->poli ) ||
+			 !is_null( $whatsapp_registration->pembayaran ) ||
+			 !is_null( $whatsapp_registration->tanggal_lahir )
+			) {
+				$response .=    "==================";
+				$response .= PHP_EOL;
+			}
 		}
 
 		$response .=  $this->botKirim($whatsapp_registration);
@@ -281,13 +273,13 @@ class WoowaController extends Controller
 			return  'Bisa dibantu *Tanggal Lahir* pasien? ' . PHP_EOL . PHP_EOL . 'Contoh *19 Juli 2003* balas dengan *19-07-2003*';
 		}
 		if ( is_null( $whatsapp_registration->demam ) ) {
-			return 'Apakah pasien memiliki keluhan demam. ' . PHP_EOL . PHP_EOL .  'Balas *ya/tidak*?';
+			return 'Apakah pasien memiliki keluhan demam?' . PHP_EOL . PHP_EOL .  'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->batuk_pilek ) ) {
-			return 'Apakah pasien memiliki keluhan batuk pilek.  ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*?';
+			return 'Apakah pasien memiliki keluhan batuk pilek? ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
-			return 'Apakah pasien memiliki keluhan nyeri menelan.  ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*?';
+			return 'Apakah pasien memiliki keluhan nyeri menelan? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
 			return 'Apakah pasien sempat bepergian ke luar negeri dalam 14 hari terakhir?  ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
@@ -318,13 +310,13 @@ class WoowaController extends Controller
 		$text = "Terima kasih, telah mendaftarkan berikut ini adalah ulasan pendaftaran anda." ;
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= "Nama = {$whatsapp_registration->nama}";
+		$text .= "Nama = {ucfirst($whatsapp_registration->nama)}";
 		$text .= PHP_EOL;
-		$text .= "tanggal lahir = {$whatsapp_registration->tanggal_lahir}";
+		$text .= "tanggal lahir = {Carbon::CreateFromFormat('Y-m-d',$whatsapp_registration->tanggal_lahir)->format('d M Y')}";
 		$text .= PHP_EOL;
-		$text .= "pembayaran = {$whatsapp_registration->pembayaran}";
+		$text .= "pembayaran = {$this->formatPembayaran($whatsapp_registration->pembayaran)}";
 		$text .= PHP_EOL;
-		$text .= "poli = {$whatsapp_registration->poli}";
+		$text .= "poli = {$this->formatPoli($whatsapp_registration->poli)}";
 		return $text;
 	}
 	private function validateDate($date, $format = 'Y-m-d')
@@ -333,4 +325,40 @@ class WoowaController extends Controller
 		// The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
 		return $d && $d->format($format) === $date;
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function formatPoli($param)
+	{
+		if ( $this->clean($param) == 'a' ) {
+			return ' Dokter Umum';
+		} else if (  $this->clean($param) == 'b'  ){
+			return ' Dokter Gigi';
+		} else if (  $this->clean($param) == 'c'  ){
+			return ' Suntik KB / Periksa Hamil';
+		} else if (  $this->clean($param) == 'd'  ){
+			return ' Dokter Estetik / Kecantikan';
+		} else if (  $this->clean($param) == 'e'  ){
+			return 'USG Kebidanan';
+		}
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function formatPembayaran($param)
+	{
+		if ( $this->clean($param) == 'a' ) {
+			return 'Biaya Pribadi';
+		} else if (  $this->clean($param) == 'b'  ){
+			return 'BPJS';
+		} else if (  $this->clean($param) == 'c'  ){
+			return 'Asuransi Lain';
+		}
+	}
+	
+	
 }
