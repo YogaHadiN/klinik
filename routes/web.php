@@ -37,6 +37,7 @@ Route::get('jangan', 'PolisController@jangan');
 Route::get('rekening/mandiri', 'MutasiBankController@info');
 Route::post('moota/callback', 'MutasiBankController@mootaCallback');
 Route::post('woowa/webhook', 'WoowaController@webhook');
+Route::post('wablas/webhook', 'WablasController@webhook');
 
 
 /* Route::get('antrians', 'AntriansController@create'); */
