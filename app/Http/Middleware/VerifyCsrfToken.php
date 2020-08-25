@@ -25,6 +25,7 @@ class VerifyCsrfToken extends Middleware
 		'http://45.77.253.188/moota/*',
 		'http://45.77.253.188/moota/callback/*',
 		'http://45.77.253.188/woowa/*',
+		'http://45.77.253.188/wablas/*',
     ];
 
 	
