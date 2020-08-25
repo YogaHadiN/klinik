@@ -319,6 +319,10 @@ class WablasController extends Controller
 		$text .= PHP_EOL;
 		$text .= "Anda telah terdaftar dengan Nomor Antrian A80";
 		$text .= PHP_EOL;
+		$text .= PHP_EOL;
+		$text .= "```*A80*```";
+		$text .= PHP_EOL;
+		$text .= PHP_EOL;
 		$text .= "Silahkan menunggu untuk dilayani";
 		return $text;
 	}
