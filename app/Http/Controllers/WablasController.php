@@ -266,7 +266,7 @@ class WablasController extends Controller
 		if ( is_null( $whatsapp_registration->poli ) ) {
 			$text  = 'Terima kasih telah mendaftar sebagai pasien di *KLINIK JATI ELOK*.' ;
 			$text .= PHP_EOL;
-			$text  = '*KLINIK JATI ELOK*' ;
+			$text .= '*KLINIK JATI ELOK*' ;
 			$text .= PHP_EOL;
 			$text .= 'Dengan senang hati kami akan siap membantu Anda.';
 			$text .= PHP_EOL;
