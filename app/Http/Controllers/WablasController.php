@@ -28,6 +28,19 @@ class WablasController extends Controller
 					$whatsapp_registration->no_telp   = $no_telp;
 					$whatsapp_registration->save();
 				}
+			} else if (  
+				substr($this->clean($message), 0, 5) == 'ulang' &&
+				!is_null( $whatsapp_registration ) 
+			) {
+					$whatsapp_registration->pembayaran               = null;
+					$whatsapp_registration->tanggal_lahir            = null;
+					$whatsapp_registration->poli                     = null;
+					$whatsapp_registration->demam                    = null;
+					$whatsapp_registration->batuk_pilek              = null;
+					$whatsapp_registration->sesak_nafas              = null;
+					$whatsapp_registration->bepergian_ke_luar_negeri = null;
+					$whatsapp_registration->kontak_covid             = null;
+					$whatsapp_registration->save();
 			} else if ( 
 					!is_null( $whatsapp_registration ) &&
 					is_null( $whatsapp_registration->poli ) 
