@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,7 +12,6 @@ class WablasController extends Controller
 {
 	public function webhook(){
 		if(isset($_POST['message'])) {
-			Log::info('Wuanjifrrrrrr');
 			$message               = $_POST['message'];
 			$no_telp               = $_POST['phone'];
 
@@ -191,7 +189,7 @@ class WablasController extends Controller
 					$response .= PHP_EOL;
 				}
 				if ( !is_null( $whatsapp_registration->poli ) ) {
-					$response .= 'Poli : ';
+					$response .= 'Poli Tujuan : ';
 					$response .= $this->formatPoli( $whatsapp_registration->poli );
 					$response .= PHP_EOL;
 				}
@@ -325,7 +323,7 @@ class WablasController extends Controller
 			return $text;
 		}
 		
-		$text = "Terima kasih, telah mendaftar" ;
+		$text = "Terima kasih atas kesediaan mengisi pertanyaan tersebut." ;
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
 		$text .= "Anda telah terdaftar dengan Nomor Antrian";
