@@ -273,11 +273,11 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= 'Dengan senang hati kami akan siap membantu Anda.';
 			$text .= PHP_EOL;
-			$text .= "=============="
+			$text .= "==============";
 			$text .= PHP_EOL;
 			$text .= '```Anda harus sudah berada di Klinik untuk memanfaatkan fasilitas ini```';
 			$text .= PHP_EOL;
-			$text .= "=============="
+			$text .= "==============";
 			$text .= PHP_EOL;
 			$text .= 'Bisa dibantu berobat ke dokter apa?';
 			$text .= PHP_EOL;
