@@ -119,7 +119,8 @@ class WablasController extends Controller
 					$whatsapp_registration->demam  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = 'Input Tidak tepat';
+					$response = '```Input Tidak tepat```';
+					$response .= PHP_EOL;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -133,7 +134,8 @@ class WablasController extends Controller
 					$whatsapp_registration->batuk_pilek  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = 'Input Tidak tepat';
+					$response = '```Input Tidak tepat```';
+					$response .= PHP_EOL;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -147,7 +149,8 @@ class WablasController extends Controller
 					$whatsapp_registration->nyeri_menelan  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = 'Input Tidak tepat';
+					$response = '```Input Tidak tepat```';
+					$response .= PHP_EOL;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -162,7 +165,8 @@ class WablasController extends Controller
 					$whatsapp_registration->sesak_nafas  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response .= 'Input Tidak tepat';
+					$response = '```Input Tidak tepat```';
+					$response .= PHP_EOL;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -177,7 +181,8 @@ class WablasController extends Controller
 					$whatsapp_registration->bepergian_ke_luar_negeri  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response .= 'Input Tidak tepat';
+					$response = '```Input Tidak tepat```';
+					$response .= PHP_EOL;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -191,7 +196,8 @@ class WablasController extends Controller
 					$whatsapp_registration->kontak_covid  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = 'Input Tidak tepat';
+					$response = '```Input Tidak tepat```';
+					$response .= PHP_EOL;
 				}
 			}
 
@@ -321,7 +327,7 @@ class WablasController extends Controller
 			return  'Bisa dibantu *Nama Lengkap* pasien?';
 		}
 		if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
-			return  'Bisa dibantu *Tanggal Lahir* pasien? ' . PHP_EOL . PHP_EOL . 'Contoh *19 Juli 2003* balas dengan *19-07-2003*';
+			return  'Bisa dibantu *Tanggal Lahir* pasien? ' . PHP_EOL . PHP_EOL . 'Contoh : *19 Juli 2003*, Balas dengan *19-07-2003*';
 		}
 		if ( is_null( $whatsapp_registration->demam ) ) {
 			return 'Apakah pasien memiliki keluhan demam?' . PHP_EOL . PHP_EOL .  'Balas *ya/tidak*';
