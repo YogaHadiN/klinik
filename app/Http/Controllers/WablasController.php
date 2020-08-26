@@ -248,6 +248,7 @@ class WablasController extends Controller
 				$response .=  PHP_EOL;
 				$response .=    "==================";
 				$response .=  PHP_EOL;
+				$response .=  PHP_EOL;
 				$response .=  "Balas *ulang* apa bila ada kesalahan dan mengulangi pertanyaan dari awal";
 				if ( $input_tidak_tepat ) {
 					$response .=  PHP_EOL;
@@ -371,7 +372,7 @@ class WablasController extends Controller
 			return $text;
 		}
 		
-		$text = "Terima kasih atas kesediaan mengisi pertanyaan kami" ;
+		$text = "Terima kasih atas kesediaan menjawab pertanyaan kami" ;
 		$text .= PHP_EOL;
 		$text .= "Anda telah terdaftar dengan Nomor Antrian";
 		$text .= PHP_EOL;
