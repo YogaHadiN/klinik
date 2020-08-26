@@ -10,6 +10,7 @@ use App\WhatsappRegistration;
 
 class WablasController extends Controller
 {
+
 	public function webhook(){
 		if(isset($_POST['message'])) {
 			$message               = $_POST['message'];
@@ -21,6 +22,9 @@ class WablasController extends Controller
 			Log::info('$this->clean($message)');
 			Log::info($this->clean($message));
 			$response = '';
+
+
+			$input_tidak_tepat = false;
 
 			if ( $this->clean($message) == 'daftar' ) {
 				if ( is_null( $whatsapp_registration ) ) {
@@ -59,10 +63,7 @@ class WablasController extends Controller
 					}
 					$whatsapp_registration->save();
 				} else {
-					$response = '```Input yang anda masukkan salah```';
-					$response .= PHP_EOL;
-					$response = '```Mohon Diulangi```';
-					$response .= PHP_EOL;
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 					!is_null( $whatsapp_registration ) &&
@@ -80,7 +81,7 @@ class WablasController extends Controller
 					}
 					$whatsapp_registration->save();
 				} else {
-					$response = 'Input yang anda masukkan salah';
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -105,7 +106,7 @@ class WablasController extends Controller
 					$whatsapp_registration->tanggal_lahir  = Carbon::CreateFromFormat('d-m-Y',$this->clean($message))->format('Y-m-d');
 					$whatsapp_registration->save();
 				} else {
-					$response = 'Input yang anda masukkan salah';
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -119,8 +120,7 @@ class WablasController extends Controller
 					$whatsapp_registration->demam  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = '```Input Tidak tepat```';
-					$response .= PHP_EOL;
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -134,8 +134,7 @@ class WablasController extends Controller
 					$whatsapp_registration->batuk_pilek  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = '```Input Tidak tepat```';
-					$response .= PHP_EOL;
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -149,8 +148,7 @@ class WablasController extends Controller
 					$whatsapp_registration->nyeri_menelan  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = '```Input Tidak tepat```';
-					$response .= PHP_EOL;
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -165,8 +163,7 @@ class WablasController extends Controller
 					$whatsapp_registration->sesak_nafas  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = '```Input Tidak tepat```';
-					$response .= PHP_EOL;
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -181,8 +178,7 @@ class WablasController extends Controller
 					$whatsapp_registration->bepergian_ke_luar_negeri  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = '```Input Tidak tepat```';
-					$response .= PHP_EOL;
+					$input_tidak_tepat = true;
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
@@ -196,8 +192,7 @@ class WablasController extends Controller
 					$whatsapp_registration->kontak_covid  = 0;
 					$whatsapp_registration->save();
 				} else {
-					$response = '```Input Tidak tepat```';
-					$response .= PHP_EOL;
+					$input_tidak_tepat = true;
 				}
 			}
 
@@ -253,6 +248,14 @@ class WablasController extends Controller
 				$response .=  PHP_EOL;
 				$response .=  PHP_EOL;
 				$response .=  "Balas *ulang* apa bila ada kesalahan dan mengulangi pertanyaan dari awal";
+				if ( $input_tidak_tepat ) {
+					$response .=  PHP_EOL;
+					$response .= '```Input yang anda masukkan salah```';
+					$response .= PHP_EOL;
+					$response .= '```Mohon Diulangi```';
+					$response .= PHP_EOL;
+				}
+				$input_tidak_tepat = false;
 				echo $response;
 			}
 
