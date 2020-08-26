@@ -41,6 +41,7 @@ class WablasController extends Controller
 					$whatsapp_registration->bepergian_ke_luar_negeri = null;
 					$whatsapp_registration->kontak_covid             = null;
 					$whatsapp_registration->save();
+
 			} else if ( 
 					!is_null( $whatsapp_registration ) &&
 					is_null( $whatsapp_registration->poli ) 
@@ -49,10 +50,13 @@ class WablasController extends Controller
 					$this->clean($message) == 'a' ||
 					$this->clean($message) == 'b' ||
 					$this->clean($message) == 'c' ||
-					$this->clean($message) == 'd' ||
+					$this->clean($message) == 'd' || //estetika
 					$this->clean($message) == 'e'
 				) {
 					$whatsapp_registration->poli   = $this->clean($message);
+					if ( $this->clean($message) == 'd' ) {
+						$whatsapp_registration->pembayaran   = 'a';
+					}
 					$whatsapp_registration->save();
 				} else {
 					$response = '```Input yang anda masukkan salah```';
@@ -71,10 +75,19 @@ class WablasController extends Controller
 					$this->clean($message) == 'c'
 				) {
 					$whatsapp_registration->pembayaran  = $this->clean($message);
+					if ( $this->clean($message) != 'b' ) {
+						$whatsapp_registration->nomor_bpjs = '000';
+					}
 					$whatsapp_registration->save();
 				} else {
 					$response = 'Input yang anda masukkan salah';
 				}
+			} else if ( 
+				!is_null( $whatsapp_registration ) &&
+				is_null( $whatsapp_registration->nomor_bpjs ) 
+			) {
+				$whatsapp_registration->nomor_bpjs  = $this->clean($message);
+				$whatsapp_registration->save();
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->nama ) 
@@ -290,6 +303,10 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 			$text .= 'Balas *C* untuk *Asuransi/Pembayaran Lain*';
+			return $text;
+		}
+		if ( is_null( $whatsapp_registration->pembayaran ) ) {
+			$text = 'Bisa dibantu Nomor BPJS pasien? ';
 			return $text;
 		}
 		if ( is_null( $whatsapp_registration->nama ) ) {
