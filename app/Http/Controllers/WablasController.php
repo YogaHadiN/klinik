@@ -244,6 +244,8 @@ class WablasController extends Controller
 
 			if ( !is_null($whatsapp_registration) ) {
 				$response .=  $this->botKirim($whatsapp_registration);
+				$response .=  PHP_EOL;
+				$response .=  "Balas *ulang* apa bila ada kesalahan dan mengulangi pertanyaan dari awal";
 				echo $response;
 			}
 
@@ -264,7 +266,7 @@ class WablasController extends Controller
 	private function botKirim($whatsapp_registration)
 	{
 		if ( is_null( $whatsapp_registration->poli ) ) {
-			$text  = 'Terima kasih telah mendaftar sebagai pasien di *KLINIK JATI ELOK*.' ;
+			$text  = 'Terima kasih telah mendaftar sebagai pasien di' ;
 			$text .= PHP_EOL;
 			$text .= '*KLINIK JATI ELOK*' ;
 			$text .= PHP_EOL;
@@ -309,7 +311,7 @@ class WablasController extends Controller
 			return $text;
 		}
 		if ( is_null( $whatsapp_registration->nomor_bpjs ) ) {
-			$text = 'Bisa dibantu Nomor BPJS pasien? ';
+			$text = 'Bisa dibantu *Nomor BPJS* pasien? ';
 			return $text;
 		}
 		if ( is_null( $whatsapp_registration->nama ) ) {
@@ -356,8 +358,7 @@ class WablasController extends Controller
 			return $text;
 		}
 		
-		$text = "Terima kasih atas kesediaan mengisi pertanyaan tersebut." ;
-		$text .= PHP_EOL;
+		$text = "Terima kasih atas kesediaan mengisi pertanyaan kami" ;
 		$text .= PHP_EOL;
 		$text .= "Anda telah terdaftar dengan Nomor Antrian";
 		$text .= PHP_EOL;
