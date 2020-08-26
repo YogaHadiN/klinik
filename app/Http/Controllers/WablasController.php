@@ -305,7 +305,7 @@ class WablasController extends Controller
 			$text .= 'Balas *C* untuk *Asuransi/Pembayaran Lain*';
 			return $text;
 		}
-		if ( is_null( $whatsapp_registration->pembayaran ) ) {
+		if ( is_null( $whatsapp_registration->nomor_bpjs ) ) {
 			$text = 'Bisa dibantu Nomor BPJS pasien? ';
 			return $text;
 		}
