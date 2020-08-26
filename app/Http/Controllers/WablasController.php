@@ -213,21 +213,17 @@ class WablasController extends Controller
 				}
 				if ( !is_null( $whatsapp_registration->nama ) ) {
 					$response .= 'Nama Pasien: ' . ucwords($whatsapp_registration->nama)  ;
-					$response .= PHP_EOL;
 				}
 				if ( !is_null( $whatsapp_registration->poli ) ) {
 					$response .= 'Poli Tujuan : ';
 					$response .= $this->formatPoli( $whatsapp_registration->poli );
-					$response .= PHP_EOL;
 				}
 				if ( !is_null( $whatsapp_registration->pembayaran ) ) {
 					$response .= 'Pembayaran : ';
 					$response .= $this->formatPembayaran( $whatsapp_registration->pembayaran );
-					$response .= PHP_EOL;
 				}
 				if ( !is_null( $whatsapp_registration->tanggal_lahir ) ) {
 					$response .= 'Tanggal Lahir : '.  Carbon::CreateFromFormat('Y-m-d',$whatsapp_registration->tanggal_lahir)->format('d M Y');;
-					$response .= PHP_EOL;
 				}
 				if (
 				 !is_null( $whatsapp_registration->nama ) ||
