@@ -99,6 +99,7 @@ class WablasController extends Controller
 
 					if (  !$pesertaBpjs['response']['aktif'] ) {
 						$whatsapp_registration->pembayaran          = null;
+						$whatsapp_registration->nomor_bpjs          = null;
 						echo "Status Kepesertaan BPJS Anda *Tidak Aktif*";
 						echo PHP_EOL;
 						echo "Mohon gunakan pembayaran yang lainnya selain BPJS";
@@ -106,6 +107,7 @@ class WablasController extends Controller
 						echo "Apabila Anda yakin ini adalah kesalahan, silahkan mendaftar secara manual";
 						echo PHP_EOL;
 						echo "===================";
+						echo PHP_EOL;
 					} else {
 						echo "Status Kepesertaan BPJS Anda *Aktif*";
 						echo PHP_EOL;
