@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Log;
 use Carbon\Carbon;
@@ -19,8 +18,6 @@ class WablasController extends Controller
 			$whatsapp_registration = WhatsappRegistration::where('no_telp', $no_telp)
 														->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
 														->first();
-			Log::info('$this->clean($message)');
-			Log::info($this->clean($message));
 			$response = '';
 
 
@@ -91,7 +88,12 @@ class WablasController extends Controller
 			) {
 				$whatsapp_registration->nomor_bpjs  = $this->clean($message);
 				$whatsapp_registration->save();
-				echo $this->pesertaBpjs($this->clean($message));
+				$pesertaBpjs = $this->pesertaBpjs($this->clean($message));
+
+				if ( isset( $pesertaBpjs['response'] ) ) {
+					echo "oyeee";
+				}
+
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->nama ) 
@@ -427,7 +429,7 @@ class WablasController extends Controller
 			return 'Asuransi Lain';
 		}
 	}
-	private function pesertaBpjs($nomor_bpjs){
+	public function pesertaBpjs($nomor_bpjs){
 		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/dokter/0/13"; //url web service bpjs; */
 		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/provider/0/3"; //url web service bpjs; */
 		$uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/peserta/" . $nomor_bpjs; //url web service bpjs;
@@ -463,6 +465,6 @@ class WablasController extends Controller
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
 		$data = curl_exec($ch);
 		curl_close($ch);
-		return $data;
+		return json_decode($data, true);
 	}
 }

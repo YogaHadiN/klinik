@@ -33,6 +33,7 @@ use App\JurnalUmum;
 use App\Periksa;
 use App\JenisAntrian;
 use App\Telpon;
+use App\Http\Controllers\WablasController;
 use DB;
 use Artisan;
 use Mail;
@@ -72,6 +73,8 @@ class testcommand extends Command
      */
     public function handle()
     {
+		$wa = new WablasController;
+		dd($wa->pesertaBpjs('0001970459842'));
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
