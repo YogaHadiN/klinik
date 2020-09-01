@@ -86,13 +86,14 @@ class WablasController extends Controller
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->nomor_bpjs ) 
 			) {
+
 				$whatsapp_registration->nomor_bpjs  = $this->clean($message);
 				$whatsapp_registration->save();
 				$pesertaBpjs = $this->pesertaBpjs($this->clean($message));
 
 				if ( isset( $pesertaBpjs['response'] )&& isset( $pesertaBpjs['response']['nama'] )  ) {
 					$whatsapp_registration->nama          = $pesertaBpjs['response']['nama'];
-					$whatsapp_registration->tanggal_lahir = $pesertaBpjs['response']['tglLahir'];
+					$whatsapp_registration->tanggal_lahir = Carbon::CreateFromFormat('d-m-Y',$pesertaBpjs['response']['tglLahir'])->format('Y-m-d');
 					$whatsapp_registration->save();
 				}
 
