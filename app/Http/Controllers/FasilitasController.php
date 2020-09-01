@@ -113,7 +113,6 @@ class FasilitasController extends Controller
 		} else {
 			$pesan = Yoga::gagalFlash('<strong>' . $ap->pasien->id . ' - ' . $ap->pasien->nama . '</strong> Gagal masuk antrian');
 		}			
-
 		return $pesan;
 	}
 	
@@ -172,10 +171,10 @@ class FasilitasController extends Controller
 	}
 	public function antrianPeriksaDestroy(){
 		$rules = [
-			'id'        => 'required',
-			'pasien_id' => 'required',
+			'id'           => 'required',
+			'pasien_id'    => 'required',
 			'alasan_kabur' => 'required',
-			'staf_id'   => 'required'
+			'staf_id'      => 'required'
 		];
 		$validator = \Validator::make(Input::all(), $rules);
 		
@@ -252,7 +251,7 @@ class FasilitasController extends Controller
 		}
 		return redirect()->back()->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
 	}
-	public function antrian($id){
+	public function antrianPost($id){
 		$antrians = Antrian::with('jenis_antrian')->where('created_at', 'like', date('Y-m-d') . '%')
 							->where('jenis_antrian_id',$id)
 							->orderBy('nomor', 'desc')
@@ -276,6 +275,10 @@ class FasilitasController extends Controller
 		$antrian->save();
 		$apc                     = new AntrianPolisController;
 		$apc->updateJumlahAntrian();
+		return $antrian;
+	}
+	public function antrian($id){
+		$antrian = $this->antrianPost( $id );
 		return redirect('fasilitas/antrian_pasien')
 			->withPrint($antrian->id);
 	}
@@ -372,6 +375,4 @@ class FasilitasController extends Controller
 		$pc->input_antrian_id = $id;
 		return $pc->inputDataPasien();
 	}
-	
-	
 }

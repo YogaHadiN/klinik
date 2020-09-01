@@ -13,7 +13,6 @@ class AntriansController extends Controller
 		return view('antrians.create');
 	}
 	public function store(){
-
 		try {
 			$antrian = Antrian::where('created_at', date('Y-m-d') . '%')->firstOfFail();
 			$a->antrian_terakhir = (int) $a->antrian_terakhir + 1;

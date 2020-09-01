@@ -5,7 +5,9 @@ use Log;
 use Carbon\Carbon;
 use DateTime;
 use App\Sms;
+use App\Pasien;
 use App\WhatsappRegistration;
+use App\FasilitasController;
 
 class WablasController extends Controller
 {
@@ -101,13 +103,15 @@ class WablasController extends Controller
 						echo PHP_EOL;
 						echo "Mohon gunakan pembayaran yang lainnya selain BPJS";
 						echo PHP_EOL;
+						echo "Apabila Anda yakin ini adalah kesalahan, silahkan mendaftar secara manual";
+						echo PHP_EOL;
 						echo "===================";
+					} else {
+						echo "Status Kepesertaan BPJS Anda *Aktif*";
+						echo PHP_EOL;
+						echo "===================";
+						echo PHP_EOL;
 					}
-					echo "Status Kepesertaan BPJS Anda *Aktif*";
-					echo PHP_EOL;
-					echo "===================";
-					echo PHP_EOL;
-
 					$whatsapp_registration->save();
 				}
 
@@ -393,15 +397,40 @@ class WablasController extends Controller
 
 			return $text;
 		}
+
+
+		$jenis_antrian_id = null;
+		if ( $whatsapp_registration->pembayaran == 'a'	) {
+			$jenis_antrian_id = 1;
+		} else if ( $whatsapp_registration->pembayaran == 'b'	){
+			$jenis_antrian_id = 2;
+		} else if ( $whatsapp_registration->pembayaran == 'c'	){
+			$jenis_antrian_id = 3;
+		} else if ( $whatsapp_registration->pembayaran == 'd'	){
+			$jenis_antrian_id = 4;
+		} else if ( $whatsapp_registration->pembayaran == 'e'	){
+			$jenis_antrian_id = 5;
+		}
+
+		$fasilitas = new FasilitasController;
+		$antrian = $fasilitas->antrian( $jenis_antrian_id );
+		$nomor_antrian = $antrian->nomor_antrian;
 		
 		$text = "Terima kasih atas kesediaan menjawab pertanyaan kami" ;
 		$text .= PHP_EOL;
 		$text .= "Anda telah terdaftar dengan Nomor Antrian";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= "```A80```";
+		$text .= "```" . $nomor_antrian. "```";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
+		if (
+			is_null(Pasien::where('nomor_asuransi_bpjs',$whatsapp_registration->nomor_bpjs)->first()) &&
+			$whatsapp_registration->pembayaran == 'b'
+		){
+			$text .= "Mohon kesediaannya untuk mengirimkan *foto kartu BPJS, Kartu Tanda Penduduk, dan Foto Wajah Pasien* ke nomor ini";
+			$text .= PHP_EOL;
+		}
 		$text .= "Silahkan menunggu untuk dilayani";
 		return $text;
 	}
