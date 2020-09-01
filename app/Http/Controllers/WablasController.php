@@ -414,9 +414,11 @@ class WablasController extends Controller
 			$jenis_antrian_id = 5;
 		}
 
-		$fasilitas = new FasilitasController;
-		$antrian = $fasilitas->antrianPost( $jenis_antrian_id );
-		$nomor_antrian = $antrian->nomor_antrian;
+		$fasilitas                         = new FasilitasController;
+		$antrian                           = $fasilitas->antrianPost( $jenis_antrian_id );
+		$nomor_antrian                     = $antrian->nomor_antrian;
+		$antrian->whatsapp_registration_id = $whatsapp_registration->id;
+		$antrian->save();
 		
 		$text = "Terima kasih atas kesediaan menjawab pertanyaan kami" ;
 		$text .= PHP_EOL;

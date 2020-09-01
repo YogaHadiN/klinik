@@ -16,3 +16,5 @@ create table `whatsapp_registrations` (
 	`created_at` timestamp default 0 not null,
 	`updated_at` timestamp default 0 not null)
 default character set utf8 collate utf8_unicode_ci;
+
+ALTER TABLE antrians ADD COLUMN whatsapp_registration_id VARCHAR(15);
