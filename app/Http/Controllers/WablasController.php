@@ -68,8 +68,7 @@ class WablasController extends Controller
 			} else if ( 
 					!is_null( $whatsapp_registration ) &&
 					is_null( $whatsapp_registration->pembayaran ) 
-			) 
-			{
+			){
 				if (
 					$this->clean($message) == 'a' ||
 					$this->clean($message) == 'b' ||
@@ -78,6 +77,9 @@ class WablasController extends Controller
 					$whatsapp_registration->pembayaran  = $this->clean($message);
 					if ( $this->clean($message) != 'b' ) {
 						$whatsapp_registration->nomor_bpjs = '000';
+					}
+					if ( $this->clean($message) != 'b' ) {
+						$whatsapp_registration->nama_asuransi = $this->clean($message);
 					}
 					$whatsapp_registration->save();
 				} else {
@@ -89,6 +91,7 @@ class WablasController extends Controller
 			) {
 				$whatsapp_registration->nomor_bpjs  = $this->clean($message);
 				$whatsapp_registration->save();
+				$this->pesertaBpjs($this->clean($message));
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->nama ) 
@@ -423,5 +426,43 @@ class WablasController extends Controller
 		} else if (  $this->clean($param) == 'c'  ){
 			return 'Asuransi Lain';
 		}
+	}
+	private function pesertaBpjs($nomor_bpjs){
+		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/dokter/0/13"; //url web service bpjs; */
+		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/provider/0/3"; //url web service bpjs; */
+		$uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/peserta/" . $nomor_bpjs; //url web service bpjs;
+
+		$consID 	= env('CUSTOMER_KEY_BPJS');//"27802"; customer ID anda
+		$secretKey 	= env('SECRET_KEY_BPJS');//"6nNF409D69"; secretKey anda
+
+		$pcareUname = env('PCARE_USERNAME_BPJS');// "klinik_jatielok"; //username pcare
+		$pcarePWD 	= env('PASSWORD_BPJS');// "*Bpjs2020"; //password pcare anda
+		$kdAplikasi	= env('KODE_APLIKASI_BPJS');// "095"; //kode aplikasi
+
+		/* dd( $consID, $secretKey, $pcareUname, $pcarePWD, $kdAplikasi ); */
+
+		$stamp		= time();
+		$data 		= $consID.'&'.$stamp;
+
+		$signature            = hash_hmac('sha256', $data, $secretKey, true);
+		$encodedSignature     = base64_encode($signature);
+		$encodedAuthorization = base64_encode($pcareUname.':'.$pcarePWD.':'.$kdAplikasi);
+
+		$headers = array( 
+					"Accept: application/json", 
+					"X-cons-id:".$consID, 
+					"X-timestamp: ".$stamp, 
+					"X-signature: ".$encodedSignature, 
+					"X-authorization: Basic " .$encodedAuthorization 
+				); 
+
+		$ch = curl_init($uri);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+		$data = curl_exec($ch);
+		curl_close($ch);
+		dd($data);
 	}
 }
