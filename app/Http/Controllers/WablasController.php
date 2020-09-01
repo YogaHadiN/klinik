@@ -91,7 +91,7 @@ class WablasController extends Controller
 			) {
 				$whatsapp_registration->nomor_bpjs  = $this->clean($message);
 				$whatsapp_registration->save();
-				$this->pesertaBpjs($this->clean($message));
+				echo $this->pesertaBpjs($this->clean($message));
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->nama ) 
@@ -463,6 +463,6 @@ class WablasController extends Controller
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
 		$data = curl_exec($ch);
 		curl_close($ch);
-		dd($data);
+		return $data;
 	}
 }
