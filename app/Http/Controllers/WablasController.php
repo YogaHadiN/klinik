@@ -7,7 +7,7 @@ use DateTime;
 use App\Sms;
 use App\Pasien;
 use App\WhatsappRegistration;
-use App\FasilitasController;
+use App\Http\Controllers\FasilitasController;
 
 class WablasController extends Controller
 {
