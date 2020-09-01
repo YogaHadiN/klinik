@@ -415,7 +415,7 @@ class WablasController extends Controller
 		}
 
 		$fasilitas = new FasilitasController;
-		$antrian = $fasilitas->antrian( $jenis_antrian_id );
+		$antrian = $fasilitas->antrianPost( $jenis_antrian_id );
 		$nomor_antrian = $antrian->nomor_antrian;
 		
 		$text = "Terima kasih atas kesediaan menjawab pertanyaan kami" ;
