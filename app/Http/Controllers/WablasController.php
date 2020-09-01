@@ -90,7 +90,7 @@ class WablasController extends Controller
 				$whatsapp_registration->save();
 				$pesertaBpjs = $this->pesertaBpjs($this->clean($message));
 
-				if ( isset( $pesertaBpjs['response'] && isset( $pesertaBpjs['response']['nama']  ) ) {
+				if ( isset( $pesertaBpjs['response'] )&& isset( $pesertaBpjs['response']['nama'] )  ) {
 					$whatsapp_registration->nama          = $pesertaBpjs['response']['nama'];
 					$whatsapp_registration->tanggal_lahir = $pesertaBpjs['response']['tanggal_lahir'];
 					$whatsapp_registration->save();
