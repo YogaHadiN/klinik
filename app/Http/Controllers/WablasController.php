@@ -94,6 +94,20 @@ class WablasController extends Controller
 				if ( isset( $pesertaBpjs['response'] )&& isset( $pesertaBpjs['response']['nama'] )  ) {
 					$whatsapp_registration->nama          = ucfirst(strtolower($pesertaBpjs['response']['nama']));
 					$whatsapp_registration->tanggal_lahir = Carbon::CreateFromFormat('d-m-Y',$pesertaBpjs['response']['tglLahir'])->format('Y-m-d');
+
+					if (  !$pesertaBpjs['response']['aktif'] ) {
+						$whatsapp_registration->pembayaran          = null;
+						echo "Status Kepesertaan BPJS Anda *Tidak Aktif*";
+						echo PHP_EOL;
+						echo "Mohon gunakan pembayaran yang lainnya selain BPJS";
+						echo PHP_EOL;
+						echo "===================";
+					}
+					echo "Status Kepesertaan BPJS Anda *Aktif*";
+					echo PHP_EOL;
+					echo "===================";
+					echo PHP_EOL;
+
 					$whatsapp_registration->save();
 				}
 
