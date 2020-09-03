@@ -7,7 +7,8 @@ $("#tanggal_lahir").datepicker({
 	format: 'dd-mm-yyyy'
 }).on('changeDate', function (ev) {
 
-	if ( alert(moment($(this).val(), 'DD-MM-YYYY',true).isValid());  ) {
+	if ( moment($(this).val(), 'DD-MM-YYYY',true).isValid()  ) {
+		console.log('true');
 		$.get(base + '/pasiens/cek/tanggal_lahir/sama',
 			{ tanggal_lahir_cek : $(this).val() },
 			function (data, textStatus, jqXHR) {
@@ -42,6 +43,7 @@ $("#tanggal_lahir").datepicker({
 			}
 		);
 	} else {
+		console.log('false');
 		validasi1($(this), 'Format Tanggal Salah, harusnya dd-mm-yyyy');
 	}
 });
