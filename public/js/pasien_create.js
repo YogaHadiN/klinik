@@ -6,45 +6,46 @@ $("#tanggal_lahir").datepicker({
 	autoclose: true,
 	format: 'dd-mm-yyyy'
 }).on('changeDate', function (ev) {
+	if ( $(this).val() != '' ) {
+		if ( moment($(this).val(), 'DD-MM-YYYY',true).isValid()  ) {
+			console.log('true');
+			$.get(base + '/pasiens/cek/tanggal_lahir/sama',
+				{ tanggal_lahir_cek : $(this).val() },
+				function (data, textStatus, jqXHR) {
+					var temp = '';
+					for (var i = 0, len = data.length; i < len; i++) {
 
-	if ( moment($(this).val(), 'DD-MM-YYYY',true).isValid()  ) {
-		console.log('true');
-		$.get(base + '/pasiens/cek/tanggal_lahir/sama',
-			{ tanggal_lahir_cek : $(this).val() },
-			function (data, textStatus, jqXHR) {
-				var temp = '';
-				for (var i = 0, len = data.length; i < len; i++) {
+						var duplicate = checkIfDuplicate(data, data[i].nama);
 
-					var duplicate = checkIfDuplicate(data, data[i].nama);
-
-					temp += '<tr';
-					if (duplicate) {
-						temp += ' class="danger"';
+						temp += '<tr';
+						if (duplicate) {
+							temp += ' class="danger"';
+						}
+						temp += '>';
+						temp += '<td class="nama">';
+						temp += data[i].nama;
+						temp += '</td>';
+						temp += '<td class="alamat">';
+						temp += data[i].alamat;
+						temp += '</td>';
+						temp += '<td class="no_telp">';
+						temp += data[i].no_telp;
+						temp += '</td>';
+						temp += '<td class="detil_action">';
+						temp += '<a class="btn btn-info btn-sm" href="' + base + '/pasiens/' + data[i].id + '/edit"><i class="fas fa-info"></i></button>'
+						temp += '</td>';
+						temp += '</tr>';
 					}
-					temp += '>';
-					temp += '<td class="nama">';
-					temp += data[i].nama;
-					temp += '</td>';
-					temp += '<td class="alamat">';
-					temp += data[i].alamat;
-					temp += '</td>';
-					temp += '<td class="no_telp">';
-					temp += data[i].no_telp;
-					temp += '</td>';
-					temp += '<td class="detil_action">';
-					temp += '<a class="btn btn-info btn-sm" href="' + base + '/pasiens/' + data[i].id + '/edit"><i class="fas fa-info"></i></button>'
-					temp += '</td>';
-					temp += '</tr>';
+					if ( data.length > 0 ) {
+						$('#row_ajax_container').fadeIn('slow');
+					}
+					$('#ajax_container').html(temp);
 				}
-				if ( data.length > 0 ) {
-					$('#row_ajax_container').fadeIn('slow');
-				}
-				$('#ajax_container').html(temp);
-			}
-		);
-	} else {
-		console.log('false');
-		validasi1($(this), 'Format Tanggal Salah, harusnya dd-mm-yyyy');
+			);
+		} else {
+			console.log('false');
+			validasi1($(this), 'Format Tanggal Salah, harusnya dd-mm-yyyy');
+		}
 	}
 });
 	

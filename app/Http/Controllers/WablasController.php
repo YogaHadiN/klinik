@@ -402,15 +402,15 @@ class WablasController extends Controller
 
 
 		$jenis_antrian_id = null;
-		if ( $whatsapp_registration->pembayaran == 'a'	) {
+		if ( $whatsapp_registration->poli == 'a'	) {
 			$jenis_antrian_id = 1;
-		} else if ( $whatsapp_registration->pembayaran == 'b'	){
+		} else if ( $whatsapp_registration->poli == 'b'	){
 			$jenis_antrian_id = 2;
-		} else if ( $whatsapp_registration->pembayaran == 'c'	){
+		} else if ( $whatsapp_registration->poli == 'c'	){
 			$jenis_antrian_id = 3;
-		} else if ( $whatsapp_registration->pembayaran == 'd'	){
+		} else if ( $whatsapp_registration->poli == 'd'	){
 			$jenis_antrian_id = 4;
-		} else if ( $whatsapp_registration->pembayaran == 'e'	){
+		} else if ( $whatsapp_registration->poli == 'e'	){
 			$jenis_antrian_id = 5;
 		}
 

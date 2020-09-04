@@ -18,3 +18,4 @@ create table `whatsapp_registrations` (
 default character set utf8 collate utf8_unicode_ci;
 
 ALTER TABLE antrians ADD COLUMN whatsapp_registration_id VARCHAR(15);
+ALTER TABLE whatsapp_registrations ADD COLUMN nama_asuransi VARCHAR(15);
