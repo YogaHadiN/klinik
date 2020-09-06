@@ -40,7 +40,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="bg-danger">
+			<p class="bg-danger">
 				<h3>Keluhan</h3>
 				<ul>
 					@if ( $antrian->whatsapp_registration->demam  )
@@ -59,7 +59,7 @@
 						<li>Kontak COVID +</li>		
 					@endif
 				</ul>
-			</div>
+			</p>
 		</div>
 	@endif
 </div>
