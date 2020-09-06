@@ -37,6 +37,28 @@
 								<td>{{ $antrian->whatsapp_registration->nomor_bpjs }}</td>
 							@endif
 						</tr>
+						<tr>
+							<th>Keluhan</th>
+							<td>
+								<ul>
+									@if ( $antrian->whatsapp_registration->demam  )
+										<li>Demam</li>		
+									@endif
+									@if ( $antrian->whatsapp_registration->batuk_pilek  )
+										<li>Batuk Pilek</li>		
+									@endif
+									@if ( $antrian->whatsapp_registration->nyeri_menelan  )
+										<li>Nyeri Menelan</li>		
+									@endif
+									@if ( $antrian->whatsapp_registration->sesak_nafas  )
+										<li>Sesak Nafas</li>		
+									@endif
+									@if ( $antrian->whatsapp_registration->kontak_covid  )
+										<li>Kontak COVID +</li>		
+									@endif
+								</ul>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
