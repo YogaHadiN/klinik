@@ -77,7 +77,7 @@ class WablasController extends Controller
 					if ( $this->clean($message) != 'b' ) {
 						$whatsapp_registration->nomor_bpjs = '000';
 					}
-					if ( $this->clean($message) != 'b' ) {
+					if ( $this->clean($message) != 'c' ) {
 						$whatsapp_registration->nama_asuransi = $this->clean($message);
 					}
 					$whatsapp_registration->save();
