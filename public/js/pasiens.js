@@ -348,7 +348,6 @@
 	}
 
     function selectPasien(key = 0){
-
             var url = $('form#ajaxkeyup').attr('action');
             var data = $('form#ajaxkeyup').serializeArray();
 			data[data.length] = {
