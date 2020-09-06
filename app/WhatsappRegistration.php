@@ -15,5 +15,9 @@ class WhatsappRegistration extends Model
 			return $this->nama_asuransi ;
 		}
 	}
+	public function antrian(){
+		return $this->belongsTo('App\Antrian');
+	}
+	
 	
 }

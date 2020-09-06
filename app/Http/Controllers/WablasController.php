@@ -88,9 +88,9 @@ class WablasController extends Controller
 				is_null( $whatsapp_registration->nomor_bpjs ) 
 			) {
 
-				$whatsapp_registration->nomor_bpjs  = $this->clean($message);
+				$whatsapp_registration->nomor_bpjs = $this->clean($message);
 				$whatsapp_registration->save();
-				$pesertaBpjs = $this->pesertaBpjs($this->clean($message));
+				$pesertaBpjs                       = $this->pesertaBpjs($this->clean($message));
 
 				if ( isset( $pesertaBpjs['response'] )&& isset( $pesertaBpjs['response']['nama'] )  ) {
 					$whatsapp_registration->nama          = ucfirst(strtolower($pesertaBpjs['response']['nama']));
