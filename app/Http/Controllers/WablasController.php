@@ -5,6 +5,7 @@ use Log;
 use Carbon\Carbon;
 use DateTime;
 use App\Sms;
+use App\Antrian;
 use App\Pasien;
 use App\WhatsappRegistration;
 use App\Http\Controllers\FasilitasController;
