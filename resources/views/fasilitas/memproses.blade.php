@@ -41,7 +41,7 @@
 				</table>
 			</div>
 			<div class="alert alert-danger">
-				<h3>Keluhan</h3>
+				<h3>Keluhan Peringatan COVID</h3>
 				<ul>
 					@if ( $antrian->whatsapp_registration->demam  )
 						<li>Demam</li>		

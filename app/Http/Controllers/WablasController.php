@@ -96,23 +96,23 @@ class WablasController extends Controller
 					$whatsapp_registration->nama          = ucfirst(strtolower($pesertaBpjs['response']['nama']));
 					$whatsapp_registration->tanggal_lahir = Carbon::CreateFromFormat('d-m-Y',$pesertaBpjs['response']['tglLahir'])->format('Y-m-d');
 
-					if (  !$pesertaBpjs['response']['aktif'] ) {
-						$whatsapp_registration->pembayaran          = null;
-						$whatsapp_registration->nomor_bpjs          = null;
-						echo "Status Kepesertaan BPJS Anda *Tidak Aktif*";
-						echo PHP_EOL;
-						echo "Mohon gunakan pembayaran yang lainnya selain BPJS";
-						echo PHP_EOL;
-						echo "Apabila Anda yakin ini adalah kesalahan, silahkan mendaftar secara manual";
-						echo PHP_EOL;
-						echo "===================";
-						echo PHP_EOL;
-					} else {
-						echo "Status Kepesertaan BPJS Anda *Aktif*";
-						echo PHP_EOL;
-						echo "===================";
-						echo PHP_EOL;
-					}
+					/* if (  !$pesertaBpjs['response']['aktif'] ) { */
+					/* 	$whatsapp_registration->pembayaran          = null; */
+					/* 	$whatsapp_registration->nomor_bpjs          = null; */
+					/* 	echo "Status Kepesertaan BPJS Anda *Tidak Aktif*"; */
+					/* 	echo PHP_EOL; */
+					/* 	echo "Mohon gunakan pembayaran yang lainnya selain BPJS"; */
+					/* 	echo PHP_EOL; */
+					/* 	echo "Apabila Anda yakin ini adalah kesalahan, silahkan mendaftar secara manual"; */
+					/* 	echo PHP_EOL; */
+					/* 	echo "==================="; */
+					/* 	echo PHP_EOL; */
+					/* } else { */
+					/* 	echo "Status Kepesertaan BPJS Anda *Aktif*"; */
+					/* 	echo PHP_EOL; */
+					/* 	echo "==================="; */
+					/* 	echo PHP_EOL; */
+					/* } */
 					$whatsapp_registration->save();
 				}
 
@@ -396,18 +396,22 @@ class WablasController extends Controller
 			$jenis_antrian_id = 5;
 		}
 
-		$fasilitas                         = new FasilitasController;
-		$antrian                           = $fasilitas->antrianPost( $jenis_antrian_id );
-		$nomor_antrian                     = $antrian->nomor_antrian;
-		$antrian->whatsapp_registration_id = $whatsapp_registration->id;
-		$antrian->save();
-		
+		if ( is_null( Antrian::where('whatsapp_registration_id', $whatsapp_registration->id)->first() ) ) {
+			$fasilitas                         = new FasilitasController;
+			$antrian                           = $fasilitas->antrianPost( $jenis_antrian_id );
+			$nomor_antrian                     = $antrian->nomor_antrian;
+			$antrian->whatsapp_registration_id = $whatsapp_registration->id;
+			$antrian->save();
+			$whatsapp_registration->antrian_id = $antrian->id;
+			$whatsapp_registration->save();
+		}		
+
 		$text = "Terima kasih atas kesediaan menjawab pertanyaan kami" ;
 		$text .= PHP_EOL;
 		$text .= "Anda telah terdaftar dengan Nomor Antrian";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= "```" . $nomor_antrian. "```";
+		$text .= "```" . $whatsapp_registration->antrian->nomor_antrian . "```";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
 		if (
