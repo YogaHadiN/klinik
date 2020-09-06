@@ -10,6 +10,10 @@ class Antrian extends Model
 		return $this->belongsTo('App\JenisAntrian');
 	}
 
+	public function whatsapp_registration(){
+		return $this->hasOne('App\WhatsappRegistration');
+	}
+
 	public function antriable(){
 		return $this->morphto()->withDefault();
 	}
