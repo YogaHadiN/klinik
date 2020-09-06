@@ -63,3 +63,22 @@ function checkIfDuplicate(data,nama) {
 	}
 	return false;
 }
+function cekNomorBpjsSama(control) {
+	var asuransi_id = $('#asuransi_id').val();
+	if ( 
+		asuransi_id == '32' &&
+		$(control).val().length > 12
+	) {
+		$.get( base + '/pasiens/cek/nomor_bpjs/sama',
+			{ 
+				nomor_bpjs: $(control).val()
+			},
+			function (data, textStatus, jqXHR) {
+				if (data['duplikasi'] == '1') {
+					validasi1($(control), 'Nomor BPJS yang sama sudah digunakan oleh <a href="' + base + '/pasiens/' + data['pasien']['id']+ '/edit">' + data['pasien']['nama'] + '</a>');
+				}
+			}
+		);
+	} else {
+	}
+}

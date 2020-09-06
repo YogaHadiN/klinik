@@ -134,7 +134,10 @@
 				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 					<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
 					  {!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
-						{!! Form::text('nomor_asuransi', null, ['class' => 'form-control tog hh'])!!}
+						{!! Form::text('nomor_asuransi', null, [
+						'class' => 'form-control tog hh',
+						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
+					])!!}
 					  @if($errors->has('nomor_asuransi'))<code>{{ $errors->first('nomor_asuransi') }}</code>@endif
 					</div>
 				</div>

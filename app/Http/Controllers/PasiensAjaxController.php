@@ -419,4 +419,19 @@ class PasiensAjaxController extends Controller
 		$tanggal_lahir = Carbon::CreateFromFormat('d-m-Y', $tanggal_lahir)->format('Y-m-d');
 		return Pasien::where('tanggal_lahir', $tanggal_lahir)->get(['nama', 'no_telp', 'alamat', 'id']);
 	}
+	public function cekNomorBpjsSama(){
+		$nomor_bpjs = Input::get('nomor_bpjs');
+		$pasien     = Pasien::where('nomor_asuransi_bpjs', $nomor_bpjs)->first();
+		if ( !is_null( $pasien ) ) {
+			return [
+				'duplikasi' => 1,
+				'pasien'    => $pasien
+			]; 
+		} else {
+			return [
+				'duplikasi' => 0,
+				'pasien'    => null
+			]; 
+		}
+	}
 }

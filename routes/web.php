@@ -185,6 +185,8 @@ Route::group(['middleware' => 'auth'], function(){
 	// dari menu users
 	Route::post('mereks/ajax/obat', 'MereksController@ajaxObat');
 	Route::get('/pasiens/cek/tanggal_lahir/sama', 'PasiensAjaxController@ajaxTanggalLahir');
+	Route::get('/pasiens/cek/nomor_bpjs/sama', 'PasiensAjaxController@cekNomorBpjsSama');
+
 
 	Route::resource('antrianperiksas', 'AntrianPeriksasController');
 	Route::resource('antriankasirs', 'AntrianKasirsController');
