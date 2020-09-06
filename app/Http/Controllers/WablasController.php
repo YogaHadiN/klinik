@@ -231,7 +231,7 @@ class WablasController extends Controller
 				}
 				if ( !is_null( $whatsapp_registration->pembayaran ) ) {
 					$response .= 'Pembayaran : ';
-					$response .= $this->formatPembayaran( $whatsapp_registration->pembayaran );
+					$response .= $whatsapp_registration->nama_pembayaran;
 					$response .= PHP_EOL;
 				}
 				if ( !is_null( $whatsapp_registration->tanggal_lahir ) ) {
