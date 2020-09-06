@@ -11,7 +11,7 @@ class Antrian extends Model
 	}
 
 	public function whatsapp_registration(){
-		return $this->hasOne('App\WhatsappRegistration');
+		return $this->belongsTo('App\WhatsappRegistration');
 	}
 
 	public function antriable(){
