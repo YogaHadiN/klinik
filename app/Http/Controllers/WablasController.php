@@ -41,7 +41,6 @@ class WablasController extends Controller
 					$whatsapp_registration->demam                    = null;
 					$whatsapp_registration->batuk_pilek              = null;
 					$whatsapp_registration->sesak_nafas              = null;
-					$whatsapp_registration->bepergian_ke_luar_negeri = null;
 					$whatsapp_registration->kontak_covid             = null;
 					$whatsapp_registration->save();
 
@@ -180,8 +179,7 @@ class WablasController extends Controller
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->sesak_nafas ) 
-			) 
-			{
+			) {
 				Log::info('============================ sesak nafas ==========================================');
 				if ( $this->clean($message)             == 'ya')  {
 					$whatsapp_registration->sesak_nafas  = 1;
@@ -194,24 +192,8 @@ class WablasController extends Controller
 				}
 			} else if ( 
 				!is_null( $whatsapp_registration ) &&
-				is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) 
-			) 
-			{
-				Log::info('============================ bepergian ke luar neger ==========================================');
-				if ( $this->clean($message) == 'ya')  {
-					$whatsapp_registration->bepergian_ke_luar_negeri  = 1;
-					$whatsapp_registration->save();
-				} else if ( $this->clean($message) == 'tidak')  {
-					$whatsapp_registration->bepergian_ke_luar_negeri  = 0;
-					$whatsapp_registration->save();
-				} else {
-					$input_tidak_tepat = true;
-				}
-			} else if ( 
-				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->kontak_covid ) 
-			) 
-			{
+			) {
 				if ( $this->clean($message) == 'ya')  {
 					$whatsapp_registration->kontak_covid  = 1;
 					$whatsapp_registration->save();
@@ -376,9 +358,6 @@ class WablasController extends Controller
 		}
 		if ( is_null( $whatsapp_registration->sesak_nafas ) ) {
 			return 'Apakah pasien memiliki keluhan sesak nafas? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
-		}
-		if ( is_null( $whatsapp_registration->bepergian_ke_luar_negeri ) ) {
-			return 'Apakah pasien sempat bepergian ke luar negeri dalam 14 hari terakhir?  ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
 		}
 		if ( is_null( $whatsapp_registration->kontak_covid ) ) {
 
