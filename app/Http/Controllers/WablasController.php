@@ -85,6 +85,12 @@ class WablasController extends Controller
 					$input_tidak_tepat = true;
 				}
 			} else if ( 
+					!is_null( $whatsapp_registration ) &&
+					is_null( $whatsapp_registration->nama_asuransi ) 
+			){
+				$whatsapp_registration->nama_asuransi  = $this->clean($message);
+				$whatsapp_registration->save();
+			} else if ( 
 				!is_null( $whatsapp_registration ) &&
 				is_null( $whatsapp_registration->nomor_bpjs ) 
 			) {
@@ -341,6 +347,9 @@ class WablasController extends Controller
 		if ( is_null( $whatsapp_registration->nomor_bpjs ) ) {
 			$text = 'Bisa dibantu *Nomor BPJS* pasien? ';
 			return $text;
+		}
+		if ( is_null( $whatsapp_registration->nama_asuransi ) ) {
+			return  'Bisa dibantu *Nama Asuransi Yang Digunakan* pasien?';
 		}
 		if ( is_null( $whatsapp_registration->nama ) ) {
 			return  'Bisa dibantu *Nama Lengkap* pasien?';
