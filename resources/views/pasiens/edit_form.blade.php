@@ -134,7 +134,14 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<div class="form-group @if($errors->has('nomor_asuransi_bpjs'))has-error @endif">
+							  {!! Form::label('nomor_asuransi_bpjs', 'Nomor BPJS', ['class' => 'control-label']) !!}
+							  {!! Form::text('nomor_asuransi_bpjs' , null, ['class' => 'form-control']) !!}
+							  @if($errors->has('nomor_asuransi_bpjs'))<code>{{ $errors->first('nomor_asuransi_bpjs') }}</code>@endif
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<div class="form-group @if($errors->has('jangan_disms'))has-error @endif">
 							  {!! Form::label('jangan_disms', 'Status Survey SMS', ['class' => 'control-label']) !!}
 							  {!! Form::select('jangan_disms' , $pasienSurvey, 0, ['class' => 'form-control']) !!}
