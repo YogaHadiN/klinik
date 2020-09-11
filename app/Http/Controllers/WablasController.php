@@ -291,7 +291,7 @@ class WablasController extends Controller
 				}
 				if ( !is_null( $whatsapp_registration->pembayaran ) ) {
 					$response .= 'Pembayaran : ';
-					$response .= $whatsapp_registration->nama_pembayaran;
+					$response .= ucwords($whatsapp_registration->nama_pembayaran);
 					$response .= PHP_EOL;
 				}
 				if ( !is_null( $whatsapp_registration->tanggal_lahir ) ) {
@@ -314,10 +314,6 @@ class WablasController extends Controller
 
 			if ( !is_null($whatsapp_registration) ) {
 				$response .=  $this->botKirim($whatsapp_registration);
-				$response .=  PHP_EOL;
-				$response .=  PHP_EOL;
-				$response .=    "==================";
-				$response .=  PHP_EOL;
 				$response .=  PHP_EOL;
 				$response .=  "Balas *ulang* apa bila ada kesalahan dan mengulangi pertanyaan dari awal";
 				if ( $input_tidak_tepat ) {
@@ -487,6 +483,7 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 		}
 		$text .= "Silahkan menunggu untuk dilayani";
+		$text .= PHP_EOL;
 		$text .= PHP_EOL;
 		$text .= "==============";
 		$text .= PHP_EOL;
