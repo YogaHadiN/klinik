@@ -73,9 +73,14 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$wa = new WablasController;
 
-		dd($wa->pesertaBpjs('0002940330148'));
+
+
+		dd( array_keys( User::first()->getOriginal() ) );
+
+		/* $wa = new WablasController; */
+
+		/* dd($wa->pesertaBpjs('0002940330148')); */
 		/* dd($wa->pesertaBpjs('0001970459842')); */
 	}
 	private function webhook(){

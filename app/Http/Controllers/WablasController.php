@@ -13,7 +13,44 @@ use App\Http\Controllers\FasilitasController;
 class WablasController extends Controller
 {
 
+	public $harus_di_klinik = '```Mohon kehadiran Anda di Klinik saat memanfaatkan fasilitas ini```';
+	public $gigi_buka = true;
+	public $estetika_buka = true;
+	/**
+	* @param 
+	*/
+	public function __construct()
+	{
+		// gigi buka
+		if ( 
+			(int) date('w') > 0 && // senin sampai jumat
+			(int) date('w') < 6
+		) {
+			$this->gigi_buka = false;
+		}
+
+		if ( !( date('H') >= 15 && date('H') <= 19)) { // jam 3 sore sampai 8 malam 
+			$this->gigi_buka = false;
+		}
+
+
+		//estetika_buka
+		if ( 
+			(int) date('w') > 0 && // senin sampai jumat
+			(int) date('w') < 6
+		) {
+			$this->estetika_buka = false;
+		}
+
+		if ( !( date('H') >= 11 && date('H') <= 15)) { // jam 11 siang sampai 5 sore 
+			$this->estetika_buka = false;
+		}
+	}
+	
 	public function webhook(){
+		// rapihkan input tidak tepat
+		// kasih tau kalau pasien harus sudah ada di klinik pada pemberitahuan antrian
+		// enable daftar lagi dengan nomor yang sama apabila sudah dapat nomor antrian
 		if(isset($_POST['message'])) {
 			$message               = $_POST['message'];
 			$no_telp               = $_POST['phone'];
@@ -22,7 +59,6 @@ class WablasController extends Controller
 														->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
 														->first();
 			$response = '';
-
 
 			$input_tidak_tepat = false;
 
@@ -56,11 +92,27 @@ class WablasController extends Controller
 					$this->clean($message) == 'd' || //estetika
 					$this->clean($message) == 'e'
 				) {
-					$whatsapp_registration->poli   = $this->clean($message);
-					if ( $this->clean($message) == 'd' ) {
-						$whatsapp_registration->pembayaran   = 'a';
+					if ( $this->clean($message) == 'b' ) {
+						if ( $this->gigi_buka) {
+							$this->input_poli($whatsapp_registration);
+						} else {
+							echo 'Mohon Maaf Pendaftaran ke Poli Gigi saat ini tutup, Silahkan coba lagi pada hari *Senin - Jumat jam 15.00 - 20.00*';
+							echo PHP_EOL;
+							echo '===========================';
+							echo PHP_EOL;
+						}
+					else if ( $this->clean($message) == 'd' ) {
+						if ( $this->estetika_buka) {
+							$this->input_poli($whatsapp_registration);
+						} else {
+							echo 'Mohon Maaf Pendaftaran ke Poli Estetika /Kecantikan saat ini tutup, Silahkan coba lagi pada hari *Senin - Jumat jam 11.00 - 17.00*';
+							echo PHP_EOL;
+							echo '===========================';
+							echo PHP_EOL;
+						}
+					} else {
+						$this->input_poli($whatsapp_registration);
 					}
-					$whatsapp_registration->save();
 				} else {
 					$input_tidak_tepat = true;
 				}
@@ -277,14 +329,15 @@ class WablasController extends Controller
 				$input_tidak_tepat = false;
 				echo $response;
 			}
-
-			
 			/* Sms::send($no_telp, $response); */
 		}
 	}
 
 	private function clean($param)
 	{
+		if (empty( trim($param) )) {
+			return null;
+		}
 		return strtolower( trim($param) );
 	}
 	/**
@@ -303,7 +356,7 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= "==============";
 			$text .= PHP_EOL;
-			$text .= '```Anda harus sudah berada di Klinik untuk memanfaatkan fasilitas ini```';
+			$text .= $this->harus_di_klinik;
 			$text .= PHP_EOL;
 			$text .= "==============";
 			$text .= PHP_EOL;
@@ -315,6 +368,8 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 			$text .= 'Balas *B* untuk Dokter Gigi, ';
+			$text .= PHP_EOL;
+			$text .= '(Pendaftaran Dibuka jam 15.00 - 20.00)';
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 			$text .= 'Balas *C* untuk Suntik KB/Periksa Hamil.';
@@ -424,6 +479,8 @@ class WablasController extends Controller
 		$text .= "```" . $whatsapp_registration->antrian->nomor_antrian . "```";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
+		$text .= $this->harus_di_klinik;
+		$text .= PHP_EOL;
 		if (
 			is_null(Pasien::where('nomor_asuransi_bpjs',$whatsapp_registration->nomor_bpjs)->first()) &&
 			$whatsapp_registration->pembayaran == 'b'
@@ -512,5 +569,12 @@ class WablasController extends Controller
 		curl_close($ch);
 		return json_decode($data, true);
 
+	}
+	private function input_poli( $whatsapp_registration ){
+		$whatsapp_registration->poli   = $this->clean($message);
+		if ( $this->clean($message) == 'd' ) {
+			$whatsapp_registration->pembayaran   = 'a';
+		}
+		$whatsapp_registration->save();
 	}
 }
