@@ -72,15 +72,18 @@ class WablasController extends Controller
 				substr($this->clean($message), 0, 5) == 'ulang' &&
 				!is_null( $whatsapp_registration ) 
 			) {
-					$whatsapp_registration->pembayaran               = null;
-					$whatsapp_registration->tanggal_lahir            = null;
-					$whatsapp_registration->poli                     = null;
-					$whatsapp_registration->demam                    = null;
-					$whatsapp_registration->batuk_pilek              = null;
-					$whatsapp_registration->sesak_nafas              = null;
-					$whatsapp_registration->kontak_covid             = null;
-					$whatsapp_registration->save();
-
+				$columns = array_keys( $whatsapp_registration->getOriginal() );
+				foreach ($columns as $column) {
+					if (
+						!(
+							 $column == 'id' ||
+							 $column == 'no_telp'
+						)
+					) {
+						$whatsapp_registration->$column = null;
+						$whatsapp_registration->save();
+					}
+				}
 			} else if ( 
 					!is_null( $whatsapp_registration ) &&
 					is_null( $whatsapp_registration->poli ) 
@@ -319,7 +322,7 @@ class WablasController extends Controller
 				$response .=    "==================";
 				$response .=  PHP_EOL;
 				$response .=  PHP_EOL;
-				$response .=  "Balas *ulang* apa bila ada kesalahan dan mengulangi pertanyaan dari awal";
+				$response .=  "Balas *ulang* apa bila ada kesalahan dan Anda akan mengulangi pertanyaan dari awal";
 				if ( $input_tidak_tepat ) {
 					$response .=  PHP_EOL;
 					$response .= '```Input yang anda masukkan salah```';
@@ -483,7 +486,8 @@ class WablasController extends Controller
 			is_null(Pasien::where('nomor_asuransi_bpjs',$whatsapp_registration->nomor_bpjs)->first()) &&
 			$whatsapp_registration->pembayaran == 'b'
 		){
-			$text .= "Mohon kesediaannya untuk mengirimkan *foto kartu BPJS, Kartu Tanda Penduduk, dan Foto Wajah Pasien* ke nomor ini";
+			$text .= "Mohon kesediaannya untuk mengirimkan *foto kartu BPJS, foto Kartu Tanda Penduduk, dan Foto Wajah Pasien* ke nomor ini";
+			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 		}
 		$text .= "Silahkan menunggu untuk dilayani";
