@@ -478,7 +478,6 @@ class WablasController extends Controller
 		$text .= "```" . $whatsapp_registration->antrian->nomor_antrian . "```";
 		$text .= PHP_EOL;
 		$text .= PHP_EOL;
-		$text .= $this->harus_di_klinik;
 		$text .= PHP_EOL;
 		if (
 			is_null(Pasien::where('nomor_asuransi_bpjs',$whatsapp_registration->nomor_bpjs)->first()) &&
@@ -488,6 +487,12 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 		}
 		$text .= "Silahkan menunggu untuk dilayani";
+		$text .= PHP_EOL;
+		$text .= "==============";
+		$text .= PHP_EOL;
+		$text .= $this->harus_di_klinik;
+		$text .= PHP_EOL;
+		$text .= "==============";
 		return $text;
 	}
 	private function validateDate($date, $format = 'Y-m-d')
