@@ -101,6 +101,7 @@ class WablasController extends Controller
 							echo '===========================';
 							echo PHP_EOL;
 						}
+					}
 					else if ( $this->clean($message) == 'd' ) {
 						if ( $this->estetika_buka) {
 							$this->input_poli($whatsapp_registration);
