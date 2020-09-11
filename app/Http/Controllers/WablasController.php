@@ -77,6 +77,9 @@ class WablasController extends Controller
 					if (
 						!(
 							 $column == 'id' ||
+							 $column == 'created_at' ||
+							 $column == 'antrian_id' ||
+							 $column == 'updated_at' ||
 							 $column == 'no_telp'
 						)
 					) {
