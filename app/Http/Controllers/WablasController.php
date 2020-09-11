@@ -94,7 +94,7 @@ class WablasController extends Controller
 				) {
 					if ( $this->clean($message) == 'b' ) {
 						if ( $this->gigi_buka) {
-							$this->input_poli($whatsapp_registration);
+							$this->input_poli($whatsapp_registration, $message);
 						} else {
 							echo 'Mohon Maaf Pendaftaran ke Poli Gigi saat ini tutup, Silahkan coba lagi pada hari *Senin - Jumat jam 15.00 - 20.00*';
 							echo PHP_EOL;
@@ -104,7 +104,7 @@ class WablasController extends Controller
 					}
 					else if ( $this->clean($message) == 'd' ) {
 						if ( $this->estetika_buka) {
-							$this->input_poli($whatsapp_registration);
+							$this->input_poli($whatsapp_registration, $message);
 						} else {
 							echo 'Mohon Maaf Pendaftaran ke Poli Estetika /Kecantikan saat ini tutup, Silahkan coba lagi pada hari *Senin - Jumat jam 11.00 - 17.00*';
 							echo PHP_EOL;
@@ -112,7 +112,7 @@ class WablasController extends Controller
 							echo PHP_EOL;
 						}
 					} else {
-						$this->input_poli($whatsapp_registration);
+						$this->input_poli($whatsapp_registration, $message);
 					}
 				} else {
 					$input_tidak_tepat = true;
@@ -375,7 +375,6 @@ class WablasController extends Controller
 			}
 			$text .= 'Balas *C* untuk Suntik KB/Periksa Hamil.';
 			$text .= PHP_EOL;
-			$text .= PHP_EOL;
 			if ( $this->estetika_buka ) {
 				$text .= 'Balas *D* untuk Dokter Estetika/Kecantikan';
 			}
@@ -570,7 +569,7 @@ class WablasController extends Controller
 		return json_decode($data, true);
 
 	}
-	private function input_poli( $whatsapp_registration ){
+	private function input_poli( $whatsapp_registration, $message ){
 		$whatsapp_registration->poli   = $this->clean($message);
 		if ( $this->clean($message) == 'd' ) {
 			$whatsapp_registration->pembayaran   = 'a';
