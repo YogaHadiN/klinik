@@ -328,6 +328,8 @@ class WablasController extends Controller
 				$response .=  "Balas *ulang* apa bila ada kesalahan dan Anda akan mengulangi pertanyaan dari awal";
 				if ( $input_tidak_tepat ) {
 					$response .=  PHP_EOL;
+					$response .=  PHP_EOL;
+				$response .=    "==================";
 					$response .= '```Input yang anda masukkan salah```';
 					$response .= PHP_EOL;
 					$response .= '```Mohon Diulangi```';
