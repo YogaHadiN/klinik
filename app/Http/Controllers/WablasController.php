@@ -381,8 +381,8 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= 'Balas *C* untuk Suntik KB/Periksa Hamil.';
 			$text .= PHP_EOL;
-			if ( $this->estetika_buka ) {
 			$text .= PHP_EOL;
+			if ( $this->estetika_buka ) {
 				$text .= 'Balas *D* untuk Dokter Estetika/Kecantikan';
 			}
 			/* $text .= PHP_EOL; */
