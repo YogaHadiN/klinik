@@ -513,7 +513,6 @@ class WablasController extends Controller
 		$text .= "==============";
 		$text .= PHP_EOL;
 		$text .= $this->harus_di_klinik;
-		$text .= PHP_EOL;
 		return $text;
 	}
 	private function validateDate($date, $format = 'Y-m-d')
