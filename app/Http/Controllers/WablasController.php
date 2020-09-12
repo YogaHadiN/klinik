@@ -23,7 +23,7 @@ class WablasController extends Controller
 	{
 		// gigi buka
 		if ( 
-			!((int) date('w') < 1 || (int) date('w') > 5)
+			!( date('w') < 1 ||  date('w') > 5)
 		) {
 			$this->gigi_buka = false;
 		}
@@ -35,7 +35,7 @@ class WablasController extends Controller
 
 		//estetika_buka
 		if ( 
-			!((int) date('w') < 1 || (int) date('w') > 5)
+				!( date('w') < 1 ||  date('w') > 5)
 		) {
 			$this->estetika_buka = false;
 		}
