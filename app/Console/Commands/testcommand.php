@@ -66,6 +66,10 @@ class testcommand extends Command
         parent::__construct();
     }
 
+	public $estetika_buka = true;
+	public $gigi_buka = true;
+
+
     /**
      * Execute the console command.
      *
@@ -76,8 +80,29 @@ class testcommand extends Command
 
 
 
-		dd( array_keys( User::first()->getOriginal() ) );
+		if ( 
+			( date('w') < 1 ||  date('w') > 5)
+		) {
+			$this->gigi_buka = false;
+		}
 
+		if ( !( date('H') >= 15 && date('H') <= 19)) { // jam 3 sore sampai 8 malam 
+			$this->gigi_buka = false;
+		}
+
+
+		//estetika_buka
+		if ( 
+			( date('w') < 1 ||  date('w') > 5)
+		) {
+			$this->estetika_buka = false;
+		}
+
+		if ( !( date('H') >= 11 && date('H') <= 15)) { // jam 11 siang sampai 5 sore 
+			$this->estetika_buka = false;
+		}
+
+		dd( $this->estetika_buka, $this->gigi_buka );
 		/* $wa = new WablasController; */
 
 		/* dd($wa->pesertaBpjs('0002940330148')); */

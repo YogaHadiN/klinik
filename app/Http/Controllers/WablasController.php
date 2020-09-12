@@ -35,7 +35,7 @@ class WablasController extends Controller
 
 		//estetika_buka
 		if ( 
-				!( date('w') < 1 ||  date('w') > 5)
+				!( dae('w') < 1 ||  date('w') > 5)
 		) {
 			$this->estetika_buka = false;
 		}
