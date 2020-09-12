@@ -318,7 +318,7 @@ class WablasController extends Controller
 
 			if ( !is_null($whatsapp_registration) ) {
 				$response .=  $this->botKirim($whatsapp_registration);
-				$response .=    "==================";
+				$response .= "==============";
 				$response .=  PHP_EOL;
 				$response .=  PHP_EOL;
 				$response .=  "Balas *ulang* apa bila ada kesalahan dan Anda akan mengulangi pertanyaan dari awal";
