@@ -328,6 +328,7 @@ class WablasController extends Controller
 					$response .=  PHP_EOL;
 					$response .=  PHP_EOL;
 				$response .=    "==================";
+					$response .= PHP_EOL;
 					$response .= '```Input yang anda masukkan salah```';
 					$response .= PHP_EOL;
 					$response .= '```Mohon Diulangi```';
