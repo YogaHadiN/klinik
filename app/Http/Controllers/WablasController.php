@@ -320,6 +320,7 @@ class WablasController extends Controller
 				$response .=  PHP_EOL;
 				$response .=  PHP_EOL;
 				$response .=  $this->botKirim($whatsapp_registration);
+				$response .=  PHP_EOL;
 				$response .= "==============";
 				$response .=  PHP_EOL;
 				$response .=  PHP_EOL;
