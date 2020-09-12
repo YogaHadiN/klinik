@@ -492,6 +492,16 @@ class WablasController extends Controller
 			$text .= "Mohon kesediaannya untuk mengirimkan *foto kartu BPJS, foto Kartu Tanda Penduduk, dan Foto Wajah Pasien* ke nomor ini";
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
+			$text .= "*- Foto kartu BPJS*";
+			$text .= PHP_EOL;
+			$text .= "*- Foto Kartu Tanda Penduduk*";
+			$text .= PHP_EOL;
+			$text .= "*- Foto Wajah Pasien* ke nomor ini";
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= "ke nomor ini";
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
 		}
 		$text .= "Silahkan menunggu untuk dilayani";
 		$text .= PHP_EOL;
