@@ -317,6 +317,8 @@ class WablasController extends Controller
 
 
 			if ( !is_null($whatsapp_registration) ) {
+				$response .=  PHP_EOL;
+				$response .=  PHP_EOL;
 				$response .=  $this->botKirim($whatsapp_registration);
 				$response .= "==============";
 				$response .=  PHP_EOL;
@@ -366,6 +368,7 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= "==============";
 			$text .= PHP_EOL;
+			$text .= PHP_EOL;
 			$text .= 'Bisa dibantu berobat ke dokter apa?';
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
@@ -380,9 +383,9 @@ class WablasController extends Controller
 			}
 			$text .= PHP_EOL;
 			$text .= 'Balas *C* untuk Suntik KB/Periksa Hamil.';
-			$text .= PHP_EOL;
-			$text .= PHP_EOL;
 			if ( $this->estetika_buka ) {
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
 				$text .= 'Balas *D* untuk Dokter Estetika/Kecantikan';
 			}
 			/* $text .= PHP_EOL; */
@@ -403,6 +406,7 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= PHP_EOL;
 			$text .= 'Balas *C* untuk *Asuransi/Pembayaran Lain*';
+			$text .= PHP_EOL;
 			return $text;
 		}
 		if ( is_null( $whatsapp_registration->nomor_bpjs ) ) {
