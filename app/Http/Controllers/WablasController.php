@@ -23,8 +23,8 @@ class WablasController extends Controller
 	{
 		// gigi buka
 		if ( 
-			(int) date('w') > 0 && // senin sampai jumat
-			(int) date('w') < 6
+			(int) date('w') < 1 && // senin sampai jumat
+			(int) date('w') > 5
 		) {
 			$this->gigi_buka = false;
 		}
@@ -36,8 +36,8 @@ class WablasController extends Controller
 
 		//estetika_buka
 		if ( 
-			(int) date('w') > 0 && // senin sampai jumat
-			(int) date('w') < 6
+			(int) date('w') < 1 && // senin sampai jumat
+			(int) date('w') > 5
 		) {
 			$this->estetika_buka = false;
 		}
@@ -375,8 +375,8 @@ class WablasController extends Controller
 			$text .= PHP_EOL;
 			$text .= 'Balas *A* untuk Dokter Umum, ';
 			$text .= PHP_EOL;
-			$text .= PHP_EOL;
 			if ( $this->gigi_buka ) {
+				$text .= PHP_EOL;
 				$text .= 'Balas *B* untuk Dokter Gigi, ';
 				$text .= PHP_EOL;
 				$text .= PHP_EOL;
@@ -500,9 +500,9 @@ class WablasController extends Controller
 		$text .= PHP_EOL;
 		$text .= "==============";
 		$text .= PHP_EOL;
+		$text .= PHP_EOL;
 		$text .= $this->harus_di_klinik;
 		$text .= PHP_EOL;
-		$text .= "==============";
 		return $text;
 	}
 	private function validateDate($date, $format = 'Y-m-d')
