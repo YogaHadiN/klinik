@@ -333,13 +333,13 @@ class FasilitasController extends Controller
 	}
 	public function deleteAntrian($id){
 		$antrian      = Antrian::find( $id );
-		$nomo_antrian = $antrian->nomo_antrian;
-		$pesan        = Yoga::suksesFlash('Antrian ' . $nomo_antrian . ' BERHASIL dihapus');
+		$nomor_antrian = $antrian->nomor_antrian; 
+		$pesan        = Yoga::suksesFlash('Antrian ' . $nomor_antrian . ' BERHASIL dihapus');
 		$antrian->delete();
 		$apc          = new AntrianPolisController;
 		$apc->updateJumlahAntrian();
 
-		$whatsapp_registration = $antrian->whatsappRegistration;
+		$whatsapp_registration = $antrian->whatsapp_registration;
 		dd( 
 			$whatsapp_registration
 		);
