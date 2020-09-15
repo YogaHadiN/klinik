@@ -340,10 +340,14 @@ class FasilitasController extends Controller
 		$apc->updateJumlahAntrian();
 
 		$whatsapp_registration = $antrian->whatsappRegistration;
+		dd( 
+			$whatsapp_registration
+		);
 
 		if ( isset( $$whatsapp_registration ) ) {
 			$message = 'Mohon maaf antrian pendaftaran anda melalui whatsapp telah dihapus, Anda dapat mengulangi lagi pada saat anda sudah tiba di klinik' ;
 			Sms::send( $$whatsapp_registration->no_telp, $message);
+			$whatsapp_registration->delete();
 		}
 
 		return redirect()->back()->withPesan($pesan);

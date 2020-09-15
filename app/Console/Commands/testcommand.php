@@ -77,8 +77,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$wablas = new WablasController;
-		dd( $wablas->infoWablas() );
+		Sms::send('081381912803', 'this is sparta');
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
