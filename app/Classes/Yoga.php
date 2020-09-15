@@ -2675,8 +2675,12 @@ class Yoga {
 		}
 	  return $result;
 	}
-	
-	
+	public static function dateDiffNow($date){
 
-	
+		$now = time(); // or your date as well
+		$your_date = strtotime($date);
+		$datediff = $your_date - $now;
+
+		return round($datediff / (60 * 60 * 24));
+	}
 }

@@ -82,9 +82,9 @@ class WablasController extends Controller
 						)
 					) {
 						$whatsapp_registration->$column = null;
-						$whatsapp_registration->save();
 					}
 				}
+				$whatsapp_registration->save();
 			} else if ( 
 					!is_null( $whatsapp_registration ) &&
 					is_null( $whatsapp_registration->poli ) 
@@ -379,7 +379,6 @@ class WablasController extends Controller
 				$text .= PHP_EOL;
 				$text .= 'Balas *B* untuk Dokter Gigi, ';
 				$text .= PHP_EOL;
-				$text .= PHP_EOL;
 			}
 			$text .= PHP_EOL;
 			$text .= 'Balas *C* untuk Suntik KB/Periksa Hamil.';
@@ -601,4 +600,18 @@ class WablasController extends Controller
 		}
 		$whatsapp_registration->save();
 	}
+	public function infoWablas(){
+		$url = "https://console.wablas.com/api/device/info?token=" . env('WABLAS_TOKEN');
+		$json = file_get_contents($url);
+		$data = json_decode($json);
+
+		$quota = $data->data->whatsapp->quota;
+		$expired = $data->data->whatsapp->expired;
+
+		return [
+			'quota' => $quota,
+			'expired' => $expired
+		];
+	}
+	
 }

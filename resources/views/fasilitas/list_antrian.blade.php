@@ -67,7 +67,6 @@ Klinik Jati Elok | List Antrian
 					</tbody>
 				</table>
 			</div>
-			
 		</div>
 	</div>
 @stop

@@ -338,7 +338,15 @@ class FasilitasController extends Controller
 		$antrian->delete();
 		$apc          = new AntrianPolisController;
 		$apc->updateJumlahAntrian();
-		return redirect('antrians')->withPesan($pesan);
+
+		$whatsapp_registration = $antrian->whatsappRegistration;
+
+		if ( isset( $$whatsapp_registration ) ) {
+			$message = 'Mohon maaf antrian pendaftaran anda melalui whatsapp telah dihapus, Anda dapat mengulangi lagi pada saat anda sudah tiba di klinik' ;
+			Sms::send( $$whatsapp_registration->no_telp, $message);
+		}
+
+		return redirect()->back()->withPesan($pesan);
 	}
 	public function createPasien($id){
 		$ps          = new PasiensController;

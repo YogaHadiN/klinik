@@ -11,6 +11,7 @@ use Moota;
 use DB;
 use Carbon\Carbon;
 use App\Http\Controllers\PengeluaransController;
+use App\Http\Controllers\WablasController;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use App\Http\Requests;
@@ -40,66 +41,82 @@ class KasirsController extends Controller
 	public function saldo(){
 		$moota_balance = Moota::balance()['balance'];
 
-		$client          = new Client(); //GuzzleHttp\Client
-		$res             = $client->request('GET', 'gsm.zenziva.net/api/balance/?userkey=' . env('ZENZIVA_USERKEY'). '&passkey=' . env('ZENZIVA_PASSKEY'), []);
+		$wablas     = new WablasController;
+		$infoWablas = $wablas->infoWablas();
 
+		$quota      = $infoWablas['quota'];
+		$expired    = $infoWablas['expired'];
 
 		$pasien_pertama_belum_dikirim = $this->pasienPertamaBelumDikirim();
 
-		/* if( strtolower( $bulan ) == 'januari' ){ */
-		/* 	$bulan = '01'; */
-		/* } else if (  strtolower($bulan) == 'februari'  ){ */
-		/* 	$bulan = '02'; */
-		/* } else if (  strtolower($bulan) == 'maret'  ){ */
-		/* 	$bulan = '03'; */
-		/* } else if (  strtolower($bulan) == 'april'  ){ */
-		/* 	$bulan = '04'; */
-		/* } else if (  strtolower($bulan) == 'mei'  ){ */
-		/* 	$bulan = '05'; */
-		/* } else if (  strtolower($bulan) == 'juni'  ){ */
-		/* 	$bulan = '06'; */
-		/* } else if (  strtolower($bulan) == 'juli'  ){ */
-		/* 	$bulan = '07'; */
-		/* } else if (  strtolower($bulan) == 'agustus'  ){ */
-		/* 	$bulan = '08'; */
-		/* } else if (  strtolower($bulan) == 'september'  ){ */
-		/* 	$bulan = '09'; */
-		/* } else if (  strtolower($bulan) == 'oktober'  ){ */
-		/* 	$bulan = '10'; */
-		/* } else if (  strtolower($bulan) == 'november'  ){ */
-		/* 	$bulan = '11'; */
-		/* } else if (  strtolower($bulan) == 'desember'  ){ */
-		/* 	$bulan = '12'; */
-		/* } */
 		$vultr                = $this->vultr();
 
 		$status = 'success';
 
+		$admedikaWarning = 'success';
 		//jika pasien admedika yang belum dikirim ada 25 hari yang lalu, maka warning
 		//
 		if ( $this->countDay( $pasien_pertama_belum_dikirim->tanggal  ) > 20) {
-			$status = 'warning';
+			$status          = 'warning';
+			$admedikaWarning = 'warning';
 		} 
 
+		//
+		//jika balance vultr kurang dari 20 maka warning
+		//
+		//
+		$vultrWarning = 'success';
 		if( ($vultr['balance'] + $vultr['pending_charges']) > -20 ){
 			$status = 'warning';
+			$vultrWarning = 'warning';
 		}
 
+		//
+		//jika balance moota kurang dari 20000 maka warning
+		//
+		$mootaWarning = 'success';
 		if( $moota_balance < 20000 ){
 			$status = 'warning';
+			$mootaWarning = 'warning';
+		}
+
+		//
+		//jika quota Wablas kurang dari 1000 maka warning
+		//
+		$wablasWarning = 'success';
+		if( $quota < 1000 ){
+			$status = 'warning';
+			$wablasWarning = 'warning';
+		}
+
+		if( Yoga::dateDiffNow($expired) < 10 ){
+			$status = 'warning';
+			$wablasWarning = 'warning';
 		}
 
 		if( $moota_balance < 10000 ){
 			$status = 'danger';
+			$mootaWarning = 'danger';
 		}
 		if( ($vultr['balance'] + $vultr['pending_charges']) > -15 ){
-			$status = 'danger';
+			$status       = 'danger';
+			$vultrWarning = 'danger';
 		}
 
 		if ( $this->countDay( $pasien_pertama_belum_dikirim->tanggal  ) > 24) {
-			$status = 'danger';
+			$status          = 'danger';
+			$admedikaWarning = 'danger';
 		} 
 
+		if( $quota < 500 ){
+			$status        = 'danger';
+			$wablasWarning = 'danger';
+		}
+
+		if( Yoga::dateDiffNow($expired) < 3 ){
+			$status        = 'danger';
+			$wablasWarning = 'danger';
+		}
 
 		$saldos          = Saldo::with('staf')->latest()->paginate(20);
 
@@ -108,6 +125,12 @@ class KasirsController extends Controller
 
 		return view('kasirs.saldo', compact(
 			'saldos',
+			'admedikaWarning',
+			'vultrWarning',
+			'wablasWarning',
+			'mootaWarning',
+			'quota',
+			'expired',
 			'status',
 			'pasien_pertama_belum_dikirim',
 			'jarak_hari',

@@ -24,4 +24,7 @@ class AntriansController extends Controller
 		}
 		return $a->antrian_terakhir;
 	}
+	public function whatsappRegistration(){
+		return $this->belongsTo('App\WhatsappRegistration');
+	}
 }

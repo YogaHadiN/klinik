@@ -87,7 +87,6 @@
 						@else
 							<tr>
 								<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
-							</tr>
 						@endif
 					</tbody>
 				</table>
