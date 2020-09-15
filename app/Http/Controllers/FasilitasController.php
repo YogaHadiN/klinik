@@ -335,7 +335,6 @@ class FasilitasController extends Controller
 		$antrian      = Antrian::find( $id );
 		$nomor_antrian = $antrian->nomor_antrian; 
 		$pesan        = Yoga::suksesFlash('Antrian ' . $nomor_antrian . ' BERHASIL dihapus');
-		$antrian->delete();
 		$apc          = new AntrianPolisController;
 		$apc->updateJumlahAntrian();
 
@@ -347,7 +346,7 @@ class FasilitasController extends Controller
 			Sms::send( $$whatsapp_registration->no_telp, $message);
 			$whatsapp_registration->delete();
 		}
-
+		$antrian->delete();
 		return redirect()->back()->withPesan($pesan);
 	}
 	public function createPasien($id){
