@@ -5,10 +5,13 @@
 		<div class="alert alert-info" role="alert">
 			<h4>Jika tidak dipenuhi maka halaman ini tidak bisa disubmit</h4>
 		</div>
+		<div class="alert alert-success" role="alert">
+			Label Hijau artinya dalam batas aman
+		</div>
 		<div class="alert alert-warning" role="alert">
 			Label Kuning artinya peringatan mendekati batas minimal
 		</div>
-		<div class="alert alert-warning" role="alert">
+		<div class="alert alert-danger" role="alert">
 			Label Merah artinya kurang dari batas minimal
 		</div>
 	</div>
