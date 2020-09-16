@@ -1,10 +1,18 @@
 @if( $status == 'danger' || $status == 'warning' )
+<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 	<div class="alert alert-warning" role="alert">
 		<h1>PERHATIAN!!</h1>
 		<div class="alert alert-info" role="alert">
 			<h4>Jika tidak dipenuhi maka halaman ini tidak bisa disubmit</h4>
 		</div>
+		<div class="alert alert-warning" role="alert">
+			Label Kuning artinya peringatan mendekati batas minimal
+		</div>
+		<div class="alert alert-warning" role="alert">
+			Label Merah artinya kurang dari batas minimal
+		</div>
 	</div>
+</div>
 @endif
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 	<div class="panel panel-{{ $admedikaWarning }}">
@@ -24,6 +32,8 @@
 					</tbody>
 				</table>
 			</div>
+			<h1>{{ $jarak_hari }} hari</h1>
+			<p>Maksmial 24 hari sudah harus dikirim</p>
 		</div>
 	</div>
 </div>
@@ -36,9 +46,6 @@
 			<h3>Saldo Moota</h3>
 				<h1>{{ App\Classes\Yoga::buatrp( $moota_balance ) }}</h1>
 				<p>Saldo Moota harus diatas Rp. 10.000,- </p>
-
-			<h1>{{ $jarak_hari }} hari</h1>
-			<p>Maksmial 24 hari sudah harus dikirim</p>
 		</div>
 	</div>
 </div>
@@ -62,9 +69,9 @@
 		<div class="panel-body">
 			<h3>Credit Wablas</h3>
 			<h1>Quota = {{ $quota }}</h1>
-			<p>kuota harus diatas 1.000</p>
+			<p>kuota harus diatas 500</p>
 			<h1>Expired = {{ $expired }} ( {{ App\Classes\Yoga::dateDiffNow( $expired ) }} hari )</h1>
-			<p>expired harus diatas 10 hari</p>
+			<p>expired harus diatas 3 hari</p>
 		</div>
 	</div>
 </div>

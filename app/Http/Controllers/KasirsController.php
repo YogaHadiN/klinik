@@ -53,7 +53,7 @@ class KasirsController extends Controller
 
 		$status = 'success';
 
-		$admedikaWarning = 'success';
+		$admedikaWarning = 'primary';
 		//jika pasien admedika yang belum dikirim ada 25 hari yang lalu, maka warning
 		//
 		if ( $this->countDay( $pasien_pertama_belum_dikirim->tanggal  ) > 20) {
@@ -65,7 +65,7 @@ class KasirsController extends Controller
 		//jika balance vultr kurang dari 20 maka warning
 		//
 		//
-		$vultrWarning = 'success';
+		$vultrWarning = 'primary';
 		if( ($vultr['balance'] + $vultr['pending_charges']) > -20 ){
 			$status = 'warning';
 			$vultrWarning = 'warning';
@@ -74,7 +74,7 @@ class KasirsController extends Controller
 		//
 		//jika balance moota kurang dari 20000 maka warning
 		//
-		$mootaWarning = 'success';
+		$mootaWarning = 'primary';
 		if( $moota_balance < 20000 ){
 			$status = 'warning';
 			$mootaWarning = 'warning';
@@ -83,7 +83,7 @@ class KasirsController extends Controller
 		//
 		//jika quota Wablas kurang dari 1000 maka warning
 		//
-		$wablasWarning = 'success';
+		$wablasWarning = 'primary';
 		if( $quota < 1000 ){
 			$status = 'warning';
 			$wablasWarning = 'warning';
