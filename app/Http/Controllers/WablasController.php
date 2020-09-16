@@ -198,76 +198,77 @@ class WablasController extends Controller
 				} else {
 					$input_tidak_tepat = true;
 				}
-			} else if ( 
-				!is_null( $whatsapp_registration ) &&
-				is_null( $whatsapp_registration->demam ) 
-			) 
-			{
-				if ( $this->clean($message) == 'ya')  {
-					$whatsapp_registration->demam  = 1;
-					$whatsapp_registration->save();
-				} else if ( $this->clean($message) == 'tidak') {
-					$whatsapp_registration->demam  = 0;
-					$whatsapp_registration->save();
-				} else {
-					$input_tidak_tepat = true;
-				}
-			} else if ( 
-				!is_null( $whatsapp_registration ) &&
-				is_null( $whatsapp_registration->batuk_pilek ) 
-			) 
-			{
-				if ( $this->clean($message) == 'ya')  {
-					$whatsapp_registration->batuk_pilek  = 1;
-					$whatsapp_registration->save();
-				} else if ( $this->clean($message) == 'tidak')  {
-					$whatsapp_registration->batuk_pilek  = 0;
-					$whatsapp_registration->save();
-				} else {
-					$input_tidak_tepat = true;
-				}
-			} else if ( 
-				!is_null( $whatsapp_registration ) &&
-				is_null( $whatsapp_registration->nyeri_menelan ) 
-			) 
-			{
-				if ( $this->clean($message) == 'ya')  {
-					$whatsapp_registration->nyeri_menelan  = 1;
-					$whatsapp_registration->save();
-				} else if ( $this->clean($message) == 'tidak')  {
-					$whatsapp_registration->nyeri_menelan  = 0;
-					$whatsapp_registration->save();
-				} else {
-					$input_tidak_tepat = true;
-				}
-			} else if ( 
-				!is_null( $whatsapp_registration ) &&
-				is_null( $whatsapp_registration->sesak_nafas ) 
-			) {
-				Log::info('============================ sesak nafas ==========================================');
-				if ( $this->clean($message)             == 'ya')  {
-					$whatsapp_registration->sesak_nafas  = 1;
-					$whatsapp_registration->save();
-				} else if ( $this->clean($message)      == 'tidak')  {
-					$whatsapp_registration->sesak_nafas  = 0;
-					$whatsapp_registration->save();
-				} else {
-					$input_tidak_tepat = true;
-				}
-			} else if ( 
-				!is_null( $whatsapp_registration ) &&
-				is_null( $whatsapp_registration->kontak_covid ) 
-			) {
-				if ( $this->clean($message) == 'ya')  {
-					$whatsapp_registration->kontak_covid  = 1;
-					$whatsapp_registration->save();
-				} else if ( $this->clean($message) == 'tidak')  {
-					$whatsapp_registration->kontak_covid  = 0;
-					$whatsapp_registration->save();
-				} else {
-					$input_tidak_tepat = true;
-				}
 			}
+		/* } else if ( */ 
+		/* 	!is_null( $whatsapp_registration ) && */
+		/* 	is_null( $whatsapp_registration->demam ) */ 
+		/* ) */ 
+		/* { */
+		/* 	if ( $this->clean($message) == 'ya')  { */
+			/* 		$whatsapp_registration->demam  = 1; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else if ( $this->clean($message) == 'tidak') { */
+			/* 		$whatsapp_registration->demam  = 0; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else { */
+			/* 		$input_tidak_tepat = true; */
+			/* 	} */
+			/* } else if ( */ 
+			/* 	!is_null( $whatsapp_registration ) && */
+			/* 	is_null( $whatsapp_registration->batuk_pilek ) */ 
+			/* ) */ 
+			/* { */
+			/* 	if ( $this->clean($message) == 'ya')  { */
+			/* 		$whatsapp_registration->batuk_pilek  = 1; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else if ( $this->clean($message) == 'tidak')  { */
+			/* 		$whatsapp_registration->batuk_pilek  = 0; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else { */
+			/* 		$input_tidak_tepat = true; */
+			/* 	} */
+			/* } else if ( */ 
+			/* 	!is_null( $whatsapp_registration ) && */
+			/* 	is_null( $whatsapp_registration->nyeri_menelan ) */ 
+			/* ) */ 
+			/* { */
+			/* 	if ( $this->clean($message) == 'ya')  { */
+			/* 		$whatsapp_registration->nyeri_menelan  = 1; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else if ( $this->clean($message) == 'tidak')  { */
+			/* 		$whatsapp_registration->nyeri_menelan  = 0; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else { */
+			/* 		$input_tidak_tepat = true; */
+			/* 	} */
+			/* } else if ( */ 
+			/* 	!is_null( $whatsapp_registration ) && */
+			/* 	is_null( $whatsapp_registration->sesak_nafas ) */ 
+			/* ) { */
+			/* 	Log::info('============================ sesak nafas =========================================='); */
+			/* 	if ( $this->clean($message)             == 'ya')  { */
+			/* 		$whatsapp_registration->sesak_nafas  = 1; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else if ( $this->clean($message)      == 'tidak')  { */
+			/* 		$whatsapp_registration->sesak_nafas  = 0; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else { */
+			/* 		$input_tidak_tepat = true; */
+			/* 	} */
+			/* } else if ( */ 
+			/* 	!is_null( $whatsapp_registration ) && */
+			/* 	is_null( $whatsapp_registration->kontak_covid ) */ 
+			/* ) { */
+			/* 	if ( $this->clean($message) == 'ya')  { */
+			/* 		$whatsapp_registration->kontak_covid  = 1; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else if ( $this->clean($message) == 'tidak')  { */
+			/* 		$whatsapp_registration->kontak_covid  = 0; */
+			/* 		$whatsapp_registration->save(); */
+			/* 	} else { */
+			/* 		$input_tidak_tepat = true; */
+			/* 	} */
+			/* } */
 
 			Log::info('whatsapp_registration');
 			Log::info( json_encode($whatsapp_registration) );
@@ -421,40 +422,40 @@ class WablasController extends Controller
 		if ( is_null( $whatsapp_registration->tanggal_lahir ) ) {
 			return  'Bisa dibantu *Tanggal Lahir* pasien? ' . PHP_EOL . PHP_EOL . 'Contoh : *19 Juli 2003*, Balas dengan *19-07-2003*';
 		}
-		if ( is_null( $whatsapp_registration->demam ) ) {
-			return 'Apakah pasien memiliki keluhan demam?' . PHP_EOL . PHP_EOL .  'Balas *ya/tidak*';
-		}
-		if ( is_null( $whatsapp_registration->batuk_pilek ) ) {
-			return 'Apakah pasien memiliki keluhan batuk pilek? ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*';
-		}
-		if ( is_null( $whatsapp_registration->nyeri_menelan ) ) {
-			return 'Apakah pasien memiliki keluhan nyeri menelan? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
-		}
-		if ( is_null( $whatsapp_registration->sesak_nafas ) ) {
-			return 'Apakah pasien memiliki keluhan sesak nafas? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*';
-		}
-		if ( is_null( $whatsapp_registration->kontak_covid ) ) {
+		/* if ( is_null( $whatsapp_registration->demam ) ) { */
+		/* 	return 'Apakah pasien memiliki keluhan demam?' . PHP_EOL . PHP_EOL .  'Balas *ya/tidak*'; */
+		/* } */
+		/* if ( is_null( $whatsapp_registration->batuk_pilek ) ) { */
+		/* 	return 'Apakah pasien memiliki keluhan batuk pilek? ' . PHP_EOL .  PHP_EOL . 'Balas *ya/tidak*'; */
+		/* } */
+		/* if ( is_null( $whatsapp_registration->nyeri_menelan ) ) { */
+		/* 	return 'Apakah pasien memiliki keluhan nyeri menelan? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*'; */
+		/* } */
+		/* if ( is_null( $whatsapp_registration->sesak_nafas ) ) { */
+		/* 	return 'Apakah pasien memiliki keluhan sesak nafas? ' . PHP_EOL .   PHP_EOL .'Balas *ya/tidak*'; */
+		/* } */
+		/* if ( is_null( $whatsapp_registration->kontak_covid ) ) { */
 
-			$text = 'Apakah pasien memiliki riwayat kontak dengan seseorang yang terkonfirmasi/ positif COVID 19 ?' ;
-			$text .= PHP_EOL;
-			$text .= PHP_EOL;
-			$text .= '*Kontak Berarti :*';
-			$text .= PHP_EOL;
-			$text .= '- Tinggal serumah';
-			$text .= PHP_EOL;
-			$text .= '- Kontak tatap muka, misalnya : bercakap-cakap selama beberapa menit';
-			$text .= PHP_EOL;
-			$text .= '- Terkena Batuk pasien terkontaminasi';
-			$text .= PHP_EOL;
-			$text .= '- Berada dalam radius 2 meter selama lebih dari 15 menit dengan kasus terkonfirmasi';
-			$text .= PHP_EOL;
-			$text .= '- Kontak dengan cairan tubuh kasus terkonfirmasi';
-			$text .= PHP_EOL;
-			$text .= PHP_EOL;
-			$text .= 'Balas *ya/tidak*';
+		/* 	$text = 'Apakah pasien memiliki riwayat kontak dengan seseorang yang terkonfirmasi/ positif COVID 19 ?' ; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= '*Kontak Berarti :*'; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= '- Tinggal serumah'; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= '- Kontak tatap muka, misalnya : bercakap-cakap selama beberapa menit'; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= '- Terkena Batuk pasien terkontaminasi'; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= '- Berada dalam radius 2 meter selama lebih dari 15 menit dengan kasus terkonfirmasi'; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= '- Kontak dengan cairan tubuh kasus terkonfirmasi'; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= PHP_EOL; */
+		/* 	$text .= 'Balas *ya/tidak*'; */
 
-			return $text;
-		}
+		/* 	return $text; */
+		/* } */
 
 
 		$jenis_antrian_id = null;
