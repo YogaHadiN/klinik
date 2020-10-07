@@ -77,7 +77,11 @@ class testcommand extends Command
      */
     public function handle()
     {
-		Sms::send('081381912803', 'this is sparta');
+		$query  = "SELECT * FROM pengantar_pasiens as ppg join periksas as prx on prx.id = antarable_id JOIN pasiens as pas on pas.id = prx.pasien_id where pas.id = '170806003'; ";
+		$data = DB::select($query);
+
+		dd( $data );
+
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";

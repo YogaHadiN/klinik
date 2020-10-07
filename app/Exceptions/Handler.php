@@ -46,6 +46,7 @@ class Handler extends ExceptionHandler
 	{
 		 if (!empty( trim( $exception->getMessage() ) )) {
 			 Log::info('URL YANG error : ' . Input::fullUrl());
+			 Log::info('Input : ' . json_encode(Input::all()));
 			 Log::info('ERRRROORRRR');
 			 Log::info('Method yang error : ' . Input::method());
 			 Log::info('Memory Usage ' . memory_get_usage());

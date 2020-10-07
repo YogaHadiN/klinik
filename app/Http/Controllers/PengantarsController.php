@@ -206,9 +206,15 @@ class PengantarsController extends Controller
 		$poli             = Yoga::poliList();
 		$ap               = AntrianPoli::with('pasien','asuransi','staf')->where('id', $id)->first();
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
+
+		$query  = "SELECT pengantar_id, pps.nama as nama_pengantar, pps.tanggal_lahir FROM pengantar_pasiens as ppg join periksas as prx on prx.id = antarable_id JOIN pasiens as pas on pas.id = prx.pasien_id join pasiens as pps on pps.id = ppg.pengantar_id where pas.id = '{$ap->pasien_id}' group by pengantar_id; ";
+		/* dd( $query ); */
+		$riwayat = DB::select($query);
+
 		return view('antrianpolis.pengantar', compact(
 			'ap',
 			'panggilan',
+			'riwayat',
 			'peserta',
 			'statusPernikahan',
 			'asuransi',

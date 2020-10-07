@@ -1,32 +1,67 @@
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<div class="panel-title">Informasi Pemeriksaan</div>
-		</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table class="table table-hover table-condensed">
-					<tbody>
-						<tr>
-							<th class='text-left'>Nama</th>
-							<td>{{ $ap->pasien->nama }}</td>
-						</tr>
-						<tr>
-							<th class='text-left'>Pembayaran</th>
-							<td>{{ $ap->asuransi->nama }}</td>
-						</tr>
-						<tr>
-							<th class='text-left'>Dokter Yang Menangani</th>
-							<td>{{ $ap->staf->nama }}</td>
-						</tr>
-						<tr>
-							<th class='text-left'>Alamat Pasien</th>
-							<td>{{ $ap->pasien->alamat }}</td>
-						</tr>
-					</tbody>
-				</table>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="panel-title">Informasi Pemeriksaan</div>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed">
+								<tbody>
+									<tr>
+										<th class='text-left'>NamaA</th>
+										<td>{{ $ap->pasien->nama }}</td>
+									</tr>
+									<tr>
+										<th class='text-left'>Pembayaran</th>
+										<td>{{ $ap->asuransi->nama }}</td>
+									</tr>
+									<tr>
+										<th class='text-left'>Dokter Yang Menangani</th>
+										<td>{{ $ap->staf->nama }}</td>
+									</tr>
+									<tr>
+										<th class='text-left'>Alamat Pasien</th>
+										<td>{{ $ap->pasien->alamat }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Riwayat Pengantar</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed table-bordered">
+								<thead>
+									<tr>
+										<th>Nama Pengantar</th>
+										<th>Tanggal Lahir</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($riwayat as $r)
+										<tr>
+											<td>
+												<a href="{{ url('pasiens/' . $r->pengantar_id . '/edit') }}" target="_blank">{{ ucfirst( $r->nama_pengantar ) }}</a>
+											</td>
+											<td>
+												{{ $r->tanggal_lahir }}
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="panel panel-danger">
