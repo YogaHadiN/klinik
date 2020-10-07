@@ -110,8 +110,11 @@ class AntrianPolisController extends Controller
 	{
 		DB::beginTransaction();
 		try {
-			if (empty(Pasien::find(Input::get('pasien_id'))->image) && Input::get('asuransi_id') == '32') {
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu');
+			$pasien = Pasien::find(Input::get('pasien_id'));
+			if (empty($pasien->image) && Input::get('asuransi_id') == '32') {
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withPesan(Yoga::gagalFlash('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu'));
+			} else if (empty($pasien->image) && empty($pasien->tanggal_lahir)) {
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withPesan(Yoga::gagalFlash('Gambar <strong>Foto pasien </strong> harus dimasukkan terlebih dahulu apabila tanggal lahir pasien tidak diketahui'));
 			}
 
 			$rules = [
