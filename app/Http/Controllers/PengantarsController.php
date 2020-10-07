@@ -207,7 +207,19 @@ class PengantarsController extends Controller
 		$ap               = AntrianPoli::with('pasien','asuransi','staf')->where('id', $id)->first();
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 
-		$query  = "SELECT pengantar_id, pps.nama as nama_pengantar, pps.tanggal_lahir FROM pengantar_pasiens as ppg join periksas as prx on prx.id = antarable_id JOIN pasiens as pas on pas.id = prx.pasien_id join pasiens as pps on pps.id = ppg.pengantar_id where pas.id = '{$ap->pasien_id}' group by pengantar_id; ";
+		$query  = "SELECT ";
+		$query .= "pengantar_id, ";
+		$query .= "pps.nama as nama_pengantar, ";
+		$query .= "pps.tanggal_lahir, ";
+		$query .= "prx.tanggal as tanggal_antar ";
+		$query .= "FROM pengantar_pasiens as ppg ";
+		$query .= "join periksas as prx on prx.id = antarable_id ";
+		$query .= "JOIN pasiens as pas on pas.id = prx.pasien_id ";
+		$query .= "join pasiens as pps on pps.id = ppg.pengantar_id ";
+		$query .= "where pas.id = '{$ap->pasien_id}' ";
+		$query .= "and antarable_type = 'App\\\Periksa' ";
+		$query .= "group by pengantar_id ";
+		$query .= "order by prx.created_at; ";
 		/* dd( $query ); */
 		$riwayat = DB::select($query);
 
