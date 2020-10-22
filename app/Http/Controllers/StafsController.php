@@ -55,7 +55,7 @@ class StafsController extends Controller
 		$this->input_tanggal_mulai        = Yoga::datePrep( Input::get('tanggal_mulai') );
 		$this->input_universitas_asal     = Input::get('universitas_asal');
         $this->middleware('super', ['only' => ['delete']]);
-        $this->middleware('admin', ['only' => ['update']]);
+        /* $this->middleware('admin', ['only' => ['update']]); */
     }
 
 	/**
