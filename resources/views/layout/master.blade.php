@@ -374,8 +374,10 @@
     WebCam -->
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <script src="{!! url('js/master.js') !!}"></script>
 	<script>
+		{{-- alert('yuhuuu'); --}}
 		var base = "{{ url('/') }}";
 		$.ajaxSetup({
 			headers: {

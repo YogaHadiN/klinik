@@ -1,5 +1,6 @@
 
         $(document).ready(function() {
+			// alert('yuhuu1');
 
 
             $('.uangInput').autoNumeric('init', {
@@ -26,7 +27,6 @@
                 style : 'btn-white'
             });
         //plug in datetimepicker waktu bebas terserah
-
             $('.tanggal').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
@@ -35,9 +35,7 @@
                 autoclose: true,
                 format: 'dd-mm-yyyy'
             });
-
 			$('.tanggal').closest('form').attr('autocomplete', 'off');
-
             $('.bulanTahun').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,

@@ -174,7 +174,18 @@ class PasiensController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function editAtAntrian($id, $antrian_id){
+		$data = $this->editForm($id);
+		$data['antrian_id'] = $antrian_id;
+		return view('pasiens.edit', $data );
+	}
+	
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function editForm($id)
 	{
 		$pasien = Pasien::find($id);
 
@@ -194,26 +205,35 @@ class PasiensController extends Controller
 		$asuransi = array('0' => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
 
 		$jenis_peserta = array(
-
 			null => ' - pilih asuransi -',  
 			"P" => 'Peserta',
 			"S" => 'Suami',
 			"I" => 'Istri',
 			"A" => 'Anak'
+		);
 
-			);
+		$antrian_id = null;
+
 		$staf = array('0' => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
 		$pasienSurvey = $this->pasienSurvey();
 		$poli = Yoga::poliList();
-		return view('pasiens.edit')
-			->withPasien($pasien)
-			->withAsuransi($asuransi)
-			->with('statusPernikahan', $statusPernikahan)
-			->with('pasienSurvey', $pasienSurvey)
-			->with('panggilan', $panggilan)
-			->with('jenis_peserta', $jenis_peserta)
-			->withStaf($staf)
-			->withPoli($poli);
+		return compact(
+			'pasien',
+			'asuransi',
+			'statusPernikahan',
+			'pasienSurvey',
+			'panggilan',
+			'jenis_peserta',
+			'antrian_id',
+			'staf',
+			'poli'
+		);
+	}
+	
+	
+	public function edit($id)
+	{
+		return view('pasiens.edit', $this->editForm($id) );
 	}
 
 	/**
@@ -222,8 +242,7 @@ class PasiensController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
+	public function update($id){
 		$pasien = Pasien::findOrFail($id);
 		$validator = \Validator::make($data = Input::all(), Pasien::$rules);
 
@@ -267,9 +286,12 @@ class PasiensController extends Controller
 			$pasien->save();
 
 
+			$antrian_id =  Input::get('antrian_id');
+			if ( !empty( $antrian_id ) ) {
+				return redirect("antrians/proses/" . $antrian_id)->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
+			} 
 
 			if ( !empty( Input::get('back') ) ) {
-				
 				return redirect( Input::get('back') )->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
 			} 
 		return \Redirect::route('pasiens.index')->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));

@@ -7,7 +7,14 @@
         $('#confirm_staf').on('shown.bs.modal', function(){
             $('#email').focus();
         });
-		$('#antrianpoli_tanggal').datepicker().on('changeDate', function(e) {
+		$('#antrianpoli_tanggal').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            }).on('changeDate', function(e) {
 			tanggalChange();
 		});
 		$('#ddlPembayaran').change(function(){
@@ -544,24 +551,6 @@ function caseNama(nama){
 		return str;
 	}
 }
-
-function tanggalChange(){
-	var tanggal = $('#antrianpoli_tanggal').val();
-	var param = {
-		'antrian'		: $('#antrianpoli_antrian').val(), 
-		'pasien_id'		: $('#id_pasien').val(),
-		'tanggal'		: tanggal
-	};
-	$.post(base + "/pasiens/ajax/cekantrian/tanggal", param, function(data) {
-		var pesan = '<div class="alert alert-info">';
-		pesan += 'Antrian Terkahir = ' + data;
-		pesan += '</div>';
-		$('#antrian_terakhir').html(pesan).hide().fadeIn(300);
-		if (parseInt( strTime( tanggal ) ) > parseInt( strTime( date() ) ) ) {
-			$('#antrianpoli_antrian').val(parseInt(data) + 1)	;
-		}
-	});
-}
 function cekPromo(control){
 
 	var no_ktp = $(control).val();
@@ -704,5 +693,3 @@ function isValid(dateString) {
     var date = new Date(dateString);
     return date > minDate && date < maxDate;
 }
-
-    

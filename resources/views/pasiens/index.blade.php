@@ -74,7 +74,6 @@
 <script>
   var base = "{{ url('/') }}";
 </script>
-
 <script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
 {!! HTML::script('js/plugins/webcam/photo.js')!!}
 {!! HTML::script('js/togglepanel.js')!!}

@@ -54,7 +54,7 @@
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group @if($errors->has('tanggal'))has-error @endif">
 						  {!! Form::label('tanggal', 'Tanggal Konsultasi', ['class' => 'control-label']) !!}
-						  {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal rq', 'id' => 'antrianpoli_tanggal']) !!}
+						  {!! Form::text('tanggal' , null, ['class' => 'form-control rq', 'id' => 'antrianpoli_tanggal']) !!}
 						  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 					</div>
 				</div>

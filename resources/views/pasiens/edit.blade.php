@@ -28,6 +28,7 @@
                 "role"  => "form",
                 "files"=> true
             ))!!}
+				<input type="hidden" value="{{ $antrian_id }}" name="antrian_id" id="antrian_id"/>
 				@include('pasiens.edit_form', ['facebook' =>false, 'pasien' => $pasien])
             {!! Form::close() !!}
 

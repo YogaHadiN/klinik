@@ -1,4 +1,8 @@
-    $(document).ready(function() {
+
+		var lewat_antrian = $('#memproses_antrian').length;
+		var antrian_id = $('#antrian_id').html();
+		antrian_id = $.trim(antrian_id);
+
 		loaderGif();
         $('#confirm_staf').on('show.bs.modal', function(){
             $('#confirm_staf input[type!="hidden"]').val('');
@@ -6,9 +10,19 @@
         $('#confirm_staf').on('shown.bs.modal', function(){
             $('#email').focus();
         });
-		$('#antrianpoli_tanggal').datepicker().on('changeDate', function(e) {
+		$('#antrianpoli_tanggal').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            }).on('changeDate', function(e) {
 			tanggalChange();
 		});
+
+		$('#antrianpoli_tanggal').closest('form').attr('autocomplete', 'off');
+
 		$('#ddlPembayaran').change(function(){
 			var val = $(this).val();
 			if (val == '32') {
@@ -95,14 +109,12 @@
                 // $(this).closest('.form-group').find('code').hide().fadeIn(500);
             } else {
                 $.post(url, data, function(result) {
-                    
                     var DDID_PASIEN     = $('#id').closest('th').hasClass('displayNone');
                     var DDID_ASURANSI   = $('#nama_asuransi').closest('th').hasClass('displayNone');
                     var DDnomorAsuransi = $('#nomor_asuransi').closest('th').hasClass('displayNone');
                     var DDnamaPeserta   = $('#nama_peserta').closest('th').hasClass('displayNone');
                     var DDnamaIbu       = $('#nama_ibu').closest('th').hasClass('displayNone');
                     var DDnamaAyah      = $('#nama_ayah_Input').closest('th').hasClass('displayNone');
-
 
                     console.log(result);
 
@@ -150,7 +162,12 @@
                     temp += "<td nowrap class='displayNone'><div>" + result[0].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + result[0].image + "</div></td>";
                     temp += "<td nowrap nowrap><div class='invisible'><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk periksa pasien\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
-                    temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "/edit\" style=\"color: ##337AB7; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk ubah data pasien\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
+
+					if ( lewat_antrian > 0) {
+						temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "/edit/" + antrian_id + "\" style=\"color: ##337AB7; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk ubah data pasien\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
+					} else {
+						temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "/edit\" style=\"color: ##337AB7; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk ubah data pasien\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
+					}
                     temp += "&nbsp;&nbsp;&nbsp;<a onclick='confirmStafModal();' data-value=\"pasiens/" + result[0].id + "\" style=\"color: orange; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk melihat riwayat pasien\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>";
                    temp += "</tr>";
 
@@ -333,7 +350,6 @@
                         selectPasien();
             } 
         });
-    });
 	
 	function dummySubmit(control){
 		if(validatePass2(control)){
@@ -414,7 +430,12 @@
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].image + "</div></td>";
                     temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
-                    temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + MyArray[i].ID_PASIEN + "/edit\" style=\"color: ##337AB7; font-size: large;\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
+
+					if ( lewat_antrian ) {
+						temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + MyArray[i].ID_PASIEN + "/edit/" + antrian_id + "\" style=\"color: ##337AB7; font-size: large;\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
+					} else {
+						temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + MyArray[i].ID_PASIEN + "/edit\" style=\"color: ##337AB7; font-size: large;\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
+					}
                     temp += "&nbsp;&nbsp;&nbsp;<a data-value='" + MyArray[i].ID_PASIEN + "' onclick='confirmStafModal(this);' href='#' style=\"color: orange; font-size: large;\" ><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a> </td>";
          
                     temp += "</tr>";
@@ -628,5 +649,6 @@ function loaderGif(){
 		"<td colspan='" +colspan+ "'><img class='loader' src='" +base+ "/img/loader.gif' /></td>"
 	)
 }
-
+function tanggalChange(){
+}
     

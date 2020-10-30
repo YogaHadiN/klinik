@@ -207,6 +207,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::put('kontrols/{id}', 'KontrolsController@update');
 	Route::delete('kontrols/{id}', 'KontrolsController@destroy');
 
+	Route::get('antrians/proses/pasiens/{id}/edit/{antrian_id}', 'PasiensController@editAtAntrian');
 	Route::resource('pasiens', 'PasiensController');
 	Route::resource('periksas', 'PeriksasController');
 
