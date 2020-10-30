@@ -36,10 +36,13 @@ class PengantarsController extends Controller
 			$pengantars[] =  $this->pengantarArray($v);
 		}
 
+		$riwayat = $this->riwayatPengantaran($ap);
+
 		$pengantars = json_encode($pengantars);
 		return view('antrianperiksas.pengantar_edit', compact(
 			'ap',
 			'panggilan',
+			'riwayat',
 			'pengantars',
 			'peserta',
 			'statusPernikahan',
@@ -244,7 +247,6 @@ class PengantarsController extends Controller
 
 		$riwayat = $this->riwayatPengantaran($ap);
 
-
 		return view('antrianpolis.pengantar_edit', compact(
 			'ap',
 			'panggilan',
@@ -408,9 +410,13 @@ class PengantarsController extends Controller
 		}
 
 		$pengantars = json_encode($pengantars);
+
+		$riwayat = $this->riwayatPengantaran($ap);
+
 		return view('antriankasirs.pengantar_edit', compact(
 			'ap',
 			'panggilan',
+			'riwayat',
 			'pengantars',
 			'statusPernikahan',
 			'asuransi',
@@ -558,10 +564,13 @@ class PengantarsController extends Controller
 			$pengantars[] =  $this->pengantarArray($v);
 		}
 
+		$riwayat = $this->riwayatPengantaran($ap);
+
 		$pengantars = json_encode($pengantars);
 		return view('laporans.pengantar_edit', compact(
 			'ap',
 			'panggilan',
+			'riwayat',
 			'pengantars',
 			'peserta',
 			'statusPernikahan',
