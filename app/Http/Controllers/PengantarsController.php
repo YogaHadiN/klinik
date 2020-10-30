@@ -207,21 +207,7 @@ class PengantarsController extends Controller
 		$ap               = AntrianPoli::with('pasien','asuransi','staf')->where('id', $id)->first();
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 
-		$query  = "SELECT ";
-		$query .= "pengantar_id, ";
-		$query .= "pps.nama as nama_pengantar, ";
-		$query .= "pps.tanggal_lahir, ";
-		$query .= "prx.tanggal as tanggal_antar ";
-		$query .= "FROM pengantar_pasiens as ppg ";
-		$query .= "join periksas as prx on prx.id = antarable_id ";
-		$query .= "JOIN pasiens as pas on pas.id = prx.pasien_id ";
-		$query .= "join pasiens as pps on pps.id = ppg.pengantar_id ";
-		$query .= "where pas.id = '{$ap->pasien_id}' ";
-		$query .= "and antarable_type = 'App\\\Periksa' ";
-		$query .= "group by pengantar_id ";
-		$query .= "order by prx.created_at; ";
-		/* dd( $query ); */
-		$riwayat = DB::select($query);
+		$riwayat = $this->riwayatPengantaran($ap);
 
 		return view('antrianpolis.pengantar', compact(
 			'ap',
@@ -256,10 +242,13 @@ class PengantarsController extends Controller
 
 		$pengantars = json_encode($pengantars);
 
+		$riwayat = $this->riwayatPengantaran($ap);
+
 
 		return view('antrianpolis.pengantar_edit', compact(
 			'ap',
 			'panggilan',
+			'riwayat',
 			'pengantars',
 			'statusPernikahan',
 			'asuransi',
@@ -619,5 +608,29 @@ class PengantarsController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function riwayatPengantaran($ap)
+	{
+		$query  = "SELECT ";
+		$query .= "pengantar_id, ";
+		$query .= "pps.nama as nama_pengantar, ";
+		$query .= "pps.tanggal_lahir, ";
+		$query .= "prx.tanggal as tanggal_antar ";
+		$query .= "FROM pengantar_pasiens as ppg ";
+		$query .= "join periksas as prx on prx.id = antarable_id ";
+		$query .= "JOIN pasiens as pas on pas.id = prx.pasien_id ";
+		$query .= "join pasiens as pps on pps.id = ppg.pengantar_id ";
+		$query .= "where pas.id = '{$ap->pasien_id}' ";
+		$query .= "and antarable_type = 'App\\\Periksa' ";
+		$query .= "group by pengantar_id ";
+		$query .= "order by prx.created_at; ";
+		/* dd( $query ); */
+		return DB::select($query);
+	}
+	
 	
 }
