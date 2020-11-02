@@ -1,4 +1,4 @@
-<table class="table borderless table-condensed">
+<table class="table borderless table-condensed"  id="table_template_jurnal">
 	<thead>
 		<tr>
 			<th class="">Jurnal Id</th>
