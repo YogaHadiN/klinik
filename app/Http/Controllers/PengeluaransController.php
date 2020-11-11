@@ -62,6 +62,15 @@ class PengeluaransController extends Controller
 	 *
 	 * @return Response
 	 */
+
+	public $input_staf_id;
+	public $input_coa_id;
+	public $input_bulan;
+	public $input_tanggal_dibayar;
+	public $input_container_gaji;
+	
+
+
 	public function __construct()
 	 {
 	     $this->middleware('super', ['only' => ['bayar_gaji_karyawan', 'nota_z']]);
@@ -71,6 +80,12 @@ class PengeluaransController extends Controller
 			 'gajiDokterGigiEdit', 
 		 ]]);
 	     $this->middleware('notready', ['only' => ['nota_z']]);
+
+		$this->input_staf_id         = Input::get('staf_id');
+		$this->input_coa_id          = Input::get('coa_id');
+		$this->input_bulan           = Input::get('bulan');
+		$this->input_tanggal_dibayar = Input::get('tanggal_dibayar');
+		$this->input_container_gaji  = Input::get('container_gaji');
 	 }
 	public function index($id)
 	{
@@ -810,15 +825,11 @@ class PengeluaransController extends Controller
     
    public function bayar_gaji(){
 	   DB::beginTransaction();
-
 	   try {
 		   $rules                = [
 			 "coa_id"           => "required",
-			  "staf_id"         => "required",
 			  "bulan"           => "required",
 			  "tanggal_dibayar" => "required",
-			  "gaji_pokok"      => "required",
-			  "bonus"           => "required"
 		   ];
 		   
 		   $validator = \Validator::make(Input::all(), $rules);
@@ -828,188 +839,172 @@ class PengeluaransController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		   }
 
-		   $staf_id         = Input::get('staf_id');
-		   $coa_id          = Input::get('coa_id');
-		   $bulan           = Input::get('bulan');
-		   $bulan           = Yoga::blnPrep($bulan);
-		   $gaji_pokok      = Yoga::clean( Input::get('gaji_pokok') );
-		   $bonus           = Yoga::clean( Input::get('bonus'));
-		   $tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
+		   $container_gaji    = $this->prepContainerGaji();
+		   $sisa_hutang_bonus = $this->sisaHutangBonus();
 
-			   $jus = JurnalUmum::where('coa_id', '200002' )
-				   ->where('debit', '0')
-				   ->where('created_at', 'like', $bulan . '%')
-				   ->get();
-			   $total_bonus = 0;
-			   foreach ($jus as $ju) {
-				   $total_bonus += $ju->nilai;
-			   }
-
-			   $jus = JurnalUmum::where('coa_id', '200002' )
-				   ->where('debit', '1')
-				   ->where('created_at', 'like', $bulan . '%')
-				   ->get();
-
-			   $total_bonus_sudah_dibayar = 0;
-			   foreach ($jus as $ju) {
-				   $total_bonus_sudah_dibayar += $ju->nilai;
-			   }
-			   //return $total_bonus_sudah_dibayar . ' total bonys sudah dibayar';
-
-			   
-			   $sisa_hutang_bonus  = $total_bonus - $total_bonus_sudah_dibayar;
-			   $data               = 'total_bonus = ' . $total_bonus . '<br />';
-			   $data              .= 'total_bonus_sudah_dibayar = ' . $total_bonus_sudah_dibayar . '<br />';
-			   $data              .= 'sisa_hutang_bonus = ' . $sisa_hutang_bonus . '<br />';
-			   $data              .= 'bonus = ' . $bonus . '<br />';
-
-
-		   $bg                  = new BayarGaji;
-		   $bg->staf_id         = $staf_id;
-		   $bg->mulai           = $bulan . '-01';
-		   $bg->akhir           = date("Y-m-t", strtotime($bulan . '-01'));
-		   $bg->tanggal_dibayar = $tanggal_dibayar;
-		   $bg->gaji_pokok      = $gaji_pokok;
-		   $bg->bonus           = $bonus;
-		   $bg->kas_coa_id      = $coa_id;
-		   $confirm             = $bg->save();
-
-		   $jurnals = [];
-
-		   $timestamp = date('Y-m-t 23:59:59', strtotime($bulan . '-01'));
-		   if ($gaji_pokok > 0) {
-			   $jurnals[] = [
-				   'jurnalable_id'   => $bg->id,
-				   'jurnalable_type' => 'App\BayarGaji',
-				   'coa_id'          => 60101,
-				   'debit'           => 1,
-				   'created_at'      => $timestamp,
-				   'updated_at'      => $timestamp,
-				   'nilai'           => $gaji_pokok
-			   ];
-		   }
-		   //return $jus;
-		   // Hitung hutang kepada asisten dalam satu bulan, jika hutangnya masih lebih banyak lebih dari bonus dari pada yang sudah dibayarkan, maka jurnal masuk semua ke hutang
-		   if ($sisa_hutang_bonus >= $bonus) {
-			   if ($bonus > 0) {
-				   $jurnals[] = [
-					   'jurnalable_id'   => $bg->id,
-					   'jurnalable_type' => 'App\BayarGaji',
-					   'coa_id'          => 200002, // Hutang Kepada Asisten Dokte,
-					   'debit'           => 1,
-					   'created_at'      => $timestamp,
-					   'updated_at'      => $timestamp,
-					   'nilai'           => $bonus,
-				   ];
-			   }
-		   } else{
-			   if ($sisa_hutang_bonus > 0) {
-				   $beban_produksi_hutang_asisten = $bonus - $sisa_hutang_bonus;
-			   }else{
-				   $beban_produksi_hutang_asisten = $bonus;
-			   }
-			   if ($sisa_hutang_bonus > 0) {
-				   $jurnals[] = [
-					   'jurnalable_id'   => $bg->id,
-					   'jurnalable_type' => 'App\BayarGaji',
-					   'coa_id'          => 200002,// Hutang Kepada Asisten Dokte,
-					   'debit'           => 1,
-					   'created_at'      => $timestamp,
-					   'updated_at'      => $timestamp,
-					   'nilai'           => $sisa_hutang_bonus,
-				   ];
-			   }
-
-			   if ($beban_produksi_hutang_asisten > 0) {
-				   $jurnals[] = [
-					   'jurnalable_id'   => $bg->id,
-					   'jurnalable_type' => 'App\BayarGaji',
-					   'coa_id'          => 50205,
-					   'created_at'      => $timestamp,
-					   'updated_at'      => $timestamp,
-					   'debit'           => 1,
-					   'nilai'           => $beban_produksi_hutang_asisten,
-				   ];
-			   }
-		   }
-
-		   if ($bonus + $gaji_pokok > 0) {
-			   $jurnals[] = [
-				   'jurnalable_id'   => $bg->id,
-				   'jurnalable_type' => 'App\BayarGaji',
-				   'coa_id'          => $coa_id, //Kas Sumbe,
-				   'created_at'      => $timestamp,
-				   'updated_at'      => $timestamp,
-				   'debit'           => 0,
-				   'nilai'           => $gaji_pokok + $bonus
-			   ];
-		   }
-
-		   $gajis = BayarGaji::where('staf_id', $staf_id)
-			   ->where("mulai", 'like', $bg->mulai->format('Y-m') . '%')
-			   ->get();
-
-		   $staf_ini = Staf::find( $staf_id );
 		   $ptkp = Config::where('config_variable', 'Penghasilan Tidak Kena Pajak')->first()->value;
 
-		   $total_gaji_bulan_ini = 0;
-		   $total_pph_bulan_ini  = 0;
+		   $timestamp_jurnal  = date('Y-m-t 23:59:59', strtotime($this->input_bulan . '-01'));
+		   $timestamp_now     = date('Y-m-d H:i:s');
 
-		   foreach ($gajis as $gaji) {
-			   $total_gaji_bulan_ini += $gaji->gaji_pokok + $gaji->bonus;
-			   $total_pph_bulan_ini  += $gaji->pph21;
+		   $jurnals           = [];
+		   $bayar_gajis       = [];
+
+		   $last_bayar_gaji_id = BayarGaji::latest()->first()->id;
+
+		   /* dd( $last_bayar_gaji_id ); */
+
+		   foreach ($container_gaji as $cg) {
+
+			   $gajis = BayarGaji::where('staf_id', $cg['staf_id'])
+				   ->where("mulai", 'like', $this->input_bulan . '%')
+				   ->get();
+
+			   $staf_ini = Staf::find( $cg['staf_id'] );
+
+			   $total_gaji_bulan_ini = 0;
+			   $total_pph_bulan_ini  = 0;
+
+			   foreach ($gajis as $gaji) {
+				   $total_gaji_bulan_ini += $gaji->gaji_pokok + $gaji->bonus;
+				   $total_pph_bulan_ini  += $gaji->pph21;
+			   }
+
+			   $total_gaji_bulan_ini = $total_gaji_bulan_ini + $cg['gaji_pokok'] + $cg['jumlah_bonus'];
+
+			   $perhitunganPph_ini = $this->pph21($total_gaji_bulan_ini, $total_pph_bulan_ini, $staf_ini, $ptkp);
+			   $tahun_pembayaran   = date("Y", strtotime($this->input_bulan));
+			   $parameterPtkp      = $this->parameterPtkp($staf_ini, $tahun_pembayaran, 'App\BayarGaji', 'mulai');
+			   $menikah            = $parameterPtkp['menikah'];
+			   $jumlah_anak        = $parameterPtkp['jumlah_anak'];
+
+			   $bayar_gajis[] = [
+				   'staf_id'                => $cg['staf_id'],
+				   'mulai'                  => $this->input_bulan . '-01',
+				   'akhir'                  => date("Y-m-t", strtotime($this->input_bulan . '-01')),
+				   'tanggal_dibayar'        => $this->input_tanggal_dibayar,
+				   'gaji_pokok'             => $cg['gaji_pokok'],
+				   'bonus'                  => $cg['jumlah_bonus'],
+				   'kas_coa_id'             => $this->input_coa_id,
+				   'total_gaji_bulan_ini'   => $total_gaji_bulan_ini,
+				   'pph21'                  => $perhitunganPph_ini['pph21'],
+				   'biaya_jabatan'          => $perhitunganPph_ini['biaya_jabatan'],
+				   'ptkp_dasar'             => $perhitunganPph_ini['ptkp_dasar'],
+				   'ptkp'                   => $perhitunganPph_ini['ptkp'],
+				   'potongan5persen'        => $perhitunganPph_ini['potongan5persen'],
+				   'potongan15persen'       => $perhitunganPph_ini['potongan15persen'],
+				   'potongan25persen'       => $perhitunganPph_ini['potongan25persen'],
+				   'potongan30persen'       => $perhitunganPph_ini['potongan30persen'],
+				   'npwp'                   => $perhitunganPph_ini['npwp'],
+				   'gaji_netto'             => $perhitunganPph_ini['gaji_netto'],
+				   'penghasilan_kena_pajak' => $perhitunganPph_ini['penghasilan_kena_pajak'],
+				   'pph21setahun'           => $perhitunganPph_ini['pph21setahun'],
+				   'faktor_kali_pph'        => $perhitunganPph_ini['faktor_kali_pph'],
+				   'menikah'                => $menikah,
+				   'jumlah_anak'            => $jumlah_anak,
+				   'created_at'             => $timestamp_now,
+				   'updated_at'             => $timestamp_now
+			   ];
+
+			   $last_bayar_gaji_id++;
+
+
+			   if ($cg['gaji_pokok'] > 0) {
+				   $jurnals[] = [
+					   'jurnalable_id'   => $last_bayar_gaji_id,
+					   'jurnalable_type' => 'App\BayarGaji',
+					   'coa_id'          => 60101,
+					   'debit'           => 1,
+					   'created_at'      => $timestamp_jurnal,
+					   'updated_at'      => $timestamp_jurnal,
+					   'nilai'           => $cg['gaji_pokok']
+				   ];
+			   }
+			   //
+			   // Hitung hutang kepada asisten dalam satu bulan, jika hutangnya masih lebih banyak lebih dari bonus dari pada yang sudah dibayarkan, maka jurnal masuk semua ke hutang
+			   if ($sisa_hutang_bonus >= $cg['jumlah_bonus']) {
+				   if ($cg['jumlah_bonus'] > 0) {
+					   $jurnals[] = [
+						   'jurnalable_id'   => $last_bayar_gaji_id,
+						   'jurnalable_type' => 'App\BayarGaji',
+						   'coa_id'          => 200002, // Hutang Kepada Asisten Dokte,
+						   'debit'           => 1,
+						   'created_at'      => $timestamp_jurnal,
+						   'updated_at'      => $timestamp_jurnal,
+						   'nilai'           => $cg['jumlah_bonus']
+					   ];
+				   }
+			   } else{
+				   if ($sisa_hutang_bonus > 0) {
+					   $beban_produksi_hutang_asisten = $cg['jumlah_bonus'] - $sisa_hutang_bonus;
+				   }else{
+					   $beban_produksi_hutang_asisten = $cg['jumlah_bonus'];
+				   }
+				   if ($sisa_hutang_bonus > 0) {
+					   $jurnals[] = [
+						   'jurnalable_id'   => $last_bayar_gaji_id,
+						   'jurnalable_type' => 'App\BayarGaji',
+						   'coa_id'          => 200002,// Hutang Kepada Asisten Dokte,
+						   'debit'           => 1,
+						   'created_at'      => $timestamp_jurnal,
+						   'updated_at'      => $timestamp_jurnal,
+						   'nilai'           => $sisa_hutang_bonus,
+					   ];
+				   }
+
+				   if ($beban_produksi_hutang_asisten > 0) {
+					   $jurnals[] = [
+						   'jurnalable_id'   => $last_bayar_gaji_id,
+						   'jurnalable_type' => 'App\BayarGaji',
+						   'coa_id'          => 50205,
+						   'created_at'      => $timestamp_jurnal,
+						   'updated_at'      => $timestamp_jurnal,
+						   'debit'           => 1,
+						   'nilai'           => $beban_produksi_hutang_asisten,
+					   ];
+				   }
+			   }
+
+			   if ($cg['jumlah_bonus'] + $cg['gaji_pokok'] > 0) {
+				   $jurnals[] = [
+					   'jurnalable_id'   => $last_bayar_gaji_id,
+					   'jurnalable_type' => 'App\BayarGaji',
+					   'coa_id'          => $this->input_coa_id, //Kas Sumbe,
+					   'created_at'      => $timestamp_jurnal,
+					   'updated_at'      => $timestamp_jurnal,
+					   'debit'           => 0,
+					   'nilai'           => $cg['gaji_pokok'] + $cg['jumlah_bonus']
+				   ];
+			   }
+			   if ( $perhitunganPph_ini['pph21'] > 0 ) {
+				   $jurnals[] = [
+					   'jurnalable_id'   => $last_bayar_gaji_id,
+					   'jurnalable_type' => 'App\BayarGaji',
+					   'coa_id'          => $this->input_coa_id,
+					   'created_at'      => $timestamp_jurnal,
+					   'updated_at'      => $timestamp_jurnal,
+					   'debit'           => 1,
+					   'nilai'           => $perhitunganPph_ini['pph21']
+				   ];
+				   $jurnals[] = [
+					   'jurnalable_id'   => $last_bayar_gaji_id,
+					   'jurnalable_type' => 'App\BayarGaji',
+					   'coa_id'          => 200004, // Hutang pph21
+					   'debit'           => 0,
+					   'nilai'           => $perhitunganPph_ini['pph21'],
+					   'created_at'      => $timestamp_jurnal,
+					   'updated_at'      => $timestamp_jurnal
+				   ];
+			   }
 		   }
 
-		   $perhitunganPph_ini = $this->pph21($total_gaji_bulan_ini, $total_pph_bulan_ini, $staf_ini, $ptkp);
-		   $tahun_pembayaran  = date("Y", strtotime($bg->mulai));
-		   $parameterPtkp      = $this->parameterPtkp($staf_ini, $tahun_pembayaran, 'App\BayarGaji', 'mulai');
-		   $menikah            = $parameterPtkp['menikah'];
-		   $jumlah_anak        = $parameterPtkp['jumlah_anak'];
-
-		   $bg->total_gaji_bulan_ini   = $total_gaji_bulan_ini;
-		   $bg->pph21                  = $perhitunganPph_ini['pph21'];
-		   $bg->biaya_jabatan          = $perhitunganPph_ini['biaya_jabatan'];
-		   $bg->ptkp_dasar             = $perhitunganPph_ini['ptkp_dasar'];
-		   $bg->ptkp                   = $perhitunganPph_ini['ptkp'];
-		   $bg->potongan5persen        = $perhitunganPph_ini['potongan5persen'];
-		   $bg->potongan15persen       = $perhitunganPph_ini['potongan15persen'];
-		   $bg->potongan25persen       = $perhitunganPph_ini['potongan25persen'];
-		   $bg->potongan30persen       = $perhitunganPph_ini['potongan30persen'];
-		   $bg->npwp                   = $perhitunganPph_ini['npwp'];
-		   $bg->gaji_netto             = $perhitunganPph_ini['gaji_netto'];
-		   $bg->penghasilan_kena_pajak = $perhitunganPph_ini['penghasilan_kena_pajak'];
-		   $bg->pph21setahun           = $perhitunganPph_ini['pph21setahun'];
-		   $bg->faktor_kali_pph        = $perhitunganPph_ini['faktor_kali_pph'];
-		   $bg->menikah                = $menikah;
-		   $bg->jumlah_anak            = $jumlah_anak;
-		   $bg->save();
-
-		   if ( $bg->pph21 > 0 ) {
-			   $jurnals[] = [
-				   'jurnalable_id'   => $bg->id,
-				   'jurnalable_type' => 'App\BayarGaji',
-				   'coa_id'          => $coa_id,
-				   'created_at'      => $timestamp,
-				   'updated_at'      => $timestamp,
-				   'debit'           => 1,
-				   'nilai'           => $bg->pph21
-			   ];
-			   $jurnals[] = [
-				   'jurnalable_id'   => $bg->id,
-				   'jurnalable_type' => 'App\BayarGaji',
-				   'coa_id'          => 200004, // Hutang pph21
-				   'debit'           => 0,
-				   'nilai'           => $bg->pph21,
-				   'created_at'      => $timestamp,
-				   'updated_at'      => $timestamp
-			   ];
-		   }
+		   BayarGaji::insert($bayar_gajis);
 		   JurnalUmum::insert($jurnals);
-		   $pesan = Yoga::suksesFlash('Pembayaran Gaji kepada <strong>' . Staf::find($staf_id)->nama . '</strong> sebesar <strong class="uang">' . ( $gaji_pokok + $bonus ) . '</strong> telah <strong>BERHASIL</strong>' );
+		   $pesan = Yoga::suksesFlash('Pembayaran Gaji telah <strong>BERHASIL</strong>' );
 		   DB::commit();
 		   return redirect('pengeluarans/bayar_gaji_karyawan')
 			   ->withPesan($pesan)
-			   ->withPrint($bg->id);
+			   ->withPrint($last_bayar_gaji_id);
 	   } catch (\Exception $e) {
 		   DB::rollback();
 		   throw $e;
@@ -2576,5 +2571,59 @@ class PengeluaransController extends Controller
 		return DB::select($query);
 
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function prepContainerGaji()
+	{
+	   $container_gaji              = $this->input_container_gaji;
+	   $container_gaji              = json_decode($container_gaji, true);
+	   $bayar_gajis_container       = [];
+	   $this->normalisasiTanggal();
+	   return $container_gaji;
+	}
+	
+	
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function sisaHutangBonus()
+	{
+		   $jus = JurnalUmum::where('coa_id', '200002' ) // coa_id 200002 adalah hutang kepada asisten dokter
+			   ->where('debit', '0')
+			   ->where('created_at', 'like', $this->input_bulan . '%')
+			   ->get();// hitung total hutang kepada asisten dokter
+		   $total_bonus = 0;
+		   foreach ($jus as $ju) {
+			   $total_bonus += $ju->nilai;
+		   }
+		   $jus = JurnalUmum::where('coa_id', '200002' )
+			   ->where('debit', '1')
+			   ->where('created_at', 'like', $this->input_bulan . '%')
+			   ->get(); // hitung total hutang kepada asisten dokter yang sudah dibayar
+
+		   $total_bonus_sudah_dibayar = 0;
+		   foreach ($jus as $ju) {
+			   $total_bonus_sudah_dibayar += $ju->nilai;
+		   }
+
+		   //return $total_bonus_sudah_dibayar . ' total bonys sudah dibayar';
+		   return $total_bonus - $total_bonus_sudah_dibayar;
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function normalisasiTanggal()
+	{
+	   $this->input_bulan           = Yoga::blnPrep( $this->input_bulan );
+	   $this->input_tanggal_dibayar = Yoga::datePrep( $this->input_tanggal_dibayar );
+	}
+	
 	
 }

@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<th class="">Jurnal Id</th>
-			<th class="hide">Key</th>
+			<th>Key</th>
 			<th>Akun </th>
 			<th>Debet</th>
 			<th>Kredit</th>
@@ -15,7 +15,8 @@
 			@foreach($jurnals as $k=>$jur)
 				   <tr>
 					   <td class="id"> {{ $jur->id }}</td>
-					   <td class="key hide"> {{ $k }}</td>
+					   <td class="key"> {{ $k }}</td>
+					   {{-- <td class="key hide"> {{ $k }}</td> --}}
 					   <td>
 						   {!! Form::select('coa_id', App\Coa::list(), $jur->coa_id, [
 							   'class'            => 'form-control selectpick',

@@ -37,11 +37,6 @@
                   {!! Form::select('coa_id', $sumber_kas_lists, null , ['class' => 'form-control rq']) !!}
 				  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
 				</div>
-				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
-				  {!! Form::label('staf_id', 'Nama Staf Yang Dibayarkan Gajinya', ['class' => 'control-label']) !!}
-                  {!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , ['class' => 'rq form-control selectpick', 'data-live-search' => 'true']) !!}
-				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
-				</div>
 				<div class="form-group @if($errors->has('bulan'))has-error @endif">
 				  {!! Form::label('bulan', 'Periode Bulan', ['class' => 'control-label']) !!}
                   {!! Form::text('bulan', date('m-Y', strtotime("-1 month")), [
@@ -58,16 +53,6 @@
 				  ]) !!}
 				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
 				</div>
-				<div class="form-group @if($errors->has('gaji_pokok'))has-error @endif">
-					  {!! Form::label('gaji_pokok', 'Gaji Pokok', ['class' => 'control-label']) !!}
-					  {!! Form::text('gaji_pokok', null, ['class' => 'form-control rq uangInput']) !!}
-				  @if($errors->has('gaji_pokok'))<code>{{ $errors->first('gaji_pokok') }}</code>@endif
-				</div>
-				<div class="form-group @if($errors->has('bonus'))has-error @endif">
-					  {!! Form::label('bonus', 'Bonus', ['class' => 'control-label']) !!}
-					  {!! Form::text('bonus', null, ['class' => 'form-control rq uangInput']) !!}
-				  @if($errors->has('bonus'))<code>{{ $errors->first('bonus') }}</code>@endif
-				</div>
                 <div class="form-group">
                   <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -79,11 +64,76 @@
                     </div>
                   </div>
                 </div>
+				<div class="form-group">
+					{!! Form::textarea('container_gaji', '[]', ['class' => 'form-control hide', 'id' => 'container_gaji']) !!}
+				</div>
               </div>
             </div>
   </div>
 </div>
 {!! Form::close() !!}
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Gaji Yang Dibayarkan</h3>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table id="tabel_daftar_gaji" class="table table-hover table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th class="hide">key</th>
+							<th>Nama Staf Yg Dibayar</th>
+							<th>Gaji Pokok</th>
+							<th>Bonus</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="hide key">
+								0
+							</td>
+							<td class="nama_staf">
+								{!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , [
+									'class'            => 'nama_staf_select form-control selectpick',
+									'data-live-search' => 'true',
+									'onchange'         => 'changeNamaStaf(this);return false;'
+								]) !!}
+							</td>
+							<td class="gaji_pokok">
+							  {!! Form::text('gaji_pokok', null, [
+								  'class'   => 'form-control gaji_pokok_text uangInput',
+								  'onkeyup' => 'changeGajiPokok(this);return false;'
+							  ]) !!}
+							</td>
+							<td class="jumlah_bonus">
+							  {!! Form::text('bonus', null, [
+								  'class' => 'form-control jumlah_bonus_text uangInput',
+								  'onkeyup' => 'changeJumlahBonus(this); return false;'
+							  ]) !!}
+							</td>
+							<td>
+								<button class="btn btn-primary" onclick="tambah(this);return false;">
+									<i class="fa fa-plus fa-2" aria-hidden="true"></i>
+								</button>
+								<button class="btn btn-danger" onclick="kurang(this);return false;">
+									<i class="fa fa-minus fa-2" aria-hidden="true"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="select_template" class="hide">
+	  {!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , [
+			'class'            => 'nama_staf_select form-control',
+			'data-live-search' => 'true',
+			'onchange'         => 'changeNamaStaf(this);return false;'
+	  ]) !!}
+	</div>
 @if(Auth::user()->role == '6')
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -131,38 +181,11 @@
 		</div>
 	</div>
 @endif
-
 @stop
 @section('footer') 
 <script>
-    $(function () {
-      if( $('#print').length > 0 ){
-        window.open("{{ url('pdfs/bayar_gaji_karyawan/' . Session::get('print')) }}", '_blank');
-      }
-    });
-      function dummySubmit(){
-		  var tanggal_benar = false;
-		  var tanggal_dibayar = $('#tanggal_dibayar').val();
-		  var periode = $('#periode').val();
-		  var tahun_periode = periode.split("-")[1];
-		  var bulan_periode = parseInt( periode.split("-")[0] );
-		  var last_date = daysInMonth(bulan_periode, tahun_periode);
-		  var tanggal_terakhir = last_date.getDate();
-		  var tanggal_terakhir = tanggal_terakhir + '-' + periode;
-		  var strTanggalDibayar = strTime( tanggal_dibayar );
-		  var strTanggalTerakhir = strTime( tanggal_terakhir );
-
-		  if( strTanggalDibayar > strTanggalTerakhir ){
-			  tanggal_benar = true;
-		  }
-        if (validatePass() && tanggal_benar) {
-          $('#submit').click();
-		} else if( !tanggal_benar ){
-			var pesan =  'Tanggal dibayar harus setelah akhir periode bulan';
-			alert(pesan);
-			validasi('#tanggal_dibayar', pesan);
-			validasi('#periode',pesan);
-		}
-      }
+	var session_print = "{{ Session::get('print') }}";
+	console.log(session_print);
 </script>
+<script src="{!! asset('js/bayar_gaji_karyawan.js') !!}"></script>
 @stop
