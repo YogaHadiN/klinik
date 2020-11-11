@@ -96,20 +96,20 @@
 							</td>
 							<td class="nama_staf">
 								{!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , [
-									'class'            => 'nama_staf_select form-control selectpick',
+									'class'            => 'nama_staf_select form-control selectpick this_required',
 									'data-live-search' => 'true',
 									'onchange'         => 'changeNamaStaf(this);return false;'
 								]) !!}
 							</td>
 							<td class="gaji_pokok">
 							  {!! Form::text('gaji_pokok', null, [
-								  'class'   => 'form-control gaji_pokok_text uangInput',
+								  'class'   => 'form-control gaji_pokok_text uangInput this_required',
 								  'onkeyup' => 'changeGajiPokok(this);return false;'
 							  ]) !!}
 							</td>
 							<td class="jumlah_bonus">
 							  {!! Form::text('bonus', null, [
-								  'class' => 'form-control jumlah_bonus_text uangInput',
+								  'class' => 'form-control jumlah_bonus_text uangInput this_required',
 								  'onkeyup' => 'changeJumlahBonus(this); return false;'
 							  ]) !!}
 							</td>

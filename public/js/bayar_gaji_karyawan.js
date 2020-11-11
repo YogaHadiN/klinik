@@ -2,25 +2,29 @@
 	window.open(base + '/pdfs/bayar_gaji_karyawan/' + session_print, '_blank');
   }
   function dummySubmit(){
-	  var tanggal_benar = false;
-	  var tanggal_dibayar = $('#tanggal_dibayar').val();
-	  var periode = $('#periode').val();
-	  var tahun_periode = periode.split("-")[1];
-	  var bulan_periode = parseInt( periode.split("-")[0] );
-	  var last_date = daysInMonth(bulan_periode, tahun_periode);
-	  var tanggal_terakhir = last_date.getDate();
-	  var tanggal_terakhir = tanggal_terakhir + '-' + periode;
-	  var strTanggalDibayar = strTime( tanggal_dibayar );
+	  var tanggal_benar      = false;
+	  var tanggal_dibayar    = $('#tanggal_dibayar').val();
+	  var periode            = $('#periode').val();
+	  var tahun_periode      = periode.split("-")[1];
+	  var bulan_periode      = parseInt( periode.split("-")[0] );
+	  var last_date          = daysInMonth(bulan_periode, tahun_periode);
+	  var tanggal_terakhir   = last_date.getDate();
+	  var tanggal_terakhir   = tanggal_terakhir + '-' + periode;
+	  var strTanggalDibayar  = strTime( tanggal_dibayar );
 	  var strTanggalTerakhir = strTime( tanggal_terakhir );
 
 	  if( strTanggalDibayar > strTanggalTerakhir ){
 		  tanggal_benar = true;
 	  }
-	if (validatePass() && tanggal_benar) {
+	if (
+		validatePass() && 
+		tanggal_benar &&
+		kolomGajiTerisiSemua()
+	) {
 	  $('#submit').click();
 	} else if( !tanggal_benar ){
 		var pesan =  'Tanggal dibayar harus setelah akhir periode bulan';
-		alert(pesan);
+		swal('Oops',pesan, 'error' );
 		validasi('#tanggal_dibayar', pesan);
 		validasi('#periode',pesan);
 	}
@@ -157,4 +161,17 @@ function kurang(control) {
 			$('#tabel_daftar_gaji tbody tr:nth-child(' + parseInt(row_number) + ')').find('.key').html(i);
 		}
 	}
+}
+function kolomGajiTerisiSemua() {
+	var passed = true;
+	$('.this_required').each(function() {
+		if ( $(this).val() == '' ) {
+			validasi1($(this), 'Harus Diisi!');
+			passed = false;
+		}
+	})
+	if (!passed) {
+		swal('Oops', 'Semua kolom gaji harus diisi, atau silahkan hapus yang tidak lengkap karena tidak akan dimasukkan di database', 'error' );
+	}
+	return passed;
 }

@@ -352,7 +352,7 @@ function validatePass(){
       }
     });
     if (!pass) {
-        alert(string + ' tidak boleh dikosongkan');
+		swal('Oops',string + ' tidak boleh dikosongkan', 'error' );
         $('.rq').each(function(index, el) {
           if ($(this).val() == '') {
             $(this).focus();
