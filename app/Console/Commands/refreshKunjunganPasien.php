@@ -13,7 +13,7 @@ class refreshKunjunganPasien extends Command
      *
      * @var string
      */
-    protected $signature = 'db:refreshKunjungan';
+    protected $signature = 'db:refreshKunjunganPasien';
 
     /**
      * The console command description.

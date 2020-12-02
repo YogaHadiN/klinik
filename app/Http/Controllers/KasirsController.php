@@ -217,10 +217,19 @@ class KasirsController extends Controller
 		$query .= "AND ta.id = 3 "; // tipe asuransi admedika
 		$query .= "ORDER BY px.tanggal asc ";
 		$query .= "LIMIT 1;";
-		return DB::select($query)[0];
+
+		$pasienBelumDikirim = DB::select($query)
+		if ( count( $pasienBelumDikirim )  ) {
+			return $pasienBelumDikirim
+		}
+
+		return null;
 
 	}
 	private function countDay($date){
+		if ( is_null($date) ) {
+			return 0;
+		}
 		$now = time(); // or your date as well
 		$your_date = strtotime($date);
 		$datediff = $now - $your_date;

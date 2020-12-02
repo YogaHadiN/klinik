@@ -78,20 +78,9 @@ function tambah(control) {
 }
 function changeNamaStaf(control) {
 	var staf_id = $(control).val();
-	console.log('staf_id');
-	console.log(staf_id);
 	var key = parseInt($(control).closest('tr').find('.key').html());
 	var container_gaji = $('#container_gaji').val();
 	container_gaji = $.parseJSON(container_gaji);
-	console.log('staf_id_2');
-	console.log(staf_id);
-	console.log('container_gaji');
-	console.log(container_gaji);
-	console.log('key');
-	console.log(key);
-	console.log(' typeof container_gaji[key] === "undefined" ');
-	console.log( typeof container_gaji[key] === 'undefined' );
-
 	if ( 
 		typeof container_gaji[key] === 'undefined'
 	) {

@@ -27,11 +27,17 @@
 			<div class="table-responsive">
 				<table class="table table-hover table-condensed table-bordered">
 					<tbody>
-						<tr>
-							<td>{{ $pasien_pertama_belum_dikirim->nama_pasien }}</td>
-							<td>{{ $pasien_pertama_belum_dikirim->tanggal }}</td>
-							<td>{{ $pasien_pertama_belum_dikirim->nama_asuransi }}</td>
-						</tr>
+						@if ( !is_null($pasien_pertama_belum_dikirim) )
+							<tr>
+								<td>{{ $pasien_pertama_belum_dikirim->nama_pasien }}</td>
+								<td>{{ $pasien_pertama_belum_dikirim->tanggal }}</td>
+								<td>{{ $pasien_pertama_belum_dikirim->nama_asuransi }}</td>
+							</tr>
+						@else
+							<tr>
+								<td colspan="3" class="text-center">Belum ada pasien terhutang</td>
+							</tr>
+						@endif
 					</tbody>
 				</table>
 			</div>
