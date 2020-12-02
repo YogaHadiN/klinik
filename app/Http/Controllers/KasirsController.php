@@ -49,6 +49,7 @@ class KasirsController extends Controller
 
 		$pasien_pertama_belum_dikirim = $this->pasienPertamaBelumDikirim();
 
+		/* dd($pasien_pertama_belum_dikirim); */
 		$vultr                = $this->vultr();
 
 		$status = 'success';
@@ -56,7 +57,7 @@ class KasirsController extends Controller
 		$admedikaWarning = 'primary';
 		//jika pasien admedika yang belum dikirim ada 25 hari yang lalu, maka warning
 		//
-		if ( $this->countDay( $pasien_pertama_belum_dikirim->tanggal  ) > 20) {
+		if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 20) {
 			$status          = 'warning';
 			$admedikaWarning = 'warning';
 		} 
@@ -103,7 +104,7 @@ class KasirsController extends Controller
 			$vultrWarning = 'danger';
 		}
 
-		if ( $this->countDay( $pasien_pertama_belum_dikirim->tanggal  ) > 24) {
+		if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 24) {
 			$status          = 'danger';
 			$admedikaWarning = 'danger';
 		} 
@@ -121,7 +122,7 @@ class KasirsController extends Controller
 		$saldos          = Saldo::with('staf')->latest()->paginate(20);
 
 
-		$jarak_hari =$this->countDay( $pasien_pertama_belum_dikirim->tanggal  );
+		$jarak_hari =$this->countDay( $pasien_pertama_belum_dikirim  );
 
 		return view('kasirs.saldo', compact(
 			'saldos',
@@ -218,20 +219,20 @@ class KasirsController extends Controller
 		$query .= "ORDER BY px.tanggal asc ";
 		$query .= "LIMIT 1;";
 
-		$pasienBelumDikirim = DB::select($query)
+		$pasienBelumDikirim = DB::select($query);
 		if ( count( $pasienBelumDikirim )  ) {
-			return $pasienBelumDikirim
+			return $pasienBelumDikirim[0];
 		}
 
 		return null;
 
 	}
-	private function countDay($date){
-		if ( is_null($date) ) {
+	private function countDay($pasienBelumDikirim){
+		if ( is_null($pasienBelumDikirim) ) {
 			return 0;
 		}
 		$now = time(); // or your date as well
-		$your_date = strtotime($date);
+		$your_date = strtotime($pasienBelumDikirim->tanggal);
 		$datediff = $now - $your_date;
 		return round($datediff / (60 * 60 * 24));
 	}
