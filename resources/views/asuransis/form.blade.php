@@ -328,9 +328,9 @@
 																	<td>
 																		<div class="form-group">
 																			{!! Form::text('email[]', null, array(
-																				'id'         => 'email',
-																				'class'         => 'form-control email',
-																				'placeholder'   => 'email'
+																				'id'          => 'email',
+																				'class'       => 'form-control email',
+																				'placeholder' => 'email'
 																			))!!}
 																		</div>
 																	</td>
@@ -345,6 +345,18 @@
 													</table>
 												</div>
 												</div>
+											</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											  {!! Form::label('aktif', 'Aktif', ['class' => 'control-label']) !!}
+											  {!! Form::select('aktif', [ 
+													  0 => 'Tidak Aktif',
+													  1 => 'Aktif',
+												  ], null, array(
+													'id'          => 'aktif',
+													'class'       => 'form-control'
+											  ))!!}
+											</div>
 											</div>
 										</div>
 									</div>

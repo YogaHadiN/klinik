@@ -10,6 +10,8 @@ use App\PengantarPasien;
 use App\Role;
 use App\Panggilan;
 use App\Rekening;
+use App\PiutangAsuransi;
+use App\Asuransi;
 use App\Sms;
 use App\StatusBpjs;
 use App\AntrianPoli;
@@ -49,6 +51,15 @@ class testcommand extends Command
      */
     protected $signature = 'test:command';
 
+	public $jumlah_piutang_asuransi;
+	public $jumlah_invoice;
+	public $akumulasi_periksa_ids;
+	public $jumlah_rekening;
+	public $jumlah_nota_jual;
+	public $jumlah_jurnal_umum;
+	public $jumlah_piutang_dibayar;
+	public $jumlah_pembayaran_asuransi;
+
     /**
      * The console command description.
      *
@@ -64,6 +75,15 @@ class testcommand extends Command
     public function __construct()
     {
         parent::__construct();
+
+		$this->jumlah_piutang_asuransi    = 0;
+		$this->jumlah_invoice             = 0;
+		$this->jumlah_rekening            = 0;
+		$this->jumlah_nota_jual           = 0;
+		$this->jumlah_jurnal_umum         = 0;
+		$this->jumlah_piutang_dibayar     = 0;
+		$this->jumlah_pembayaran_asuransi = 0;
+		$this->akumulasi_periksa_ids      = [];
     }
 
 	public $estetika_buka = true;
@@ -77,10 +97,8 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$query  = "SELECT * FROM pengantar_pasiens as ppg join periksas as prx on prx.id = antarable_id JOIN pasiens as pas on pas.id = prx.pasien_id where pas.id = '170806003'; ";
-		$data = DB::select($query);
-
-		dd( $data );
+		$this->testAsuransi();
+		/* $this->resetPembayaranAsuransis(); */
 
 	}
 	private function webhook(){
@@ -130,4 +148,112 @@ class testcommand extends Command
 		DB::statement("delete from jurnal_umums where jurnalable_type = 'App\\\Pengeluaran' and jurnalable_id = 5182;");
 		DB::statement("delete from pengeluarans where id = 5182;");
 	}
+
+	private function resetPembayaranAsuransis(){
+		$pembayaran_asuransi_ids = [
+			'937',
+			'940',
+			'945',
+			'978',
+			'979',
+			'980',
+			'981',
+			'982',
+			'995',
+			'1004',
+			'1019',
+			'1048',
+			'1049',
+			'1054',
+			'1055',
+			'1066',
+			'1082',
+			'1083',
+			'1087',
+			'1100',
+			'1110',
+			'1114',
+			'1122',
+			'1125',
+			'1126',
+			'1127',
+			'1128'
+		];
+
+		foreach ($pembayaran_asuransi_ids as $pembayaran_asuransi_id) {
+			$this->resetPembayaranAsuransi($pembayaran_asuransi_id);
+		}
+
+		dd(
+			'piutang_asuransis = ' . $this->jumlah_piutang_asuransi,
+			'invoice = ' .$this->jumlah_invoice,
+			'rekening = ' .$this->jumlah_rekening,
+			'nota_jual = ' .$this->jumlah_nota_jual,
+			'jurnal_umum = ' .$this->jumlah_jurnal_umum,
+			'piutang_dibayar = ' .$this->jumlah_piutang_dibayar,
+			'pembayaran_asuransi = ' .$this->jumlah_pembayaran_asuransi,
+			json_encode( $this->akumulasi_periksa_ids )
+		);
+
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function resetPembayaranAsuransi($pembayaran_asuransi_id)
+	{
+		$pembayaran_asuransi = PembayaranAsuransi::find( $pembayaran_asuransi_id );
+
+		$piutang_dibayars    = PiutangDibayar::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->get();
+
+		$periksa_ids         = [];
+
+		foreach ($piutang_dibayars as $piutang) {
+
+			$this->akumulasi_periksa_ids[] = $piutang->periksa_id;
+			$periksa_ids[]                 = $piutang->periksa_id;
+
+		}
+
+		// update piutang asuransi
+		$this->jumlah_piutang_asuransi = $this->jumlah_piutang_asuransi + PiutangAsuransi::whereIn('periksa_id', $periksa_ids)->update([
+			'sudah_dibayar' => 0
+		]);
+		// piutang dibayar di delete
+
+		$this->jumlah_invoice = $this->jumlah_invoice + Invoice::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->update([
+			'pembayaran_asuransi_id' => null
+		]);
+
+		// update rekenings
+		$this->jumlah_rekening = $this->jumlah_rekening + Rekening::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->update([
+			'pembayaran_asuransi_id' => null
+		]);
+
+		// delete nota_jual
+		$this->jumlah_nota_jual = $this->jumlah_nota_jual + NotaJual::destroy( $pembayaran_asuransi->nota_jual_id );
+
+		// delete jurnal_umum
+		$this->jumlah_jurnal_umum = $this->jumlah_jurnal_umum + JurnalUmum::where('jurnalable_id', $pembayaran_asuransi->nota_jual_id)
+					->where('jurnalable_type', 'App\\NotaJual')
+					->delete();
+
+		$this->jumlah_piutang_dibayar = $this->jumlah_piutang_dibayar + PiutangDibayar::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->delete();
+
+		$this->jumlah_pembayaran_asuransi = $this->jumlah_pembayaran_asuransi + $pembayaran_asuransi->delete();
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testAsuransi()
+	{
+		 dd( [ null => 'Tidak' ] + Asuransi::list() );
+		 /* dd(Asuransi::where('aktif', 1)->pluck('nama', 'id')); */
+		 /* dd(Asuransi::pluck('nama', 'id')->all()); */
+	}
+	
+	
 }

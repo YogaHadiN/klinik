@@ -559,6 +559,25 @@ class PendapatansController extends Controller
 	}
 	public function inputData(){
 		
+		// terdapat beberapa database yang diubah
+
+		//
+		// create
+		// pembayaran_asuransis
+		// jurnal_umums
+		//
+		// update
+		// update rekening (pembayaran_asuransi_id)
+		// update invoices(pembayaran_asuransi_id)
+		// update piutang_asuransis (periksa_id)
+		//
+		// create nota_jual
+		// create pembayaran_asuransis (nota_jual_id)
+		// update rekening (pembayaran_asuransi_id)
+		// update invoices(pembayaran_asuransi_id)
+		// update piutang_asuransis (periksa_id)
+		// insert jurnal_umums (nota_jual_id)
+		// insert piutang dibayar (pembayaran_asuransi_id)
 
 			$dibayar           = $this->input_dibayar;
 			$mulai             = $this->input_mulai;
@@ -570,7 +589,6 @@ class PendapatansController extends Controller
 			$coa_id            = $this->input_coa_id;
 			$catatan_container = $this->input_catatan_container;
 			$catatan_container = json_decode($catatan_container, true) ;
-			
 			
 			$temp = json_decode($temp, true);
 
@@ -664,6 +682,7 @@ class PendapatansController extends Controller
 				}
 			}
 			$catatans= [];
+			// insert piutang dibayar
 			PiutangDibayar::insert($bayars);
 			return [
 				'asuransi' => $asuransi,

@@ -202,7 +202,7 @@ class PasiensController extends Controller
 			'By' => 'By'
 			);
 
-		$asuransi = array('0' => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
+		$asuransi =  Asuransi::list();
 
 		$jenis_peserta = array(
 			null => ' - pilih asuransi -',  

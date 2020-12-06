@@ -37,6 +37,7 @@ class AsuransisController extends Controller
 	public $input_umum             = '';
 	public $input_kali_obat        = '';
 	public $input_kata_kunci       = '';
+	public $input_aktif;
 	public $hasfile;
 	public $input_id;
 	public $input_nama_file;
@@ -46,28 +47,29 @@ class AsuransisController extends Controller
 
    public function __construct()
     {
-        $this->middleware('super', ['only' => 'delete']);
+        $this->middleware('super', ['only'   => 'delete']);
         $this->middleware('admin', ['except' => []]);
-		$this->input_nama             = ucwords(strtolower(Input::get('nama')));
-		$this->input_alamat           = Input::get('alamat');
-		$this->input_pic           = Input::get('pic');
-		$this->input_hp_pic           = Input::get('hp_pic');
-		$this->input_telpon          = Input::get('telpon');
-		$this->input_email          = Input::get('email');
-		$this->input_tanggal_berakhir = Yoga::datePrep(Input::get('tanggal_berakhir'));
-		$this->input_penagihan        = Yoga::cleanArrayJson(Input::get('penagihan'));
-		$this->input_gigi             = Yoga::cleanArrayJson(Input::get('gigi'));
-		$this->input_rujukan          = Yoga::cleanArrayJson(Input::get('rujukan'));
-		$this->input_tipe_asuransi    = Input::get('tipe_asuransi');
-		$this->input_umum             = Yoga::cleanArrayJson(Input::get('umum'));
-		$this->input_kali_obat        = Input::get('kali_obat');
-		$this->input_kata_kunci       = Input::get('kata_kunci');
-		$this->hasfile         = Input::hasFile('file');
-		$this->input_id        = Input::get('asuransi_id');
-		$this->input_nama_file = Input::get('nama_file');
-		$this->input_file      = Input::file('file');
-		$this->berkasable_type = 'App\\Asuransi';
-		$this->input_folder    = 'asuransi';
+		$this->input_nama                     = ucwords(strtolower(Input::get('nama')));
+		$this->input_alamat                   = Input::get('alamat');
+		$this->input_pic                      = Input::get('pic');
+		$this->input_hp_pic                   = Input::get('hp_pic');
+		$this->input_telpon                   = Input::get('telpon');
+		$this->input_email                    = Input::get('email');
+		$this->input_tanggal_berakhir         = Yoga::datePrep(Input::get('tanggal_berakhir'));
+		$this->input_penagihan                = Yoga::cleanArrayJson(Input::get('penagihan'));
+		$this->input_gigi                     = Yoga::cleanArrayJson(Input::get('gigi'));
+		$this->input_rujukan                  = Yoga::cleanArrayJson(Input::get('rujukan'));
+		$this->input_tipe_asuransi            = Input::get('tipe_asuransi');
+		$this->input_umum                     = Yoga::cleanArrayJson(Input::get('umum'));
+		$this->input_kali_obat                = Input::get('kali_obat');
+		$this->input_kata_kunci               = Input::get('kata_kunci');
+		$this->hasfile                        = Input::hasFile('file');
+		$this->input_id                       = Input::get('asuransi_id');
+		$this->input_nama_file                = Input::get('nama_file');
+		$this->input_aktif                    = Input::get('aktif');
+		$this->input_file                     = Input::file('file');
+		$this->berkasable_type                = 'App\\Asuransi';
+		$this->input_folder                   = 'asuransi';
     }
 	/**
 	 * Display a listing of asuransis
@@ -576,6 +578,7 @@ class AsuransisController extends Controller
 		$asuransi->umum             = $this->input_umum;
 		$asuransi->kali_obat        = $this->input_kali_obat;
 		$asuransi->kata_kunci       = $this->input_kata_kunci;
+		$asuransi->aktif            = $this->input_aktif;
 		$asuransi->save();
 
 		$timestamp = date('Y-m-d H:i:s');

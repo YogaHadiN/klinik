@@ -115,7 +115,7 @@ class Asuransi extends Model{
 		return DB::select($query)[0]->jumlah;
 	}
 	public static function list(){
-		return  Asuransi::pluck('nama', 'id')->all();
+		return  Asuransi::where('aktif', 1)->pluck('nama', 'id');
 	}
 	public function tipe_asuransi(){
 		return $this->belongsTo('App\TipeAsuransi', 'tipe_asuransi');
