@@ -97,8 +97,8 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$this->testAsuransi();
-		/* $this->resetPembayaranAsuransis(); */
+		/* $this->testAsuransi(); */
+		$this->resetPembayaranAsuransis();
 
 	}
 	private function webhook(){
@@ -151,6 +151,7 @@ class testcommand extends Command
 
 	private function resetPembayaranAsuransis(){
 		$pembayaran_asuransi_ids = [
+			'914',
 			'937',
 			'940',
 			'945',
