@@ -56,6 +56,7 @@
 							@endif
 							Pembayaran : <br>
 							<strong>{!! $periksa->asuransi->nama!!}</strong><br><br>
+							<a href="{{ url('periksas/'. $periksa->id) }}" class="btn btn-success btn-lg btn-block" target="_blank">Detail</a>
 						  </td>
 						  <td>
 							  <strong>Anamnesa : {!! $periksa->id !!}</strong> <br>
