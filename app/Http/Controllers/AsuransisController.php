@@ -327,9 +327,7 @@ class AsuransisController extends Controller
 		));
 	}
 	
-	public function hutang(){
-
-
+	public function hutang($year){
 		$query  = "SELECT ";
 		$query .= "bl.tanggal, ";
 		$query .= "bl.bulan, ";
@@ -352,6 +350,7 @@ class AsuransisController extends Controller
 		$query .= " AND px.asuransi_id > 0";
 		$query .= " AND ju.coa_id like '111%'";
 		$query .= " AND ju.debit = '1'";
+		$query .= " AND px.tanggal like '{$year}%' ";
 		$query .= " GROUP BY ju.id) bl";
 		$query .= " GROUP BY bl.tahun DESC, bl.bulan DESC;";
 

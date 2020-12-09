@@ -22,7 +22,6 @@ class PasiensController extends Controller
     *
     */
 
-
 	public $input_alamat;
 	public $input_asuransi_id;
 	public $input_sex;

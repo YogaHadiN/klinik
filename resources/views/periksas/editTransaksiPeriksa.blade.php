@@ -99,7 +99,6 @@
 											</tr>
 											<tr>
 												<td>Tanggal</td>
-												<td>{{ $periksa->created_at->format('d M Y') }}</td>
 											</tr>
 											<tr>
 												<td>Jam</td>
@@ -209,7 +208,7 @@
 
 {!! Form::open(['url' => 'periksas/' . $periksa->id . '/update/transaksiPeriksa', 'method' => 'post']) !!}
 
-	<div class="row">
+	<div class="row hide">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
 			  {!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
@@ -221,22 +220,23 @@
 		</div>
 	</div>
 	<div>
-	{{-- <div class="hide"> --}}
+	<div class="hide">
 		<h2>Temp</h2>
 	</div>
+	<div class="hide">
 		{!! Form::textarea('temp', '[]', ['class' => 'form-control textareacustom', 'id' => 'temp']) !!}
-	<div>
-	{{-- <div class="hide"> --}}
+	</div>
+	<div class="hide">
 		<h2>Jurnals</h2>
 		{!! Form::textarea('jurnals', $periksa->jurnals, ['class' => 'form-control textareacustom', 'id' => 'jurnals']) !!}
 	</div>
 	<div>
-	{{-- <div class="hide"> --}}
+	<div class="hide">
 		<h2>Transaksis</h2>
 		{!! Form::textarea('transaksis', $periksa->transaksii, ['class' => 'form-control textareacustom', 'id' => 'transaksis']) !!}
 	</div>
 	<div>
-	{{-- <div class="hide"> --}}
+	<div class="hide">
 		<h2>Periksa</h2>
 		{!! Form::textarea('periksa', $periksa, ['class' => 'form-control textareacustom', 'id' => 'periksa']) !!}
 	</div>

@@ -754,7 +754,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::put('acs/{id}', 'AcsController@update');
 	Route::delete('acs/{id}', 'AcsController@destroy');
 	Route::post('acs', 'AcsController@store');
-	Route::get('hutang_asuransi', 'AsuransisController@hutang');
+	Route::get('hutang_asuransi/{year}', 'AsuransisController@hutang');
 	Route::get('hutang_asuransi/{bulan}/{tahun}', 'AsuransisController@hutangPerBulan');
 	Route::get('bahan_bangunans/konfirmasi/{bulan}/{tahun}', 'BahanBangunansController@konfirmasi');
 	Route::get('bahan_bangunans/ikhtisarkan', 'BahanBangunansController@ikhtisarkan');

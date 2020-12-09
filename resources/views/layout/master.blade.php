@@ -152,7 +152,6 @@
                             <li>{!! HTML::link('bayardokters', 'Pembayaran Dokter')!!}</li>
                             <li>{!! HTML::link('pembayaran_asuransis', 'Pembayaran Asuransi')!!}</li>
                             <li>{!! HTML::link('promo/kecantikan/ktp/pertahun', 'Promo KTP Per Tahun')!!}</li>
-                            <li>{!! HTML::link('hutang_asuransi?bulan='. date('m') .'&tahun=' . date('Y'), 'Piutang Asuransi')!!}</li>
                             <li>{!! HTML::link('stafs/pph21/dokter', 'Pph21 Dokter Umum')!!}</li>
                             <li>{!! HTML::link('gopays', 'Go Pay')!!}</li>
                         </ul>
@@ -286,6 +285,14 @@
                             {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
                         </ul>
                      </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Hutang Asuransi</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @foreach ( range( date('Y'), 2016 ) as $year)
+                                <li>{!! HTML::link('hutang_asuransi/'. $year, $year)!!}</li>
+                            @endforeach
+                        </ul>
+                    </li>
 					 <li>{!! HTML::link('backup', 'Backup Database', ['onclick' => 'return confirm("Anda yakin mau backup database saat ini?")'])!!}</li>
 					 <li>{!! HTML::link('copy_log_file', 'Copy Log File')!!}</li>
                 </ul>
