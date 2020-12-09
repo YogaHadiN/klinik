@@ -5118,3 +5118,6 @@ table.tabelTerapi tr td {
 .money {
 	direction: rtl;
 }
+.padding-10 {
+	padding-bottom: 20px;
+}

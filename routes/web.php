@@ -159,6 +159,11 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('laporans/omset_estetik', 'LaporansController@omsetEstetik');
 	Route::get('laporans/jumlahPenyakitTBCTahunan', 'LaporansController@jumlahPenyakitTBCTahunan');
 	Route::get('laporans/jumlahPenyakit_DM_HT', 'LaporansController@jumlahPenyakitDM_HT');
+	Route::get('laporans/bpjs/hipertensi', 'LaporanBpjsController@hipertensi');
+	Route::get('laporans/bpjs/dm', 'LaporanBpjsController@dm');
+	Route::get('laporans/bpjs/diagnosa', 'LaporanBpjsController@diagnosa');
+	Route::get('pdfs/bpjs/diagnosaRujukan', 'LaporanBpjsController@diagnosaPdf');
+	Route::get('pdfs/bpjs/hipertensi', 'LaporanBpjsController@hipertensiPdf');
 
 
 	Route::get('periksas/{id}/edit/transaksiPeriksa', 'PeriksaCustomController@editTransaksiPeriksa');
@@ -186,6 +191,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('mereks/ajax/obat', 'MereksController@ajaxObat');
 	Route::get('/pasiens/cek/tanggal_lahir/sama', 'PasiensAjaxController@ajaxTanggalLahir');
 	Route::get('/pasiens/cek/nomor_bpjs/sama', 'PasiensAjaxController@cekNomorBpjsSama');
+	Route::get('pasiens/pacific_cross/2020', 'PasiensController@pc2020');
 
 
 	Route::resource('antrianperiksas', 'AntrianPeriksasController');

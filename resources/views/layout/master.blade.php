@@ -123,6 +123,7 @@
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
                             <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
                             <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
+                            <li>{!! HTML::link('pasiens/pacific_cross/2020', 'Pacific Cross 2020')!!}</li>
                         </ul>
                     </li>
                     <li>

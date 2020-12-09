@@ -403,6 +403,30 @@
 												</form>
 											</tr>
 											<tr>
+												<form action="{{ url('laporans/bpjs/diagnosa') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan Diagnosa Rujukan BPJS</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/bpjs/dm') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan Diabetes BPJS</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/bpjs/hipertensi') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan Hipertensi BPJS</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
 												<form action="{{ url('laporans/points') }}" method="get">
 													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
 													<td>Laporan Points</td>

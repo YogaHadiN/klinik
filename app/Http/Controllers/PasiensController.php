@@ -12,6 +12,7 @@ use App\Pasien;
 use App\Asuransi;
 use App\AntrianPoli;
 use App\Staf;
+use DB;
 
 class PasiensController extends Controller
 {
@@ -393,6 +394,28 @@ class PasiensController extends Controller
 		}
 		return null;
 	}
+	public function pc2020(){
+		$query  = "select ";
+		$query .= "psn.id, ";
+		/* $query .= "asu.nama as nama_asuransi, "; */
+		$query .= "psn.nama as nama_pasien ";
+		$query .= "from pasiens as psn ";
+		$query .= "join periksas as prx on prx.pasien_id = psn.id ";
+		/* $query .= "join asuransis as asu on asu.id = psn.id "; */
+		$query .= "where ";
+		$query .= "prx.tanggal like '2020%' ";
+		$query .= "and (prx.asuransi_id = 200216001 ";
+		$query .= "or prx.asuransi_id = 200312001 ";
+		$query .= "or prx.asuransi_id = 200312002 ";
+		$query .= "or prx.asuransi_id = 37) ";
+		$query .= "group by psn.id;";
+		/* dd($query); */
+		$pasiens = DB::select($query);
+		return view('pasiens.pc2020', compact(
+			'pasiens'
+		));
+	}
+	
 	
 	
 	
