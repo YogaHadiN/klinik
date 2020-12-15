@@ -98,8 +98,8 @@ class testcommand extends Command
     public function handle()
     {
 		/* $this->testAsuransi(); */
+		/* $this->updatePC2020(); */
 		$this->resetPembayaranAsuransis();
-
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
@@ -151,34 +151,30 @@ class testcommand extends Command
 
 	private function resetPembayaranAsuransis(){
 		$pembayaran_asuransi_ids = [
-			'914',
-			'937',
-			'940',
-			'945',
-			'978',
-			'979',
-			'980',
-			'981',
-			'982',
-			'995',
-			'1004',
-			'1019',
-			'1048',
-			'1049',
-			'1054',
-			'1055',
-			'1066',
-			'1082',
-			'1083',
-			'1087',
-			'1100',
-			'1110',
-			'1114',
-			'1122',
-			'1125',
-			'1126',
-			'1127',
-			'1128'
+			  '983',
+			 '1024',
+			 '1056',
+			 '1057',
+			 '1058',
+			 '1084',
+			 '1085',
+			 '1131',
+			 '1132',
+			 '1133',
+			 '1134',
+			 '1135',
+			 '1136',
+			 '1137',
+			 '1138',
+			 '1139',
+			 '1140',
+			 '1141',
+			 '1142',
+			 '1143',
+			 '1144',
+			 '1146',
+			 '1147',
+			 '1153'
 		];
 
 		foreach ($pembayaran_asuransi_ids as $pembayaran_asuransi_id) {
@@ -255,6 +251,21 @@ class testcommand extends Command
 		 /* dd(Asuransi::where('aktif', 1)->pluck('nama', 'id')); */
 		 /* dd(Asuransi::pluck('nama', 'id')->all()); */
 	}
-	
-	
+	private function updatePC2020(){
+
+		$periksas = Periksa::with('pasien')
+							->where('asuransi_id', '200216001')
+							->orWhere('asuransi_id', '200216001')
+							->orWhere('asuransi_id', '200312001')
+							->orWhere('asuransi_id', '200312002')
+							->orWhere('asuransi_id', '37')
+							->get();
+
+		foreach ($periksas as $periksa) {
+			$periksa->asuransi_id = $periksa->pasien->asuransi_id;
+			$periksa->save();
+		}
+
+
+	}
 }
