@@ -81,7 +81,7 @@
 							  <tr>
 								  <th class="hide">ID PERIKSA</th>
 								  <th>Periksa Id</th>
-								  <th class="old_asuransi_id">old_asuransi_id</th>
+								  <th class="hide old_asuransi_id">old_asuransi_id</th>
 								  <th>Nama Pasien</th>
 								  <th>Pembayaran</th>
 								  <th>Poli</th>
@@ -96,7 +96,7 @@
 									  <tr>
 										  <td class="hide periksa_id">{!! $periksa->periksa_id !!}</td>
 										  <td class="periksa_id">{!! $periksa->periksa_id !!}</td>
-										  <td class="old_asuransi_id">{!! $periksa->asuransi_id !!}</td>
+										  <td class="hide old_asuransi_id">{!! $periksa->asuransi_id !!}</td>
 										  <td>{!! $periksa->nama_pasien !!}</td>
 										  {{-- <td>{!! $periksa->nama_asuransi !!}</td> --}}
 										  <td>
