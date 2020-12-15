@@ -468,6 +468,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('laporans/pengantar', 'LaporansController@pengantar');
 		Route::get('laporans/harian', 'LaporansController@harian');
+		Route::post('laporans/harian/update_asuransi', 'LaporansController@updateAsuransi');
+
 		Route::get('laporans/haridet', 'LaporansController@haridet');
 		Route::get('laporans/harikas', 'LaporansController@harikas');
 		Route::get('laporans/bulanan', 'LaporansController@bulanan');

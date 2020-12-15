@@ -303,11 +303,13 @@ class LaporansController extends Controller
 			$persen_lama = 0;
 		}
 		$pasien_lama = count($periksas) - $pasien_baru;
+		$list_asuransi = Asuransi::list();
 
 		return view('laporans.harian', compact(
 			'periksas',
 			'rincian',
 			'persen_lama',
+			'list_asuransi',
 			'persen_baru',
 			'pasien_lama',
 			'pasien_baru',
@@ -1293,6 +1295,7 @@ class LaporansController extends Controller
 	public function periksaHarian($tanggal, $asuransi_id = '%'){
 		$query         = "SELECT *, ";
 		$query        .= "p.id as periksa_id, ";
+		$query        .= "p.asuransi_id as asuransi_id, ";
 		$query        .= "ps.nama as nama_pasien, ";
 		$query        .= "asu.nama as nama_asuransi, ";
 		$query        .= "p.id as periksa_id, ";
@@ -1443,5 +1446,21 @@ class LaporansController extends Controller
 	public function angkaKontakBpjsBulanIni(){
 		return view('laporans.angka_kontak_bpjs_bulan_ini');
 	}
+	public function updateAsuransi(){
+		try {
+			$periksa_id              = Input::get('periksa_id');
+			$asuransi_id             = Input::get('asuransi_id');
+				
+			$periksa_id              = Periksa::find($periksa_id);
+			$periksa_id->asuransi_id = $asuransi_id;
+			$periksa_id->save();
+
+			return 1;
+		} catch (\Exception $e) {
+			return 0;
+		}
+
+	}
+	
 	
 }

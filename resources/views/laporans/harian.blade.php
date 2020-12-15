@@ -81,6 +81,7 @@
 							  <tr>
 								  <th class="hide">ID PERIKSA</th>
 								  <th>Periksa Id</th>
+								  <th class="old_asuransi_id">old_asuransi_id</th>
 								  <th>Nama Pasien</th>
 								  <th>Pembayaran</th>
 								  <th>Poli</th>
@@ -94,9 +95,17 @@
 								  @foreach ($periksas as $key => $periksa)
 									  <tr>
 										  <td class="hide periksa_id">{!! $periksa->periksa_id !!}</td>
-										  <td>{!! $periksa->periksa_id !!}</td>
+										  <td class="periksa_id">{!! $periksa->periksa_id !!}</td>
+										  <td class="old_asuransi_id">{!! $periksa->asuransi_id !!}</td>
 										  <td>{!! $periksa->nama_pasien !!}</td>
-										  <td>{!! $periksa->nama_asuransi !!}</td>
+										  {{-- <td>{!! $periksa->nama_asuransi !!}</td> --}}
+										  <td>
+											  {!! Form::select('asuransi_id', $list_asuransi, $periksa->asuransi_id, [
+												  'class' => 'form-control selectpick',
+												  'onchange' => 'updateAsuransiPeriksa(this);return false;',
+												  'data-live-search' => 'true'
+											  ]) !!}
+										  </td>
 										  <td>{!! $periksa->poli !!}</td>
 										  <td class='uang'>{!! $periksa->tunai !!}</td>
 										  <td class='uang'>{!! $periksa->piutang !!}</td>
@@ -128,11 +137,6 @@
 	@endif
 @stop
 @section('footer') 
+{!! HTML::script('js/laporan_harian.js')!!}
 	
-<script type="text/javascript" charset="utf-8">
-    function printStruk(control){
-        alert( $(control).closest('tr').find('.periksa_id').html() );
-    }
-    
-</script>
 @stop
