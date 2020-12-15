@@ -5,6 +5,8 @@ function updateAsuransiPeriksa(control){
 
 	var asuransi_id     = $(control).val();
 	var periksa_id      = $(control).closest('tr').find('.periksa_id').html();
+	var nama_pasien     = $(control).closest('tr').find('.nama_pasien').html();
+	var tanggal         = $(control).closest('tr').find('.tanggal').html();
 	var old_asuransi_id = $(control).closest('tr').find('.old_asuransi_id').html();
 
 	console.log('base');
@@ -27,7 +29,7 @@ function updateAsuransiPeriksa(control){
 				$(control).selectpicker('refresh');
 
 			} else {
-				console.log('true');
+				swal('Berhasil','Asuransi pemeriksaan ' + nama_pasien + ' berhasil di update ', 'success' );
 			}
 
 		}

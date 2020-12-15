@@ -1295,6 +1295,7 @@ class LaporansController extends Controller
 	public function periksaHarian($tanggal, $asuransi_id = '%'){
 		$query         = "SELECT *, ";
 		$query        .= "p.id as periksa_id, ";
+		$query        .= "p.tanggal as tanggal, ";
 		$query        .= "p.asuransi_id as asuransi_id, ";
 		$query        .= "ps.nama as nama_pasien, ";
 		$query        .= "asu.nama as nama_asuransi, ";
