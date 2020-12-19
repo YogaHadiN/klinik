@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Input;
 use App\Http\Requests;
+use Carbon\Carbon;
 use App\Asuransi;
 use App\Berkas;
 use App\Tarif;
@@ -328,32 +329,10 @@ class AsuransisController extends Controller
 	}
 	
 	public function hutang($year){
-		$query  = "SELECT ";
-		$query .= "bl.tanggal, ";
-		$query .= "bl.bulan, ";
-		$query .= "bl.tahun, ";
-		$query .= "sum(bl.hutang) as piutang, ";
-		$query .= "sum(bl.sudah_dibayar) as sudah_dibayar ";
-		$query .= "FROM ( ";
-		$query .= "SELECT ";
-		$query .= "year(ju.created_at) as tahun,";
-		$query .= " month(ju.created_at) as bulan,";
-		$query .= " ju.created_at as tanggal,";
-		$query .= " ju.nilai as hutang,";
-		$query .= " sum(byr.pembayaran) as sudah_dibayar";
-		$query .= " FROM jurnal_umums as ju";
-		$query .= " join periksas as px on px.id = ju.jurnalable_id";
-		$query .= " join pasiens as ps on ps.id = px.pasien_id";
-		$query .= " join asuransis as asu on px.asuransi_id = asu.id";
-		$query .= " left join piutang_dibayars as byr on px.id = byr.periksa_id";
-		$query .= " where jurnalable_type = 'App\\\Periksa'";
-		$query .= " AND px.asuransi_id > 0";
-		$query .= " AND ju.coa_id like '111%'";
-		$query .= " AND ju.debit = '1'";
-		$query .= " AND px.tanggal like '{$year}%' ";
-		$query .= " GROUP BY ju.id) bl";
-		$query .= " GROUP BY bl.tahun DESC, bl.bulan DESC;";
-
+		$query = $this->queryHutang([
+			'waktu' => 'tahun',
+			'param' => $year
+		]);
 		$data_piutang = DB::select($query);
 
 		/* return view('asuransis.hutang', compact( */
@@ -713,4 +692,43 @@ class AsuransisController extends Controller
 		}
 		return $tipe_asuransi_list;
 	}
+	public function	queryHutang($param){
+
+		$waktu = $param['waktu'];
+		$param = $param['param'];
+
+		$query  = "SELECT ";
+		$query .= "bl.tanggal, ";
+		$query .= "bl.bulan, ";
+		$query .= "bl.tahun, ";
+		$query .= "sum(bl.hutang) as piutang, ";
+		$query .= "sum(bl.sudah_dibayar) as sudah_dibayar ";
+		$query .= "FROM ( ";
+		$query .= "SELECT ";
+		$query .= "year(ju.created_at) as tahun,";
+		$query .= " month(ju.created_at) as bulan,";
+		$query .= " ju.created_at as tanggal,";
+		$query .= " ju.nilai as hutang,";
+		$query .= " sum(byr.pembayaran) as sudah_dibayar";
+		$query .= " FROM jurnal_umums as ju";
+		$query .= " join periksas as px on px.id = ju.jurnalable_id";
+		$query .= " join pasiens as ps on ps.id = px.pasien_id";
+		$query .= " join asuransis as asu on px.asuransi_id = asu.id";
+		$query .= " left join piutang_dibayars as byr on px.id = byr.periksa_id";
+		$query .= " where jurnalable_type = 'App\\\Periksa'";
+		$query .= " AND px.asuransi_id > 0";
+		$query .= " AND ju.coa_id like '111%'";
+		$query .= " AND ju.debit = '1'";
+		if ( $waktu == 'tahun' ) {
+			$query .= " AND px.tanggal like '{$param}%' ";
+		} else if ( $waktu == '3bulan' ) {
+			$param = Carbon::createFromFormat('Y-m-d', $param);
+			$query .= " AND px.tanggal between '{$param->copy()->format('Y-01-01 00:00:00')}' and '{$param->copy()->subMonths(3)->format('Y-m-d 23:59:59')}' ";
+		}
+		$query .= " GROUP BY ju.id) bl";
+		$query .= " GROUP BY bl.tahun DESC, bl.bulan DESC;";
+
+		return $query;
+	}
+	
 }

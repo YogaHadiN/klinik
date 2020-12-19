@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
 		 Commands\testConsole::class,
 		 Commands\gammuSend::class,
 		 Commands\smsCekInbox::class,
+		 Commands\piutangAsuransiBelumDibayar3Bulan::class,
 		 Commands\testJurnal::class,
 		 Commands\dbBackup::class,
 		 Commands\refreshKunjunganPasien::class,
@@ -67,6 +68,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
 		 $schedule->command('cek:mutasi20terakhir')
 				  ->dailyAt('00:01');
 		 $schedule->command('cek:mutasi')
@@ -83,6 +85,8 @@ class Kernel extends ConsoleKernel
 				  ->dailyAt('23:50');
 		 $schedule->command('test:neraca')
 				  ->dailyAt('01:00');
+		 $schedule->command('sms:piutangReminder')
+				  ->cron('00 09 * * 1,3');
 		 /* $schedule->command('sms:angkakontak') */
 					/* ->dailyAt('15:30'); */ 
 		 $schedule->command('test:jurnal')
