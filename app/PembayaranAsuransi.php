@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PembayaranAsuransi extends Model
 {
-    //
     public function asuransi(){
          return $this->belongsTo('App\Asuransi');
     }
@@ -31,5 +30,8 @@ class PembayaranAsuransi extends Model
 
         $pesan = 'Telah dibayarkan oleh <strong>' . $asuransi . '</strong><br /> sebesar <strong class="uang">' . $pembayaran . '</strong> pada tanggal <strong>' . $tanggal . '</strong><br /> ke <strong> ' . $kas . '</strong>';
         return $pesan;
+    }
+    public function piutang_dibayar(){
+        return $this->hasMany('App\PiutangDibayar');
     }
 }

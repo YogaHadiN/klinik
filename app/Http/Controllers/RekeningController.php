@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Rekening;
 use App\Asuransi;
+use App\PiutangDibayar;
 use App\AbaikanTransaksi;
 use App\Classes\Yoga;
 use Input;
@@ -249,6 +250,26 @@ class RekeningController extends Controller
 		}
 		return $ignored_ids;
 	}
-	
-	
+	public function show($rekening_id){
+		$rekening         = Rekening::with('pembayaran_asuransi.piutang_dibayar.periksa.pasien')->where('id',$rekening_id )->first();
+
+
+		$total_tunai         = 0;
+		$total_piutang       = 0;
+		$total_sudah_dibayar = 0;
+
+
+		foreach ($rekening->pembayaran_asuransi->piutang_dibayar as $piutang) {
+			$total_sudah_dibayar   += $piutang->pembayaran;
+			$total_tunai   += $piutang->periksa->tunai;
+			$total_piutang += $piutang->periksa->piutang;
+		}
+
+		return view('rekenings.show', compact(
+			'rekening',
+			'total_tunai',
+			'total_piutang',
+			'total_sudah_dibayar'
+		));
+	}
 }

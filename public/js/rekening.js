@@ -51,7 +51,8 @@ function search(key = 0){
 				temp += '</td>';
 				if( data.data[i].pembayaran_asuransi_id ){
 					temp += '<td colspan="2" class="kolom_4" nowrap>';
-						temp += '<button type="button" class="btn btn-warning btn-sm btn-block ">Detail</button>';
+					temp += '<a class="btn btn-warning btn-sm btn-block" href="' + base+ '/rekenings/' +data.data[i].id+ '">Detail</a>';
+						// temp += '<button type="button" class="btn btn-warning btn-sm btn-block ">Detail</button>';
 				} else {
 					if ( auth_id == 28 && !$('#ignored').length ){
 						temp += '<td class="fit-column kolom_4" nowrap>';

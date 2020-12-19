@@ -224,6 +224,7 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::get('rekening_bank/{id}', 'RekeningController@index');
 			Route::post('rekening_bank/ignore/{id}', 'RekeningController@ignore');
 			Route::get('/rekening_bank/ignoredList/ajax', 'RekeningController@ignoredListAjax');
+			Route::get('rekenings/{id}', 'RekeningController@show');
 			Route::get('rekenings/cek_id', 'RekeningController@cekId');
 			Route::get('jurnal_umums', 'JurnalUmumsController@index');
 			Route::get('jurnal_umums/normalisasi', 'JurnalUmumsController@normalisasi');

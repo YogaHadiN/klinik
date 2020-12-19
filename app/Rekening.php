@@ -14,4 +14,9 @@ class Rekening extends Model
 	public function akun_bank(){
 		return $this->belongsTo('App\AkunBank');
 	}
+
+	public function pembayaran_asuransi(){
+		return $this->belongsTo('App\PembayaranAsuransi');
+	}
+	
 }
