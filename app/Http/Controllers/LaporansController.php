@@ -1456,6 +1456,10 @@ class LaporansController extends Controller
 			$periksa_id->asuransi_id = $asuransi_id;
 			$periksa_id->save();
 
+			$pasien                  = Pasien::find( $periksa->pasien_id );
+			$pasien->asuransi_id     = $asuransi_id;
+			$pasien->save();
+
 			return 1;
 		} catch (\Exception $e) {
 			return 0;
