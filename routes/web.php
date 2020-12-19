@@ -448,6 +448,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pendapatans/create', 'PendapatansController@create');
 		Route::post('pendapatans/index', 'PendapatansController@store');
 		Route::get('pendapatans/pembayaran/asuransi', 'PendapatansController@pembayaran_asuransi');
+		Route::post('pendapatans/pembayaran/asuransi/delete', 'PendapatansController@delete_pembayaran_asuransi');
+ 
 		Route::get('pendapatans/pembayaran_asuransi/cari_pembayaran', 'PendapatansController@cariPembayaran');
 		Route::get('pendapatans/pembayaran/asuransi/{id}', 'PendapatansController@pembayaran_asuransi_rekening');
 		Route::post('pengeluarans/pembayaran_asuransi/show ', 'PendapatansController@lihat_pembayaran_asuransi');

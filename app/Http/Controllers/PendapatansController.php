@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Input;
 use App\Classes\Yoga;
+use App\Console\Commands\testcommand;
 use App\Http\Requests;
 use App\Http\Controllers\AsuransisController;
 use App\Pendapatan;
@@ -750,7 +751,13 @@ class PendapatansController extends Controller
 			return DB::select($query)[0]->jumlah;
 		}
 	}
-	
-	
-	
+	public function delete_pembayaran_asuransi($pembayaran_asuransi_id){
+		$testCommand = new testcommand.php;
+		try {
+			$testCommand->resetPembayaranAsuransi( $pembayaran_asuransi_id );
+			return 1;
+		} catch (\Exception $e) {
+			return 0;
+		}
+	}
 }

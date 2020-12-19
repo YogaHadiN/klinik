@@ -199,7 +199,7 @@ class testcommand extends Command
 	*
 	* @return void
 	*/
-	private function resetPembayaranAsuransi($pembayaran_asuransi_id)
+	public function resetPembayaranAsuransi($pembayaran_asuransi_id)
 	{
 		$pembayaran_asuransi = PembayaranAsuransi::find( $pembayaran_asuransi_id );
 

@@ -49,7 +49,31 @@
 									</tr>
 									<tr>
 										<td>Pembayaran</td>
-										<td>{!! $periksa->asuransi->nama !!}</td>
+										{{-- <td>{!! $periksa->asuransi->nama !!}</td> --}}
+										<td>
+											{!! Form::select('asuransi_id', $asuransi_list, $periksa->asuransi_id, [
+												'class'            => 'form-control selectpick',
+												'data-live-search' => 'true'
+											]) !!}
+										</td>
+									</tr>
+									<tr>
+										<td>Nomor Asuransi</td>
+										{{-- <td>{!! $periksa->asuransi->nama !!}</td> --}}
+										<td>
+											{!! Form::text('nomor_asuransi', $periksa->nomor_asuransi, [
+												'class'            => 'form-control'
+											]) !!}
+										</td>
+									</tr>
+									<tr>
+										<td>Asuransi Sudah Benar</td>
+										<td>
+											{{ Form::checkbox('sudah_benar', 1, false, [
+												'id' => 'asuransi_sudah_benar',
+												'class' => 'form-control'
+											]) }}
+										</td>
 									</tr>
 								</tbody>
 							</table>

@@ -1253,4 +1253,10 @@ class Periksa extends Model{
     public function berkas(){
         return $this->morphMany('App\Berkas', 'berkasable');
     }
+
+	public function getNomorAsuransiAttribute(){
+        if ( $this->asuransi_id != '0' ) {
+            return $this->pasien->nomor_asuransi;
+        }
+	}
 }

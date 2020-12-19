@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use App\Classes\Yoga;
 use App\Antrian;
+use App\Asuransi;
 use App\Perbaikantrx;
 use App\GambarPeriksa;
 use App\Keberatan;
@@ -251,9 +252,12 @@ class CustomController extends Controller
         	$dibayar = $jasa_dokter + $obat;
         }
 		$warna = $this->warna;
+
+		$asuransi_list = Asuransi::list();
 		return view('surveys.index', compact(
 			'reseps',
 			'warna',
+			'asuransi_list',
 			'periksa',
 			'tindakanPeriksa',
 			'sudah',
