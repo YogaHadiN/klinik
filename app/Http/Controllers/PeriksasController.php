@@ -398,8 +398,8 @@ class PeriksasController extends Controller
 		} else if ($poli == 'KB 1 Bulan' || $poli == 'KB 3 Bulan' ){
 			$poli='kandungan';
 		}
-
 		$cs = new CustomController;
+
 		DB::beginTransaction();
 		try {
 			RegisterHamil::insert($register_hamils);
@@ -419,10 +419,11 @@ class PeriksasController extends Controller
 			$pasien->save();
 			/* $this->kirimWaAntrianBerikutnya($periksa); */
 			DB::commit();
+			$periksa->antrian;
 			if(isset($periksa->antrian)){
 				$ruang_periksa_id = $periksa->antrian->jenis_antrian_id;
 			} else {
-				$ruang_periksa_id = 6;
+				$ruang_periksa_id = 5;
 			}
 			return redirect('ruangperiksa/' . $ruang_periksa_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
@@ -688,7 +689,7 @@ class PeriksasController extends Controller
 			$pasien = $periksa->pasien;
 			DB::commit();
 
-			$jenis_antrian_id = '6';
+			$jenis_antrian_id = '5';
 			if (!is_null($periksa->antrian)) {
 				$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
 			}
