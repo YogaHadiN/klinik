@@ -5652,6 +5652,9 @@ img.loader {
     right: 0;
     bottom: 0;
 }
+.overflow-break {
+    overflow-wrap: break-word !important;
+}
 
 /*! jQuery UI - v1.11.4 - 2016-01-02
 * http://jqueryui.com

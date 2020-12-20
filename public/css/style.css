@@ -5121,3 +5121,7 @@ table.tabelTerapi tr td {
 .padding-10 {
 	padding-bottom: 20px;
 }
+.overflow-break {
+    overflow-wrap: break-word;
+    background-color: red;
+}

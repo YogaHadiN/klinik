@@ -2663,7 +2663,6 @@ $(document).ready(function () {
         .popover();
 
     $('.uang').attr('nowrap', 'nowrap');
-    $('.uang').closest('td').attr('nowrap', 'nowrap');
 
     $('.angka').keyup(function(e){
         var before = $(this).val();

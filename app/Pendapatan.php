@@ -32,7 +32,7 @@ class Pendapatan extends Model{
 		$biaya      = $this->nilai;
 		$keterangan = $this->keterangan;
 
-		return 'Dibayarkan <strong>' . $keterangan . '</strong><br /> oleh <strong>' . $sumber_uang . ' </strong><br />sebesar <strong><span class="uang">' . $biaya . '</span></strong>';
+		return 'Dibayarkans <strong>' . $keterangan . '</strong><br /> oleh <strong>' . $sumber_uang . ' </strong><br />sebesar <strong><span class="uang">' . $biaya . '</span></strong>';
     }
 
 }

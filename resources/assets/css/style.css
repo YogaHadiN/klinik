@@ -5312,3 +5312,6 @@ img.loader {
     right: 0;
     bottom: 0;
 }
+.overflow-break {
+    overflow-wrap: break-word !important;
+}
