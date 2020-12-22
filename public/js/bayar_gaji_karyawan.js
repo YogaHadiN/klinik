@@ -2,6 +2,7 @@
 	window.open(base + '/pdfs/bayar_gaji_karyawan/' + session_print, '_blank');
   }
   function dummySubmit(){
+	  console.log('uyeye');
 	  var tanggal_benar      = false;
 	  var tanggal_dibayar    = $('#tanggal_dibayar').val();
 	  var periode            = $('#periode').val();
@@ -153,7 +154,7 @@ function kurang(control) {
 }
 function kolomGajiTerisiSemua() {
 	var passed = true;
-	$('.this_required').each(function() {
+	$('input.this_required, select.this_required').each(function() {
 		if ( $(this).val() == '' ) {
 			validasi1($(this), 'Harus Diisi!');
 			passed = false;

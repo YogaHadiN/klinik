@@ -160,6 +160,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('laporans/jumlahPenyakitTBCTahunan', 'LaporansController@jumlahPenyakitTBCTahunan');
 	Route::get('laporans/jumlahPenyakit_DM_HT', 'LaporansController@jumlahPenyakitDM_HT');
 	Route::get('laporans/bpjs/hipertensi', 'LaporanBpjsController@hipertensi');
+	Route::get('laporans/pph21', 'LaporansController@pph21');
 	Route::get('laporans/bpjs/dm', 'LaporanBpjsController@dm');
 	Route::get('laporans/bpjs/diagnosa', 'LaporanBpjsController@diagnosa');
 	Route::get('pdfs/bpjs/diagnosaRujukan', 'LaporanBpjsController@diagnosaPdf');

@@ -11,6 +11,7 @@ use App\Asuransi;
 use App\AntrianPeriksa;
 use App\Periksa;
 use App\BayarDokter;
+use App\BayarGaji;
 use App\TransaksiPeriksa;
 use App\PembayaranAsuransi;
 use App\Staf;
@@ -26,6 +27,7 @@ use App\SmsKontak;
 use App\SmsGagal;
 use App\AntrianPoli;
 use Auth;
+use Carbon\Carbon;
 use App\Classes\Yoga;
 use DB;
 use App\JenisTarif;
@@ -1466,6 +1468,40 @@ class LaporansController extends Controller
 		}
 
 	}
+	public function pph21(){
+
+		$bulanTahun    = Carbon::createFromFormat('m-Y', Input::get('bulanTahun'));
+		$bayar_gajis   = BayarGaji::with('staf')->where('mulai', 'like', $bulanTahun->format('Y-m') . '%')->get();
+		$bayar_dokters = BayarDokter::with('staf')->where('mulai', 'like', $bulanTahun->format('Y-m') . '%')->get();
+
+		dd( $bulanTahun->format('F Y') );
+
+		$query  = "SELECT ";
+		$query .= "stf.nama, ";
+		$query .= "stf.npwp, ";
+		$query .= "stf.jenis_kelamin, ";
+		$query .= "byd.menikah, ";
+		$query .= "byd.jumlah_anak, ";
+		$query .= "sum(byd.bayar_dokter) as bayar_dokter, ";
+		$query .= "sum(byd.potongan5persen_setahun) as potongan5persen, ";
+		$query .= "sum(byd.potongan15persen_setahun) as potongan15persen, ";
+		$query .= "sum(byd.potongan25persen_setahun) as potongan25persen, ";
+		$query .= "sum(byd.potongan30persen_setahun) as potongan30persen ";
+		$query .= "FROM bayar_dokters as byd ";
+		$query .= "JOIN stafs as stf on stf.id = byd.staf_id ";
+		$query .= "WHERE mulai like '{$bulanTahun->format('Y-m')}%'";
+		$query .= "GROUP BY stf.id ";
+		/* dd( $query ); */
+		$bayar_dokters = DB::select($query);
+
+		return view('laporans.pph21', compact(
+			'bayar_gajis',
+			'bulanTahun',
+			'bayar_dokters'
+		));
+		
+	}
+	
 	
 	
 }

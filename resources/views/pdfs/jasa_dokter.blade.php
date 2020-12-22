@@ -57,109 +57,109 @@
                                     </h2>
                                 </td>
                             </tr>
-							{{--<tr>--}}
-								{{--<td class="text-center border-top" colspan="2"><h3>Perhitungan Pph21</h2></td>--}}
-							{{--</tr>--}}
+							<tr>
+								<td class="text-center border-top" colspan="2"><h3>Perhitungan Pph21</h2></td>
+							</tr>
 							
-							{{--<tr>--}}
-                                {{--<td>Penghasilan Bruto Setahun</td>--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->penghasilan_bruto_setahun)}}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-                                {{--<td>Penghasilan Netto Setahun</td>--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->penghasilan_bruto_setahun / 2)}}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-                                {{--<td>PTKP Setahun</td>--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->ptkp_setahun)}}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-                                {{--<td>Penghasiln Kena Pajak</td>--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp(( $bayar->penghasilan_bruto_setahun /2 ) - $bayar->ptkp_setahun)}}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-							{{--@include('pdfs.potongan5persen' , ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan5persen_setahun)}}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-								{{--@include('pdfs.potongan15persen', ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan15persen_setahun)}}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-								{{--@include('pdfs.potongan25persen', ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan25persen_setahun) }}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-								{{--@include('pdfs.potongan30persen', ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan30persen_setahun) }}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-                                {{--<td>Pph21 setahun ( simulasi )</td>--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp(--}}
-									{{--$bayar->potongan5persen_setahun +--}}
-									{{--$bayar->potongan15persen_setahun +--}}
-									{{--$bayar->potongan25persen_setahun +--}}
-									{{--$bayar->potongan30persen_setahun--}}
-								{{--)  }}--}}
-								{{--</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-                                {{--<td>Potongan Pph21 sudah dibayar</td>--}}
-								{{--<td class="text-right">{{ App\Classes\Yoga::buatrp( $total_pph_sudah_dibayar ) }}</td>--}}
-                            {{--</tr>--}}
-							{{--<tr>--}}
-                                {{--<td>Pph 21 Yang Dipotong Saat Ini</td>--}}
-                                {{--<td class="text-right">--}}
-									{{--<h2 id="pembayaranDokter">--}}
-										{{--<!--pembayaran goes here-->--}}
-                                        {{--{{ App\Classes\Yoga::buatrp( $bayar->pph21 ) }}--}}
-									{{--</h2>--}}
-								{{--</td>--}}
-                            {{--</tr>--}}
-							{{--<tr class="border-top">--}}
-                                {{--<td>Total</td>--}}
-                                {{--<td class="text-right">--}}
-                                    {{--<h2 id="pembayaranDokter">--}}
-										{{--{{ App\Classes\Yoga::buatrp( $bayar->bayar_dokter -  $bayar->pph21 ) }}--}}
-                                        {{--<!--pembayaran goes here-->--}}
-                                    {{--</h2>--}}
-                                {{--</td>--}}
-                            {{--</tr>--}}
+							<tr>
+                                <td>Penghasilan Bruto Setahun</td>
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->penghasilan_bruto_setahun)}}</td>
+                            </tr>
+							<tr>
+                                <td>Penghasilan Netto Setahun</td>
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->penghasilan_bruto_setahun / 2)}}</td>
+                            </tr>
+							<tr>
+                                <td>PTKP Setahun</td>
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->ptkp_setahun)}}</td>
+                            </tr>
+							<tr>
+                                <td>Penghasiln Kena Pajak</td>
+								<td class="text-right">{{ App\Classes\Yoga::buatrp(( $bayar->penghasilan_bruto_setahun /2 ) - $bayar->ptkp_setahun)}}</td>
+                            </tr>
+							<tr>
+							@include('pdfs.potongan5persen' , ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan5persen_setahun)}}</td>
+                            </tr>
+							<tr>
+								@include('pdfs.potongan15persen', ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan15persen_setahun)}}</td>
+                            </tr>
+							<tr>
+								@include('pdfs.potongan25persen', ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan25persen_setahun) }}</td>
+                            </tr>
+							<tr>
+								@include('pdfs.potongan30persen', ['bayar' => $bayar->penghasilan_kena_pajak_setahun ])
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->potongan30persen_setahun) }}</td>
+                            </tr>
+							<tr>
+                                <td>Pph21 setahun ( simulasi )</td>
+								<td class="text-right">{{ App\Classes\Yoga::buatrp(
+									$bayar->potongan5persen_setahun +
+									$bayar->potongan15persen_setahun +
+									$bayar->potongan25persen_setahun +
+									$bayar->potongan30persen_setahun
+								)  }}
+								</td>
+                            </tr>
+							<tr>
+                                <td>Potongan Pph21 sudah dibayar</td>
+								<td class="text-right">{{ App\Classes\Yoga::buatrp( $total_pph_sudah_dibayar ) }}</td>
+                            </tr>
+							<tr>
+                                <td>Pph 21 Yang Dipotong Saat Ini</td>
+                                <td class="text-right">
+									<h2 id="pembayaranDokter">
+										<!--pembayaran goes here-->
+                                        {{ App\Classes\Yoga::buatrp( $bayar->pph21 ) }}
+									</h2>
+								</td>
+                            </tr>
+							<tr class="border-top">
+                                <td>Total</td>
+                                <td class="text-right">
+                                    <h2 id="pembayaranDokter">
+										{{ App\Classes\Yoga::buatrp( $bayar->bayar_dokter -  $bayar->pph21 ) }}
+                                        <!--pembayaran goes here-->
+                                    </h2>
+                                </td>
+                            </tr>
                             <tr class="border-top">
                                 <td colspan="2" class="text-right">
 									{{ App\Classes\Yoga::terbilang( $bayar->bayar_dokter - $bayar->pph21 ) }} rupiah
                                 </td>
                             </tr>
-							{{--<tr>--}}
-								{{--<td class="full-width" colspan="2">--}}
-									{{--<h3>Pembayaran Bulan Ini</h3>--}}
-									{{--<table class="bordered">--}}
-										{{--<thead>--}}
-											{{--<tr>--}}
-												{{--<th>Tanggal</th>--}}
-												{{--<th>Pembayaran</th>--}}
-												{{--<th>Pph21</th>--}}
-											{{--</tr>--}}
-										{{--</thead>--}}
-										{{--<tbody>--}}
-											{{--@foreach( $pembayaran_bulan_ini as $bayar )--}}
-												{{--<tr>--}}
-													{{--<td>{{ $bayar->created_at->format('d M Y') }}</td>--}}
-													{{--<td class="text-right">{{App\Classes\Yoga::buatrp(  $bayar->bayar_dokter  )}}</td>--}}
-													{{--<td class="text-right">{{ App\Classes\Yoga::buatrp( $bayar->pph21 ) }}</td>--}}
-												{{--</tr>--}}
-											{{--@endforeach--}}
-										{{--</tbody>--}}
-										{{--<tfoot>--}}
-											{{--<tr>--}}
-												{{--<th></th>--}}
-												{{--<th class="text-right">{{ App\Classes\Yoga::buatrp( $total_pembayaran_bulan_ini )}}</th>--}}
-												{{--<th class="text-right">{{ App\Classes\Yoga::buatrp( $total_pph_bulan_ini ) }}</th>--}}
-											{{--</tr>--}}
-										{{--</tfoot>--}}
-									{{--</table>--}}
-								{{--</td>--}}
-							{{--</tr>--}}
+							<tr>
+								<td class="full-width" colspan="2">
+									<h3>Pembayaran Bulan Ini</h3>
+									<table class="bordered">
+										<thead>
+											<tr>
+												<th>Tanggal</th>
+												<th>Pembayaran</th>
+												<th>Pph21</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach( $pembayaran_bulan_ini as $bayar )
+												<tr>
+													<td>{{ $bayar->created_at->format('d M Y') }}</td>
+													<td class="text-right">{{App\Classes\Yoga::buatrp(  $bayar->bayar_dokter  )}}</td>
+													<td class="text-right">{{ App\Classes\Yoga::buatrp( $bayar->pph21 ) }}</td>
+												</tr>
+											@endforeach
+										</tbody>
+										<tfoot>
+											<tr>
+												<th></th>
+												<th class="text-right">{{ App\Classes\Yoga::buatrp( $total_pembayaran_bulan_ini )}}</th>
+												<th class="text-right">{{ App\Classes\Yoga::buatrp( $total_pph_bulan_ini ) }}</th>
+											</tr>
+										</tfoot>
+									</table>
+								</td>
+							</tr>
                         </tbody>
                     </table>
                 </div>
