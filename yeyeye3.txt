@@ -1,0 +1,22 @@
+drop table php21_dokters;
+CREATE TABLE pph21s(
+  id INT NOT NULL AUTO_INCREMENT,
+  pph21able_id varchar(255) NOT NULL,
+  pph21able_type varchar(255) NOT NULL,
+  periode date NOT NULL  ,
+  pph21 int(11) NOT NULL  ,
+  jenis_kelamin	int(1) NOT NULL  ,
+  menikah int(1) NOT NULL  ,
+  jumlah_anak int(2) NOT NULL,
+  ptkp_dasar int(11)	NOT NULL,
+  ptkp_setahun int(11)	NOT NULL,
+  penghasilan_kena_pajak_setahun int(11) NOT NULL,
+  potongan5persen_setahun int(11) NOT NULL,
+  potongan15persen_setahun int(11) NOT NULL,
+  potongan25persen_setahun int(11) NOT NULL,
+  potongan30persen_setahun int(11) NOT NULL,
+  penghasilan_bruto_setahun int(11) NOT NULL,
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  created_at TIMESTAMP NOT NULL,
+  PRIMARY KEY(id)
+);

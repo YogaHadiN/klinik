@@ -31,4 +31,7 @@ class BayarGaji extends Model
         return $pesan;
     }
     
+    public function pph21s(){
+        return $this->morphMany('App\Pph21', 'jurnalable');
+    }
 }

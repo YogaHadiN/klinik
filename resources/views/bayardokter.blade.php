@@ -20,7 +20,7 @@
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-default">
           <div class="panel-body">
-			  <h1>Bayar Gaji Dokter WOi</h1>
+			  <h1>iBayar Gaji Dokter WOi</h1>
             <hr>
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Staf', ['class' => 'control-label']) !!}

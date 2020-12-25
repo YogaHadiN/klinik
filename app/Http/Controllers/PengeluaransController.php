@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use App\FakturBelanja;
 use App\Http\Controllers\JurnalUmumsController;
 use App\PenjualanAset;
-use App\Pph21Dokter;
+use App\Pph21;
 use App\Http\Controllers\PasiensAjaxController;
 use App\BayarHutangHarta;
 use App\Penyusutan;
@@ -282,7 +282,6 @@ class PengeluaransController extends Controller
 
     
     public function dokterdibayar(){
-
 		$rules           = [
 			'staf_id'              => 'required',
 			'hutang'               => 'required',
@@ -299,62 +298,101 @@ class PengeluaransController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-        $staf_id                       = Input::get('staf_id');
-        $petugas_id                    = Input::get('petugas_id');
-        $mulai                         = Input::get('mulai');
-        $akhir                         = Input::get('akhir');
-        $total                         = $this->total($staf_id, $mulai, $akhir);
-        $hutang                        = Input::get('hutang');
-        $jasa_dokter                   = Input::get('jasa_dokter');
-        $dibayar                       = Yoga::clean( Input::get('dibayar') );
-        $sumber_uang_id                = Input::get('sumber_uang_id');
+        $staf_id                 = Input::get('staf_id');
+        $petugas_id              = Input::get('petugas_id');
+        $mulai                   = Input::get('mulai');
+        $akhir                   = Input::get('akhir');
+        $total                   = $this->total($staf_id, $mulai, $akhir);
+        $hutang                  = Input::get('hutang');
+        $jasa_dokter             = Input::get('jasa_dokter');
+        $dibayar                 = Yoga::clean( Input::get('dibayar') );
+        $sumber_uang_id          = Input::get('sumber_uang_id');
 
-		$bayar_dokter_id = (int)BayarDokter::orderBy('id', 'desc')->first()->id + 1;
-        $staf                          = Staf::find($staf_id);
+		$bayar_dokter_id         = (int)BayarDokter::orderBy('id', 'desc')->first()->id + 1;
+        $staf                    = Staf::find($staf_id);
+
+		$carbon_mulai            = Carbon::createFromFormat('Y-m-d H:i:s', $mulai);
+		$bayar_dokters_bulan_ini = BayarDokter::where('staf_id', $staf_id)->where('mulai', 'like', $carbon_mulai->format('Y-m') . '%' )->get();
+		$total_gaji_bulan_ini    = $dibayar;
+		$total_pph_bulan_ini     = 0;
+		foreach ($bayar_dokters_bulan_ini as $bayar_dokter) {
+			$total_gaji_bulan_ini += $bayar_dokter->bayar_dokter;
+			$total_pph_bulan_ini += $bayar_dokter->pph21;
+		}
 
 		$bayar_dokters = [];
+		$pph = [];
 
-		$jurnals = [];
+		$ptkp               = Config::where('config_variable', 'Penghasilan Tidak Kena Pajak')->first()->value; // penghasilann tidak kena pajak
+		/* dd( 'ptkp_ini', $ptkp_ini ); */
+		/* dd('$total_gaji_bulan_ini, $total_pph_bulan_ini, $staf, $ptkp_ini',$total_gaji_bulan_ini, $total_pph_bulan_ini, $staf, $ptkp_ini); */
+	    $perhitunganPph_ini = $this->pph21($total_gaji_bulan_ini, $total_pph_bulan_ini, $staf, $ptkp);
+		$jurnals            = [];
         if ($dibayar > 0) {
 			$timestamp = date('Y-m-d H:i:s');
-
-			$bayar_dokters[] = [
-
-                'id'                   => $bayar_dokter_id,
-                'staf_id'              => $staf_id,
-                'petugas_id'           => $petugas_id,
-                'bayar_dokter'         => $dibayar,
-                'hutang'               => $hutang,
-                'mulai'                => $mulai ,
-                'akhir'                => $akhir ,
-                'sumber_uang_id'       => $sumber_uang_id ,
-				'ada_penghasilan_lain' => Input::get('ada_penghasilan_lain'),
-				'created_at'           => $timestamp,
-				'updated_at'           => $timestamp
-
+			$pph = [
+				'pph21able_id'                   => $bayar_dokter_id,
+				'pph21able_type'                 => 'App\\BayarDokter',
+				'periode'                        => $mulai,
+				'pph21'                          => $perhitunganPph_ini['pph21'],
+				'menikah'                        => $staf->menikah,
+				'punya_npwp'                     => $perhitunganPph_ini['punya_npwp'],
+				'jumlah_anak'                    => $staf->jumlah_anak,
+				'biaya_jabatan'                  => $perhitunganPph_ini['biaya_jabatan'],
+				'ptkp_dasar'                     => $perhitunganPph_ini['ptkp_dasar'],
+				'ptkp_setahun'                   => $perhitunganPph_ini['ptkp_setahun'],
+				'gaji_netto'                     => $perhitunganPph_ini['gaji_netto'],
+				'penghasilan_kena_pajak_setahun' => $perhitunganPph_ini['penghasilan_kena_pajak_setahun'],
+				'potongan5persen_setahun'        => $perhitunganPph_ini['potongan5persen_setahun'],
+				'potongan15persen_setahun'       => $perhitunganPph_ini['potongan15persen_setahun'],
+				'potongan25persen_setahun'       => $perhitunganPph_ini['potongan25persen_setahun'],
+				'potongan30persen_setahun'       => $perhitunganPph_ini['potongan30persen_setahun'],
+				'pph21_setahun'                  => $perhitunganPph_ini['pph21_setahun']
 			];
-				
+			$bayar_dokters[] = [
+                'id'             => $bayar_dokter_id,
+                'staf_id'        => $staf_id,
+                'petugas_id'     => $petugas_id,
+                'gaji_bruto'     => $dibayar,
+                'gaji_netto'     => $dibayar - $perhitunganPph_ini['pph21'],
+                'hutang'         => $hutang,
+                'mulai'          => $mulai ,
+                'akhir'          => $akhir ,
+                'sumber_uang_id' => $sumber_uang_id ,
+                'pph21'          => $perhitunganPph_ini['pph21'],
+				'created_at'     => $timestamp,
+				'updated_at'     => $timestamp
+			];
 			if ($dibayar == $hutang) {
-
 				$jurnals[]             = [
 					'jurnalable_id'   => $bayar_dokter_id,
 					'jurnalable_type' => 'App\BayarDokter',
 					'coa_id'          => 200001, // Hutang Kepada Dokte,
 					'debit'           => 1,
-					'nilai'           => $bayar->bayar_dokter,
+					'nilai'           => $hutang,
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
-
 				$jurnals[]             = [
 					'jurnalable_id'   => $bayar_dokter_id,
 					'jurnalable_type' => 'App\BayarDokter',
 					'coa_id'          => $sumber_uang_id,
 					'debit'           => 0,
-					'nilai'           => $bayar->bayar_dokter,
+					'nilai'           => $dibayar - $perhitunganPph_ini['pph21'],
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
+				if ( $perhitunganPph_ini['pph21'] > 0 ) {
+					$jurnals[]             = [
+						'jurnalable_id'   => $bayar_dokter_id,
+						'jurnalable_type' => 'App\BayarDokter',
+						'coa_id'          => 200004, // Hutang pph21
+						'debit'           => 0,
+						'nilai'           => $perhitunganPph_ini['pph21'],
+						'created_at'      => $timestamp,
+						'updated_at'      => $timestamp
+					];
+				}
 			} else if($dibayar  > $hutang){
 				//Create Jurnal Umum untuk hutang saja
 				$jurnals[]             = [
@@ -366,50 +404,47 @@ class PengeluaransController extends Controller
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
-
+				$jurnals[]             = [
+					'jurnalable_id'   => $bayar_dokter_id,
+					'jurnalable_type' => 'App\BayarDokter',
+					'coa_id'          => 50201, // B. Produksi Jasa Dokter,
+					'debit'           => 1,
+					'nilai'           => $dibayar - $hutang,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp
+				];
 				$jurnals[]             = [
 					'jurnalable_id'   => $bayar_dokter_id,
 					'jurnalable_type' => 'App\BayarDokter',
 					'coa_id'          => $sumber_uang_id,
 					'debit'           => 0,
+					'nilai'           => $dibayar - $perhitunganPph_ini['pph21'],
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp
+				];
+				if ( $perhitunganPph_ini['pph21'] > 0 ) {
+					$jurnals[]             = [
+						'jurnalable_id'   => $bayar_dokter_id,
+						'jurnalable_type' => 'App\BayarDokter',
+						'coa_id'          => 200004, // Hutang pph21
+						'debit'           => 0,
+						'nilai'           => $perhitunganPph_ini['pph21'],
+						'created_at'      => $timestamp,
+						'updated_at'      => $timestamp
+					];
+				}
+				//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
+			} else if($dibayar  < $hutang){
+				//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
+				$jurnals[]             = [
+					'jurnalable_id'   => $bayar_dokter_id,
+					'jurnalable_type' => 'App\BayarDokter',
+					'coa_id'          => 200001, // Hutang kepada dokte,
+					'debit'           => 1,
 					'nilai'           => $hutang,
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
-				//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
-				$jurnals[]             = [
-					'jurnalable_id'   => $bayar_dokter_id,
-					'jurnalable_type' => 'App\BayarDokter',
-					'coa_id'          => 50201, // B. Produksi Jasa Dokte,
-					'debit'           => 1,
-					'nilai'           => $dibayar - $hutang,
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
-				$jurnals[]             = [
-					'jurnalable_id'   => $bayar_dokter_id,
-					'jurnalable_type' => 'App\BayarDokter',
-					'coa_id'          => $sumber_uang_id,
-					'debit'           => 0,
-					'nilai'           => $dibayar - $hutang,
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
-
-			} else if($dibayar  < $hutang){
-
-
-				//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
-				$jurnals[]             = [
-					'jurnalable_id'   => $bayar_dokter_id,
-					'jurnalable_type' => 'App\BayarDokter',
-					'coa_id'          => 200001, // Hutang kepada dokte,
-					'debit'           => 1,
-					'nilai'           => $hutang- $dibayar,
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
-
 				$jurnals[]             = [
 					'jurnalable_id'   => $bayar_dokter_id,
 					'jurnalable_type' => 'App\BayarDokter',
@@ -419,41 +454,34 @@ class PengeluaransController extends Controller
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
-
-				//Create Jurnal Umum untuk hutang saja
-				$jurnals[]             = [
-					'jurnalable_id'   => $bayar_dokter_id,
-					'jurnalable_type' => 'App\BayarDokter',
-					'coa_id'          => 200001, // Hutang kepada dokte,
-					'debit'           => 1,
-					'nilai'           => $dibayar,
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
-
 				//end
 				$jurnals[]             = [
 					'jurnalable_id'   => $bayar_dokter_id,
 					'jurnalable_type' => 'App\BayarDokter',
 					'coa_id'          => $sumber_uang_id,
 					'debit'           => 0,
-					'nilai'           => $dibayar,
+					'nilai'           => $dibayar - $perhitunganPph_ini['pph21'],
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
-
+				if ( $perhitunganPph_ini['pph21'] > 0 ) {
+					$jurnals[]             = [
+						'jurnalable_id'   => $bayar_dokter_id,
+						'jurnalable_type' => 'App\BayarDokter',
+						'coa_id'          => 200004, // Hutang pph21
+						'debit'           => 0,
+						'nilai'           => $perhitunganPph_ini['pph21'],
+						'created_at'      => $timestamp,
+						'updated_at'      => $timestamp
+					];
+				}
 			}
-
-			//
-			//pph21 batal dipotong
-			//
-
 			// tahun dihitung adalah tahun dimana dokter mulai bekerja
-
 			DB::beginTransaction();
 			try {
 				BayarDokter::insert($bayar_dokters);
 				JurnalUmum::insert($jurnals);
+				Pph21::create($pph);
 				DB::commit();
 			} catch (\Exception $e) {
 				DB::rollback();
@@ -461,6 +489,7 @@ class PengeluaransController extends Controller
 			}
 			$pesan = Yoga::suksesFlash('Gaji ' . $staf->nama . ' sebesar ' . Yoga::buatrp( $dibayar ) . '. Berhasil diinput' );
 			return redirect('pengeluarans/bayardoker')->withPesan($pesan)->withPrint($bayar_dokter_id);
+
         } else {
             $pesan = Yoga::gagalFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . Yoga::buatrp( $dibayar ) . ',- . Gagal diinput' );
             return redirect('pengeluarans/bayardoker')->withPesan($pesan);
@@ -782,9 +811,28 @@ class PengeluaransController extends Controller
         return $hutangs;
     }
     private function total($id, $mulai, $akhir){
-        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( date(p.created_at) between '{$mulai}' and '{$akhir}' );";
-        $hutangs = DB::select($query);
+		$query = "select ";
+		$query .= "p.id as periksa_id, ";
+		$query .= "p.tanggal as tanggal, ";
+		$query .= "st.nama as nama_staf, ";
+		$query .= "ps.id as pasien_id, ";
+		$query .= "ps.nama as nama, ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "tunai, ";
+		$query .= "piutang, ";
+		$query .= "nilai ";
+		$query .= " from ";
+		$query .= "jurnal_umums as ju ";
+		$query .= "join periksas as p on p.id=ju.jurnalable_id ";
+		$query .= "join stafs as st on st.id= p.staf_id ";
+		$query .= "join pasiens as ps on ps.id=p.pasien_id ";
+		$query .= "join asuransis as asu on asu.id=p.asuransi_id ";
+		$query .= "where jurnalable_type='App\\\Periksa' ";
+		$query .= "and p.staf_id='{$id}' ";
+		$query .= "and ju.coa_id=200001 "; //hutang kepada dokter
+		$query .= "and ( date(p.created_at) between '{$mulai}' and '{$akhir}') ";
         $total = 0;
+        $hutangs = DB::select($query);
         foreach ($hutangs as $hutang) {
             $total += $hutang->nilai;
         }
@@ -2202,13 +2250,14 @@ class PengeluaransController extends Controller
 		 $potongan30persen       = 0;
 		 $penghasilan_kena_pajak = 0;
 		 $faktor_kali_pph        = 0;
-		 $pph21setahun           = 0;
+		 $pph21_setahun           = 0;
 
 		   //jika total gaji bulan ini melebihi ptkp
 		   if ( $total_gaji_bulan_ini > $ptkp ) {
 			   // biaya jabatan = 5% x gaji bulan ini;
 				$biaya_jabatan      = (int)$total_gaji_bulan_ini * 0.05;
 			   // biaya jabatan maksimal yang diperkenankan adalah 500rb;
+
 				if ($biaya_jabatan > 500000) {
 					$biaya_jabatan = 500000;
 				}
@@ -2227,7 +2276,7 @@ class PengeluaransController extends Controller
 				//WP dengan penghasilan tahunan di atas Rp 250 juta - Rp 500 juta adalah 25%
 				//WP dengan penghasilan tahunan di atas Rp 500 juta adalah 30%
 				$pph21_setahun_ini            = $this->pph21setahun( $penghasilan_kena_pajak );
-				$pph21setahun                 = $pph21_setahun_ini['pph21setahun'];
+				$pph21_setahun                 = $pph21_setahun_ini['pph21_setahun'];
 				$potongan5persen              = $pph21_setahun_ini['potongan5persen'];
 				$potongan15persen1            = $pph21_setahun_ini['potongan15persen1'];
 				$potongan15persen2            = $pph21_setahun_ini['potongan15persen2'];
@@ -2240,32 +2289,45 @@ class PengeluaransController extends Controller
 				if (empty(trim( $staf_ini->npwp ))) {
 					$faktor_kali_pph          = 1.2;
 				}
-				$pph21setahun                 = $pph21setahun * $faktor_kali_pph;
+				$pph21_setahun                 = $pph21_setahun * $faktor_kali_pph;
 				//pph21 yang dibayarkan bulan ini dibagi 12 dari pph21 setahun dikurangi pph21 yang sudah dibayarkan bulan ini
-				$pph21                        = ( $pph21setahun / 12 ) - $total_pph_bulan_ini;
+				$pph21                        = ( $pph21_setahun / 12 ) - $total_pph_bulan_ini;
 		   }
+
+			/* 'pph21'                          => $perhitunganPph_ini['pph21'], */
+			/* 'punya_npwp'                     => $perhitunganPph_ini['punya_npwp'], */
+			/* 'biaya_jabatan'                  => $perhitunganPph_ini['biaya_jabatan'], */
+			/* 'ptkp_dasar'                     => $perhitunganPph_ini['ptkp_dasar'], */
+			/* 'ptkp_setahun'                   => $perhitunganPph_ini['ptkp_setahun'], */
+			/* 'gaji_netto'                     => $perhitunganPph_ini['gaji_netto'], */
+			/* 'penghasilan_kena_pajak_setahun' => $perhitunganPph_ini['penghasilan_kena_pajak_setahun'], */
+			/* 'pph21setahun'                   => $perhitunganPph_ini['pph21setahun'], */
+
+			if ( empty( $staf_ini->npwp ) ) {
+				$punya_npwp = 0;
+			} else {
+				$punya_npwp = 1;
+			}
+
+
 		   return [
-			   'ptkp_dasar'                  => Yoga::buatrp( $ptkp ),
-			   'ptkp'                        => $total_ptkp,
-			   'npwp'                        => $staf_ini->npwp,
-			   'jumlah_anak'                 => $staf_ini->jumlah_anak,
-			   'menikah'                     => $staf_ini->menikah,
-			   'ptkp_ini'                    => $ptkp,
-			   'total_gaji_bulan_ini'        => $total_gaji_bulan_ini,
-			   'biaya_jabatan'               => $biaya_jabatan,
-			   'gaji_netto_setahun'          => $gaji_netto_setahun,
-			   'total_ptkp'                  => $total_ptkp,
-			   'penghasilan_kena_pajak'      => $penghasilan_kena_pajak,
-			   'potongan5persen'             => $potongan5persen,
-			   'potongan15persen'            => $potongan15persen,
-			   'potongan25persen'            => $potongan25persen,
-			   'potongan30persen'            => $potongan30persen,
-			   'pph21setahun'                => $pph21setahun,
-			   'faktor_kali_pph'             => $faktor_kali_pph,
-			   'pph21setahun'                => $pph21setahun,
-			   'gaji_netto'                  => $gaji_netto,
-			   'gaji_netto_setahun'          => $gaji_netto_setahun,
-			   'pph21'                       => $pph21
+			   'ptkp_dasar'                     => $ptkp,
+			   'ptkp_setahun'                   => $total_ptkp,
+			   'total_gaji_bulan_ini'           => $total_gaji_bulan_ini,
+			   'biaya_jabatan'                  => $biaya_jabatan,
+			   'gaji_netto_setahun'             => $gaji_netto_setahun,
+			   'total_ptkp'                     => $total_ptkp,
+			   'penghasilan_kena_pajak_setahun' => $penghasilan_kena_pajak,
+			   'potongan5persen_setahun'        => $potongan5persen,
+			   'potongan15persen_setahun'       => $potongan15persen,
+			   'potongan25persen_setahun'       => $potongan25persen,
+			   'potongan30persen_setahun'       => $potongan30persen,
+			   'pph21_setahun'                  => $pph21_setahun,
+			   'punya_npwp'                     => $punya_npwp,
+			   'pph21_setahun'                  => $pph21_setahun,
+			   'gaji_netto'                     => $gaji_netto,
+			   'gaji_netto_setahun'             => $gaji_netto_setahun,
+			   'pph21'                          => $pph21
 		   ];
 	}
 	private function pph21setahun( $penghasilan_kena_pajak ){
@@ -2314,7 +2376,7 @@ class PengeluaransController extends Controller
 			'potongan15persen1'              => $potongan15persen1,
 			'potongan15persen2'              => $potongan15persen2,
 			'potongan15persen3'              => $potongan15persen3,
-			'pph21setahun'                   => $pph21setahun,
+			'pph21_setahun'                   => $pph21setahun,
 			'potongan5persen'                => $potongan5persen,
 			'potongan15persen'               => $potongan15persen,
 			'potongan25persen'               => $potongan25persen,

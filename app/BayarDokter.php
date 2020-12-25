@@ -28,4 +28,7 @@ class BayarDokter extends Model
         return 'Bayar <strong>' . $nama . ' </strong><br />sebesar <strong><span class="uang">' . $uang . '</span></strong><br /> pada tanggal<strong> ' . $tanggal . '</strong>';
 
     }
+    public function pph21s(){
+        return $this->morphMany('App\Pph21', 'jurnalable');
+    }
 }

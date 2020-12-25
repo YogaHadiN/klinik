@@ -1,27 +1,57 @@
-insert into rekenings (id, akun_bank_id, tanggal, deskripsi, nilai, saldo_akhir, debet, created_at, updated_at, pembayaran_asuransi_id, old_id) values
-('485', 'pG1karGazgM', '2020-11-14', 'MCM InhouseTrf CS-CS KE HEMA DEWI ANGGRAHENY', 1950000,0, 1, now(), now(), "", null)
-('486', 'pG1karGazgM', '2020-11-13', 'MCM CA/SA UBP PYM DR UBP60146000101FFFFFF081329079947', 1001000, 0,1,now(),now(),"",null),
-('487', 'pG1karGazgM', '2020-11-13', 'INW.CN-SKN CR SA-MCS ASURANSI ETIQA INTERNASI - 014 BANK CENTRAL ASIA 000037 PV E001 11 PAN000367-0-SOLIHI PPU.-N3XB-0206 2020111300', 9025000,0,0,now(),now(),"",null),
-('488', 'pG1karGazgM', '2020-11-12', 'CME DrCS CrCS (H2H) BT20110600074520 DARI ASURANSI JIWA INHEALTH INDONESIA BT20110600074520', 515000,0,0,now(),now(),"",null),
-('489', 'pG1karGazgM', '2020-11-12', 'INW.CN-SKN CR SA-MCS ACA - 046 DBS INV/KJE/PYR-161123/X1/2020 SC 0307OP0007451988 2020111200', 505000,0,0,now(),now(),"",null),
-('490', 'pG1karGazgM', '2020-11-12', 'INW.CN-SKN CR SA-MCS ADMINISTRASI MEDIKA PT - 014 BANK CENTRAL ASIA ASURANSI BCA LIFE INV 2 KJE PYR-1810 PPU.-N05V-0205 2020111200', 190000,0,0,now(),now(),"",null),
-('491', 'pG1karGazgM', '2020-11-12', 'MCM CA/SA UBP PYM DR UBP60146000101FFFFFF081329079947', 501000,0,1,now(),now(),"",null),
-('492', 'pG1karGazgM', '2020-11-12', 'Transfer otomatis DARI 0060006265940 KE 9000003710697', 300000,0,1,now(),now(),"",null),
-('493', 'pG1karGazgM', '2020-11-11', 'SA ATM Withdrawal S1AW1C5Y /6753891651/ATM-GOMBEL 02 4616993243243353 GOMBEL 02', 1000000,0,1,now(),now(),"",null),
-('494', 'pG1karGazgM', '2020-11-11', 'MCM InhouseTrf CS-CS KE FLIPTECH LENTERA INSPIRASI PERTIWI', 5000215,0,1,now(),now(),"",null),
-('495', 'pG1karGazgM', '2020-11-10', 'SA Monthly Fee MONTHLY CARD CHARGE 0004616993243243353', 4500,0,1,now(),now(),"",null),
-('496', 'pG1karGazgM', '2020-11-09', 'CME DrCS CrCS (H2H) BNILIFE PROVCAP 0004903-INT2 DARI BNI LIFE INSURANCE BNILIFE PROVCAP 0004903-INT2', 265500,0,0,now(),now(),"",null),
-('497', 'pG1karGazgM', '2020-11-09', 'Pur&cash wdraw PWPC 72132649 /0000433821/VAP-INDOMARET G 4616993243243353', 601800,0,1,now(),now(),"",null),
-('498', 'pG1karGazgM', '2020-11-09', 'INW.CN-SKN CR SA-MCS ASURANSI RELIANCE INDONESIA - 022 CIMB NIAGA PURWAKARTA RELIANCE PROV 2008103317811 20201106113 CMBA203299922100 2020110900', 80000,0,0,now(),now(),"",null),
-('499', 'pG1karGazgM', '2020-11-09', 'Transfer otomatis DARI 0060006265940 KE 9000003710697', 300000,0,1,now(),now(),"",null),
-('500', 'pG1karGazgM', '2020-11-08', 'MCM InhouseTrf CS-CS KE FLIPTECH LENTERA INSPIRASI PERTIWI', 1000480,0,1,now(),now(),"",null),
-('501', 'pG1karGazgM', '2020-11-06', 'CME DrCS CrCS (H2H) INV/KJE/PYR-200131 /X1/2020SC DARI SOMPO INSURANCE INDONESIA INV/KJE/PYR-200131 /X1/2020SC', 1285000,0,0,now(),now(),"",null),
-('502', 'pG1karGazgM', '2020-11-06', 'CME DrCS CrCS (H2H) INV/2/KJE/PYR-2009 17/X1/20.SC DARI ADMINISTRASI MEDIKA INV/2/KJE/PYR-2009 17/X1/20.SC', 205000,0,0,now(),now(),"",null),
-('503', 'pG1karGazgM', '2020-11-06', 'MCM InhouseTrf CS-CS KE FLIPTECH LENTERA INSPIRASI PERTIWI', 5000179,0,1,now(),now(),"",null),
-('504', 'pG1karGazgM', '2020-11-06', 'MCM InhouseTrf CS-CS DARI PURI WIDIYANI MARTIADEWI', 10000000,0,0,now(),now(),"",null),
-('505', 'pG1karGazgM', '2020-11-06', 'MCM CA/SA UBP PYM DR UBP60146000101FFFFFF081329079947', 1001000,0,1,now(),now(),"",null),
-('506', 'pG1karGazgM', '2020-11-06', 'Transfer otomatis DARI 0060006265940 KE 9000003710697', 300000,0,1,now(),now(),"",null),
-('507', 'pG1karGazgM', '2020-11-05', 'CME DrCS CrCS (H2H) FWD Claim Non-ASO GAS/2020/00824084 DARI FWD LIFE INDONESIA FWD Claim Non-ASO GAS/2020/00824084', 85000,0,0,now(),now(),"",null),
-('508', 'pG1karGazgM', '2020-11-03', 'SA ATM Withdrawal S1AWAM54 /7753524241/ATM-PAVGARUDKAR 4616993243243353 PAVGARUDKAR', 1000000,0,1,now(),now(),"",null),
-('509', 'pG1karGazgM', '2020-11-03', 'CME DrCS CrCS (H2H) BT20102300072243 DARI ASURANSI JIWA INHEALTH INDONESIA BT20102300072243', 180000,0,0,now(),now(),"",null),
-('510', 'pG1karGazgM', '2020-11-03', 'Transfer otomatis DARI 0060006265940 KE 9000003710697', 300000,0,1,now(),now(),"",null)
+drop table pph21_dokters;
+CREATE TABLE pph21s(
+  id INT NOT NULL AUTO_INCREMENT,
+  pph21able_id varchar(255) NOT NULL,
+  pph21able_type varchar(255) NOT NULL,
+  periode date NOT NULL  ,
+  pph21 int(11) NOT NULL  ,
+  menikah int(1) NOT NULL  ,
+  punya_npwp int(1) NOT NULL  ,
+  jumlah_anak int(2) NOT NULL,
+  ptkp_dasar int(11)	NOT NULL,
+  ptkp_setahun int(11)	NOT NULL,
+  penghasilan_kena_pajak_setahun int(11) NOT NULL,
+  biaya_jabatan int(11) NOT NULL,
+  gaji_netto int(11) NOT NULL,
+  potongan5persen_setahun int(11) NOT NULL,
+  potongan15persen_setahun int(11) NOT NULL,
+  potongan25persen_setahun int(11) NOT NULL,
+  potongan30persen_setahun int(11) NOT NULL,
+  pph21_setahun int(11) NOT NULL  ,
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  created_at TIMESTAMP NOT NULL,
+  PRIMARY KEY(id)
+);
+
+alter table bayar_gajis 
+drop column ptkp ,
+drop column biaya_jabatan ,
+drop column menikah ,
+drop column jumlah_anak ,
+drop column potongan5persen ,
+drop column potongan15persen ,
+drop column potongan25persen ,
+drop column potongan30persen ,
+drop column gaji_netto ,
+drop column penghasilan_kena_pajak ,
+drop column pph21setahun ,
+drop column faktor_kali_pph ,
+drop column ptkp_dasar;
+
+alter table bayar_dokters 
+drop column ada_penghasilan_lain, 
+drop column ptkp_setahun, 
+drop column perhitungan_pph, 
+drop column jenis_kelamin, 
+drop column menikah, 
+drop column jumlah_anak, 
+drop column potongan5persen_setahun, 
+drop column potongan15persen_setahun, 
+drop column potongan25persen_setahun, 
+drop column potongan30persen_setahun, 
+drop column penghasilan_bruto_setahun, 
+drop column ptkp_dasar, 
+drop column penghasilan_kena_pajak_setahun;
+
+ALTER TABLE bayar_dokters CHANGE COLUMN bayar_dokter gaji_bruto int(11);
+ALTER TABLE bayar_dokters add COLUMN gaji_netto int(11);

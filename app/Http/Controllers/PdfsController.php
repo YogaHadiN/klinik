@@ -177,14 +177,19 @@ class PdfsController extends Controller
 							->get();
 		$total_pembayaran_bulan_ini = 0;
 		$total_pph_bulan_ini        = 0;
+		$pph21_sudah_dibayar_bulan_ini = 0;
 		foreach ($gajis as $gaji) {
 			$total_pembayaran_bulan_ini += $gaji->gaji_pokok + $gaji->bonus;
 			$total_pph_bulan_ini        += $gaji->pph21;
+			if ( $gaji->id < $bayar_gaji_id ) {
+				$pph21_sudah_dibayar_bulan_ini += $gaji->pph21;
+			}
 		}
 
 		$pdf = PDF::loadView('pdfs.bayar_gaji_karyawan', compact(
 			'bayar',
 			'gajis',
+			'pph21_sudah_dibayar_bulan_ini',
 			'total_pembayaran_bulan_ini',
 			'total_pph_bulan_ini'
 		))

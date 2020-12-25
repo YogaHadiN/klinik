@@ -33,13 +33,13 @@
        "files"=> "true"
   ))!!}
 
-    @include('stafs.form', [
+   @include('stafs.form', [
 		'tanggal_mulai' => App\Classes\Yoga::updateDatePrep($staf->tanggal_mulai),
 		'tanggal_lulus' => App\Classes\Yoga::updateDatePrep($staf->tanggal_lulus),
 		'tanggal_lahir' => App\Classes\Yoga::updateDatePrep($staf->tanggal_lahir),
 		'image'         => $staf->image,
 		'ktp_image'     => $staf->ktp_image
-    ])
+   ])
 
   {!! Form::close() !!}
   <div class="row">

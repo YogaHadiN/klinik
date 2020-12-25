@@ -21,12 +21,12 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td nowrap>Tanggal Mulai</td>
-                                <td>{{ $bayar->mulai->format('d-m-Y') }}</td>
+                                <td nowrap>Periode</td>
+                                <td>{{ $bayar->mulai->format('d M') }} sampai {{ $bayar->akhir->format('d M Y') }}</td>
                             </tr>
                             <tr>
-                                <td nowrap>Tanggal Akhir</td>
-                                <td>{{ $bayar->akhir->format('d-m-Y') }}</td>
+                                <td nowrap>Tanggal Dibayar</td>
+                                <td>{{ $bayar->tanggal_dibayar->format('d M Y') }}</td>
                             </tr>
                             <tr>
                                 <td nowrap>Nama Staf Penerima</td>
@@ -60,10 +60,24 @@
 								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->bonus + $bayar->gaji_pokok) }}</td>
                             </tr>
 							@if( $bayar->pph21 )
-							<tr class="border-top">
+							<tr class="border-top border-bottom">
+                                <td class="text-center" colspan="2">
+									<h2>Total Gaji Bulan Ini</h2>
+								</td>
+                            </tr>
+							@foreach( $gajis as $gaji )
+                            <tr>
+                                <td>{{ $gaji->created_at->format('d M Y') }}</td>
+                                <td class="text-right">{{App\Classes\Yoga::buatrp(  $gaji->gaji_pokok + $gaji->bonus  )}}</td>
+                            </tr>
+							@endforeach
+                            <tr class="border-top">
+                                <td nowrap>Total</td>
+                                <td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->total_gaji_bulan_ini) }}</td>
+                            </tr>
+                            <tr class="border-top">
                                 <td class="text-center" colspan="2">
 									<h2>Perhitungan Pph</h2>
-								
 								</td>
                             </tr>
 							<tr class="border-top">
@@ -85,11 +99,29 @@
                                 <td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->gaji_netto) }}</td>
                             </tr>
 							<tr>
-                                <td nowrap>Gaji Netto Setahun</td>
-                                <td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->gaji_netto * 12) }}</td>
+                                <td nowrap>Gaji Netto Setahun  <strong>{{ App\Classes\Yoga::buatrp($bayar->gaji_netto) }} x 12 bulan </strong></td>
+                                <td class="text-right"> {{ App\Classes\Yoga::buatrp($bayar->gaji_netto * 12) }}</td>
                             </tr>
 							<tr>
-                                <td nowrap>PTKP</td>
+                                <td nowrap>
+                                    Penghasilan Tidak Kena Pajak 
+                                    @if( $bayar->menikah || $bayar->jumlah_anak)
+                                    (
+                                    @endif
+                                    @if( $bayar->menikah )
+                                        Menikah
+                                    @endif
+                                    @if( $bayar->menikah && $bayar->jumlah_anak)
+                                    dengan 
+                                    @endif
+                                    @if( $bayar->jumlah_anak )
+                                        {{ $bayar->jumlah_anak }}
+                                        anak
+                                    @endif
+                                    @if( $bayar->menikah || $bayar->jumlah_anak)
+                                    )
+                                    @endif
+                                </td>
                                 <td class="text-right">( {{ App\Classes\Yoga::buatrp($bayar->ptkp) }} )</td>
                             </tr>
 							<tr class="border-top">
@@ -140,9 +172,20 @@
                                 <td nowrap>Pph21 setahun (simulasi)</td>
                                 <td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->pph21setahun) }}</td>
                             </tr>
+                            <tr class="border-top">
+                                <td nowrap>Pph21 sebulan (simulasi) {{ App\Classes\Yoga::buatrp($bayar->pph21setahun)  }} / 12 = </td>
+                                <td class="text-right"> {{ App\Classes\Yoga::buatrp($bayar->pph21setahun / 12)  }}</td>
+                            </tr>
+                            <tr>
+                                <td> pph21 Sudah Dibayarkan Bulan Ini </td>
+                                <td class="text-right">({{ App\Classes\Yoga::buatrp($pph21_sudah_dibayar_bulan_ini) }})</td>
+                            </tr>
 							<tr class="border-top">
-                                <td nowrap>Pph21 bulan ini</td>
+                                <td nowrap>Pph21 dibayarkan sekarang</td>
                                 <td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->pph21) }}</td>
+                            </tr>
+                            <tr class="border-top">
+                                <td colspan="2">Gaji Yang Dibayarkan Sekarang = {{ App\Classes\Yoga::buatrp( $bayar->gaji_pokok + $bayar->bonus ) }} ({{ App\Classes\Yoga::buatrp($bayar->pph21) }}) </td>
                             </tr>
 							@endif
                             <tr class="border-top">
@@ -183,40 +226,6 @@
                         </tbody>
                     </table>
                 </div>
-				<div class="border-top">
-					<div class="text-center" colspan="2">
-						<h2>Ringkasan Gaji Bulan Ini</h2>
-					
-					</div>
-				</div>
-				<div>
-					<table class="bordered">
-						<thead>
-							<tr>
-								<th>Tanggal</th>
-								<th>Pembayaran</th>
-								<th>Pph21</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach( $gajis as $gaji )
-								<tr>
-									<td>{{ $gaji->created_at->format('d M Y') }}</td>
-									<td class="text-right">{{App\Classes\Yoga::buatrp(  $gaji->gaji_pokok + $gaji->bonus  )}}</td>
-									<td class="text-right">{{ App\Classes\Yoga::buatrp( $gaji->pph21 ) }}</td>
-								</tr>
-							@endforeach
-						</tbody>
-						<tfoot>
-							<tr>
-								<th></th>
-								<th class="text-right">{{ App\Classes\Yoga::buatrp( $total_pembayaran_bulan_ini )}}</th>
-								<th class="text-right">{{ App\Classes\Yoga::buatrp( $total_pph_bulan_ini ) }}</th>
-							</tr>
-						</tfoot>
-					</table>
-				
-				</div>
                 <div class="small-padding">
                     .
                 </div>
