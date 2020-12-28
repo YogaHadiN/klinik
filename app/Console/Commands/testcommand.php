@@ -104,8 +104,8 @@ class testcommand extends Command
 		/* $this->testAsuransi(); */
 		/* $this->updatePC2020(); */
 		/* $this->resetPembayaranAsuransis(); */
-		$this->sederhanakanGaji();
-		/* $this->promoRapidTestCovid(); */
+		/* $this->sederhanakanGaji(); */
+		$this->promoRapidTestCovid();
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
