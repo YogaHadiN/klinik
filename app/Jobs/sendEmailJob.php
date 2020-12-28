@@ -73,5 +73,6 @@ class sendEmailJob implements ShouldQueue
 		if ( $this->foo->no_telp != '08999993744' ) {
 			Sms::send($this->foo->no_telp, $pesan);
 		}
+		Log::info('terkirim ke ' . $this->foo->no_telp);
     }
 }
