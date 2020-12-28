@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BayarGaji extends Model
 {
 
-	protected $guarded = [];
+	protected $guarded = ['id'];
     public function staf(){
          return $this->belongsTo('App\Staf');
     }
@@ -32,6 +32,6 @@ class BayarGaji extends Model
     }
     
     public function pph21s(){
-        return $this->morphMany('App\Pph21', 'jurnalable');
+        return $this->morphOne('App\Pph21', 'pph21able');
     }
 }

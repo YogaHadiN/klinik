@@ -26,15 +26,15 @@
 			  {!! Form::select('staf_id' , App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' =>'true']) !!}
 			  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 			</div>
-			<div class="form-group @if($errors->has('sumber_coa_id'))has-error @endif">
-			  {!! Form::label('sumber_coa_id', 'Sumber Uang', ['class' => 'control-label']) !!}
-			  {!! Form::select('sumber_coa_id' , App\Classes\Yoga::sumberCoaList(), 110004, ['class' => 'form-control']) !!}
-			  @if($errors->has('sumber_coa_id'))<code>{{ $errors->first('sumber_coa_id') }}</code>@endif
+			<div class="form-group @if($errors->has('sumber_uang_id'))has-error @endif">
+			  {!! Form::label('sumber_uang_id', 'Sumber Uang', ['class' => 'control-label']) !!}
+			  {!! Form::select('sumber_uang_id' , App\Classes\Yoga::sumberCoaList(), 110004, ['class' => 'form-control']) !!}
+			  @if($errors->has('sumber_uang_id'))<code>{{ $errors->first('sumber_uang_id') }}</code>@endif
 			</div>
-			<div class="form-group @if($errors->has('nilai'))has-error @endif">
-			  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
-			  {!! Form::text('nilai' , null, ['class' => 'form-control uangInput']) !!}
-			  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
+			<div class="form-group @if($errors->has('gaji_pokok'))has-error @endif">
+			  {!! Form::label('gaji_pokok', 'Nilai', ['class' => 'control-label']) !!}
+			  {!! Form::text('gaji_pokok' , null, ['class' => 'form-control uangInput']) !!}
+			  @if($errors->has('gaji_pokok'))<code>{{ $errors->first('gaji_pokok') }}</code>@endif
 			</div>
 			<div class="form-group @if($errors->has('bulan'))has-error @endif">
 			  {!! Form::label('bulan', 'Bulan Periode', ['class' => 'control-label']) !!}
@@ -66,48 +66,9 @@
 		</div>
   </div>
 </div>
-<div class="row">
-	<?php echo $gaji_gigis->appends(Input::except('page'))->links(); ?>
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<div class="panel-title">Daftar Gaji Dokter Gigi</div>
-			</div>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table table-hover table-condensed table-bordered">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Nama Dokter</th>
-								<th>Jumlah Gaji</th>
-								<th>Periode Bulan</th>
-								<th>Tanggal Dibayar</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach($gaji_gigis as $gaji)
-								<tr>
-									<td>{{ $gaji->id }}</td>
-									<td>{{ $gaji->staf->nama }}</td>
-									<td class="uang">{{ $gaji->nilai }}</td>
-									<td class="text-center">{{ $gaji->periode }}</td>
-									<td class="text-center">{{ $gaji->tanggal_dibayar }}</td>
-									<td>
-										<a class="btn btn-warning btn-xs" href="{{ url('pengeluarans/gaji_dokter_gigi/edit/'. $gaji->id) }}" >edit</a> 
-										 <a class="btn btn-info btn-xs" href="#" >struk</a> 
-									</td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php echo $gaji_gigis->appends(Input::except('page'))->links(); ?>
-</div>
+
+  @include('pengeluarans.tabel_bayar_dokter', ['bayar' => $gaji_gigis])
+
 {!! Form::close() !!}
 @stop
 @section('footer') 

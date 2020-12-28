@@ -15,9 +15,7 @@
 					border-collapse:collapse;
                 }
 				.bordered th, .bordered td{
-
 					border:solid 1px black;
-
 				}
 
                 h1{

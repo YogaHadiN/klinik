@@ -191,7 +191,7 @@
 							<td>{{ $gaji->petugas->nama }}</td>
 								<td class="uang">{{ $gaji->nilai }}</td>
 								<td class="uang">{{ $gaji->pph21 }}</td>
-								<td class="text-center">{{ $gaji->tanggal_mulai->format('M Y') }}</td>
+								<td class="text-center">{{ $gaji->mulai->format('M Y') }}</td>
 								<td class="text-center">{{ $gaji->tanggal_dibayar->format('d-m-Y') }}</td>
 								<td> <a class="btn btn-info btn-xs btn-block" href="{{ url('pdfs/bagi_hasil_gigi/' . $gaji->id) }}" >struk</a> </td>
 							</tr>

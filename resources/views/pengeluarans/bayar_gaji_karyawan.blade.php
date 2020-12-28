@@ -32,10 +32,10 @@
 				Pembayaran Gaji Tidak bisa dilakukan dengan <strong>Sumber Uang di Kasir</strong>
 			</div>
             <hr>
-				<div class="form-group @if($errors->has('coa_id'))has-error @endif">
-				  {!! Form::label('coa_id', 'Sumber Dana', ['class' => 'control-label']) !!}
-                  {!! Form::select('coa_id', $sumber_kas_lists, null , ['class' => 'form-control rq']) !!}
-				  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
+				<div class="form-group @if($errors->has('sumber_uang_id'))has-error @endif">
+				  {!! Form::label('sumber_uang_id', 'Sumber Dana', ['class' => 'control-label']) !!}
+                  {!! Form::select('sumber_uang_id', $sumber_kas_lists, null , ['class' => 'form-control rq']) !!}
+				  @if($errors->has('sumber_uang_id'))<code>{{ $errors->first('sumber_uang_id') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('bulan'))has-error @endif">
 				  {!! Form::label('bulan', 'Periode Bulan', ['class' => 'control-label']) !!}
@@ -44,6 +44,15 @@
 					  'id'    => 'periode'
 				  ]) !!}
 				  @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('petugas_id'))has-error @endif">
+				  {!! Form::label('petugas_id', 'Petugas Penginput', ['class' => 'control-label']) !!}
+                  {!! Form::select('petugas_id', \App\Staf::list(), null, [
+					  'class' => 'form-control rq selectpick',
+					  'data-live-search' => 'true',
+					  'id'    => 'petugas_id'
+				  ]) !!}
+				  @if($errors->has('petugas_id'))<code>{{ $errors->first('petugas_id') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
 				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
@@ -143,38 +152,40 @@
 				</div>
 				<div class="panel-body">
 					<div class-"table-responsive">
-						<?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
 						<table class="table table-hover table-condensed">
 							<thead>
 								<tr>
-									<th>ID</th>
-									{{--<th>Tanggal Pembayaran</th>--}}
+									<th>Tanggal Pembayaran</th>
 									<th>Nama Staf</th>
 									<th>Periode</th>
 									<th>Gaji Pokok </th>
 									<th>Bonus</th>
 									<th>Pph 21</th>
-									<th>Sumber Kas</th>
+									<th>Gaji Yang Dibayarkan</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								@foreach($pembayarans as $pemb)
 								<tr>
-									<td>{{  $pemb->id }}</td>
-									{{--<td>{{  $pemb->tanggal_dibayar->format('d M Y')  }}</td>--}}
-									<td>{{  $pemb->staf->nama  }}</td>
-									<td>{{  $pemb->mulai->format('M Y') }} </td>
-									<td>{{  App\Classes\Yoga::buatrp( $pemb->gaji_pokok ) }}</td>
-									<td>{{  App\Classes\Yoga::buatrp( $pemb->bonus ) }}</td>
-									<td>{{  App\Classes\Yoga::buatrp( $pemb->pph21 ) }}</td>
-									<td>{{  $pemb->coa->coa }}</td>
+									<td>{{  $pemb->tanggal_dibayar  }}</td>
+									<td>{{  $pemb->nama_staf  }}</td>
+									<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $pemb->mulai   )->format('d M') }} s/d {{ \Carbon\Carbon::createFromFormat('Y-m-d', $pemb->akhir   )->format('d M Y') }}</td>
+									<td class="uang">{{  $pemb->gaji_pokok }}</td>
+									<td class="uang">{{  $pemb->bonus }}</td>
+									<td class="uang">
+										@if(  empty(  $pemb->pph21 ))
+											0
+										@else
+											{{  $pemb->pph21 }}
+										@endif
+									</td>
+									<td class="uang"> {{  $pemb->gaji_pokok + $pemb->bonus - $pemb->pph21 }}</td>
 									<td> <a class="btn btn-success btn-sm" href="{{ url('pdfs/bayar_gaji_karyawan/' . $pemb->id) }}" target="_blank">Struk</a> </td>
 								</tr>
 								@endforeach
 							</tbody>
 						</table>
-						<?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,8 @@
 <?php
 
 use App\Events\FormSubmitted;
+use App\Mail\SendEmailMailable;
+use App\Jobs\sendEmailJob;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,7 @@ use App\Events\FormSubmitted;
 |
 */
 
+Route::get('sendEmail', 'TestController@testQueue');
 Route::get('counter', function(){
 	return view('demo.counter');
 });
@@ -339,7 +342,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('pengeluarans/show/{id}', 'PengeluaransController@show');
 		Route::post('pengeluarans', 'PengeluaransController@store');
-		Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
 		Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
 		Route::get('pengeluarans/nota_z/detail/{id}', 'PengeluaransController@notaz_detail');
 		route::post('pengeluarans/nota_z', 'PengeluaransController@notaz_post');
@@ -356,16 +358,17 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('ajax/products', 'PengeluaransController@product');
 
-		Route::get('pengeluarans/bayardoker/{id}', 'PengeluaransController@bayardokter');
-		Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
-		Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
+		Route::get('pengeluarans/bayardoker', 'BayarGajiController@bayar');
+		Route::get('pengeluarans/bayardoker/{id}', 'BayarGajiController@bayardokter');
+		Route::get('pengeluarans/bayardokter/bayar', 'BayarGajiController@dokterbayar');
+		Route::post('pengeluarans/bayardokter/bayar', 'BayarGajiController@dokterdibayar');
 
 		Route::get('pengeluarans/checkout/{id}', 'PengeluaransController@show_checkout');
 		Route::post('pengeluarans/confirm_staf', 'PengeluaransController@confirm_staf');
 
-		Route::get('pengeluarans/bayar_gaji_karyawan', 'PengeluaransController@bayar_gaji_karyawan');
-		Route::post('pengeluarans/bayar_gaji_karyawan', 'PengeluaransController@bayar_gaji');
-		Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', 'PengeluaransController@bayar_gaji');
+		Route::get('pengeluarans/bayar_gaji_karyawan', 'BayarGajiController@bayar_gaji_karyawan');
+		Route::post('pengeluarans/bayar_gaji_karyawan', 'BayarGajiController@bayar_gaji');
+		Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', 'BayarGajiController@bayar_gaji');
 
 		Route::get('pengeluarans/bayar_bonus_karyawan', 'PengeluaransController@bayar_bonus_karyawan');
 		Route::get('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus_show');
@@ -374,11 +377,11 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pengeluarans/bagi_hasil_gigi', 'PengeluaransController@bagiHasilGigi');
 		Route::post('pengeluarans/bagi_hasil_gigi', 'PengeluaransController@bagiHasilGigiPost');
 
-		Route::get('pengeluarans/gaji_dokter_gigi', 'PengeluaransController@gajiDokterGigi');
+		Route::get('pengeluarans/gaji_dokter_gigi', 'BayarGajiController@gajiDokterGigi');
 
-		Route::post('pengeluarans/gaji_dokter_gigi/bayar', 'PengeluaransController@gajiDokterGigiBayar');
-		Route::get('pengeluarans/gaji_dokter_gigi/edit/{id}', 'PengeluaransController@gajiDokterGigiEdit');
-		Route::put('pengeluarans/gaji_dokter_gigi/update/{id}', 'PengeluaransController@gajiDokterGigiUpdate');
+		Route::post('pengeluarans/gaji_dokter_gigi/bayar', 'BayarGajiController@gajiDokterGigiBayar');
+		Route::get('pengeluarans/gaji_dokter_gigi/edit/{id}', 'BayarGajiController@gajiDokterGigiEdit');
+		Route::put('pengeluarans/gaji_dokter_gigi/update/{id}', 'BayarGajiController@gajiDokterGigiUpdate');
 		Route::get('pengeluarans/peralatans', 'PengeluaransController@peralatans');
 		Route::get('pengeluarans/peralatans/golongan_peralatans/create', 'PengeluaransController@GolonganPeralatanCreate');
 		Route::post('pengeluarans/peralatans/golongan_peralatans/store', 'PengeluaransController@GolonganPeralatanPost');
@@ -429,9 +432,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('buku_besars', 'BukuBesarsController@index');
 		Route::get('buku_besars/show', 'BukuBesarsController@show');
-
-
-
 		
 		Route::get('perbaikantrxs', 'PerbaikantrxsController@index');
 		Route::get('perbaikantrxs/show', 'PerbaikantrxsController@show');

@@ -33,6 +33,11 @@
                   {!! Form::select('staf_id', App\Classes\Yoga::dokterList(), null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
+                <div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
+				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
+                  {!! Form::text('tanggal_dibayar', date('d-m-Y'), ['class' => 'form-control rq']) !!}
+				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
+				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group @if($errors->has('mulai'))has-error @endif">
@@ -80,55 +85,7 @@
             </div>
   </div>
 </div>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">Pembayaran Dokter</div>
-            </div>
-            <div class="panel-body">
-            <?php echo $bayar_dokters->appends(Input::except('page'))->links(); ?>
-                <div class-"table-responsive">
-                    <table class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Tanggal</th>
-                                <th>Jam</th>
-                                <th>Nama Dokter</th>
-                                <th>Periode</th>
-                                <th>Nilai</th>
-                                <th>Pph21</th>
-                                <th>Petugas</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($bayar_dokters as $b)
-                            <tr>
-                                <td>{{  $b->created_at->format('d-m-Y')  }}</td>
-                                <td>{{  $b->created_at->format('H:i:s')  }}</td>
-                                <td>{{  $b->staf->nama }}</td>
-                                <td>{{  $b->mulai->format('d-m-Y') }} s/d {{ $b->akhir->format('d-m-Y') }}</td>
-                                <td class="uang">{{  $b->bayar_dokter }}</td>
-                                <td class="uang">{{  $b->pph21 }}</td>
-                                <td>{{  $b->petugas->nama }}</td>
-                                <td>
-                                    <a class="btn btn-info btn-xs" href="{{ url("pdfs/jasadokter/" . $b->id) }}" target="_blank">Struk</a> 
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <?php echo $bayar_dokters->appends(Input::except('page'))->links(); ?>
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-    
-</div>
-
+  @include('pengeluarans.tabel_bayar_dokter', ['bayar' => $bayar_dokters])
 {!! Form::close() !!}
 @stop
 @section('footer') 

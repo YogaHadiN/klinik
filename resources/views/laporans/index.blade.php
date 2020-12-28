@@ -645,6 +645,7 @@
 														<td colspan="2"></td>
 													</form>
 												</tr>
+                                                @if( \Auth::user()->role == 6 )
                                                 <tr>
 													<form action="{{ url('laporans/pph21') }}" method="get">
 														<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
@@ -653,6 +654,7 @@
 														<td colspan="2"></td>
 													</form>
 												</tr>
+                                                @endif
 										</tbody>
 									</table>
 								</div>

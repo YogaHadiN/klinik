@@ -8,7 +8,12 @@ class BayarDokter extends Model
 {
     protected $with = ['staf'];
     //
-    protected $dates = ['created_at', 'mulai', 'akhir'];
+    protected $dates = [
+        'created_at', 
+        'mulai', 
+        'tanggal_dibayar', 
+        'akhir'
+    ];
     public function staf(){
          return $this->belongsTo('App\Staf');
     }
@@ -29,6 +34,6 @@ class BayarDokter extends Model
 
     }
     public function pph21s(){
-        return $this->morphMany('App\Pph21', 'jurnalable');
+        return $this->morphOne('App\Pph21', 'pph21able');
     }
 }

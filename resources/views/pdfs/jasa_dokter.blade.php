@@ -52,7 +52,7 @@
                                 <td>Total</td>
                                 <td class="text-right">
                                     <h2 id="pembayaranDokter">
-                                        {{ App\Classes\Yoga::buatrp( $bayar->bayar_dokter ) }}
+                                        {{ App\Classes\Yoga::buatrp( $bayar->gaji_bruto ) }}
                                         <!--pembayaran goes here-->
                                     </h2>
                                 </td>
@@ -63,7 +63,7 @@
 							
 							<tr>
                                 <td>Penghasilan Bruto Setahun</td>
-								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->penghasilan_bruto_setahun)}}</td>
+								<td class="text-right">{{ App\Classes\Yoga::buatrp($bayar->gaji_bruto)}}</td>
                             </tr>
 							<tr>
                                 <td>Penghasilan Netto Setahun</td>
@@ -127,7 +127,7 @@
                             </tr>
                             <tr class="border-top">
                                 <td colspan="2" class="text-right">
-									{{ App\Classes\Yoga::terbilang( $bayar->bayar_dokter - $bayar->pph21 ) }} rupiah
+									{{-- {{ App\Classes\Yoga::terbilang( $bayar->bayar_dokter - $bayar->pph21 ) }} rupiah --}}
                                 </td>
                             </tr>
 							<tr>

@@ -22,16 +22,16 @@ table {
 	font-size: 13px;
 	text-align: left !important;
 }
-						.box-border{
-							border: 1px solid black;
-						}
-						.underline{
-							text-decoration: underline;
-						}
+.box-border{
+	border: 1px solid black;
+}
+.underline{
+	text-decoration: underline;
+}
 		
 </style>
     </head>
-    <body>
+		<body>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box title-print text-center">
                     <h2 class="text-center border-top">

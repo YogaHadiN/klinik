@@ -462,7 +462,8 @@ class Yoga {
 		 }
 
 		public static function terbilang($x){
-
+			$unabsx = $x;
+			$x      = abs($x);
 		    $arr = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
 		    if ($x < 12)
 		    return " " . $arr[$x];
@@ -641,6 +642,9 @@ class Yoga {
 		}
 
 		public static function clean($str){
+			if ( is_numeric($str) ) {
+				return $str;
+			}
 			$data = str_replace(".", "", substr( $str , 4));
             if ($data != '') {
                 return trim( $data );

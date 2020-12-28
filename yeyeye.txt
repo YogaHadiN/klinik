@@ -3,7 +3,6 @@ CREATE TABLE pph21s(
   id INT NOT NULL AUTO_INCREMENT,
   pph21able_id varchar(255) NOT NULL,
   pph21able_type varchar(255) NOT NULL,
-  periode date NOT NULL  ,
   pph21 int(11) NOT NULL  ,
   menikah int(1) NOT NULL  ,
   punya_npwp int(1) NOT NULL  ,
@@ -13,21 +12,45 @@ CREATE TABLE pph21s(
   penghasilan_kena_pajak_setahun int(11) NOT NULL,
   biaya_jabatan int(11) NOT NULL,
   gaji_netto int(11) NOT NULL,
+  gaji_bruto int(11) NOT NULL,
   potongan5persen_setahun int(11) NOT NULL,
   potongan15persen_setahun int(11) NOT NULL,
   potongan25persen_setahun int(11) NOT NULL,
   potongan30persen_setahun int(11) NOT NULL,
   pph21_setahun int(11) NOT NULL  ,
+  ikhtisar_gaji_bruto text NOT NULL  ,
   updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
   created_at TIMESTAMP NOT NULL,
   PRIMARY KEY(id)
 );
+
+alter table bagi_gigis
+drop column staf_id,
+drop column pph21,
+drop column biaya_jabatan,
+drop column ptkp,
+drop column potongan5persen,
+drop column potongan15persen,
+drop column potongan25persen,
+drop column potongan30persen,
+drop column menikah,
+drop column jumlah_anak,
+drop column npwp,
+drop column gaji_netto,
+drop column penghasilan_kena_pajak,
+drop column pph21setahun,
+drop column faktor_kali_pph,
+drop column ptkp_dasar,
+drop column total_gaji_bulan_ini;
+
 
 alter table bayar_gajis 
 drop column ptkp ,
 drop column biaya_jabatan ,
 drop column menikah ,
 drop column jumlah_anak ,
+drop column npwp,
+drop column pph21,
 drop column potongan5persen ,
 drop column potongan15persen ,
 drop column potongan25persen ,
@@ -38,6 +61,23 @@ drop column pph21setahun ,
 drop column faktor_kali_pph ,
 drop column ptkp_dasar;
 
+alter table gaji_gigis 
+drop column biaya_jabatan,
+drop column ptkp,
+drop column potongan5persen,
+drop column potongan15persen,
+drop column potongan25persen,
+drop column potongan30persen,
+drop column menikah,
+drop column jumlah_anak,
+drop column npwp,
+drop column gaji_netto,
+drop column penghasilan_kena_pajak,
+drop column total_gaji_bulan_ini,
+drop column pph21setahun,
+drop column pph21,
+drop column faktor_kali_pph;
+
 alter table bayar_dokters 
 drop column ada_penghasilan_lain, 
 drop column ptkp_setahun, 
@@ -45,6 +85,7 @@ drop column perhitungan_pph,
 drop column jenis_kelamin, 
 drop column menikah, 
 drop column jumlah_anak, 
+drop column pph21, 
 drop column potongan5persen_setahun, 
 drop column potongan15persen_setahun, 
 drop column potongan25persen_setahun, 
@@ -53,5 +94,15 @@ drop column penghasilan_bruto_setahun,
 drop column ptkp_dasar, 
 drop column penghasilan_kena_pajak_setahun;
 
-ALTER TABLE bayar_dokters CHANGE COLUMN bayar_dokter gaji_bruto int(11);
-ALTER TABLE bayar_dokters add COLUMN gaji_netto int(11);
+ALTER TABLE bayar_dokters CHANGE COLUMN bayar_dokter nilai int(11) NOT NULL;
+ALTER TABLE bayar_gajis CHANGE COLUMN total_gaji_bulan_ini nilai int(11) NOT NULL;
+ALTER TABLE gaji_gigis CHANGE COLUMN tanggal_mulai mulai date NOT NULL;
+ALTER TABLE gaji_gigis CHANGE COLUMN tanggal_akhir akhir date NOT NULL;
+ALTER TABLE bagi_gigis CHANGE COLUMN tanggal_mulai mulai date NOT NULL;
+ALTER TABLE bagi_gigis CHANGE COLUMN tanggal_akhir akhir date NOT NULL;
+ALTER TABLE bayar_dokters add tanggal_dibayar date NOT NULL;
+ALTER TABLE bayar_gajis add hutang int(11) NOT NULL DEFAULT 0;
+ALTER TABLE bayar_gajis add petugas_id varchar(255) NOT NULL DEFAULT 16;
+ALTER TABLE bayar_gajis CHANGE COLUMN kas_coa_id sumber_uang_id int(11) NOT NULL;
+ALTER TABLE bayar_gajis DROP COLUMN total_gaji_bulan_ini;
+update bayar_dokters set tanggal_dibayar = akhir;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Input;
+use Log;
 use DB;
 use Moota;
 use App\Asuransi;
@@ -32,6 +33,7 @@ use App\Classes\Yoga;
 use App\AkunBank;
 use App\Rekening;
 use App\Http\Handler;
+use App\Jobs\sendEmailJob;
 use App\Console\Commands\sendMeLaravelLog;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -120,4 +122,15 @@ class TestController extends Controller
 		DB::statement('ALTER TABLE asuransis RENAME COLUMN "id2" TO "id" bigint not null auto_increment primary key;');
 		
 	}
+	public function testQueue(){
+		$foos = [
+			11,12,13,14,15,16,17,18,19,110
+		];
+		foreach ($foos as $foo) {
+			/* Log::info('oke'); */
+			sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
+		}
+		return 'sukses!!';
+	}
+	
 }

@@ -77,36 +77,31 @@ class PdfsController extends Controller
         return $pdf->stream();
 	}
     public function jasa_dokter($bayar_dokter_id){
-        $bayar                = BayarDokter::find($bayar_dokter_id);
-		$bulanPembayaran      = $bayar->created_at->format('Y-m');
-		$pembayaran_bulan_ini = BayarDokter::where('staf_id', $bayar->staf_id)
-											->where('created_at', 'like', $bulanPembayaran . '%')
-											->get();
-		$total_pph_sudah_dibayar = 0;
-		$errors = [];
-		$perhitunganPphs = $bayar->perhitungan_pph;
-		$perhitunganPphs = json_decode($perhitunganPphs, true);
-		if ( !is_null( $perhitunganPphs ) ) {
-			if ( count( $perhitunganPphs ) > 0) {
-				foreach (json_decode( $bayar->perhitungan_pph, true ) as $b) {
-					$total_pph_sudah_dibayar += $b['pph'];
-				}
+
+        $bayar                          = BayarDokter::with('pph21s', 'staf')->where('id',$bayar_dokter_id)->first();
+		$bulanPembayaran                = $bayar->tanggal_dibayar->format('Y-m');
+		$total_pph_sudah_dibayar        = 0;
+		$total_pembayaran_bulan_ini     = 0;
+		$total_pph_bulan_ini            = 0;
+		$pph21_sudah_dibayar_sebelumnya = 0;
+
+		foreach (json_decode($bayar->pph21s->ikhtisar_gaji_bruto, true) as $g) {
+			$total_pembayaran_bulan_ini += $bayar['gaji_bruto'];
+			$total_pph_bulan_ini        += $bayar['pph21'];
+			if ($g['id'] != $bayar->id) {
+				$pph21_sudah_dibayar_sebelumnya += $g['pph21'];
 			}
 		}
-		$total_pembayaran_bulan_ini = 0;
-		$total_pph_bulan_ini = 0;
-		foreach ($pembayaran_bulan_ini as $bayar) {
-			$total_pembayaran_bulan_ini += $bayar->bayar_dokter;
-			$total_pph_bulan_ini += $bayar->pph21;
-		}
-
-		$pdf = PDF::loadView('pdfs.jasa_dokter', compact(
+		$total_gaji = $bayar->nilai;
+		$returnData = compact(
 			'bayar',
-			'pembayaran_bulan_ini',
+			'total_gaji',
 			'total_pembayaran_bulan_ini',
 			'total_pph_sudah_dibayar',
+			'pph21_sudah_dibayar_sebelumnya',
 			'total_pph_bulan_ini'
-		))
+		);
+		$pdf = PDF::loadView('pdfs.struk_gaji', $returnData )
 				->setOption('page-width', 72)
 				->setOption('page-height', 297)
 				->setOption('margin-top', 0)
@@ -170,35 +165,37 @@ class PdfsController extends Controller
         return $pdf->stream();
     }
     public function bayar_gaji_karyawan($bayar_gaji_id){
-
-        $bayar = BayarGaji::find($bayar_gaji_id);
-		$gajis = BayarGaji::where('staf_id', $bayar->staf_id)
-							->where('mulai', 'like', $bayar->mulai->format('Y-m') . '%')
-							->get();
-		$total_pembayaran_bulan_ini = 0;
-		$total_pph_bulan_ini        = 0;
-		$pph21_sudah_dibayar_bulan_ini = 0;
-		foreach ($gajis as $gaji) {
-			$total_pembayaran_bulan_ini += $gaji->gaji_pokok + $gaji->bonus;
-			$total_pph_bulan_ini        += $gaji->pph21;
-			if ( $gaji->id < $bayar_gaji_id ) {
-				$pph21_sudah_dibayar_bulan_ini += $gaji->pph21;
+        $bayar                          = BayarGaji::with('pph21s', 'staf')->where('id',$bayar_gaji_id)->first();
+		$bulanPembayaran                = $bayar->tanggal_dibayar->format('Y-m');
+		$total_pph_sudah_dibayar        = 0;
+		$total_pembayaran_bulan_ini     = 0;
+		$total_pph_bulan_ini            = 0;
+		$pph21_sudah_dibayar_sebelumnya = 0;
+		/* dd($bayar->pph21s->ikhtisar_gaji_bruto); */
+		foreach (json_decode($bayar->pph21s->ikhtisar_gaji_bruto, true) as $g) {
+			$total_pembayaran_bulan_ini += $bayar['gaji_bruto'];
+			$total_pph_bulan_ini        += $bayar['pph21'];
+			if ($g['id'] != $bayar->id) {
+				$pph21_sudah_dibayar_sebelumnya += $g['pph21'];
 			}
 		}
-
-		$pdf = PDF::loadView('pdfs.bayar_gaji_karyawan', compact(
+		$total_gaji = $bayar->gaji_pokok + $bayar->bonus;
+		$returnData = compact(
 			'bayar',
-			'gajis',
-			'pph21_sudah_dibayar_bulan_ini',
+			'total_gaji',
 			'total_pembayaran_bulan_ini',
+			'total_pph_sudah_dibayar',
+			'pph21_sudah_dibayar_sebelumnya',
 			'total_pph_bulan_ini'
-		))
-		->setOption('page-width', 72)
-		->setOption('page-height', 297)
-		->setOption('margin-top', 0)
-		->setOption('margin-bottom', 0)
-		->setOption('margin-right', 0)
-		->setOption('margin-left', 0);
+		);
+
+		$pdf = PDF::loadView('pdfs.struk_gaji', $returnData)
+			->setOption('page-width', 72)
+			->setOption('page-height', 297)
+			->setOption('margin-top', 0)
+			->setOption('margin-bottom', 0)
+			->setOption('margin-right', 0)
+			->setOption('margin-left', 0);
         return $pdf->stream();
 
     }

@@ -20,12 +20,17 @@
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-default">
           <div class="panel-body">
-			  <h1>iBayar Gaji Dokter WOi</h1>
+			  <h1>iBayar Gaji Dokter</h1>
             <hr>
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Staf', ['class' => 'control-label']) !!}
                   {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control rq', 'data-live-search' => 'true']) !!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
+				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
+                  {!! Form::text('tanggal_dibayar', date('d-m-Y'), ['class' => 'form-control rq tanggal']) !!}
+				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

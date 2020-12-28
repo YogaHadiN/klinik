@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GajiGigi extends Model
 {
-	protected $dates = ['tanggal_mulai', 'tanggal_akhir'];
+	protected $dates = ['mulai', 'akhir'];
 
 
 	public function staf(){
@@ -18,7 +18,7 @@ class GajiGigi extends Model
 	}
 
 	public function getPeriodeAttribute(){
-		return $this->tanggal_mulai->format('d-m-Y') . ' s/d ' . $this->tanggal_akhir->format('d-m-Y');
+		return $this->mulai->format('d-m-Y') . ' s/d ' . $this->akhir->format('d-m-Y');
 	}
 	
     public function jurnals(){

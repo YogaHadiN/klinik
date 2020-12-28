@@ -6,6 +6,9 @@ use App\Outbox;
 use App\User;
 use App\Pengeluaran;
 use App\Woowa;
+use App\BayarDokter;
+use App\GajiGigi;
+use App\BayarGaji;
 use App\PengantarPasien;
 use App\Role;
 use App\Panggilan;
@@ -29,6 +32,7 @@ use App\Pasien;
 use App\Invoice;
 use App\Terapi;
 use App\AntrianPeriksa;
+use App\Jobs\sendEmailJob;
 use App\Tarif;
 use App\FakturBelanja;
 use App\JurnalUmum;
@@ -100,6 +104,7 @@ class testcommand extends Command
 		/* $this->testAsuransi(); */
 		/* $this->updatePC2020(); */
 		/* $this->resetPembayaranAsuransis(); */
+		/* $this->sederhanakanGaji(); */
 		$this->promoRapidTestCovid();
 	}
 	private function webhook(){
@@ -277,46 +282,93 @@ class testcommand extends Command
 	*/
 	private function promoRapidTestCovid()
 	{
-		$pesan = "*Klinik Jati Elok*";
-		$pesan .= PHP_EOL;
-		$pesan .= "*Komp. Bumi Jati Elok Blok A I No. 4-5*";
-		$pesan .= PHP_EOL;
-		$pesan .= "*Jl. Raya Legok - Parung Panjang km. 3*";
-		$pesan .= PHP_EOL;
-		$pesan .= "Melayani";
-		$pesan .= PHP_EOL;
-		$pesan .= "Rapid Test Antibody & RapiD Test Antigen (Swab Test Antigen)";
-		$pesan .= PHP_EOL;
-		$pesan .= PHP_EOL;
-		$pesan .= "*Paket 1 | Rapid Test Antibody*";
-		$pesan .= PHP_EOL;
-		$pesan .= "(Rp.150.000)";
-		$pesan .= PHP_EOL;
-		$pesan .= "hasil keluar 15-30 menit";
-		$pesan .= PHP_EOL;
-		$pesan .= "darah kapiler";
-		$pesan .= PHP_EOL;
-		$pesan .= PHP_EOL;
-		$pesan .= "*Paket 2 | Rapid Test Antigen (Swab Antigen)*";
-		$pesan .= PHP_EOL;
-		$pesan .= "(Rp.250.000)";
-		$pesan .= PHP_EOL;
-		$pesan .= "hasil keluar 30 menit- 1 jam";
-		$pesan .= PHP_EOL;
-		$pesan .= "metode swab belakang hidung / tenggorokan";
-		$pesan .= PHP_EOL;
-		$pesan .= "*Sebagai syarat perjalanan udara/laut/darat";
-		$pesan .= PHP_EOL;
-		$pesan .= "*dengan perjanjian";
-		$pesan .= PHP_EOL;
-		$pesan .= PHP_EOL;
-		$pesan .= "Informasi hubungi 021 5977 529";
-		$pesan .= PHP_EOL;
-		$pesan .= "Atau whatsapp ke nomor 082278065959";
-		$pesan .= PHP_EOL;
-		$pesan .= "Atau klik https://wa.wizard.id/df2299";
+		$query  = "SELECT REPLACE(no_telp, '.', '') as no_telp ";
+		$query .= "FROM pasiens ";
+		$query .= "WHERE (no_telp like '+628%' ";
+		$query .= "OR no_telp like '08%') ";
+		$query .= "AND no_telp not like '%/%' ";
+		$query .= "AND CHAR_LENGTH(no_telp) >9 ";
+		$query .= "GROUP BY no_telp";
 
-		Sms::send('081381912803', $pesan);
+		$data = DB::select($query);
+		foreach ($data as $foo) {
+			sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
+			break;
+		}
+
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function sederhanakanGaji()
+	{
+		$datas= [];
+		$gaji_dokters = BayarDokter::all();
+		$gaji_gigis = GajiGigi::all();
+
+
+
+		foreach ($gaji_dokters as $gaji) {
+			if ( !empty ( $gaji->petugas_id )) {
+				$petugas_id = $gaji->petugas_id;
+			} else {
+				$petugas_id = 16;
+			}
+			$datas[] = [ 
+				'staf_id'              => $gaji->staf_id,
+				'mulai'                => $gaji->mulai,
+				'akhir'                => $gaji->akhir,
+				'gaji_pokok'           => $gaji->nilai,
+				'bonus'                => 0,
+				'tanggal_dibayar'      => $gaji->tanggal_dibayar,
+				'sumber_uang_id'       => $gaji->sumber_uang_id,
+				'created_at'           => $gaji->created_at,
+				'updated_at'           => $gaji->updated_at,
+				'petugas_id'           => $petugas_id,
+				'hutang'               => $gaji->hutang
+			];
+		}
+		foreach ($gaji_gigis as $gaji) {
+			if ( !empty ( $gaji->petugas_id )) {
+				$petugas_id = $gaji->petugas_id;
+			} else {
+				$petugas_id = 16;
+			}
+			$datas[] = [ 
+				'staf_id'              => $gaji->staf_id,
+				'mulai'                => $gaji->mulai,
+				'akhir'                => $gaji->akhir,
+				'gaji_pokok'           => $gaji->nilai,
+				'bonus'                => 0,
+				'tanggal_dibayar'      => $gaji->tanggal_dibayar,
+				'sumber_uang_id'       => 110000,
+				'petugas_id'           => $petugas_id,
+				'created_at'           => $gaji->created_at,
+				'updated_at'           => $gaji->updated_at,
+				'hutang'               => 0
+			];
+		}
+		BayarGaji::insert($datas);
+		DB::statement('drop table bayar_dokters');
+		DB::statement('drop table gaji_gigis');
+
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	public function testQueue()
+	{
+		$foos = [
+			11,12,13,14,15,16,17,18,19,110
+		];
+		foreach ($foos as $foo) {
+			sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
+		}
+		return 'sukses!!';
 	}
 	
 }

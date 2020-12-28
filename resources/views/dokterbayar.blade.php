@@ -34,6 +34,7 @@
                 {!! Form::open(['url'=>'pengeluarans/bayardokter/bayar', 'method'=> 'post']) !!} 
                     {!! Form::hidden('mulai', $mulai, ['class' => 'form-control']) !!} 
                     {!! Form::hidden('akhir', $akhir, ['class' => 'form-control']) !!} 
+                    {!! Form::hidden('tanggal_dibayar', $tanggal_dibayar, ['class' => 'form-control']) !!} 
                 <div class="form-group hide">
                     {!! Form::label('staf_id', 'Staf') !!}
                     {!! Form::text('staf_id' , $id, ['class' => 'form-control']) !!}
@@ -43,10 +44,10 @@
                     {!! Form::text('hutang' , $total, ['class' => 'form-control', 'readonly' => 'readonly']) !!}
 				  @if($errors->has('hutang'))<code>{{ $errors->first('hutang') }}</code>@endif
 				</div>
-				<div class="form-group @if($errors->has('dibayar'))has-error @endif">
-				  {!! Form::label('dibayar', 'Pembayaran', ['class' => 'control-label']) !!}
-                    {!! Form::text('dibayar', null, ['class' => 'form-control uangInput', 'id' => 'pembayaran']) !!}
-				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
+				<div class="form-group @if($errors->has('gaji_pokok'))has-error @endif">
+				  {!! Form::label('gaji_pokok', 'Pembayaran', ['class' => 'control-label']) !!}
+                    {!! Form::text('gaji_pokok', null, ['class' => 'form-control uangInput', 'id' => 'pembayaran']) !!}
+				  @if($errors->has('gaji_pokok'))<code>{{ $errors->first('gaji_pokok') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('petugas_id'))has-error @endif">
 				  {!! Form::label('petugas_id', 'Petugas', ['class' => 'control-label']) !!}
@@ -57,11 +58,6 @@
 				  {!! Form::label('sumber_uang_id', 'Sumber Uang', ['class' => 'control-label']) !!}
                   {!! Form::select('sumber_uang_id', App\Classes\Yoga::sumberuang(), null, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
 				  @if($errors->has('sumber_uang_id'))<code>{{ $errors->first('sumber_uang_id') }}</code>@endif
-				</div>
-				<div class="hide form-group @if($errors->has('ada_penghasilan_lain'))has-error @endif">
-				  {!! Form::label('ada_penghasilan_lain', 'Ada Penghasilan Lain?', ['class' => 'control-label']) !!}
-                  {!! Form::select('ada_penghasilan_lain', App\Classes\Yoga::adaPenghasilanLainList(), 1, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
-				  @if($errors->has('ada_penghasilan_lain'))<code>{{ $errors->first('ada_penghasilan_lain') }}</code>@endif
 				</div>
                 <div class="form-group">
                     <button class="btn btn-success" type="button" onclick="submitPage();return false;">Submit</button>
