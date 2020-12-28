@@ -293,7 +293,6 @@ class testcommand extends Command
 		$data = DB::select($query);
 		foreach ($data as $foo) {
 			sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
-			break;
 		}
 
 	}
