@@ -340,8 +340,6 @@ class PengeluaransController extends Controller
     public function notaz_post(){
 		DB::beginTransaction();
 		try {
-				
-
 			if (gethostname() == 'kje') {
 				$checkout = new PengeluaransController;
 				$saldo_saat_ini = $checkout->parameterKasir()['uang_di_kasir'];

@@ -104,7 +104,8 @@ class testcommand extends Command
 		/* $this->updatePC2020(); */
 		/* $this->resetPembayaranAsuransis(); */
 		/* $this->sederhanakanGaji(); */
-		$this->promoRapidTestCovid();
+		/* $this->promoRapidTestCovid(); */
+		$this->perbaikiBayarDokterDanGajiGigi();
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
@@ -349,4 +350,42 @@ class testcommand extends Command
 		}
 		return 'sukses!!';
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function perbaikiBayarDokterDanGajiGigi()
+	{
+		$hitung = [];
+		$jurnal_umums  = JurnalUmum::where('jurnalable_type', 'App\\BayarDokter')->get();
+		foreach ($jurnal_umums as $ju) {
+			$created_at           = $ju->created_at;
+			$query                = "SELECT bg.id as id from bayar_gajis as bg ";
+			$query               .= "JOIN stafs as stf on stf.id = bg.staf_id ";
+			$query               .= "WHERE stf.titel = 'dr' ";
+			$query               .= "AND bg.created_at = '{$created_at}';";
+			$bayar_gaji           = DB::select($query);
+			if ( count($bayar_gaji) ) {
+				$ju->jurnalable_id    = $bayar_gaji[0]->id;
+				$ju->jurnalable_type  = 'App\\BayarGaji';
+				$ju->save();
+			}
+		}
+		$jurnal_umums  = JurnalUmum::where('jurnalable_type', 'App\\GajiGigi')->get();
+		foreach ($jurnal_umums as $ju) {
+			$query                = "SELECT bg.id as id from bayar_gajis as bg ";
+			$query               .= "JOIN stafs as stf on stf.id = bg.staf_id ";
+			$query               .= "WHERE stf.titel = 'drg' ";
+			$query               .= "AND bg.gaji_pokok = '{$ju->nilai}' ";
+			$query               .= "AND bg.created_at = '{$ju->created_at}';";
+			$bayar_gaji           = DB::select($query);
+			if ( count($bayar_gaji) ) {
+				$ju->jurnalable_id    = $bayar_gaji[0]->id;
+				$ju->jurnalable_type  = 'App\\BayarGaji';
+				$ju->save();
+			}
+		}
+	}
+	
 }
