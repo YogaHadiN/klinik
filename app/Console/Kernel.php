@@ -49,6 +49,7 @@ class Kernel extends ConsoleKernel
 		 Commands\perbaikiJurnal::class,
 		 /* Commands\smsPanggilTukanAc::class, */
 		 Commands\testNeraca::class,
+		 Commands\inputdata::class,
 		 /* Commands\smsPromoUlangTahun::class, */
 		 Commands\pphDokter::class,
 		 Commands\scheduleBackup::class,

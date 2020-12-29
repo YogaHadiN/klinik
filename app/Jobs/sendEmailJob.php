@@ -22,12 +22,6 @@ class sendEmailJob implements ShouldQueue
     {
         $this->foo = $foo;
     }
-
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         /* Mail::to('yoga_email@yahoo.com')->send(new SendEmailMailable()); */
@@ -72,6 +66,10 @@ class sendEmailJob implements ShouldQueue
 		/* Sms::send('081381912803', $pesan); */
 		if ( $this->foo->no_telp != '08999993744' ) {
 			Sms::send($this->foo->no_telp, $pesan);
+			DataDuplikat::create([
+				'no_telp' => $this->foo->no_telp,
+				'pasien_id' => $this->foo->id
+			]);
 		}
 		Log::info('terkirim ke ' . $this->foo->no_telp);
     }

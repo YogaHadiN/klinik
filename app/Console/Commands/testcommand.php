@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Outbox;
@@ -34,6 +33,7 @@ use App\Terapi;
 use App\AntrianPeriksa;
 use App\Jobs\sendEmailJob;
 use App\Tarif;
+use App\DataDuplikat;
 use App\FakturBelanja;
 use App\JurnalUmum;
 use App\Periksa;
@@ -54,7 +54,6 @@ class testcommand extends Command
      * @var string
      */
     protected $signature = 'test:command';
-
 	public $jumlah_piutang_asuransi;
 	public $jumlah_invoice;
 	public $akumulasi_periksa_ids;
@@ -158,30 +157,6 @@ class testcommand extends Command
 	private function resetPembayaranAsuransis(){
 		$pembayaran_asuransi_ids = [
 				'1171'
-			  /* '983', */
-			 /* '1024', */
-			 /* '1056', */
-			 /* '1057', */
-			 /* '1058', */
-			 /* '1084', */
-			 /* '1085', */
-			 /* '1131', */
-			 /* '1132', */
-			 /* '1133', */
-			 /* '1134', */
-			 /* '1135', */
-			 /* '1136', */
-			 /* '1137', */
-			 /* '1138', */
-			 /* '1139', */
-			 /* '1140', */
-			 /* '1141', */
-			 /* '1142', */
-			 /* '1143', */
-			 /* '1144', */
-			 /* '1146', */
-			 /* '1147', */
-			 /* '1153' */
 		];
 
 		foreach ($pembayaran_asuransi_ids as $pembayaran_asuransi_id) {
@@ -282,19 +257,28 @@ class testcommand extends Command
 	*/
 	private function promoRapidTestCovid()
 	{
-		$query  = "SELECT REPLACE(no_telp, '.', '') as no_telp ";
-		$query .= "FROM pasiens ";
-		$query .= "WHERE (no_telp like '+628%' ";
-		$query .= "OR no_telp like '08%') ";
-		$query .= "AND no_telp not like '%/%' ";
-		$query .= "AND CHAR_LENGTH(no_telp) >9 ";
-		$query .= "GROUP BY no_telp";
-
-		$data = DB::select($query);
-		foreach ($data as $foo) {
-			sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
+		$query          = "SELECT ";
+		$query         .= "REPLACE(no_telp, '.', '') as no_telp, ";
+		$query         .= "id ";
+		$query         .= "FROM pasiens ";
+		$query         .= "WHERE (no_telp like '+628%' ";
+		$query         .= "OR no_telp like '08%') ";
+		$query         .= "AND no_telp not like '%/%' ";
+		$query         .= "AND CHAR_LENGTH(no_telp) >9 ";
+		$query         .= "GROUP BY no_telp";
+		$data           = DB::select($query);
+		$duplikats      = DataDuplikat::all();
+		$arrayDuplikat  = [];
+		foreach ($duplikats as $d) {
+			$arrayDuplikat[] = $d->no_telp;
 		}
-
+		$returnData = [];
+		foreach ($data as $foo) {
+			if ( !in_array( $foo->no_telp, $arrayDuplikat ) ) {
+				$returnData[] = $foo->no_telp;
+				sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
+			}
+		}
 	}
 	/**
 	* undocumented function
@@ -306,9 +290,6 @@ class testcommand extends Command
 		$datas= [];
 		$gaji_dokters = BayarDokter::all();
 		$gaji_gigis = GajiGigi::all();
-
-
-
 		foreach ($gaji_dokters as $gaji) {
 			if ( !empty ( $gaji->petugas_id )) {
 				$petugas_id = $gaji->petugas_id;
@@ -352,7 +333,6 @@ class testcommand extends Command
 		BayarGaji::insert($datas);
 		DB::statement('drop table bayar_dokters');
 		DB::statement('drop table gaji_gigis');
-
 	}
 	/**
 	* undocumented function
@@ -369,5 +349,4 @@ class testcommand extends Command
 		}
 		return 'sukses!!';
 	}
-	
 }
