@@ -105,7 +105,7 @@ class testcommand extends Command
 		/* $this->resetPembayaranAsuransis(); */
 		/* $this->sederhanakanGaji(); */
 		/* $this->promoRapidTestCovid(); */
-		$this->perbaikiBayarDokterDanGajiGigi();
+		$this->testJurnalUmum();
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
@@ -387,5 +387,16 @@ class testcommand extends Command
 			}
 		}
 	}
-	
+
+	private function testJurnalUmum() {
+		$hitung = [];
+		/* $jurnal_umums  = JurnalUmum::all(); */
+		$query  = "SELECT *";
+		$query .= "FROM jurnal_umums;";
+		$data = DB::select($query);
+		dd('kil');
+		foreach ($jurnal_umums as $ju) {
+			dd( $ju );
+		}
+	}
 }
