@@ -15,6 +15,12 @@ use App\Coa;
 use App\Classes\Yoga;
 use Carbon\Carbon;
 
+/** 
+ * PPh::create() uncomment
+ * uncomment  line 737 
+ * delete line 738
+ * */
+
 class BayarGajiController extends Controller
 {
 	public $gaji_bruto_bulan_ini;
@@ -192,7 +198,7 @@ class BayarGajiController extends Controller
 			   }
 		   }
 		   JurnalUmum::insert($jurnals);
-		   /* Pph21::insert($pph); */
+		   Pph21::insert($pph);
 		   $pesan = Yoga::suksesFlash('Pembayaran Gaji telah <strong>BERHASIL</strong>' );
 		   DB::commit();
 		   return redirect('pengeluarans/bayar_gaji_karyawan')
@@ -245,7 +251,7 @@ class BayarGajiController extends Controller
 		$this->bayar       = $this->inputBayarGajiDanPph();
 		$pph               = $this->pph21Data();
 
-		/* Pph21::create($pph); */
+		Pph21::create($pph);
 
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $this->bayar->id; // id referensi yang baru dibuat
@@ -425,7 +431,7 @@ class BayarGajiController extends Controller
 		DB::beginTransaction();
 		try {
 			JurnalUmum::insert($jurnals);
-			/* Pph21::create($pph); */
+			Pph21::create($pph);
 			DB::commit();
 		} catch (\Exception $e) {
 			DB::rollback();
