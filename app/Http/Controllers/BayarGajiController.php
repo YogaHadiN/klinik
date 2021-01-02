@@ -773,7 +773,7 @@ class BayarGajiController extends Controller
 	public function inputBayarGajiDanPph(){
 
 		$this->staf              = Staf::find( $this->input_staf_id );
-		$carbon_mulai            = Carbon::createFromFormat('Y-m-d H:i:s', $this->input_tanggal_dibayar);
+		$carbon_mulai            = Carbon::createFromFormat('d-m-Y', $this->input_tanggal_dibayar);
 		$bayar_dokters_bulan_ini = BayarGaji::where('staf_id', $this->input_staf_id)
 									->where('mulai', 'like', $carbon_mulai->format('Y-m') . '%' )
 								    ->get();

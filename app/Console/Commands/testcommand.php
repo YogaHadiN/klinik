@@ -104,8 +104,8 @@ class testcommand extends Command
 		/* $this->updatePC2020(); */
 		/* $this->resetPembayaranAsuransis(); */
 		/* $this->sederhanakanGaji(); */
-		/* $this->promoRapidTestCovid(); */
-		$this->testJurnalUmum();
+		$this->promoRapidTestCovid();
+		/* $this->testJurnalUmum(); */
 	}
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
@@ -256,8 +256,7 @@ class testcommand extends Command
 	*
 	* @return void
 	*/
-	private function promoRapidTestCovid()
-	{
+	private function promoRapidTestCovid() {
 		$query          = "SELECT ";
 		$query         .= "REPLACE(no_telp, '.', '') as no_telp, ";
 		$query         .= "id ";
@@ -274,12 +273,28 @@ class testcommand extends Command
 			$arrayDuplikat[] = $d->no_telp;
 		}
 		$returnData = [];
+		$dataduplikats=[];
+		$bolehdimasukkan = false;
 		foreach ($data as $foo) {
 			if ( !in_array( $foo->no_telp, $arrayDuplikat ) ) {
-				$returnData[] = $foo->no_telp;
-				sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
+				$returnData[] = [
+					'no_telp' => $foo->no_telp,
+					'pesan'   => $this->pesanPromo($foo->id)
+				];
+
+				if ( $foo->no_telp == '0895363089282' ) {
+					$bolehdimasukkan = true;
+				}
+
+				/* Sms::send($foo->no_telp, $this->pesanPromo($foo->id)); */
+				if ( !$bolehdimasukkan ) {
+					$dataduplikats[] = [
+						'no_telp' => $foo->no_telp
+					];
+				}
 			}
 		}
+		DataDuplikat::insert($dataduplikats);
 	}
 	/**
 	* undocumented function
@@ -398,5 +413,51 @@ class testcommand extends Command
 		foreach ($jurnal_umums as $ju) {
 			dd( $ju );
 		}
+	}
+	private function pesanPromo($id){
+
+		$pesan = "*Klinik Jati Elok*";
+		$pesan .= PHP_EOL;
+		$pesan .= "*Komp. Bumi Jati Elok Blok A I No. 4-5*";
+		$pesan .= PHP_EOL;
+		$pesan .= "*Jl. Raya Legok - Parung Panjang km. 3*";
+		$pesan .= PHP_EOL;
+		$pesan .= "Melayani";
+		$pesan .= PHP_EOL;
+		$pesan .= "Rapid Test Antibody & RapiD Test Antigen (Swab Test Antigen)";
+		$pesan .= PHP_EOL;
+		$pesan .= PHP_EOL;
+		$pesan .= "*Paket 1 | Rapid Test Antibody*";
+		$pesan .= PHP_EOL;
+		$pesan .= "(Rp.150.000)";
+		$pesan .= PHP_EOL;
+		$pesan .= "hasil keluar 15-30 menit";
+		$pesan .= PHP_EOL;
+		$pesan .= "darah kapiler";
+		$pesan .= PHP_EOL;
+		$pesan .= PHP_EOL;
+		$pesan .= "*Paket 2 | Rapid Test Antigen (Swab Antigen)*";
+		$pesan .= PHP_EOL;
+		$pesan .= "(Rp.250.000)";
+		$pesan .= PHP_EOL;
+		$pesan .= "hasil keluar 30 menit- 1 jam";
+		$pesan .= PHP_EOL;
+		$pesan .= "metode swab belakang hidung / tenggorokan";
+		$pesan .= PHP_EOL;
+		$pesan .= "*Sebagai syarat perjalanan udara/laut/darat";
+		$pesan .= PHP_EOL;
+		$pesan .= "*dengan perjanjian";
+		$pesan .= PHP_EOL;
+		$pesan .= PHP_EOL;
+		$pesan .= "Informasi hubungi 021 5977 529";
+		$pesan .= PHP_EOL;
+		$pesan .= "Atau whatsapp ke nomor 082278065959";
+		$pesan .= PHP_EOL;
+		$pesan .= "Atau klik https://wa.wizard.id/df2299";
+		$pesan .= PHP_EOL;
+		$pesan .= PHP_EOL;
+		$pesan .= $id;
+
+		return $pesan;
 	}
 }
