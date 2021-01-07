@@ -9,13 +9,85 @@
     <title>INSPINIA | Login</title>
     {!! HTML::style('css/bootstrap.min.css')!!}
     {!! HTML::style('font-awesome/css/font-awesome.css')!!}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
     {{-- {!! HTML::style('css/animate.css')!!} --}}
     {!! HTML::style('css/style.css')!!}
 	<style type="text/css" media="all">
+		.text-center {
+			text-align: center;
+		}
+
+		h2{
+			font-size : 20px;
+		}
+		h3{
+			font-size : 10px;
+		}
+		.margin-top {
+			margin-top: 10px;
+		}
+		.bold {
+			font-weight: bold;
+		}
+		table {
+			font-size: 13px;
+			text-align: left !important;
+		}
+		.box-border{
+			border: 1px solid black;
+		}
+		.underline{
+			text-decoration: underline;
+		}
+		.paddingTop{
+			margin-top: 20px;
+		}
+		.welcome_title {
+			font-size: 16px;
+		}
+		.alamat_klinik {
+			font-size: 8px;
+		}
+
+		@media screen {
+			#section-to-print {
+				visibility: hidden;
+			}
+		} 
+		@media print {
+		  body * {
+			visibility: hidden;
+		  }
+		.receipt { 
+			width: 58mm 
+		} 
+		@media print { body.receipt { width: 58mm } } /* this line is needed for fixing Chrome's bug */
+			html body.receipt .sheet { 
+				width: 58mm; 
+			} 
+			html, body {
+			  height:100vh; 
+			  margin: 0 !important; 
+			  padding: 0 !important;
+			  overflow: hidden;
+			}
+		  #section-to-print, #section-to-print * {
+			visibility: visible;
+		  }
+		  #section-to-print {
+			position: absolute;
+			left: 0;
+			top: 0;
+		  }
+		}
 		.imgKonfirmasi {
 			width : 300px;
 			height : 300px;
 		}
+		.superbig{
+			font-size:50px;
+		}
+
 		.superbig-button{
 			padding : 50px;
 			font-size : 50px;
@@ -25,18 +97,18 @@
 			padding : 0px 150px;
 		}
 		h1{
-			font-size: 100px;
+			font-size: 100px !important;
 			margin-bottom : 50px;
 		}
 		h2{
-			font-size: 75px;
+			font-size: 75px !important;
 			margin-bottom : 30px;
 		}
 	</style>
 
 </head>
 
-<body class="gray-bg">
+<body class="receipt gray-bg A5">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			@if (Session::has('pesan'))
@@ -58,14 +130,10 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/1', 'method' => 'post']) !!}
-						<button type="submit" class="btn btn-lg btn-block btn-success superbig-button">Dokter Umum</button>
-					{!! Form::close() !!}
+					<button type="button" onclick="submitAntrian(1)" class="btn btn-lg btn-block btn-success superbig-button">Dokter Umum</button>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/2', 'method' => 'post']) !!}
-						<button type="submit" class="btn btn-lg btn-block btn-primary superbig-button">Dokter Gigi</button>
-					{!! Form::close() !!}
+					<button type="button" onclick="submitAntrian(2)" class="btn btn-lg btn-block btn-primary superbig-button">Dokter Gigi</button>
 				</div>
 			</div>
 			<div class="row">
@@ -75,29 +143,42 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/3', 'method' => 'post']) !!}
-						<button type="submit" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
-					{!! Form::close() !!}
+					<button type="button" onclick="submitAntrian(3)" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
 				
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{!! Form::open(['url' => 'fasilitas/antrian_pasien/4', 'method' => 'post']) !!}
-						<button type="submit" class="btn btn-lg btn-block btn-warning superbig-button">Estetika</button>
-					{!! Form::close() !!}
+					<button type="button" onclick="submitAntrian(4)" class="btn btn-lg btn-block btn-warning superbig-button">Estetika</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div id="section-to-print">
+	  <section class="sheet">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="box title-print text-center">
+                    <div class="text-center border-top welcome_title">
+						Selamat Datang di
+						<br />Klinik Jati Elok
+					</div>
+                    <div class="text-center border-bottom border-top alamat_klinik">
+					</div>
+                </div>
+				<div class="text-center alamat_klinik">Nomor Antrian Anda Adalah :</div>
+                <div class="text-center superbig strong" id="nomor_antrian">
+							A50
+                </div>
+				<div class="text-center welcome_title" id="jenis_antrian">Poli Umum</div>
+				<div class="alamat_klinik text-center" id="timestamp">23 Nov 2021 12:00:09</div>
+				<br />
+	  </section>
+	</div>
     <!-- Mainly scripts -->
 	<script type="text/javascript" charset="utf-8">
-		@if (Session::has('print'))
-			window.open("{{ url('pdfs/antrian/' . Session::get('print')) }}", '_blank');
-		@endif
-			 setTimeout(function(){ 
-				$('.alert').fadeOut(500);
-			 }, 10000);
+		var base = "{{ url('/') }}";
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     {!! HTML::script('js/jquery-2.1.1.js')!!}
+    {!! HTML::script('js/antrian.js')!!}
     {!! HTML::script('js/bootstrap.min.js')!!}
 </body>
 

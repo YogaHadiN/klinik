@@ -47,7 +47,9 @@ Route::post('wablas/webhook', 'WablasController@webhook');
 /* Route::post('antrians/print', 'AntriansController@store'); */
 
 
+Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 Route::put('fasilitas/konfirmasi', 'FasilitasController@konfirmasi'); //antrian pasien
+Route::get('fasilitas/antrian_pasien/ajax/{id}', 'FasilitasController@antrianAjax'); //antrian pasien
 Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@input_tgl_lahir'); //antrian pasien
 Route::post('fasilitas/antrian_pasien/{poli}/tanggal', 'FasilitasController@post_tgl_lahir'); //antrian pasien
 Route::get('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}', 'FasilitasController@cari_pasien'); //cari_pasien
@@ -100,9 +102,7 @@ Route::resource('invoices', 'InvoiceController');
 Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 
 Route::group(['middleware' => 'auth'], function(){
-	Route::post('fasilitas/antrian_pasien/{id}', 'FasilitasController@antrian'); //antrian pasien
 	Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
-	Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 	Route::get('antrians/proses/{id}', 'FasilitasController@prosesAntrian'); //antrian pasien
 	Route::post('antrians/antrianpolis/{id}', 'FasilitasController@antrianPoliPost'); //antrian pasien
 	Route::get('antrians/{id}/pasiens/create', 'FasilitasController@createPasien'); //antrian pasien

@@ -279,9 +279,18 @@ class FasilitasController extends Controller
 	}
 	public function antrian($id){
 		$antrian = $this->antrianPost( $id );
+		/* return $antrian; */
 		return redirect('fasilitas/antrian_pasien')
 			->withPrint($antrian->id);
 	}
+	public function antrianAjax($id){
+		$antrian       = $this->antrianPost( $id );
+		$nomor_antrian = $antrian->jenis_antrian->prefix . $antrian->nomor;
+		$jenis_antrian = ucwords( $antrian->jenis_antrian->jenis_antrian );
+		$timestamp = date('Y-m-d H:i:s');
+		return compact('nomor_antrian', 'jenis_antrian', 'timestamp' );
+	}
+	
 	public function listAntrian(){
 		$antrians = Antrian::where('antriable_type', 'App\\Antrian')->get();
 		return view('fasilitas.list_antrian', compact(

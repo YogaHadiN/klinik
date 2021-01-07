@@ -15,6 +15,9 @@ h3{
 .margin-top {
 	margin-top: 10px;
 }
+.sheet {
+	page-break-after: avoid !important;
+}
 .bold {
 	font-weight: bold;
 }
@@ -127,25 +130,25 @@ table {
 				{{-- 		</tbody> --}}
 				{{-- 	</table> --}}
                 {{-- </div> --}}
-				<div class="title-print text-center">
-                    <h3 class="text-center border-top">
-						Pasien Yang Berobat :
-					</h3>
-					<table class="paddingTop">
-						<tbody>
-							<tr>
-								<td colspan="">Nama Lengkap</td>
-								<td colspan="">:</td>
-								<td colspan=""> ..................................................</td>
-							</tr>
-							<tr>
-								<td colspan="">Tanggal Lahir</td>
-								<td colspan="">:</td>
-								<td colspan=""> ..................................................</td>
-							</tr>
-						</tbody>
-					</table>
-                </div>
+				{{-- <div class="title-print text-center"> --}}
+                    {{-- <h3 class="text-center border-top"> --}}
+				{{-- 		Pasien Yang Berobat : --}}
+				{{-- 	</h3> --}}
+				{{-- 	<table class="paddingTop"> --}}
+				{{-- 		<tbody> --}}
+				{{-- 			<tr> --}}
+				{{-- 				<td colspan="">Nama Lengkap</td> --}}
+				{{-- 				<td colspan="">:</td> --}}
+				{{-- 				<td colspan=""> ..................................................</td> --}}
+				{{-- 			</tr> --}}
+				{{-- 			<tr> --}}
+				{{-- 				<td colspan="">Tanggal Lahir</td> --}}
+				{{-- 				<td colspan="">:</td> --}}
+				{{-- 				<td colspan=""> ..................................................</td> --}}
+				{{-- 			</tr> --}}
+				{{-- 		</tbody> --}}
+				{{-- 	</table> --}}
+                {{-- </div> --}}
             </div>
 			<h2 class="text-center border-top border-bottom margin-top">SEMOGA SEHAT SELALU</h2>
         <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
