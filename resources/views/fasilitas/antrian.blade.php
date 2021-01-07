@@ -43,10 +43,10 @@
 			margin-top: 20px;
 		}
 		.welcome_title {
-			font-size: 16px;
+			font-size: 22px;
 		}
 		.alamat_klinik {
-			font-size: 8px;
+			font-size: 14px;
 		}
 
 		@media screen {
@@ -59,11 +59,11 @@
 			visibility: hidden;
 		  }
 		.receipt { 
-			width: 58mm 
+			width: 80mm 
 		} 
-		@media print { body.receipt { width: 58mm } } /* this line is needed for fixing Chrome's bug */
+		@media print { body.receipt { width: 80mm } } /* this line is needed for fixing Chrome's bug */
 			html body.receipt .sheet { 
-				width: 58mm; 
+				width: 80mm; 
 			} 
 			html, body {
 			  height:100vh; 
