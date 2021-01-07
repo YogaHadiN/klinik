@@ -43,10 +43,10 @@
 			margin-top: 20px;
 		}
 		.welcome_title {
-			font-size: 22px;
+			font-size: 30px;
 		}
 		.alamat_klinik {
-			font-size: 14px;
+			font-size: 20px;
 		}
 
 		@media screen {
@@ -163,7 +163,7 @@
                     <div class="text-center border-bottom border-top alamat_klinik">
 					</div>
                 </div>
-				<div class="text-center alamat_klinik">Nomor Antrian Anda Adalah :</div>
+				<div class="text-center alamat_klinik">Nomor Antrian </div>
                 <div class="text-center superbig strong" id="nomor_antrian">
 							A50
                 </div>
