@@ -17,7 +17,6 @@ use App\KirimBerkas;
 use App\Pph21Dokter;
 use App\BagiGigi;
 use App\Modal;
-use App\BayarDokter;
 use App\Pengeluaran;
 use App\NoSale;
 use App\Asuransi;
@@ -76,40 +75,6 @@ class PdfsController extends Controller
 		->setOption('margin-left', 0);
         return $pdf->stream();
 	}
-    public function jasa_dokter($bayar_dokter_id){
-
-        $bayar                          = BayarDokter::with('pph21s', 'staf')->where('id',$bayar_dokter_id)->first();
-		$bulanPembayaran                = $bayar->tanggal_dibayar->format('Y-m');
-		$total_pph_sudah_dibayar        = 0;
-		$total_pembayaran_bulan_ini     = 0;
-		$total_pph_bulan_ini            = 0;
-		$pph21_sudah_dibayar_sebelumnya = 0;
-
-		foreach (json_decode($bayar->pph21s->ikhtisar_gaji_bruto, true) as $g) {
-			$total_pembayaran_bulan_ini += $bayar['gaji_bruto'];
-			$total_pph_bulan_ini        += $bayar['pph21'];
-			if ($g['id'] != $bayar->id) {
-				$pph21_sudah_dibayar_sebelumnya += $g['pph21'];
-			}
-		}
-		$total_gaji = $bayar->nilai;
-		$returnData = compact(
-			'bayar',
-			'total_gaji',
-			'total_pembayaran_bulan_ini',
-			'total_pph_sudah_dibayar',
-			'pph21_sudah_dibayar_sebelumnya',
-			'total_pph_bulan_ini'
-		);
-		$pdf = PDF::loadView('pdfs.struk_gaji', $returnData )
-				->setOption('page-width', 72)
-				->setOption('page-height', 297)
-				->setOption('margin-top', 0)
-				->setOption('margin-bottom', 0)
-				->setOption('margin-right', 0)
-				->setOption('margin-left', 0);
-        return $pdf->stream();
-    }
     
     public function pembelian($faktur_belanja_id){
         $fakturbelanja = FakturBelanja::find($faktur_belanja_id);

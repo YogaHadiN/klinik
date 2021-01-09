@@ -133,7 +133,7 @@
 					<button type="button" onclick="submitAntrian(1)" class="btn btn-lg btn-block btn-success superbig-button">Dokter Umum</button>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onclick="submitAntrian(2)" class="btn btn-lg btn-block btn-primary superbig-button">Dokter Gigi</button>
+					<button type="button" onclick="submitAntrian(3)" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
 				</div>
 			</div>
 			<div class="row">
@@ -141,15 +141,15 @@
 					<br />
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onclick="submitAntrian(3)" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
+			{{-- <div class="row"> --}}
+			{{-- 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> --}}
+			{{-- 		<button type="button" onclick="submitAntrian(2)" class="btn btn-lg btn-block btn-primary superbig-button">Dokter Gigi</button> --}}
 				
-				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onclick="submitAntrian(4)" class="btn btn-lg btn-block btn-warning superbig-button">Estetika</button>
-				</div>
-			</div>
+			{{-- 	</div> --}}
+			{{-- 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> --}}
+			{{-- 		<button type="button" onclick="submitAntrian(4)" class="btn btn-lg btn-block btn-warning superbig-button">Estetika</button> --}}
+			{{-- 	</div> --}}
+			{{-- </div> --}}
 		</div>
 	</div>
 	<div id="section-to-print">

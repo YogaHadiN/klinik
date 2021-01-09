@@ -826,7 +826,7 @@ class BayarGajiController extends Controller
 		if (Yoga::clean($this->input_gaji_pokok) + $this->input_bonus == $this->input_hutang) {
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => 200001, // Hutang Kepada Dokte,
 				'debit'           => 1,
 				'nilai'           => $this->input_hutang,
@@ -835,7 +835,7 @@ class BayarGajiController extends Controller
 			];
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => $this->input_sumber_uang_id,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus  > $this->input_hutang - $this->perhitunganPph_ini['pph21'],
@@ -845,7 +845,7 @@ class BayarGajiController extends Controller
 			if ( $this->perhitunganPph_ini['pph21'] > 0 ) {
 				$jurnals[]             = [
 					'jurnalable_id'   => $this->bayar->id,
-					'jurnalable_type' => 'App\BayarDokter',
+					'jurnalable_type' => 'App\BayarGaji',
 					'coa_id'          => 200004, // Hutang pph21
 					'debit'           => 0,
 					'nilai'           => $this->perhitunganPph_ini['pph21'],
@@ -857,7 +857,7 @@ class BayarGajiController extends Controller
 			//Create Jurnal Umum untuk hutang saja
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => 200001, // Hutang Kepada Dokte,
 				'debit'           => 1,
 				'nilai'           => $this->input_hutang,
@@ -866,7 +866,7 @@ class BayarGajiController extends Controller
 			];
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => 50201, // B. Produksi Jasa Dokter,
 				'debit'           => 1,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->input_hutang,
@@ -875,7 +875,7 @@ class BayarGajiController extends Controller
 			];
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => $this->input_sumber_uang_id,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
@@ -885,7 +885,7 @@ class BayarGajiController extends Controller
 			if ( $this->perhitunganPph_ini['pph21'] > 0 ) {
 				$jurnals[]             = [
 					'jurnalable_id'   => $this->bayar->id,
-					'jurnalable_type' => 'App\BayarDokter',
+					'jurnalable_type' => 'App\BayarGaji',
 					'coa_id'          => 200004, // Hutang pph21
 					'debit'           => 0,
 					'nilai'           => $this->perhitunganPph_ini['pph21'],
@@ -898,7 +898,7 @@ class BayarGajiController extends Controller
 			//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => 200001, // Hutang kepada dokte,
 				'debit'           => 1,
 				'nilai'           => $this->input_hutang,
@@ -907,7 +907,7 @@ class BayarGajiController extends Controller
 			];
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => 50201, // B. Produksi Jasa Dokte,
 				'debit'           => 0,
 				'nilai'           => $this->input_hutang- Yoga::clean($this->input_gaji_pokok) + $this->input_bonus,
@@ -917,7 +917,7 @@ class BayarGajiController extends Controller
 			//end
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\BayarDokter',
+				'jurnalable_type' => 'App\BayarGaji',
 				'coa_id'          => $this->input_sumber_uang_id,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
@@ -927,7 +927,7 @@ class BayarGajiController extends Controller
 			if ( $this->perhitunganPph_ini['pph21'] > 0 ) {
 				$jurnals[]             = [
 					'jurnalable_id'   => $this->bayar->id,
-					'jurnalable_type' => 'App\BayarDokter',
+					'jurnalable_type' => 'App\BayarGaji',
 					'coa_id'          => 200004, // Hutang pph21
 					'debit'           => 0,
 					'nilai'           => $this->perhitunganPph_ini['pph21'],
