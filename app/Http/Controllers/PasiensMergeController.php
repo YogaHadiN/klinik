@@ -146,7 +146,7 @@ class PasiensMergeController extends Controller
 
 			$pesan = Yoga::suksesFlash('Pasien berhasil digabung');
 			DB::commit();
-			return redirect('pasiens')->withPesan($pesan);
+			return redirect()->back()->withPesan($pesan);
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;

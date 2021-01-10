@@ -2,6 +2,8 @@
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Outbox;
+use App\Ht;
+use App\Dm;
 use App\User;
 use App\Pengeluaran;
 use App\Woowa;
@@ -104,7 +106,8 @@ class testcommand extends Command
 		/* $this->updatePC2020(); */
 		/* $this->resetPembayaranAsuransis(); */
 		/* $this->sederhanakanGaji(); */
-		$this->promoRapidTestCovid();
+		$this->rppt();
+		/* $this->promoRapidTestCovid(); */
 		/* $this->testJurnalUmum(); */
 	}
 	private function webhook(){
@@ -460,4 +463,50 @@ class testcommand extends Command
 
 		return $pesan;
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function rppt()
+	{
+		$dms = Ht::all();
+		$count = [];
+		foreach ($dms as $dm) {
+			$pasiens = Pasien::where('tanggal_lahir', $dm->tanggal_lahir)
+						->where('sex', $dm->jenis_kelamin)
+						->where('nama', 'like', $dm->nama. '%')
+						->get();
+
+			if ( $pasiens->count() !=  1 ) {
+				foreach ($pasiens as $p) {
+					$count[] = [
+						'nama_source'   => $dm->nama,
+						'nama'          => $p->nama,
+						'sex'           => $p->sex,
+						'tanggal_lahir' => $p->tanggal_lahir,
+						'pasien_id' => $p->id
+					];
+				}
+				
+			}
+			/* $pasiens = Pasien::where('tanggal_lahir', $dm->tanggal_lahir) */
+			/* 			->where('sex', $dm->jenis_kelamin) */
+			/* 			->where('nama', 'like', $dm->nama. '%') */
+			/* 			->get(); */
+
+			/* foreach ($pasiens as $p) { */
+			/* 	$count[] = [ */
+			/* 		'nama_source'   => $dm->nama, */
+			/* 		'nama'          => $p->nama, */
+			/* 		'sex'           => $p->sex, */
+			/* 		'tanggal_lahir' => $p->tanggal_lahir, */
+			/* 		'pasien_id' => $p->id */
+			/* 	]; */
+			/* } */
+
+		}
+		dd($count);
+	}
+	
 }
