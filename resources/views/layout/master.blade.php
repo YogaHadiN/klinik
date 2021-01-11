@@ -138,6 +138,7 @@
                             <li>{!! HTML::link('laporans/kunjungan_sakit', 'Kunjungan Sakit Tidak Pakai BPJS')!!}</li>
                             <li>{!! HTML::link('home_visits', 'Kunjungan Sehat')!!}</li>
                             <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
+                            <li>{!! HTML::link('prolanis_terkendali', 'Laporan Rasio Prolanis Terkendali')!!}</li>
                             <li>{!! HTML::link('pasien_rujuk_baliks', 'Pasien Rujuk Balik')!!}</li>
                         </ul>
                     </li>

@@ -8,6 +8,7 @@ use App\Antrian;
 use App\Http\Controllers\LaporanLabaRugisController;
 use App\Http\Controllers\LaporanNeracasController;
 use App\Http\Controllers\PajaksController;
+use App\Http\Controllers\PasiensController;
 use App\Http\Controllers\AsuransisController;
 use App\Http\Controllers\PendapatansController;
 use App\Http\Controllers\KirimBerkasController;
@@ -22,6 +23,7 @@ use App\NoSale;
 use App\Asuransi;
 use App\CheckoutKasir;
 use App\BayarGaji;
+use Carbon\Carbon;
 use App\NotaJual;
 use App\AntrianPoli;
 use App\Pasien;
@@ -763,5 +765,36 @@ class PdfsController extends Controller
 				->setPaper('a4');
         return $pdf->stream();
 	}
-	
+	public function prolanisHipertensiPerBulan($bulanTahun){
+		$psn             = new PasiensController;
+		$data            = $psn->queryDataProlanisPerBulan($bulanTahun);
+		$prolanis_ht     = [];
+		foreach ($data as $d) {
+			$prolanis_ht = $psn->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
+		}
+		$bulanTahun = Carbon::createFromFormat('Y-m', $bulanTahun);
+
+
+		$pdf             = PDF::loadView('pdfs.prolanisHipertensiPerBulan', compact(
+			'prolanis_ht',
+			'bulanTahun'
+		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
+		return $pdf->stream();
+	}
+	public function prolanisDmPerBulan($bulanTahun){
+		$psn             = new PasiensController;
+		$data            = $psn->queryDataProlanisPerBulan($bulanTahun);
+		$prolanis_dm     = [];
+		foreach ($data as $d) {
+			$prolanis_dm = $psn->templateProlanisPeriksa($prolanis_dm, $d, 'prolanis_dm');
+		}
+		$bulanTahun = Carbon::createFromFormat('Y-m', $bulanTahun);
+
+
+		$pdf             = PDF::loadView('pdfs.prolanisDmPerBulan', compact(
+			'prolanis_dm',
+			'bulanTahun'
+		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
+		return $pdf->stream();
+	}
 }

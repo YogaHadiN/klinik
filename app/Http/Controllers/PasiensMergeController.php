@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Classes\Yoga;
 use App\Pasien;
+use App\DeletedPeriksa;
+use App\Alergi;
+use App\HomeVisit;
 use App\AntrianPeriksa;
 use App\AntrianPoli;
 use App\Complain;
@@ -142,6 +145,19 @@ class PasiensMergeController extends Controller
 			$confirm_sms_kontak = SmsKontak::whereIn('pasien_id', $hapusId )->update([
 				'pasien_id' => $pertahankanID
 			]);
+			Alergi::whereIn('pasien_id', $hapusId )->update([
+				'pasien_id' => $pertahankanID
+			]);
+			DeletedPeriksa::whereIn('pasien_id', $hapusId )->update([
+				'pasien_id' => $pertahankanID
+			]);
+			HomeVisit::whereIn('pasien_id', $hapusId )->update([
+				'pasien_id' => $pertahankanID
+			]);
+			PasienRujukBalik::whereIn('pasien_id', $hapusId )->update([
+				'pasien_id' => $pertahankanID
+			]);
+
 			$confirm_pasien_hapus = Pasien::destroy($hapusId);
 
 			$pesan = Yoga::suksesFlash('Pasien berhasil digabung');

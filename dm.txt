@@ -1,2 +1,37 @@
-ALTER TABLE pasiens ADD prolanis_ht tinyint(1); 
-ALTER TABLE pasiens ADD prolanis_dm tinyint(1); 
+ALTER TABLE pasiens ADD prolanis_ht tinyint(1) default 0 not null; 
+ALTER TABLE pasiens ADD prolanis_dm tinyint(1) default 0 not null; 
+
+CREATE TABLE hts(
+  id INT NOT NULL AUTO_INCREMENT,
+  nama varchar(255) not null,
+  alamat varchar(255) not null,
+  tanggal_lahir date not null,
+  jenis_kelamin varchar(255) not null,
+  updated_at TIMESTAMP NOT NULL default now() ON UPDATE NOW(),
+  created_at TIMESTAMP NOT NULL default now(),
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE dms(
+  id INT NOT NULL AUTO_INCREMENT,
+  nama varchar(255) not null,
+  alamat varchar(255) not null,
+  tanggal_lahir date not null,
+  jenis_kelamin varchar(255) not null,
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  created_at TIMESTAMP NOT NULL default now(),
+  PRIMARY KEY(id)
+);
+ =========== setelah import ===========
+
+update dms set jenis_kelamin = 0 where jenis_kelamin = 'Perempuan';
+update hts set jenis_kelamin = 0 where jenis_kelamin = 'Perempuan';
+
+update dms set jenis_kelamin = 1 where jenis_kelamin = 'Laki-laki';
+update hts set jenis_kelamin = 1 where jenis_kelamin = 'Laki-laki';
+
+update pasiens set sex = 1 where nama like '%,tn%';
+update pasiens set sex = 0 where nama like '%,ny%';
+
+update pasiens set sex = 1 where nama like '%, tn%';
+update pasiens set sex = 0 where nama like '%, ny%';

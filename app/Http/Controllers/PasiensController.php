@@ -46,6 +46,7 @@ class PasiensController extends Controller
 	public $dataIndexPasien;
 	public $dataCreatePasien;
 
+
    public function __construct()
     {
 		$ps                              = new Pasien;
@@ -58,7 +59,7 @@ class PasiensController extends Controller
 		$this->input_nama                = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 		$this->input_nama_peserta        = ucwords(strtolower(Input::get('nama_peserta')));;
 		$this->input_nomor_asuransi      = Input::get('nomor_asuransi');
-		$this->input_punya_asuransi = Input::get('punya_asuransi');
+		$this->input_punya_asuransi      = Input::get('punya_asuransi');
 		$this->input_nomor_ktp           = Input::get('no_ktp');
 		$this->input_nomor_asuransi_bpjs = $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
 		$this->input_no_telp             = Input::get('no_telp');
@@ -68,6 +69,8 @@ class PasiensController extends Controller
 		$this->input_bpjs_image          = $ps->imageUpload('bpjs','bpjs_image', $this->input_id);
 		$this->input_ktp_image           = $ps->imageUpload('ktp','ktp_image', $this->input_id);
 		$this->input_image               = $ps->imageUploadWajah('img', 'image', $this->input_id);
+		$this->prolanis_dm               = [];
+		$this->prolanis_ht               = [];
 
 		$this->dataIndexPasien = [
 			'statusPernikahan' => $ps->statusPernikahan(),
@@ -414,9 +417,96 @@ class PasiensController extends Controller
 			'pasiens'
 		));
 	}
-	
-	
-	
-	
+	public function prolanisTerkendali(){
+		$pasiens     = Pasien::where('prolanis_ht', '1')->orWhere('prolanis_dm', '1')->get();
+		$prolanis_ht = [];
+		$prolanis_dm = [];
+		foreach ($pasiens as $p) {
+			if ($p->prolanis_ht) {
+				$prolanis_ht[] = $p;
+			}
+			if ($p->prolanis_dm) {
+				$prolanis_dm[] = $p;
+			}
+			
+		}
+		return view('pasiens.prolanis_terkendali', compact(
+			'prolanis_ht',
+			'prolanis_dm'
+		));
+	}
+	public function prolanisTerkendaliPerBulan(){
+		$bulan      = Input::get('bulan');
+		$tahun      = Input::get('tahun');
 
+		$bulanTahun = $bulan . '-' . $tahun;
+		$tahunBulan = $tahun . '-' . $bulan;
+
+		$data = $this->queryDataProlanisPerBulan($tahunBulan);
+
+		$prolanis_dm = [];
+		$prolanis_ht = [];
+
+		foreach ($data as $d) {
+			$prolanis_ht = $this->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
+			$prolanis_dm = $this->templateProlanisPeriksa($prolanis_dm, $d, 'prolanis_dm');
+		}
+		/* dd( compact('prolanis_dm', 'prolanis_ht') ); */
+		return view('pasiens.prolanis_perbulan', compact(
+			'prolanis_ht',
+			'bulanTahun',
+			'tahunBulan',
+			'prolanis_dm'
+		));
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	public function templateProlanisPeriksa($prolanis, $d, $jenis_prolanis)
+	{
+		if ( $d->$jenis_prolanis ) {
+			$prolanis[$d->periksa_id]['nama']           = $d->nama;
+			$prolanis[$d->periksa_id]['tanggal']        = $d->tanggal;
+			$prolanis[$d->periksa_id]['tanggal_lahir']  = $d->tanggal_lahir;
+			$prolanis[$d->periksa_id]['alamat']         = $d->alamat;
+			$prolanis[$d->periksa_id]['sistolik']       = $d->sistolik;
+			$prolanis[$d->periksa_id]['diastolik']      = $d->diastolik;
+			$prolanis[$d->periksa_id]['nama_asuransi']  = $d->nama_asuransi;
+			$prolanis[$d->periksa_id]['nomor_asuransi'] = $d->nomor_asuransi;
+			if ( 
+				$d->jenis_tarif_id == '116'
+			) {
+				$prolanis[$d->periksa_id]['gula_darah'] = $d->keterangan_pemeriksaan;
+			}
+		}
+		return $prolanis;
+	}
+	public function queryDataProlanisPerBulan($tahunBulan){
+		$query  = "SELECT ";
+		$query .= "prx.tanggal as tanggal, ";
+		$query .= "psn.nama as nama, ";
+		$query .= "jtf.jenis_tarif as jenis_tarif, ";
+		$query .= "psn.prolanis_dm as prolanis_dm, ";
+		$query .= "psn.prolanis_ht as prolanis_ht, ";
+		$query .= "psn.tanggal_lahir as tanggal_lahir, ";
+		$query .= "psn.alamat as alamat, ";
+		$query .= "trx.keterangan_pemeriksaan as keterangan_pemeriksaan, ";
+		$query .= "prx.sistolik as sistolik, ";
+		$query .= "prx.diastolik as diastolik, ";
+		$query .= "prx.nomor_asuransi as nomor_asuransi, ";
+		$query .= "prx.id as periksa_id, ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "jtf.id as jenis_tarif_id ";
+		$query .= "FROM periksas as prx ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+		$query .= "LEFT JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
+		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
+		$query .= "WHERE prx.tanggal like '{$tahunBulan}%' ";
+		$query .= "AND (psn.prolanis_ht = 1 or psn.prolanis_dm = 1) ";
+		$query .= "AND prx.asuransi_id = 32";
+		return DB::select($query);
+	}
 }

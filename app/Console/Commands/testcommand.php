@@ -470,43 +470,35 @@ class testcommand extends Command
 	*/
 	private function rppt()
 	{
-		$dms = Ht::all();
-		$count = [];
+		$dms = Dm::all();
 		foreach ($dms as $dm) {
 			$pasiens = Pasien::where('tanggal_lahir', $dm->tanggal_lahir)
 						->where('sex', $dm->jenis_kelamin)
-						->where('nama', 'like', $dm->nama. '%')
+						->where('nama', 'like', '%' .$dm->nama. '%')
 						->get();
-
-			if ( $pasiens->count() !=  1 ) {
+			if ( $pasiens->count() ==  1 ) {
 				foreach ($pasiens as $p) {
-					$count[] = [
-						'nama_source'   => $dm->nama,
-						'nama'          => $p->nama,
-						'sex'           => $p->sex,
-						'tanggal_lahir' => $p->tanggal_lahir,
-						'pasien_id' => $p->id
-					];
+					$p->prolanis_dm = 1;
+					$p->save();
 				}
+				$dm->delete();
 				
 			}
-			/* $pasiens = Pasien::where('tanggal_lahir', $dm->tanggal_lahir) */
-			/* 			->where('sex', $dm->jenis_kelamin) */
-			/* 			->where('nama', 'like', $dm->nama. '%') */
-			/* 			->get(); */
-
-			/* foreach ($pasiens as $p) { */
-			/* 	$count[] = [ */
-			/* 		'nama_source'   => $dm->nama, */
-			/* 		'nama'          => $p->nama, */
-			/* 		'sex'           => $p->sex, */
-			/* 		'tanggal_lahir' => $p->tanggal_lahir, */
-			/* 		'pasien_id' => $p->id */
-			/* 	]; */
-			/* } */
-
 		}
-		dd($count);
+
+		$hts   = Ht::all();
+		foreach ($hts as $ht) {
+			$pasiens = Pasien::where('tanggal_lahir', $ht->tanggal_lahir)
+						->where('sex', $ht->jenis_kelamin)
+						->where('nama', 'like', '%' .$ht->nama. '%')
+						->get();
+			if ( $pasiens->count() ==  1 ) {
+				foreach ($pasiens as $p) {
+					$p->prolanis_ht = 1;
+					$p->save();
+				}
+				$ht->delete();
+			}
+		}
 	}
-	
 }

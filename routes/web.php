@@ -218,6 +218,11 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::delete('kontrols/{id}', 'KontrolsController@destroy');
 
 	Route::get('antrians/proses/pasiens/{id}/edit/{antrian_id}', 'PasiensController@editAtAntrian');
+	Route::get('prolanis_terkendali', 'PasiensController@prolanisTerkendali');
+	Route::post('pasiens/prolanis_terkendali/per_bulan', 'PasiensController@prolanisTerkendaliPerBulan');
+
+
+
 	Route::resource('pasiens', 'PasiensController');
 	Route::resource('periksas', 'PeriksasController');
 
@@ -696,9 +701,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/piutang/semua/{id}/{mulai}/{akhir}', 'PdfsController@piutangAsuransi');
 	Route::get('pdfs/kirim_berkas/{id}', 'PdfsController@kirim_berkas');
 	Route::get('pdfs/antrian/{id}', 'PdfsController@antrian');
-
-
-
+	Route::get('pdfs/prolanis_hipertensi_perbulan/{bulanTahun}', 'PdfsController@prolanisHipertensiPerBulan');
+	Route::get('pdfs/prolanis_dm_perbulan/{bulanTahun}', 'PdfsController@prolanisDmPerBulan');
 
 	Route::get('no_sales', 'NoSalesController@index');
 	Route::post('no_sales', 'NoSalesController@store');
