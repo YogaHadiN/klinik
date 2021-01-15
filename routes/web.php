@@ -50,6 +50,8 @@ Route::post('wablas/webhook', 'WablasController@webhook');
 Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 Route::put('fasilitas/konfirmasi', 'FasilitasController@konfirmasi'); //antrian pasien
 Route::get('fasilitas/antrian_pasien/ajax/{id}', 'FasilitasController@antrianAjax'); //antrian pasien
+Route::get('fasilitas/antrian_pasien/tambah/{id}', 'FasilitasController@getTambahAntrian'); //antrian pasien
+
 Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@input_tgl_lahir'); //antrian pasien
 Route::post('fasilitas/antrian_pasien/{poli}/tanggal', 'FasilitasController@post_tgl_lahir'); //antrian pasien
 Route::get('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}', 'FasilitasController@cari_pasien'); //cari_pasien

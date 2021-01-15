@@ -28,6 +28,21 @@ Klinik Jati Elok | List Antrian
 			</h3>
 		</div>
 		<div class="panel-body">
+			<div class="row">
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<a href="{{ url('fasilitas/antrian_pasien/tambah/1') }}" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dokter Umum</a>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<a href="{{ url('fasilitas/antrian_pasien/tambah/2') }}" class="btn btn-warning btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dokter Gigi</a>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<a href="{{ url('fasilitas/antrian_pasien/tambah/3') }}" class="btn btn-info btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Bidan</a>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<a href="{{ url('fasilitas/antrian_pasien/tambah/4') }}" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Estetika</a>
+				</div>
+			</div>
+			<br>
 			<div class="table-responsive">
 				<table class="table table-hover table-condensed table-bordered">
 					<thead>

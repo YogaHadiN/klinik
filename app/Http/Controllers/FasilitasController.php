@@ -392,4 +392,14 @@ class FasilitasController extends Controller
 		$pc->input_antrian_id = $id;
 		return $pc->inputDataPasien();
 	}
+	public function getTambahAntrian($id){
+		$antrian       = $this->antrianPost( $id );
+		$nomor_antrian = $antrian->jenis_antrian->prefix . $antrian->nomor;
+		$jenis_antrian = ucwords( $antrian->jenis_antrian->jenis_antrian );
+
+		$pesan = Yoga::suksesFlash(
+			'Antrian baru <strong> ' . $nomor_antrian . '</strong> ke ' . $jenis_antrian . '	Berhasil ditambahkan'
+		);
+		return redirect()->back()->withPesan($pesan);
+	}
 }

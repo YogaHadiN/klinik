@@ -454,7 +454,6 @@ class BayarGajiController extends Controller
         foreach ($hutangs as $hutang) {
             $total += $hutang->nilai;
         }
-		dd($totals);
         return view('bayardokterdetail', compact('hutangs', 'total'));
     }
 	private function gajiBrutoBulanIniByModel($bayar){
