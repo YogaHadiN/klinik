@@ -7,5 +7,21 @@ CREATE TABLE data_duplikats(
 );
 
 
-delete from bayar_gajis where id = 2188;
+CREATE TABLE peserta_bpjs_bulanans(
+  id INT NOT NULL AUTO_INCREMENT,
+  nama_file varchar(255),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  created_at TIMESTAMP NOT NULL,
+  PRIMARY KEY(id)
+);
+
 ALTER TABLE antrians ADD nomor_bpjs varchar(255);
+
+=========================================================================================
+CREATE TABLE admedika_perbulans(
+  id INT NOT NULL AUTO_INCREMENT,
+  nama_file varchar(255),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  created_at TIMESTAMP NOT NULL,
+  PRIMARY KEY(id)
+);

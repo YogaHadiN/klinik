@@ -104,6 +104,10 @@ Route::resource('invoices', 'InvoiceController');
 Route::resource('pasien_rujuk_baliks', 'PasienRujukBalikController');
 
 Route::group(['middleware' => 'auth'], function(){
+
+
+	Route::get('peserta_bpjs_perbulans', 'PesertaBpjsBulananController@index');
+
 	Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
 	Route::get('antrians/proses/{id}', 'FasilitasController@prosesAntrian'); //antrian pasien
 	Route::post('antrians/antrianpolis/{id}', 'FasilitasController@antrianPoliPost'); //antrian pasien

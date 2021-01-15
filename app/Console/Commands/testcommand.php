@@ -148,12 +148,12 @@ class testcommand extends Command
 		$uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/dokter/0/13"; //url web service bpjs;
 		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/provider/0/3"; //url web service bpjs; */
 		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/peserta/0001183422677"; //url web service bpjs; */
-		$consID 	= "27802"; //customer ID anda
-		$secretKey 	= "6nNF409D69"; //secretKey anda
+		$consID 	= env('BPJS_CONSID'); //customer ID anda
+		$secretKey 	= env('BPJS_SECRET_KEY'); //secretKey anda
 
-		$pcareUname = "klinik_jatielok"; //username pcare
-		$pcarePWD 	= "*Bpjs2020"; //password pcare anda
-		$kdAplikasi	= "095"; //kode aplikasi
+		$pcareUname = env('BPJS_PCARE_UNAME'); //username pcare
+		$pcarePWD 	= env('BPJS_PCARE_PWD'); //password pcare anda
+		$kdAplikasi	= env('BPJS_KD_APLIKASI'); //kode aplikasi
 
 		$stamp		= time();
 		$data 		= $consID.'&'.$stamp;

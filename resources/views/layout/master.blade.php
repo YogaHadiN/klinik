@@ -268,6 +268,14 @@
                             {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
                         </ul>
                      </li>
+                    <li>
+                        <a href=""><i class="fa fa-flask"></i> <span class="nav-label">Berkas Bulanan</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            {{-- <li>{!! HTML::link('berkas/tagihan_admedika', 'Tagihan Admedika')!!}</li> --}}
+                            <li>{!! HTML::link('peserta_bpjs_perbulans', 'Peserta Bpjs Per Bulan')!!}</li>
+                            {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
+                        </ul>
+                     </li>
 					@if(\Auth::id() == 28)
 					<li>
                         <a href="{{ url('configs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Pengaturan</span> </a>
