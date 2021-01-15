@@ -108,7 +108,7 @@
 
 </head>
 
-<body class="receipt gray-bg A5">
+<body class="receipt gray-bg A5" onclick="returnFocus();return false;">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			@if (Session::has('pesan'))
@@ -151,6 +151,7 @@
 			{{-- 	</div> --}}
 			{{-- </div> --}}
 		</div>
+		{!! Form::text('nomor_bpjs', null, ['class' => 'form-control', 'id' => 'nomor_bpjs']) !!}
 	</div>
 	<div id="section-to-print">
 	  <section class="sheet">

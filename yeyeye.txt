@@ -8,3 +8,4 @@ CREATE TABLE data_duplikats(
 
 
 delete from bayar_gajis where id = 2188;
+ALTER TABLE antrians ADD nomor_bpjs varchar(255);

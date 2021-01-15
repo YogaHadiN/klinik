@@ -35,9 +35,11 @@ use App\DeletedPeriksa;
 
 class FasilitasController extends Controller
 {
+	public $input_nomor_bpjs;
 
 	public function __construct(){
         $this->middleware('redirectBackIfIdAntrianNotFound', ['only' => ['prosesAntrian']]);
+		$this->input_nomor_bpjs = Input::get('nomor_bpjs');
 	}
 	
     public function antrian_pasien(){
@@ -260,6 +262,7 @@ class FasilitasController extends Controller
 		if ( is_null( $antrians ) ) {
 			$antrian                   = new Antrian;
 			$antrian->nomor            = 1 ;
+			$antrian->nomor_bpjs       = $this->input_nomor_bpjs;
 			$antrian->jenis_antrian_id = $id ;
 			$antrian->save();
 
@@ -267,6 +270,7 @@ class FasilitasController extends Controller
 			$antrian_terakhir          = $antrians->nomor + 1;
 			$antrian                   = new Antrian;
 			$antrian->nomor            = $antrian_terakhir ;
+			$antrian->nomor_bpjs       = $this->input_nomor_bpjs;
 			$antrian->jenis_antrian_id = $id ;
 			$antrian->save();
 		}
