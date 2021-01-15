@@ -223,7 +223,7 @@ class BayarGajiController extends Controller
 	}
 
 	public function gajiDokterGigiEdit($id){
-		$gaji_gigi = GajiGigi::find($id);
+		$gaji_gigi = BayarGaji::find($id);
 		return view('pengeluarans.bayar_dokter_gigi_edit', compact('gaji_gigi'));
 	}
 
@@ -255,7 +255,7 @@ class BayarGajiController extends Controller
 
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $this->bayar->id; // id referensi yang baru dibuat
-		$jurnal->jurnalable_type = 'App\GajiGigi';
+		$jurnal->jurnalable_type = 'App\BayarGaji';
 		$jurnal->coa_id          = 610000; // biaya operasional gaji dokter gigi
 		$jurnal->debit           = 1;
 		$jurnal->nilai           = Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus;
@@ -265,7 +265,7 @@ class BayarGajiController extends Controller
 		
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $this->bayar->id;// id referensi yang baru dibuat
-		$jurnal->jurnalable_type = 'App\GajiGigi';
+		$jurnal->jurnalable_type = 'App\BayarGaji';
 		$jurnal->coa_id          = $this->input_sumber_uang_id; // Kas di tangan 110004, Kas di kasir 110000,
 		$jurnal->debit           = 0;
 		$jurnal->nilai           = Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus - $this->perhitunganPph_ini['pph21'];
@@ -275,7 +275,7 @@ class BayarGajiController extends Controller
 
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $this->bayar->id;// id referensi yang baru dibuat
-		$jurnal->jurnalable_type = 'App\GajiGigi';
+		$jurnal->jurnalable_type = 'App\BayarGaji';
 		$jurnal->coa_id          = 200004;
 		$jurnal->debit           = 0;
 		$jurnal->nilai           = $this->perhitunganPph_ini['pph21'];
@@ -313,7 +313,7 @@ class BayarGajiController extends Controller
 
 		Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus                 = Yoga::clean( Input::get('nilai') );
 
-		$gaji                  = GajiGigi::find($id);
+		$gaji                  = BayarGaji::find($id);
 		$gaji->staf_id         = Input::get('staf_id');
 		$gaji->petugas_id      = Input::get('petugas_id');
 		$gaji->nilai           = Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus;
@@ -324,14 +324,14 @@ class BayarGajiController extends Controller
 		$gaji->updated_at      = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 		$confirm               = $gaji->save();
 
-		JurnalUmum::where('jurnalable_type', 'App\GajiGigi')
+		JurnalUmum::where('jurnalable_type', 'App\BayarGaji')
 				->where('jurnalable_id', $id)
 				->delete();
 
 		if ($confirm) {
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $this->bayar->id; // id referensi yang baru dibuat
-			$jurnal->jurnalable_type = 'App\GajiGigi';
+			$jurnal->jurnalable_type = 'App\BayarGaji';
 			$jurnal->coa_id          = 610000; // biaya operasional gaji dokter gigi
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus;
@@ -341,7 +341,7 @@ class BayarGajiController extends Controller
 			
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $this->bayar->id;// id referensi yang baru dibuat
-			$jurnal->jurnalable_type = 'App\GajiGigi';
+			$jurnal->jurnalable_type = 'App\BayarGaji';
 			$jurnal->coa_id          = Input::get('sumber_coa_id'); // Kas di tangan 110004, Kas di kasir 110000, 
 			$jurnal->debit           = 0;
 			$jurnal->nilai           = Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus;
