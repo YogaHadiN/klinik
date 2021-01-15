@@ -423,11 +423,12 @@ class BayarGajiController extends Controller
 		if ($validator->fails()){
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+
 		$this->bayar = $this->inputBayarGajiDanPph();
 		$jurnals     = $this->collectJurnal();
 		$pph         = $this->pph21Data();
 
-			// tahun dihitung adalah tahun dimana dokter mulai bekerja
+		// tahun dihitung adalah tahun dimana dokter mulai bekerja
 		DB::beginTransaction();
 		try {
 			JurnalUmum::insert($jurnals);
@@ -894,7 +895,7 @@ class BayarGajiController extends Controller
 				];
 			}
 			//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
-		} else if(Yoga::clean($this->input_gaji_pokok) + $this->input_bonus  < $hutang){
+		} else if(Yoga::clean($this->input_gaji_pokok) + $this->input_bonus  < $this->input_hutang){
 			//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
 			$jurnals[]             = [
 				'jurnalable_id'   => $this->bayar->id,

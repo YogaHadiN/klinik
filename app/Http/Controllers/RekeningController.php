@@ -259,6 +259,7 @@ class RekeningController extends Controller
 		$total_sudah_dibayar = 0;
 
 
+
 		foreach ($rekening->pembayaran_asuransi->piutang_dibayar as $piutang) {
 			$total_sudah_dibayar   += $piutang->pembayaran;
 			$total_tunai   += $piutang->periksa->tunai;

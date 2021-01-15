@@ -5,3 +5,6 @@ CREATE TABLE data_duplikats(
   created_at TIMESTAMP NOT NULL,
   PRIMARY KEY(id)
 );
+
+
+delete from bayar_gajis where id = 2188;
