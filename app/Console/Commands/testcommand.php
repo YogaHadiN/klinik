@@ -140,6 +140,46 @@ class testcommand extends Command
 			]
 		]);
 	}
+
+
+    private function apiBPJS()
+    {
+
+		$uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/dokter/0/13"; //url web service bpjs;
+		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/provider/0/3"; //url web service bpjs; */
+		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/peserta/0001183422677"; //url web service bpjs; */
+		$consID 	= "27802"; //customer ID anda
+		$secretKey 	= "6nNF409D69"; //secretKey anda
+
+		$pcareUname = "klinik_jatielok"; //username pcare
+		$pcarePWD 	= "*Bpjs2020"; //password pcare anda
+		$kdAplikasi	= "095"; //kode aplikasi
+
+		$stamp		= time();
+		$data 		= $consID.'&'.$stamp;
+
+		$signature = hash_hmac('sha256', $data, $secretKey, true);
+		$encodedSignature = base64_encode($signature);	
+		$encodedAuthorization = base64_encode($pcareUname.':'.$pcarePWD.':'.$kdAplikasi);	
+
+		$headers = array( 
+					"Accept: application/json", 
+					"X-cons-id:".$consID, 
+					"X-timestamp: ".$stamp, 
+					"X-signature: ".$encodedSignature, 
+					"X-authorization: Basic " .$encodedAuthorization 
+				); 
+
+		$ch = curl_init($uri);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+		$data = curl_exec($ch);
+		curl_close($ch);
+		dd($data);
+		/* return $data; */
+	}
 	private function errorLog(){
 		DB::statement("delete from coas where id in (select co.id from coas as co left join jurnal_umums as ju on ju.coa_id = co.id where ju.coa_id is null and co.id like '12%')");
 		DB::statement("delete from coas where id in (select co.id from coas as co left join jurnal_umums as ju on ju.coa_id = co.id where ju.coa_id is null and co.id like '10%')");
