@@ -528,86 +528,58 @@ class PolisController extends Controller
 		$huruf         = strtolower(str_split($nomor_antrian)[0]);
 		$angka         = substr($nomor_antrian, 1);
 
-
 		$result = [];
+		$result[] =	'nomorantrian.mp3';
 		if ( (int)$angka < 12 || $angka == '100' ) {
-			$result = [
-				$huruf . '.mp3',
-				(int) $angka . '.mp3',
-				'silahkanmasuk.mp3'
-			];
+			$result[] = $huruf . '.mp3';
+			$result[] = (int) $angka . '.mp3';
 		} else if ( (int) $angka % 100 == 0 ) {
-			$angka  = str_split($angka)[0];
-			$result = [
-				(int) $angka . '.mp3',
-				'ratus.mp3',
-				'silahkanmasuk.mp3'
-			];
+			$angka    = str_split($angka)[0];
+			$result[] = (int) $angka . '.mp3';
+			$result[] = 'ratus.mp3';
 		} else if ( (int)$angka < 20  ) {
-			$angka = substr($angka, 1);
-			$result = [
-				$huruf . '.mp3',
-				(int) $angka . '.mp3',
-				'belas.mp3',
-				'silahkanmasuk.mp3'
-			];
+			$angka    = substr($angka, 1);
+			$result[] = $huruf . '.mp3';
+			$result[] = (int) $angka . '.mp3';
+			$result[] = 'belas.mp3';
 		} else if ( (int)$angka < 100  ) {
 			$angka = str_split($angka, 1);
 			if ($angka[1] != '0') {
-				$result = [
-					$huruf . '.mp3',
-					(int) $angka[0] . '.mp3',
-					'puluh.mp3',
-					(int) $angka[1] . '.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] = $huruf . '.mp3';
+				$result[] = (int) $angka[0] . '.mp3';
+				$result[] = 'puluh.mp3';
+				$result[] = (int) $angka[1] . '.mp3';
 			} else {
-				$result = [
-					$huruf . '.mp3',
-					(int) $angka[0] . '.mp3',
-					'puluh.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] =	$huruf . '.mp3';
+				$result[] =	(int) $angka[0] . '.mp3';
+				$result[] =	'puluh.mp3';
 			}
-
 		} else if ( (int)$angka < 112  ) {
-			$angka = substr($angka, 1);
-			$result = [
-				$huruf . '.mp3',
-				'100.mp3',
-				(int) $angka . '.mp3',
-				'silahkanmasuk.mp3'
-			];
+			$angka    = substr($angka, 1);
+			$result[] = $huruf . '.mp3';
+			$result[] = '100.mp3';
+			$result[] = (int) $angka . '.mp3';
 		} else if ( (int)$angka < 120  ) {
 			$angka = substr($angka, 1);
 			$angka = str_split($angka);
-			$result = [
-				$huruf . '.mp3',
-				'100.mp3',
-				(int) $angka[1] . '.mp3',
-				'belas.mp3',
-				'silahkanmasuk.mp3'
-			];
+			$result[] =$huruf . '.mp3';
+			$result[] ='100.mp3';
+			$result[] =(int) $angka[1] . '.mp3';
+			$result[] ='belas.mp3';
 		} else if ( (int)$angka < 200  ) {
 			$angka = substr($angka, 1);
 			$angka = str_split($angka);
 			if($angka[1] != '0'){
-				$result = [
-					$huruf . '.mp3',
-					'100.mp3',
-					(int) $angka[0] . '.mp3',
-					'puluh.mp3',
-					(int) $angka[1] . '.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] =	$huruf . '.mp3';
+				$result[] =	'100.mp3';
+				$result[] =	(int) $angka[0] . '.mp3';
+				$result[] ='puluh.mp3';
+				$result[] =	(int) $angka[1] . '.mp3';
 			} else {
-				$result = [
-					$huruf . '.mp3',
-					'100.mp3',
-					(int) $angka[0] . '.mp3',
-					'puluh.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] =	$huruf . '.mp3';
+				$result[] =	'100.mp3';
+				$result[] =	(int) $angka[0] . '.mp3';
+				$result[] =	'puluh.mp3';
 			}
 		} else if( (int)$angka < 999  ) {
 			$angka = str_split($angka);
@@ -615,48 +587,38 @@ class PolisController extends Controller
 				$angka[1] == '0' ||
 				$angka[1] == '1'  &&  (int)$angka[2] < 2 
 			){
-				$result = [
-					$huruf . '.mp3',
-					(int) $angka[0] . '.mp3',
-					'ratus.mp3',
-					(int) ($angka[1] . $angka[2]) . '.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] =	$huruf . '.mp3';
+				$result[] =	(int) $angka[0] . '.mp3';
+				$result[] =	'ratus.mp3';
+				$result[] =	(int) ($angka[1] . $angka[2]) . '.mp3';
 			} else if(
 				(int)$angka[1] > 0 &&
 				$angka[2] == '0'
 			) {
-				$result = [
-					$huruf . '.mp3',
-					(int) $angka[0] . '.mp3',
-					'ratus.mp3',
-					(int) $angka[1] . '.mp3',
-					'puluh.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] =	$huruf . '.mp3';
+				$result[] =	(int) $angka[0] . '.mp3';
+				$result[] =	'ratus.mp3';
+				$result[] =	(int) $angka[1] . '.mp3';
+				$result[] =	'puluh.mp3';
 			} else if(
 			   	$angka[1] == '1'
 			) {
-				$result = [
-					$huruf . '.mp3',
-					(int) $angka[0] . '.mp3',
-					'ratus.mp3',
-					(int) $angka[2] . '.mp3',
-					'belas.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] =	$huruf . '.mp3';
+				$result[] =	(int) $angka[0] . '.mp3';
+				$result[] =	'ratus.mp3';
+				$result[] =	(int) $angka[2] . '.mp3';
+				$result[] =	'belas.mp3';
 			} else {
-				$result = [
-					$huruf . '.mp3',
-					(int) $angka[0] . '.mp3',
-					'ratus.mp3',
-					(int) $angka[1] . '.mp3',
-					'puluh.mp3',
-					(int) $angka[2] . '.mp3',
-					'silahkanmasuk.mp3'
-				];
+				$result[] =	$huruf . '.mp3';
+				$result[] =	(int) $angka[0] . '.mp3';
+				$result[] =	'ratus.mp3';
+				$result[] =	(int) $angka[1] . '.mp3';
+				$result[] =	'puluh.mp3';
+				$result[] =	(int) $angka[2] . '.mp3';
 			}
 		}
+		$result[] =	'silahkanmasuk.mp3';
+		$result[] = 'ruangperiksasatu.mp3';
 		return $result;
 	}
 	public function panggilPasienAjax(){
