@@ -29,6 +29,7 @@ class PasiensController extends Controller
 	public $input_nama_ayah;
 	public $input_nama_ibu;
 	public $input_nama;
+	public $input_panggilan;
 	public $input_nama_peserta;
 	public $input_nomor_asuransi;
 	public $input_nomor_ktp;
@@ -53,6 +54,7 @@ class PasiensController extends Controller
 		$this->input_alamat              = Input::get('alamat');
 		$this->input_asuransi_id         = $this->asuransiId(Input::get('asuransi_id'));
 		$this->input_sex                 = Input::get('sex');
+		$this->input_panggilan           = Input::get('panggilan');
 		$this->input_jenis_peserta       = Input::get('jenis_peserta');
 		$this->input_nama_ayah           = ucwords(strtolower(Input::get('nama_ayah')));;
 		$this->input_nama_ibu            = ucwords(strtolower(Input::get('nama_ibu')));;
@@ -120,6 +122,7 @@ class PasiensController extends Controller
 	}
 	
 	public function store(Request $request){
+		/* dd(Input::all()); */ 
 		$rules = [
 			"nama"      => "required",
 			"sex"       => "required",
@@ -138,7 +141,14 @@ class PasiensController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-		return $this->inputDataPasien();
+
+		$pasien = new Pasien;
+		$pasien = $this->inputDataPasien($pasien);
+		$ap     = $this->inputDataAntrianPoli($pasien);
+
+		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
+		return redirect('antrianpolis')
+			->withPesan($pesan);
 	}
 	
 	
@@ -260,34 +270,8 @@ class PasiensController extends Controller
 				$asuransi_id = Input::get('asuransi_id');
 			}
 
-			$pasien                 = Pasien::find($id);
-			$pasien->alamat         = Input::get('alamat');
-			$pasien->asuransi_id    = $asuransi_id;
-			$pasien->sex            = Input::get('sex');
-			$pasien->jenis_peserta  = Input::get('jenis_peserta');
-			$pasien->nama_ayah      = Input::get('nama_ayah');
-			$pasien->nama_ibu       = Input::get('nama_ibu');
-			$pasien->nama           = Input::get('nama');
-			$pasien->jangan_disms   = Input::get('jangan_disms');
-			$pasien->nama_peserta   = Input::get('nama_peserta');
-			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
-			$pasien->nomor_ktp      = Input::get('nomor_ktp');
-			if ( $asuransi_id == '32') {
-				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
-			}
-			$pasien->no_telp        = Input::get('no_telp');
-			if (!empty(Input::hasFile('image'))) {
-				$pasien->image      	= $pn->imageUploadWajah('img','image', $id);
-			}
-			if (Input::hasFile('bpjs_image')) {
-				$pasien->bpjs_image     = $pn->imageUpload('bpjs','bpjs_image', $id);
-			}
-			if (Input::hasFile('ktp_image')) {
-				$pasien->ktp_image      = $pn->imageUpload('ktp', 'ktp_image', $id);
-			}
-			$pasien->tanggal_lahir   = Yoga::datePrep(Input::get('tanggal_lahir'));
-			$pasien->save();
-
+			$pasien = Pasien::find($id);
+			$pasien = $this->inputDataPasien($pasien);
 
 			$antrian_id =  Input::get('antrian_id');
 			if ( !empty( $antrian_id ) ) {
@@ -345,8 +329,8 @@ class PasiensController extends Controller
 			'pasien'
 		));
 	}
-	public function inputDataPasien(){
-		$pasien                      = new Pasien;
+	public function inputDataPasien($pasien){
+
 		$pasien->alamat              = $this->input_alamat;
 		$pasien->asuransi_id         = $this->input_asuransi_id;
 		$pasien->sex                 = $this->input_sex;
@@ -354,6 +338,7 @@ class PasiensController extends Controller
 		$pasien->nama_ayah           = $this->input_nama_ayah;
 		$pasien->nama_ibu            = $this->input_nama_ibu;
 		$pasien->nama                = $this->input_nama;
+		$pasien->panggilan           = $this->input_panggilan;
 		$pasien->nama_peserta        = $this->input_nama_peserta;
 		$pasien->nomor_asuransi      = $this->input_nomor_asuransi;
 		$pasien->nomor_ktp           = $this->input_nomor_ktp;
@@ -367,19 +352,7 @@ class PasiensController extends Controller
 		$pasien->image               = $this->input_image;
 
 		$pasien->save();
-		$ap                    = new AntrianPolisController;
-		$ap->input_pasien_id   = $pasien->id;
-		$ap->input_asuransi_id = $pasien->asuransi_id;
-		$ap->input_antrian_id  = $this->input_antrian_id;
-
-		$ap->input_poli        = 'darurat';
-		$ap->input_tanggal     = date('Y-m-d');
-		$ap->input_jam         = date("H:i:s");
-		$ap                    = $ap->inputDataAntrianPoli();
-
-		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
-		return redirect('antrianpolis')
-			->withPesan($pesan);
+		return $pasien;
 	}
 
 	public function asuransiId($asu_id){
@@ -509,4 +482,16 @@ class PasiensController extends Controller
 		$query .= "AND prx.asuransi_id = 32";
 		return DB::select($query);
 	}
+	public function inputDataAntrianPoli($pasien){
+		$ap                    = new AntrianPolisController;
+		$ap->input_pasien_id   = $pasien->id;
+		$ap->input_asuransi_id = $pasien->asuransi_id;
+		$ap->input_antrian_id  = $this->input_antrian_id;
+
+		$ap->input_poli        = 'darurat';
+		$ap->input_tanggal     = date('Y-m-d');
+		$ap->input_jam         = date("H:i:s");
+		return $ap->inputDataAntrianPoli();
+	}
+	
 }

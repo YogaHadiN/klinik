@@ -53,19 +53,23 @@ Klinik Jati Elok | Peserta BPJS bulanan
 				<tr>
 					<th>ID</th>
 					<th>Tanggal</th>
-					<th>Nama File</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				@if($peserta_bpjs_bulanans->count() > 0)
-					@foreach($peserta_bpjs_bulanans as $p)
+				@if($peserta_bpjs_perbulans->count() > 0)
+					@foreach($peserta_bpjs_perbulans as $p)
 						<tr>
 							<td>{{ $p->id }}</td>
 							<td>{{ $p->created_at->format('d M Y')}}</td>
-							<td>{{ $p->nama_file }}</td>
-							<td nowrap class="autofit"> 
-								Action
+							<td> 
+								{!! Form::open(['url' => 'peserta_bpjs_perbulans/' .$p->id, 'method' => 'delete']) !!}
+									<a href="{{ url('peserta_bpjs/' . $p->nama_file) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
+									{!! Form::submit('Delete', [
+										'class'   => 'btn btn-danger btn-sm',
+										'onclick' => 'return confirm("Anda yakin mau menghapus ' . $p->id . '-' . $p->name.'?");return false;'
+									]) !!}
+								{!! Form::close() !!}
 							</td>
 						</tr>
 					@endforeach

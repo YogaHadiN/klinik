@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Input;
 use App\Saldo;
+use App\PesertaBpjsPerbulan;
 use App\Classes\Yoga;
 use App\Console\Commands\scheduleBackup;
 use App\Sms;
@@ -82,9 +83,19 @@ class KasirsController extends Controller
 		}
 
 		//
-		//jika quota Wablas kurang dari 1000 maka warning
+		//jika sudah tanggal 6 dan belum diupload daftar peserta bpjs bulan itu maka warning
 		//
-		$wablasWarning = 'primary';
+		//
+
+		$statusBpjsPerBulan   = 'primary';
+		$peserta_bpjs_perbulan = PesertaBpjsPerbulan::where('created_at', 'like', date('Y-m') . '%')->firstOrFail();
+
+		if ( date('d') > 5 && is_null( $peserta_bpjs_perbulan ) ) {
+			$statusBpjsPerBulan = 'warning';
+			$status             = 'warning';
+		}
+
+		$wablasWarning        = 'primary';
 		if( $quota < 1000 ){
 			$status = 'warning';
 			$wablasWarning = 'warning';
@@ -119,14 +130,25 @@ class KasirsController extends Controller
 			$wablasWarning = 'danger';
 		}
 
+		
+		//
+		//jika sudah diatas tanggal 11 dan belum diupload daftar peserta bpjs bulan itu maka fail
+		//
+		//
+		if ( date('d') >10 && is_null( $peserta_bpjs_perbulan ) ) {
+			$statusBpjsPerBulan = 'danger';
+			$status             = 'danger';
+		}
+
 		$saldos          = Saldo::with('staf')->latest()->paginate(20);
 
-
 		$jarak_hari =$this->countDay( $pasien_pertama_belum_dikirim  );
+
 
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
+			'statusBpjsPerBulan',
 			'vultrWarning',
 			'wablasWarning',
 			'mootaWarning',

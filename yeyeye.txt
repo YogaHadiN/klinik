@@ -6,8 +6,7 @@ CREATE TABLE data_duplikats(
   PRIMARY KEY(id)
 );
 
-
-CREATE TABLE peserta_bpjs_bulanans(
+CREATE TABLE peserta_bpjs_perbulans(
   id INT NOT NULL AUTO_INCREMENT,
   nama_file varchar(255),
   updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -16,6 +15,15 @@ CREATE TABLE peserta_bpjs_bulanans(
 );
 
 ALTER TABLE antrians ADD nomor_bpjs varchar(255);
+ALTER TABLE pasiens ADD prolanis_ht tinyint(1) not null default 0;
+ALTER TABLE pasiens ADD prolanis_dm tinyint(1) not null default 0;
+ALTER TABLE pasiens ADD panggilan varchar(255) not null;
+
+update pasiens set sex = 0 where sex = 'P';
+update pasiens set sex = 1 where sex = 'L';
+
+update pasiens set sex = 0 where nama like '%,ny' or nama like '%, ny';
+update pasiens set sex = 1 where nama like '%,tn' or nama like '%, tn';
 
 =========================================================================================
 CREATE TABLE admedika_perbulans(

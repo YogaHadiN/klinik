@@ -394,7 +394,14 @@ class FasilitasController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		$pc->input_antrian_id = $id;
-		return $pc->inputDataPasien();
+		$pasien = new Pasien;
+		$pasien = $pc->inputDataPasien($pasien);
+		$ap     = $this->inputDataAntrianPoli($pasien);
+
+		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
+		return redirect('antrianpolis')
+			->withPesan($pesan);
+
 	}
 	public function getTambahAntrian($id){
 		$antrian       = $this->antrianPost( $id );

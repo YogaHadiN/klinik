@@ -21,11 +21,15 @@
 			<div class="col-lg-6 col-md-6">
 				<div class="form-group @if($errors->has('sex'))has-error @endif">
 				  {!! Form::label('sex', 'Jenis Kelamin', ['class' => 'control-label']) !!}
-				{!! Form::select('sex',[null => '- jenis kelamin -' , 'L' => 'Laki-laki', 'P' => 'Perempuan'], null, ['class' => 'form-control required 
-					@if($rq)
-						rq
-					@endif
-				'])!!}
+					{!! Form::select('sex',[
+							null => '- jenis kelamin -' ,
+							'1'  => 'Laki-laki',
+							'0'  => 'Perempuan'
+						], null, ['class' => 'form-control required 
+						@if($rq)
+							rq
+						@endif
+					'])!!}
 				  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
 				</div>
 			</div>
@@ -43,19 +47,19 @@
 				 <a href="{{ url('pasiens/gabungkan/pasien/ganda') }}" target="_blank">Gabungkan</a> jika menemukan pasien  yagng dobel, tabel dengan latar warna merah adalah kemungkinan pasien duplikasi, gabungkan sebelum melanjutkan 
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered">
-							<thead>
-								<tr>
-									<th>Nama</th>
-									<th>Alamat</th>
-									<th>No Telp</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody id="ajax_container"></tbody>
-						</table>
-					</div>
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th>Nama</th>
+								<th>Alamat</th>
+								<th>No Telp</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody id="ajax_container"></tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="row">

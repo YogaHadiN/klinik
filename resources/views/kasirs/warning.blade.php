@@ -1,5 +1,4 @@
 @if( $status == 'danger' || $status == 'warning' )
-<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 	<div class="alert alert-warning" role="alert">
 		<h1>PERHATIAN!!</h1>
 		<div class="alert alert-info" role="alert">
@@ -15,9 +14,7 @@
 			Label Merah artinya kurang dari batas minimal
 		</div>
 	</div>
-</div>
 @endif
-<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 	<div class="panel panel-{{ $admedikaWarning }}">
 		<div class="panel-heading">
 			<h3 class="panel-title">Tagihan Admedika</h3>
@@ -45,20 +42,19 @@
 			<p>Maksmial 24 hari sudah harus dikirim</p>
 		</div>
 	</div>
-</div>
-<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
 	<div class="panel panel-{{ $mootaWarning }}">
 		<div class="panel-heading">
 			<h3 class="panel-title">Moota</h3>
 		</div>
 		<div class="panel-body">
 			<h3>Saldo Moota</h3>
-				<h1>{{ App\Classes\Yoga::buatrp( $moota_balance ) }}</h1>
-				<p>Saldo Moota harus diatas Rp. 10.000,- </p>
+			<h1>{{ App\Classes\Yoga::buatrp( $moota_balance ) }}</h1>
+			<p>Saldo Moota harus diatas Rp. 10.000,- </p>
 		</div>
 	</div>
-</div>
-<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+
 	<div class="panel panel-{{ $vultrWarning }}">
 		<div class="panel-heading">
 			<h3 class="panel-title">Vultr</h3>
@@ -66,11 +62,11 @@
 		<div class="panel-body">
 			<h3>Credit Vultr</h3>
 			<h1>$ {{ abs( $vultr['balance'] + $vultr['pending_charges'] ) }} </h1>
-				<p>Credit Vultr harus diatas $15</p>
+			<p>Credit Vultr harus diatas $15</p>
 		</div>
 	</div>
-</div>
-<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+
 	<div class="panel panel-{{ $wablasWarning }}">
 		<div class="panel-heading">
 			<h3 class="panel-title">Wablas</h3>
@@ -83,4 +79,16 @@
 			<p>expired harus diatas 3 hari</p>
 		</div>
 	</div>
-</div>
+
+
+	<div class="panel panel-{{ $statusBpjsPerBulan }}">
+		<div class="panel-heading">
+			<h3 class="panel-title">Peserta BPJS Perbulan</h3>
+		</div>
+		<div class="panel-body">
+			<h3>Peserta Bpjs Perbulan harus diupload paling lambat tanggal</h3>
+			<h1>10</h1>
+			<p>Upload <a href=" {{ url('peserta_bpjs_bulanans') }}" target="_blank">disini</a> </p>
+		</div>
+	</div>
+

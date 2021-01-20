@@ -95,7 +95,9 @@
 		</div>
 	</div>
 </div>
+<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 @include('kasirs.warning')
+</div>
 </div>
 {!! Form::close() !!}
 
