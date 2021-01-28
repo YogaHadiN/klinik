@@ -32,8 +32,8 @@
 				  {!! Form::label('sex', 'Jenis Kelamin', ['class' => 'control-label']) !!}
 					{!! Form::select('sex', array(
 						null        => '- Jenis Kelamin -',
-						'L'         => 'laki-laki',
-						'P'         => 'perempuan',
+						'1'         => 'laki-laki',
+						'0'         => 'perempuan',
 					), null, array('class' => 'form-control'))!!}
 				  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
 				</div>

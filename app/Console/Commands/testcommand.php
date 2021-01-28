@@ -2,6 +2,7 @@
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Outbox;
+use Carbon\Carbon;
 use App\Ht;
 use App\Dm;
 use App\User;
@@ -102,11 +103,13 @@ class testcommand extends Command
      */
     public function handle()
     {
+		dd( preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", '2001-12-28') );
+		/* dd( Carbon::createFromFormat('d-m-Y', '12/25/94') ); */
 		/* $this->testAsuransi(); */
 		/* $this->updatePC2020(); */
 		/* $this->resetPembayaranAsuransis(); */
 		/* $this->sederhanakanGaji(); */
-		$this->rppt();
+		/* $this->rppt(); */
 		/* $this->promoRapidTestCovid(); */
 		/* $this->testJurnalUmum(); */
 	}

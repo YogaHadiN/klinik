@@ -390,7 +390,7 @@
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
     WebCam -->
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <script src="{!! url('js/master.js') !!}"></script>
 	<script>

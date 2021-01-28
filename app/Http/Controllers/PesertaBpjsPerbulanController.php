@@ -6,7 +6,10 @@ use App\PesertaBpjsPerbulan;
 use App\Rules\ExceRule;
 use Input;
 use Auth;
+use Excel;
 use App\Classes\Yoga;
+use App\Pasien;
+use App\Imports\PesertaBpjsPerbulanImport;
 use DB;
 use Illuminate\Http\Request;
 
@@ -25,11 +28,34 @@ class PesertaBpjsPerbulanController extends Controller
         $peserta_bpjs_perbulan = PesertaBpjsPerbulan::find($id);
         return view('peserta_bpjs_perbulans.edit', compact('peserta_bpjs_perbulan'));
     }
-    public function store(Request $request){
-        /* dd(Input::all()); */ 
+
+    public function editDataPasien(Request $request){
         if ($this->valid( Input::all() )) {
             return $this->valid( Input::all() );
         }
+        $import = new PesertaBpjsPerbulanImport;
+        Excel::import($import, Input::file('nama_file'));
+        $data   = $import->data;
+
+        $ht = $data['ht'];
+        $dm = $data['dm'];
+
+        $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
+        $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
+
+        return view('peserta_bpjs_perbulans.edit_data_pasien', compact(
+            'ht',
+            'dm'
+        ));
+
+    }
+
+    public function store(Request $request){
+        if ($this->valid( Input::all() )) {
+            return $this->valid( Input::all() );
+        }
+
+
         $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
 
@@ -125,5 +151,33 @@ class PesertaBpjsPerbulanController extends Controller
 			
 		}
     }
+    public function updateDataPasien(){
+        $id       = Input::get('id');
+        $nama     = Input::get('nama');
+        $nama_tab = Input::get('nama_tab');
+        $sex      = strtolower(Input::get('jenis_kelamin')) == 'laki-laki' ? '1' : '0';
+
+        if ( !empty($id) ) {
+            $pasien                   = Pasien::find($id);
+            $pasien->nama             = $nama ;
+            $pasien->nama_peserta     = $nama ;
+            $pasien->sex              = $sex ;
+            if ( $nama_tab           == 'ht' ) {
+                $pasien->prolanis_ht  = 1;
+            }
+            if ( $nama_tab           == 'dm' ) {
+                $pasien->prolanis_dm  = 1;
+            }
+            $pasien->save();
+            if ( $pasien->save()) {
+                return '1';
+            } else {
+                return '0';
+            }
+        } else {
+            return '0';
+        }
+    }
+    
     
 }

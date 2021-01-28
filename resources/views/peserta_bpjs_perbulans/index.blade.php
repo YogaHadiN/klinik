@@ -25,7 +25,7 @@ Klinik Jati Elok | Peserta BPJS bulanan
 					</div>
 					<div class="panel-body">
 						{!! Form::open([
-							'url'    => 'peserta_bpjs_perbulans',
+							'url'    => 'peserta_bpjs_perbulans/editDataPasien',
 							"class"  => "m-t",
 							"role"   => "form",
 							"method" => "post",

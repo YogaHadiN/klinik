@@ -2924,7 +2924,12 @@ function validatePass(){
       }
     });
     if (!pass) {
-		swal('Oops',string + ' tidak boleh dikosongkan', 'error' );
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text:string + ' tidak boleh dikosongkan'
+        });
+
         $('.rq').each(function(index, el) {
           if ($(this).val() == '') {
             $(this).focus();

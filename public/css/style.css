@@ -5125,3 +5125,7 @@ table.tabelTerapi tr td {
     overflow-wrap: break-word;
     background-color: red;
 }
+.autofit {
+    width: 1%;
+    white-space: nowrap;
+}
