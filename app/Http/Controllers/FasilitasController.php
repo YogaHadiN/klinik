@@ -395,8 +395,9 @@ class FasilitasController extends Controller
 		}
 		$pc->input_antrian_id = $id;
 		$pasien = new Pasien;
+		$pasien->id = Yoga::customId('App\Pasien');
 		$pasien = $pc->inputDataPasien($pasien);
-		$ap     = $this->inputDataAntrianPoli($pasien);
+		$ap     = $pc->inputDataAntrianPoli($pasien);
 
 		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		return redirect('antrianpolis')

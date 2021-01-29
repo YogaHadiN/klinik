@@ -15,63 +15,63 @@
 @stop
 @section('content') 
 <div class="row hide">
-            <div class="col-lg-3">
-                <a href="{{ url('antrianpolis')}}">
-                <div class="widget style1 blue-bg btn-success">
-                        <div class="row">
-                            <div class="col-xs-4 text-center">
-                                <i class="fa fa-laptop fa-5x"></i>
-                            </div>
-                            <div class="col-xs-8 text-right">
-                                <span> Nurse Station </span>
-                                <h2 class="font-bold">{!! $nursestation->count() !!}</h2>
-                            </div>
-                        </div>
-                </div></a>
+<div class="col-lg-3">
+    <a href="{{ url('antrianpolis')}}">
+    <div class="widget style1 blue-bg btn-success">
+            <div class="row">
+                <div class="col-xs-4 text-center">
+                    <i class="fa fa-laptop fa-5x"></i>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <span> Nurse Station </span>
+                    <h2 class="font-bold">{!! $nursestation->count() !!}</h2>
+                </div>
             </div>
-            <div class="col-lg-3">
-                <a href="{{ url('antriankasirs')}}">
-                <div class="widget style1 lazur-bg btn-info">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <i class="fa fa-calculator fa-5x"></i>
-                        </div>
-                        <div class="col-xs-8 text-right">
-                            <span> Antrian Kasir </span>
-                            <h2 class="font-bold">{!! $antriankasir->count() !!}</h2>
-                        </div>
-                    </div>
-                </div></a>
+    </div></a>
+</div>
+<div class="col-lg-3">
+    <a href="{{ url('antriankasirs')}}">
+    <div class="widget style1 lazur-bg btn-info">
+        <div class="row">
+            <div class="col-xs-4">
+                <i class="fa fa-calculator fa-5x"></i>
             </div>
-            <div class="col-lg-3">
-                <a href="{{ url('fakturbelanjas')}}">
-                <div class="widget style1 yellow-bg btn-warning">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <i class="fa fa-shopping-cart fa-5x"></i>
-                        </div>
-                        <div class="col-xs-8 text-right">
-                            <span> Antrian Belanja </span>
-                            <h2 class="font-bold">{!! $antrianbelanja !!}</h2>
-                        </div>
-                    </div>
-                </div></a>
-            </div>
-            <div class="col-lg-3">
-                <a href="{{ url('pasiens')}}">
-                <div class="widget style1 btn-primary">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <i class="fa fa-group fa-5x"></i>
-                        </div>
-                        <div class="col-xs-8 text-right">
-                            <span> Semua Pasien </span>
-                            <h2 class="font-bold">{!! App\Pasien::count() !!}</h2>
-                        </div>
-                    </div>
-                </div></a>
+            <div class="col-xs-8 text-right">
+                <span> Antrian Kasir </span>
+                <h2 class="font-bold">{!! $antriankasir->count() !!}</h2>
             </div>
         </div>
+    </div></a>
+</div>
+<div class="col-lg-3">
+    <a href="{{ url('fakturbelanjas')}}">
+    <div class="widget style1 yellow-bg btn-warning">
+        <div class="row">
+            <div class="col-xs-4">
+                <i class="fa fa-shopping-cart fa-5x"></i>
+            </div>
+            <div class="col-xs-8 text-right">
+                <span> Antrian Belanja </span>
+                <h2 class="font-bold">{!! $antrianbelanja !!}</h2>
+            </div>
+        </div>
+    </div></a>
+</div>
+<div class="col-lg-3">
+    <a href="{{ url('pasiens')}}">
+    <div class="widget style1 btn-primary">
+        <div class="row">
+            <div class="col-xs-4">
+                <i class="fa fa-group fa-5x"></i>
+            </div>
+            <div class="col-xs-8 text-right">
+                <span> Semua Pasien </span>
+                <h2 class="font-bold">{!! App\Pasien::count() !!}</h2>
+            </div>
+        </div>
+    </div></a>
+</div>
+</div>
 <div class="row hide">
     <div class="col-lg-3">
         <a href="{{ url('ruangperiksa/umum')}}">
@@ -218,6 +218,46 @@
 						<table class="table table-condensed text-center">
 							<tbody>
 								<tr>
+									<td><h3>RPPT DM Berobat</h3></td>
+									<td><h3>DM Terkendali</h3></td>
+								</tr>
+								<tr>
+									<td><h1> {{ $jumlah_pasien_lama }}</h1></td>
+									<td><h1> {{ $persen_pasien_lama }} % </h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="alert alert-success">
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
+									<td><h3>Jumlah Pasien Baru</h3></td>
+									<td><h3>Persen Pasien Baru</h3></td>
+								</tr>
+								<tr>
+									<td><h1> {{ $jumlah_pasien_baru }}</h1></td>
+									<td><h1> {{ $persen_pasien_baru }} % </h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+        <div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="alert alert-warning">
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
 									<td><h3>Jumlah Pasien Lama</h3></td>
 									<td><h3>Persen Pasien Lama</h3></td>
 								</tr>
@@ -232,7 +272,7 @@
 				</div>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="alert alert-success">
+				<div class="alert alert-warning">
 					<div class="table-responsive">
 						<table class="table table-condensed text-center">
 							<tbody>
