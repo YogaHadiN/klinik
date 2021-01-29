@@ -222,8 +222,8 @@
 									<td><h3>DM Terkendali</h3></td>
 								</tr>
 								<tr>
-									<td><h1> {{ $jumlah_pasien_lama }}</h1></td>
-									<td><h1> {{ $persen_pasien_lama }} % </h1></td>
+									<td><h1> {{ $dm_berobat }}</h1></td>
+									<td><h1> {{ $dm_terkendali }} % </h1></td>
 								</tr>
 							</tbody>
 						</table>
@@ -237,12 +237,12 @@
 						<table class="table table-condensed text-center">
 							<tbody>
 								<tr>
-									<td><h3>Jumlah Pasien Baru</h3></td>
-									<td><h3>Persen Pasien Baru</h3></td>
+									<td><h3>RPPT HT Berobat</h3></td>
+									<td><h3>HT Terkendali</h3></td>
 								</tr>
 								<tr>
-									<td><h1> {{ $jumlah_pasien_baru }}</h1></td>
-									<td><h1> {{ $persen_pasien_baru }} % </h1></td>
+									<td><h1> {{ $dm_berobat }}</h1></td>
+									<td><h1> {{ $dm_terkendali }} % </h1></td>
 								</tr>
 							</tbody>
 						</table>

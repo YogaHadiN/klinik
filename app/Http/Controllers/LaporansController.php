@@ -6,6 +6,7 @@ use Input;
 
 use App\Http\Requests;
 use App\AkunBank;
+use App\PesertaBpjsPerbulan;
 use App\Config;
 use App\Asuransi;
 use App\AntrianPeriksa;
@@ -126,7 +127,7 @@ class LaporansController extends Controller
 	
 
 	public function index() {
-		$akun_banks = AkunBank::all();
+		$akun_banks     = AkunBank::all();
 		$asuransis      = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
 		$antriankasir   = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
@@ -135,7 +136,7 @@ class LaporansController extends Controller
 		$auth           = Auth::user();
 		$raklist        = Yoga::rakList();
 		
-		$hariinis = $this->hariinis( date('Y-m-d') );
+		$hariinis       = $this->hariinis( date('Y-m-d') );
 
 		$bulanIni            = date('Y-m');
 		$id_bulan_ini        = date('ym');
@@ -212,12 +213,74 @@ class LaporansController extends Controller
 									->where('pcare_submit', '0')
 									->count();;
 
+		/* $rppt = PesertaBpjsPerbulan::latest()->first(); */
+
+		$query  = "SELECT ";
+		$query .= "count(prx.id),";
+		$query .= "prx.sistolik,";
+		$query .= "prx.diastolik,";
+		$query .= "psn.nama,";
+		$query .= "psn.prolanis_dm,";
+		$query .= "psn.prolanis_ht,";
+		$query .= "prx.pemeriksaan_penunjang ";
+		$query .= "FROM periksas as prx ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "WHERE tanggal like '" . date('Y-m'). "%'";
+		$query .= "AND (psn.prolanis_dm=1 or psn.prolanis_ht = 1) ";
+		$query .= "GROUP BY psn.id ";
+		$data = DB::select($query);
+
+
+		$rppt = PesertaBpjsPerbulan::latest()->first();
+
+
+		$ht_berobat    = 0;
+		$dm_berobat    = 0;
+		$ht_terkendali = 0;
+		$dm_terkendali = 0;
+		foreach ($data as $d) {
+			if ( $d->prolanis_ht == '1' ) {
+				$ht_berobat++;
+				if ($d->sistolik < 139) {
+					$ht_terkendali++;
+				}
+			}
+			if ( $d->prolanis_dm == '1' ) {
+				$dm_berobat++;
+			}
+		}
+
+		$ht_terkendali = round($ht_terkendali / $rppt->jumlah_ht * 100);
+
+
+		$query  = "SELECT ";
+		$query .= "psn.nama, ";
+		$query .= "psn.id as pasien_id, ";
+		$query .= "CAST(trx.keterangan_pemeriksaan AS UNSIGNED) as keterangan_pemeriksaan ";
+		$query .= "FROM transaksi_periksas as trx ";
+		$query .= "JOIN periksas as prx on prx.id = trx.periksa_id ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "WHERE trx.jenis_tarif_id = '116' ";
+		$query .= "AND psn.prolanis_dm=1 ";
+		$query .= "AND prx.tanggal like '" . date("Y-m"). "%' ";
+		$query .= "AND keterangan_pemeriksaan < 130 ";
+		$query .= "AND keterangan_pemeriksaan >= 80 ";
+		$query .= "GROUP BY psn.id ";
+		$data = DB::select($query);
+
+		$dm_terkendali = round(count($data) / $rppt->jumlah_dm * 100);
+
 		return view('laporans.index', compact(
 			'asuransis',
 			'antrianperiksa',
+			'rppt',
 			'antriankasir',
 			'antrianbelanja',
 			'hariinis',
+			'ht_berobat',
+			'dm_berobat',
+			'ht_terkendali',
+			'dm_terkendali',
 			'jumlah_pasien_lama',
 			'persen_pasien_lama',
 			'jumlah_pasien_baru',
