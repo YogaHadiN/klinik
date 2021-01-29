@@ -2,6 +2,7 @@
 /public/hot
 /public/img
 /public/berkas
+/public/peserta_bpjs
 /public/storage
 /storage/*.key
 /vendor
