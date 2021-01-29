@@ -19,6 +19,12 @@ ALTER TABLE pasiens ADD prolanis_ht tinyint(1) not null default 0;
 ALTER TABLE pasiens ADD prolanis_dm tinyint(1) not null default 0;
 ALTER TABLE pasiens ADD panggilan varchar(255) not null;
 ALTER TABLE pasiens DROP COLUMN email;
+ALTER TABLE stafs DROP COLUMN dibantu;
+ALTER TABLE stafs DROP COLUMN user_id;
+ALTER TABLE stafs DROP COLUMN ada_penghasilan_lain;
+ALTER TABLE stafs DROP COLUMN notified;
+ALTER TABLE stafs DROP COLUMN suami_bekerja;
+ALTER TABLE stafs DROP COLUMN surat_nikah;
 
 update pasiens set sex = 0 where sex = 'P';
 update pasiens set sex = 1 where sex = 'L';

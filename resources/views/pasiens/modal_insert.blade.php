@@ -43,9 +43,9 @@
 				<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
 				  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
 				  @if (isset($pasien) && !empty( $pasien->tanggal_lahir ))
-					  {!! Form::text('tanggal_lahir', $pasien->tanggal_lahir->format('d-m-Y'), ['class' => 'form-control', 'id' => 'tanggal_lahir'])!!}
+					  {!! Form::text('tanggal_lahir', $pasien->tanggal_lahir->format('d-m-Y'), ['class' => 'form-control tanggal', 'id' => 'tanggal_lahir'])!!}
 				  @else
-					  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control', 'id' => 'tanggal_lahir'])!!}
+					  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control tanggal', 'id' => 'tanggal_lahir'])!!}
 				  @endif
 				  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 				</div>

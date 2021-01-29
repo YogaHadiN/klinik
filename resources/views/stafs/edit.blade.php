@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
-{{ env("NAMA_KLINIK") }} | edit Staf
+{{ env("NAMA_KLINIK") }} | Edit Staf
 
  @stop
  @section('head')
@@ -34,9 +34,6 @@
   ))!!}
 
    @include('stafs.form', [
-		'tanggal_mulai' => App\Classes\Yoga::updateDatePrep($staf->tanggal_mulai),
-		'tanggal_lulus' => App\Classes\Yoga::updateDatePrep($staf->tanggal_lulus),
-		'tanggal_lahir' => App\Classes\Yoga::updateDatePrep($staf->tanggal_lahir),
 		'image'         => $staf->image,
 		'ktp_image'     => $staf->ktp_image
    ])

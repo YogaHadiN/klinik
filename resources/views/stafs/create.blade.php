@@ -1,12 +1,11 @@
  @extends('layout.master')
 
  @section('title') 
-{{ env("NAMA_KLINIK") }} | sign Up
+{{ env("NAMA_KLINIK") }} | Create Staf
 
  @stop
  @section('page-title') 
- <h2>Sign Up
-</h2>
+ <h2>Create Staf</h2>
  <ol class="breadcrumb">
       <li>
           <a href="{{ url('laporans')}}">Home</a>
@@ -15,7 +14,7 @@
           <a href="{{ url('stafs')}}">Staf</a>
       </li>
       <li class="active">
-          <strong>Sign Up</strong>
+        <strong>Create Staf</strong>
       </li>
 </ol>
  @stop
@@ -29,9 +28,6 @@
 ))!!}
 
 @include('stafs.form', [
-  'tanggal_mulai' => null,
-  'tanggal_lulus' => null,
-  'tanggal_lahir' => null,
   'image'         => null,
   'ktp_image'     => null
 ])

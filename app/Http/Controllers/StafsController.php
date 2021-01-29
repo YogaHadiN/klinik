@@ -14,7 +14,6 @@ use App\Classes\Yoga;
 
 class StafsController extends Controller
 {
-	public $input_id;
 	public $input_alamat_domisili;
 	public $input_alamat_ktp;
 	public $input_email;
@@ -24,36 +23,42 @@ class StafsController extends Controller
 	public $input_nama;
 	public $input_no_hp;
 	public $input_no_telp;
-	public $input_ada_penghasilan_lain;
 	public $input_str;
 	public $input_menikah;
 	public $input_jumlah_anak;
 	public $input_npwp;
-	public $input_image;
+	public $input_sip;
+	public $input_nomor_rekening;
+	public $input_bank;
 	public $input_tanggal_lahir;
 	public $input_tanggal_lulus;
 	public $input_tanggal_mulai;
 	public $input_universitas_asal;
 
 	  public function __construct() {
-		$this->input_alamat_domisili      = Input::get('alamat_domisili');
-		$this->input_alamat_ktp           = Input::get('alamat_ktp');
-		$this->input_email                = Input::get('email');
-		$this->input_titel                = Input::get('titel');
-		$this->input_ktp                  = Input::get('ktp');
-		$this->input_jenis_kelamin        = Input::get('jenis_kelamin');
-		$this->input_nama                 = ucwords(strtolower(Input::get('nama')));
-		$this->input_no_hp                = Input::get('no_hp');
-		$this->input_no_telp              = Input::get('no_telp');
-		$this->input_ada_penghasilan_lain = Input::get('ada_penghasilan_lain');
-		$this->input_str                  = Input::get('str');
-		$this->input_menikah              = Input::get('menikah');
-		$this->input_jumlah_anak          = Input::get('jumlah_anak');
-		$this->input_npwp                 = Input::get('npwp');
-		$this->input_tanggal_lahir        = Yoga::datePrep( Input::get('tanggal_lahir') );
-		$this->input_tanggal_lulus        = Yoga::datePrep( Input::get('tanggal_lulus') );
-		$this->input_tanggal_mulai        = Yoga::datePrep( Input::get('tanggal_mulai') );
-		$this->input_universitas_asal     = Input::get('universitas_asal');
+		$this->input_nama             = ucwords(strtolower(Input::get('nama')));
+		$this->input_tanggal_lahir    = Input::get('tanggal_lahir');
+		$this->input_tanggal_lulus    = Input::get('tanggal_lulus');
+		$this->input_tanggal_mulai    = Input::get('tanggal_mulai');
+		$this->input_alamat_domisili  = Input::get('alamat_domisili');
+		$this->input_alamat_ktp       = Input::get('alamat_ktp');
+		$this->input_email            = Input::get('email');
+		$this->input_titel            = Input::get('titel');
+		$this->input_ktp              = Input::get('ktp');
+		$this->input_jenis_kelamin    = Input::get('jenis_kelamin');
+		$this->input_no_hp            = Input::get('no_hp');
+		$this->input_no_telp          = Input::get('no_telp');
+		$this->input_str              = Input::get('str');
+		$this->input_menikah          = Input::get('menikah');
+		$this->input_jumlah_anak      = Input::get('jumlah_anak');
+		$this->input_npwp             = Input::get('npwp');
+		$this->input_sip              = Input::get('sip');
+		$this->input_nomor_rekening   = Input::get('nomor_rekening');
+		$this->input_bank             = Input::get('bank');
+		$this->input_universitas_asal = Input::get('universitas_asal');
+
+
+
         $this->middleware('super', ['only' => ['delete']]);
         /* $this->middleware('admin', ['only' => ['update']]); */
     }
@@ -230,36 +235,38 @@ class StafsController extends Controller
 		
 	}
 	public function inputData($staf){
+		/* dd( $this->input_tanggal_lahir ); */
 		$staf->alamat_domisili      = $this->input_alamat_domisili;
 		$staf->alamat_ktp           = $this->input_alamat_ktp;
 		$staf->email                = $this->input_email;
 		$staf->titel                = $this->input_titel;
 		$staf->ktp                  = $this->input_ktp;
 		$staf->jenis_kelamin        = $this->input_jenis_kelamin;
-		if (is_null( $staf->id )) {
-			$staf->nama                 = $this->input_nama . ', ' . Input::get('titel');
-		} else {
-			$staf->nama                 = $this->input_nama;
-		}
 		$staf->nama                 = $this->input_nama;;
 		$staf->no_hp                = $this->input_no_hp;
 		$staf->no_telp              = $this->input_no_telp;
-		$staf->ada_penghasilan_lain = $this->input_ada_penghasilan_lain;
 		$staf->str                  = $this->input_str;
 		$staf->menikah              = $this->input_menikah;
 		$staf->jumlah_anak          = $this->input_jumlah_anak;
 		$staf->npwp                 = $this->input_npwp;
+		$staf->sip                 = $this->input_sip;
+		$staf->nomor_rekening       = $this->input_nomor_rekening  ;
+		$staf->bank                 = $this->input_bank            ;
+		/* dd(  $this->input_tanggal_lahir  ); */
+		$staf->tanggal_lahir        = Yoga::datePrep( $this->input_tanggal_lahir );
+		$staf->tanggal_lulus        = Yoga::datePrep( $this->input_tanggal_lulus );
+		$staf->tanggal_mulai        = Yoga::datePrep( $this->input_tanggal_mulai );
+		$staf->universitas_asal     = $this->input_universitas_asal;
+
+		$staf->save();
+
 		$staf->image                = $this->imageUpload('image', 'image', $staf);
 		$staf->ktp_image            = $this->imageUpload('ktp', 'ktp_image', $staf);
 		$staf->str_image            = $this->imageUpload('str', 'str_image', $staf);
 		$staf->sip_image            = $this->imageUpload('sip', 'sip_image', $staf);
 		$staf->gambar_npwp          = $this->imageUpload('npwp', 'gambar_npwp', $staf);
-		$staf->surat_nikah          = $this->imageUpload('surat_nikah', 'surat_nikah', $staf);
 		$staf->kartu_keluarga       = $this->imageUpload('kk', 'kartu_keluarga', $staf);
-		$staf->tanggal_lahir        = Yoga::datePrep( $this->input_tanggal_lahir );
-		$staf->tanggal_lulus        = Yoga::datePrep( $this->input_tanggal_lulus );
-		$staf->tanggal_mulai        = Yoga::datePrep( $this->input_tanggal_mulai );
-		$staf->universitas_asal     = $this->input_universitas_asal;
+
 		$staf->save();
 		return $staf;
 	}

@@ -7,6 +7,12 @@ use Session;
 use App\Classes\Yoga;
 
 class Staf extends Model{
+
+	protected $dates = [
+		'tanggal_lahir',
+		'tanggal_mulai',
+		'tanggal_lulus'
+	];
 	public $incrementing = false; 
 
 	public static function boot(){
@@ -18,6 +24,7 @@ class Staf extends Model{
 			}
 		});
 	}
+	//
 	// Add your validation rules here
 	public static $rules = [
 		'nama'            => 'required|unique:stafs,nama',
