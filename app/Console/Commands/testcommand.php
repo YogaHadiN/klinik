@@ -549,11 +549,5 @@ class testcommand extends Command
 	*
 	* @return void
 	*/
-	private function storePasien($param)
-	{
-	}
-	private function storePasien($param)
-	{
-	}
 	
 }
