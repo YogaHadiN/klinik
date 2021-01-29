@@ -212,44 +212,58 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="alert alert-success">
 					<div class="table-responsive">
 						<table class="table table-condensed text-center">
 							<tbody>
 								<tr>
+									<td><h3>Jumlah Prolanis DM</h3></td>
 									<td><h3>RPPT DM Berobat</h3></td>
 									<td><h3>DM Terkendali</h3></td>
+									<td><h3>RPPT DM</h3></td>
 								</tr>
 								<tr>
+									<td><h1> {{ $jumlah_prolanis_dm }}</h1></td>
 									<td><h1> {{ $dm_berobat }}</h1></td>
-									<td><h1> {{ $dm_terkendali }} % </h1></td>
+									<td><h1> {{ $dm_terkendali }} pasien</h1></td>
+									<td><h1> {{ $dm_terkendali_persen }} % </h1></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="alert alert-success">
-					<div class="table-responsive">
-						<table class="table table-condensed text-center">
-							<tbody>
-								<tr>
-									<td><h3>RPPT HT Berobat</h3></td>
-									<td><h3>HT Terkendali</h3></td>
-								</tr>
-								<tr>
-									<td><h1> {{ $dm_berobat }}</h1></td>
-									<td><h1> {{ $dm_terkendali }} % </h1></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					
-				</div>
-			</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="alert alert-success">
+                    <div class="table-responsive">
+                        <table class="table table-condensed text-center">
+                            <tbody>
+                                <tr>
+
+                                </tr>
+                                <tr>
+                                    <td><h3>Jumlah Prolanis HT</h3></td>
+                                    <td><h3>HT Berobat</h3></td>
+                                    <td><h3>HT Terkendali</h3></td>
+                                    <td><h3>RPPT HT</h3></td>
+                                </tr>
+                                <tr>
+                                    <td><h1> {{ $jumlah_prolanis_ht }}</h1></td>
+                                    <td><h1> {{ $ht_berobat }}</h1></td>
+                                    <td><h1> {{ $ht_terkendali }} pasien </h1></td>
+                                    <td><h1> {{ $ht_terkendali_persen }} % </h1></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
 		</div>
         <div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

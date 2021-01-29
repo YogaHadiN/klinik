@@ -238,6 +238,10 @@ class LaporansController extends Controller
 		$dm_berobat    = 0;
 		$ht_terkendali = 0;
 		$dm_terkendali = 0;
+
+		$jumlah_prolanis_dm = $rppt->jumlah_dm;
+		$jumlah_prolanis_ht = $rppt->jumlah_ht;
+
 		foreach ($data as $d) {
 			if ( $d->prolanis_ht == '1' ) {
 				$ht_berobat++;
@@ -250,7 +254,7 @@ class LaporansController extends Controller
 			}
 		}
 
-		$ht_terkendali = round($ht_terkendali / $rppt->jumlah_ht * 100);
+		$ht_terkendali_persen = round($ht_terkendali / $rppt->jumlah_ht * 100);
 
 
 		$query  = "SELECT ";
@@ -266,9 +270,9 @@ class LaporansController extends Controller
 		$query .= "AND keterangan_pemeriksaan < 130 ";
 		$query .= "AND keterangan_pemeriksaan >= 80 ";
 		$query .= "GROUP BY psn.id ";
-		$data = DB::select($query);
+		$dm_terkendali = count(DB::select($query));
 
-		$dm_terkendali = round(count($data) / $rppt->jumlah_dm * 100);
+		$dm_terkendali_persen = round($dm_terkendali / $rppt->jumlah_dm * 100);
 
 		return view('laporans.index', compact(
 			'asuransis',
@@ -279,8 +283,12 @@ class LaporansController extends Controller
 			'hariinis',
 			'ht_berobat',
 			'dm_berobat',
+			'jumlah_prolanis_dm',
+			'jumlah_prolanis_ht',
 			'ht_terkendali',
 			'dm_terkendali',
+			'ht_terkendali_persen',
+			'dm_terkendali_persen',
 			'jumlah_pasien_lama',
 			'persen_pasien_lama',
 			'jumlah_pasien_baru',
