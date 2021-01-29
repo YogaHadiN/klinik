@@ -36,8 +36,8 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
         $this->tanggal_lahir_hts = [];
         $this->ht_terkonfirmasi  = [];
         $this->dm_terkonfirmasi  = [];
-        $this->riwayat_dm        = [];
-        $this->riwayat_ht        = [];
+        $this->riwayat_dm        = 0;
+        $this->riwayat_ht        = 0;
     }
     
     public function collection(Collection $collection)
@@ -66,10 +66,12 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     private function kumpulkanRppt($c, $pasiens, $riwayat, $prolanis)
     {
         if ( !empty( $c[$riwayat]   ) ) {
+            $this->$riwayat++;
             $pasien_filtered  = [];
             $harus_konfirmasi = true;
             foreach ($pasiens as $p) {
-                if ( $p->tanggal_lahir ==  $this->excelToDate( $c['tanggal_lahir'] )  ) {
+                /* dd($this->excelToDate( $c['tanggal_lahir'] )); */
+                if ( $p->tanggal_lahir->format('Y-m-d') ==  $this->excelToDate( $c['tanggal_lahir'] )  ) {
                     if (str_contains($this->normalisasiString($p->nama), $this->normalisasiString($c['nama']))) {
                         $p->$prolanis    = 1;
                         $p->nama         = $c['nama'];

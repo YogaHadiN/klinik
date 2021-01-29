@@ -1,37 +1,5 @@
-CREATE TABLE data_duplikats(
-  id INT NOT NULL AUTO_INCREMENT,
-  no_telp varchar(255),
-  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-  created_at TIMESTAMP NOT NULL,
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE peserta_bpjs_perbulans(
-  id INT NOT NULL AUTO_INCREMENT,
-  nama_file varchar(255),
-  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-  created_at TIMESTAMP NOT NULL,
-  PRIMARY KEY(id)
-);
-
-ALTER TABLE antrians ADD nomor_bpjs varchar(255);
-ALTER TABLE pasiens ADD prolanis_ht tinyint(1) not null default 0;
-ALTER TABLE pasiens ADD prolanis_dm tinyint(1) not null default 0;
-ALTER TABLE pasiens ADD panggilan varchar(255) not null;
-ALTER TABLE pasiens DROP COLUMN email;
-ALTER TABLE stafs DROP COLUMN dibantu;
-ALTER TABLE stafs DROP COLUMN user_id;
-ALTER TABLE stafs DROP COLUMN ada_penghasilan_lain;
-ALTER TABLE stafs DROP COLUMN notified;
-ALTER TABLE stafs DROP COLUMN suami_bekerja;
-ALTER TABLE stafs DROP COLUMN surat_nikah;
-
-update pasiens set sex = 0 where sex = 'P';
-update pasiens set sex = 1 where sex = 'L';
-
-update pasiens set sex = 0 where nama like '%,ny' or nama like '%, ny';
-update pasiens set sex = 1 where nama like '%,tn' or nama like '%, tn';
-
+ALTER TABLE peserta_bpjs_perbulans ADD jumlah_dm int(11) not null default 0;
+ALTER TABLE peserta_bpjs_perbulans ADD jumlah_ht int(11) not null default 0;
 =========================================================================================
 CREATE TABLE admedika_perbulans(
   id INT NOT NULL AUTO_INCREMENT,

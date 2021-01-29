@@ -15,6 +15,17 @@ use Illuminate\Http\Request;
 
 class PesertaBpjsPerbulanController extends Controller
 {
+    public $jumlah_dm;
+    public $jumlah_ht;
+    /**
+     * @param 
+     */
+    public function __construct()
+    {
+        $this->jumlah_dm = 0;
+        $this->jumlah_ht = 0;
+    }
+    
     public function index(){
         $peserta_bpjs_perbulans = PesertaBpjsPerbulan::latest()->get();
         return view('peserta_bpjs_perbulans.index', compact(
@@ -46,6 +57,8 @@ class PesertaBpjsPerbulanController extends Controller
           ));
        }
         $data   = $import->data;
+        $this->jumlah_dm = $import->riwayat_dm;
+        $this->jumlah_ht = $import->riwayat_ht;
 
         $ht = $data['ht'];
         $dm = $data['dm'];
@@ -90,6 +103,8 @@ class PesertaBpjsPerbulanController extends Controller
 
     public function processData($peserta_bpjs_perbulan){
         $peserta_bpjs_perbulan->nama_file = $this->fileUpload('nama_file');
+        $peserta_bpjs_perbulan->jumlah_dm = $this->jumlah_dm;
+        $peserta_bpjs_perbulan->jumlah_ht = $this->jumlah_ht;
         $peserta_bpjs_perbulan->save();
 
         return $peserta_bpjs_perbulan;
