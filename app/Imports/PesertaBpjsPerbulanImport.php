@@ -24,6 +24,8 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     public $pasiens_hts;
     public $ht_terkonfirmasi;
     public $dm_terkonfirmasi;
+    public $riwayat_dm;
+    public $riwayat_ht;
 
     /**
      * @param 
@@ -32,8 +34,10 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     {
         $this->tanggal_lahir_dms = [];
         $this->tanggal_lahir_hts = [];
-        $this->ht_terkonfirmasi = [];
-        $this->dm_terkonfirmasi = [];
+        $this->ht_terkonfirmasi  = [];
+        $this->dm_terkonfirmasi  = [];
+        $this->riwayat_dm        = [];
+        $this->riwayat_ht        = [];
     }
     
     public function collection(Collection $collection)

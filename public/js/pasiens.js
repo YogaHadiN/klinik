@@ -1,4 +1,3 @@
-
 		var lewat_antrian = $('#memproses_antrian').length;
 		var antrian_id = $('#antrian_id').html();
 		antrian_id = $.trim(antrian_id);
@@ -370,13 +369,13 @@
 
             $.get(url, data, function(hasil) {
                 var MyArray = hasil.data;
+				console.log('MyArray');
+				console.log(MyArray);
                 var pages = hasil.pages;
                 var rows = hasil.rows;
                 var temp = "";
                  for (var i = 0; i < MyArray.length; i++) {
                     temp += "<tr";
-					 console.log(" MyArray[i].sudah_berobat_bulan_ini ");
-					 console.log( MyArray[i].sudah_berobat_bulan_ini );
 					if ( MyArray[i].sudah_berobat_bulan_ini ) {
 						temp += " class='info' ";
 					}
@@ -462,6 +461,7 @@
 			option_asuransi     += '<option value="0">Biaya Pribadi</option>';
 
 			var ID = $(control).closest('tr').find('td:first-child div').html();
+
 			var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
 
 			cekBPJSkontrol(ID, asuransi_id);

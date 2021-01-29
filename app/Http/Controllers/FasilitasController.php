@@ -333,7 +333,6 @@ class FasilitasController extends Controller
 			}
 
 			$apc = new AntrianPolisController;
-
 			$apc->input_antrian_id   = $id;
 			$ap = $apc->inputDataAntrianPoli();
 			DB::commit();
