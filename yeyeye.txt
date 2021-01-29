@@ -18,6 +18,7 @@ ALTER TABLE antrians ADD nomor_bpjs varchar(255);
 ALTER TABLE pasiens ADD prolanis_ht tinyint(1) not null default 0;
 ALTER TABLE pasiens ADD prolanis_dm tinyint(1) not null default 0;
 ALTER TABLE pasiens ADD panggilan varchar(255) not null;
+ALTER TABLE pasiens DROP COLUMN email;
 
 update pasiens set sex = 0 where sex = 'P';
 update pasiens set sex = 1 where sex = 'L';

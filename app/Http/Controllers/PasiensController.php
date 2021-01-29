@@ -43,6 +43,8 @@ class PasiensController extends Controller
 	public $input_bpjs_image;
 	public $input_ktp_image;
 	public $input_image;
+	public $input_prolanis_dm;
+	public $input_prolanis_ht;
 
 	public $dataIndexPasien;
 	public $dataCreatePasien;
@@ -50,6 +52,7 @@ class PasiensController extends Controller
 
    public function __construct()
     {
+
 		$ps                              = new Pasien;
 		$this->input_alamat              = Input::get('alamat');
 		$this->input_asuransi_id         = $this->asuransiId(Input::get('asuransi_id'));
@@ -58,21 +61,20 @@ class PasiensController extends Controller
 		$this->input_jenis_peserta       = Input::get('jenis_peserta');
 		$this->input_nama_ayah           = ucwords(strtolower(Input::get('nama_ayah')));;
 		$this->input_nama_ibu            = ucwords(strtolower(Input::get('nama_ibu')));;
-		$this->input_nama                = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
+		$this->input_nama                = ucwords(strtolower(Input::get('nama')));
 		$this->input_nama_peserta        = ucwords(strtolower(Input::get('nama_peserta')));;
 		$this->input_nomor_asuransi      = Input::get('nomor_asuransi');
 		$this->input_punya_asuransi      = Input::get('punya_asuransi');
-		$this->input_nomor_ktp           = Input::get('no_ktp');
+		$this->input_nomor_ktp           = Input::get('nomor_ktp');
 		$this->input_nomor_asuransi_bpjs = $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
 		$this->input_no_telp             = Input::get('no_telp');
 		$this->input_tanggal_lahir       = Yoga::datePrep(Input::get('tanggal_lahir'));
 		$this->input_jangan_disms        = Input::get('jangan_disms');
-		$this->input_id                  = Yoga::customId('App\Pasien');
 		$this->input_bpjs_image          = $ps->imageUpload('bpjs','bpjs_image', $this->input_id);
 		$this->input_ktp_image           = $ps->imageUpload('ktp','ktp_image', $this->input_id);
 		$this->input_image               = $ps->imageUploadWajah('img', 'image', $this->input_id);
-		$this->prolanis_dm               = [];
-		$this->prolanis_ht               = [];
+		$this->input_prolanis_dm               = Input::get('prolanis_dm');
+		$this->input_prolanis_ht               = Input::get('prolanis_ht');
 
 		$this->dataIndexPasien = [
 			'statusPernikahan' => $ps->statusPernikahan(),
@@ -122,7 +124,6 @@ class PasiensController extends Controller
 	}
 	
 	public function store(Request $request){
-		/* dd(Input::all()); */ 
 		$rules = [
 			"nama"      => "required",
 			"sex"       => "required",
@@ -142,9 +143,10 @@ class PasiensController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$pasien = new Pasien;
-		$pasien = $this->inputDataPasien($pasien);
-		$ap     = $this->inputDataAntrianPoli($pasien);
+		$pasien     = new Pasien;
+		$pasien->id = Yoga::customId('App\Pasien');
+		$pasien     = $this->inputDataPasien($pasien);
+		$ap         = $this->inputDataAntrianPoli($pasien);
 
 		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		return redirect('antrianpolis')
@@ -332,6 +334,9 @@ class PasiensController extends Controller
 	public function inputDataPasien($pasien){
 
 		$pasien->alamat              = $this->input_alamat;
+		$pasien->panggilan           = $this->input_panggilan;
+		$pasien->prolanis_dm         = $this->input_prolanis_dm;
+		$pasien->prolanis_ht         = $this->input_prolanis_ht;
 		$pasien->asuransi_id         = $this->input_asuransi_id;
 		$pasien->sex                 = $this->input_sex;
 		$pasien->jenis_peserta       = $this->input_jenis_peserta;
@@ -346,10 +351,15 @@ class PasiensController extends Controller
 		$pasien->no_telp             = $this->input_no_telp;
 		$pasien->tanggal_lahir       = $this->input_tanggal_lahir;
 		$pasien->jangan_disms        = $this->input_jangan_disms;
-		$pasien->id                  = $this->input_id;
-		$pasien->bpjs_image          = $this->input_bpjs_image;
-		$pasien->ktp_image           = $this->input_ktp_image;
-		$pasien->image               = $this->input_image;
+		if (!empty( $this->input_bpjs_image )) {
+			$pasien->bpjs_image          = $this->input_bpjs_image;
+		}
+		if (!empty($this->input_ktp_image)) {
+			$pasien->ktp_image           = $this->input_ktp_image;
+		}
+		if (!empty($this->input_image)) {
+			$pasien->image               = $this->input_image;
+		}
 
 		$pasien->save();
 		return $pasien;

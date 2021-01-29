@@ -29,10 +29,8 @@
                 "files"=> true
             ))!!}
 				<input type="hidden" value="{{ $antrian_id }}" name="antrian_id" id="antrian_id"/>
-				@include('pasiens.edit_form', ['facebook' =>false, 'pasien' => $pasien])
+                @include('pasiens.createForm', ['antrianpolis' => false])
             {!! Form::close() !!}
-
-
             @if(\Auth::user()->role == '6')
                 {!! Form::open(array('url' => 'pasiens/' . $pasien->id, 'method' => 'DELETE'))!!} 
 				<div class="row">
@@ -57,6 +55,7 @@
     var base = '{{ url("/") }}';
     </script>
     {!! HTML::script('js/togglepanel.js')!!}
+    {!! HTML::script('js/pasien.js')!!}
    <script pasiens="{{ url('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
     {!! HTML::script('js/plugins/webcam/photo.js')!!}
    <script>

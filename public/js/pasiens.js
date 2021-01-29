@@ -196,17 +196,6 @@
 			},600);
 		});
 
-        $('#CheckBox1').click(function () {
-            if ($(this).is(':checked')) {
-                $('.transition').hide().removeClass('displayNone').slideDown('fast', function() {
-                    $('#asuransi_id').focus();
-                });
-            } else if (!$(this).is(':checked')) {
-                $('.transition').slideUp(300);
-                $('.tog').val('');
-            }
-        });
-
         $('input[type="radio"][name="opt"]').change(function(e) {
             var $id = $('#id').closest('th');
             var $nama_asuransi = $('#nama_asuransi').closest('th');

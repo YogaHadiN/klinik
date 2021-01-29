@@ -3,14 +3,16 @@
 namespace App\Imports;
 
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use App\Pasien;
 use DB;
 use Carbon\Carbon;
 
 
-class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow
+class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithValidation
 {
     /**
     * @param Collection $collection
@@ -148,8 +150,16 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow
     {
         return str_replace('.', '', str_replace(' ', '', strtolower($param)));
     }
-
-    
+    public function rules(): array
+    {
+        return [
+            'tanggal_lahir' => 'numeric' 
+        ];
+    }
+     public function customValidationMessages()
+    {
+        return ['tanggal_lahir.*' => 'Format Tanggal Lahir tidak benar, perbaiki dahulu di file excel. '];
+    }   
     
     
     

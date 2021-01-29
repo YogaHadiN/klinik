@@ -84,7 +84,7 @@
 						{!! Form::close() !!}
 					</td>
 					<td class="hide umur">
-						{!! App\Classes\Yoga::datediff($antrianpoli->pasien->tanggal_lahir, date('Y-m-d')) !!}
+						{!! App\Classes\Yoga::datediff($antrianpoli->pasien->tanggal_lahir->format('Y-m-d'), date('Y-m-d')) !!}
 					</td>
 				</tr>
 				@endforeach

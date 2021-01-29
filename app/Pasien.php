@@ -10,6 +10,7 @@ use Image;
 use App\Classes\Yoga;
 
 class Pasien extends Model{
+	protected $dates = ['tanggal_lahir'];
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($pasien){

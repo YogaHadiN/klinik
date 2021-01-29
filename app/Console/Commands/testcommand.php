@@ -544,4 +544,16 @@ class testcommand extends Command
 			}
 		}
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function storePasien($param)
+	{
+	}
+	private function storePasien($param)
+	{
+	}
+	
 }

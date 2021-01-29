@@ -55,7 +55,7 @@
 												<strong>{!! $periksa->asuransi->nama!!}</strong><br><br>
 											</td>
 											<td>
-												Umur : <br> <strong>{!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir, $periksa->tanggal);!!}</strong><br><br>
+												Umur : <br> <strong>{!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir->format('Y-m-d'), $periksa->tanggal);!!}</strong><br><br>
 											</td>
 										</tr>
 										<tr>

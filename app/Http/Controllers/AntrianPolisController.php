@@ -80,7 +80,6 @@ class AntrianPolisController extends Controller
 			$perjanjian[$p->tanggal->format('d-m-Y')][] = $p;
 		}
 
-		
 		return view('antrianpolis.index')
 			->withAntrianpolis($antrianpolis)
 			->with('perujuks_list', $perujuks_list)

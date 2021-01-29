@@ -1,7 +1,13 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 	{!! Form::open(['url' => 'pasiens/ajax/create', 'id' => 'pasienInsertForm', 'method' => 'post', 'autocomplete' => 'off'])!!}
-			  <h2>Pasien Baru</h2>
+			  <h2>
+				  @if( isset($pasien) )
+					  Edit Pasien
+				  @else
+					Pasien Baru			  	
+				  @endif
+			  </h2>
 			  <hr />
 		<div class="row">
 			<div class="col-lg-12 col-md-12">
@@ -36,7 +42,11 @@
 			<div class="col-lg-6 col-md-6">
 				<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
 				  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
-				  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control', 'id' => 'tanggal_lahir'])!!}
+				  @if (isset($pasien) && !empty( $pasien->tanggal_lahir ))
+					  {!! Form::text('tanggal_lahir', $pasien->tanggal_lahir->format('d-m-Y'), ['class' => 'form-control', 'id' => 'tanggal_lahir'])!!}
+				  @else
+					  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control', 'id' => 'tanggal_lahir'])!!}
+				  @endif
 				  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 				</div>
 			</div>
@@ -103,61 +113,53 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="form-group @if($errors->has('no_ktp'))has-error @endif">
-				  {!! Form::label('no_ktp', 'Nomor KTP', ['class' => 'control-label']) !!}
-				  {!! Form::text('no_ktp' , null, ['class' => 'form-control']) !!}
-				  @if($errors->has('no_ktp'))<code>{{ $errors->first('no_ktp') }}</code>@endif
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-6">
-				<div class="form-group @if($errors->has('punya_asuransi'))has-error @endif">
-				  {!! Form::label('punya_asuransi', 'Punya Asuransi', ['class' => 'control-label']) !!}
-					{!! Form::checkbox('punya_asuransi', 0, false, ['id' => 'CheckBox1'])!!}
-				  @if($errors->has('punya_asuransi'))<code>{{ $errors->first('punya_asuransi') }}</code>@endif
+				<div class="form-group @if($errors->has('nomor_ktp'))has-error @endif">
+				  {!! Form::label('nomor_ktp', 'Nomor KTP', ['class' => 'control-label']) !!}
+				  {!! Form::text('nomor_ktp' , null, ['class' => 'form-control']) !!}
+				  @if($errors->has('nomor_ktp'))<code>{{ $errors->first('nomor_ktp') }}</code>@endif
 				</div>
 			</div>
 		</div>
-		 <div class="displayNone transition" id="xx">
-			<div class="row">
-				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-					<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
-					  {!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
-					  {!!Form::select('asuransi_id', $asuransi, null, [
-						  'class'            => 'form-control selectpick',
-						  'placeholder'      => ' - Pilih Asuransi -',
-						  'data-live-search' => 'true'
-					  ])!!}
-					  @if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-					<div class="form-group @if($errors->has('jenis_peserta'))has-error @endif">
-					  {!! Form::label('jenis_peserta', 'Jenis Peserta', ['class' => 'control-label']) !!}
-						{!! Form::select('jenis_peserta', $jenis_peserta, null, ['class' => 'form-control tog hh'])!!}
-					  @if($errors->has('jenis_peserta'))<code>{{ $errors->first('jenis_peserta') }}</code>@endif
-					</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+				<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
+					{!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
+					{!!Form::select('asuransi_id', $asuransi, null, [
+						'class'            => 'form-control selectpick',
+						'placeholder'      => 'Biaya Pribadi',
+						'data-live-search' => 'true'
+					])!!}
+					@if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-					<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
-					  {!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
-						{!! Form::text('nomor_asuransi', null, [
+			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+				<div class="form-group @if($errors->has('jenis_peserta'))has-error @endif">
+					{!! Form::label('jenis_peserta', 'Jenis Peserta', ['class' => 'control-label']) !!}
+					{!! Form::select('jenis_peserta', $jenis_peserta, null, ['class' => 'form-control tog hh'])!!}
+					@if($errors->has('jenis_peserta'))<code>{{ $errors->first('jenis_peserta') }}</code>@endif
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+				<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
+					{!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
+					{!! Form::text('nomor_asuransi', null, [
 						'class' => 'form-control tog hh',
 						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
 					])!!}
-					  @if($errors->has('nomor_asuransi'))<code>{{ $errors->first('nomor_asuransi') }}</code>@endif
-					</div>
+					@if($errors->has('nomor_asuransi'))<code>{{ $errors->first('nomor_asuransi') }}</code>@endif
 				</div>
-				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-					<div class="form-group @if($errors->has('nama_peserta'))has-error @endif">
-					  {!! Form::label('nama_peserta', 'Nama Peserta', ['class' => 'control-label']) !!}
-						{!! Form::text('nama_peserta', null, ['class'=>'form-control tog hh'])!!}
-					  @if($errors->has('nama_peserta'))<code>{{ $errors->first('nama_peserta') }}</code>@endif
-					</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+				<div class="form-group @if($errors->has('nama_peserta'))has-error @endif">
+					{!! Form::label('nama_peserta', 'Nama Peserta', ['class' => 'control-label']) !!}
+					{!! Form::text('nama_peserta', null, ['class'=>'form-control tog hh'])!!}
+					@if($errors->has('nama_peserta'))<code>{{ $errors->first('nama_peserta') }}</code>@endif
 				</div>
-			</div>	
-		  </div>
+			</div>
+		</div>	
+
 		  <div class="row">
 			  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -181,7 +183,32 @@
 				</div>
 			</div>
 		</div>
-		  
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group @if($errors->has('prolanis_dm'))has-error @endif">
+				  {!! Form::label('prolanis_dm', 'Prolanis DM', ['class' => 'control-label']) !!}
+				  {!! Form::select('prolanis_dm', [
+					  '0' => 'Tidak Terdaftar',
+					  '1' => 'Terdaftar'
+					  ], null, array(
+						'class'         => 'form-control'
+					))!!}
+				  @if($errors->has('prolanis_dm'))<code>{{ $errors->first('prolanis_dm') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group @if($errors->has('prolanis_ht'))has-error @endif">
+				  {!! Form::label('prolanis_ht', 'Prolanis DM', ['class' => 'control-label']) !!}
+				  {!! Form::select('prolanis_ht', [
+					  '0' => 'Tidak Terdaftar',
+					  '1' => 'Terdaftar'
+					  ], null, array(
+						'class'         => 'form-control'
+					))!!}
+				  @if($errors->has('prolanis_ht'))<code>{{ $errors->first('prolanis_ht') }}</code>@endif
+				</div>
+			</div>
+		</div>
 		{{--<div class="row">--}}
 			{{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">--}}
 				{{--<div>--}}
@@ -280,7 +307,7 @@
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Nama Dokter', ['class' => 'control-label']) !!}
-				  {!! Form::select('staf_id' , App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick' , 'data-live-search' => 'true']) !!}
+				  {!! Form::select('staf_id' , App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq' , 'data-live-search' => 'true']) !!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
 			</div>
@@ -288,7 +315,7 @@
 				<div class="form-group @if($errors->has('poli'))has-error @endif">
 				  {!! Form::label('poli', 'Poli', ['class' => 'control-label']) !!}
 				  {!! Form::select('poli' , $poli, null, [
-					  'class'    => 'form-control',
+					  'class'    => 'form-control rq',
 					  'onchange' => 'pilihPoli(this);return false;'
 				  ]) !!}
 				  @if($errors->has('poli'))<code>{{ $errors->first('poli') }}</code>@endif

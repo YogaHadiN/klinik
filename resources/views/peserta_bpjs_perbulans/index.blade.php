@@ -16,6 +16,19 @@ Klinik Jati Elok | Peserta BPJS bulanan
 
 @stop
 @section('content') 
+
+	@if (isset($failures))
+	   <div class="alert alert-danger" role="alert">
+		  <strong>Errors:</strong>
+		  <ul>
+			 @foreach ($failures as $failure)
+				@foreach ($failure->errors() as $error)
+					<li>{{ $error }} pada baris ke {{ $failure->row()   }}</li>
+				@endforeach
+			 @endforeach
+		  </ul>
+	   </div>
+	@endif
 		<div class="row">
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<div class="panel panel-default">

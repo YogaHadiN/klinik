@@ -49,7 +49,7 @@
 						<tr>
 						  <td>
 							{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} <br>
-							Umur : <br> <strong>{!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir, $periksa->tanggal);!!}</strong><br><br>
+							Umur : <br> <strong>{!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir->format('Y-m-d'), $periksa->tanggal);!!}</strong><br><br>
 							Pemeriksa : <br>
 							@if($periksa->staf)
 							  <strong>{!! $periksa->staf->nama !!}</strong> <br><br>

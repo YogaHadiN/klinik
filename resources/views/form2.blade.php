@@ -494,7 +494,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="text-center">{!! $antrianperiksa->pasien->nama!!}, {!! App\Classes\Yoga::datediff($antrianperiksa->pasien->tanggal_lahir, date('Y-m-d'))!!}</h4>
+                    <h4 class="text-center">{!! $antrianperiksa->pasien->nama!!}, {!! App\Classes\Yoga::datediff($antrianperiksa->pasien->tanggal_lahir->format('Y-m-d'), date('Y-m-d'))!!}</h4>
                 </div>
                 <div class="modal-body text-center">
                     <img src="{!! url($antrianperiksa->pasien->image) !!}? {{ time() }}" alt="" width="500px" height="375px">

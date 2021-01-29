@@ -52,7 +52,7 @@
 								  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} <br>
 							<br>Umur :
-							{!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir, date('Y-m-d'))!!}
+							{!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir->format('Y-m-d'), date('Y-m-d'))!!}
 							<br>Pembayaran : 
 							{!! $periksa->asuransi->nama !!}
 							<br>Staf :

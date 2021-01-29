@@ -34,7 +34,17 @@ class PesertaBpjsPerbulanController extends Controller
             return $this->valid( Input::all() );
         }
         $import = new PesertaBpjsPerbulanImport;
-        Excel::import($import, Input::file('nama_file'));
+       try {
+            Excel::import($import, Input::file('nama_file'));
+       }
+       catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+          $failures                 = $e->failures();
+          $peserta_bpjs_perbulans = PesertaBpjsPerbulan::latest()->get();
+          return view('peserta_bpjs_perbulans.index', compact(
+              'peserta_bpjs_perbulans',
+              'failures'
+          ));
+       }
         $data   = $import->data;
 
         $ht = $data['ht'];

@@ -6,7 +6,7 @@
     @endif
     <br><br>
     <div class="alert alert-info">
-         <h3>{!! $pasien->nama !!}</h3> <span id="umur">{!! App\Classes\Yoga::datediff($pasien->tanggal_lahir, date('Y-m-d')) !!}</span>
+        <h3>{!! $pasien->nama !!}</h3> <span id="umur">{!! App\Classes\Yoga::datediff($pasien->tanggal_lahir->format('Y-m-d'), date('Y-m-d')) !!}</span>
     </div>
 </div>
 

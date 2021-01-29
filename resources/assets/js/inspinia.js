@@ -586,3 +586,16 @@ function validatePhone(phone)
 function validateNotEmpty( val ){
 	return !val == '';
 }
+
+
+// $('input[type="file"]').change(function() {
+//   if (this.files && this.files[0]) {
+//     var reader = new FileReader();
+    
+//     reader.onload = function(e) {
+//         this.closest('form-group').find('img').attr('src', e.target.result);
+//     }
+    
+//     reader.readAsDataURL(this.files[0]); // convert to base64 string
+//   }
+// });
