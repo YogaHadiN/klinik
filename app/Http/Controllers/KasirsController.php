@@ -87,13 +87,13 @@ class KasirsController extends Controller
 		//
 		//
 
-		$statusBpjsPerBulan   = 'primary';
-		$peserta_bpjs_perbulan = PesertaBpjsPerbulan::where('created_at', 'like', date('Y-m') . '%')->firstOrFail();
+		/* $statusBpjsPerBulan   = 'primary'; */
+		/* $peserta_bpjs_perbulan = PesertaBpjsPerbulan::where('created_at', 'like', date('Y-m') . '%')->first(); */
 
-		if ( date('d') > 5 && is_null( $peserta_bpjs_perbulan ) ) {
-			$statusBpjsPerBulan = 'warning';
-			$status             = 'warning';
-		}
+		/* if ( date('d') > 5 && is_null( $peserta_bpjs_perbulan ) ) { */
+		/* 	$statusBpjsPerBulan = 'warning'; */
+		/* 	$status             = 'warning'; */
+		/* } */
 
 		$wablasWarning        = 'primary';
 		if( $quota < 1000 ){
@@ -135,10 +135,10 @@ class KasirsController extends Controller
 		//jika sudah diatas tanggal 11 dan belum diupload daftar peserta bpjs bulan itu maka fail
 		//
 		//
-		if ( date('d') >10 && is_null( $peserta_bpjs_perbulan ) ) {
-			$statusBpjsPerBulan = 'danger';
-			$status             = 'danger';
-		}
+		/* if ( date('d') >10 && is_null( $peserta_bpjs_perbulan ) ) { */
+		/* 	$statusBpjsPerBulan = 'danger'; */
+		/* 	$status             = 'danger'; */
+		/* } */
 
 		$saldos          = Saldo::with('staf')->latest()->paginate(20);
 
@@ -148,7 +148,7 @@ class KasirsController extends Controller
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
-			'statusBpjsPerBulan',
+			/* 'statusBpjsPerBulan', */
 			'vultrWarning',
 			'wablasWarning',
 			'mootaWarning',

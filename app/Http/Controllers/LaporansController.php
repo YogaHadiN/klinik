@@ -239,8 +239,8 @@ class LaporansController extends Controller
 		$ht_terkendali = 0;
 		$dm_terkendali = 0;
 
-		$jumlah_prolanis_dm = $rppt->jumlah_dm;
-		$jumlah_prolanis_ht = $rppt->jumlah_ht;
+		$jumlah_prolanis_dm = $rppt == null? 1 : $rppt->jumlah_dm;
+		$jumlah_prolanis_ht = $rppt == null?1 : $rppt->jumlah_ht;
 
 		foreach ($data as $d) {
 			if ( $d->prolanis_ht == '1' ) {
@@ -254,7 +254,7 @@ class LaporansController extends Controller
 			}
 		}
 
-		$ht_terkendali_persen = round($ht_terkendali / $rppt->jumlah_ht * 100);
+		$ht_terkendali_persen = round($ht_terkendali / $jumlah_prolanis_ht * 100);
 
 
 		$query  = "SELECT ";
@@ -272,7 +272,7 @@ class LaporansController extends Controller
 		$query .= "GROUP BY psn.id ";
 		$dm_terkendali = count(DB::select($query));
 
-		$dm_terkendali_persen = round($dm_terkendali / $rppt->jumlah_dm * 100);
+		$dm_terkendali_persen = round($dm_terkendali / $jumlah_prolanis_dm * 100);
 
 		return view('laporans.index', compact(
 			'asuransis',
