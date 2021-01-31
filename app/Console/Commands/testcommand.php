@@ -103,7 +103,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		dd( preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", '2001-12-28') );
+		$this->testAdmedika();
 		/* dd( Carbon::createFromFormat('d-m-Y', '12/25/94') ); */
 		/* $this->testAsuransi(); */
 		/* $this->updatePC2020(); */
@@ -113,6 +113,44 @@ class testcommand extends Command
 		/* $this->promoRapidTestCovid(); */
 		/* $this->testJurnalUmum(); */
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testAdmedika()
+	{
+		$uri="https://mobile.admedika.co.id/admedgateway/services/api/?method=CustomerHost"; //url web service bpjs;
+		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/provider/0/3"; //url web service bpjs; */
+		/* $uri="https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/peserta/0001183422677"; //url web service bpjs; */
+
+		$tokenAuth          = env('ADMEDIKA_TOKEN_AUTH'); //Admedika Token Auth
+		$serviceID          = env('ADMEDIKA_SERVICE_ID'); //Admedika Token Auth
+		$customerID         = env('ADMEDIKA_CUSTOMER_ID'); //Admedika Token Auth
+		$requestID          = env('ADMEDIKA_REQUEST_ID'); //Admedika Token Auth
+		$txnData            = env('ADMEDIKA_TXN_DATA'); //Admedika Token Auth
+		$txnRequestDateTime = env('ADMEDIKA_TXN_REQUEST_DATE_TIME'); //Admedika Token Auth
+
+		$headers = array( 
+					"Accept: application/json", 
+					"tokenAuth: "$tokenAuth,
+					"serviceID: "$serviceID,
+					"customerID: "$customerID,
+					"requestID: "$requestID,
+					"txnData: "$txnData,
+					"txnRequestDateTime: "$txnRequestDateTime
+				); 
+
+		$ch = curl_init($uri);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+		$data = curl_exec($ch);
+		curl_close($ch);
+		dd($data);
+	}
+	
 	private function webhook(){
 		$data["license"]="5c286f1ed7121";
 		$data["url"]    ="https://yourwebsite.com/listen.php"; // message data will push to this url
