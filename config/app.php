@@ -165,7 +165,7 @@ return [
 		/* Awageeks\Bpjs\BpjsServiceProvider::class, */
         Barryvdh\DomPDF\ServiceProvider::class,
 		/* Barryvdh\Debugbar\ServiceProvider::class, */
-	    Laravel\Socialite\SocialiteServiceProvider::class,
+	    /* Laravel\Socialite\SocialiteServiceProvider::class, */
 		Intervention\Image\ImageServiceProvider::class,
 		Barryvdh\Snappy\ServiceProvider::class,
 		Maatwebsite\Excel\ExcelServiceProvider::class,
