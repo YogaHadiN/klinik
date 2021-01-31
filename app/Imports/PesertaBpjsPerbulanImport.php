@@ -158,7 +158,7 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     public function rules(): array
     {
         return [
-            'tanggal_lahir' => 'date_format:d-m-Y' 
+            /* 'tanggal_lahir' => 'date_format:d-m-Y' */ 
         ];
     }
 }
