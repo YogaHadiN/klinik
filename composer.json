@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^8.0",
         "awageeks/laravel-bpjs": "^1.2",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "barryvdh/laravel-snappy": "^0.4.6",
@@ -39,7 +39,7 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^9.3"
     },
     "config": {
         "optimize-autoloader": true,
