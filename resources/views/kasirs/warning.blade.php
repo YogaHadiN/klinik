@@ -81,14 +81,14 @@
 	</div>
 
 
-	{{-- <div class="panel panel-{{ $statusBpjsPerBulan }}"> --}}
-	{{-- 	<div class="panel-heading"> --}}
-	{{-- 		<h3 class="panel-title">Peserta BPJS Perbulan</h3> --}}
-	{{-- 	</div> --}}
-	{{-- 	<div class="panel-body"> --}}
-	{{-- 		<h3>Peserta Bpjs Perbulan harus diupload paling lambat tanggal</h3> --}}
-	{{-- 		<h1>10</h1> --}}
-	{{-- 		<p>Upload <a href=" {{ url('peserta_bpjs_bulanans') }}" target="_blank">disini</a> </p> --}}
-	{{-- 	</div> --}}
-	{{-- </div> --}}
+	<div class="panel panel-{{ $statusBpjsPerBulan }}">
+		<div class="panel-heading">
+			<h3 class="panel-title">Peserta BPJS Perbulan</h3>
+		</div>
+		<div class="panel-body">
+			<h3>Peserta Bpjs Perbulan harus diupload paling lambat tanggal</h3>
+			<h1>10</h1>
+			<p>Upload <a href=" {{ url('peserta_bpjs_bulanans') }}" target="_blank">disini</a> </p>
+		</div>
+	</div>
 

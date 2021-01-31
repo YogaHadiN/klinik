@@ -70,7 +70,6 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
             $pasien_filtered  = [];
             $harus_konfirmasi = true;
             foreach ($pasiens as $p) {
-                /* dd($this->excelToDate( $c['tanggal_lahir'] )); */
                 if ( $p->tanggal_lahir->format('Y-m-d') ==  $this->excelToDate( $c['tanggal_lahir'] )  ) {
                     if (str_contains($this->normalisasiString($p->nama), $this->normalisasiString($c['nama']))) {
                         $p->$prolanis    = 1;
@@ -121,7 +120,7 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
      */
     private function excelToDate($date)
     {
-       return gmdate("Y-m-d", ($date- 25569) * 86400);;   
+       return Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
     }
     /**
      * undocumented function
@@ -159,14 +158,7 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     public function rules(): array
     {
         return [
-            'tanggal_lahir' => 'numeric' 
+            'tanggal_lahir' => 'date_format:d-m-Y' 
         ];
     }
-     public function customValidationMessages()
-    {
-        return ['tanggal_lahir.*' => 'Format Tanggal Lahir tidak benar, perbaiki dahulu di file excel. '];
-    }   
-    
-    
-    
 }
