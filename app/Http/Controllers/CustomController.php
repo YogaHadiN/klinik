@@ -698,7 +698,7 @@ class CustomController extends Controller
             ];
 			$receipts[] = [
 				'periksa_id' => $periksa_id,
-				'receipt' => json_encode(data),
+				'receipt' => json_encode($data),
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp,
 			];
