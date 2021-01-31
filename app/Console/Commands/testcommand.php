@@ -103,7 +103,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$this->testAdmedika();
+		/* $this->testAdmedika(); */
 		/* dd( Carbon::createFromFormat('d-m-Y', '12/25/94') ); */
 		/* $this->testAsuransi(); */
 		/* $this->updatePC2020(); */
@@ -133,12 +133,12 @@ class testcommand extends Command
 
 		$headers = array( 
 					"Accept: application/json", 
-					"tokenAuth: "$tokenAuth,
-					"serviceID: "$serviceID,
-					"customerID: "$customerID,
-					"requestID: "$requestID,
-					"txnData: "$txnData,
-					"txnRequestDateTime: "$txnRequestDateTime
+					"tokenAuth: ".$tokenAuth,
+					"serviceID: ".$serviceID,
+					"customerID: ".$customerID,
+					"requestID: ".$requestID,
+					"txnData: ".$txnData,
+					"txnRequestDateTime: ".$txnRequestDateTime
 				); 
 
 		$ch = curl_init($uri);
