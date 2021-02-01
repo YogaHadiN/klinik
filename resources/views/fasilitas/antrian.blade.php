@@ -151,7 +151,7 @@
 			{{-- 	</div> --}}
 			{{-- </div> --}}
 		</div>
-		{!! Form::text('nomor_bpjs', null, ['class' => 'form-control', 'id' => 'nomor_bpjs']) !!}
+		{!! Form::text('nomor_bpjs', null, ['class' => 'form-control hide', 'id' => 'nomor_bpjs']) !!}
 	</div>
 	<div id="section-to-print">
 	  <section class="sheet">
