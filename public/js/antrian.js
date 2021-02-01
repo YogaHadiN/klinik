@@ -1,4 +1,4 @@
-$('#nomor_bpjs').focus()
+$('#nomor_bpjs').focus();
 var nomor_bpjs = null;
 var nomor_ktp  = null;
 function submitAntrian(control){
