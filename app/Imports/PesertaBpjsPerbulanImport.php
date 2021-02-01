@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use App\Pasien;
+use App\Periksa;
 use DB;
 use Carbon\Carbon;
 
@@ -78,6 +79,13 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
                         $p->sex          = strtolower($c['jenis_kelamin']) == 'laki-laki'? 1 : 0;
                         $p->save();
                         $harus_konfirmasi = false;
+
+                        Periksa::where('pasien_id', $p->id)
+                                ->where('tanggal', 'like', date('Y-m') . '%')
+                                ->update([
+                                    $prolanis => '1'
+                                ]);
+
                         if ( $prolanis == 'prolanis_dm' ) {
                             $this->dm_terkonfirmasi[] = $c;
                         }

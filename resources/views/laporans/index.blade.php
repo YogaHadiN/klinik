@@ -225,8 +225,8 @@
 								</tr>
 								<tr>
 									<td><h1> {{ $jumlah_prolanis_dm }}</h1></td>
-									<td><h1> {{ $dm_berobat }}</h1></td>
-									<td><h1> {{ $dm_terkendali }} pasien</h1></td>
+                                    <td><h1> <a href="{{ url('laporans/dm_berobat/'. date('Y-m')) }}"> {{ $dm_berobat }}</a> </h1></td>
+                                    <td><h1> <a href="{{ url('laporans/dm_terkendali/'. date('Y-m')) }}" target="_blank"> {{ $dm_terkendali }} pasien </a> </h1></td>
 									<td><h1> {{ $dm_terkendali_persen }} % </h1></td>
 								</tr>
 							</tbody>
@@ -252,8 +252,8 @@
                                 </tr>
                                 <tr>
                                     <td><h1> {{ $jumlah_prolanis_ht }}</h1></td>
-                                    <td><h1> {{ $ht_berobat }}</h1></td>
-                                    <td><h1> {{ $ht_terkendali }} pasien </h1></td>
+                                    <td><h1> <a href="{{ url('laporans/ht_berobat/'. date('Y-m')) }}"> {{ $ht_berobat }}</a> </h1></td>
+                                    <td><h1> <a href="{{ url('laporans/ht_terkendali/'. date('Y-m')) }}" target="_blank"> {{ $ht_terkendali }} pasien </a> </h1></td>
                                     <td><h1> {{ $ht_terkendali_persen }} % </h1></td>
                                 </tr>
                             </tbody>

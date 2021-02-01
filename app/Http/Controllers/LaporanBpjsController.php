@@ -16,14 +16,13 @@ class LaporanBpjsController extends Controller
 	public function __construct()
 	{
 		/* dd(Input::all()); */ 
-		$this->bulan    = Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'));
 		
 	}
 	
 	public function hipertensi(){
 		return view('laporans.bpjs.hipertensi', [
 			'periksas' => $this->queryHipertensi(),
-			'bulan'    => $this->bulan
+			'bulan'    => Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))
 		]);
 	}
 	public function hipertensiPdf(){
@@ -32,7 +31,7 @@ class LaporanBpjsController extends Controller
 					'laporans.bpjs.hipertensipdf', 
 					[
 						'periksas' => $this->queryHipertensi(),
-						'bulan'    => $this->bulan
+						'bulan'    => Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))
 					])
 				->setPaper('a4');
         return $pdf->stream();
@@ -41,18 +40,18 @@ class LaporanBpjsController extends Controller
 	public function dm(){
 		$periksas = Periksa::with('diagnosa.icd10', 'pasien')
 							->where('asuransi_id', '32')
-							->whereRaw("tanggal like '{$this->bulan->format('Y-m')}%'" )
+							->whereRaw("tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%'" )
 							->get();
 		return view('laporans.bpjs.dm', [
 			'periksas' => $this->periksas,
-			'bulan'    => $this->bulan
+			'bulan'    => Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))
 		]);
 	}
 	
 	public function diagnosa(){
 		return view('laporans.bpjs.diagnosa', [
 			'periksas' => $this->queryDiagnosaRujukan(),
-			'bulan'    => $this->bulan
+			'bulan'    => Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))
 		]);
 	}
 	public function diagnosaPdf(){
@@ -60,7 +59,7 @@ class LaporanBpjsController extends Controller
 					'laporans.bpjs.diagnosapdf', 
 					[
 						'periksas' => $this->queryDiagnosaRujukan(),
-						'bulan'    => $this->bulan
+						'bulan'    => Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))
 					])
 				->setPaper('a4');
         return $pdf->stream();
@@ -84,7 +83,7 @@ class LaporanBpjsController extends Controller
 		$query .= "JOIN icd10s as icd on icd.id = dgn.icd10_id ";
 		$query .= "RIGHT JOIN rujukans as rjk on rjk.periksa_id = prx.id ";
 		$query .= "WHERE prx.asuransi_id = 32 ";
-		$query .= "AND tanggal like '{$this->bulan->format('Y-m')}%' ";
+		$query .= "AND tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
 		return DB::select($query);
 	}
 	/**
@@ -106,10 +105,60 @@ class LaporanBpjsController extends Controller
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "RIGHT JOIN rujukans as rjk on rjk.periksa_id = prx.id ";
 		$query .= "WHERE prx.asuransi_id = 32 ";
-		$query .= "AND tanggal like '{$this->bulan->format('Y-m')}%' ";
+		$query .= "AND tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
 		$query .= "AND prx.sistolik not like '' ";
 		$query .= "AND prx.diastolik not like '' ";
 		return DB::select($query);
+	}
+
+	public function dmBerobat($bulanThn){
+		$laporan = new LaporansController;
+
+		$query  = "SELECT ";
+		$query .= "psn.nama, ";
+		$query .= "prx.id as periksa_id, ";
+		$query .= "psn.tanggal_lahir, ";
+		$query .= "psn.alamat, ";
+		$query .= "prx.tanggal, ";
+		$query .= "trx.jenis_tarif_id, ";
+		$query .= "trx.biaya, ";
+		$query .= "trx.keterangan_pemeriksaan, ";
+		$query .= "psn.id as pasien_id, ";
+		$query .= "CAST(trx.keterangan_pemeriksaan AS UNSIGNED) as ket_pemeriksaan ";
+		$query .= "FROM periksas as prx ";
+		$query .= "LEFT JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "WHERE psn.prolanis_dm=1 ";
+		$query .= "AND prx.tanggal like '" . $bulanThn. "%' ";
+		$query .= "ORDER BY keterangan_pemeriksaan asc";
+		$dm = DB::select($query);
+
+		$result = [];
+		foreach ($dm as $d) {
+			$result[$d->periksa_id] = [
+				'nama'          => $d->nama,
+				'tanggal_lahir' => $d->tanggal_lahir,
+				'alamat'        => $d->alamat,
+			];
+			$result[$d->periksa_id]['pemeriksaan'][] = [
+				'jenis_tarif_id'         => $d->jenis_tarif_id,
+				'biaya'                  => $d->biaya,
+				'keterangan_pemeriksaan' => $d->keterangan_pemeriksaan
+			];
+		}
+		dd( $result );
+		return view('laporans.dm_terkendali', compact(
+			'result'
+		));
+	}
+	public function dmTerkendali($bulanThn){
+
+	}
+	public function htBerobat($bulanThn){
+
+	}
+	public function htTerkendali($bulanThn){
+
 	}
 	
 	

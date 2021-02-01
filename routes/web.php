@@ -109,6 +109,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('peserta_bpjs_perbulans/editDataPasien', 'PesertaBpjsPerbulanController@editDataPasien');
 	Route::post('/peserta_bpjs_perbulans/update_data_pasien', 'PesertaBpjsPerbulanController@updateDataPasien');
 
+
 	Route::resource('peserta_bpjs_perbulans', 'PesertaBpjsPerbulanController');
 
 	Route::get('fasilitas/antrian/pdf/{id}', 'FasilitasController@antrian_pdf'); //antrian pasien
@@ -175,6 +176,15 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('laporans/pph21', 'LaporansController@pph21');
 	Route::get('laporans/bpjs/dm', 'LaporanBpjsController@dm');
 	Route::get('laporans/bpjs/diagnosa', 'LaporanBpjsController@diagnosa');
+
+	Route::get(	'laporans/dm_berobat/{bulanTahun}', 'LaporanBpjsController@dmBerobat');
+	Route::get(	'laporans/dm_terkendali/{bulanTahun}', 'LaporanBpjsController@dmTerkendali');
+	Route::get(	'laporans/ht_berobat/{bulanTahun}', 'LaporanBpjsController@htBerobat');
+	Route::get(	'laporans/ht_terkendali/{bulanTahun}', 'LaporanBpjsController@htTerkendali');
+
+
+
+
 	Route::get('pdfs/bpjs/diagnosaRujukan', 'LaporanBpjsController@diagnosaPdf');
 	Route::get('pdfs/bpjs/hipertensi', 'LaporanBpjsController@hipertensiPdf');
 

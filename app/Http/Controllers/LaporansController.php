@@ -215,20 +215,6 @@ class LaporansController extends Controller
 
 		/* $rppt = PesertaBpjsPerbulan::latest()->first(); */
 
-		$query  = "SELECT ";
-		$query .= "count(prx.id),";
-		$query .= "prx.sistolik,";
-		$query .= "prx.diastolik,";
-		$query .= "psn.nama,";
-		$query .= "psn.prolanis_dm,";
-		$query .= "psn.prolanis_ht,";
-		$query .= "prx.pemeriksaan_penunjang ";
-		$query .= "FROM periksas as prx ";
-		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
-		$query .= "WHERE tanggal like '" . date('Y-m'). "%'";
-		$query .= "AND (psn.prolanis_dm=1 or psn.prolanis_ht = 1) ";
-		$query .= "GROUP BY psn.id ";
-		$data = DB::select($query);
 
 
 		$rppt = PesertaBpjsPerbulan::latest()->first();
@@ -242,7 +228,7 @@ class LaporansController extends Controller
 		$jumlah_prolanis_dm = $rppt == null? 1 : $rppt->jumlah_dm;
 		$jumlah_prolanis_ht = $rppt == null?1 : $rppt->jumlah_ht;
 
-		foreach ($data as $d) {
+		foreach ($this->queryHtTerkendali(date('Y-m')) as $d) {
 			if ( $d->prolanis_ht == '1' ) {
 				$ht_berobat++;
 				if ($d->sistolik < 139) {
@@ -257,23 +243,16 @@ class LaporansController extends Controller
 		$ht_terkendali_persen = round($ht_terkendali / $jumlah_prolanis_ht * 100);
 
 
-		$query  = "SELECT ";
-		$query .= "psn.nama, ";
-		$query .= "psn.id as pasien_id, ";
-		$query .= "CAST(trx.keterangan_pemeriksaan AS UNSIGNED) as keterangan_pemeriksaan ";
-		$query .= "FROM transaksi_periksas as trx ";
-		$query .= "JOIN periksas as prx on prx.id = trx.periksa_id ";
-		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
-		$query .= "WHERE trx.jenis_tarif_id = '116' ";
-		$query .= "AND psn.prolanis_dm=1 ";
-		$query .= "AND prx.tanggal like '" . date("Y-m"). "%' ";
-		$query .= "AND keterangan_pemeriksaan < 130 ";
-		$query .= "AND keterangan_pemeriksaan >= 80 ";
-		$query .= "GROUP BY psn.id ";
-		$dm_terkendali = count(DB::select($query));
-
+		foreach ($this->queryDmTerkendali(date('Y-m')) as $d) {
+			$dm_berobat++;
+			if ( 
+				$d->keterangan_pemeriksaan < 139 &&
+				$d->keterangan_pemeriksaan > 80
+		   	) {
+				$dm_terkendali++;
+			}
+		}
 		$dm_terkendali_persen = round($dm_terkendali / $jumlah_prolanis_dm * 100);
-
 		return view('laporans.index', compact(
 			'asuransis',
 			'antrianperiksa',
@@ -317,6 +296,51 @@ class LaporansController extends Controller
 			'obat_stok_kritis'
 		));
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	public function queryHtTerkendali($bulanThn)
+	{
+		$query  = "SELECT ";
+		$query .= "count(prx.id),";
+		$query .= "prx.sistolik,";
+		$query .= "prx.diastolik,";
+		$query .= "psn.nama,";
+		$query .= "psn.prolanis_dm,";
+		$query .= "psn.prolanis_ht,";
+		$query .= "prx.pemeriksaan_penunjang ";
+		$query .= "FROM periksas as prx ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "WHERE tanggal like '" . $bulanThn. "%'";
+		$query .= "AND (psn.prolanis_dm=1 or psn.prolanis_ht = 1) ";
+		$query .= "GROUP BY psn.id ";
+		return DB::select($query);
+	}
+
+	public function queryDmTerkendali($bulanThn)
+	{
+		$query  = "SELECT ";
+		$query .= "psn.nama, ";
+		$query .= "psn.tanggal_lahir, ";
+		$query .= "psn.alamat, ";
+		$query .= "prx.tanggal, ";
+		$query .= "trx.jenis_tarif_id, ";
+		$query .= "trx.keterangan_pemeriksaan, ";
+		$query .= "psn.id as pasien_id, ";
+		$query .= "CAST(trx.keterangan_pemeriksaan AS UNSIGNED) as ket_pemeriksaan ";
+		$query .= "FROM periksas as prx ";
+		$query .= "LEFT JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "WHERE psn.prolanis_dm=1 ";
+		$query .= "AND prx.tanggal like '" . $bulanThn. "%' ";
+		$query .= "GROUP BY psn.id ";
+		$query .= "ORDER BY keterangan_pemeriksaan asc";
+		return DB::select($query);
+	}
+	
+
 
 	public function harian()
 	{

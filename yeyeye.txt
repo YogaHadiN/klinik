@@ -1,5 +1,8 @@
 ALTER TABLE peserta_bpjs_perbulans ADD jumlah_dm int(11) not null default 0;
 ALTER TABLE peserta_bpjs_perbulans ADD jumlah_ht int(11) not null default 0;
+
+ALTER TABLE periksas ADD prolanis_dm tinyint(1) not null default 0;
+ALTER TABLE periksas ADD prolanis_ht tinyint(1) not null default 0;
 =========================================================================================
 CREATE TABLE admedika_perbulans(
   id INT NOT NULL AUTO_INCREMENT,

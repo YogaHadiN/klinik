@@ -9,6 +9,7 @@ use Auth;
 use Excel;
 use App\Classes\Yoga;
 use App\Pasien;
+use App\Periksa;
 use App\Imports\PesertaBpjsPerbulanImport;
 use DB;
 use Illuminate\Http\Request;
@@ -187,6 +188,7 @@ class PesertaBpjsPerbulanController extends Controller
             $pasien->nama             = $nama ;
             $pasien->nama_peserta     = $nama ;
             $pasien->sex              = $sex ;
+
             if ( $nama_tab           == 'ht' ) {
                 $pasien->prolanis_ht  = 1;
             }
@@ -194,6 +196,13 @@ class PesertaBpjsPerbulanController extends Controller
                 $pasien->prolanis_dm  = 1;
             }
             $pasien->save();
+
+            $nama_prolanis = 'prolanis_' . $nama_tab;
+            Periksa::where('pasien_id', $p->id)
+                    ->where('tanggal', 'like', date('Y-m') . '%')
+                    ->update([
+                        $nama_prolanis => '1'
+                    ]);
             if ( $pasien->save()) {
                 return '1';
             } else {
