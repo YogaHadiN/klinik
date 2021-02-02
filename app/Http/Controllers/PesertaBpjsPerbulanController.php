@@ -57,12 +57,31 @@ class PesertaBpjsPerbulanController extends Controller
               'failures'
           ));
        }
-        $data   = $import->data;
+        $data            = $import->data;
+        $ht              = $data['ht'];
+        $dm              = $data['dm'];
         $this->jumlah_dm = $import->riwayat_dm;
         $this->jumlah_ht = $import->riwayat_ht;
 
-        $ht = $data['ht'];
-        $dm = $data['dm'];
+        DB::statement('Update pasiens set prolanis_dm = 0, prolanis_ht = 0;' );
+        DB::statement("Update periksas set prolanis_dm = 0, prolanis_ht = 0 where tanggal like '" . $import->tanggal . "';" );
+
+        $pasien_dm = Pasien::whereIn('id', $import->riwayat_dm_pasien_ids)->update([
+            'prolanis_dm' => 1
+        ]);
+
+        $pasiens_ht = Pasien::whereIn('id', $import->riwayat_ht_pasien_ids)->update([
+            'prolanis_ht' => 1
+        ]);
+
+
+        $periksa_ht = Periksa::where('tanggal', 'like', $import->tanggal . '%')->whereIn('pasien_id', $import->riwayat_ht_pasien_ids)->update([
+            'prolanis_ht' => 1
+        ]);
+
+        $periksa_dm = Periksa::where('tanggal', 'like', $import->tanggal . '%')->whereIn('pasien_id', $import->riwayat_dm_pasien_ids)->update([
+            'prolanis_dm' => 1
+        ]);
 
         $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);

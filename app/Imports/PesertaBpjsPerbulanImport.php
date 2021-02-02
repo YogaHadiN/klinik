@@ -19,6 +19,7 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     * @param Collection $collection
     */
     public $data;
+    public $tanggal;
     public $tanggal_lahir_dms;
     public $tanggal_lahir_hts;
     public $pasiens_dms;
@@ -27,28 +28,32 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     public $dm_terkonfirmasi;
     public $riwayat_dm;
     public $riwayat_ht;
+    public $riwayat_dm_pasien_ids;
+    public $riwayat_ht_pasien_ids;
+
 
     /**
      * @param 
      */
     public function __construct()
     {
-        $this->tanggal_lahir_dms = [];
-        $this->tanggal_lahir_hts = [];
-        $this->ht_terkonfirmasi  = [];
-        $this->dm_terkonfirmasi  = [];
-        $this->riwayat_dm        = 0;
-        $this->riwayat_ht        = 0;
+        $this->tanggal_lahir_dms    = [];
+        $this->tanggal_lahir_hts    = [];
+        $this->ht_terkonfirmasi     = [];
+        $this->dm_terkonfirmasi     = [];
+        $this->riwayat_dm_pasien_ids = [];
+        $this->riwayat_dm_pasien_ids = [];
+        $this->riwayat_dm           = 0;
+        $this->riwayat_ht           = 0;
     }
     
     public function collection(Collection $collection)
     {
-        DB::statement('Update pasiens set prolanis_dm = 0, prolanis_ht = 0;');
-        $this->golongkanTanggalLahirMenurutDmHt($collection);
+        $this->tanggal = '2021-01';
 
+        $this->golongkanTanggalLahirMenurutDmHt($collection);
         $dm       = [];
         $ht       = [];
-
         foreach ($collection as $c) {
             $dm[] = $this->kumpulkanRppt($c, $this->pasiens_dms, 'riwayat_dm', 'prolanis_dm');
             $ht[] = $this->kumpulkanRppt($c, $this->pasiens_hts, 'riwayat_ht', 'prolanis_ht');
@@ -73,18 +78,19 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
             foreach ($pasiens as $p) {
                 if ( $p->tanggal_lahir->format('Y-m-d') ==  $this->excelToDate( $c['tanggal_lahir'] )  ) {
                     if (str_contains($this->normalisasiString($p->nama), $this->normalisasiString($c['nama']))) {
-                        $p->$prolanis    = 1;
-                        $p->nama         = $c['nama'];
-                        $p->nama_peserta = $c['nama'];
-                        $p->sex          = strtolower($c['jenis_kelamin']) == 'laki-laki'? 1 : 0;
-                        $p->save();
+                        /* $p->$prolanis    = 1; */
+                        /* $p->nama         = $c['nama']; */
+                        /* $p->nama_peserta = $c['nama']; */
+                        /* $p->sex          = strtolower($c['jenis_kelamin']) == 'laki-laki'? 1 : 0; */
+                        /* $p->save(); */
                         $harus_konfirmasi = false;
 
-                        Periksa::where('pasien_id', $p->id)
-                                ->where('tanggal', 'like', date('Y-m') . '%')
-                                ->update([
-                                    $prolanis => '1'
-                                ]);
+                        $nama_pasien_ids = $riwayat . '_pasien_ids';
+
+                        $this->$nama_pasien_ids[] = $p->id;
+                            /* 'id' => $p->id, */
+                            /* 'nama' => $p->nama */
+                        /* ]; */
 
                         if ( $prolanis == 'prolanis_dm' ) {
                             $this->dm_terkonfirmasi[] = $c;
