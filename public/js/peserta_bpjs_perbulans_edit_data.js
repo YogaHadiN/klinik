@@ -1,6 +1,7 @@
 function changePasien(control) {
 
 	var id            = $(control).closest('.select_div').find('.selectPasien').val();
+	var bulanTahun    = $('#bulanTahun').val();
 	var nama_previous = $(control).closest('.select_div').find('.selectPasien option:selected').text();
 	var nama          = $(control).closest('.panel').find('.nama_pasien').html();
 	var jenis_kelamin = $(control).closest('.panel').find('.jenis_kelamin').html();
@@ -14,6 +15,8 @@ function changePasien(control) {
 	console.log(nama);
 	console.log(nama_tab);
 	console.log(jenis_kelamin);
+	console.log(bulanTahun);
+
 
 	Swal.fire({
 	  title: 'Are you sure?',
@@ -29,6 +32,7 @@ function changePasien(control) {
 			{
 				'id':            id ,
 				'nama':          nama ,
+				'bulanTahun':          bulanTahun ,
 				'jenis_kelamin': jenis_kelamin ,
 				'nama_tab':      nama_tab
 			},

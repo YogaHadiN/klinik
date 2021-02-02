@@ -21,6 +21,7 @@ Klinik Jati Elok | Edit Data Pasien RPPT
 	<a href="#" class="float">
 		<i class="fa fa-2x fa-object-group my-float"></i>
 	</a>
+	{!! Form::text('bulanTahun', $bulanTahun, ['class' => 'form-control hide' , 'id' => 'bulanTahun']) !!}
 	@include('peserta_bpjs_perbulans.form')
 	@include('peserta_bpjs_perbulans.form', ['ht' => $dm])
 		<div class="row">

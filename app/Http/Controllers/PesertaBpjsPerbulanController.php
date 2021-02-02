@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PesertaBpjsPerbulan;
+use App\UpdateRpptPeserta;
 use App\Rules\ExceRule;
 use Input;
 use Auth;
@@ -65,9 +66,31 @@ class PesertaBpjsPerbulanController extends Controller
         $this->updatePasienPeriksa();
         $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
+        $bulanTahun = $this->bulanTahun;
+
+        /* $ids = []; */
+        /* foreach ($ht as $h) { */
+        /*     foreach ($h['pasiens'] as $p) { */
+        /*         $ids[] = $p->id; */
+        /*     } */
+        /* } */
+        /* foreach ($dm as $h) { */
+        /*     foreach ($h['pasiens'] as $p) { */
+        /*         $ids[] = $p->id; */
+        /*     } */
+        /* } */
+
+
+        /* $periksa_ids = []; */
+        /* $periksas = Periksa::where('tanggal', 'like', $this->bulanTahun. '%')->whereIn('pasien_id', $ids)->get(); */
+        /* foreach ($periksas as $prx) { */
+        /*     $periksa_ids[] = $prx->pasien->nama; */
+        /* } */
+        /* dd( $periksa_ids ); */
 
         return view('peserta_bpjs_perbulans.edit_data_pasien', compact(
             'ht',
+            'bulanTahun',
             'dm'
         ));
 
@@ -179,14 +202,14 @@ class PesertaBpjsPerbulanController extends Controller
     public function updateDataPasien(){
         $id       = Input::get('id');
         $nama     = Input::get('nama');
+        $bulanTahun     = Input::get('bulanTahun');
         $nama_tab = Input::get('nama_tab');
         $sex      = strtolower(Input::get('jenis_kelamin')) == 'laki-laki' ? '1' : '0';
 
         if ( !empty($id) ) {
-            $pasien                   = Pasien::find($id);
-            $pasien->nama             = $nama ;
-            $pasien->nama_peserta     = $nama ;
-            $pasien->sex              = $sex ;
+            $pasien       = Pasien::find($id);
+            $nama_sebelum = $pasien->nama;
+            $pasien->nama = $nama ;
 
             if ( $nama_tab           == 'ht' ) {
                 $pasien->prolanis_ht  = 1;
@@ -196,9 +219,17 @@ class PesertaBpjsPerbulanController extends Controller
             }
             $pasien->save();
 
+            $update_rppt_peserta               = new UpdateRpptPeserta;
+            $update_rppt_peserta->pasien_id    = $pasien->id ;
+            $update_rppt_peserta->nama_sebelum = $nama_sebelum ;
+            $update_rppt_peserta->nama_sesudah = $pasien->nama ;
+            $update_rppt_peserta->prolanis     = $nama_tab ;
+            $update_rppt_peserta->save();
+
             $nama_prolanis = 'prolanis_' . $nama_tab;
-            Periksa::where('pasien_id', $p->id)
-                    ->where('tanggal', 'like', date('Y-m') . '%')
+
+            Periksa::where('pasien_id', $pasien->id)
+                    ->where('tanggal', 'like', $bulanTahun . '%')
                     ->update([
                         $nama_prolanis => '1'
                     ]);
