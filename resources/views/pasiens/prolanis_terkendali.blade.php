@@ -60,30 +60,13 @@ Klinik Jati Elok | Laporan Prolanis Terkendali
 				
 			</div>
 		</div>
-		<div>
-		  <!-- Nav tabs -->
-		  <ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#prolani_ht" aria-controls="prolani_ht" role="tab" data-toggle="tab">Hipertensi</a></li>
-			<li role="presentation"><a href="#prolanis_dm" aria-controls="prolanis_dm" role="tab" data-toggle="tab">Diabetes</a></li>
-		  </ul>
-
-		  <!-- Tab panes -->
-		  <div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="prolani_ht">
-				@include('pasiens.prolanis_template', ['pasiens' => $prolanis_ht])
-			</div>
-			<div role="tabpanel" class="tab-pane" id="prolanis_dm">
-				@include('pasiens.prolanis_template', ['pasiens' => $prolanis_dm])
-			</div>
-		  </div>
-		</div>
 @stop
 @section('footer') 
-							<script type="text/javascript" charset="utf-8">
-								function dummySubmit(control){
-									if(validatePass2(control)){
-										$('#submit').click();
-									}
-								}
-							</script>
+	<script type="text/javascript" charset="utf-8">
+		function dummySubmit(control){
+			if(validatePass2(control)){
+				$('#submit').click();
+			}
+		}
+	</script>
 @stop

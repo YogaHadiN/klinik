@@ -46,8 +46,21 @@ Klinik Jati Elok | Peserta BPJS bulanan
 						]) !!}
 							<div class="form-group{{ $errors->has('nama_file') ? ' has-error' : '' }}">
 								{!! Form::label('nama_file', 'Upload') !!}
-								{!! Form::file('nama_file') !!}
+								{!! Form::file('nama_file', ['class' => 'rq']) !!}
 								{!! $errors->first('nama_file', '<p class="help-block">:message</p>') !!}
+							</div>
+							<div class="form-group @if($errors->has('bulan')) has-error @endif">
+								{!! Form::label('bulan', 'Bulan', ['class' => 'control-label']) !!}
+								{!! Form::select('bulan' , App\Classes\Yoga::bulanList(), null, ['class' => 'form-control rq']) !!}
+								@if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
+							</div>
+							<div class="form-group @if($errors->has('tahun')) has-error @endif">
+								{!! Form::label('tahun', 'Tahun', ['class' => 'control-label']) !!}
+								{!! Form::select('tahun' , App\Classes\Yoga::tahunList(), null, [
+									'class'       => 'form-control rq',
+									'placeholder' => '- Pilih -'
+								]) !!}
+								@if($errors->has('tahun'))<code>{{ $errors->first('tahun') }}</code>@endif
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

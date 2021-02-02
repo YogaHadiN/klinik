@@ -30,6 +30,7 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     public $riwayat_ht;
     public $riwayat_dm_pasien_ids;
     public $riwayat_ht_pasien_ids;
+    public $elemenKe;
 
 
     /**
@@ -37,20 +38,21 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
      */
     public function __construct()
     {
-        $this->tanggal_lahir_dms    = [];
-        $this->tanggal_lahir_hts    = [];
-        $this->ht_terkonfirmasi     = [];
-        $this->dm_terkonfirmasi     = [];
+        $this->tanggal_lahir_dms     = [];
+        $this->tanggal_lahir_hts     = [];
+        $this->ht_terkonfirmasi      = [];
+        $this->dm_terkonfirmasi      = [];
         $this->riwayat_dm_pasien_ids = [];
         $this->riwayat_dm_pasien_ids = [];
-        $this->riwayat_dm           = 0;
-        $this->riwayat_ht           = 0;
+        $this->riwayat_dm            = 0;
+        $this->riwayat_ht            = 0;
+        $this->tanggal               = date('Y-m');
+        $this->elemen_riwayat_dm_ke  = 0;
+        $this->elemen_riwayat_ht_ke  = 0;
     }
     
     public function collection(Collection $collection)
     {
-        $this->tanggal = '2021-01';
-
         $this->golongkanTanggalLahirMenurutDmHt($collection);
         $dm       = [];
         $ht       = [];
@@ -71,6 +73,9 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
      */
     private function kumpulkanRppt($c, $pasiens, $riwayat, $prolanis)
     {
+        $elemen_ke = 'elemen_' . $riwayat . '_ke';
+        $this->$elemen_ke++;
+        $this->validateDate($c['tanggal_lahir'], $this->$elemen_ke);
         if ( !empty( $c[$riwayat]   ) ) {
             $this->$riwayat++;
             $pasien_filtered  = [];
@@ -175,4 +180,20 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
             /* 'tanggal_lahir' => 'date_format:d-m-Y' */ 
         ];
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function validateDate($date, $elemen_ke )
+    {
+        try {
+            Carbon::createFromFormat('d-m-Y', $date);
+        } catch (\Exception $e) {
+            dd('Tanggal lahir pada baris ke ' . $elemen_ke . ' Tidak benar harusnya format dd-mm-yyyy, contoh : 19-07-1993');
+        }
+
+        // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+    }
+    
 }

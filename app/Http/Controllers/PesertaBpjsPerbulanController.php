@@ -18,6 +18,9 @@ class PesertaBpjsPerbulanController extends Controller
 {
     public $jumlah_dm;
     public $jumlah_ht;
+    public $bulanTahun;
+    public $riwayat_dm_pasien_ids;
+    public $riwayat_ht_pasien_ids;
     /**
      * @param 
      */
@@ -25,6 +28,7 @@ class PesertaBpjsPerbulanController extends Controller
     {
         $this->jumlah_dm = 0;
         $this->jumlah_ht = 0;
+        $this->bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');
     }
     
     public function index(){
@@ -46,43 +50,19 @@ class PesertaBpjsPerbulanController extends Controller
             return $this->valid( Input::all() );
         }
         $import = new PesertaBpjsPerbulanImport;
-       try {
-            Excel::import($import, Input::file('nama_file'));
-       }
-       catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-          $failures                 = $e->failures();
-          $peserta_bpjs_perbulans = PesertaBpjsPerbulan::latest()->get();
-          return view('peserta_bpjs_perbulans.index', compact(
-              'peserta_bpjs_perbulans',
-              'failures'
-          ));
-       }
-        $data            = $import->data;
-        $ht              = $data['ht'];
-        $dm              = $data['dm'];
-        $this->jumlah_dm = $import->riwayat_dm;
-        $this->jumlah_ht = $import->riwayat_ht;
+        $import->bulanTahun = $this->bulanTahun;
+        Excel::import($import, Input::file('nama_file'));
+        $data                        = $import->data;
+        $ht                          = $data['ht'];
+        $dm                          = $data['dm'];
+        $this->jumlah_dm             = $import->riwayat_dm;
+        $this->jumlah_ht             = $import->riwayat_ht;
+        $this->bulanTahun               = $import->bulanTahun;
+        $this->riwayat_dm_pasien_ids = $import->riwayat_dm_pasien_ids;
+        $this->riwayat_ht_pasien_ids = $import->riwayat_ht_pasien_ids;
 
-        DB::statement('Update pasiens set prolanis_dm = 0, prolanis_ht = 0;' );
-        DB::statement("Update periksas set prolanis_dm = 0, prolanis_ht = 0 where tanggal like '" . $import->tanggal . "';" );
-
-        $pasien_dm = Pasien::whereIn('id', $import->riwayat_dm_pasien_ids)->update([
-            'prolanis_dm' => 1
-        ]);
-
-        $pasiens_ht = Pasien::whereIn('id', $import->riwayat_ht_pasien_ids)->update([
-            'prolanis_ht' => 1
-        ]);
-
-
-        $periksa_ht = Periksa::where('tanggal', 'like', $import->tanggal . '%')->whereIn('pasien_id', $import->riwayat_ht_pasien_ids)->update([
-            'prolanis_ht' => 1
-        ]);
-
-        $periksa_dm = Periksa::where('tanggal', 'like', $import->tanggal . '%')->whereIn('pasien_id', $import->riwayat_dm_pasien_ids)->update([
-            'prolanis_dm' => 1
-        ]);
-
+        $this->resetPasienPeriksa();
+        $this->updatePasienPeriksa();
         $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
 
@@ -231,6 +211,45 @@ class PesertaBpjsPerbulanController extends Controller
             return '0';
         }
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function resetPasienPeriksa()
+    {
+        if ($this->bulanTahun == date('Y-m')) {
+            DB::statement('Update pasiens set prolanis_dm = 0, prolanis_ht = 0;' );
+        }
+        DB::statement("Update periksas set prolanis_dm = 0, prolanis_ht = 0 where tanggal like '" . $this->bulanTahun . "';" );
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function updatePasienPeriksa()
+    {
+        if ($this->bulanTahun == date('Y-m')) {
+            $pasien_dm = Pasien::whereIn('id', $this->riwayat_dm_pasien_ids)->update([
+                'prolanis_dm' => 1
+            ]);
+
+            $pasiens_ht = Pasien::whereIn('id', $this->riwayat_ht_pasien_ids)->update([
+                'prolanis_ht' => 1
+            ]);
+        }
+
+        $periksa_ht = Periksa::where('tanggal', 'like', $this->bulanTahun . '%')->whereIn('pasien_id', $this->riwayat_ht_pasien_ids)->update([
+            'prolanis_ht' => 1
+        ]);
+
+        $periksa_dm = Periksa::where('tanggal', 'like', $this->bulanTahun . '%')->whereIn('pasien_id', $this->riwayat_dm_pasien_ids)->update([
+            'prolanis_dm' => 1
+        ]);
+    }
+    
+    
     
     
 }

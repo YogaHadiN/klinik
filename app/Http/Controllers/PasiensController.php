@@ -401,22 +401,7 @@ class PasiensController extends Controller
 		));
 	}
 	public function prolanisTerkendali(){
-		$pasiens     = Pasien::where('prolanis_ht', '1')->orWhere('prolanis_dm', '1')->get();
-		$prolanis_ht = [];
-		$prolanis_dm = [];
-		foreach ($pasiens as $p) {
-			if ($p->prolanis_ht) {
-				$prolanis_ht[] = $p;
-			}
-			if ($p->prolanis_dm) {
-				$prolanis_dm[] = $p;
-			}
-			
-		}
-		return view('pasiens.prolanis_terkendali', compact(
-			'prolanis_ht',
-			'prolanis_dm'
-		));
+		return view('pasiens.prolanis_terkendali');
 	}
 	public function prolanisTerkendaliPerBulan(){
 		$bulan      = Input::get('bulan');

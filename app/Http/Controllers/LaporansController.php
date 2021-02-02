@@ -219,14 +219,13 @@ class LaporansController extends Controller
 
 		$rppt = PesertaBpjsPerbulan::latest()->first();
 
-
 		$ht_berobat    = 0;
 		$dm_berobat    = 0;
 		$ht_terkendali = 0;
 		$dm_terkendali = 0;
 
-		$jumlah_prolanis_dm = $rppt == null? 1 : $rppt->jumlah_dm;
-		$jumlah_prolanis_ht = $rppt == null?1 : $rppt->jumlah_ht;
+		$jumlah_prolanis_dm = $rppt == null? 0 : $rppt->jumlah_dm;
+		$jumlah_prolanis_ht = $rppt == null? 0 : $rppt->jumlah_ht;
 
 		foreach ($this->queryHtTerkendali(date('Y-m')) as $d) {
 			if ( $d->prolanis_ht == '1' ) {
@@ -235,13 +234,9 @@ class LaporansController extends Controller
 					$ht_terkendali++;
 				}
 			}
-			if ( $d->prolanis_dm == '1' ) {
-				$dm_berobat++;
-			}
 		}
 
-		$ht_terkendali_persen = round($ht_terkendali / $jumlah_prolanis_ht * 100);
-
+		$ht_terkendali_persen = $jumlah_prolanis_ht > 0 ? round($ht_terkendali / $jumlah_prolanis_ht * 100): 0;
 
 		foreach ($this->queryDmTerkendali(date('Y-m')) as $d) {
 			$dm_berobat++;
@@ -252,7 +247,8 @@ class LaporansController extends Controller
 				$dm_terkendali++;
 			}
 		}
-		$dm_terkendali_persen = round($dm_terkendali / $jumlah_prolanis_dm * 100);
+		$dm_terkendali_persen = $jumlah_prolanis_dm > 0? round($dm_terkendali / $jumlah_prolanis_dm * 100):0;
+
 		return view('laporans.index', compact(
 			'asuransis',
 			'antrianperiksa',
@@ -314,8 +310,9 @@ class LaporansController extends Controller
 		$query .= "FROM periksas as prx ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE tanggal like '" . $bulanThn. "%'";
-		$query .= "AND (psn.prolanis_dm=1 or psn.prolanis_ht = 1) ";
+		$query .= "AND prx.prolanis_ht = 1 ";
 		$query .= "GROUP BY psn.id ";
+		$query .= "ORDER BY prx.sistolik asc;";
 		return DB::select($query);
 	}
 
@@ -336,7 +333,7 @@ class LaporansController extends Controller
 		$query .= "WHERE psn.prolanis_dm=1 ";
 		$query .= "AND prx.tanggal like '" . $bulanThn. "%' ";
 		$query .= "GROUP BY psn.id ";
-		$query .= "ORDER BY keterangan_pemeriksaan asc";
+		$query .= "ORDER BY CAST(trx.keterangan_pemeriksaan AS UNSIGNED) asc";
 		return DB::select($query);
 	}
 	
