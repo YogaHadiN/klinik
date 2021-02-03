@@ -624,16 +624,32 @@
 				var jumlah_berkas = $.trim(data)
 				if(submit){
 					if($('#dibayar_asuransi').val() == ''){
-						alert('Asuransi harus diisi walaupun dengan angka 0 ..');
+						Swal.fire({
+						  icon: 'error',
+						  title: 'Oops...',
+						  text: 'Asuransi harus diisi walaupun dengan angka 0 ..'
+						});
 						validasi('#dibayar_asuransi', 'harus diisi walau dengan 0');
 					}else if(dibayar_pasien > 0 && pembayaran_pasien == '' ){
-						alert('Pembayaran harus diisi walaupun dengan angka 0 ..');
+						Swal.fire({
+						  icon: 'error',
+						  title: 'Oops...',
+						  text: 'Pembayaran harus diisi walaupun dengan angka 0 ..'
+						});
 						validasi('#pembayaran_pasien', 'harus diisi walau dengan 0');
 					}else if( parseInt( dibayar_pasien ) > parseInt( pembayaran_pasien_clean ) ) {
-						alert('Pembayaran Pasien tidak benar');
+						Swal.fire({
+						  icon: 'error',
+						  title: 'Oops...',
+						  text: 'Pembayaran Pasien tidak benar'
+						});
 						validasi('#pembayaran_pasien', 'Pembayaran Pasien tidak benar');
 					}else if( tipe_asuransi == '3' && parseInt(jumlah_berkas) <1 ) {
-						alert('Asuransi Admedika harus diupload Bukti Pemeriksaan Asuransi Yang sudah ditandatangani');
+						Swal.fire({
+						  icon: 'error',
+						  title: 'Oops...',
+						  text: 'Asuransi Admedika harus diupload Bukti Pemeriksaan Asuransi Yang sudah ditandatangani'
+						});
 						validasi(':file', 'Harus diupload Bukti Pemeriksaan Asuransi');
 					}else { 
 						$('#print').click();

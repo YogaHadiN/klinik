@@ -83,19 +83,9 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
             foreach ($pasiens as $p) {
                 if ( $p->tanggal_lahir->format('Y-m-d') ==  $this->excelToDate( $c['tanggal_lahir'] )  ) {
                     if (str_contains($this->normalisasiString($p->nama), $this->normalisasiString($c['nama']))) {
-                        /* $p->$prolanis    = 1; */
-                        /* $p->nama         = $c['nama']; */
-                        /* $p->nama_peserta = $c['nama']; */
-                        /* $p->sex          = strtolower($c['jenis_kelamin']) == 'laki-laki'? 1 : 0; */
-                        /* $p->save(); */
-                        $harus_konfirmasi = false;
-
-                        $nama_pasien_ids = $riwayat . '_pasien_ids';
-
+                        $harus_konfirmasi         = false;
+                        $nama_pasien_ids          = $riwayat . '_pasien_ids';
                         $this->$nama_pasien_ids[] = $p->id;
-                            /* 'id' => $p->id, */
-                            /* 'nama' => $p->nama */
-                        /* ]; */
 
                         if ( $prolanis == 'prolanis_dm' ) {
                             $this->dm_terkonfirmasi[] = $c;
