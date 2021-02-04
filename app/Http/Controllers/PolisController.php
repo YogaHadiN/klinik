@@ -399,7 +399,7 @@ class PolisController extends Controller
 			}
 		}
 		$periksaExist = false;
-		$penunjang    = '';
+		$penunjang    =[];
 		$transaksiusg = [];
 		if ($antrianperiksa->poli == 'usg') {
 			$biayaUSG = 100000;
@@ -429,7 +429,7 @@ class PolisController extends Controller
 				'biaya'               => $biayaUSG,
 				'keterangan_tindakan' => ''
 			];
-			$penunjang = 'USG : ,';
+			$penunjang[] = 'USG : ,';
 		} else if($antrianperiksa->poli == 'sks'){
 			$transaksiusg[] = [
 				'jenis_tarif_id'      => '121',
@@ -438,7 +438,7 @@ class PolisController extends Controller
 										->where('jenis_tarif_id', '121')->first()->biaya,
 				'keterangan_tindakan' => ''
 			];
-			$penunjang = 'surat keterangan sehat : , ';
+			$penunjang[] = 'surat keterangan sehat : , ';
 		} else if($antrianperiksa->poli == 'kb 1 bulan'){
 			$transaksiusg[] = [
 				'jenis_tarif_id'      => '265',
@@ -447,7 +447,7 @@ class PolisController extends Controller
 										->where('jenis_tarif_id', '265')->first()->biaya,
 				'keterangan_tindakan' => ''
 			];
-			$penunjang = 'KB 1 Bulan : , ';
+			$penunjang[] = 'KB 1 Bulan : , ';
 		} else if($antrianperiksa->poli == 'kb 3 bulan'){
 			$transaksiusg[] = [
 				'jenis_tarif_id'      => '72',
@@ -456,7 +456,7 @@ class PolisController extends Controller
 										->where('jenis_tarif_id', '72')->first()->biaya,
 				'keterangan_tindakan' => ''
 			];
-			$penunjang = 'KB 3 Bulan : , ';
+			$penunjang[] = 'KB 3 Bulan : , ';
 		}
 		//entry untuk menentukan apakah akan ada tindakan atau tidak
 		$adatindakan = '0';
@@ -464,12 +464,27 @@ class PolisController extends Controller
 		if ($antrianperiksa->poli == 'luka') {
 			$adatindakan = '1';
 		}
-		$transaksiusg = json_encode($transaksiusg);
 		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id, $periksa);
 
 		$url = url('/');
 
 		$generik_lists = Generik::list();
+		if ( !empty( $antrianperiksa->gds ) ) {
+			$transaksiusg[] = [
+				"jenis_tarif_id"      => "116",
+				"jenis_tarif"         => "Gula Darah",
+				"biaya"               => 0,
+				"keterangan_tindakan" => $antrianperiksa->gds
+			];
+			$penunjang[] = 'Gula Darah : ' . $antrianperiksa->gds .', ';
+		}
+
+		$transaksiusg = json_encode($transaksiusg);
+		$penunjang_result = '';
+		foreach ($penunjang as $p) {
+			$penunjang_result .= $p;
+		}
+		$penunjang = $penunjang_result;
 		/* return $pasien->alergies[0]->generik; */
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
