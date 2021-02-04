@@ -142,6 +142,7 @@ class AntrianPeriksasController extends Controller
 		$ap->sistolik            = Input::get('sistolik');
 		$ap->diastolik           = Input::get('diastolik');
 		$ap->tinggi_badan        = $tinggi_badan;
+		$ap->gds                 = Input::get('gds');
 
 
 		$ap->save();

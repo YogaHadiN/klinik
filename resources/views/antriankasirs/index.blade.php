@@ -106,7 +106,11 @@
           if (data['periksa_id'] == periksa_id || data['periksa_id'] == '0') {
             $(control).closest('td').find('.displayNone').get(0).click(); //sudah bisa
           }else{
-            alert('monitor sedang digunakan oleh ' + data['periksa_id'] + ' - ' + data['nama']);
+			Swal.fire({
+			  icon: 'error',
+			  title: 'Oops...',
+			  text:'monitor sedang digunakan oleh ' + data['periksa_id'] + ' - ' + data['nama']
+			});
             $('#pleaseWaitDialog').modal('hide');
           }   
               

@@ -367,6 +367,8 @@ class PasiensAjaxController extends Controller
 				$query .= "p.nama_peserta as namaPeserta, ";
 				$query .= "p.nama_ibu as namaIbu, ";
 				$query .= "p.nama_ayah as namaAyah, ";
+				$query .= "p.prolanis_dm as prolanis_dm, ";
+				$query .= "p.prolanis_ht as prolanis_ht, ";
 				$query .= "p.image as image ";
 			} else {
 				$query .= "count(p.id) as jumlah ";
@@ -434,4 +436,19 @@ class PasiensAjaxController extends Controller
 			]; 
 		}
 	}
+	public function statusCekGDSBulanIni(){
+		$pasien_id = Input::get('pasien_id');
+		$bulanThn = date('Y-m');
+		$query  = "SELECT count(*) as jumlah ";
+		$query .= "FROM periksas as prx ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "JOIN transaksi_periksas as trx on trx.periksa_id = prx.id ";
+		$query .= "WHERE prx.tanggal like '{$bulanThn}' ";
+		$query .= "AND psn.id = '$pasien_id' ";
+		$query .= "AND trx.jenis_tarif_id =116 "; //gula darah
+		$query .= "AND prx.asuransi_id =32;"; //bpjs
+		$data = DB::select($query);
+		return $data[0]->jumlah;
+	}
+	
 }

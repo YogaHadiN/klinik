@@ -198,7 +198,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('prolanis_ht'))has-error @endif">
-				  {!! Form::label('prolanis_ht', 'Prolanis DM', ['class' => 'control-label']) !!}
+				  {!! Form::label('prolanis_ht', 'Prolanis HT', ['class' => 'control-label']) !!}
 				  {!! Form::select('prolanis_ht', [
 					  '0' => 'Tidak Terdaftar',
 					  '1' => 'Terdaftar'

@@ -171,7 +171,7 @@
 									{!! Form::text('periksa_awal', $antrianperiksa->periksa_awal, ['class' => 'hide']) !!}
 									{!! Form::text('antrian_id', $antrianperiksa->id, ['class' => 'displayNone', 'id' => 'antrianperiksa_id']) !!}
 									{!! Form::text('keterangan_periksa', $antrianperiksa->keterangan, ['class' => 'displayNone']) !!}
-									{!! Form::text('dibantu', $antrianperiksa->staf->dibantu, ['class' => 'form-control hide', 'id' => 'dibantu'])!!}
+									{!! Form::text('dibantu', '1', ['class' => 'form-control hide', 'id' => 'dibantu'])!!}
 									{!! Form::text('antrian', $antrianperiksa->antrian, ['class' => 'displayNone']) !!}
 									<div class="row">
 										{!! Form::text('berat_badan', $berat_badan, ['class' => 'form-control hide', 'id' => 'berat_badan'])!!}

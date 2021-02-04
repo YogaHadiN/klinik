@@ -414,7 +414,8 @@
                     } else {
                         temp += "<td nowrap class=''><div>" + caseNama( MyArray[i].namaAyah ) + "</div></td>";
                     }
-
+					temp += "<td nowrap class='displayNone prolanis_dm'><div>" + MyArray[i].prolanis_dm + "</div></td>";
+					temp += "<td nowrap class='displayNone prolanis_ht'><div>" + MyArray[i].prolanis_ht + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].image + "</div></td>";
                     temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
@@ -449,42 +450,46 @@
 				$('#processing-warning').html('<i class="fa fa-check" aria-hidden="true"></i> Sukses').removeAttr('class').addClass('btn btn-info');
 			});
     }
-        function rowEntry(control) {
+        // function rowEntry(control) {
 
-            $('#cekBPJSkontrol').hide();
-            $('#cekGDSBPJS').hide();
 
-			var nama             = $(control).closest('tr').find('td:nth-child(2) div').html();
-			var image            = $(control).closest('tr').find('td:nth-child(12) div').html();
-			var nama_asuransi    = $(control).closest('tr').find('td:nth-child(6) div').html();
-			var option_asuransi  = '<option value="">- Pilih Pembayaran -</option>';
-			option_asuransi     += '<option value="0">Biaya Pribadi</option>';
+        //     $('#cekBPJSkontrol').hide();
+        //     $('#cekGDSBPJS').hide();
 
-			var ID = $(control).closest('tr').find('td:first-child div').html();
+			// var nama             = $(control).closest('tr').find('td:nth-child(2) div').html();
+			// var image            = $(control).closest('tr').find('td:nth-child(12) div').html();
+			// var nama_asuransi    = $(control).closest('tr').find('td:nth-child(6) div').html();
+			// var option_asuransi  = '<option value="">- Pilih Pembayaran -</option>';
+			// option_asuransi     += '<option value="0">Biaya Pribadi</option>';
 
-			var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
 
-			cekBPJSkontrol(ID, asuransi_id);
+			// return false;
 
-            imgError();
+			// var ID = $(control).closest('tr').find('td:first-child div').html();
 
-            if (asuransi_id != '0') {
-                option_asuransi += '<option value="' + asuransi_id + '">' + nama_asuransi + '</option>'
-            };
+			// var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
 
-            $('#lblInputNamaPasien').html(ID + ' - ' + nama)
-                .closest('.form-group')
-                .removeClass('has-error')
-                .find('code')
-                .remove();
-            $('#namaPasien').val(nama);
-            $('#imageForm').attr('src', image);
-            $('#ID_PASIEN').val(ID);
-            $("#ddlPembayaran").html(option_asuransi);
-            resetComplain();
-            $('#exampleModal').modal('show');
-            return false;
-        }
+			// cekBPJSkontrol(ID, asuransi_id);
+
+        //     imgError();
+
+        //     if (asuransi_id != '0') {
+        //         option_asuransi += '<option value="' + asuransi_id + '">' + nama_asuransi + '</option>'
+        //     };
+
+        //     $('#lblInputNamaPasien').html(ID + ' - ' + nama)
+        //         .closest('.form-group')
+        //         .removeClass('has-error')
+        //         .find('code')
+        //         .remove();
+        //     $('#namaPasien').val(nama);
+        //     $('#imageForm').attr('src', image);
+        //     $('#ID_PASIEN').val(ID);
+        //     $("#ddlPembayaran").html(option_asuransi);
+        //     resetComplain();
+        //     $('#exampleModal').modal('show');
+        //     return false;
+        // }
         function resetComplain(){
             $('#timbul').hide();
             $('#modal-footer').show();

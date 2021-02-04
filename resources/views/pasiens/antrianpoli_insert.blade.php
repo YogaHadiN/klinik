@@ -65,8 +65,15 @@
 					  @if($errors->has('bukan_peserta'))<code>{{ $errors->first('bukan_peserta') }}</code>@endif
 					</div>
 				</div>	
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="antrian_terakhir">
-
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="cekProlanisDM">
+					<div class="alert alert-warning">
+						Prolanis DM : <span id="gds_prolanis_status"></span> periksa GDS
+					</div>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="cekProlanisHT">
+					<div class="alert alert-danger">
+						Prolanis HT
+					</div>
 				</div>
 			</div>
 			<div class="row hide" id="pengantar_pasien">

@@ -1907,11 +1907,11 @@ class Yoga {
 
 
 	public static function cekGDSBulanIni($pasien, $periksaIni){
-		$sudahBulanIni = false;
-		$bayar = false;
+		$sudahBulanIni   = false;
+		$bayar           = false;
 		$dikasihObatGula = false;
-		$tanggal = '';
-		$created_at = '';
+		$tanggal         = '';
+		$created_at      = '';
 		if ($periksaIni != null) {
 			$periksas = Periksa::with('transaksii')
 				->where('pasien_id', $pasien->id)

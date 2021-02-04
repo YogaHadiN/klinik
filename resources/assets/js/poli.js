@@ -1883,8 +1883,6 @@ function optionSyrup(ID_MEREK){
         var diagnosa_id = $('#ddlDiagnosa').val();
         var staf_id = $('#staf_id').val();
 
-
-
         if (asuransi_id == '32') {
             $.post( base + "/poli/ajax/diagcha", {'diagnosa_id': $('#ddlDiagnosa').val()}, function(data) {
                 data = $.trim(data);
@@ -2018,7 +2016,12 @@ function optionSyrup(ID_MEREK){
             '_token' :  $('#token').val()
         }
 
+
         var terapi = $('#terapi').val();
+		console.log($('#hamil').val());
+		console.log($('#dibantu').val());
+		console.log( terapi == '' || terapi == '[]');
+
         if ($('#hamil').val() != '1' && $('#dibantu').val() == '1' && ( terapi == '' || terapi == '[]') ) {
             $.post(base + '/poli/ajax/sopterapi', dataEntry, function(result) {
 				console.log(result);

@@ -261,7 +261,11 @@
                     console.log('html = ' + text);
                     $(control).closest('span').find('.hide').get(0).click();
                 } else {
-                    alert('pasien sudah pulang');
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text:'pasien sudah pulang'
+                    });
                     location.reload();
                 }
             });

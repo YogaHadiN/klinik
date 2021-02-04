@@ -664,6 +664,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasiens/ajax/cekPromo', 'PasiensAjaxController@cekPromo');
 	Route::get('pasiens/ajax/cari/pasien', 'PasiensMergeController@cariPasien');
 	Route::post('pasiens/ajax/cari/pasien', 'PasiensMergeController@cariPasienPost');
+	Route::get('pasiens/ajax/status_cel_gds_bulan_ini', 'PasiensAjaxController@statusCekGDSBulanIni');
 
 
 	Route::get('pasiens/gabungkan/pasien/ganda', 'PasiensMergeController@index');

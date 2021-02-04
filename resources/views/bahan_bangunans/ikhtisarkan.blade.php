@@ -78,7 +78,11 @@ function dummySubmit(){
 	});
 	console.log(keterangan_false);
 	if( sama == false ){
-		alert('nilai tidak sama pada pengeluaran dengan pg_id ');
+		Swal.fire({
+		  icon: 'error',
+		  title: 'Oops...',
+		  text:'nilai tidak sama pada pengeluaran dengan pg_id '
+		});
 		var text = '<p>Antara nilai yang diinput di peralatan dan harga di nota tidak sama pada pengeluaran dengan keterangan : </p>';
 		text += '<ul>';
 		 for (var i = 0; i < keterangan_false.length; i++) {

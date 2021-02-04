@@ -59,25 +59,24 @@
 <div class="alert alert-danger">
 	Baris tabel dengan background merah adalah pasien yang melakukan Pendaftaran sendiri, harap cek dulu asuransi nya bisa dipakai atau tidak
 </div>
-
-	 <div class="panel-group" id="accordion">
-		 @foreach($perjanjian as $k => $p)	
-		  <div class="panel panel-success">
-			<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $k }}">
-				<div class="panel-heading">
-				  <h4 class="panel-title">
-					   {{ $k }}, sudah ada {{ count($p) }} pasien
-				  </h4>
-				</div>
-			</a>
-			<div id="collapse{{ $k }}" class="panel-collapse collapse">
-			  <div class="panel-body">
-				  @include('antrianpolis.form', ['antrianpolis' => $p])
-			  </div>
+ <div class="panel-group" id="accordion">
+	 @foreach($perjanjian as $k => $p)	
+	  <div class="panel panel-success">
+		<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $k }}">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				   {{ $k }}, sudah ada {{ count($p) }} pasien
+			  </h4>
 			</div>
+		</a>
+		<div id="collapse{{ $k }}" class="panel-collapse collapse">
+		  <div class="panel-body">
+			  @include('antrianpolis.form', ['antrianpolis' => $p])
 		  </div>
-		 @endforeach
-	</div> 	
+		</div>
+	  </div>
+	 @endforeach
+</div> 	
 @include('antrianpolis.modalalasan')
 @include('antrianpolis.modalKonfirmasi')
 
@@ -101,6 +100,8 @@
 									<input type="text" class="displayNone" name="antrian_id" id="ID_ANTRIAN_POLI">
 									<input type="text" class="displayNone" name="antrian" id="antrian">
 									<input type="text" class="displayNone" name="pengantar" id="pengantar">
+									<input type="text" class="displayNone" name="prolanis_dm" id="prolanis_dm">
+									<input type="text" class="displayNone" name="prolanis_ht" id="prolanis_ht">
 								</div>
 							</div>
 						</div>
@@ -240,6 +241,15 @@
                                         </div>
                                     </div>
                                 </div>
+								<div class="row" id="rowStatusGDS">
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<div class="form-group @if($errors->has('gds')) has-error @endif">
+										{!! Form::label('gds', 'GDS', ['class' => 'control-label']) !!}
+										{!! Form::text('gds' , null, ['class' => 'form-control status_gds', 'id' => 'gds']) !!}
+										@if($errors->has('gds'))<code>{{ $errors->first('gds') }}</code>@endif
+										</div>
+									</div>
+								</div>
                                 <div class="row" id="pastikan">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -294,35 +304,34 @@
         </div>
 	</div>
 </div>
-
-		<div class="modal fade" tabindex="-1" role="dialog" id="alert_prolanis">
-		  <div class="modal-dialog">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Pastikan Nomor Telepon Benar</h4>
-			  </div>
-			  <div class="modal-body">
-				  <h3>Pasien Adalah Golongan Program Lanjut Usia BPJS</h3>
-				  <p>Mohon Pastikan kembali no telpon pasien yang bisa dihubungi</p>
-				  <p>Saat ini yang terdaftar adalah :</p>
-				  <h2 id="no_telp_pasien"></h2>
-				  <p>Jika Nomor Telepon tersebut tidak benar / salah harap ganti dengan </p>
-				  <p class='text-red'>Sebisa mungkin nomor telepon handphone yang bisa di SMS, bila format tidak benar misalnya kurang anka nol di depan, tolong dilengkapi dahulu</p>
-			  </div>
-			  <div class="modal-footer">
-				  <div class="row">
-				  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<a href="" id="redirect_update_pasien" class="btn btn-primary btn-block">Ganti Nomor Telepon Pasien</a>
-				  	</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<button type="button" class="btn btn-danger btn-block" onclick="closeModal();">Nomor Telepon Pasien Sudah Benar</button>
-					</div>
-				  </div>
-			  </div>
-			</div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="alert_prolanis">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Pastikan Nomor Telepon Benar</h4>
+	  </div>
+	  <div class="modal-body">
+		  <h3>Pasien Adalah Golongan Program Lanjut Usia BPJS</h3>
+		  <p>Mohon Pastikan kembali no telpon pasien yang bisa dihubungi</p>
+		  <p>Saat ini yang terdaftar adalah :</p>
+		  <h2 id="no_telp_pasien"></h2>
+		  <p>Jika Nomor Telepon tersebut tidak benar / salah harap ganti dengan </p>
+		  <p class='text-red'>Sebisa mungkin nomor telepon handphone yang bisa di SMS, bila format tidak benar misalnya kurang anka nol di depan, tolong dilengkapi dahulu</p>
+	  </div>
+	  <div class="modal-footer">
+		  <div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<a href="" id="redirect_update_pasien" class="btn btn-primary btn-block">Ganti Nomor Telepon Pasien</a>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button type="button" class="btn btn-danger btn-block" onclick="closeModal();">Nomor Telepon Pasien Sudah Benar</button>
+			</div>
+		  </div>
+	  </div>
+	</div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @stop
 @section('footer') 
 	{!! HTML::script('js/togglepanel.js')!!}
@@ -332,285 +341,6 @@
 		@if( Session::has('print') )
 			window.open("{{ url('pdfs/formulir/usg/' . Session::get('print')->pasien_id . '/' . Session::get('print')->asuransi_id) }}");
 		@endif
-        var base = "{{ url('/') }}";
-        $('#G').keyup(function(e) {
-            riwObsG();
-        });
-        uk('umur_kehamilan', 'hpht');
-        $('#hamil').change(function(e) {
-            if ($(this).val() == '1') {
-                $('.divAnc').removeClass('hide').hide().fadeIn(500);
-            } else if( $(this).val() == '0'){
-                empty();
-                $('.divAnc').fadeOut(500);
-            }
-        });
-        $('#perujuk_submit').click(function(e) {
-            var nama = $('#nama_perujuk').val();
-            var alamat = $('#alamat_perujuk').val();
-            var no_telp = $('#no_telp_perujuk').val();
-
-            if(nama == ''){
-                validasi('#nama_perujuk', 'Harus Diisi!!');
-            } else {
-                var param = {
-                    'nama' : nama,
-                    'alamat' : alamat,
-                    'no_telp' : no_telp
-                }
-
-                console.log(param);
-
-                $.post('{{ url("anc/perujx") }}', param, function(data) {
-                    data = $.parseJSON(data);
-                    console.log(data);
-                    if (data.success == '1') {
-                        alert('Bidan ' + nama + ' berhasil dimasukkan ke dalam database');
-                        var temp = '<option value="' + data.id + '">' + nama + '</option>';
-                        $('#perujuk_id').append(temp).val(data.id).selectpicker('refresh');
-                        $('#buat_perujuk').modal('hide');
-                    } else {
-                        alert('gagal');
-                    }
-                });
-            }
-
-        });
-
-        function rowEntry(control) {
-
-            riwayat = [];
-            var ID_PASIEN = $(control).closest('tr').find('.pasien_id').html();
-            var ID_POLI = $(control).closest('tr').find('.poli').html();
-            var ID_STAF = $(control).closest('tr').find('.staf_id').html();
-            var ID_ASURANSI = $(control).closest('tr').find('.asuransi_id').html();
-            var namaPasien = $(control).closest('tr').find('.nama_pasien').html();
-            var tanggal = $(control).closest('tr').find('.tanggal').html();
-            var jam = $(control).closest('tr').find('.jam').html();
-            var ID_ANTRIAN_POLI = $(control).closest('tr').find('.id').html();
-            var antrian = $(control).closest('tr').find('.antrian').html();
-            var image = $(control).closest('tr').find('.image').html();
-            var pengantar = $(control).closest('tr').find('.pengantar').html();
-            var umur = $(control).closest('tr').find('.umur').html();
-            var bukan_peserta = $(control).closest('tr').find('.bukan_peserta').html();
-            umur =umur.trim();
-
-            console.log("ID_PASIEN :" + ID_PASIEN );
-            console.log("ID_POLI :" + ID_POLI );
-            console.log("ID_STAF :" + ID_STAF );
-            console.log("ID_ASURANSI :" + ID_ASURANSI );
-            console.log("namaPasien :" + namaPasien );
-            console.log("tanggal :" + tanggal );
-            console.log("jam :" + jam );
-            console.log("ID_ANTRIAN_POLI :" + ID_ANTRIAN_POLI );
-            console.log("antrian :" + antrian );
-            console.log("image :" + image );
-            console.log("pengantar :" + pengantar );
-            console.log("umur :" + umur );
-            console.log("bukan_peserta :" + bukan_peserta );
-
-			$('#bukan_peserta').val(bukan_peserta);	
-
-			$.get('{{url('antrianpolis/ajax/getGolonganProlanis')}}',
-				{ 'pasien_id': ID_PASIEN },
-				function (data) {
-					data = $.trim(data);
-					if(data == '0'){
-					}else{
-						 $('#alert_prolanis').modal('show');
-						 $('#no_telp_pasien').html(data);
-						 $('#redirect_update_pasien').prop('href', '{{ url("pasiens") }}' + '/' + ID_PASIEN + '/edit');
-					}
-				}
-			);
-
-            if (ID_ASURANSI == '32') {
-                $('#pastikan').show();
-				cekBPJSkontrol(ID_PASIEN, ID_ASURANSI);
-                $('#lblKecelakaanKerja').html('Kecelakaan Kerja / Kecelakaan Lalu Lintas')
-				$('#divBukanPeserta').removeClass('hide').hide().fadeIn(500);
-				$('#divPembayaran').removeAttr('class');
-				$('#divPembayaran').addClass('col-lg-6 col-md-6');
-            } else {
-                $('#cekBPJSkontrol').hide();
-                $('#pastikan').hide();
-                $('#lblKecelakaanKerja').html('Kecelakaan Kerja')
-				$('#divBukanPeserta').fadeOut(500);
-				$('#divPembayaran').removeAttr('class');
-				$('#divPembayaran').addClass('col-lg-12 col-md-12');
-            }
-
-            $('#usia').html(umur);
-            $('#namaPasien1').val(namaPasien);
-            {{-- $('.nama').html(namaPasien); --}}
-            $('#jamDatang1').html(jam);
-            $('#jamDatang').val(jam);
-            $('#pembayaran1 ').val(ID_ASURANSI).selectpicker('refresh');
-            $('#ddlDokter').val(ID_STAF);
-            $('#poli1').val(ID_POLI);
-            $('#ID_PASIEN').val(ID_PASIEN);
-            $('#tanggal').val(tanggal);
-            $('#ID_ANTRIAN_POLI').val(ID_ANTRIAN_POLI);
-            $('#antrian').val(antrian);
-            $('#formfield').val(image);
-            $('#pengantar').val(pengantar);
-            $('#photo').attr("src", "{{ url('/') }}"+image);
-
-            empty();
-
-            if (ID_POLI == 'usg') {
-                if ($('#divUsg').hasClass('hide')) {
-                    $('#divUsg').removeClass('hide');
-                }
-                $('.divAnc').each(function(index, el) {
-                    if ($(this).hasClass('hide')) {
-                        $(this).removeClass('hide');
-                    }
-                });
-                $('#hamil').val('1');
-            } else if (ID_POLI == 'anc'){
-                $('.divAnc').each(function(index, el) {
-                    if ($(this).hasClass('hide')) {
-                        $(this).removeClass('hide');
-                    }
-                });
-                if (!$('#divUsg').hasClass('hide')) {
-                    $('#divUsg').addClass('hide');
-                }
-                $('#hamil').val('1');
-            } else {
-                $('.divAnc').each(function(index, el) {
-                    if (!$(this).hasClass('hide')) {
-                        $(this).addClass('hide');
-                    }
-                });
-                if (!$('#divUsg').hasClass('hide')) {
-                    $('#divUsg').addClass('hide');
-                }
-                $('#hamil').val('');
-            }
-
-        }
-
-        function testSubmit(control){
-            if (!validatePass2(control)) {
-
-            } else if ($('#usg').val() == '1') {
-                $('#ok').click();
-            } else {
-                $('#LinkButton1').click();
-            }
-        }
-
-        function alas(control){
-			var id = $(control).closest('tr').find('.id').html();
-			var pasien_id = $(control).closest('tr').find('.pasien_id').html();
-			var nama_pasien = $(control).closest('tr').find('.nama_pasien').html()
-
-			$('#modal-alasan .id').val(id);
-			$('#modal-alasan .pasien_id').val(pasien_id);
-			$('#modal-alasan').modal('show');
-
-			var onclick = "modalAlasan(this" + ", '" + pasien_id + "', '" + nama_pasien + "'); return false;";
-			$('#modal-alasan .dummySubmit').attr('onclick', onclick);
-        }
-
-        function hapusSajalah(){
-            var id = $('#alasan_id').val();
-            var submit_id = $('#submit_id').val();
-            console.log('id = ' + id);
-            $('#' + id).val($('#alasan_textarea').val());
-            $('#' + submit_id).click();
-        }
-
-        function testSubmit2(){
-
-            $('#LinkButton1').click();
-
-        }
-
-        function getOption(){
-
-            $.post('{{ url("perujuk") }}', { }, function(data) {
-                data = $.parseJSON(data);
-                var temp = '<option value="" selected>-Pilih Perujuk-</option>';
-                for (var i = 0; i < data.length; i++) {
-                    temp += '<option value="' + data[i].id + '">' + data[i].nama + '</option>';
-                }
-                $('#perujuk_id').html(temp);
-                $('#perujuk_id').selectpicker('refresh');
-            })
-
-        }
-
-        function riwObsG(){
-            if ($('#G').val() != '' && $('#G').val() < 10) {
-                var pasien_id = $('#ID_PASIEN').val();
-                var G = $('#G').val();
-              $.post(base+'/anc/registerhamil', {'G': G, 'pasien_id' : pasien_id}, function(data) {
-                if (data != '') {
-                    $('#hpht').val(data.hpht).attr('readonly', 'readonly');
-                    $('#umur_kehamilan').val(data.uk).attr('readonly', 'readonly');
-                    $('#P').val(data.p).attr('readonly', 'readonly');
-                    $('#A').val(data.a).attr('readonly', 'readonly');
-                }
-              });
-            } else {
-              $('.gpa2').val('').removeAttr('readonly');
-              $('.inputObs').val('').removeAttr('readonly');
-            }
-        }
-
-        function empty(){
-            $('.gpa').val('');
-            $('.inputObs').val('');
-            $('#perujuk_id').val('');
-        }
-
-        function ubahKKKLL(){
-            $('#kecelakaanKerja').val('1');
-            $('#dummySubmitButton').click();
-        }
-		function closeModal(){
-			 $('#alert_prolanis').modal('hide');
-		}
-		function konfirmasiAsuransi(control){
-			var image = $(control).closest('tr').find('.image').html();
-			var ktp_image = $(control).closest('tr').find('.ktp_image').html();
-			var bpjs_image = $(control).closest('tr').find('.bpjs_image').html();
-			var nama = $(control).closest('tr').find('.nama').html();
-			var alamat = $(control).closest('tr').find('.alamat').html();
-			var tanggal_lahir = $(control).closest('tr').find('.tanggal_lahir').html();
-			var id = $(control).closest('tr').find('.id').html();
-			var nomor_asuransi = $(control).closest('tr').find('.nomor_asuransi').html();
-			var nama_asuransi = $(control).closest('tr').find('.nama_asuransi').html();
-		
-
-			console.log(image);
-			console.log(ktp_image);
-			console.log(bpjs_image);
-			console.log(nama);
-			console.log(alamat);
-			console.log(tanggal_lahir);
-			console.log(nama_asuransi);
-
-			$('#konfirmasi_antrian_poli_id').val(id);
-			$('#konfirmasi_nama').val(nama);
-			$('#konfirmasi_alamat').val(alamat);
-			$('#konfirmasi_tanggal_lahir').val(tanggal_lahir);
-			$('#konfirmasi_pasien_image').attr('src',image);
-			$('#konfirmasi_ktp_image').attr('src',ktp_image);
-			$('#konfirmasi_bpjs_image').attr('src',bpjs_image);
-			$('#konfirmasi_nomor_asuransi').val(nomor_asuransi);
-			$('#konfirmasiAsuransi .nama_asuransi').html(nama_asuransi);
-			
-			imgError();
-
-		}
-		
-		
-
-
     </script>
-
+    {!! HTML::script('js/antrian_poli.js') !!}   
 @stop

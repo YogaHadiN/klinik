@@ -22,6 +22,8 @@
 				<th class="hide">No Asuransi</th>
 				<th>Nama Asuransi</th>
 				<th class="hide">Bukan Peserta</th>
+				<th class="">Prolanis DM</th>
+				<th class="">Prolanis HT</th>
 				<th class="">Action</th>
 			</tr>
 		</thead>
@@ -56,6 +58,8 @@
 					<td class="displayNone nomor_asuransi">{!! $antrianpoli->pasien->nomor_asuransi!!}</td>
 					<td class="nama_asuransi">{!! $antrianpoli->asuransi->nama !!}</td>
 					<td class="displayNone bukan_peserta">{!! $antrianpoli->bukan_peserta !!}</td>
+					<td class="prolanis_dm">{!! $antrianpoli->pasien->prolanis_dm !!}</td>
+					<td class="prolanis_ht">{!! $antrianpoli->pasien->prolanis_ht !!}</td>
 					<td nowrap>
 						@if($antrianpoli->tanggal <= date('Y-m-d 00:00:00'))
 							@if($antrianpoli->self_register == '1' && $antrianpoli->asuransi_id != 0)

@@ -38,7 +38,11 @@
 	            function onError(errorId,errorMsg) {
 	                $( "#btn1" ).attr( "disabled", true );
 	                $( "#btn2" ).attr( "disabled", true );
-	                alert(errorMsg);
+					Swal.fire({
+					  icon: 'error',
+					  title: 'Oops...',
+					  text:errorMsg
+					})
 	            }          
 	            function onWebcamReady(cameraNames,camera,microphoneNames,microphone,volume) {
 	                $.each(cameraNames, function(index, text) {
