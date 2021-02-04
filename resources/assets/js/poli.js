@@ -2018,11 +2018,8 @@ function optionSyrup(ID_MEREK){
 
 
         var terapi = $('#terapi').val();
-		console.log($('#hamil').val());
-		console.log($('#dibantu').val());
-		console.log( terapi == '' || terapi == '[]');
 
-        if ($('#hamil').val() != '1' && $('#dibantu').val() == '1' && ( terapi == '' || terapi == '[]') ) {
+        if ($('#hamil').val() != '1' && ( terapi == '' || terapi == '[]') ) {
             $.post(base + '/poli/ajax/sopterapi', dataEntry, function(result) {
 				console.log(result);
                 result = $.trim(result);

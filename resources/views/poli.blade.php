@@ -99,7 +99,7 @@
 @stop
 @section('footer') 
 @if( isset($panggilan) )
-	{!! Form::text('audio', json_encode($panggilan), ['class' => 'form-control', 'id' => 'sound']) !!}
+	{!! Form::text('audio', json_encode($panggilan), ['class' => 'form-control hide', 'id' => 'sound']) !!}
 	@include('panggil')
 @endif
 <script>
