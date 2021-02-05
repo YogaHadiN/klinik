@@ -799,7 +799,6 @@ class Yoga {
 		}
 
 		public static function datediff($tgl1, $tgl2){
-			dd( $tgl1, $tgl2 );
 			$tgl1 = is_object($tgl1) ? $tgl1->format('Y-m-d') : $tgl1;
 			$tgl2 = is_object($tgl2) ? $tgl2->format('Y-m-d') : $tgl2;
 
