@@ -10,12 +10,12 @@
 
 			var nama             = $(control).closest('tr').find('td:nth-child(2) div').html();
 			var image            = base + '/' + $(control).closest('tr').find('td:nth-child(12) div').html();
-			var nama_asuransi    = $(control).closest('tr').find('td:nth-child(6) div').html();
+			var nama_asuransi    = $(control).closest('tr').find('.nama_asuransi div').html();
 			var option_asuransi  = '<option value="">- Pilih Pembayaran -</option>';
 			option_asuransi     += '<option value="0">Biaya Pribadi</option>';
 
 			var ID = $(control).closest('tr').find('td:first-child div').html();
-			var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
+			var asuransi_id = $(control).closest('tr').find('.asuransi_id div').html();
 
 			var prolanis_dm = $(control).closest('tr').find('.prolanis_dm div').html();
 			var prolanis_ht = $(control).closest('tr').find('.prolanis_ht div').html();

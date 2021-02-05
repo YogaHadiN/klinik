@@ -390,9 +390,9 @@
                     temp += "<td nowrap class='kolom_3'><div>" + MyArray[i].tanggalLahir + "</div></td>";
                     temp += "<td nowrap><div>" + MyArray[i].noTelp + "</div></td>";
                     if(DDID_ASURANSI){
-                        temp += "<td nowrap class='displayNone'><div>" + caseNama( MyArray[i].namaAsuransi ) + "</div></td>";
+                        temp += "<td nowrap class='displayNone nama_asuransi'><div>" + caseNama( MyArray[i].namaAsuransi ) + "</div></td>";
                     } else {
-                        temp += "<td nowrap class=''><div>" + caseNama( MyArray[i].namaAsuransi ) + "</div></td>";
+                        temp += "<td nowrap class='nama_asuransi'><div>" + caseNama( MyArray[i].namaAsuransi ) + "</div></td>";
                     }
                     if(DDnomorAsuransi){
                         temp += "<td nowrap class='displayNone'><div>" + MyArray[i].nomorAsuransi + "</div></td>";
@@ -416,7 +416,7 @@
                     }
 					temp += "<td nowrap class='displayNone prolanis_dm'><div>" + MyArray[i].prolanis_dm + "</div></td>";
 					temp += "<td nowrap class='displayNone prolanis_ht'><div>" + MyArray[i].prolanis_ht + "</div></td>";
-                    temp += "<td nowrap class='displayNone'><div>" + MyArray[i].asuransi_id + "</div></td>";
+                    temp += "<td nowrap class='displayNone asuransi_id'><div>" + MyArray[i].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].image + "</div></td>";
                     temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
 
