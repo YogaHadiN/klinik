@@ -8,8 +8,13 @@ use DB;
 use Input;
 use Image;
 use App\Classes\Yoga;
+use Carbon\Carbon;
 
 class Pasien extends Model{
+	/**
+	* @param $dependencies
+	*/
+	
 	protected $dates = ['tanggal_lahir'];
 	public static function boot(){
 		parent::boot();
@@ -256,5 +261,9 @@ class Pasien extends Model{
 	public function alergies(){
 		return $this->hasMany('App\Alergi');
 	}
-	
+
+	public function getTanggalLahirAttribute()
+	{
+		return empty($this->tanggal_lahir) ? Carbon::parse( date('Y-m-d') ): $this->tanggal_lahir;
+	}
 }
