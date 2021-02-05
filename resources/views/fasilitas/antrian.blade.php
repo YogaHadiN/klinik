@@ -16,12 +16,15 @@
 		.text-center {
 			text-align: center;
 		}
+		.fit-width{
+			width: 100%;
+		}
 
 		h2{
 			font-size : 20px;
 		}
 		h3{
-			font-size : 10px;
+			font-size : 40px;
 		}
 		.margin-top {
 			margin-top: 10px;
@@ -134,6 +137,17 @@
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<button type="button" onclick="submitAntrian(3)" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
+				</div>
+			</div>
+			<br>
+			<hr>
+			<div class="row text-center">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="alert alert-info">
+						<h3>
+							Peserta BPJS <small>yang berobat ke </small>Dokter Umum <small>silahkan Scan Kartu / Barcode Aplikasi untuk mendapatkan Nomor Antrian</small>
+						</h3>
+					</div>
 				</div>
 			</div>
 			<div class="row">
