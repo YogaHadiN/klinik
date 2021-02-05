@@ -11,10 +11,6 @@ use App\Classes\Yoga;
 use Carbon\Carbon;
 
 class Pasien extends Model{
-	/**
-	* @param $dependencies
-	*/
-	
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($pasien){
@@ -40,26 +36,21 @@ class Pasien extends Model{
 	protected $guarded = [];
 
 	public function asuransi(){
-
 		return $this->belongsTo('App\Asuransi');
 	}
 
 	public function periksa(){
-
 		return $this->hasMany('App\Periksa');
 	}
 
 	public function antrianPeriksa(){
-
 		return $this->hasMany('App\AntrianPeriksa');
 	}
 	public function antrianPoli(){
-
 		return $this->hasMany('App\AntrianPoli');
 	}
 
 	public function registerHamil(){
-
 		return $this->hasMany('App\RegisterHamil');
 	}
 	public function getNamaAttribute($nama){
@@ -260,13 +251,7 @@ class Pasien extends Model{
 	public function alergies(){
 		return $this->hasMany('App\Alergi');
 	}
-
-   /* public function setTanggalLahirAttribute($value) */
-   /*  { */
-   /*      $this->attributes['tanggal_lahir'] = is_object($value) ? Carbon::parse( date('Y-m-d') ): $value; */
-   /*  } */
-	public function getTanggalLahirAttribute()
-	{
-		return empty($this->tanggal_lahir) ? Carbon::parse( date('Y-m-d') ): $this->tanggal_lahir;
+	public function getTanggalLahirAttribute($nama){
+		return empty($nama)? Carbon::parse(date('Y-m-d')) : Carbon::parse($nama);
 	}
 }
