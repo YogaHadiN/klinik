@@ -103,9 +103,10 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $periksa = Periksa::find('210131050');
-        $periksa->prolanis_dm = 9;
-        $periksa->save();
+		$p= Pasien::find( '170405023' );
+		dd( $p->tanggal_lahir );
+		$p->tanggal_lahir;
+
 		/* $this->testAdmedika(); */
 		/* dd( Carbon::createFromFormat('d-m-Y', '12/25/94') ); */
 		/* $this->testAsuransi(); */

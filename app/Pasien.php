@@ -15,7 +15,6 @@ class Pasien extends Model{
 	* @param $dependencies
 	*/
 	
-	protected $dates = ['tanggal_lahir'];
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($pasien){
@@ -262,6 +261,10 @@ class Pasien extends Model{
 		return $this->hasMany('App\Alergi');
 	}
 
+   /* public function setTanggalLahirAttribute($value) */
+   /*  { */
+   /*      $this->attributes['tanggal_lahir'] = is_object($value) ? Carbon::parse( date('Y-m-d') ): $value; */
+   /*  } */
 	public function getTanggalLahirAttribute()
 	{
 		return empty($this->tanggal_lahir) ? Carbon::parse( date('Y-m-d') ): $this->tanggal_lahir;
