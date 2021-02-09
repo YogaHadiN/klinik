@@ -68,10 +68,18 @@
 				console.log(data);
 				if (data.result == '1') {
 					$('#perujuk_id').html(data.options).val(data.value).selectpicker('refresh');
-					alert('perujuk baru bernama ' + nama_perujuk + ' telah berhasil ditambahkan');
+					Swal.fire(
+					  'Good job!',
+					  'perujuk baru bernama ' + nama_perujuk + ' telah berhasil ditambahkan',
+					  'success'
+					);
 					$('#modal_buat_perujuk_baru').modal('hide');
 				} else {
-					alert('maaf !! perujuk telah gagal ditambahkan');
+					Swal.fire({
+					  icon: 'error',
+					  title: 'Oops...',
+					  text:'maaf !! perujuk telah gagal ditambahkan'
+					});
 					$('#modal_buat_perujuk_baru').modal('hide');
 				}
 			}
@@ -83,7 +91,11 @@
 
 		var notif = $('#notified').val();
 	   if ( notif == '0' && $('#asuransi_id').val() == '32') {
-	   	alert('Harap baca dengan Jelas aturan mengenai asuransi ini, ada satu / beberapa hal yang sudah ditambahkan. Terima kasih');
+			Swal.fire({
+			  icon: 'error',
+			  title: 'Oops...',
+			  text:'Harap baca dengan Jelas aturan mengenai asuransi ini, ada satu / beberapa hal yang sudah ditambahkan. Terima kasih'
+			});
 	   }
 
 	   $('#modal_buat_perujuk_baru').on('shown.bs.modal', function(){
@@ -286,7 +298,11 @@
                 insertDiagnosa();
             } else if(key == 13 && rowI == -1 && $ini.val() == ''){
 
-                alert("Untuk masukkan diagnosa input harus diisi");
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text:"Untuk masukkan diagnosa input harus diisi"
+				});
                 $ini.focus();
                 return false;
 
@@ -366,7 +382,11 @@
         if(rowI != -1){
             confirmICD();
         } else {
-            alert('pilih dulu ICD nya');
+			Swal.fire({
+			  icon: 'error',
+			  title: 'Oops...',
+			  text:'pilih dulu ICD nya'
+			});
         }
     });
     
@@ -448,7 +468,11 @@
 			 },
 		 	function (data, textStatus, jqXHR) {
 				if( $.trim(data) > 0 ){
-					alert('obat tidak bisa dipilih karena komposisi dari obat tersebut membuat pasien alergi');
+					Swal.fire({
+					  icon: 'error',
+					  title: 'Oops...',
+					  text:'obat tidak bisa dipilih karena komposisi dari obat tersebut membuat pasien alergi'
+					});
 					$('#ddlNamaObat').val('').selectpicker('refresh');
 					return false;
 				}
@@ -466,14 +490,23 @@
         var tipeResep    = $('#tipeResep').val();
 
         if (sediaan == 'syrup' && tipeResep == 2 ) {
-            alert('obat ' + merek + ', tidak boleh dicampur dengan obat lain karena bukan dry syrup seperti \nAmoxilin Syr \nThiamphenicol syr \n Cefadroksil syr \n atau cefixim syr \nYang bisa dicampur dengan obat lain');
+
+			Swal.fire({
+			  icon: 'error',
+			  title: 'Oops...',
+			  text:'obat ' + merek + ', tidak boleh dicampur dengan obat lain karena bukan dry syrup seperti \nAmoxilin Syr \nThiamphenicol syr \n Cefadroksil syr \n atau cefixim syr \nYang bisa dicampur dengan obat lain'
+			});
             $('#ddlNamaObat').val('').selectpicker('refresh');
             namaObatFocus();
             return false;   
         }
 
         if (tidakDipuyer == '1' && (tipeResep == 1 || tipeResep == 2) ) {
-            alert('obat ' + merek + ', tidak boleh dipuyer ataupun dicampur ke dalam sirup');
+			Swal.fire({
+			  icon: 'error',
+			  title: 'Oops...',
+			  text:'obat ' + merek + ', tidak boleh dipuyer ataupun dicampur ke dalam sirup'
+			});
             $('#ddlNamaObat').val('').selectpicker('refresh');
             namaObatFocus();
             return false;   
@@ -574,7 +607,11 @@
             /*optional stuff to do after success */
             data = $.trim(data);
             if (data == '1') {
-                alert('Ibuprofen syrup / tablet tidak boleh digunakan untuk anak dibawah umur 1 tahun, gunakan ibuprofen suppositoria dalam kondisi darurat!! Optimalkan pemberian paracetamol 15 mg/kgbb tiap 4 jam, disertai dengan ibuprofen supp bila kepepet !!');
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text:'Ibuprofen syrup / tablet tidak boleh digunakan untuk anak dibawah umur 1 tahun, gunakan ibuprofen suppositoria dalam kondisi darurat!! Optimalkan pemberian paracetamol 15 mg/kgbb tiap 4 jam, disertai dengan ibuprofen supp bila kepepet !!'
+				});
                 $('#ddlNamaObat').val('').selectpicker('refresh');
             }
         });
@@ -706,7 +743,11 @@ function insertDiagnosa(){
         .done(function(result) {
             result = $.trim(result);
             if(result == '0'){
-                alert(diagnosaUmum + ' GAGAL diinput');
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text:diagnosaUmum + ' GAGAL diinput'
+				});
 
             } else if(result == '01'){
 
@@ -715,7 +756,12 @@ function insertDiagnosa(){
             } else {
 
                 result = JSON.parse(result);
-                alert(diagnosaUmum + ' berhasil diinput');
+
+				Swal.fire({
+				  icon: 'success',
+				  title: 'Good Job!',
+				  text:diagnosaUmum + ' berhasil diinput'
+				});
                 getDiagnosaByICD(ICD);
                 var opt = '<option value="' + result.id +'">' + result.diagnosa + ' - ' + result.diagnosaICD + '</option>';
                 $('#ddlDiagnosa').append(opt).selectpicker('refresh');
@@ -968,7 +1014,11 @@ function table_ICD(){
             });
             return false;
         } else {
-            alert('input tidak boleh kosong');
+			Swal.fire(
+			  'Oops!',
+			  'input tidak boleh kosong',
+			  'error'
+			);
             return false;
         }
     }
@@ -1827,6 +1877,8 @@ function optionSyrup(ID_MEREK){
     }
 
     function resetInputTIndakan(){
+        html = '<input type="text" class="form-control" id="keteranganTindakan">'
+        $('#keteranganTindakan').closest('tr').find('.keteranganTindakan').html(html);
         $('#keteranganTindakan').val('');
         $('#selectTindakan').val(null).selectpicker('refresh').closest('tr').find('.btn-white').focus();
     }
@@ -2432,21 +2484,21 @@ function dummySubmit(){
         var tindakans = $.parseJSON($('#tindakan').val());
 
         if (boolAdd == '1' || puyer == '1') {
-            alert('Puyer atau Add Sirup belum selesai. Resep tidak bisa dilanjutkan sebelum diselesaikan');
+
+			Swal.fire(
+			  'Oops!',
+			  'Puyer atau Add Sirup belum selesai. Resep tidak bisa dilanjutkan sebelum diselesaikan',
+			  'error'
+			);
             return false
         }
 
-		if ( $('#asuransi_id').val() == '3' && ( $('#terapi').val() == '[]' || $('#terapi').val() == '' ) ) {
-			var r = confirm('Untuk peserta Inhealth, jika tidak ada terapi yang diberikan , maka bagi hasil untuk dokter tidak bisa dibayarkan untuk pasien ini, Apakah anda yakin ingin melanjutkan? karena anda akan tidak dibayar ntuk pasien ini tanpa terapi');
-			if (!r) {
-				alert('Kalau Bingung mau kasih obat apa untuk pasien ini, kasih saja vitamin 4 tablet. bisa pakai neurodex, atau therabex');
-				return false;
-			} else {
-				alert('Anda telah menyetujui untuk tidak dibayar karena melayani pasien ini');
-			}
-		}
         if ($('#anamnesa').val() == '' || $('#ddlDiagnosa').val() == '') {
-            alert('Anamnesa dan Diagnosa tidak boleh dikosongkan!!');
+			Swal.fire(
+			  'Oops!',
+				'Anamnesa dan Diagnosa tidak boleh dikosongkan!!',
+			  'error'
+			);
             $('#tab-status').tab('show');
             if($('#anamnesa').val() == '' ){
                 validasi('#anamnesa', 'Harus Diisi!');
@@ -2479,9 +2531,6 @@ function dummySubmit(){
         } else {
             $('#submitFormPeriksa').click();
         }
-
-
-	 
 }
 
 function refresh(){
@@ -2535,7 +2584,11 @@ function submitAlergi(control){
 				}
 				$('#alergy_body_table').html(temp)
 			} else {
-				alert('obat yang sama sudah ada di dalam database alergi untuk pasien ini');
+				Swal.fire(
+				  'Oops!',
+				  'obat yang sama sudah ada di dalam database alergi untuk pasien ini',
+				  'error'
+				);
 			}
 		}
 	);
@@ -2587,4 +2640,24 @@ function generik_list_change(){
 	} else if (!nilai && !$('#myModal').find('.submit_button').hasClass('disabled')){
 		$('#myModal').find('.submit_button').addClass('disabled')
 	}
+}
+function selectChange(control) {
+    var html =  '';
+	var tindakan = $(control).val();
+	tindakan = $.parseJSON(tindakan);
+	var jenis_tarif_id = tindakan['jenis_tarif_id'];
+
+    if (
+        jenis_tarif_id == '403' ||
+        jenis_tarif_id == '404'
+    ){
+        html = '<select class="form-control" id="keteranganTindakan">';
+        html += '<option value="" selected="selected"> - Pilih - </option>';
+        html += '<option value="negatif">NON REAKTIF / NEGATIF</option>';
+        html += '<option value="positif">REAKTIF / POSITIF</option>';
+        html += '</select>'
+    } else {
+        html = '<input type="text" class="form-control" id="keteranganTindakan">'
+    }
+    $(control).closest('tr').find('.keteranganTindakan').html(html);
 }

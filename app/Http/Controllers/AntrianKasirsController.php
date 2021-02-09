@@ -22,6 +22,7 @@ class AntrianKasirsController extends Controller
 							->where('lewat_kasir2', '0')
 							->where('lewat_poli', '1')
 							->get();
+		/* dd($antriankasirs->first()->transaksi); */
 		return view('antriankasirs.index', compact('antriankasirs'));
 	}
 }

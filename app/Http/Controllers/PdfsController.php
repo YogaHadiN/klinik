@@ -796,5 +796,36 @@ class PdfsController extends Controller
 			'bulanTahun'
 		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
 		return $pdf->stream();
+
+	}
+	public function hasilAntigen($periksa_id){
+		$periksa      = Periksa::with('pasien')->where('id', $periksa_id)->first();
+		$hasilAntigen = '';
+		foreach (json_decode($periksa->transaksi, true) as $transaksi) {
+			if ( $transaksi['jenis_tarif_id'] == '404' ) {
+				$hasilAntigen = $transaksi['keterangan_tindakan'];
+			}
+		}
+		$options = [
+			'margin-top'    => 50,
+			'margin-right'  => 50,
+			'margin-bottom' => 50,
+			'margin-left'   => 50,
+		];
+		if ( $hasilAntigen == 'negatif'	) {
+			$hasilAntigen = 'NON REAKTIF / NEGATIF' ;
+		} else if ( $hasilAntigen == 'positif'	) {
+			$hasilAntigen = 'REAKTIF / POSITIF' ;
+		}
+		$pdf             = PDF::loadView('pdfs.hasil_antigen', compact(
+			'periksa',
+			'hasilAntigen'
+		))->setPaper('a4')
+					->setOrientation('portrait')
+					->setWarnings(false)
+					->setOption('margin-left', 20)
+					->setOption('margin-right', 20);
+		return $pdf->stream();
+		
 	}
 }

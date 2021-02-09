@@ -65,7 +65,14 @@
 								<a href="#" class="btn btn-warning btn-xs"  onclick="monitor_available(this); return false;">Lanjut</a>
 								 <a href="{{ url('update/surveys/' . $antriankasir->id) }}" class="btn btn-warning btn-xs displayNone">Lanjutlah</a>
 								 <a href="{{ url('pdfs/status/' . $antriankasir->id) }}" target="_blank" class="btn btn-info btn-xs">Print Status</a>
-
+								 {{ $adaRapidAntigen = false }}
+								 {{ $adaRapidAntibodi = false }}
+								 @if ( $antriankasir->ada_hasil_rapid_antibodi )
+									 <a href="{{ url('pdfs/rapid/antibodi/' . $antriankasir->id) }}" target="_blank" class="btn btn-primary btn-xs">Rapid Antibodi</a>
+								 @endif
+								 @if ( $antriankasir->ada_hasil_rapid_antigen )
+									 <a href="{{ url('pdfs/rapid/antigen/' . $antriankasir->id) }}" target="_blank" class="btn btn-primary btn-xs">Rapid Antigen</a>
+								 @endif
 								  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
 								{!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke Apotek?")']) !!}
 							  {!! Form::close() !!}

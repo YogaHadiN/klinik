@@ -17,11 +17,6 @@ use DB;
 class PasiensController extends Controller
 {
 
-   /**
-    * Buat construct untuk middleware super, jadi hanya bisa di lakukan oleh Pak Yoga
-    *
-    */
-
 	public $input_alamat;
 	public $input_asuransi_id;
 	public $input_sex;
@@ -45,7 +40,6 @@ class PasiensController extends Controller
 	public $input_image;
 	public $input_prolanis_dm;
 	public $input_prolanis_ht;
-
 	public $dataIndexPasien;
 	public $dataCreatePasien;
 

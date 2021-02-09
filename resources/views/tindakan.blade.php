@@ -12,9 +12,15 @@
 		<tfoot>
 			<tr>
 				<td>
-					{!! Form::select('selectTindakan', $tindakans, null, ['class' => 'form-control selectpick', 'id' => 'selectTindakan', 'data-live-search' => 'true'])!!}
+					{!! Form::select('selectTindakan', $tindakans, null, [
+						'class'            => 'form-control selectpick',
+						'id'               => 'selectTindakan',
+						'data-live-search' => 'true',
+						'onchange'         => 'selectChange(this);return false;'
+					])!!}
+
 			</td>
-				<td><input type="text" class="form-control" id="keteranganTindakan"></td>
+				<td class="keteranganTindakan"><input type="text" class="form-control" id="keteranganTindakan"></td>
 				<td><a href="#" class="btn btn-success" onclick="submitTindakan(); return false;" id="inputTindakanSubmit">submit</a></td>
 			</tr>
 		</tfoot>

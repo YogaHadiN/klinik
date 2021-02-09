@@ -1259,4 +1259,26 @@ class Periksa extends Model{
             return $this->pasien->nomor_asuransi;
         }
 	}
+
+	public function getAdaHasilRapidAntigenAttribute(){
+        $transaksi = $this->transaksi;
+        foreach (json_decode($transaksi, true) as $trx) {
+            if ($trx['jenis_tarif_id'] == '404') {
+                return true;
+                break;
+            }
+        }
+        return false;
+	}
+	public function getAdaHasilRapidAntibodiAttribute(){
+        $transaksi = $this->transaksi;
+        foreach (json_decode($transaksi, true) as $trx) {
+            if ($trx['jenis_tarif_id'] == '403') {
+                return true;
+                break;
+            }
+        }
+        return false;
+	}
+
 }

@@ -723,6 +723,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/antrian/{id}', 'PdfsController@antrian');
 	Route::get('pdfs/prolanis_hipertensi_perbulan/{bulanTahun}', 'PdfsController@prolanisHipertensiPerBulan');
 	Route::get('pdfs/prolanis_dm_perbulan/{bulanTahun}', 'PdfsController@prolanisDmPerBulan');
+	Route::get('pdfs/rapid/antigen/{periksa_id}', 'PdfsController@hasilAntigen');
+
 
 	Route::get('no_sales', 'NoSalesController@index');
 	Route::post('no_sales', 'NoSalesController@store');
