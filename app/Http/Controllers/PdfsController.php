@@ -800,10 +800,10 @@ class PdfsController extends Controller
 	}
 	public function hasilAntigen($periksa_id){
 		$periksa      = Periksa::with('pasien')->where('id', $periksa_id)->first();
-		$hasilAntigen = '';
+		$hasil = '';
 		foreach (json_decode($periksa->transaksi, true) as $transaksi) {
 			if ( $transaksi['jenis_tarif_id'] == '404' ) {
-				$hasilAntigen = $transaksi['keterangan_tindakan'];
+				$hasil = $transaksi['keterangan_tindakan'];
 			}
 		}
 		$options = [
@@ -812,14 +812,16 @@ class PdfsController extends Controller
 			'margin-bottom' => 50,
 			'margin-left'   => 50,
 		];
-		if ( $hasilAntigen == 'negatif'	) {
-			$hasilAntigen = 'NON REAKTIF / NEGATIF' ;
-		} else if ( $hasilAntigen == 'positif'	) {
-			$hasilAntigen = 'REAKTIF / POSITIF' ;
+		if ( $hasil == 'negatif'	) {
+			$hasil = 'NON REAKTIF / NEGATIF' ;
+		} else if ( $hasil == 'positif'	) {
+			$hasil = 'REAKTIF / POSITIF' ;
 		}
-		$pdf             = PDF::loadView('pdfs.hasil_antigen', compact(
+		$antigen = true;
+		$pdf             = PDF::loadView('pdfs.hasil_rapid', compact(
 			'periksa',
-			'hasilAntigen'
+			'antigen',
+			'hasil'
 		))->setPaper('a4')
 					->setOrientation('portrait')
 					->setWarnings(false)
@@ -827,5 +829,36 @@ class PdfsController extends Controller
 					->setOption('margin-right', 20);
 		return $pdf->stream();
 		
+	}
+	public function hasilAntibodi($periksa_id){
+		$periksa = Periksa::with('pasien')->where('id', $periksa_id)->first();
+		$hasil   = '';
+		foreach (json_decode($periksa->transaksi, true) as $transaksi) {
+			if ( $transaksi['jenis_tarif_id'] == '403' ) {
+				$hasil = $transaksi['keterangan_tindakan'];
+			}
+		}
+		$options = [
+			'margin-top'    => 50,
+			'margin-right'  => 50,
+			'margin-bottom' => 50,
+			'margin-left'   => 50,
+		];
+		if ( $hasil == 'negatif'	) {
+			$hasil = 'NON REAKTIF / NEGATIF' ;
+		} else if ( $hasil == 'positif'	) {
+			$hasil = 'REAKTIF / POSITIF' ;
+		}
+		$antigen = false;
+		$pdf             = PDF::loadView('pdfs.hasil_rapid', compact(
+			'periksa',
+			'antigen',
+			'hasil'
+		))->setPaper('a4')
+					->setOrientation('portrait')
+					->setWarnings(false)
+					->setOption('margin-left', 20)
+					->setOption('margin-right', 20);
+		return $pdf->stream();
 	}
 }

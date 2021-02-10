@@ -136,7 +136,12 @@
 						  <a href="{{ url('pdfs/struk/' . $periksa->id ) }}" class="btn btn-warning btn-block" target="_blank">Cetak Struk</a>  
 					</div>
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-
+						 @if ( $periksa->ada_hasil_rapid_antibodi )
+							  <a href="{{ url('pdfs/rapid/antibodi/' . $periksa->id) }}" class="btn btn-info btn-block" target="_blank">Cetak Rapid Antibodi</a>  
+						  @endif
+						 @if ( $periksa->ada_hasil_rapid_antigen )
+							  <a href="{{ url('pdfs/rapid/antigen/' . $periksa->id) }}" class="btn btn-info btn-block" target="_blank">Cetak Rapid Antigen</a>  
+						  @endif
 					</div>
 				</div>
 		  </div>

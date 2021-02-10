@@ -3,23 +3,40 @@
 	<meta charset="UTF-8">
 	<title>{{ env("NAMA_KLINIK") }} | Piutang Asuransi </title>
 <style>
+
+	html *
+	{
+		font-size : 17px;
+		line-height: 30px;
+	}
+	.footer{
+		padding-top: 200px;
+	}
 	@page 
 	{
         margin: 2em;
         padding-right: 2em;
     }
-
-	body{
-		font-size : 5px !important;
+	.tanda_tangan {
+		margin-top: 50px;
+		margin-bottom: 150px;
+		margin-left: 500px;
+		text-align: center;
 	}
-.font-smaller {
-  font-size: 9px;
-}
+	table{
+		font-size : 18px !important;
+	}
+	td, th{
+		padding : 10px;
+	}
+	.font-smaller {
+	  font-size: 9px;
+	}
 
-.border-all {
-	border:0.5px solid black;
-	padding:5px;
-}
+	.border-all {
+		border:0.5px solid black;
+		padding:5px;
+	}
 	.status
 	{
 		text-align:center;
@@ -42,7 +59,6 @@
 		border:1px solid black;
 		border-collapse: collapse;
 	}
-
 	.table td , .table th{
 		padding:2px;
 		vertical-align: text-top;
@@ -55,6 +71,9 @@
 
 	.klinik {
 		font-size:30px;font-weight:bold;margin-bottom: 5px;
+	}
+	.border-bottom {
+		border-bottom: 2px solid black;
 	}
 
 	.content1 {
@@ -71,7 +90,7 @@
 		text-align: center;
 	}
 
-	.half
+	.half{
 		width: 40%;
 	}
 
@@ -147,8 +166,8 @@
 		margin: 15px 0px;
 	}
 
-	.header{
-		text-align: center;
+	#header{
+		padding-top: 150px;
 	}
 	h1{
 		font-size: 18px;
@@ -216,19 +235,14 @@
 </style>
 </head>
 <body>
-	<table id="header">
-		<tr>
-			<td class="text-center">
-				<div class="klinik">KLINIK JATI ELOK </div>
-				<div class="title">
-					Jl. Raya Legok - Parung Panjang km. 3, <br>
-					Malangnengah, Pagedangan, Tangerang, Banten 021 5977529
-				</div>
-			</td>
-		</tr>
-	</table>
-<hr />
-<h2>Laporan Pasien DM {{ $bulanTahun->format('M Y') }}</h2>
-		@include('pasiens.prolanis_perbulan_template', ['prolanis' => 'prolanis_dm'])
+<div class="all">
+	@include('pdfs.form_hasil_rapid')
+	<div class="tanda_tangan">
+		<div>
+			Tangerang, {{ \Carbon\Carbon::parse($periksa->tanggal)->format('d/m/Y') }}
+		</div>
+		<div>Pemeriksa</div>
+	</div>
+</div>
 </body>
 </html>

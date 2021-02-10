@@ -57,6 +57,7 @@
 							  {!! Form::open(['url' => 'update/kembali/' . $antriankasir->id, 'method' => 'post'])!!}
 								<a href="{{ url('kasir/' . $antriankasir->id) }}" class="btn btn-primary btn-xs">Proses</a>
 							  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
+								 @include('antriankasirs.form_hasil_rapid')
 								{!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke ruang periksa?")']) !!}
 
 							  {!! Form::close() !!}
@@ -67,12 +68,7 @@
 								 <a href="{{ url('pdfs/status/' . $antriankasir->id) }}" target="_blank" class="btn btn-info btn-xs">Print Status</a>
 								 {{ $adaRapidAntigen = false }}
 								 {{ $adaRapidAntibodi = false }}
-								 @if ( $antriankasir->ada_hasil_rapid_antibodi )
-									 <a href="{{ url('pdfs/rapid/antibodi/' . $antriankasir->id) }}" target="_blank" class="btn btn-primary btn-xs">Rapid Antibodi</a>
-								 @endif
-								 @if ( $antriankasir->ada_hasil_rapid_antigen )
-									 <a href="{{ url('pdfs/rapid/antigen/' . $antriankasir->id) }}" target="_blank" class="btn btn-primary btn-xs">Rapid Antigen</a>
-								 @endif
+								 @include('antriankasirs.form_hasil_rapid')
 								  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
 								{!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke Apotek?")']) !!}
 							  {!! Form::close() !!}
