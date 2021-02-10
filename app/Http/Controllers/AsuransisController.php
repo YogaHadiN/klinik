@@ -693,9 +693,11 @@ class AsuransisController extends Controller
 		return $tipe_asuransi_list;
 	}
 	public function	queryHutang($param){
+		$waktu         = $param['waktu'];
+		$param         = $param['param'];
 
-		$waktu = $param['waktu'];
-		$param = $param['param'];
+		$three_months_ago = date('Y-m-d', strtotime($param . ' -3 month'));
+		$year_three_months_ago = date('Y', strtotime($three_months_ago));
 
 		$query  = "SELECT ";
 		$query .= "bl.tanggal, ";
@@ -723,7 +725,7 @@ class AsuransisController extends Controller
 			$query .= " AND px.tanggal like '{$param}%' ";
 		} else if ( $waktu == '3bulan' ) {
 			$param = Carbon::createFromFormat('Y-m-d', $param);
-			$query .= " AND px.tanggal between '{$param->copy()->format('Y-01-01 00:00:00')}' and '{$param->copy()->subMonths(3)->format('Y-m-d 23:59:59')}' ";
+			$query .= " AND px.tanggal between '" . $year_three_months_ago . '-' . $param->copy()->format('01-01 00:00:00') . "' and '{$param->copy()->subMonths(3)->format('Y-m-t 23:59:59')}' ";
 		}
 		$query .= " GROUP BY ju.id) bl";
 		$query .= " GROUP BY bl.tahun DESC, bl.bulan DESC;";

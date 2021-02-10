@@ -50,6 +50,7 @@ class piutangAsuransiBelumDibayar3Bulan extends Command
 			'waktu' => '3bulan',
 			'param' => date('Y-m-d')
 		]);
+
 		$data_piutang = DB::select($query);
 
         $pesan = "Data piutang yang belum dibayarkan hingga " . Carbon::createFromFormat('m-Y', date('m-Y'))->subMonths(3)->format('F Y') . ":";
