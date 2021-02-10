@@ -20,7 +20,7 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
-				<table class="table table-condensed table-bordered DTs table-hover">
+				<table class="table table-condensed table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>Bulan Tahun</th>
