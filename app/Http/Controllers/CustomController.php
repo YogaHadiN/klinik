@@ -268,6 +268,7 @@ class CustomController extends Controller
 		));
 	}
 	public function survey_post(){
+		dd(Input::all()); 
 		$periksa_id = Input::get('periksa_id');	
 
 
