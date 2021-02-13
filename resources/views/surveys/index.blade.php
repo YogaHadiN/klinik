@@ -104,17 +104,17 @@
 							@if($periksa->asuransi_id == 0)
 								<tr class="hide">
 									<td>Dibayar Asuransi</td>
-									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(this)" value="0"></td>
+									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(event, this)" value="0"></td>
 								</tr>
 							@elseif($periksa->asuransi_id == 32)
 								<tr>
 									<td>Dibayar Asuransi</td>
-									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(this)" value="0" readonly></td>
+									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(event, this)" value="0" readonly></td>
 								</tr>
 							@else
 								<tr>
 									<td>Dibayar Asuransi</td>
-									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(this)" value="{!! $dibayar !!}"></td>
+									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(event, this)" value="{!! $dibayar !!}"></td>
 								</tr>
 							@endif
 							@if($periksa->asuransi_id == 0)
@@ -128,7 +128,7 @@
 							<tr>
 								<td>Pembayaran</td>
 								<td>
-									<input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="pembayaran_pasien" onkeyup="pembayaranKeyup(this)" name="pembayaran"/>
+									<input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="pembayaran_pasien" onkeyup="pembayaranKeyup(event, this)" name="pembayaran"/>
 								</td>
 							</tr>
 							<tr>

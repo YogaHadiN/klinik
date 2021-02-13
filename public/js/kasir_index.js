@@ -3,12 +3,12 @@ var totalAwal = 0;
 var tipe_asuransi = $('#tipe_asuransi').val();
 var asuransi_id = $('#asuransi_id').val();
 
-    $('form input').keydown(function (e) {
-        if (e.keyCode == 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
+$('form input').keydown(function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        return false;
+    }
+});
 
     var data = $('#txtTarif').val();
     data = JSON.parse(data);
@@ -128,56 +128,61 @@ var asuransi_id = $('#asuransi_id').val();
         }
         viewTarif(data);
     }
-
-
-
-    function asuransiKeyup(control){
-        var dibayar_asuransi = $(control).val();
-        var BHP = 0;
-
-        dibayar_asuransi = clean(dibayar_asuransi);
-
-        if($('#txtBHP').val() == '0' || $('#txtBHP').val() == undefined || $('#txtBHP').val() == null ){
-            BHP = 0;
+    function asuransiKeyup(event,control){
+        if (event.keyCode == 13) {
+            submitPage();
         } else {
-            BHP = $('#txtBHP').val();
-        }
+            var dibayar_asuransi = $(control).val();
+            var BHP = 0;
 
-        if(dibayar_asuransi == ''){
-            dibayar_asuransi = 0;
+            dibayar_asuransi = clean(dibayar_asuransi);
+
+            if($('#txtBHP').val() == '0' || $('#txtBHP').val() == undefined || $('#txtBHP').val() == null ){
+                BHP = 0;
+            } else {
+                BHP = $('#txtBHP').val();
+            }
+
+            if(dibayar_asuransi == ''){
+                dibayar_asuransi = 0;
+            }
+            
+            $('#dibayar_pasien').val(parseInt(totalBiaya) - parseInt(dibayar_asuransi));
+            var dibayar_pasien_baru = $('#dibayar_pasien').val();
+            if (dibayar_pasien_baru > 0) {
+                $('#pembayaran_pasien').removeAttr('readonly');
+            } else if ( dibayar_pasien_baru == 0  ){
+                $('#pembayaran_pasien')
+                .val(0)
+                .attr('readonly', 'readonly');
+                rupiahDibayarPasien('#pembayaran_pasien');
+                $('#kembalian_pasien').val(0).attr('readonly', 'readonly');;
+                rupiahDibayarPasien('#kembalian_pasien');
+            } else {
+                $('#pembayaran_pasien')
+                .val(0)
+                .attr('readonly', 'readonly');
+            } 
+            rupiahDibayarPasien(control);
+            rupiahDibayarPasien('#dibayar_pasien');
+            formatUangIni();
         }
-        
-        $('#dibayar_pasien').val(parseInt(totalBiaya) - parseInt(dibayar_asuransi));
-        var dibayar_pasien_baru = $('#dibayar_pasien').val();
-        if (dibayar_pasien_baru > 0) {
-            $('#pembayaran_pasien').removeAttr('readonly');
-        } else if ( dibayar_pasien_baru == 0  ){
-            $('#pembayaran_pasien')
-            .val(0)
-            .attr('readonly', 'readonly');
-            rupiahDibayarPasien('#pembayaran_pasien');
-            $('#kembalian_pasien').val(0).attr('readonly', 'readonly');;
-            rupiahDibayarPasien('#kembalian_pasien');
-        } else {
-            $('#pembayaran_pasien')
-            .val(0)
-            .attr('readonly', 'readonly');
-        } 
-        rupiahDibayarPasien(control);
-        rupiahDibayarPasien('#dibayar_pasien');
-        formatUangIni();
     }
 
-    function pembayaranKeyup(control){
-        var pembayaran = $(control).val();
-        pembayaran = cleanUangIni(pembayaran);
-        var dibayar_pasien = clean($('#dibayar_pasien').val());
-        if(pembayaran == ''){
-            pembayaran = 0;
+    function pembayaranKeyup(e, control){
+        if (e.keyCode == 13) {
+            submitPage();
+        } else {
+            var pembayaran = $(control).val();
+            pembayaran = cleanUangIni(pembayaran);
+            var dibayar_pasien = clean($('#dibayar_pasien').val());
+            if(pembayaran == ''){
+                pembayaran = 0;
+            }
+            $('#kembalian_pasien').val(parseInt(pembayaran) - parseInt(dibayar_pasien));
+            rupiahDibayarPasien(control);
+            rupiahDibayarPasien('#kembalian_pasien');
         }
-        $('#kembalian_pasien').val(parseInt(pembayaran) - parseInt(dibayar_pasien));
-        rupiahDibayarPasien(control);
-        rupiahDibayarPasien('#kembalian_pasien');
     }
 
     function dummyClick()
