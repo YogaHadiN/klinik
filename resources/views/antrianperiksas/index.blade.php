@@ -41,7 +41,7 @@
                         <th>Nama Pasien</th>
                         <th>Pemeriksa</th>
                         <th class="hide">pasien_id</th>
-                        <th class="hide">id</th>
+                        <th class="hide antrian_periksa_id">id</th>
                         <th style="width:5px" nowrap>Action</th>
                     </tr>
                 </thead>
@@ -69,12 +69,12 @@
                                 <td>{!! $periksa->asuransi->nama !!}</td>
                                 <td class="nama_pasien">{!! $periksa->pasien->nama !!}</td>
 								<td>
-								{!! Form::select('staf_id', $staf_list, $periksa->staf_id, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'onchange' => 'changeStaf();return false;']) !!}
+								{!! Form::select('staf_id', $staf_list, $periksa->staf_id, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'onchange' => 'changeStaf(this);return false;']) !!}
 								
 								</td>
                                 {{--<td>{!! $periksa->staf->nama !!}</td>--}}
                                 <td class="hide pasien_id">{!! $periksa->pasien_id !!}</td>
-                                <td class="hide id">{!! $periksa->id !!}</td>
+                                <td class="hide antrian_periksa_id">{!! $periksa->id !!}</td>
 
                                 <td nowrap>
                                     {!! Form::open(['url' => 'antrianperiksas/' . $periksa->id, 'method' => 'delete'])!!}
@@ -141,7 +141,7 @@
                     <tbody>
                             @foreach ($postperiksa as $periksa)
                                 <tr>
-                                    <td class="hide">{!! $periksa->id !!}</td>
+                                    <td class="hide antrian_periksa_id">{!! $periksa->id !!}</td>
 									<td>
 										@if( !is_null($periksa->antrian ) )
 											{!! $periksa->antrian->nomor_antrian !!}
@@ -217,63 +217,7 @@
 @endif
 @include('antrianpolis.modalalasan', ['antrianperiksa' => 'fasilitas/antrianperiksa/destroy'])
 @include('panggil')
-
 @stop
 @section('footer') 
-    <script>
-		function panggil(control){
-			var nomor_antrian = $(control).closest('tr').find('.nomor_antrian').html().trim();
-			$.get(base + '/poli/ajax/panggil_pasien',
-				{ nomor_antrian: nomor_antrian },
-				function (data, textStatus, jqXHR) {
-					pglPasien(data);
-				}
-			);
-		}
-		function alasas_hapus(control){
-			var id = $(control).closest('tr').find('.id').html()
-			var pasien_id = $(control).closest('tr').find('.pasien_id').html()
-			var nama_pasien = $(control).closest('tr').find('.nama_pasien').html()
-			var onclick = 'modalAlasan(this' + ', "' + pasien_id + '", "' + nama_pasien + '"); return false;';
-
-			$('#modal-alasan .id').val(id);
-			$('#modal-alasan .pasien_id').val(pasien_id);
-			$('#modal-alasan').modal('show');
-			$('#modal-alasan .dummySubmit').attr('onclick', onclick);
-		}
-
-        function hapusSajalah(){
-            var id = $('#alasan_id').val();
-            var submit_id = $('#submit_id').val();
-            console.log('id = ' + id);
-            $('#' + id).val($('#alasan_textarea').val());
-            $('#' + submit_id).click();
-        }
-
-        function cekMasihAda(control){
-            var periksa_id = $(control).closest('tr').find('td:first-child').html();
-
-            $.post('{{ url("antrianperiksas/ajax/cekada") }}', {'periksa_id': periksa_id }, function(data) {
-                data = $.trim(data);
-                if (data == '1') {
-                    console.log('diterima');
-                    var text = $(control).closest('span').find('.hide').html();
-                    console.log('html = ' + text);
-                    $(control).closest('span').find('.hide').get(0).click();
-                } else {
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Oops...',
-                      text:'pasien sudah pulang'
-                    });
-                    location.reload();
-                }
-            });
-        }
-		function changePoli(control){
-			if( $(control).val() != '' ){
-				$(control).closest('form').submit();
-			}
-		}
-    </script>
+  <script src="{!! asset('js/antrianperiksa.js') !!}"></script>
 @stop

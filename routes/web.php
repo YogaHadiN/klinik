@@ -163,6 +163,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('antrianpolis/pengantar/{id}/edit', 'PengantarsController@pengantarUpdate');
 	Route::get('antrianperiksas/pengantar/{id}/edit', 'PengantarsController@antrianperiksasEdit');
 	Route::post('antrianperiksas/pengantar/{id}/edit', 'PengantarsController@antrianperiksasUpdate');
+	Route::post( '/antrianperiksas/update/staf', 'AntrianPeriksasController@updateStaf');
+
 	Route::get('antriankasirs/pengantar/{id}/edit', 'PengantarsController@antriankasirsEdit');
 	Route::post('antriankasirs/pengantar/{id}/edit', 'PengantarsController@antriankasirsUpdate');
 	Route::post('laporans/pengantar', 'PengantarsController@submitPcare');

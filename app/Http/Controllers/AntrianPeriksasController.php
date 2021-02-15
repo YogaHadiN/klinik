@@ -275,4 +275,12 @@ class AntrianPeriksasController extends Controller
 		$pesan = Yoga::suksesFlash('Pasien atas nama ' . $ap->pasien->nama . ' <strong>BERHASIL</strong> dipindah ke poli ' . $ap->poli);
 		return redirect()->back()->withPesan($pesan);
 	}
+	public function updateStaf(){
+		$antrian_periksa_id      = Input::get('antrian_periksa_id');
+		$staf_id                 = Input::get('staf_id');
+
+		$antrianPeriksa          = AntrianPeriksa::find($antrian_periksa_id);
+		$antrianPeriksa->staf_id = $staf_id;
+		$antrianPeriksa->save();
+	}
 }
