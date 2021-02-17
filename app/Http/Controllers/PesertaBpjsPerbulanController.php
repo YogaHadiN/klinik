@@ -282,8 +282,4 @@ class PesertaBpjsPerbulanController extends Controller
             'prolanis_dm' => 1
         ]);
     }
-    
-    
-    
-    
 }

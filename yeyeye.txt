@@ -1,1 +1,5 @@
-ALTER TABLE peserta_bpjs_perbulans ADD bulanTahun date;
+ALTER TABLE teserta_bpjs_perbulans ADD bulanTahun date;
+update pasiens set nama = 'Siti Rodiah, Nn' where id = '190109006';
+update pasiens set nama = 'Ruyani, Tn' where id = '170319016';
+update pasiens set nama = 'Siti Maryam,' where id = '160116008';
+update pasiens set nama = 'Mimin Ros, Ny' where id = '170124019';

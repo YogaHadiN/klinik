@@ -8,7 +8,8 @@ function panggil(control){
 	);
 }
 function alasas_hapus(control){
-	var id = $(control).closest('tr').find('.id').html()
+	var id = $(control).closest('tr').find('.antrian_periksa_id').html()
+	console.log(id);
 	var pasien_id = $(control).closest('tr').find('.pasien_id').html()
 	var nama_pasien = $(control).closest('tr').find('.nama_pasien').html()
 	var onclick = 'modalAlasan(this' + ', "' + pasien_id + '", "' + nama_pasien + '"); return false;';
