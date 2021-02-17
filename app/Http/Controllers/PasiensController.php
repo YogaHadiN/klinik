@@ -467,7 +467,7 @@ class PasiensController extends Controller
 		$query .= "LEFT JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
 		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
 		$query .= "WHERE prx.tanggal like '{$tahunBulan}%' ";
-		$query .= "AND (psn.prolanis_ht = 1 or psn.prolanis_dm = 1) ";
+		$query .= "AND (prx.prolanis_ht = 1 or prx.prolanis_dm = 1) ";
 		$query .= "AND prx.asuransi_id = 32";
 		return DB::select($query);
 	}

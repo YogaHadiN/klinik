@@ -1,0 +1,1 @@
+ALTER TABLE peserta_bpjs_perbulans ADD bulanTahun date;

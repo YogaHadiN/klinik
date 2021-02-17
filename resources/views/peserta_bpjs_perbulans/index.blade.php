@@ -78,7 +78,7 @@ Klinik Jati Elok | Peserta BPJS bulanan
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Tanggal</th>
+					<th>Periode</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -87,7 +87,7 @@ Klinik Jati Elok | Peserta BPJS bulanan
 					@foreach($peserta_bpjs_perbulans as $p)
 						<tr>
 							<td>{{ $p->id }}</td>
-							<td>{{ $p->created_at->format('d M Y')}}</td>
+							<td>{{ $p->bulanTahun->format('M Y')}}</td>
 							<td> 
 								{!! Form::open(['url' => 'peserta_bpjs_perbulans/' .$p->id, 'method' => 'delete']) !!}
 									<a href="{{ url('peserta_bpjs/' . $p->nama_file) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-download" aria-hidden="true"></i> Download</a>

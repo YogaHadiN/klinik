@@ -191,6 +191,8 @@ class PeriksasController extends Controller
 		$periksa->jam_selesai_periksa     = date('H:i:s');
 		$periksa->keterangan              = Input::get('keterangan_periksa');
 		$periksa->transaksi               = json_encode($transaksis);
+		$periksa->prolanis_dm              = $pasien->prolanis_dm;
+		$periksa->prolanis_ht              = $pasien->prolanis_ht;
 
 		$promo = Promo::where('promoable_type' , 'App\AntrianPeriksa')->where('promoable_id', Input::get('antrian_id'))->first() ;
 		if ( $promo ) {
@@ -494,6 +496,7 @@ class PeriksasController extends Controller
 			// INPUT DATA PERIKSA FINAL!!!!!
 			//
 
+			$pasien = Pasien::find(Input::get('pasien_id'));
 			
 			$periksa->anamnesa 				= Input::get('anamnesa');
 			$periksa->asuransi_id 			= $asuransi->id;
@@ -578,7 +581,6 @@ class PeriksasController extends Controller
 			$usg->saran          = Input::get('saran');
 			$usg->save();
 
-			$pasien = Pasien::find(Input::get('pasien_id'));
 			$pasien->riwayat_kehamilan_sebelumnya = Input::get('riwayat_kehamilan_sebelumnya');
 			$pasien->save();
 

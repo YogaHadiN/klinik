@@ -100,8 +100,6 @@ class PesertaBpjsPerbulanController extends Controller
         if ($this->valid( Input::all() )) {
             return $this->valid( Input::all() );
         }
-
-
         $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
 
@@ -125,9 +123,10 @@ class PesertaBpjsPerbulanController extends Controller
     }
 
     public function processData($peserta_bpjs_perbulan){
-        $peserta_bpjs_perbulan->nama_file = $this->fileUpload('nama_file');
-        $peserta_bpjs_perbulan->jumlah_dm = $this->jumlah_dm;
-        $peserta_bpjs_perbulan->jumlah_ht = $this->jumlah_ht;
+        $peserta_bpjs_perbulan->nama_file  = $this->fileUpload('nama_file');
+        $peserta_bpjs_perbulan->bulanTahun = $this->bulanTahun . '-01';
+        $peserta_bpjs_perbulan->jumlah_dm  = $this->jumlah_dm;
+        $peserta_bpjs_perbulan->jumlah_ht  = $this->jumlah_ht;
         $peserta_bpjs_perbulan->save();
 
         return $peserta_bpjs_perbulan;
@@ -200,25 +199,27 @@ class PesertaBpjsPerbulanController extends Controller
 		}
     }
     public function updateDataPasien(){
-        $id       = Input::get('id');
-        $nama     = Input::get('nama');
-        $bulanTahun     = Input::get('bulanTahun');
-        $nama_tab = Input::get('nama_tab');
-        $sex      = strtolower(Input::get('jenis_kelamin')) == 'laki-laki' ? '1' : '0';
+        $id         = Input::get('id');
+        $nama       = Input::get('nama');
+        $bulanTahun = Input::get('bulanTahun');
+        $nama_tab   = Input::get('nama_tab');
+        $sex        = strtolower(Input::get('jenis_kelamin')) == 'laki-laki' ? '1' : '0';
+
 
         if ( !empty($id) ) {
             $pasien       = Pasien::find($id);
             $nama_sebelum = $pasien->nama;
             $pasien->nama = $nama ;
 
-            if ( $nama_tab           == 'ht' ) {
-                $pasien->prolanis_ht  = 1;
-            }
-            if ( $nama_tab           == 'dm' ) {
-                $pasien->prolanis_dm  = 1;
+            if ( $bulanTahun == date('Y-m') ) {
+                if ( $nama_tab           == 'ht' ) {
+                    $pasien->prolanis_ht  = 1;
+                }
+                if ( $nama_tab           == 'dm' ) {
+                    $pasien->prolanis_dm  = 1;
+                }
             }
             $pasien->save();
-
             $update_rppt_peserta               = new UpdateRpptPeserta;
             $update_rppt_peserta->pasien_id    = $pasien->id ;
             $update_rppt_peserta->nama_sebelum = $nama_sebelum ;
@@ -270,6 +271,8 @@ class PesertaBpjsPerbulanController extends Controller
                 'prolanis_ht' => 1
             ]);
         }
+
+        /* dd( '$this->bulanTahun' ,  $this->bulanTahun  ); */
 
         $periksa_ht = Periksa::where('tanggal', 'like', $this->bulanTahun . '%')->whereIn('pasien_id', $this->riwayat_ht_pasien_ids)->update([
             'prolanis_ht' => 1
