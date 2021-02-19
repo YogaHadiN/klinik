@@ -103,9 +103,10 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$p= Pasien::find( '170405023' );
-		dd( $p->tanggal_lahir );
-		$p->tanggal_lahir;
+		$this->updateRekeningHalt();
+		/* $p= Pasien::find( '170405023' ); */
+		/* dd( $p->tanggal_lahir ); */
+		/* $p->tanggal_lahir; */
 
 		/* $this->testAdmedika(); */
 		/* dd( Carbon::createFromFormat('d-m-Y', '12/25/94') ); */
@@ -586,6 +587,125 @@ class testcommand extends Command
 			}
 		}
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function updateRekeningHalt()
+	{
+		$rekenings = Rekening::all();
+
+		$cont_abaikan_transaksis= [];
+		$rek_temp = [];
+
+		$dont_delete = [
+			"Arz6obyOKjK",
+			 "G1kaG5wa5jg",
+			 "mVz5ZK1vwjv",
+			 "eMkbmLx6LWY",
+			 "VPW8BlAmnzr",
+			 "pPkBg3y3dzB",
+			 "57WnapgdYjl",
+			 "Z6zKlxvnLjJ",
+			 "32zpap2ExjA",
+			 "bLjJ3MLKeWO",
+			 "G1kaGxO6Bjg",
+			 "Epzw01pJLjN",
+			 "eMkbmKrnGWY",
+			 "QdkN2y6Ydke",
+			 "VGjZ5yb0Ezr",
+			 "ylzrB0lDMzx",
+			 "VPW8BGdw5zr",
+			 "0RkQ2xZm1zG",
+			 "Aqz9nJq2ajP",
+			 "pPkBgDPlRzB",
+			 "ylzrBpy51zx",
+			 "pokORNOMyWa",
+			 "olk4N3AodjJ",
+			 "ypkvKZ9vPzM",
+			 "G4kY2xgNXzp",
+			 "Arz6oALBwjK",
+			 "3ykVO67KVzN",
+			 "ylzrBZ0gEzx",
+			 "NZjx8Y25dj4",
+			 "q7WPOyBKnjA",
+			 "Z4jAgaVn9kA",
+			 "ylzrBZ5v8zx",
+			 "9xzXOMA95kP",
+			 "KwjmaXBZpjr",
+			 "Z4jAgaDqlkA",
+			 "3EWgaZwpMzP",
+			 "KwjmaX4l6jr",
+			 "ylzrBZdxrzx",
+		];
+		foreach ($rekenings as $k => $r) {
+			if ( !in_array( $r->id, $dont_delete  ) ) {
+				$rek_temp[] = [
+					'id'                     => $k +1,
+					'akun_bank_id'           => $r->akun_bank_id,
+					'tanggal'                => $r->tanggal->format('Y-m-d'),
+					'deskripsi'              => $r->deskripsi,
+					'nilai'                  => $r->nilai,
+					'saldo_akhir'            => $r->saldo_akhir,
+					'debet'                  => $r->debet,
+					'created_at'             => $r->created_at->format('Y-m-d'),
+					'updated_at'             => $r->updated_at->format('Y-m-d'),
+					'pembayaran_asuransi_id' => $r->pembayaran_asuransi_id,
+					'old_id'                 => $r->id
+				];
+				$cont_abaikan_transaksis[] = [
+					'old_id' => $r->id,
+					'new_id' => $k + 1
+				];
+			}
+		}
+		$adding = array(
+					0 => array('tanggal' => '2021-02-17 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS 068476TBK022021 DARI ASURANSI JIWA INHEALTH INDONESIA 068476TBK022021', 'nilai' => '2455000'),
+					1 => array('tanggal' => '2021-02-17 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS INV3KJEPYR160207 80000186 DARI AXA MANDIRI FINANCIAL SERVICES INV3KJEPYR160207 80000186', 'nilai' => '220000'),
+					2 => array('tanggal' => '2021-02-17 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS INV3KJEPYR160207 80000186 DARI AXA MANDIRI FINANCIAL SERVICES INV3KJEPYR160207 80000186', 'nilai' => '55000'),
+					3 => array('tanggal' => '2021-02-16 00:00:00', 'deskripsi' => 'INW.CN-SKN CR SA-MCS ASURANSI RELIANCE INDONESIA - 022 CIMB NIAGA PURWAKARTA RELIANCE PROV 2009103315503 20210215993 CMB2215279303200 2021021600', 'nilai' => '590000'),
+					4 => array('tanggal' => '2021-02-15 00:00:00', 'deskripsi' => 'INW.CN-SKN CR SA-MCS ADMINISTRASI MEDIKA PT - 014 BANK CENTRAL ASIA ASURANSI BCA LIFE INV 2 KJEPYR181015 PPU.-3BRV-0205 2021021500', 'nilai' => '385000'),
+					5 => array('tanggal' => '2021-02-15 00:00:00', 'deskripsi' => 'INW.CN-SKN CR SA-MCS ACA - 046 DBS INV/3/KJE/PYR-161123/II/21 SC 0307OP1008264565 2021021500', 'nilai' => '135000'),
+					6 => array('tanggal' => '2021-02-11 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS INV/2/KJE/PYR-2001 31/II/202HCB DARI SOMPO INSURANCE INDONESIA INV/2/KJE/PYR-2001 31/II/202HCB', 'nilai' => '230000'),
+					7 => array('tanggal' => '2021-02-10 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS INV/2/KJE/PYR-2006 03/II/2021SC DARI ADMINISTRASI MEDIKA INV/2/KJE/PYR-2006 03/II/2021SC', 'nilai' => '470000'),
+					8 => array('tanggal' => '2021-02-10 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS BT21020800096585 DARI ASURANSI JIWA INHEALTH INDONESIA BT21020800096585', 'nilai' => '225000'),
+					9 => array('tanggal' => '2021-02-10 00:00:00', 'deskripsi' => 'SA Cash Dep NoBook YOGA HADI NUGROHO 01-02', 'nilai' => '10000000'),
+					10 => array('tanggal' => '2021-02-09 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS FWD Claim Non-ASO GAS/2021/00852673 DARI FWD INSURANCE INDONESIA FWD Claim Non-ASO GAS/2021/00852673', 'nilai' => '140000'),
+					11 => array('tanggal' => '2021-02-09 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS JASINDO ADMEDIKA JASINDO 2020 DARI ASURANSI JASA INDONESIA (PERSERO) 202102091336635216 202102091543741133', 'nilai' => '1320000'),
+					12 => array('tanggal' => '2021-02-05 00:00:00', 'deskripsi' => 'MCM InhouseTrf CS-CS DARI PURI WIDIYANI MARTIADEWI', 'nilai' => '10000000'),
+					13 => array('tanggal' => '2021-02-05 00:00:00', 'deskripsi' => 'CME DrCS CrCS (H2H) INV/3/KJE/PYR-2009 17/II/20SC DARI ADMINISTRASI MEDIKA INV/3/KJE/PYR-2009 17/II/20SC', 'nilai' => '110000'),
+					14 => array('tanggal' => '2021-02-04 00:00:00', 'deskripsi' => 'INW.CN-SKN CR SA-MCS ASURANSI ETIQA INTERNASI - 014 BANK CENTRAL ASIA 000009 PV E001 02 LGEIT000494-0-SUHE PPU.-13FH-0206 2021020400', 'nilai' => '425000'),
+					15 => array('tanggal' => '2021-02-03 00:00:00', 'deskripsi' => 'CME DrCS CrCS (H2H) INV/6/KJE/PYR-2101 11/I/21-HCB DARI ADMINISTRASI MEDIKA INV/6/KJE/PYR-2101 11/I/21-HCB', 'nilai' => '515000'),
+				);
+
+		$k++;
+		foreach ($adding as $add) {
+			$rek_temp[] = [
+				'id'                     => $k++,
+				'akun_bank_id'           => 'pG1karGazgM',
+				'tanggal'                => $add['tanggal'],
+				'deskripsi'              => $add['deskripsi'],
+				'nilai'                  => $add['nilai'],
+				'saldo_akhir'            => 0,
+				'debet'                  => 0,
+				'created_at'             => Carbon::now()->format('Y-m-d h:i:s'),
+				'updated_at'             => Carbon::now()->format('Y-m-d h:i:s'),
+				'pembayaran_asuransi_id' => null,
+				'old_id'                 => null
+			];
+		}
+
+		/* dd( $rek_temp ); */
+		Rekening::whereNotIn('id', $dont_delete)->delete();
+		Rekening::insert($rek_temp);
+		foreach ($cont_abaikan_transaksis as $c) {
+			AbaikanTransaksi::where('transaksi_id', $c['old_id'])->update([
+				'transaksi_id' => $c['new_id']
+			]);
+		}
+	}
+	
 	/**
 	* undocumented function
 	*

@@ -21,14 +21,22 @@ Klinik Jati Elok | Edit Data Pasien RPPT
 	<a href="#" class="float">
 		<i class="fa fa-2x fa-object-group my-float"></i>
 	</a>
-	{!! Form::text('bulanTahun', $bulanTahun, ['class' => 'form-control hide' , 'id' => 'bulanTahun']) !!}
 	@include('peserta_bpjs_perbulans.form')
 	@include('peserta_bpjs_perbulans.form', ['ht' => $dm])
+	{!! Form::open(['url' => 'peserta_bpjs_perbulans', 'method' => 'post']) !!}
+		{!! Form::text('bulanTahun', $bulanTahun, ['class' => 'form-control' , 'id' => 'bulanTahun']) !!}
+		{!! Form::text('jumlah_dm', $jumlah_dm, ['class' => 'form-control']) !!}
+		{!! Form::text('jumlah_ht', $jumlah_ht, ['class' => 'form-control']) !!}
+		{!! Form::text('nama_file', $nama_file, ['class' => 'form-control']) !!}
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<a href="{{ url('peserta_bpjs_perbulans') }}" class="btn btn-primary btn-lg btn-block">Selesai</a>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				{!! Form::submit('Update', ['class' => 'btn btn-success btn-block', 'id' => 'submit']) !!}
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<a class="btn btn-danger btn-block" href="{{ url('home/') }}">Cancel</a>
 			</div>
 		</div>
+	{!! Form::close() !!}
 @stop
 @section('footer') 
 

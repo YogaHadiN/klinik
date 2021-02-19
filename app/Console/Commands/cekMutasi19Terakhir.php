@@ -47,6 +47,7 @@ class cekMutasi19Terakhir extends Command
 		Log::info('==================================================================================================================================');
 
 		$banks = Moota::banks();
+		$mutation_ids = [];
 		foreach ($banks['data'] as $bank) {
 			$bank_id = $bank->bank_id;
 			$newBank = AkunBank::findOrNew($bank_id);
@@ -65,6 +66,7 @@ class cekMutasi19Terakhir extends Command
 					$debet = 1;
 				}
 
+				$mutation_ids[] = $mutasi->mutation_id;
 				$newRekening = Rekening::findOrNew($mutasi->mutation_id);
 				if ( !$newRekening->id ) {
 					$insertMutasi[] = [

@@ -20,6 +20,7 @@ class PesertaBpjsPerbulanController extends Controller
     public $jumlah_dm;
     public $jumlah_ht;
     public $bulanTahun;
+    public $nama_file;
     public $riwayat_dm_pasien_ids;
     public $riwayat_ht_pasien_ids;
     /**
@@ -27,9 +28,10 @@ class PesertaBpjsPerbulanController extends Controller
      */
     public function __construct()
     {
-        $this->jumlah_dm = 0;
-        $this->jumlah_ht = 0;
-        $this->bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');
+        $this->jumlah_dm  = 0;
+        $this->jumlah_ht  = 0;
+        $this->bulanTahun = Input::get('bulanTahun');
+        $this->nama_file  = Input::get('nama_file');
     }
     
     public function index(){
@@ -47,26 +49,27 @@ class PesertaBpjsPerbulanController extends Controller
     }
 
     public function editDataPasien(Request $request){
+
         if ($this->valid( Input::all() )) {
             return $this->valid( Input::all() );
         }
         $import = new PesertaBpjsPerbulanImport;
-        $import->bulanTahun = $this->bulanTahun;
+        $import->bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');
+
         Excel::import($import, Input::file('nama_file'));
+
         $data                        = $import->data;
         $ht                          = $data['ht'];
         $dm                          = $data['dm'];
         $this->jumlah_dm             = $import->riwayat_dm;
         $this->jumlah_ht             = $import->riwayat_ht;
-        $this->bulanTahun               = $import->bulanTahun;
+        $this->bulanTahun            = $import->bulanTahun;
         $this->riwayat_dm_pasien_ids = $import->riwayat_dm_pasien_ids;
         $this->riwayat_ht_pasien_ids = $import->riwayat_ht_pasien_ids;
 
         $this->resetPasienPeriksa();
         $this->updatePasienPeriksa();
-        $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
-        $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
-        $bulanTahun = $this->bulanTahun;
+        $bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');
 
         /* $ids = []; */
         /* foreach ($ht as $h) { */
@@ -80,7 +83,6 @@ class PesertaBpjsPerbulanController extends Controller
         /*     } */
         /* } */
 
-
         /* $periksa_ids = []; */
         /* $periksas = Periksa::where('tanggal', 'like', $this->bulanTahun. '%')->whereIn('pasien_id', $ids)->get(); */
         /* foreach ($periksas as $prx) { */
@@ -88,7 +90,14 @@ class PesertaBpjsPerbulanController extends Controller
         /* } */
         /* dd( $periksa_ids ); */
 
+
+        $nama_file  = $this->fileUpload('nama_file');
+        $jumlah_dm  = $this->jumlah_dm;
+        $jumlah_ht  = $this->jumlah_ht;
         return view('peserta_bpjs_perbulans.edit_data_pasien', compact(
+            'nama_file',
+            'jumlah_dm',
+            'jumlah_ht',
             'ht',
             'bulanTahun',
             'dm'
@@ -97,9 +106,6 @@ class PesertaBpjsPerbulanController extends Controller
     }
 
     public function store(Request $request){
-        if ($this->valid( Input::all() )) {
-            return $this->valid( Input::all() );
-        }
         $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
 
@@ -123,7 +129,8 @@ class PesertaBpjsPerbulanController extends Controller
     }
 
     public function processData($peserta_bpjs_perbulan){
-        $peserta_bpjs_perbulan->nama_file  = $this->fileUpload('nama_file');
+
+        $peserta_bpjs_perbulan->nama_file  = $this->nama_file;
         $peserta_bpjs_perbulan->bulanTahun = $this->bulanTahun . '-01';
         $peserta_bpjs_perbulan->jumlah_dm  = $this->jumlah_dm;
         $peserta_bpjs_perbulan->jumlah_ht  = $this->jumlah_ht;
