@@ -251,6 +251,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::group(['middleware' =>[ 'keuangan']], function(){
 			Route::get('rekening_bank/search', 'RekeningController@search');
 			Route::get('rekening_bank/ignore', 'RekeningController@ignoredList');
+			Route::post('rekening_bank/unignore/{id}', 'RekeningController@unignore');
 			Route::get('rekening_bank/{id}', 'RekeningController@index');
 			Route::post('rekening_bank/ignore/{id}', 'RekeningController@ignore');
 			Route::get('/rekening_bank/ignoredList/ajax', 'RekeningController@ignoredListAjax');

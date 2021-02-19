@@ -273,4 +273,10 @@ class RekeningController extends Controller
 			'total_sudah_dibayar'
 		));
 	}
+	public function unignore($id){
+		AbaikanTransaksi::where('transaksi_id', $id)->delete();
+		$pesan = Yoga::suksesFlash('transaksi ' . $id . ' Berhasil Diunignore');
+		return redirect()->back()->withPesan($pesan);
+	}
+	
 }
