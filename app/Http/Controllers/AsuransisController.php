@@ -732,5 +732,17 @@ class AsuransisController extends Controller
 
 		return $query;
 	}
-	
+	public function tunggakan($year){
+		$query  = "SELECT ";
+		$query .= "asu.nama ";
+		$query .= "FROM piutang_asuransis as pas ";
+		$query .= "JOIN periksas as prx on prx.id = pas.periksa_id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+		$query .= "WHERE prx.tanggal like '{$year}%' ";
+		$query .= "AND asuransi_id > 0 ";
+		$query .= "GROUP BY asuransi_id";
+		$data = DB::select($query);
+		dd( $data );
+		return $year;
+	}
 }

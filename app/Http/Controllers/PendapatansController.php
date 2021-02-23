@@ -751,13 +751,15 @@ class PendapatansController extends Controller
 			return DB::select($query)[0]->jumlah;
 		}
 	}
-	public function delete_pembayaran_asuransi($pembayaran_asuransi_id){
-		$testCommand = new testcommand.php;
-		try {
-			$testCommand->resetPembayaranAsuransi( $pembayaran_asuransi_id );
-			return 1;
-		} catch (\Exception $e) {
-			return 0;
-		}
+	public function delete_pembayaran_asuransi(){
+		$pembayaran_asuransi_id = Input::get('pembayaran_asuransi_id');
+		$testCommand = new testcommand;
+		/* try { */
+		$pembayaran_asuransi_ids = [$pembayaran_asuransi_id];
+		$testCommand->resetPembayaranAsuransis( $pembayaran_asuransi_ids );
+			/* return 1; */
+		/* } catch (\Exception $e) { */
+			/* return 0; */
+		/* } */
 	}
 }

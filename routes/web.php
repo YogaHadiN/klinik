@@ -792,6 +792,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('acs', 'AcsController@store');
 	Route::get('hutang_asuransi/{year}', 'AsuransisController@hutang');
 	Route::get('hutang_asuransi/{bulan}/{tahun}', 'AsuransisController@hutangPerBulan');
+	Route::get('tunggakan_asuransi/{year}', 'AsuransisController@tunggakan');
+
 	Route::get('bahan_bangunans/konfirmasi/{bulan}/{tahun}', 'BahanBangunansController@konfirmasi');
 	Route::get('bahan_bangunans/ikhtisarkan', 'BahanBangunansController@ikhtisarkan');
 	Route::post('bahan_bangunans/ikhtisarkan', 'BahanBangunansController@ikhtisarkanPost');

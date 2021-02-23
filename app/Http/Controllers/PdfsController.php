@@ -14,6 +14,7 @@ use App\Http\Controllers\PendapatansController;
 use App\Http\Controllers\KirimBerkasController;
 use App\Classes\Yoga;
 use App\Periksa;
+use App\PesertaBpjsPerbulan;
 use App\KirimBerkas;
 use App\Pph21Dokter;
 use App\BagiGigi;
@@ -772,11 +773,18 @@ class PdfsController extends Controller
 		foreach ($data as $d) {
 			$prolanis_ht = $psn->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
 		}
-		$bulanTahun = Carbon::createFromFormat('Y-m', $bulanTahun);
-
-
+		$bulanTahun      = Carbon::createFromFormat('Y-m', $bulanTahun);
+		$jumlah_ht_terkendali = 0;
+		foreach ($prolanis_ht as $p) {
+			if ( $p['sistolik'] < 140 ) {
+				$jumlah_ht_terkendali++;
+			}
+		}
+		$jumlah_denominator_ht = PesertaBpjsPerbulan::where('bulanTahun', $bulanTahun->format('Y-m-01'))->first()->jumlah_ht;
 		$pdf             = PDF::loadView('pdfs.prolanisHipertensiPerBulan', compact(
 			'prolanis_ht',
+			'jumlah_ht_terkendali',
+			'jumlah_denominator_ht',
 			'bulanTahun'
 		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
 		return $pdf->stream();

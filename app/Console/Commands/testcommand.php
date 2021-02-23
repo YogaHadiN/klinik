@@ -244,10 +244,7 @@ class testcommand extends Command
 		DB::statement("delete from pengeluarans where id = 5182;");
 	}
 
-	private function resetPembayaranAsuransis(){
-		$pembayaran_asuransi_ids = [
-				'1171'
-		];
+	public function resetPembayaranAsuransis($pembayaran_asuransi_ids){
 
 		foreach ($pembayaran_asuransi_ids as $pembayaran_asuransi_id) {
 			$this->resetPembayaranAsuransi($pembayaran_asuransi_id);
@@ -279,18 +276,16 @@ class testcommand extends Command
 		$periksa_ids         = [];
 
 		foreach ($piutang_dibayars as $piutang) {
-
 			$this->akumulasi_periksa_ids[] = $piutang->periksa_id;
 			$periksa_ids[]                 = $piutang->periksa_id;
-
 		}
 
 		// update piutang asuransi
 		$this->jumlah_piutang_asuransi = $this->jumlah_piutang_asuransi + PiutangAsuransi::whereIn('periksa_id', $periksa_ids)->update([
 			'sudah_dibayar' => 0
 		]);
+		//
 		// piutang dibayar di delete
-
 		$this->jumlah_invoice = $this->jumlah_invoice + Invoice::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->update([
 			'pembayaran_asuransi_id' => null
 		]);

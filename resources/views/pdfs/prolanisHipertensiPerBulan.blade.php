@@ -229,6 +229,8 @@
 	</table>
 <hr />
 <h2>Laporan Pasien Hipertensis {{ $bulanTahun->format('M Y') }}</h2>
+<h2>Jumlah Total Denominator = {{ $jumlah_denominator_ht }}</h2>
+<h2>Jumlah Sistolik sampai dengan 139 = {{ $jumlah_ht_terkendali }}</h2>
 		@include('pasiens.prolanis_perbulan_template', ['prolanis' => 'prolanis_ht'])
 </body>
 </html>

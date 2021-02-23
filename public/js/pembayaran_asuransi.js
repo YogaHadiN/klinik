@@ -129,6 +129,9 @@
 		var pembayaran_asuransi_id = $(control).closest('tr').find('.pembayaran_asuransi_id').html();
 		var nama_asuransi          = $(control).closest('tr').find('.nama_asuransi').html();
 		var tanggal_pembayaran     = $(control).closest('tr').find('.tanggal_pembayaran').html();
+		console.log(pembayaran_asuransi_id);
+		console.log(nama_asuransi);
+		console.log(tanggal_pembayaran);
 		if ( confirm( 'Anda yakin mau menghapus pembayaran ' + pembayaran_asuransi_id + ' untuk asuransi ' + nama_asuransi+ ' yang dibayarkan pada tanggal ' + tanggal_pembayaran ) ) {
 			$.post( base + '/pendapatans/pembayaran/asuransi/delete',
 				{ 'pembayaran_asuransi_id': pembayaran_asuransi_id },
@@ -137,6 +140,11 @@
 					if ( data == 0 ) {
 						swal('Oops','Ada kesalahan, Tidak Bisa Dihapus', 'error' );
 					} else {
+						Swal.fire(
+						  'Good job!',
+						  'Pembayaran Asuransi Berhasil Dihapus',
+						  'success'
+						);
 						// swal('Berhasil','Pembayaran asuransi ' + pembayaran_asuransi_id + ' berhasil direset', 'success' );
 						// $(control).closest('tr').css('background', 'red');
 						$(control)
