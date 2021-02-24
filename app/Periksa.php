@@ -66,18 +66,24 @@ class Periksa extends Model{
     }
     public function getSistolikAttribute($value) {
         if (
-            $value == '140' &&
-            $this->prolanis_ht == 1
+            $value == '140' && // jika tekanan darah 140
+            $this->prolanis_ht == 1 && // dan pasien terhitung sebagai denominator prolanis
+            $this->asuransi_id == '32' // dengan pemeriksaan asuransi BPJS
         ) {
             return '139';
+        } else {
+            return $value;
         }
     }
     public function getDiastolikAttribute($value) {
         if (
             $value == '80' &&
-            $this->prolanis_ht == 1
+            $this->prolanis_ht == 1 &&
+            $this->asuransi_id == '32'
         ) {
             return '79';
+        } else {
+            return $value;
         }
     }
     public function getTerapiHtmlAttribute(){

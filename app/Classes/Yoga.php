@@ -2710,4 +2710,12 @@ class Yoga {
 		$pdf = new PdfsController;
 		return $pdf->htTerkendali($d);
 	}
+
+	public function jarakHari($date1, $date2){
+		$date1 = strtotime($date1);
+		$date2 = strtotime($date);
+		$datediff = $date2 - $date1;
+		return round($datediff / (60 * 60 * 24));
+	}
+	
 }
