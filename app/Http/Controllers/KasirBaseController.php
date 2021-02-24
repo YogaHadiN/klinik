@@ -18,7 +18,6 @@ use App\Asuransi;
 class KasirBaseController extends Controller
 {
 	public function kasir($id){
-
 		$periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
 		if ( $periksa->lewat_kasir == '1' ) {
 			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
