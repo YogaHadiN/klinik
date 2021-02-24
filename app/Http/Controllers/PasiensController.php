@@ -459,6 +459,7 @@ class PasiensController extends Controller
 		$query .= "prx.diastolik as diastolik, ";
 		$query .= "prx.nomor_asuransi as nomor_asuransi, ";
 		$query .= "prx.id as periksa_id, ";
+		$query .= "prx.prolanis_ht as prolanis_ht, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "jtf.id as jenis_tarif_id ";
 		$query .= "FROM periksas as prx ";

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
 use App\Merek;
+use App\Pasien;
 use App\Diagnosa;
 use App\Classes\Yoga;
 use App\BeratBadan;
@@ -183,14 +184,28 @@ class PoliAjaxController extends Controller
 		}
 	}
 	public function diagcha(){
-		$diagnosa_id = Input::get('diagnosa_id');
-		$icd10 = Diagnosa::find($diagnosa_id)->icd10_id;
-		$tidakdirujuk = Tidakdirujuk::where('icd10_id', $icd10)->get();
-		if ($tidakdirujuk->count() > 0) {
-			return '1';
-		} else {
-			return '0';
+		$diagnosa_id         = Input::get('diagnosa_id');
+		$pasien_id           = Input::get('pasien_id');
+		$icd10               = Diagnosa::find($diagnosa_id)->icd10_id;
+		$tidakdirujuk        = Tidakdirujuk::where('icd10_id', $icd10)->get();
+		$ganti_diagnosa      = 0;
+		$tidak_boleh_dirujuk = 0;
+		$pasien = Pasien::find( $pasien_id );
+
+		if (
+			(strpos($icd10, 'I1') !== false && !$pasien->prolanis_ht) || //jika diagnosa merupakan diagnosa hipertensi
+			(strpos($icd10, 'E1') !== false && !$pasien->prolanis_dm)
+		) {
+			$ganti_diagnosa = 1;
 		}
+
+		if ($tidakdirujuk->count() > 0) {
+			$tidak_boleh_dirujuk = 1;
+		} 
+
+		return compact(
+			'tidak_boleh_dirujuk', 'ganti_diagnosa'
+		);
 	}
 
 	public function indiag(){

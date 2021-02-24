@@ -118,9 +118,6 @@
                 </div>
                 {!! Form::close() !!}
 				<textarea name="" id="excel_pembayaran" class="textareacustom hide" rows="8" cols="40">{{ $excel_pembayaran }}</textarea>
-				{{-- <div id="div_invoices"> --}}
-				{{-- 	{!! Form::select('invoice_id[]', $option_invoices, null, ['class' => 'form-control', 'data-live-search' => 'true']) !!} --}}
-				{{-- </div> --}}
             </div>
         </div>
     </div>

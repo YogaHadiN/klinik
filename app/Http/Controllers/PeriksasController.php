@@ -442,11 +442,8 @@ class PeriksasController extends Controller
 	 */
 	public function show($id)
 	{	
-
 		$periksa = Periksa::with('terapii.merek', 'jurnals.coa', 'transaksii.jenisTarif', 'berkas')->where('id',$id)->first();
 		/* return $periksa->pembayarans; */
-
-
 		$cs = new CustomController;
 		$warna = $cs->warna;
 

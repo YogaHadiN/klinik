@@ -38,6 +38,8 @@ use App\TipeLaporanKasir;
 use App\Rak;
 use App\Pendapatan;
 use App\Http\Controllers\AsuransisController;
+use App\Http\Controllers\PdfsController;
+use App\Http\Controllers\PasiensController;
 
 class LaporansController extends Controller
 {
@@ -127,6 +129,7 @@ class LaporansController extends Controller
 	
 
 	public function index() {
+
 		$akun_banks     = AkunBank::all();
 		$asuransis      = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
@@ -170,7 +173,6 @@ class LaporansController extends Controller
 				$darurat[] = $ap;	
 			}
 		}
-		/* $staf          = Yoga::stafList(); */
 		$staf          = Yoga::stafList();
 		$poliIni       = $this->poliIni(date('Y-m-d'));
 		$periksa_polis = $this->periksaHarian(date('Y-m-d'));
@@ -195,10 +197,6 @@ class LaporansController extends Controller
 																->where('kunjungan_sehat', '1')
 																->count();
 
-
-
-
-
 		$jumlah_peserta_bpjs                 = Config::where('id', 1)->first()->value;
 		//target peserta bpjs bulan ini adalah 15% dari seluruh peserta
 		$target_jumlah_pasien_bpjs_bulan_ini = $jumlah_peserta_bpjs * 0.15;
@@ -213,10 +211,6 @@ class LaporansController extends Controller
 									->where('pcare_submit', '0')
 									->count();;
 
-		/* $rppt = PesertaBpjsPerbulan::latest()->first(); */
-
-
-
 		$rppt = PesertaBpjsPerbulan::latest()->first();
 
 		$ht_berobat    = 0;
@@ -227,12 +221,18 @@ class LaporansController extends Controller
 		$jumlah_prolanis_dm = $rppt == null? 0 : $rppt->jumlah_dm;
 		$jumlah_prolanis_ht = $rppt == null? 0 : $rppt->jumlah_ht;
 
-		foreach ($this->queryHtTerkendali(date('Y-m')) as $d) {
-			if ( $d->prolanis_ht == '1' ) {
+		$pasien      = new PasiensController;
+		$pdf         = new PdfsController;
+		$prolanis_ht = [];
+		foreach ($pasien->queryDataProlanisPerBulan(date('Y-m')) as $d) {
+			$prolanis_ht = $pasien->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
+			if( $d->prolanis_ht){
 				$ht_berobat++;
-				if ($d->sistolik < 139) {
-					$ht_terkendali++;
-				}
+			}
+		}
+		foreach ($prolanis_ht as $p) {
+			if ( $pdf->htTerkendali($p) ) {
+				$ht_terkendali++;
 			}
 		}
 

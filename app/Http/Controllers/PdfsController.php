@@ -776,12 +776,12 @@ class PdfsController extends Controller
 		$bulanTahun      = Carbon::createFromFormat('Y-m', $bulanTahun);
 		$jumlah_ht_terkendali = 0;
 		foreach ($prolanis_ht as $p) {
-			if ( $p['sistolik'] < 140 ) {
+			if ( $this->htTerkendali($p) ) {
 				$jumlah_ht_terkendali++;
 			}
 		}
 		$jumlah_denominator_ht = PesertaBpjsPerbulan::where('bulanTahun', $bulanTahun->format('Y-m-01'))->first()->jumlah_ht;
-		$pdf             = PDF::loadView('pdfs.prolanisHipertensiPerBulan', compact(
+		$pdf                   = PDF::loadView('pdfs.prolanisHipertensiPerBulan', compact(
 			'prolanis_ht',
 			'jumlah_ht_terkendali',
 			'jumlah_denominator_ht',
@@ -797,10 +797,22 @@ class PdfsController extends Controller
 			$prolanis_dm = $psn->templateProlanisPeriksa($prolanis_dm, $d, 'prolanis_dm');
 		}
 		$bulanTahun = Carbon::createFromFormat('Y-m', $bulanTahun);
+		$jumlah_denominator_dm = PesertaBpjsPerbulan::where('bulanTahun', $bulanTahun->format('Y-m-01'))->first()->jumlah_dm;
 
+		$jumlah_dm_terkendali = 0;
+		foreach ($prolanis_dm as $p) {
+			if ( isset( $p['gula_darah'] ) ) {
+				$gula_darah = (int) filter_var( $p['gula_darah'] , FILTER_SANITIZE_NUMBER_INT);
+				if ( $gula_darah < 130  ) {
+					$jumlah_dm_terkendali++;
+				}
+			}
+		}
 
 		$pdf             = PDF::loadView('pdfs.prolanisDmPerBulan', compact(
 			'prolanis_dm',
+			'jumlah_dm_terkendali',
+			'jumlah_denominator_dm',
 			'bulanTahun'
 		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
 		return $pdf->stream();
@@ -868,5 +880,25 @@ class PdfsController extends Controller
 					->setOption('margin-left', 20)
 					->setOption('margin-right', 20);
 		return $pdf->stream();
+	}
+	public function htTerkendali($p){
+		$tanggal_lahir   = Carbon::parse( $p['tanggal_lahir']);
+		$tanggal_periksa = Carbon::parse( $p['tanggal']);
+		$usia            = $tanggal_lahir->diffInYears($tanggal_periksa);
+		if (
+			(
+				in_array( $usia, range(18, 64) ) && //jika usia diantara 18 dan 65 tahun
+				$p['sistolik']<= 130 && // dan tekanan darah dibawah sama dengan 130
+				in_array( $p['diastolik'], range(70, 79) ) // dan diastolik antara 70 dan 79
+			) || (
+				$usia > 64 &&
+				in_array( $p['sistolik'], range(130, 139) ) && // dan tekana darah antara 130 dan 139
+				in_array( $p['diastolik'], range(70, 79) ) // dan diastolik antara 70 dan 79
+			)
+		) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -228,7 +228,9 @@
 		</tr>
 	</table>
 <hr />
-<h2>Laporan Pasien DM {{ $bulanTahun->format('M Y') }}</h2>
+<h2>Laporan Pasien Hipertensis {{ $bulanTahun->format('M Y') }}</h2>
+<h2>Jumlah Total Denominator = {{ $jumlah_denominator_dm }}</h2>
+<h2>Jumlah Gula Darah sampai dengan 129 = {{ $jumlah_dm_terkendali }}</h2>
 		@include('pasiens.prolanis_perbulan_template', ['prolanis' => 'prolanis_dm'])
 </body>
 </html>

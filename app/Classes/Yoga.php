@@ -32,6 +32,7 @@ use App\Asuransi;
 use App\JenisRumahSakit;
 use App\RegisterHamil;
 use App\JenisPengeluaran;
+use App\Http\Controllers\PdfsController;
 use DB;
 use DateTime;
 use App\Terapi;
@@ -2704,5 +2705,9 @@ class Yoga {
 			}
 		}
 		return $returnValue;
+	}
+	public static function htTerkendali($d){
+		$pdf = new PdfsController;
+		return $pdf->htTerkendali($d);
 	}
 }

@@ -79,6 +79,8 @@ Klinik Jati Elok | Peserta BPJS bulanan
 				<tr>
 					<th>ID</th>
 					<th>Periode</th>
+					<th>Jumlah Denominator HT</th>
+					<th>Jumlah Denominator DM</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -88,6 +90,8 @@ Klinik Jati Elok | Peserta BPJS bulanan
 						<tr>
 							<td>{{ $p->id }}</td>
 							<td>{{ $p->bulanTahun->format('M Y')}}</td>
+							<td>{{ $p->jumlah_ht}}</td>
+							<td>{{ $p->jumlah_dm}}</td>
 							<td> 
 								{!! Form::open(['url' => 'peserta_bpjs_perbulans/' .$p->id, 'method' => 'delete']) !!}
 									<a href="{{ url('peserta_bpjs/' . $p->nama_file) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-download" aria-hidden="true"></i> Download</a>

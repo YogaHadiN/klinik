@@ -734,15 +734,40 @@ class AsuransisController extends Controller
 	}
 	public function tunggakan($year){
 		$query  = "SELECT ";
-		$query .= "asu.nama ";
+		$query .= "asu.nama, ";
+		$query .= "asu.id as asuransi_id, ";
+		$query .= "sum(pas.tunai) as tunai, ";
+		$query .= "sum(pas.piutang) as piutang, ";
+		$query .= "sum(pas.piutang) - sum(pas.sudah_dibayar) as sisa_piutang, ";
+		$query .= "sum(pas.sudah_dibayar) as sudah_dibayar ";
 		$query .= "FROM piutang_asuransis as pas ";
 		$query .= "JOIN periksas as prx on prx.id = pas.periksa_id ";
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "WHERE prx.tanggal like '{$year}%' ";
 		$query .= "AND asuransi_id > 0 ";
-		$query .= "GROUP BY asuransi_id";
+		$query .= "GROUP BY asuransi_id ";
+		$query .= "having sum(pas.piutang) - sum(pas.sudah_dibayar) > 0;";
 		$data = DB::select($query);
-		dd( $data );
-		return $year;
+
+		$total_tunai         = 0;
+		$total_piutang       = 0;
+		$total_sudah_dibayar = 0;
+		$total_sisa_piutang  = 0;
+
+		foreach ($data as $d) {
+			$total_tunai         += $d->tunai;
+			$total_piutang       += $d->piutang;
+			$total_sudah_dibayar += $d->sudah_dibayar;
+			$total_sisa_piutang  += $d->sisa_piutang;
+		}
+
+		return view('asuransis.tunggakan_asuransi', compact(
+			'year',
+			'total_tunai',
+			'total_piutang',
+			'total_sudah_dibayar',
+			'total_sisa_piutang',
+			'data'
+		));
 	}
 }

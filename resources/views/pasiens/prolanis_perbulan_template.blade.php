@@ -6,6 +6,7 @@
 				<th>Nama</th>
 				<th>Nomor Asuransi</th>
 				<th>Tanggal Lahir</th>
+				<th>Usia</th>
 				<th>Alamat</th>
 				<th>Pembayaran</th>
 				<th>Tekanan Darah</th>
@@ -16,7 +17,7 @@
 			@if(count($$prolanis) > 0)
 				@foreach($$prolanis as $p)
 					<tr
-						@if( $prolanis == 'prolanis_ht' && $p['sistolik'] < 140 && !empty($p['sistolik']) )
+						@if( $prolanis == 'prolanis_ht' && App\Classes\Yoga::htTerkendali($p) && !empty($p['sistolik']) )
 							class="success"
 						@endif
 						>
@@ -24,6 +25,7 @@
 						<td>{{ ucwords($p['nama']) }}</td>
 						<td>{{ $p['nomor_asuransi'] }}</td>
 						<td>{{ $p['tanggal_lahir'] }}</td>
+						<td>{{ App\Classes\Yoga::umurSaatPeriksa($p['tanggal_lahir'], $p['tanggal']) }}</td>
 						<td>{{ $p['alamat'] }}</td>
 						<td>{{ $p['nama_asuransi'] }}</td>
 						<td nowrap>{{ $p['sistolik'] }} / {{ $p['diastolik'] }}</td>

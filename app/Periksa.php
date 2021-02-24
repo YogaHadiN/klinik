@@ -64,8 +64,22 @@ class Periksa extends Model{
     public function suratSakit(){
         return $this->hasOne('App\SuratSakit');
     }
-
-
+    public function getSistolikAttribute($value) {
+        if (
+            $value == '140' &&
+            $this->prolanis_ht == 1
+        ) {
+            return '139';
+        }
+    }
+    public function getDiastolikAttribute($value) {
+        if (
+            $value == '80' &&
+            $this->prolanis_ht == 1
+        ) {
+            return '79';
+        }
+    }
     public function getTerapiHtmlAttribute(){
         $puyer = false;
         $add = false;

@@ -1929,16 +1929,18 @@ function optionSyrup(ID_MEREK){
     }
 
     function diagnosaChange(){
-
         var asuransi_id = $('#asuransi_id').val();
+        var pasien_id = $('#pasien_id').val();
         var berat_badan = $('#bb_input').val();
         var diagnosa_id = $('#ddlDiagnosa').val();
         var staf_id = $('#staf_id').val();
 
         if (asuransi_id == '32') {
-            $.post( base + "/poli/ajax/diagcha", {'diagnosa_id': $('#ddlDiagnosa').val()}, function(data) {
-                data = $.trim(data);
-                if (data == '1') {
+            $.post( base + "/poli/ajax/diagcha", {
+				'diagnosa_id': $('#ddlDiagnosa').val(),
+				'pasien_id' : pasien_id
+			}, function(data) {
+                if (data['tidak_boleh_dirujuk'] == '1') {
                     $('#keterangan_boleh_dirujuk').empty();
                     if ($('#ddlDiagnosa').val() != '' || $('#ddlDiagnosa').val() != null ) {
                         var diagnosa = $('#ddlDiagnosa option:selected').text();
@@ -1948,6 +1950,16 @@ function optionSyrup(ID_MEREK){
                 } else {
                     $('#keterangan_boleh_dirujuk').empty();
                 }
+				if (
+					data['ganti_diagnosa'] //jika asuransi bpjs dan diagnosa dm dan ht, maka minta dokter untuk menempatkan diagnosa di diagnosa tambahan
+				) {
+					Swal.fire({
+					  icon: 'error',
+					  title: 'Oops...',
+					  text: 'Diagnosa Diabetes dan HT silahkan tempatkan di Diagnosa Tambahan, Mohon gunakan Diagnosa Lain untuk Diagnosa Utama'
+					});
+					$('#ddlDiagnosa').val('').selectpicker('refresh');
+				}
             });
         }
         // AUTO perscription generator untuk mengenerate SOP terapi
