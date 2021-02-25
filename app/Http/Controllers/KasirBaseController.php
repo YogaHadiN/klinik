@@ -15,8 +15,19 @@ use App\Tidakdirujuk;
 use App\Merek;
 use App\Asuransi;
 
+
 class KasirBaseController extends Controller
 {
+	/**
+	* @param $dependencies
+	*/
+	public function __construct()
+	{
+		 $this->middleware('prolanisFlagging', ['only' => [
+			 'kasir'
+		 ]]);
+	}
+	
 	public function kasir($id){
 		$periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
 		if ( $periksa->lewat_kasir == '1' ) {

@@ -56,6 +56,34 @@
 						 </div>
 					 </div>
 				 </div>
+				<div class="row">
+					 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						 <div class="form-group{{ $errors->has('prolanis_ht_flagging_image') ? ' has-error' : '' }}">
+							 {!! Form::label('prolanis_ht_flagging_image', 'Upload Gambar Prolanis HT') !!}
+							 {!! Form::file('prolanis_ht_flagging_image') !!}
+							 @if (isset($pasien) && $pasien->prolanis_ht_flagging_image)
+								 <p> {!! HTML::image(asset($pasien->prolanis_ht_flagging_image), null, ['class'=>'img-rounded upload']) !!} </p>
+							 @else
+								 <p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+							 @endif
+							 {!! $errors->first('prolanis_ht_flagging_image', '<p class="help-block">:message</p>') !!}
+						 </div>
+					 </div>
+				 </div>
+				<div class="row">
+					 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						 <div class="form-group{{ $errors->has('prolanis_dm_flagging_image') ? ' has-error' : '' }}">
+							 {!! Form::label('prolanis_dm_flagging_image', 'Upload Gambar Prolanis DM') !!}
+							 {!! Form::file('prolanis_dm_flagging_image') !!}
+							 @if (isset($pasien) && $pasien->prolanis_dm_flagging_image)
+								 <p> {!! HTML::image(asset($pasien->prolanis_dm_flagging_image), null, ['class'=>'img-rounded upload']) !!} </p>
+							 @else
+								 <p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+							 @endif
+							 {!! $errors->first('prolanis_dm_flagging_image', '<p class="help-block">:message</p>') !!}
+						 </div>
+					 </div>
+				 </div>
 			</div>
 		@endif
 		 </div>

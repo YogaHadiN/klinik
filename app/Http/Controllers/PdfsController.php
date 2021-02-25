@@ -882,18 +882,37 @@ class PdfsController extends Controller
 		return $pdf->stream();
 	}
 	public function htTerkendali($p){
-		$tanggal_lahir   = Carbon::parse( $p['tanggal_lahir']);
-		$tanggal_periksa = Carbon::parse( $p['tanggal']);
+		$tanggal_lahir   = is_object($p) ? $p->pasien->tanggal_lahir : $p['tanggal_lahir'];
+		$tanggal_periksa = is_object($p) ? $p->tanggal : $p['tanggal'];
+		$sistolik        = is_object($p) ? $p->sistolik  : $p['sistolik'];
+		$diastolik       = is_object($p) ? $p->diastolik   : $p['diastolik'];
+
+		$tanggal_lahir   = Carbon::parse( $tanggal_lahir);
+		$tanggal_periksa = Carbon::parse( $tanggal_periksa);
 		$usia            = $tanggal_lahir->diffInYears($tanggal_periksa);
+
+		/* dd( */ 
+			/* $tanggal_lahir->format('d-m-Y'), */
+			/* $tanggal_periksa->format('d-m-Y'), */
+			/* $usia, */
+			/* $sistolik, */
+			/* $diastolik, */
+			/* in_array( $usia, range(18, 64) ) && //jika usia diantara 18 dan 65 tahun */
+			/* $sistolik<= 130 && // dan tekanan darah dibawah sama dengan 130 */
+			/* $diastolik < 80 && // dan diastolik dibawah 80 */
+			/* !is_null($tanggal_lahir)	// dan diastolik antara 70 dan 79 */
+		/* ); */
 		if (
 			(
 				in_array( $usia, range(18, 64) ) && //jika usia diantara 18 dan 65 tahun
-				$p['sistolik']<= 130 && // dan tekanan darah dibawah sama dengan 130
-				in_array( $p['diastolik'], range(70, 79) ) // dan diastolik antara 70 dan 79
+				$sistolik<= 130 && // dan tekanan darah dibawah sama dengan 130
+				$diastolik < 80 && // dan diastolik dibawah 80
+			    !is_null($tanggal_lahir)	// dan diastolik antara 70 dan 79
 			) || (
-				$usia > 64 &&
-				in_array( $p['sistolik'], range(130, 139) ) && // dan tekana darah antara 130 dan 139
-				in_array( $p['diastolik'], range(70, 79) ) // dan diastolik antara 70 dan 79
+				$usia > 64 && // jika usia diatas 64 tahun
+				$sistolik <140 && // dan tekana darah antara 130 dan 139
+				$diastolik < 80 && // dan diastolik dibawah 80
+			    !is_null($tanggal_lahir)	// dan diastolik antara 70 dan 79
 			)
 		) {
 			return true;

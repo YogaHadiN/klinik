@@ -211,33 +211,18 @@ class LaporansController extends Controller
 									->where('pcare_submit', '0')
 									->count();;
 
-		$rppt = PesertaBpjsPerbulan::latest()->first();
+		$rppt = $this->cariJumlahProlanis(date('Y-m'));
+		$jumlah_prolanis_dm = $rppt['jumlah_prolanis_dm'];
+		$jumlah_prolanis_ht = $rppt['jumlah_prolanis_ht'];
 
-		$ht_berobat    = 0;
+
+		$status_ht            = $this->cariStatusHt(date('Y-m'), $jumlah_prolanis_ht);
+		$ht_terkendali        = $status_ht['ht_terkendali'];
+		$ht_terkendali_persen = $status_ht['ht_terkendali_persen'];
+		$ht_berobat           = $status_ht['ht_berobat'];
+
 		$dm_berobat    = 0;
-		$ht_terkendali = 0;
 		$dm_terkendali = 0;
-
-		$jumlah_prolanis_dm = $rppt == null? 0 : $rppt->jumlah_dm;
-		$jumlah_prolanis_ht = $rppt == null? 0 : $rppt->jumlah_ht;
-
-		$pasien      = new PasiensController;
-		$pdf         = new PdfsController;
-		$prolanis_ht = [];
-		foreach ($pasien->queryDataProlanisPerBulan(date('Y-m')) as $d) {
-			$prolanis_ht = $pasien->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
-			if( $d->prolanis_ht){
-				$ht_berobat++;
-			}
-		}
-		foreach ($prolanis_ht as $p) {
-			if ( $pdf->htTerkendali($p) ) {
-				$ht_terkendali++;
-			}
-		}
-
-		$ht_terkendali_persen = $jumlah_prolanis_ht > 0 ? round($ht_terkendali / $jumlah_prolanis_ht * 100): 0;
-
 		foreach ($this->queryDmTerkendali(date('Y-m')) as $d) {
 			$dm_berobat++;
 			if ( 
@@ -1593,7 +1578,40 @@ class LaporansController extends Controller
 		));
 		
 	}
-	
-	
-	
+	public function cariJumlahProlanis($bulanTahun){
+		$rppt = PesertaBpjsPerbulan::where('bulanTahun', 'like', $bulanTahun . '%')->latest()->first();
+		$jumlah_prolanis_dm = $rppt == null? 0 : $rppt->jumlah_dm;
+		$jumlah_prolanis_ht = $rppt == null? 0 : $rppt->jumlah_ht;
+		return compact(
+			'jumlah_prolanis_dm',
+			'jumlah_prolanis_ht'
+		);
+	}
+	public function cariStatusHt($bulanTahun, $jumlah_prolanis_ht){
+		$pdf         = new PdfsController;
+		$pasien         = new PasiensController;
+
+		$prolanis_ht   = [];
+		$ht_berobat    = 0;
+		$ht_terkendali = 0;
+		foreach ($pasien->queryDataProlanisPerBulan($bulanTahun) as $d) {
+			$prolanis_ht = $pasien->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
+			if( $d->prolanis_ht){
+				$ht_berobat++;
+			}
+		}
+		foreach ($prolanis_ht as $p) {
+			if ( $pdf->htTerkendali($p) ) {
+				$ht_terkendali++;
+			}
+		}
+
+		$ht_terkendali_persen = $jumlah_prolanis_ht > 0 ? round($ht_terkendali / $jumlah_prolanis_ht * 100): 0;
+
+		return compact(
+			'ht_terkendali_persen',
+			'ht_berobat',
+			'ht_terkendali'
+		);
+	}
 }

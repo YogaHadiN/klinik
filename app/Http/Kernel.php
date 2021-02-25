@@ -73,6 +73,7 @@ class Kernel extends HttpKernel
         'harusUrut' => \App\Http\Middleware\harusUrutDiPoliUmum::class,
         'backIfNotFound' => \App\Http\Middleware\backIfNotFound::class,
         'nomorAntrianUnik' => \App\Http\Middleware\nomorAntrianUnik::class,
+        'prolanisFlagging' => \App\Http\Middleware\CekDanMasukkanProlanis::class,
         'redirectBackIfIdAntrianNotFound' => \App\Http\Middleware\redirectBackIfIdAntrianNotFound::class,
     ];
     /**

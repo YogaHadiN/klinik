@@ -51,9 +51,9 @@ class NotReady
 		}
 	}
 	public function konfirmasiRenovasiSelesai($route_coa){
-		$bulanIni = date('Y-m') . '-01';
-		$jur = new JurnalUmumsController;
-		$datas = $jur->queryRenovasiBulanIni($bulanIni);
+		$bulanIni  = date('Y-m') . '-01';
+		$jur       = new JurnalUmumsController;
+		$datas     = $jur->queryRenovasiBulanIni($bulanIni);
 		$countNull = $datas[0]->jumlah;
 		if ($countNull) {
 			session([ 'route_coa' => $route_coa]);

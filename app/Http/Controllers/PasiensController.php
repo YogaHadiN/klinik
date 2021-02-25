@@ -47,28 +47,30 @@ class PasiensController extends Controller
    public function __construct()
     {
 
-		$ps                              = new Pasien;
-		$this->input_alamat              = Input::get('alamat');
-		$this->input_asuransi_id         = $this->asuransiId(Input::get('asuransi_id'));
-		$this->input_sex                 = Input::get('sex');
-		$this->input_panggilan           = Input::get('panggilan');
-		$this->input_jenis_peserta       = Input::get('jenis_peserta');
-		$this->input_nama_ayah           = ucwords(strtolower(Input::get('nama_ayah')));;
-		$this->input_nama_ibu            = ucwords(strtolower(Input::get('nama_ibu')));;
-		$this->input_nama                = ucwords(strtolower(Input::get('nama')));
-		$this->input_nama_peserta        = ucwords(strtolower(Input::get('nama_peserta')));;
-		$this->input_nomor_asuransi      = Input::get('nomor_asuransi');
-		$this->input_punya_asuransi      = Input::get('punya_asuransi');
-		$this->input_nomor_ktp           = Input::get('nomor_ktp');
-		$this->input_nomor_asuransi_bpjs = $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
-		$this->input_no_telp             = Input::get('no_telp');
-		$this->input_tanggal_lahir       = Yoga::datePrep(Input::get('tanggal_lahir'));
-		$this->input_jangan_disms        = Input::get('jangan_disms');
-		$this->input_bpjs_image          = $ps->imageUpload('bpjs','bpjs_image', $this->input_id);
-		$this->input_ktp_image           = $ps->imageUpload('ktp','ktp_image', $this->input_id);
-		$this->input_image               = $ps->imageUploadWajah('img', 'image', $this->input_id);
-		$this->input_prolanis_dm               = Input::get('prolanis_dm');
-		$this->input_prolanis_ht               = Input::get('prolanis_ht');
+		$ps                                     = new Pasien;
+		$this->input_alamat                     = Input::get('alamat');
+		$this->input_asuransi_id                = $this->asuransiId(Input::get('asuransi_id'));
+		$this->input_sex                        = Input::get('sex');
+		$this->input_panggilan                  = Input::get('panggilan');
+		$this->input_jenis_peserta              = Input::get('jenis_peserta');
+		$this->input_nama_ayah                  = ucwords(strtolower(Input::get('nama_ayah')));;
+		$this->input_nama_ibu                   = ucwords(strtolower(Input::get('nama_ibu')));;
+		$this->input_nama                       = ucwords(strtolower(Input::get('nama')));
+		$this->input_nama_peserta               = ucwords(strtolower(Input::get('nama_peserta')));;
+		$this->input_nomor_asuransi             = Input::get('nomor_asuransi');
+		$this->input_punya_asuransi             = Input::get('punya_asuransi');
+		$this->input_nomor_ktp                  = Input::get('nomor_ktp');
+		$this->input_nomor_asuransi_bpjs        = $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
+		$this->input_no_telp                    = Input::get('no_telp');
+		$this->input_tanggal_lahir              = Yoga::datePrep(Input::get('tanggal_lahir'));
+		$this->input_jangan_disms               = Input::get('jangan_disms');
+		$this->input_bpjs_image                 = $ps->imageUpload('bpjs','bpjs_image', $this->input_id);
+		$this->input_ktp_image                  = $ps->imageUpload('ktp','ktp_image', $this->input_id);
+		$this->input_prolanis_dm_flagging_image = $ps->imageUpload('prolanis_dm','prolanis_dm_flagging_image', $this->input_id);
+		$this->input_prolanis_ht_flagging_image = $ps->imageUpload('prolanis_ht','prolanis_ht_flagging_image', $this->input_id);
+		$this->input_image                      = $ps->imageUploadWajah('img', 'image', $this->input_id);
+		$this->input_prolanis_dm                = Input::get('prolanis_dm');
+		$this->input_prolanis_ht                = Input::get('prolanis_ht');
 
 		$this->dataIndexPasien = [
 			'statusPernikahan' => $ps->statusPernikahan(),
@@ -347,6 +349,12 @@ class PasiensController extends Controller
 		$pasien->jangan_disms        = $this->input_jangan_disms;
 		if (!empty( $this->input_bpjs_image )) {
 			$pasien->bpjs_image          = $this->input_bpjs_image;
+		}
+		if (!empty( $this->input_prolanis_dm_flagging_image )) {
+			$pasien->prolanis_dm_flagging_image = $this->input_prolanis_dm_flagging_image;
+		}
+		if (!empty( $this->input_prolanis_ht_flagging_image )) {
+			$pasien->prolanis_ht_flagging_image = $this->input_prolanis_ht_flagging_image;
 		}
 		if (!empty($this->input_ktp_image)) {
 			$pasien->ktp_image           = $this->input_ktp_image;

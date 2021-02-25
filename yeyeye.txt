@@ -1,2 +1,5 @@
-ALTER TABLE pasiens ADD prolanis_ht_flagging tinyint(1) default 0;
-ALTER TABLE pasiens ADD prolanis_dm_flagging tinyint(1) default 0;
+ALTER TABLE pasiens DROP prolanis_ht_flagging;
+ALTER TABLE pasiens DROP prolanis_dm_flagging;
+ALTER TABLE pasiens DROP prolanis_flagging_image;
+ALTER TABLE pasiens ADD prolanis_ht_flagging_image varchar(255);
+ALTER TABLE pasiens ADD prolanis_dm_flagging_image varchar(255);
