@@ -25,7 +25,6 @@ class CekDanMasukkanProlanis
         $periksa_id           = $request->id;
         $periksa              = Periksa::find( $periksa_id );
         $pasien               = $periksa->pasien;
-        /* dd( $pdf->htTerkendali($periksa) ); */
         $ht_terkendali_persen = $this->cariPersentaseHtTerkendali($periksa);
 
         if (
@@ -33,9 +32,9 @@ class CekDanMasukkanProlanis
             $pasien->prolanis_ht &&//jika pasien merupakan pasien prolanis_ht
             $periksa->asuransi_id == '32' &&//jika pemeriksaan menggunakan pembayaran BPJS
             $pdf->htTerkendali($periksa) &&//jika pasien masuk kategori tekanan darah terkendali
-            !is_null($pasien->prolanis_ht_flagging_image)//jika pasien belum diflagging prolanis hipertensi
+            is_null($pasien->prolanis_ht_flagging_image)//jika pasien belum diflagging prolanis hipertensi
         ) {
-            $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien Prolanis BPJS, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis BPJS');
+            $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien <strong>PROLANIS HIPERTENSI</strong>, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis BPJS');
             return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
         }
         return $next($request);
