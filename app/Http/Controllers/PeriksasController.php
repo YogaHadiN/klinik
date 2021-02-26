@@ -37,9 +37,12 @@ class PeriksasController extends Controller
 	 *
 	 * @return Response
 	 */
+	public $input_sistolik;
   public function __construct()
     {
         $this->middleware('selesaiPeriksa', ['only' => ['update']]);
+		$this->input_sistolik  = Input::get('sistolik') == '140' && Input::get('asuransi_id') == '32' ? '139' :  Input::get('sistolik');
+		$this->input_diastolik = Input::get('diastolik') == '80' && Input::get('asuransi_id') == '32' ? '79' :  Input::get('diastolik');
    }
 	public function index()
 	{
@@ -184,8 +187,8 @@ class PeriksasController extends Controller
 		$periksa->pemeriksaan_fisik       = Input::get('pemeriksaan_fisik');
 		$periksa->pemeriksaan_penunjang   = Input::get('pemeriksaan_penunjang');
 		$periksa->tanggal                 = Input::get('tanggal');
-		$periksa->sistolik                = Yoga::returnNull( Input::get('sistolik') );
-		$periksa->diastolik               = Yoga::returnNull( Input::get('diastolik') );
+		$periksa->sistolik                = Yoga::returnNull( $this->input_sistolik );
+		$periksa->diastolik               = Yoga::returnNull( $this->input_diastolik );
 		$periksa->terapi                  = $this->terapisBaru($terapis);
 		$periksa->jam_periksa             = Input::get('jam_periksa');
 		$periksa->jam_selesai_periksa     = date('H:i:s');
@@ -495,26 +498,26 @@ class PeriksasController extends Controller
 
 			$pasien = Pasien::find(Input::get('pasien_id'));
 			
-			$periksa->anamnesa 				= Input::get('anamnesa');
-			$periksa->asuransi_id 			= $asuransi->id;
-			$periksa->diagnosa_id 			= Input::get('diagnosa_id');
-			$periksa->berat_badan  			= Input::get('berat_badan');
-			$periksa->staf_id 				= Input::get('staf_id');
-			$periksa->jam_resep 			= date('H:i:s');
-			$periksa->keterangan_diagnosa 	= Input::get('keterangan_diagnosa');
-			$periksa->lewat_poli 			= '1';
-			$periksa->antrian_periksa_id	= Input::get('antrian_id');
-			$periksa->lewat_poli 			= '1';
-			$periksa->lewat_kasir 			= '0';
-			$periksa->lewat_kasir2 			= '0';
-			$periksa->sistolik 				= Yoga::returnNull( Input::get('sistolik') );
-			$periksa->diastolik 			= Yoga::returnNull( Input::get('diastolik') );
-			$periksa->resepluar 			= Input::get('resepluar');
-			$periksa->pemeriksaan_fisik 	= Input::get('pemeriksaan_fisik');
+			$periksa->anamnesa              = Input::get('anamnesa');
+			$periksa->asuransi_id           = $asuransi->id;
+			$periksa->diagnosa_id           = Input::get('diagnosa_id');
+			$periksa->berat_badan           = Input::get('berat_badan');
+			$periksa->staf_id               = Input::get('staf_id');
+			$periksa->jam_resep             = date('H:i:s');
+			$periksa->keterangan_diagnosa   = Input::get('keterangan_diagnosa');
+			$periksa->lewat_poli            = '1';
+			$periksa->antrian_periksa_id    = Input::get('antrian_id');
+			$periksa->lewat_poli            = '1';
+			$periksa->lewat_kasir           = '0';
+			$periksa->lewat_kasir2          = '0';
+			$periksa->sistolik              = Yoga::returnNull( $this->input_sistolik );
+			$periksa->diastolik             = Yoga::returnNull( $this->input_diastolik );
+			$periksa->resepluar             = Input::get('resepluar');
+			$periksa->pemeriksaan_fisik     = Input::get('pemeriksaan_fisik');
 			$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
-			$periksa->terapi 				= $this->terapisBaru($terapis);
-			$periksa->transaksi 			= json_encode($transaksis);
-			$periksa->jam_selesai_periksa	= date('H:i:s');
+			$periksa->terapi                = $this->terapisBaru($terapis);
+			$periksa->transaksi             = json_encode($transaksis);
+			$periksa->jam_selesai_periksa   = date('H:i:s');
 			$confirm = $periksa->save();
 
 
