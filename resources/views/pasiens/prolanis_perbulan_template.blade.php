@@ -32,7 +32,11 @@
 								class="danger"
 							@endif
 							>
-							{{ ucwords($p['nama']) }}		
+							@if (isset($bukan_pdf))
+								<a href="{{ url('pasiens/' . $p['pasien_id'] . '/edit') }}" target="_blank">{{ ucwords($p['nama']) }}</a>
+							@else
+								{{ ucwords($p['nama']) }}		
+							@endif
 						</td>
 						<td>{{ $p['nomor_asuransi'] }}</td>
 						<td>{{ $p['tanggal_lahir'] }}</td>
