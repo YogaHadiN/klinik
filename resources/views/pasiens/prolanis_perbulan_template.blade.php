@@ -2,6 +2,7 @@
 	<table class="table table-hover table-condensed table-bordered">
 		<thead>
 			<tr>
+				<th>No</th>
 				<th>Tanggal</th>
 				<th>Nama</th>
 				<th>Nomor Asuransi</th>
@@ -15,14 +16,24 @@
 		</thead>
 		<tbody>
 			@if(count($$prolanis) > 0)
+				@php
+					$i = 1
+				@endphp
 				@foreach($$prolanis as $p)
 					<tr
 						@if( $prolanis == 'prolanis_ht' && App\Classes\Yoga::htTerkendali($p) && !empty($p['sistolik']) )
-							class="success"
+							class="table-success"
 						@endif
 						>
+						<td>{{ $i++ }}</td>
 						<td>{{ $p['tanggal'] }}</td>
-						<td>{{ ucwords($p['nama']) }}</td>
+						<td
+							@if(is_null( $p['prolanis_ht_flagging_image'] ))
+								class="danger"
+							@endif
+							>
+							{{ ucwords($p['nama']) }}		
+						</td>
 						<td>{{ $p['nomor_asuransi'] }}</td>
 						<td>{{ $p['tanggal_lahir'] }}</td>
 						<td>{{ App\Classes\Yoga::umurSaatPeriksa($p['tanggal_lahir'], $p['tanggal']) }}</td>

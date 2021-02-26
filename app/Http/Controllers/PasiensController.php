@@ -437,14 +437,16 @@ class PasiensController extends Controller
 	public function templateProlanisPeriksa($prolanis, $d, $jenis_prolanis)
 	{
 		if ( $d->$jenis_prolanis ) {
-			$prolanis[$d->periksa_id]['nama']           = $d->nama;
-			$prolanis[$d->periksa_id]['tanggal']        = $d->tanggal;
-			$prolanis[$d->periksa_id]['tanggal_lahir']  = $d->tanggal_lahir;
-			$prolanis[$d->periksa_id]['alamat']         = $d->alamat;
-			$prolanis[$d->periksa_id]['sistolik']       = $d->sistolik;
-			$prolanis[$d->periksa_id]['diastolik']      = $d->diastolik;
-			$prolanis[$d->periksa_id]['nama_asuransi']  = $d->nama_asuransi;
-			$prolanis[$d->periksa_id]['nomor_asuransi'] = $d->nomor_asuransi;
+			$prolanis[$d->periksa_id]['nama']                       = $d->nama;
+			$prolanis[$d->periksa_id]['tanggal']                    = $d->tanggal;
+			$prolanis[$d->periksa_id]['pasien_id']                  = $d->pasien_id;
+			$prolanis[$d->periksa_id]['tanggal_lahir']              = $d->tanggal_lahir;
+			$prolanis[$d->periksa_id]['alamat']                     = $d->alamat;
+			$prolanis[$d->periksa_id]['sistolik']                   = $d->sistolik;
+			$prolanis[$d->periksa_id]['diastolik']                  = $d->diastolik;
+			$prolanis[$d->periksa_id]['nama_asuransi']              = $d->nama_asuransi;
+			$prolanis[$d->periksa_id]['nomor_asuransi']             = $d->nomor_asuransi;
+			$prolanis[$d->periksa_id]['prolanis_ht_flagging_image'] = $d->prolanis_ht_flagging_image;
 			if ( 
 				$d->jenis_tarif_id == '116'
 			) {
@@ -459,8 +461,10 @@ class PasiensController extends Controller
 		$query .= "psn.nama as nama, ";
 		$query .= "jtf.jenis_tarif as jenis_tarif, ";
 		$query .= "psn.prolanis_dm as prolanis_dm, ";
+		$query .= "psn.id as pasien_id, ";
 		$query .= "psn.prolanis_ht as prolanis_ht, ";
 		$query .= "psn.tanggal_lahir as tanggal_lahir, ";
+		$query .= "psn.prolanis_ht_flagging_image as prolanis_ht_flagging_image, ";
 		$query .= "psn.alamat as alamat, ";
 		$query .= "trx.keterangan_pemeriksaan as keterangan_pemeriksaan, ";
 		$query .= "prx.sistolik as sistolik, ";

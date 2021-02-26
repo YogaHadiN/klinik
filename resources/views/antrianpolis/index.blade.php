@@ -241,15 +241,15 @@
                                         </div>
                                     </div>
                                 </div>
-								<div class="row" id="rowStatusGDS">
-									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-										<div class="form-group @if($errors->has('gds')) has-error @endif">
-										{!! Form::label('gds', 'GDS', ['class' => 'control-label']) !!}
-										{!! Form::text('gds' , null, ['class' => 'form-control status_gds', 'id' => 'gds']) !!}
-										@if($errors->has('gds'))<code>{{ $errors->first('gds') }}</code>@endif
-										</div>
-									</div>
-								</div>
+								{{-- <div class="row" id="rowStatusGDS"> --}}
+								{{-- 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> --}}
+								{{-- 		<div class="form-group @if($errors->has('gds')) has-error @endif"> --}}
+								{{-- 		{!! Form::label('gds', 'GDS', ['class' => 'control-label']) !!} --}}
+								{{-- 		{!! Form::text('gds' , null, ['class' => 'form-control status_gds', 'id' => 'gds']) !!} --}}
+								{{-- 		@if($errors->has('gds'))<code>{{ $errors->first('gds') }}</code>@endif --}}
+								{{-- 		</div> --}}
+								{{-- 	</div> --}}
+								{{-- </div> --}}
                                 <div class="row" id="pastikan">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
