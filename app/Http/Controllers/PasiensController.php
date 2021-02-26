@@ -46,7 +46,6 @@ class PasiensController extends Controller
 
    public function __construct()
     {
-
 		$ps                                     = new Pasien;
 		$this->input_alamat                     = Input::get('alamat');
 		$this->input_asuransi_id                = $this->asuransiId(Input::get('asuransi_id'));
@@ -64,10 +63,6 @@ class PasiensController extends Controller
 		$this->input_no_telp                    = Input::get('no_telp');
 		$this->input_tanggal_lahir              = Yoga::datePrep(Input::get('tanggal_lahir'));
 		$this->input_jangan_disms               = Input::get('jangan_disms');
-		$this->input_bpjs_image                 = $ps->imageUpload('bpjs','bpjs_image', $this->input_id);
-		$this->input_ktp_image                  = $ps->imageUpload('ktp','ktp_image', $this->input_id);
-		$this->input_prolanis_dm_flagging_image = $ps->imageUpload('prolanis_dm','prolanis_dm_flagging_image', $this->input_id);
-		$this->input_prolanis_ht_flagging_image = $ps->imageUpload('prolanis_ht','prolanis_ht_flagging_image', $this->input_id);
 		$this->input_image                      = $ps->imageUploadWajah('img', 'image', $this->input_id);
 		$this->input_prolanis_dm                = Input::get('prolanis_dm');
 		$this->input_prolanis_ht                = Input::get('prolanis_ht');
@@ -139,10 +134,11 @@ class PasiensController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$pasien     = new Pasien;
-		$pasien->id = Yoga::customId('App\Pasien');
-		$pasien     = $this->inputDataPasien($pasien);
-		$ap         = $this->inputDataAntrianPoli($pasien);
+		$pasien         = new Pasien;
+		$this->input_id = Yoga::customId('App\Pasien');
+		$pasien->id     = $this->input_id;
+		$pasien         = $this->inputDataPasien($pasien);
+		$ap             = $this->inputDataAntrianPoli($pasien);
 
 		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		return redirect('antrianpolis')
@@ -268,8 +264,9 @@ class PasiensController extends Controller
 				$asuransi_id = Input::get('asuransi_id');
 			}
 
-			$pasien = Pasien::find($id);
-			$pasien = $this->inputDataPasien($pasien);
+			$pasien         = Pasien::find($id);
+			$this->input_id = $id;
+			$pasien         = $this->inputDataPasien($pasien);
 
 			$antrian_id =  Input::get('antrian_id');
 			if ( !empty( $antrian_id ) ) {
@@ -328,6 +325,13 @@ class PasiensController extends Controller
 		));
 	}
 	public function inputDataPasien($pasien){
+
+		$ps = new Pasien;
+
+		$this->input_bpjs_image                 = $ps->imageUpload('bpjs','bpjs_image', $this->input_id);
+		$this->input_ktp_image                  = $ps->imageUpload('ktp','ktp_image', $this->input_id);
+		$this->input_prolanis_dm_flagging_image = $ps->imageUpload('prolanis_dm','prolanis_dm_flagging_image', $this->input_id);
+		$this->input_prolanis_ht_flagging_image = $ps->imageUpload('prolanis_ht','prolanis_ht_flagging_image', $this->input_id);
 
 		$pasien->alamat              = $this->input_alamat;
 		$pasien->panggilan           = $this->input_panggilan;
