@@ -156,12 +156,18 @@ class LaporanBpjsController extends Controller
 
 	}
 	public function htBerobat($bulanThn){
-
+		$pdf         = new PdfsController;
+		$prolanis_ht = $pdf->prolanisHT($bulanThn);
+		$bulanThn    = Carbon::createFromFormat('Y-m', $bulanThn);
+		return view('laporans.bpjs_ht_berobat', compact(
+			'bulanThn',
+			'prolanis_ht'
+		));
 	}
 	public function htTerkendali($bulanThn){
-		$pdf = new PdfsController;
-		$prolanis_ht          = $pdf->prolanisHT($bulanThn);
-		$bulanThn           = Carbon::createFromFormat('Y-m', $bulanThn);
+		$pdf         = new PdfsController;
+		$prolanis_ht = $pdf->prolanisHT($bulanThn);
+		$bulanThn    = Carbon::createFromFormat('Y-m', $bulanThn);
 		$pasien_ht_terkendali = [];
 		foreach ($prolanis_ht as $p) {
 			if ( $pdf->htTerkendali($p) ) {

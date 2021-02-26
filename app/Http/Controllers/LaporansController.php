@@ -1588,23 +1588,17 @@ class LaporansController extends Controller
 		);
 	}
 	public function cariStatusHt($bulanTahun, $jumlah_prolanis_ht){
-		$pdf         = new PdfsController;
-		$pasien         = new PasiensController;
-
+		$pdf           = new PdfsController;
 		$prolanis_ht   = [];
 		$ht_berobat    = 0;
 		$ht_terkendali = 0;
-		foreach ($pasien->queryDataProlanisPerBulan($bulanTahun) as $d) {
-			$prolanis_ht = $pasien->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
-			if( $d->prolanis_ht){
-				$ht_berobat++;
-			}
-		}
+		$prolanis_ht   = $pdf->prolanisHT($bulanTahun);
 		foreach ($prolanis_ht as $p) {
 			if ( $pdf->htTerkendali($p) ) {
 				$ht_terkendali++;
 			}
 		}
+		$ht_berobat    = count($prolanis_ht);
 
 		$ht_terkendali_persen = $jumlah_prolanis_ht > 0 ? round($ht_terkendali / $jumlah_prolanis_ht * 100): 0;
 

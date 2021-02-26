@@ -916,7 +916,6 @@ class PdfsController extends Controller
 		}
 	}
 	public function prolanisHT($bulanTahun){
-		
 		$psn             = new PasiensController;
 		$data            = $psn->queryDataProlanisPerBulan($bulanTahun);
 		$prolanis_ht     = [];

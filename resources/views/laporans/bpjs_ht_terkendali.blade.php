@@ -11,7 +11,7 @@
                 <a href="{{ url('laporans')}}">Home</a>
             </li>
             <li class="active">
-                <strong>Laporan Prolanis HT Terkendali {{ $bulanThn }}</strong>
+                <strong>Laporan Prolanis HT Terkendali {{ $bulanThn->format('Y-m') }}</strong>
             </li>
 </ol>
 
