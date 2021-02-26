@@ -441,20 +441,20 @@ class PasiensController extends Controller
 	public function templateProlanisPeriksa($prolanis, $d, $jenis_prolanis)
 	{
 		if ( $d->$jenis_prolanis ) {
-			$prolanis[$d->periksa_id]['nama']                       = $d->nama;
-			$prolanis[$d->periksa_id]['tanggal']                    = $d->tanggal;
-			$prolanis[$d->periksa_id]['pasien_id']                  = $d->pasien_id;
-			$prolanis[$d->periksa_id]['tanggal_lahir']              = $d->tanggal_lahir;
-			$prolanis[$d->periksa_id]['alamat']                     = $d->alamat;
-			$prolanis[$d->periksa_id]['sistolik']                   = $d->sistolik;
-			$prolanis[$d->periksa_id]['diastolik']                  = $d->diastolik;
-			$prolanis[$d->periksa_id]['nama_asuransi']              = $d->nama_asuransi;
-			$prolanis[$d->periksa_id]['nomor_asuransi']             = $d->nomor_asuransi;
-			$prolanis[$d->periksa_id]['prolanis_ht_flagging_image'] = $d->prolanis_ht_flagging_image;
+			$prolanis[$d->pasien_id]['nama']                       = $d->nama;
+			$prolanis[$d->pasien_id]['tanggal']                    = $d->tanggal;
+			$prolanis[$d->pasien_id]['pasien_id']                  = $d->pasien_id;
+			$prolanis[$d->pasien_id]['tanggal_lahir']              = $d->tanggal_lahir;
+			$prolanis[$d->pasien_id]['alamat']                     = $d->alamat;
+			$prolanis[$d->pasien_id]['sistolik']                   = $d->sistolik;
+			$prolanis[$d->pasien_id]['diastolik']                  = $d->diastolik;
+			$prolanis[$d->pasien_id]['nama_asuransi']              = $d->nama_asuransi;
+			$prolanis[$d->pasien_id]['nomor_asuransi']             = $d->nomor_asuransi;
+			$prolanis[$d->pasien_id]['prolanis_ht_flagging_image'] = $d->prolanis_ht_flagging_image;
 			if ( 
 				$d->jenis_tarif_id == '116'
 			) {
-				$prolanis[$d->periksa_id]['gula_darah'] = $d->keterangan_pemeriksaan;
+				$prolanis[$d->pasien_id]['gula_darah'] = $d->keterangan_pemeriksaan;
 			}
 		}
 		return $prolanis;
@@ -485,8 +485,12 @@ class PasiensController extends Controller
 		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
 		$query .= "WHERE prx.tanggal like '{$tahunBulan}%' ";
 		$query .= "AND (prx.prolanis_ht = 1 or prx.prolanis_dm = 1) ";
-		$query .= "AND prx.asuransi_id = 32";
+		$query .= "AND prx.asuransi_id = 32 ";
+		$query .= "ORDER BY ";
+		$query .= "prx.sistolik ASC, ";
+		$query .= "prx.diastolik ASC;";
 		return DB::select($query);
+
 	}
 	public function inputDataAntrianPoli($pasien){
 		$ap                    = new AntrianPolisController;
