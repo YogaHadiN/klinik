@@ -767,13 +767,8 @@ class PdfsController extends Controller
         return $pdf->stream();
 	}
 	public function prolanisHipertensiPerBulan($bulanTahun){
-		$psn             = new PasiensController;
-		$data            = $psn->queryDataProlanisPerBulan($bulanTahun);
-		$prolanis_ht     = [];
-		foreach ($data as $d) {
-			$prolanis_ht = $psn->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
-		}
-		$bulanTahun      = Carbon::createFromFormat('Y-m', $bulanTahun);
+		$prolanis_ht          = $this->prolanisHT($bulanTahun);
+		$bulanTahun           = Carbon::createFromFormat('Y-m', $bulanTahun);
 		$jumlah_ht_terkendali = 0;
 		foreach ($prolanis_ht as $p) {
 			if ( $this->htTerkendali($p) ) {
@@ -905,13 +900,13 @@ class PdfsController extends Controller
 		if (
 			(
 				in_array( $usia, range(18, 64) ) && //jika usia diantara 18 dan 65 tahun
-				$sistolik<= 130 && // dan tekanan darah dibawah sama dengan 130
-				$diastolik < 80 && // dan diastolik dibawah 80
+				(!is_null($sistolik) && $sistolik<= 130 && $sistolik > 1) && //sistolik dibawah sama dengan 130
+				(!is_null($diastolik) && $diastolik < 80 && $diastolik > 1) &&// dan diastolik dibawah 80
 			    !is_null($tanggal_lahir)	// dan diastolik antara 70 dan 79
 			) || (
 				$usia > 64 && // jika usia diatas 64 tahun
-				$sistolik <140 && // dan tekana darah antara 130 dan 139
-				$diastolik < 80 && // dan diastolik dibawah 80
+				(!is_null($sistolik) && $sistolik< 140 && $sistolik > 1) && // sistolik dibawah 140
+				(!is_null($diastolik) && $diastolik < 80 && $diastolik > 1) &&// dan diastolik dibawah 80
 			    !is_null($tanggal_lahir)	// dan diastolik antara 70 dan 79
 			)
 		) {
@@ -920,4 +915,15 @@ class PdfsController extends Controller
 			return false;
 		}
 	}
+	public function prolanisHT($bulanTahun){
+		
+		$psn             = new PasiensController;
+		$data            = $psn->queryDataProlanisPerBulan($bulanTahun);
+		$prolanis_ht     = [];
+		foreach ($data as $d) {
+			$prolanis_ht = $psn->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
+		}
+		return $prolanis_ht;
+	}
+	
 }

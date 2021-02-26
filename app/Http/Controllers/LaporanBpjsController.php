@@ -9,6 +9,7 @@ use Input;
 use PDF;
 use DB;
 use App\Classes\Yoga;
+use App\Http\Controllers\PdfsController;
 
 class LaporanBpjsController extends Controller
 {
@@ -158,7 +159,19 @@ class LaporanBpjsController extends Controller
 
 	}
 	public function htTerkendali($bulanThn){
-
+		$pdf = new PdfsController;
+		$prolanis_ht          = $pdf->prolanisHT($bulanThn);
+		$bulanThn           = Carbon::createFromFormat('Y-m', $bulanThn);
+		$pasien_ht_terkendali = [];
+		foreach ($prolanis_ht as $p) {
+			if ( $pdf->htTerkendali($p) ) {
+				$pasien_ht_terkendali[] = $p;
+			}
+		}
+		return view('laporans.bpjs_ht_terkendali', compact(
+			'bulanThn',
+			'pasien_ht_terkendali'
+		));
 	}
 	
 	

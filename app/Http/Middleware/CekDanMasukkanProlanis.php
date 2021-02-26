@@ -34,7 +34,7 @@ class CekDanMasukkanProlanis
             $pdf->htTerkendali($periksa) &&//jika pasien masuk kategori tekanan darah terkendali
             is_null($pasien->prolanis_ht_flagging_image)//jika pasien belum diflagging prolanis hipertensi
         ) {
-            $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien <strong>PROLANIS HIPERTENSI</strong>, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis BPJS');
+            $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien <strong>PROLANIS HIPERTENSI</strong>, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis Hipertensi BPJS');
             return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
         }
         return $next($request);
