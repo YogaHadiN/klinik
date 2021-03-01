@@ -72,6 +72,7 @@ function rowEntry(control) {
 	var bukan_peserta   = $(control).closest('tr').find('.bukan_peserta').html();
 	var prolanis_dm     = $(control).closest('tr').find('.prolanis_dm').html();
 	var prolanis_ht     = $(control).closest('tr').find('.prolanis_ht').html();
+	var no_telp     = $(control).closest('tr').find('.no_telp').html();
 	umur =umur.trim();
 
 	console.log("ID_PASIEN :" + ID_PASIEN );
@@ -89,25 +90,20 @@ function rowEntry(control) {
 	console.log("bukan_peserta :" + bukan_peserta );
 	console.log("prolanis_dm :" + prolanis_dm );
 	console.log("prolanis_ht :" + prolanis_ht );
-
+	console.log("no_telp :" + no_telp );
 
 	$('#bukan_peserta').val(bukan_peserta);	
 
-	$.get(base + '/antrianpolis/ajax/getGolonganProlanis',
-		{ 'pasien_id': ID_PASIEN },
-		function (data) {
-			data = $.trim(data);
-			if(data == '0'){
-			}else{
-				 $('#alert_prolanis').modal('show');
-				 $('#no_telp_pasien').html(data);
-				 $('#redirect_update_pasien').prop('href', base + '/pasiens' + '/' + ID_PASIEN + '/edit');
-			}
-		}
-	);
+	if (
+		prolanis_dm == '1' ||
+		prolanis_ht == '1'
+	) {
+		 $('#alert_prolanis').modal('show');
+		 $('#no_telp_pasien').html(no_telp);
+		 $('#redirect_update_pasien').prop('href', base + '/pasiens' + '/' + ID_PASIEN + '/edit');
+	}
 
 	if( prolanis_dm == '1' ){
-		console.log('ini nol');
 		$.get( base + '/pasiens/ajax/status_cel_gds_bulan_ini',
 			{ 
 				pasien_id: ID_PASIEN

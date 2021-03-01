@@ -102,6 +102,7 @@
 									<input type="text" class="displayNone" name="pengantar" id="pengantar">
 									<input type="text" class="displayNone" name="prolanis_dm" id="prolanis_dm">
 									<input type="text" class="displayNone" name="prolanis_ht" id="prolanis_ht">
+									<input type="text" class="displayNone" name="no_telp" id="no_telp">
 								</div>
 							</div>
 						</div>

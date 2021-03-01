@@ -80,7 +80,6 @@ class AntrianPolisController extends Controller
 			$perjanjian[$p->tanggal->format('d-m-Y')][] = $p;
 		}
 
-
 		foreach ($antrianpolis as $a) {
 			if (empty( $a->pasien->tanggal_lahir )) {
 				dd( $a->pasien->tanggal_lahir );

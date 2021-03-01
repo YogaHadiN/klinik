@@ -24,6 +24,7 @@
 				<th class="hide">Bukan Peserta</th>
 				<th class="">Prolanis DM</th>
 				<th class="">Prolanis HT</th>
+				<th class="hie">No Telp</th>
 				<th class="">Action</th>
 			</tr>
 		</thead>
@@ -60,6 +61,7 @@
 					<td class="displayNone bukan_peserta">{!! $antrianpoli->bukan_peserta !!}</td>
 					<td class="prolanis_dm">{!! $antrianpoli->pasien->prolanis_dm !!}</td>
 					<td class="prolanis_ht">{!! $antrianpoli->pasien->prolanis_ht !!}</td>
+					<td class="no_telp">{!! $antrianpoli->pasien->no_telp !!}</td>
 					<td nowrap>
 						@if($antrianpoli->tanggal <= date('Y-m-d 00:00:00'))
 							@if($antrianpoli->self_register == '1' && $antrianpoli->asuransi_id != 0)

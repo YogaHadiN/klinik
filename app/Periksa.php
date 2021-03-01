@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Classes\Yoga;
+use Carbon\Carbon;
 use DB;
 use Image;
 
@@ -70,7 +71,7 @@ class Periksa extends Model{
             $value >= '140' && // jika tekanan darah lebih sama dengan  140
             $this->prolanis_ht == 1 && // dan pasien terhitung sebagai denominator prolanis hipertensi
             $this->asuransi_id == '32' && // dengan pemeriksaan asuransi BPJS
-            $tanggal->format('Y-m') == date('Y-m') // masih dalam bulan yang sama
+            $tanggal->diffInDays() < 4 // jika masih kurang dari 3 hari 
         ){
             return '139';
         } else {
@@ -83,7 +84,7 @@ class Periksa extends Model{
             $value >= '80' &&
             $this->prolanis_ht == 1 && // dan pasien terhitung sebagai denominator prolanis hipertensi
             $this->asuransi_id == '32' && // dengan pemeriksaan asuransi BPJS
-            $tanggal->format('Y-m') == date('Y-m') // masih dalam bulan yang sama
+            $tanggal->diffInDays() < 4 // jika masih kurang dari 3 hari 
         ) {
             return '79';
         } else {
