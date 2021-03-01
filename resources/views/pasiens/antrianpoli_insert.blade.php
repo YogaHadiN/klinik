@@ -113,7 +113,7 @@
 	  		{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
 	  	</div>
 	  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-	  		<a class="btn btn-danger btn-block" href="{{ url('home/') }}">Cancel</a>
+			<button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
 	  	</div>
 	  </div>
   </div>
