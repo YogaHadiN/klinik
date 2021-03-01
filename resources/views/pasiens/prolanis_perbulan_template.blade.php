@@ -26,7 +26,13 @@
 						@endif
 						>
 						<td>{{ $i++ }}</td>
-						<td>{{ $p['tanggal'] }}</td>
+						<td>
+							@if (isset($bukan_pdf))
+								<a href="{{ url('periksas/' . $p['pasien_id'] ) }}" target="_blank">{{ $p['tanggal'] }}</a>
+							@else
+								{{ $p['tanggal'] }}
+							@endif
+						</td>
 						<td
 							@if(is_null( $p['prolanis_ht_flagging_image'] ))
 								class="danger"
