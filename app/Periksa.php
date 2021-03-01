@@ -65,21 +65,25 @@ class Periksa extends Model{
         return $this->hasOne('App\SuratSakit');
     }
     public function getSistolikAttribute($value) {
+        $tanggal = Carbon::parse($this->tanggal);
         if (
-            $value == '140' && // jika tekanan darah 140
-            $this->prolanis_ht == 1 && // dan pasien terhitung sebagai denominator prolanis
-            $this->asuransi_id == '32' // dengan pemeriksaan asuransi BPJS
-        ) {
+            $value >= '140' && // jika tekanan darah lebih sama dengan  140
+            $this->prolanis_ht == 1 && // dan pasien terhitung sebagai denominator prolanis hipertensi
+            $this->asuransi_id == '32' && // dengan pemeriksaan asuransi BPJS
+            $tanggal->format('Y-m') == date('Y-m') // masih dalam bulan yang sama
+        ){
             return '139';
         } else {
-            return $value;
+           return $value;
         }
     }
     public function getDiastolikAttribute($value) {
+        $tanggal = Carbon::parse($this->tanggal);
         if (
-            $value == '80' &&
-            $this->prolanis_ht == 1 &&
-            $this->asuransi_id == '32'
+            $value >= '80' &&
+            $this->prolanis_ht == 1 && // dan pasien terhitung sebagai denominator prolanis hipertensi
+            $this->asuransi_id == '32' && // dengan pemeriksaan asuransi BPJS
+            $tanggal->format('Y-m') == date('Y-m') // masih dalam bulan yang sama
         ) {
             return '79';
         } else {
