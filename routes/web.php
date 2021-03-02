@@ -117,7 +117,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('antrians/antrianpolis/{id}', 'FasilitasController@antrianPoliPost'); //antrian pasien
 	Route::get('antrians/{id}/pasiens/create', 'FasilitasController@createPasien'); //antrian pasien
 	Route::post('antrians/{id}/pasiens', 'FasilitasController@storePasien'); //antrian pasien
-	Route::get('tanggalantrians', 'FasilitasController@listAntrian');
+	Route::get('antrians', 'FasilitasController@listAntrian');
 	Route::delete('antrians/{id}', 'FasilitasController@deleteAntrian');
 	Route::get('transaksi/avail', 'RekeningController@available');
 
