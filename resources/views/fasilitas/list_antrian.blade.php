@@ -50,6 +50,7 @@ Klinik Jati Elok | List Antrian
 							<th>Id</th>
 							<th>Tanggal</th>
 							<th>Nomor Antrian</th>
+							<th>Nomor BPJS</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -60,6 +61,7 @@ Klinik Jati Elok | List Antrian
 									<td>{{ $antrian->id }}</td>
 									<td>{{ $antrian->created_at->format('d M y') }}</td>
 									<td>{{ $antrian->jenis_antrian->prefix }}{{ $antrian->nomor }}</td>
+									<td>{{ $antrian->nomor_bpjs }}</td>
 									<td nowrap class="autofit">
 										{!! Form::open(['url' => 'antrians/' . $antrian->id, 'method' => 'delete']) !!}
 											<a class="btn btn-info btn-sm" href="{{ url('antrians/proses/' . $antrian->id) }}">

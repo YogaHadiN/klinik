@@ -24,6 +24,21 @@
 				<div class="col-xs-8 text-right">
 					<span>Nomor BPJS</span>
 					<h2 class="font-bold">{{ $antrian->nomor_bpjs }}</h2>
+					<h3 class="font-bold">
+						{{ $nama_pasien }}, {{ App\Classes\Yoga::umur($tanggal_lahir_pasien) }} tahun <button class="btn btn-info btn-xs" onclick="chosenEntry(this);return false;">proses</button>
+					</h3>
+					<div class="hide nama">{{ $nama_pasien }}</div>
+					<div class="hide pasien_id">{{ $pasien_id }}</div>
+					<div class="hide image">{{ $image }}</div>
+					<div class="hide nama_asuransi">{{ $nama_asuransi }}</div>
+					<div class="hide asuransi_id">{{ $asuransi_id }}</div>
+					<div class="hide tanggal_lahir_pasien">{{ $tanggal_lahir_pasien }}</div>
+					<div class="hide prolanis_dm">{{ $prolanis_dm }}</div>
+					<div class="hide prolanis_ht">{{ $prolanis_ht }}</div>
+
+					<div class="hide" class="antrian_id">
+						{{ $antrian->id }}
+					</div>
 					<div class="hide" id="antrian_id">
 						{{ $antrian->id }}
 					</div>

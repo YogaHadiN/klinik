@@ -302,14 +302,46 @@ class FasilitasController extends Controller
 		));
 	}
 	public function prosesAntrian($id){
-		$antrian                                              = Antrian::with('jenis_antrian.poli_antrian.poli')->where('id', $id )->first();
+		$antrian     = Antrian::with('jenis_antrian.poli_antrian.poli')->where('id', $id )->first();
+		$nama_pasien          = '';
+		$pasien_id            = '';
+		$tanggal_lahir_pasien = '';
+		$asuransi_id          = '';
+		$nama_asuransi        = '';
+		$image                = '';
+		$prolanis_dm          = '';
+		$prolanis_ht          = '';
+
+		try {
+			$pasien               = Pasien::where('nomor_asuransi_bpjs', $antrian->nomor_bpjs)->firstOrFail();
+			$nama_pasien          = $pasien->nama;
+			$pasien_id            = $pasien->id;
+			$tanggal_lahir_pasien = $pasien->tanggal_lahir;
+			$asuransi_id          = $pasien->asuransi_id;
+			$nama_asuransi        = $pasien->nama_asuransi;
+			$image                = $pasien->image;
+			$prolanis_dm          = $pasien->prolanis_dm;
+			$prolanis_ht          = $pasien->prolanis_ht;
+		} catch (\Exception $e) {
+			
+		}
+
 		$p                                                    = new PasiensController;
 		$polis[null]                                          = '-Pilih Poli-';
 		foreach ($antrian->jenis_antrian->poli_antrian as $k => $poli) {
-			$polis[ $poli->poli_id ]                               = $poli->poli->poli;
+			$polis[ $poli->poli_id ]                          = $poli->poli->poli;
 		}
-		$p->dataIndexPasien['poli']                           = $polis;
-		$p->dataIndexPasien['antrian']                        = $antrian;
+
+		$p->dataIndexPasien['poli']                 = $polis;
+		$p->dataIndexPasien['antrian']              = $antrian;
+		$p->dataIndexPasien['nama_pasien']          = $nama_pasien;
+		$p->dataIndexPasien['pasien_id']            = $pasien_id;
+		$p->dataIndexPasien['tanggal_lahir_pasien'] = $tanggal_lahir_pasien;
+		$p->dataIndexPasien['asuransi_id']          = $asuransi_id;
+		$p->dataIndexPasien['nama_asuransi']        = $nama_asuransi;
+		$p->dataIndexPasien['image']                = $image;
+		$p->dataIndexPasien['prolanis_dm']          = $prolanis_dm;
+		$p->dataIndexPasien['prolanis_ht']          = $prolanis_ht;
 		return $p->index();
 	}
 	public function antrianPoliPost($id){
