@@ -28,7 +28,7 @@
 						<td>{{ $i++ }}</td>
 						<td>
 							@if (isset($bukan_pdf))
-								<a href="{{ url('periksas/' . $p['pasien_id'] ) }}" target="_blank">{{ $p['tanggal'] }}</a>
+								<a href="{{ url('periksas/' . $p['periksa_id'] ) }}" target="_blank">{{ $p['tanggal'] }}</a>
 							@else
 								{{ $p['tanggal'] }}
 							@endif

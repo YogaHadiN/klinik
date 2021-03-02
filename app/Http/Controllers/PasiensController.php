@@ -443,6 +443,7 @@ class PasiensController extends Controller
 		if ( $d->$jenis_prolanis ) {
 			$prolanis[$d->pasien_id]['nama']                       = $d->nama;
 			$prolanis[$d->pasien_id]['tanggal']                    = $d->tanggal;
+			$prolanis[$d->pasien_id]['periksa_id']                 = $d->periksa_id;
 			$prolanis[$d->pasien_id]['pasien_id']                  = $d->pasien_id;
 			$prolanis[$d->pasien_id]['tanggal_lahir']              = $d->tanggal_lahir;
 			$prolanis[$d->pasien_id]['alamat']                     = $d->alamat;
