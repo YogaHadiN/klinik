@@ -184,6 +184,9 @@
                     <li>
                         <a href="{{ url('antriankasirs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Apotek</span></a>
                     </li>
+                    {{-- <li> --}}
+                    {{--     <a href="{{ url('antrianapoteks') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Apotek</span></a> --}}
+                    {{-- </li> --}}
                      <li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Obat</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">

@@ -7,7 +7,7 @@ function submitAntrian(control){
 	$.get( ajax_url,
 		{ 
 			'nomor_bpjs' : nomor_bpjs,
-			'nomor_ktp' : nomor_ktp,
+			'nomor_ktp' : nomor_ktp
 		},
 		function (data, textStatus, jqXHR) {
 
@@ -36,11 +36,11 @@ function submitAntrian(control){
 function returnFocus() {
 	$('#nomor_bpjs').focus()
 }
-
 $('#nomor_bpjs').keyup(function(event) {
     var keycode = event.keyCode || event.which;
     if(keycode == '13') {
 		nomor_bpjs = $('#nomor_bpjs').val();
 		submitAntrian('1');
+		nomor_bpjs = null;
     }
 });

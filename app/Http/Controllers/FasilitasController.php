@@ -334,14 +334,14 @@ class FasilitasController extends Controller
 
 		$p->dataIndexPasien['poli']                 = $polis;
 		$p->dataIndexPasien['antrian']              = $antrian;
-		$p->dataIndexPasien['nama_pasien']          = $nama_pasien;
-		$p->dataIndexPasien['pasien_id']            = $pasien_id;
-		$p->dataIndexPasien['tanggal_lahir_pasien'] = $tanggal_lahir_pasien;
-		$p->dataIndexPasien['asuransi_id']          = $asuransi_id;
-		$p->dataIndexPasien['nama_asuransi']        = $nama_asuransi;
-		$p->dataIndexPasien['image']                = $image;
-		$p->dataIndexPasien['prolanis_dm']          = $prolanis_dm;
-		$p->dataIndexPasien['prolanis_ht']          = $prolanis_ht;
+		$p->dataIndexPasien['nama_pasien_bpjs']          = $nama_pasien;
+		$p->dataIndexPasien['pasien_id_bpjs']            = $pasien_id;
+		$p->dataIndexPasien['tanggal_lahir_pasien_bpjs'] = $tanggal_lahir_pasien;
+		$p->dataIndexPasien['asuransi_id_bpjs']          = $asuransi_id;
+		$p->dataIndexPasien['nama_asuransi_bpjs']        = $nama_asuransi;
+		$p->dataIndexPasien['image_bpjs']                = $image;
+		$p->dataIndexPasien['prolanis_dm_bpjs']          = $prolanis_dm;
+		$p->dataIndexPasien['prolanis_ht_bpjs']          = $prolanis_ht;
 		return $p->index();
 	}
 	public function antrianPoliPost($id){
