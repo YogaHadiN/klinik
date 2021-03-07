@@ -605,13 +605,20 @@ class Yoga {
 		}
 		public static function rakList() {
 			$rakList['%'] = ['Semua Rak'];
-			$raks = Rak::with('merek')->get();
+			$query  = "SELECT ";
+			$query .= "rk.id as rak_id, ";
+			$query .= "mr.id as merek_id, ";
+			$query .= "mr.merek as merek ";
+			$query .= "FROM raks as rk ";
+			$query .= "JOIN mereks as mr on mr.rak_id = rk.id ";
+			$raks = DB::select($query);
+
 			foreach ($raks as $rak) {
-				$mereks = '';
-				foreach ($rak->merek as $mrk) {
-					$mereks .= $mrk->merek . ', ';
+				if (isset( $rakList[$rak->rak_id] )) {
+					$rakList[$rak->rak_id] = $rakList[$rak->rak_id] . ', '  . $rak->merek;
+				} else {
+					$rakList[$rak->rak_id] = $rak->merek;
 				}
-				$rakList[$rak->id] = $mereks;
 			}
 			return  $rakList;
 		}

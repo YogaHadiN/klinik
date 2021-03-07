@@ -15,64 +15,6 @@
 @stop
 @section('content') 
 <div class="row hide">
-<div class="col-lg-3">
-    <a href="{{ url('antrianpolis')}}">
-    <div class="widget style1 blue-bg btn-success">
-            <div class="row">
-                <div class="col-xs-4 text-center">
-                    <i class="fa fa-laptop fa-5x"></i>
-                </div>
-                <div class="col-xs-8 text-right">
-                    <span> Nurse Station </span>
-                    <h2 class="font-bold">{!! $nursestation->count() !!}</h2>
-                </div>
-            </div>
-    </div></a>
-</div>
-<div class="col-lg-3">
-    <a href="{{ url('antriankasirs')}}">
-    <div class="widget style1 lazur-bg btn-info">
-        <div class="row">
-            <div class="col-xs-4">
-                <i class="fa fa-calculator fa-5x"></i>
-            </div>
-            <div class="col-xs-8 text-right">
-                <span> Antrian Kasir </span>
-                <h2 class="font-bold">{!! $antriankasir->count() !!}</h2>
-            </div>
-        </div>
-    </div></a>
-</div>
-<div class="col-lg-3">
-    <a href="{{ url('fakturbelanjas')}}">
-    <div class="widget style1 yellow-bg btn-warning">
-        <div class="row">
-            <div class="col-xs-4">
-                <i class="fa fa-shopping-cart fa-5x"></i>
-            </div>
-            <div class="col-xs-8 text-right">
-                <span> Antrian Belanja </span>
-                <h2 class="font-bold">{!! $antrianbelanja !!}</h2>
-            </div>
-        </div>
-    </div></a>
-</div>
-<div class="col-lg-3">
-    <a href="{{ url('pasiens')}}">
-    <div class="widget style1 btn-primary">
-        <div class="row">
-            <div class="col-xs-4">
-                <i class="fa fa-group fa-5x"></i>
-            </div>
-            <div class="col-xs-8 text-right">
-                <span> Semua Pasien </span>
-                <h2 class="font-bold">{!! App\Pasien::count() !!}</h2>
-            </div>
-        </div>
-    </div></a>
-</div>
-</div>
-<div class="row hide">
     <div class="col-lg-3">
         <a href="{{ url('ruangperiksa/umum')}}">
         <div class="widget style1grey-bg btn-success">

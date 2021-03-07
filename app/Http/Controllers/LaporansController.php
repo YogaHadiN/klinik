@@ -130,10 +130,8 @@ class LaporansController extends Controller
 
 	public function index() {
 
-		$akun_banks     = AkunBank::all();
 		$asuransis      = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::pluck('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
-		$antriankasir   = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
 		$antrianbelanja = FakturBelanja::where('submit', '0')->count();
 		$nursestation   = AntrianPoli::all();
 		$auth           = Auth::user();
@@ -215,8 +213,8 @@ class LaporansController extends Controller
 		$jumlah_prolanis_dm = $rppt['jumlah_prolanis_dm'];
 		$jumlah_prolanis_ht = $rppt['jumlah_prolanis_ht'];
 
-
 		$status_ht            = $this->cariStatusHt(date('Y-m'), $jumlah_prolanis_ht);
+
 		$ht_terkendali        = $status_ht['ht_terkendali'];
 		$ht_terkendali_persen = $status_ht['ht_terkendali_persen'];
 		$ht_berobat           = $status_ht['ht_berobat'];
@@ -238,7 +236,6 @@ class LaporansController extends Controller
 			'asuransis',
 			'antrianperiksa',
 			'rppt',
-			'antriankasir',
 			'antrianbelanja',
 			'hariinis',
 			'ht_berobat',
@@ -265,7 +262,6 @@ class LaporansController extends Controller
 			'tanggal',
 			'periksas',
 			'darurat',
-			'akun_banks',
 			'angka_kontak_saat_ini',
 			'pengantar_belum_disubmit',
 			'angka_kontak_belum_terpenuhi',
