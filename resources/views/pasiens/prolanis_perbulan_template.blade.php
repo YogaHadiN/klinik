@@ -22,7 +22,7 @@
 				@foreach($$prolanis as $p)
 					<tr
 						@if( $prolanis == 'prolanis_ht' && App\Classes\Yoga::htTerkendali($p) && !empty($p['sistolik']) )
-							class="table-success"
+							class="table-success bold"
 						@endif
 						>
 						<td>{{ $i++ }}</td>
