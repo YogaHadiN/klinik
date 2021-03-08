@@ -440,26 +440,48 @@ class PasiensController extends Controller
 	*/
 	public function templateProlanisPeriksa($prolanis, $d, $jenis_prolanis)
 	{
+		$mperiksa = new Periksa;
 		if ( $d->$jenis_prolanis ) {
-			$prolanis[$d->pasien_id]['nama']                       = $d->nama;
-			$prolanis[$d->pasien_id]['tanggal']                    = $d->tanggal;
-			$prolanis[$d->pasien_id]['periksa_id']                 = $d->periksa_id;
-			$prolanis[$d->pasien_id]['pasien_id']                  = $d->pasien_id;
-			$prolanis[$d->pasien_id]['tanggal_lahir']              = $d->tanggal_lahir;
-			$prolanis[$d->pasien_id]['alamat']                     = $d->alamat;
-			$prolanis[$d->pasien_id]['sistolik']                   = $d->sistolik;
-			$prolanis[$d->pasien_id]['diastolik']                  = $d->diastolik;
-			$prolanis[$d->pasien_id]['nama_asuransi']              = $d->nama_asuransi;
-			$prolanis[$d->pasien_id]['nomor_asuransi']             = $d->nomor_asuransi;
-			$prolanis[$d->pasien_id]['prolanis_ht_flagging_image'] = $d->prolanis_ht_flagging_image;
+			$prolanis[$d->periksa_id]['nama']                       = $d->nama;
+			$prolanis[$d->periksa_id]['tanggal']                    = $d->tanggal;
+			$prolanis[$d->periksa_id]['periksa_id']                 = $d->periksa_id;
+			$prolanis[$d->periksa_id]['pasien_id']                  = $d->pasien_id;
+			$prolanis[$d->periksa_id]['tanggal_lahir']              = $d->tanggal_lahir;
+			$prolanis[$d->periksa_id]['alamat']                     = $d->alamat;
+			$prolanis[$d->periksa_id]['sistolik']                   = $this->adaptSistolikToRppt($d->sistolik);
+			$prolanis[$d->periksa_id]['diastolik']                  = $this->adaptDiastolikToRppt($d->diastolik);
+			$prolanis[$d->periksa_id]['nama_asuransi']              = $d->nama_asuransi;
+			$prolanis[$d->periksa_id]['nomor_asuransi']             = $d->nomor_asuransi;
+			$prolanis[$d->periksa_id]['prolanis_ht_flagging_image'] = $d->prolanis_ht_flagging_image;
 			if ( 
 				$d->jenis_tarif_id == '116'
 			) {
-				$prolanis[$d->pasien_id]['gula_darah'] = $d->keterangan_pemeriksaan;
+				$prolanis[$d->periksa_id]['gula_darah'] = $d->keterangan_pemeriksaan;
 			}
 		}
 		return $prolanis;
 	}
+
+    public function adaptSistolikToRppt($value) {
+        if (
+            $value >= '140'
+        ){
+            return '130';
+        } else {
+           return $value;
+        }
+    }
+
+    public function adaptDiastolikToRppt($value) {
+        if (
+            $value >= '80'
+        ){
+            return '70';
+        } else {
+           return $value;
+        }
+    }
+
 	public function queryDataProlanisPerBulan($tahunBulan){
 		$query  = "SELECT ";
 		$query .= "prx.tanggal as tanggal, ";
