@@ -73,7 +73,7 @@ class Periksa extends Model{
             $this->asuransi_id == '32' && // dengan pemeriksaan asuransi BPJS
             $tanggal->diffInDays() < 4 // jika masih kurang dari 3 hari 
         ){
-            return '139';
+            return '130';
         } else {
            return $value;
         }
@@ -86,7 +86,7 @@ class Periksa extends Model{
             $this->asuransi_id == '32' && // dengan pemeriksaan asuransi BPJS
             $tanggal->diffInDays() < 4 // jika masih kurang dari 3 hari 
         ) {
-            return '79';
+            return '70';
         } else {
             return $value;
         }

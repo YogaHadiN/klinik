@@ -488,8 +488,8 @@ class PasiensController extends Controller
 		$query .= "AND (prx.prolanis_ht = 1 or prx.prolanis_dm = 1) ";
 		$query .= "AND prx.asuransi_id = 32 ";
 		$query .= "ORDER BY ";
-		$query .= "prx.sistolik ASC, ";
-		$query .= "prx.diastolik ASC;";
+		$query .= "prx.sistolik DESC, ";
+		$query .= "prx.diastolik DESC;";
 		return DB::select($query);
 
 	}

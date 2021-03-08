@@ -924,5 +924,4 @@ class PdfsController extends Controller
 		}
 		return $prolanis_ht;
 	}
-	
 }

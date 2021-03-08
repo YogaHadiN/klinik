@@ -22,7 +22,10 @@
 				@foreach($$prolanis as $p)
 					<tr
 						@if( $prolanis == 'prolanis_ht' && App\Classes\Yoga::htTerkendali($p) && !empty($p['sistolik']) )
-							class="table-success bold"
+							class="table-success 
+							   @if (!isset($bukan_pdf))
+									bold
+								@endif"
 						@endif
 						>
 						<td>{{ $i++ }}</td>
